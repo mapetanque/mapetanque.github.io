@@ -1,6 +1,14 @@
 :root {
     /* Valeur de repli avant que le JS ne mesure la vraie hauteur du footer (voir ajusterHauteurFooter) */
     --footer-height: 90px;
+
+    /* Filigrane discret : grandes courbes façon sillons gravés sur une boule de pétanque (dessin
+       original, pas une reproduction de photo). Composition pensée pour que le croisement dense
+       des courbes tombe dans le haut de l'écran (zone la plus vue) avec background-position:
+       center - voir plus bas. Réutilisée sur toutes les zones claires du site avec
+       background-attachment: fixed, pour un même motif qui semble traverser continuellement les
+       différentes sections plutôt que de se répéter identique à chaque fois. */
+    --bg-courbes: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900"><g fill="none" stroke="%23888883"><circle cx="150" cy="600" r="780" stroke-width="45" opacity="0.07"/><circle cx="1450" cy="550" r="720" stroke-width="42" opacity="0.06"/><circle cx="800" cy="1000" r="680" stroke-width="50" opacity="0.055"/><circle cx="700" cy="-150" r="480" stroke-width="36" opacity="0.06"/><circle cx="1600" cy="1300" r="900" stroke-width="55" opacity="0.045"/></g></svg>');
 }
 
 html {
@@ -16,6 +24,12 @@ body {
     font-family: Arial, sans-serif;
     /* Laisse toujours la place au footer fixe, pour qu'il ne recouvre jamais le bas du contenu */
     padding-bottom: var(--footer-height);
+
+    background-image: var(--bg-courbes);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
 }
 
 /* Bloc "carte plein écran" : header + contrôles + carte occupent exactement la hauteur visible
@@ -38,7 +52,12 @@ body {
 /* Section statistiques, sous le bloc carte : contenu normal, toujours affiché */
 #stats-section {
     scroll-margin-top: 10px;
-    background: #f7f9f6;
+    background-color: #f7f9f6;
+    background-image: var(--bg-courbes);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
     padding: 50px 20px 60px;
 }
 
@@ -63,7 +82,6 @@ body {
 }
 
 .stats-headline-number {
-    font-family: 'Quicksand', Arial, sans-serif;
     font-weight: 700;
     font-size: 56px;
     color: #74C15A;
@@ -131,7 +149,6 @@ body {
 }
 
 .stats-region-tile-number {
-    font-family: 'Quicksand', Arial, sans-serif;
     font-weight: 700;
     font-size: 24px;
     color: #333;
@@ -250,15 +267,77 @@ body {
 
 .stats-commune-row {
     display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    color: #555;
-    padding: 5px 4px;
+    flex-wrap: wrap;
+    align-items: center;
     border-bottom: 1px solid #f2f2f2;
 }
 
 .stats-commune-row:last-child {
     border-bottom: none;
+}
+
+.stats-commune-link {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 5px 4px;
+    font-size: 12px;
+    color: #555;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.stats-commune-link:hover {
+    color: #74C15A;
+}
+
+.stats-commune-toggle {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border: none;
+    background: none;
+    color: #999;
+    cursor: pointer;
+}
+
+.stats-commune-toggle svg {
+    width: 12px;
+    height: 12px;
+    transition: transform 0.2s ease;
+}
+
+.stats-commune-toggle.open svg {
+    transform: rotate(180deg);
+}
+
+.stats-commune-toggle:hover {
+    color: #74C15A;
+}
+
+.stats-terrain-list {
+    flex-basis: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 0 6px 16px;
+}
+
+.stats-terrain-link {
+    font-size: 11px;
+    color: #888;
+    text-decoration: none;
+    padding: 3px 0;
+    cursor: pointer;
+}
+
+.stats-terrain-link:hover {
+    color: #74C15A;
+    text-decoration: underline;
 }
 
 .stats-commune-no-result {
@@ -333,61 +412,34 @@ body {
 /* En-tête : grille à 3 colonnes symétriques (langue | titre | nav) en desktop, empilée sur mobile.
    La grille garantit un centrage réel du titre, même si langue et nav n'ont pas la même largeur. */
 .header {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    gap: 16px;
-    padding: 12px 30px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 30px 8px;
     flex: 0 0 auto;
 }
 
-/* Sélecteur de langue : intégré dans la barre en desktop */
-#lang-switcher {
-    justify-self: start;
+.header-top-row {
     display: flex;
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
-    overflow: hidden;
-}
-
-.lang-btn {
-    border: none;
-    background: none;
-    padding: 9px 13px;
-    font-size: 13px;
-    font-weight: bold;
-    color: #777;
-    cursor: pointer;
-}
-
-.lang-btn:hover {
-    background: #f0f0f0;
-}
-
-.lang-btn.active {
-    background: #74C15A;
-    color: white;
-}
-
-.header-title-block {
-    justify-self: center;
-    text-align: center;
-    min-width: 0;
-}
-
-h1, h2, h3 {
-    font-family: 'Quicksand', Arial, sans-serif;
-}
-
-h1 {
-    display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-size: 28px;
-    margin: 0;
-    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.brand-link {
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.brand {
+    font-family: 'Quicksand', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: #333;
+}
+
+.brand-tld {
+    color: #999;
+    font-weight: 400;
 }
 
 .logo {
@@ -396,19 +448,53 @@ h1 {
     display: block;
 }
 
-.tagline {
+/* Grand titre au-dessus des contrôles de recherche, inspiré d'AllTrails */
+.hero-headline {
     text-align: center;
-    margin: 2px 0 0;
-    color: #555;
-    font-size: 13px;
+    font-weight: 700;
+    font-size: 32px;
+    color: #333;
+    margin: 32px 0 4px;
+    line-height: 1.25;
 }
 
-/* Navigation desktop : liens directs vers le panneau d'info */
+/* Navigation desktop : liens directs vers le panneau d'info + sélecteur de langue discret */
 #desktop-nav {
-    justify-self: end;
     display: flex;
     align-items: center;
     gap: 2px;
+}
+
+/* Sélecteur de langue discret (repli manuel ; la détection automatique suffit dans l'immense
+   majorité des cas, donc pas besoin d'un bouton bien visible comme avant) */
+#lang-switcher-inline {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-left: 6px;
+    padding-left: 10px;
+    border-left: 1px solid #e2e2e2;
+}
+
+.lang-link {
+    border: none;
+    background: none;
+    padding: 6px 8px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #999;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.lang-link:hover {
+    color: #74C15A;
+}
+
+.lang-link.active {
+    color: #74C15A;
+    background: rgba(116, 193, 90, 0.1);
 }
 
 .info-nav-trigger {
@@ -459,57 +545,39 @@ h1 {
 @media (max-width: 1024px) {
 
     .header {
-        display: flex;
-        flex-direction: column;
-        text-align: center;
-        /* Réserve l'espace des boutons flottants (langue + menu) au-dessus du titre,
-           pour que le texte passe toujours SOUS eux plutôt qu'à côté */
-        padding: 56px 15px 10px;
+        padding: 14px 15px 8px;
     }
 
-    #lang-switcher {
-        position: fixed;
-        top: 12px;
-        left: 12px;
-        z-index: 1000;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    .brand {
+        font-size: 20px;
     }
 
-    .lang-btn {
-        padding: 8px 10px;
-        font-size: 12px;
+    .hero-headline {
+        font-size: 22px;
+        margin: 22px 0 4px;
     }
 
-    h1 {
-        font-size: 23px;
-    }
-
-    .tagline {
-        font-size: 12px;
-    }
-
-    /* La navigation desktop cède la place au menu burger */
+    /* La navigation desktop (incluant le sélecteur de langue) cède la place au menu burger */
     #desktop-nav {
         display: none;
     }
 
     #menu-button {
-        display: block;
-        position: fixed;
-        top: 12px;
-        right: 12px;
-        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
 
-        width: 45px;
-        height: 45px;
+        width: 40px;
+        height: 40px;
 
         border: none;
         border-radius: 50%;
         background: white;
-        font-size: 26px;
+        font-size: 22px;
         cursor: pointer;
 
-        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
 }
 
@@ -524,7 +592,8 @@ h1 {
 }
 
 /* Bouton de localisation */
-#locateBtn {
+#locateBtn,
+#browseListBtn {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -535,16 +604,19 @@ h1 {
     background-color: #74C15A;
     color: white;
     font-size: 16px;
+    text-decoration: none;
     cursor: pointer;
 }
 
-#locateBtn .btn-icon {
+#locateBtn .btn-icon,
+#browseListBtn .btn-icon {
     width: 18px;
     height: 18px;
     flex-shrink: 0;
 }
 
-#locateBtn:hover {
+#locateBtn:hover,
+#browseListBtn:hover {
     background-color: #56A03D;
 }
 
@@ -560,22 +632,25 @@ h1 {
     padding: 0 15px;
 }
 
-.controls #locateBtn {
+.controls #locateBtn,
+.controls #browseListBtn {
     margin: 0;
 }
 
 .search-form {
+    position: relative;
     display: flex;
-    gap: 6px;
+    align-items: center;
 }
 
 .search-form input {
-    padding: 10px 14px;
+    padding: 12px 16px 12px 42px;
     border: 1px solid #ccc;
-    border-radius: 20px;
+    border-radius: 24px;
     font-size: 15px;
     width: 240px;
     max-width: 60vw;
+    box-sizing: border-box;
 }
 
 .search-form input:focus {
@@ -587,12 +662,14 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
     border: none;
-    border-radius: 50%;
-    width: 42px;
-    height: 42px;
-    background-color: #74C15A;
-    color: white;
+    background: none;
+    padding: 0;
+    color: #888;
     cursor: pointer;
 }
 
@@ -602,7 +679,24 @@ h1 {
 }
 
 .search-form button:hover {
-    background-color: #56A03D;
+    color: #56A03D;
+}
+
+.add-terrain-link-wrapper {
+    text-align: center;
+    margin: 20px 0 10px;
+    flex: 0 0 auto;
+}
+
+#add-terrain-link {
+    color: #56A03D;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+#add-terrain-link:hover {
+    color: #74C15A;
 }
 
 .search-error {
@@ -799,6 +893,26 @@ h1 {
     font-size: 18px;
 }
 
+/* Sélecteur de langue discret en bas du menu burger */
+#side-menu-lang {
+    display: flex;
+    gap: 6px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+#side-menu-lang .lang-link {
+    font-size: 14px;
+    padding: 8px 12px;
+    background: #f5f5f5;
+}
+
+#side-menu-lang .lang-link.active {
+    background: #74C15A;
+    color: white;
+}
+
 /* Bouton fermeture */
 #close-menu {
     float: right;
@@ -832,7 +946,12 @@ h1 {
     max-width: 85vw;
     height: 100%;
 
-    background: white;
+    background-color: white;
+    background-image: var(--bg-courbes);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
     z-index: 1300;
 
     padding: 30px 25px;

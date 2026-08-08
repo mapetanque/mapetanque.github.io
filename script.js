@@ -67,13 +67,13 @@ function appliquerTraductions() {
         el.setAttribute('placeholder', dict[el.dataset.i18nPlaceholder]);
     });
 
-    // Titre + tagline
-    document.getElementById('tagline').textContent = dict.tagline;
+    // (le tagline sous le H1 a été retiré : remplacé par le grand titre "hero_headline" au-dessus
+    // des contrôles, pris en charge automatiquement par la boucle [data-i18n] ci-dessus)
 
     // (le crédit OpenStreetMap a été retiré du footer, pour tenir sur une seule ligne en mobile)
 
-    // Bouton actif dans le sélecteur de langue
-    document.querySelectorAll('.lang-btn').forEach(function (btn) {
+    // Bouton actif dans le sélecteur de langue (nav desktop + menu burger mobile)
+    document.querySelectorAll('.lang-link').forEach(function (btn) {
         btn.classList.toggle('active', btn.dataset.lang === currentLang);
     });
 
@@ -108,7 +108,7 @@ function changerLangue(langue) {
     appliquerTraductions();
 }
 
-document.querySelectorAll('.lang-btn').forEach(function (btn) {
+document.querySelectorAll('.lang-link').forEach(function (btn) {
     btn.addEventListener('click', function () {
         changerLangue(btn.dataset.lang);
     });
@@ -156,6 +156,11 @@ window.addEventListener('load', function () {
 
 // Liste plate de tous les terrains (indépendante des clusters), pour un calcul rapide du plus proche
 let listeTousLesTerrains = [];
+
+// Commune -> liste de ses terrains {lat, lon, rue}, et commune -> position moyenne {lat, lon}.
+// Remplis au chargement de terrains.geojson (voir plus bas), utilisés par la page "Liste des terrains".
+const terrainsParCommune = {};
+const communesCentres = {};
 let terrainLePlusProche = null;
 
 // Élément de la flèche, créé dynamiquement et ajouté à l'intérieur du conteneur de la carte
@@ -514,6 +519,32 @@ fetch('data/terrains.geojson')
             };
         });
 
+        // Index commune -> liste de ses terrains (coordonnées + rue), et commune -> position moyenne
+        // de ses terrains (pour centrer la carte dessus) : utilisés par la page "Liste des terrains"
+        // (voir construireStatsGeo). Construits ici pour réutiliser les données déjà chargées, sans
+        // dupliquer ces informations dans data/stats_geo.json (qui ne contient que des comptages).
+        data.features.forEach(function (feature) {
+            const commune = feature.properties.commune;
+            if (!commune) return;
+
+            const lat = feature.geometry.coordinates[1];
+            const lon = feature.geometry.coordinates[0];
+
+            if (!terrainsParCommune[commune]) terrainsParCommune[commune] = [];
+            terrainsParCommune[commune].push({ lat: lat, lon: lon, rue: feature.properties.nearest_street || null });
+        });
+
+        Object.keys(terrainsParCommune).forEach(function (commune) {
+            const terrains = terrainsParCommune[commune];
+            const sommeLat = terrains.reduce(function (acc, t) { return acc + t.lat; }, 0);
+            const sommeLon = terrains.reduce(function (acc, t) { return acc + t.lon; }, 0);
+            communesCentres[commune] = { lat: sommeLat / terrains.length, lon: sommeLon / terrains.length };
+        });
+
+        // Les données croisées commune/terrain sont prêtes : (re)construit l'entonnoir si les
+        // comptages (data/stats_geo.json) sont eux aussi déjà arrivés
+        construireStatsGeo();
+
         L.geoJSON(data, {
 
             pointToLayer: function(feature, latlng) {
@@ -620,25 +651,7 @@ fetch('data/terrains.geojson')
         const paramLon = parseFloat(urlParams.get('lon'));
 
         if (!isNaN(paramLat) && !isNaN(paramLon)) {
-
-            let layerCorrespondant = null;
-
-            markers.eachLayer(function (layer) {
-                if (layerCorrespondant) return;
-                const pos = layer.getLatLng();
-                if (Math.abs(pos.lat - paramLat) < 0.0001 && Math.abs(pos.lng - paramLon) < 0.0001) {
-                    layerCorrespondant = layer;
-                }
-            });
-
-            if (layerCorrespondant) {
-                markers.zoomToShowLayer(layerCorrespondant, function () {
-                    layerCorrespondant.openPopup();
-                });
-            } else {
-                // Terrain introuvable (peut-être retiré depuis) : on centre quand même sur les coordonnées
-                map.setView([paramLat, paramLon], 18);
-            }
+            allerVersTerrain(paramLat, paramLon);
         }
 
     });
@@ -706,18 +719,19 @@ function construireContenuContact(dict) {
 function construireContenuFaq(dict) {
     const fragment = document.createDocumentFragment();
 
-    dict.faq_items.forEach(function (item) {
+    dict.faq_items.forEach(function (item, index) {
         const details = document.createElement('details');
         details.className = 'faq-item';
+        details.id = 'faq-item-' + index;
 
         const summary = document.createElement('summary');
         summary.textContent = item.q;
 
         const p = document.createElement('p');
-        // Remplace l'emoji 📧 par l'icône SVG cohérente avec le reste du site
+        // Remplace les emoji par les icônes SVG cohérentes avec le reste du site
         p.innerHTML = item.a
-            .split('📧')
-            .join('<span class="popup-icon">' + ICON_MAIL + '</span>');
+            .split('📧').join('<span class="popup-icon">' + ICON_MAIL + '</span>')
+            .split('📍').join('<span class="popup-icon">' + ICON_PIN + '</span>');
 
         details.appendChild(summary);
         details.appendChild(p);
@@ -768,6 +782,28 @@ function fermerPanneauInfo() {
     infoPanel.classList.remove("open");
     infoOverlay.classList.remove("visible");
     panneauOuvertActuel = null;
+}
+
+// Lien "Ajouter un terrain de pétanque" (sous les contrôles de recherche) : ouvre directement le
+// panneau FAQ à la question sur les terrains manquants (index 3 de faq_items dans translations.js —
+// "Un terrain accessible au public près de chez moi n'apparaît pas sur la carte, que faire ?").
+const INDEX_FAQ_TERRAIN_MANQUANT = 3;
+
+const addTerrainLink = document.getElementById('add-terrain-link');
+if (addTerrainLink) {
+    addTerrainLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        ouvrirPanneauInfo('faq');
+
+        const item = document.getElementById('faq-item-' + INDEX_FAQ_TERRAIN_MANQUANT);
+        if (item) {
+            item.open = true;
+            // Laisse le panneau finir son animation d'ouverture avant de scroller vers la question
+            setTimeout(function () {
+                item.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 300);
+        }
+    });
 }
 
 document.querySelectorAll('#side-menu a').forEach(function (link) {
@@ -885,6 +921,45 @@ function trierParLibelleTraduit(cles, prefixe, dict) {
     });
 }
 
+// Centre la carte sur un terrain précis et ouvre son popup (si le marqueur correspondant est
+// trouvé dans les données chargées), puis remonte en haut de page pour voir la carte.
+// Réutilisée à la fois par le lien de partage (?lat=&lon=) et par la page "Liste des terrains".
+function allerVersTerrain(lat, lon) {
+    let layerCorrespondant = null;
+
+    markers.eachLayer(function (layer) {
+        if (layerCorrespondant) return;
+        const pos = layer.getLatLng();
+        if (Math.abs(pos.lat - lat) < 0.0001 && Math.abs(pos.lng - lon) < 0.0001) {
+            layerCorrespondant = layer;
+        }
+    });
+
+    if (layerCorrespondant) {
+        markers.zoomToShowLayer(layerCorrespondant, function () {
+            layerCorrespondant.openPopup();
+        });
+    } else {
+        // Terrain introuvable (peut-être retiré depuis) : on centre quand même sur les coordonnées
+        map.setView([lat, lon], 18);
+    }
+
+    const top = document.getElementById('top');
+    if (top) top.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Centre la carte sur la position moyenne des terrains d'une commune (pas de coordonnée officielle
+// de commune dans les données ; cette moyenne suffit pour repérer visuellement la zone concernée).
+function allerVersCommune(nomCommune) {
+    const centre = communesCentres[nomCommune];
+    if (!centre) return;
+
+    map.setView([centre.lat, centre.lon], 13);
+
+    const top = document.getElementById('top');
+    if (top) top.scrollIntoView({ behavior: 'smooth' });
+}
+
 // Construit la liste des communes d'une province (ou d'une région sans province, cas de Bruxelles),
 // avec un champ de recherche qui filtre les lignes déjà présentes dans le DOM (aucune ligne n'est
 // ajoutée/retirée du DOM par la recherche, seulement masquée : le contenu reste indexable).
@@ -915,14 +990,71 @@ function construireListeCommunes(communes, dict) {
         ligne.className = 'stats-commune-row';
         ligne.dataset.rechercheClef = normaliserRecherche(nom);
 
+        // La ligne entière (nom + compte) est un lien : clic = centrer la carte sur cette commune
+        const lienCommune = document.createElement('a');
+        lienCommune.href = '#top';
+        lienCommune.className = 'stats-commune-link';
+
         const nomSpan = document.createElement('span');
         nomSpan.textContent = nom;
 
         const compteSpan = document.createElement('span');
-        compteSpan.textContent = communes[nom];
+        compteSpan.className = 'stats-details-count';
+        compteSpan.textContent = communes[nom] + ' ' + dict.stats_terrains_unit;
 
-        ligne.appendChild(nomSpan);
-        ligne.appendChild(compteSpan);
+        lienCommune.appendChild(nomSpan);
+        lienCommune.appendChild(compteSpan);
+        lienCommune.addEventListener('click', function (e) {
+            e.preventDefault();
+            allerVersCommune(nom);
+        });
+        ligne.appendChild(lienCommune);
+
+        // Bouton séparé (n'active pas la navigation) : déplie la liste des terrains de cette commune
+        const terrainsCommune = terrainsParCommune[nom];
+        if (terrainsCommune && terrainsCommune.length > 0) {
+            const toggle = document.createElement('button');
+            toggle.type = 'button';
+            toggle.className = 'stats-commune-toggle';
+            toggle.setAttribute('aria-label', dict.stats_show_terrains || 'Afficher les terrains');
+            toggle.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+            ligne.appendChild(toggle);
+
+            const listeTerrains = document.createElement('div');
+            listeTerrains.className = 'stats-terrain-list';
+            listeTerrains.hidden = true;
+
+            terrainsCommune
+                .slice()
+                .sort(function (a, b) {
+                    const nomA = a.rue ? dict.popup_terrain_prefix + ' ' + a.rue : dict.popup_terrain_default;
+                    const nomB = b.rue ? dict.popup_terrain_prefix + ' ' + b.rue : dict.popup_terrain_default;
+                    return nomA.localeCompare(nomB, currentLang);
+                })
+                .forEach(function (terrain) {
+                    const nomTerrain = terrain.rue
+                        ? dict.popup_terrain_prefix + ' ' + terrain.rue
+                        : dict.popup_terrain_default;
+
+                    const lienTerrain = document.createElement('a');
+                    lienTerrain.href = '#top';
+                    lienTerrain.className = 'stats-terrain-link';
+                    lienTerrain.textContent = nomTerrain;
+                    lienTerrain.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        allerVersTerrain(terrain.lat, terrain.lon);
+                    });
+                    listeTerrains.appendChild(lienTerrain);
+                });
+
+            toggle.addEventListener('click', function () {
+                listeTerrains.hidden = !listeTerrains.hidden;
+                toggle.classList.toggle('open', !listeTerrains.hidden);
+            });
+
+            ligne.appendChild(listeTerrains);
+        }
+
         liste.appendChild(ligne);
     });
 

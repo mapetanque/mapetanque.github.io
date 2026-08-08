@@ -2,10 +2,12 @@ const translations = {
 
     fr: {
         html_lang: "fr",
-        tagline: "La carte des terrains de pétanque publics en Belgique",
 
         locate_btn: "Me localiser",
         search_placeholder: "Adresse, ville, région...",
+        hero_headline: "Trouvez un terrain de pétanque",
+        browse_list_btn: "Parcourir",
+        add_terrain_link: "Ajouter un terrain de pétanque",
         search_no_result: "Aucun résultat trouvé pour cette recherche.",
         search_failed: "La recherche a échoué, réessayez dans un instant.",
 
@@ -27,15 +29,15 @@ const translations = {
         menu_about: "À propos",
         menu_contact: "Nous contacter",
         menu_faq: "FAQ",
-        menu_stats: "Statistiques",
 
-        stats_page_title: "Statistiques par région",
+        stats_page_title: "Liste des terrains",
         stats_headline_label: "terrains de pétanque recensés en Belgique",
         stats_terrains_unit: "terrains",
         stats_geo_loading: "Chargement du détail par région…",
         stats_geo_error: "Impossible de charger le détail par région pour le moment.",
         stats_search_commune_placeholder: "Rechercher une commune…",
         stats_no_results: "Aucune commune trouvée.",
+        stats_show_terrains: "Afficher les terrains",
 
         geo_region_wallonie: "Wallonie",
         geo_region_flandre: "Flandre",
@@ -81,9 +83,8 @@ const translations = {
                 a: "Cette fonctionnalité est envisagée pour une prochaine évolution de Mapetanque."
             },
             {
-                q: "Un terrain accessible au public près de chez moi n'apparaît pas sur la carte, que faire ?",
-                a: "Les terrains affichés sur Mapetanque proviennent des données libres d'OpenStreetMap. Comme " +
-                   "cette base est collaborative, certains terrains peuvent ne pas encore avoir été renseignés. " +
+                q: "Comment ajouter un terrain manquant ?",
+                a: "Les terrains affichés sur Mapetanque proviennent des données libres d'OpenStreetMap. " +
                    "Si vous connaissez un terrain de pétanque accessible au public qui n'apparaît pas sur la " +
                    "carte, vous pouvez : l'ajouter directement dans OpenStreetMap grâce à leur outil d'édition ; " +
                    "ou nous envoyer les informations nécessaires par e-mail 📧 mapetanque@outlook.be " +
@@ -123,10 +124,12 @@ const translations = {
 
     nl: {
         html_lang: "nl",
-        tagline: "De kaart met openbare petanquebanen in België",
 
         locate_btn: "Localiseer mij",
         search_placeholder: "Adres, stad, regio...",
+        hero_headline: "Vind een petanquebaan",
+        browse_list_btn: "Bekijken",
+        add_terrain_link: "Een petanquebaan toevoegen",
         search_no_result: "Geen resultaat gevonden voor deze zoekopdracht.",
         search_failed: "De zoekopdracht is mislukt, probeer het straks opnieuw.",
 
@@ -148,15 +151,15 @@ const translations = {
         menu_about: "Over ons",
         menu_contact: "Contacteer ons",
         menu_faq: "FAQ",
-        menu_stats: "Statistieken",
 
-        stats_page_title: "Statistieken per regio",
+        stats_page_title: "Lijst met terreinen",
         stats_headline_label: "petanquevelden geregistreerd in België",
         stats_terrains_unit: "terreinen",
         stats_geo_loading: "Details per regio laden…",
         stats_geo_error: "De details per regio konden niet worden geladen.",
         stats_search_commune_placeholder: "Gemeente zoeken…",
         stats_no_results: "Geen gemeente gevonden.",
+        stats_show_terrains: "Terreinen weergeven",
 
         geo_region_wallonie: "Wallonië",
         geo_region_flandre: "Vlaanderen",
@@ -203,10 +206,9 @@ const translations = {
                 a: "Deze functie is gepland voor een toekomstige update van Mapetanque."
             },
             {
-                q: "Een openbaar toegankelijk terrein bij mij in de buurt staat niet op de kaart, wat kan ik doen?",
+                q: "Hoe voeg ik een ontbrekend terrein toe?",
                 a: "De terreinen die op Mapetanque worden weergegeven, zijn afkomstig van de vrije gegevens van " +
-                   "OpenStreetMap. Aangezien deze database collaboratief is, zijn sommige terreinen mogelijk " +
-                   "nog niet geregistreerd. Als je een openbaar toegankelijke petanquebaan kent die niet op de " +
+                   "OpenStreetMap. Als je een openbaar toegankelijke petanquebaan kent die niet op de " +
                    "kaart verschijnt, kun je: het rechtstreeks toevoegen aan OpenStreetMap via hun " +
                    "bewerkingstool; of ons de nodige informatie per e-mail bezorgen 📧 mapetanque@outlook.be " +
                    "(precieze locatie, aantal banen indien bekend, enz.). Na bijwerking van de " +
@@ -246,10 +248,12 @@ const translations = {
 
     de: {
         html_lang: "de",
-        tagline: "Die Karte der öffentlichen Pétanque-Plätze in Belgien",
 
         locate_btn: "Meinen Standort finden",
         search_placeholder: "Adresse, Stadt, Region...",
+        hero_headline: "Finden Sie einen Pétanque-Platz",
+        browse_list_btn: "Durchsuchen",
+        add_terrain_link: "Einen Platz hinzufügen",
         search_no_result: "Keine Ergebnisse für diese Suche gefunden.",
         search_failed: "Die Suche ist fehlgeschlagen, bitte versuchen Sie es gleich noch einmal.",
 
@@ -271,15 +275,15 @@ const translations = {
         menu_about: "Über uns",
         menu_contact: "Kontakt",
         menu_faq: "FAQ",
-        menu_stats: "Statistiken",
 
-        stats_page_title: "Statistiken nach Region",
+        stats_page_title: "Liste der Plätze",
         stats_headline_label: "erfasste Boule-/Pétanque-Plätze in Belgien",
         stats_terrains_unit: "Plätze",
         stats_geo_loading: "Details nach Region werden geladen…",
         stats_geo_error: "Die Details nach Region konnten nicht geladen werden.",
         stats_search_commune_placeholder: "Gemeinde suchen…",
         stats_no_results: "Keine Gemeinde gefunden.",
+        stats_show_terrains: "Plätze anzeigen",
 
         geo_region_wallonie: "Wallonien",
         geo_region_flandre: "Flandern",
@@ -326,9 +330,8 @@ const translations = {
                 a: "Diese Funktion ist für eine zukünftige Aktualisierung von Mapetanque geplant."
             },
             {
-                q: "Ein öffentlich zugänglicher Platz in meiner Nähe erscheint nicht auf der Karte, was kann ich tun?",
-                a: "Die auf Mapetanque angezeigten Plätze stammen aus den freien Daten von OpenStreetMap. Da " +
-                   "diese Datenbank kollaborativ ist, wurden manche Plätze möglicherweise noch nicht erfasst. " +
+                q: "Wie füge ich einen fehlenden Platz hinzu?",
+                a: "Die auf Mapetanque angezeigten Plätze stammen aus den freien Daten von OpenStreetMap. " +
                    "Wenn Sie einen öffentlich zugänglichen Pétanque-Platz kennen, der nicht auf der Karte " +
                    "erscheint, können Sie: ihn direkt über das Bearbeitungswerkzeug zu OpenStreetMap " +
                    "hinzufügen; oder uns die notwendigen Informationen per E-Mail zusenden " +

@@ -25,46 +25,54 @@
 
 <div class="header">
 
-    <!-- Sélecteur de langue -->
-    <div id="lang-switcher">
-        <button type="button" class="lang-btn" data-lang="fr">FR</button>
-        <button type="button" class="lang-btn" data-lang="nl">NL</button>
-        <button type="button" class="lang-btn" data-lang="de">DE</button>
-    </div>
+    <div class="header-top-row">
+        <a href="#top" class="brand-link">
+            <span class="brand"><span class="brand-map">Map</span>etanque<span class="brand-tld">.be</span></span>
+        </a>
 
-    <div class="header-title-block">
-        <h1>
-            <span class="brand"><span class="brand-map">Map</span>etanque</span>
-        </h1>
+        <!-- Navigation desktop : liens directs vers le panneau d'info + sélecteur de langue discret -->
+        <nav id="desktop-nav">
+            <button type="button" class="info-nav-trigger" data-target="about" data-i18n="menu_about">À propos</button>
+            <button type="button" class="info-nav-trigger" data-target="faq" data-i18n="menu_faq">FAQ</button>
+            <button type="button" class="info-nav-trigger" data-target="contact" data-i18n="menu_contact">Nous contacter</button>
+            <span id="lang-switcher-inline">
+                <button type="button" class="lang-link" data-lang="fr">FR</button>
+                <button type="button" class="lang-link" data-lang="nl">NL</button>
+                <button type="button" class="lang-link" data-lang="de">DE</button>
+            </span>
+        </nav>
 
-        <p class="tagline" id="tagline"></p>
-    </div>
-
-    <!-- Navigation desktop : liens directs vers le panneau d'info -->
-    <nav id="desktop-nav">
-        <button type="button" class="info-nav-trigger" data-target="about" data-i18n="menu_about">À propos</button>
-        <button type="button" class="info-nav-trigger" data-target="faq" data-i18n="menu_faq">FAQ</button>
-        <button type="button" class="info-nav-trigger" data-target="contact" data-i18n="menu_contact">Nous contacter</button>
-    </nav>
-
-    <!-- Menu burger (mobile uniquement) -->
-    <button id="menu-button" data-i18n-aria="open_menu">
-        ☰
-    </button>
-
-    <nav id="side-menu">
-        <button id="close-menu" data-i18n-aria="close_menu">
-            ✕
+        <!-- Menu burger (mobile uniquement) -->
+        <button id="menu-button" data-i18n-aria="open_menu">
+            ☰
         </button>
 
-        <ul>
-            <li><a href="#about" data-i18n="menu_about">À propos</a></li>
-            <li><a href="#faq" data-i18n="menu_faq">FAQ</a></li>
-            <li><a href="#contact" data-i18n="menu_contact">Nous contacter</a></li>
-        </ul>
-    </nav>
+        <nav id="side-menu">
+            <button id="close-menu" data-i18n-aria="close_menu">
+                ✕
+            </button>
 
-    <div id="menu-overlay"></div>
+            <ul>
+                <li><a href="#about" data-i18n="menu_about">À propos</a></li>
+                <li><a href="#faq" data-i18n="menu_faq">FAQ</a></li>
+                <li><a href="#contact" data-i18n="menu_contact">Nous contacter</a></li>
+            </ul>
+
+            <!-- Sélecteur de langue discret, plus de bouton en évidence : la détection automatique
+                 (navigateur + mémorisation locale) suffit dans l'immense majorité des cas, ceci reste
+                 disponible en repli pour corriger manuellement si besoin. -->
+            <div id="side-menu-lang">
+                <button type="button" class="lang-link" data-lang="fr">FR</button>
+                <button type="button" class="lang-link" data-lang="nl">NL</button>
+                <button type="button" class="lang-link" data-lang="de">DE</button>
+            </div>
+        </nav>
+
+        <div id="menu-overlay"></div>
+    </div>
+
+    <p class="hero-headline" data-i18n="hero_headline">Trouvez un terrain de pétanque public</p>
+
 </div>
 
 <div class="controls">
@@ -84,7 +92,16 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
         </button>
     </form>
+
+    <a href="#stats-section" id="browseListBtn">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+        <span data-i18n="browse_list_btn">Parcourir la liste</span>
+    </a>
 </div>
+
+<p class="add-terrain-link-wrapper">
+    <a href="#" id="add-terrain-link" data-i18n="add_terrain_link">Ajouter un terrain de pétanque</a>
+</p>
 
 <p id="searchError" class="search-error"></p>
 
@@ -112,15 +129,6 @@
         </button>
     </div>
 </div>
-
-<!-- Liens vers les sections de contenu sous la carte : Statistiques aujourd'hui, d'autres suivront
-     (ex. Terrains insolites). Ajouter une section = ajouter un lien ici, rien d'autre à modifier. -->
-<nav id="content-sections-nav" class="section-links-bar">
-    <a href="#stats-section" class="info-nav-trigger content-section-link">
-        <span data-i18n="menu_stats">Statistiques</span>
-        <svg class="content-section-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-    </a>
-</nav>
 
 <div id="map"></div>
 
