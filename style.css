@@ -1,14 +1,6 @@
 :root {
     /* Valeur de repli avant que le JS ne mesure la vraie hauteur du footer (voir ajusterHauteurFooter) */
     --footer-height: 90px;
-
-    /* Filigrane discret : grandes courbes façon sillons gravés sur une boule de pétanque (dessin
-       original, pas une reproduction de photo). Composition pensée pour que le croisement dense
-       des courbes tombe dans le haut de l'écran (zone la plus vue) avec background-position:
-       center - voir plus bas. Réutilisée sur toutes les zones claires du site avec
-       background-attachment: fixed, pour un même motif qui semble traverser continuellement les
-       différentes sections plutôt que de se répéter identique à chaque fois. */
-    --bg-courbes: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900"><g fill="none" stroke="%23888883"><circle cx="150" cy="600" r="780" stroke-width="45" opacity="0.07"/><circle cx="1450" cy="550" r="720" stroke-width="42" opacity="0.06"/><circle cx="800" cy="1000" r="680" stroke-width="50" opacity="0.055"/><circle cx="700" cy="-150" r="480" stroke-width="36" opacity="0.06"/><circle cx="1600" cy="1300" r="900" stroke-width="55" opacity="0.045"/></g></svg>');
 }
 
 html {
@@ -24,12 +16,6 @@ body {
     font-family: Arial, sans-serif;
     /* Laisse toujours la place au footer fixe, pour qu'il ne recouvre jamais le bas du contenu */
     padding-bottom: var(--footer-height);
-
-    background-image: var(--bg-courbes);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
 }
 
 /* Bloc "carte plein écran" : header + contrôles + carte occupent exactement la hauteur visible
@@ -53,11 +39,6 @@ body {
 #stats-section {
     scroll-margin-top: 10px;
     background-color: #f7f9f6;
-    background-image: var(--bg-courbes);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
     padding: 50px 20px 60px;
 }
 
@@ -426,7 +407,16 @@ body {
 }
 
 .brand-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     text-decoration: none;
+    flex-shrink: 0;
+}
+
+.logo {
+    width: 30px;
+    height: 30px;
     flex-shrink: 0;
 }
 
@@ -550,6 +540,11 @@ body {
 
     .brand {
         font-size: 20px;
+    }
+
+    .logo {
+        width: 25px;
+        height: 25px;
     }
 
     .hero-headline {
@@ -947,11 +942,6 @@ body {
     height: 100%;
 
     background-color: white;
-    background-image: var(--bg-courbes);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
     z-index: 1300;
 
     padding: 30px 25px;

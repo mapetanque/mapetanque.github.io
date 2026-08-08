@@ -1,0 +1,10 @@
+node_modules/
+.git/
+venv/
+.vscode/
+data/terrains.geojson
+data/stats.geojson
+repomix-output.xml
+LICENSE
+google22d25b80f0760f5.html
+images/
