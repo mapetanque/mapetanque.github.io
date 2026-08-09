@@ -409,7 +409,7 @@ body {
 .brand-link {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 5px;
     text-decoration: none;
     flex-shrink: 0;
 }
@@ -423,7 +423,7 @@ body {
 .brand {
     font-family: 'Quicksand', Arial, sans-serif;
     font-weight: 700;
-    font-size: 24px;
+    font-size: 27.6px;
     color: #333;
 }
 
@@ -433,7 +433,7 @@ body {
 }
 
 .logo {
-    height: 1.8em;
+    height: 2.07em;
     width: auto;
     display: block;
 }
@@ -539,12 +539,12 @@ body {
     }
 
     .brand {
-        font-size: 20px;
+        font-size: 23px;
     }
 
     .logo {
-        width: 25px;
-        height: 25px;
+        width: 28.75px;
+        height: 28.75px;
     }
 
     .hero-headline {
@@ -679,7 +679,7 @@ body {
 
 .add-terrain-link-wrapper {
     text-align: center;
-    margin: 20px 0 10px;
+    margin: 20px 0 6px;
     flex: 0 0 auto;
 }
 
@@ -698,8 +698,8 @@ body {
     text-align: center;
     color: #c62828;
     font-size: 14px;
-    margin: 0 0 8px;
-    min-height: 18px;
+    margin: 0 0 6px;
+    min-height: 6px;
     flex: 0 0 auto;
 }
 

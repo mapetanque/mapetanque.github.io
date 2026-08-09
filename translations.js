@@ -3,6 +3,9 @@ const translations = {
     fr: {
         html_lang: "fr",
 
+        meta_title: "Mapetanque Belgique — Carte des terrains de pétanque en Belgique",
+        meta_description: "Carte interactive des terrains de pétanque accessibles au public en Belgique : recherche par ville, géolocalisation et liste par région sur Mapetanque.be.",
+
         locate_btn: "Me localiser",
         search_placeholder: "Adresse, ville, région...",
         hero_headline: "Trouvez un terrain de pétanque",
@@ -124,6 +127,9 @@ const translations = {
 
     nl: {
         html_lang: "nl",
+
+        meta_title: "Mapetanque België — Kaart van petanquebanen in België",
+        meta_description: "Mapetanque.be toont op een interactieve kaart alle openbare petanquebanen in België, met geolocatie en zoeken op stad of regio.",
 
         locate_btn: "Localiseer mij",
         search_placeholder: "Adres, stad, regio...",
@@ -248,6 +254,9 @@ const translations = {
 
     de: {
         html_lang: "de",
+
+        meta_title: "Mapetanque Belgien — Karte der Pétanque-Plätze in Belgien",
+        meta_description: "Mapetanque.be zeigt auf einer interaktiven Karte alle öffentlich zugänglichen Pétanque-Plätze in Belgien, mit Standortsuche nach Stadt oder Region.",
 
         locate_btn: "Meinen Standort finden",
         search_placeholder: "Adresse, Stadt, Region...",

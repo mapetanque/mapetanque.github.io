@@ -52,6 +52,14 @@ function appliquerTraductions() {
 
     document.documentElement.lang = dict.html_lang;
 
+    // Titre de l'onglet + balise meta description, pour un extrait Google correct
+    // dans la langue affichée (au lieu du texte piqué au hasard dans la page)
+    document.title = dict.meta_title;
+    const metaDescription = document.getElementById('meta-description');
+    if (metaDescription) {
+        metaDescription.setAttribute('content', dict.meta_description);
+    }
+
     // Textes simples
     document.querySelectorAll('[data-i18n]').forEach(function (el) {
         el.textContent = dict[el.dataset.i18n];
@@ -117,8 +125,11 @@ document.querySelectorAll('.lang-link').forEach(function (btn) {
 
 // ===================== Carte =====================
 
+// Vue par défaut au premier chargement, réutilisée pour le retour à l'accueil (clic sur le logo)
+const VUE_CARTE_INITIALE = { center: [50.8503, 4.3517], zoom: 8 };
+
 // Création de la carte centrée sur la Belgique
-const map = L.map('map').setView([50.8503, 4.3517], 8);
+const map = L.map('map').setView(VUE_CARTE_INITIALE.center, VUE_CARTE_INITIALE.zoom);
 
 let userPosition = null;
 
@@ -267,6 +278,8 @@ const positionIcon = L.divIcon({
 
 // ===================== Géolocalisation =====================
 
+let locateMarker = null; // marqueur de la position géolocalisée (distinct de searchMarker)
+
 document.getElementById("locateBtn").addEventListener("click", function () {
 
     if (navigator.geolocation) {
@@ -280,7 +293,11 @@ document.getElementById("locateBtn").addEventListener("click", function () {
 
             map.setView([lat, lon], 15);
 
-            L.marker([lat, lon], {
+            if (locateMarker) {
+                map.removeLayer(locateMarker);
+            }
+
+            locateMarker = L.marker([lat, lon], {
                 icon: positionIcon
             })
             .addTo(map)
@@ -1322,6 +1339,50 @@ if (footerEl) {
         ajusterHauteurFooter();
         window.addEventListener('resize', ajusterHauteurFooter);
     }
+}
+
+
+// ===================== Retour à l'accueil (clic sur le logo) =====================
+
+// Remet la page dans l'état où elle se trouve au tout premier chargement : vue initiale de la
+// carte, plus aucune recherche/géolocalisation active, panneaux ouverts refermés, et section
+// statistiques réinitialisée (accordéons refermés, filtre commune vidé — construireStatsGeo()
+// reconstruit ce bloc de zéro, donc ce reset est automatique).
+function revenirAccueil() {
+
+    map.setView(VUE_CARTE_INITIALE.center, VUE_CARTE_INITIALE.zoom);
+
+    if (searchMarker) {
+        map.removeLayer(searchMarker);
+        searchMarker = null;
+    }
+
+    if (locateMarker) {
+        map.removeLayer(locateMarker);
+        locateMarker = null;
+    }
+
+    userPosition = null;
+    terrainLePlusProche = null;
+    mettreAJourFlecheTerrainProche();
+
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) searchInput.value = '';
+
+    const searchError = document.getElementById('searchError');
+    if (searchError) searchError.textContent = '';
+
+    fermerPanneauInfo();
+    fermerPartage();
+    sideMenu.classList.remove('open');
+    menuOverlay.classList.remove('visible');
+
+    construireStatsGeo();
+}
+
+const brandLink = document.querySelector('.brand-link');
+if (brandLink) {
+    brandLink.addEventListener('click', revenirAccueil);
 }
 
 
