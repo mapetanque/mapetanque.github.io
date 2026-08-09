@@ -27,7 +27,20 @@ const terrainMarkerIcon = L.divIcon({
 
 const LANGUES_DISPONIBLES = ['fr', 'nl', 'de'];
 
+// Langue déduite du chemin de l'URL (/nl/, /de/), le cas échéant. Cette détection passe en
+// priorité sur tout le reste : c'est elle qui permet à Google d'indexer /nl/ et /de/ comme
+// deux pages distinctes et réellement en néerlandais/allemand dès le premier rendu.
+function detecterLangueDepuisURL() {
+    const chemin = window.location.pathname;
+    if (chemin === '/nl' || chemin.startsWith('/nl/')) return 'nl';
+    if (chemin === '/de' || chemin.startsWith('/de/')) return 'de';
+    return null;
+}
+
 function detecterLanguePreferee() {
+    const depuisURL = detecterLangueDepuisURL();
+    if (depuisURL) return depuisURL;
+
     const sauvegardee = localStorage.getItem('mapetanque_lang');
     if (sauvegardee && LANGUES_DISPONIBLES.includes(sauvegardee)) {
         return sauvegardee;
@@ -113,8 +126,22 @@ function changerLangue(langue) {
     if (!LANGUES_DISPONIBLES.includes(langue)) return;
     currentLang = langue;
     localStorage.setItem('mapetanque_lang', langue);
+
+    // Met à jour l'URL sans recharger la page, pour que chaque langue reste indexable et
+    // partageable via sa propre adresse (/nl/, /de/, ou / pour le français)
+    const cheminCible = langue === 'fr' ? '/' : '/' + langue + '/';
+    if (window.location.pathname !== cheminCible) {
+        history.pushState({ lang: langue }, '', cheminCible + window.location.search + window.location.hash);
+    }
+
     appliquerTraductions();
 }
+
+// Recalcule la langue depuis l'URL quand l'utilisateur navigue avec les boutons précédent/suivant
+window.addEventListener('popstate', function () {
+    currentLang = detecterLanguePreferee();
+    appliquerTraductions();
+});
 
 document.querySelectorAll('.lang-link').forEach(function (btn) {
     btn.addEventListener('click', function () {

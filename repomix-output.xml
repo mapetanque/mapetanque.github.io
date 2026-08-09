@@ -52,11 +52,11 @@ scripts/
 .repomixignore
 google2225db80bf0760f5.html
 index.html
-logo.png
-NOTES_page_statistiques.md
 NOTES_terrains_insolites.md
 README.md
+robots.txt
 script.js
+sitemap.xml
 style.css
 translations.js
 </directory_structure>
@@ -1099,59 +1099,6 @@ images/
 google-site-verification: google2225db80bf0760f5.html
 </file>
 
-<file path="NOTES_page_statistiques.md">
-# 📊 Piste future : page statistiques par commune / province / région
-
-Document de réflexion (rien n'est développé, juste la faisabilité explorée).
-
----
-
-## Objectif
-
-Une page affichant, par commune, ville, province et région :
-- le nombre total de terrains
-- le nombre de terrains par km²
-- le nombre de terrains ajoutés/supprimés le mois dernier
-
-## Faisabilité par élément
-
-### 1. Nombre de terrains par commune / province / région
-✅ **Facile.** Le script fait déjà une requête Nominatim par terrain (pour le nom de rue). Il suffit d'exploiter les champs d'adresse supplémentaires déjà présents dans la réponse Nominatim (commune, province, région) — aucun nouvel appel réseau nécessaire.
-
-### 2. Nombre de terrains par km²
-⚠️ **Faisable, mais demande une donnée supplémentaire** : la superficie de chaque commune/province/région.
-- **Option recommandée** : données officielles Statbel (institut belge de statistique), en open data.
-- Option alternative (plus complexe) : calcul via polygones de frontières administratives avec `geopandas`/`shapely` — nécessite une projection cartographique adaptée pour un calcul de surface précis.
-
-### 3. Terrains ajoutés/supprimés le mois dernier
-✅ **Faisable directement via OSM**, sans avoir à archiver nos propres snapshots.
-
-Overpass propose un mécanisme fait pour ça : les **"augmented diffs" (adiff)**. En interrogeant Overpass avec deux dates (il y a un mois / aujourd'hui) pour une requête donnée, il renvoie directement les éléments créés, modifiés ou supprimés entre les deux — pas besoin de comparer nous-mêmes deux fichiers ni d'archiver quoi que ce soit.
-
-**Avantages :**
-- Pas de stockage de snapshots hebdomadaires nécessaire.
-- Donnée exacte, gérée par OSM directement.
-- Rend inutile le "chantier de versionning" évoqué comme piste future dans le README.
-
-**Points de vigilance :**
-- Un terrain "supprimé" dans nos résultats peut simplement avoir été re-tagué (perte du tag `sport=petanque`) sans avoir été physiquement détruit — à formuler prudemment ("retiré de la carte" plutôt que "détruit").
-- Une requête adiff sur toute la Belgique peut être plus lourde ; à tester pour ne pas dépasser les limites des serveurs Overpass gratuits.
-- Un terrain qui existe depuis des années mais vient seulement d'être cartographié apparaîtra comme "ajouté ce mois-ci" — nuance à garder en tête si les chiffres sont communiqués publiquement.
-
-## Architecture envisagée
-
-Cohérente avec l'existant : toujours 100% statique.
-- Le script Python calcule les agrégats (comptages, densité, deltas mensuels via adiff) → génère un fichier JSON de données.
-- Une page HTML dédiée affiche ces données (tableau/graphique).
-- Pas de backend, pas de base de données nécessaire.
-
-## Prochaine étape suggérée
-
-1. Commencer par les points 1 et 2 (relativement rapides).
-2. Tester une requête adiff sur Overpass Turbo pour voir concrètement ce qu'elle renvoie, avant de l'intégrer au script.
-3. Traiter le point 3 comme un vrai petit chantier à part.
-</file>
-
 <file path="NOTES_terrains_insolites.md">
 # 🔎 Exploration : terrains de pétanque insolites (usage perso / futurs articles)
 
@@ -1272,6 +1219,24 @@ Six terrains repérés, avec un itinéraire en boucle depuis le **Château de Fa
 - Angle "brasserie + patrimoine" combiné pour un article dédié ("les terrains les plus insolites de Liège")
 - Élargir les 6 requêtes retenues à toute la Belgique (juste changer la zone de référence)
 - Pour les catégories "plus grands" / "plus/moins isolés" : passer par un export Overpass + tri dans un tableur, ou script Python avec `shapely` pour les calculs de distance/surface
+</file>
+
+<file path="robots.txt">
+User-agent: *
+Allow: /
+
+Sitemap: https://mapetanque.github.io/sitemap.xml
+</file>
+
+<file path="sitemap.xml">
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://mapetanque.github.io/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+</urlset>
 </file>
 
 <file path="README.md">
@@ -1459,6 +1424,14 @@ function appliquerTraductions() {
 
     document.documentElement.lang = dict.html_lang;
 
+    // Titre de l'onglet + balise meta description, pour un extrait Google correct
+    // dans la langue affichée (au lieu du texte piqué au hasard dans la page)
+    document.title = dict.meta_title;
+    const metaDescription = document.getElementById('meta-description');
+    if (metaDescription) {
+        metaDescription.setAttribute('content', dict.meta_description);
+    }
+
     // Textes simples
     document.querySelectorAll('[data-i18n]').forEach(function (el) {
         el.textContent = dict[el.dataset.i18n];
@@ -1524,8 +1497,11 @@ document.querySelectorAll('.lang-link').forEach(function (btn) {
 
 // ===================== Carte =====================
 
+// Vue par défaut au premier chargement, réutilisée pour le retour à l'accueil (clic sur le logo)
+const VUE_CARTE_INITIALE = { center: [50.8503, 4.3517], zoom: 8 };
+
 // Création de la carte centrée sur la Belgique
-const map = L.map('map').setView([50.8503, 4.3517], 8);
+const map = L.map('map').setView(VUE_CARTE_INITIALE.center, VUE_CARTE_INITIALE.zoom);
 
 let userPosition = null;
 
@@ -1674,6 +1650,8 @@ const positionIcon = L.divIcon({
 
 // ===================== Géolocalisation =====================
 
+let locateMarker = null; // marqueur de la position géolocalisée (distinct de searchMarker)
+
 document.getElementById("locateBtn").addEventListener("click", function () {
 
     if (navigator.geolocation) {
@@ -1687,7 +1665,11 @@ document.getElementById("locateBtn").addEventListener("click", function () {
 
             map.setView([lat, lon], 15);
 
-            L.marker([lat, lon], {
+            if (locateMarker) {
+                map.removeLayer(locateMarker);
+            }
+
+            locateMarker = L.marker([lat, lon], {
                 icon: positionIcon
             })
             .addTo(map)
@@ -2732,6 +2714,50 @@ if (footerEl) {
 }
 
 
+// ===================== Retour à l'accueil (clic sur le logo) =====================
+
+// Remet la page dans l'état où elle se trouve au tout premier chargement : vue initiale de la
+// carte, plus aucune recherche/géolocalisation active, panneaux ouverts refermés, et section
+// statistiques réinitialisée (accordéons refermés, filtre commune vidé — construireStatsGeo()
+// reconstruit ce bloc de zéro, donc ce reset est automatique).
+function revenirAccueil() {
+
+    map.setView(VUE_CARTE_INITIALE.center, VUE_CARTE_INITIALE.zoom);
+
+    if (searchMarker) {
+        map.removeLayer(searchMarker);
+        searchMarker = null;
+    }
+
+    if (locateMarker) {
+        map.removeLayer(locateMarker);
+        locateMarker = null;
+    }
+
+    userPosition = null;
+    terrainLePlusProche = null;
+    mettreAJourFlecheTerrainProche();
+
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) searchInput.value = '';
+
+    const searchError = document.getElementById('searchError');
+    if (searchError) searchError.textContent = '';
+
+    fermerPanneauInfo();
+    fermerPartage();
+    sideMenu.classList.remove('open');
+    menuOverlay.classList.remove('visible');
+
+    construireStatsGeo();
+}
+
+const brandLink = document.querySelector('.brand-link');
+if (brandLink) {
+    brandLink.addEventListener('click', revenirAccueil);
+}
+
+
 // ===================== Initialisation =====================
 
 appliquerTraductions();
@@ -2742,7 +2768,8 @@ appliquerTraductions();
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Mapetanque Belgique</title>
+    <title>Mapetanque Belgique — Carte des terrains de pétanque en Belgique</title>
+    <meta name="description" id="meta-description" content="Carte interactive des terrains de pétanque accessibles au public en Belgique : recherche par ville, géolocalisation et liste par région sur Mapetanque.be.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Police des titres (Quicksand, un seul poids chargé pour rester léger) -->
@@ -2977,6 +3004,9 @@ const translations = {
     fr: {
         html_lang: "fr",
 
+        meta_title: "Mapetanque Belgique — Carte des terrains de pétanque en Belgique",
+        meta_description: "Carte interactive des terrains de pétanque accessibles au public en Belgique : recherche par ville, géolocalisation et liste par région sur Mapetanque.be.",
+
         locate_btn: "Me localiser",
         search_placeholder: "Adresse, ville, région...",
         hero_headline: "Trouvez un terrain de pétanque",
@@ -3098,6 +3128,9 @@ const translations = {
 
     nl: {
         html_lang: "nl",
+
+        meta_title: "Mapetanque België — Kaart van petanquebanen in België",
+        meta_description: "Mapetanque.be toont op een interactieve kaart alle openbare petanquebanen in België, met geolocatie en zoeken op stad of regio.",
 
         locate_btn: "Localiseer mij",
         search_placeholder: "Adres, stad, regio...",
@@ -3222,6 +3255,9 @@ const translations = {
 
     de: {
         html_lang: "de",
+
+        meta_title: "Mapetanque Belgien — Karte der Pétanque-Plätze in Belgien",
+        meta_description: "Mapetanque.be zeigt auf einer interaktiven Karte alle öffentlich zugänglichen Pétanque-Plätze in Belgien, mit Standortsuche nach Stadt oder Region.",
 
         locate_btn: "Meinen Standort finden",
         search_placeholder: "Adresse, Stadt, Region...",
@@ -3759,7 +3795,7 @@ body {
 .brand-link {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 5px;
     text-decoration: none;
     flex-shrink: 0;
 }
@@ -3773,7 +3809,7 @@ body {
 .brand {
     font-family: 'Quicksand', Arial, sans-serif;
     font-weight: 700;
-    font-size: 24px;
+    font-size: 27.6px;
     color: #333;
 }
 
@@ -3783,7 +3819,7 @@ body {
 }
 
 .logo {
-    height: 1.8em;
+    height: 2.07em;
     width: auto;
     display: block;
 }
@@ -3889,12 +3925,12 @@ body {
     }
 
     .brand {
-        font-size: 20px;
+        font-size: 23px;
     }
 
     .logo {
-        width: 25px;
-        height: 25px;
+        width: 28.75px;
+        height: 28.75px;
     }
 
     .hero-headline {
@@ -4029,7 +4065,7 @@ body {
 
 .add-terrain-link-wrapper {
     text-align: center;
-    margin: 20px 0 10px;
+    margin: 20px 0 6px;
     flex: 0 0 auto;
 }
 
@@ -4048,8 +4084,8 @@ body {
     text-align: center;
     color: #c62828;
     font-size: 14px;
-    margin: 0 0 8px;
-    min-height: 18px;
+    margin: 0 0 6px;
+    min-height: 6px;
     flex: 0 0 auto;
 }
 

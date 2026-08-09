@@ -30,7 +30,7 @@ const translations = {
         popup_share: "Partager ce terrain",
 
         menu_about: "À propos",
-        menu_contact: "Nous contacter",
+        menu_contact: "Me contacter",
         menu_faq: "FAQ",
 
         stats_page_title: "Liste des terrains",
@@ -63,7 +63,7 @@ const translations = {
             "actuellement en développement. L'objectif, à terme, est de proposer une plateforme communautaire " +
             "permettant d'ajouter des photos, des informations pratiques et des avis utiles pour les joueurs.",
 
-        contact_title: "Nous contacter",
+        contact_title: "Me contacter",
         contact_text: "Vous avez une suggestion, vous souhaitez signaler une erreur ou participer au projet ? " +
             "N'hésitez pas à me contacter.",
         contact_email: "mapetanque@outlook.be",
@@ -87,20 +87,19 @@ const translations = {
             },
             {
                 q: "Comment ajouter un terrain manquant ?",
-                a: "Les terrains affichés sur Mapetanque proviennent des données libres d'OpenStreetMap. " +
+                a: "Les terrains affichés sur Mapetanque proviennent des données libres d'OpenStreetMap (OSM). " +
                    "Si vous connaissez un terrain de pétanque accessible au public qui n'apparaît pas sur la " +
-                   "carte, vous pouvez : l'ajouter directement dans OpenStreetMap grâce à leur outil d'édition ; " +
-                   "ou nous envoyer les informations nécessaires par e-mail 📧 mapetanque@outlook.be " +
+                   "carte, vous pouvez : l'ajouter directement dans OSM grâce à leur outil d'édition ; " +
+                   "ou m'envoyer les informations nécessaires par e-mail 📧 mapetanque@outlook.be " +
                    "(localisation précise, nombre de pistes si connu, etc.). Après mise à jour des données " +
-                   "OpenStreetMap, le terrain apparaîtra automatiquement sur Mapetanque lors de la prochaine " +
+                   "OSM, le terrain apparaîtra automatiquement sur Mapetanque lors de la prochaine " +
                    "synchronisation."
             },
             {
-                q: "Un terrain indiqué sur la carte n'existe plus ou n'est plus praticable, que faire ?",
-                a: "Les terrains affichés sur Mapetanque proviennent des données libres d'OpenStreetMap. Comme " +
-                   "cette base est collaborative, certaines informations peuvent être incomplètes ou ne plus " +
-                   "être à jour. Si un terrain n'existe plus ou n'est plus accessible au public, vous pouvez : " +
-                   "modifier directement l'information dans OpenStreetMap via leur outil d'édition ; ou nous " +
+                q: "Comment retirer un terrain qui n'existe plus ou n'est plus praticable ?",
+                a: "Les terrains affichés sur Mapetanque proviennent des données libres d'OpenStreetMap (OSM). " +
+                   "Si un terrain n'existe plus ou n'est plus accessible au public, vous pouvez : " +
+                   "modifier directement l'information dans OSM via leur outil d'édition ; ou me " +
                    "signaler l'erreur par e-mail 📧 mapetanque@outlook.be en précisant l'emplacement du terrain " +
                    "et les informations utiles. Si le terrain existe toujours mais est simplement mal entretenu " +
                    "ou dégradé, le mieux est de contacter la commune concernée (service des sports, travaux ou " +

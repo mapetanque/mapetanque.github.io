@@ -415,8 +415,9 @@ body {
 }
 
 .logo {
-    width: 30px;
-    height: 30px;
+    height: 2.07em;
+    width: auto;
+    display: block;
     flex-shrink: 0;
 }
 
@@ -430,12 +431,6 @@ body {
 .brand-tld {
     color: #999;
     font-weight: 400;
-}
-
-.logo {
-    height: 2.07em;
-    width: auto;
-    display: block;
 }
 
 /* Grand titre au-dessus des contrôles de recherche, inspiré d'AllTrails */
