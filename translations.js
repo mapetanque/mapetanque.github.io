@@ -16,6 +16,8 @@ const translations = {
 
         open_menu: "Ouvrir le menu",
         close_menu: "Fermer le menu",
+        fullscreen_enter: "Plein écran",
+        fullscreen_exit: "Quitter le plein écran",
         close_panel: "Fermer",
 
         share_site_btn: "📤 Partager",
@@ -140,6 +142,8 @@ const translations = {
 
         open_menu: "Menu openen",
         close_menu: "Menu sluiten",
+        fullscreen_enter: "Volledig scherm",
+        fullscreen_exit: "Volledig scherm afsluiten",
         close_panel: "Sluiten",
 
         share_site_btn: "📤 Delen",
@@ -267,6 +271,8 @@ const translations = {
 
         open_menu: "Menü öffnen",
         close_menu: "Menü schließen",
+        fullscreen_enter: "Vollbild",
+        fullscreen_exit: "Vollbild beenden",
         close_panel: "Schließen",
 
         share_site_btn: "📤 Teilen",

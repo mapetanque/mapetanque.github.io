@@ -11,6 +11,7 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 
 - Carte interactive de la Belgique (Leaflet + fonds OpenStreetMap)
 - Deux fonds de carte au choix : "Plan" et "Satellite" (contrôle de calques Leaflet)
+- Bouton plein écran (coin haut-droit de la carte, à côté du sélecteur de fond) : masque le reste de l'interface pour n'afficher que la carte, avec la recherche et la géolocalisation toujours accessibles ; touche Échap pour quitter
 - Terrains regroupés en clusters (chiffres colorés) qui se séparent automatiquement au zoom
 - Données des terrains issues d'OpenStreetMap (requête Overpass ciblant `leisure=pitch` + `sport=boules`/`petanque` sur la Belgique)
 - Régénération hebdomadaire automatique via le script `scripts/update_terrains.py`
@@ -40,11 +41,12 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 
 ## 🌍 Multilingue (FR / NL / DE)
 
-- Sélecteur de langue fixe en haut à gauche de l'écran, visible en permanence
 - Détection automatique de la langue du navigateur au premier passage (repli sur le français si langue non reconnue)
 - Mémorisation du choix via `localStorage` (le visiteur retrouve sa langue lors d'une prochaine visite)
-- Traduction complète et dynamique : titre, tagline, menu, panneau À propos/Contact/FAQ, popups des terrains, panneau de partage, footer
+- Sélecteur de langue discret (liens texte FR/NL/DE dans la nav desktop et le menu burger mobile) — pas de gros boutons en évidence, la détection automatique suffit dans l'immense majorité des cas
+- Traduction complète et dynamique : titre, tagline, menu, panneau À propos/Contact/FAQ, popups des terrains, panneau de partage, footer, liste des terrains à parcourir
 - Toutes les traductions centralisées dans `translations.js`
+- **URL dédiée par langue** pour l'indexation Google : `/` (français), `/nl/`, `/de/` — trois fichiers `index.html` distincts (même contenu, piloté par le même JS), avec balises `hreflang` réciproques pour indiquer à Google qu'il s'agit de 3 versions d'une même page plutôt que de contenu dupliqué. Changer de langue via le sélecteur met aussi à jour l'URL (sans recharger la page), pour que chaque langue reste partageable via sa propre adresse
 
 ## 📖 Panneau d'info coulissant
 
@@ -61,17 +63,23 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 - Icônes de partage du site
 - Toujours visible à l'écran (`position: fixed`), quelle que soit la position de scroll
 
-## 📈 Page statistiques
+## 📈 Liste des terrains à parcourir
 
-- Carte plein écran par défaut (comme historiquement) ; le contenu qui suit est révélé simplement en scrollant
-- Accès depuis un lien "Statistiques" juste au-dessus de la bordure haute de la carte (à gauche), et un lien "Revenir en haut" symétrique juste en dessous
+- Carte plein écran par défaut au chargement ; le contenu qui suit est révélé simplement en scrollant, sans JS de scroll custom (ancres HTML natives + `scroll-behavior: smooth`)
+- Accès depuis un bouton "Parcourir la liste" aligné avec les contrôles de recherche, au-dessus de la carte
 - Bandeau chiffré global (nombre total de terrains en Belgique)
-- Détail par région/province/commune prévu en entonnoir (`<details>`/`<summary>` imbriqués, comme la FAQ) — affichage pas encore construit, mais les données sont déjà extraites et agrégées côté script Python (`data/stats_geo.json`, voir Infrastructure)
-- Conçue pour accueillir facilement d'autres futures sections du même type (ex. "Terrains insolites") : chaque section n'a besoin que d'un lien d'ancre (`<a href="#id-section">`) dans la barre au-dessus de la carte, sans JS ni logique de bascule à dupliquer
+- Entonnoir complet région → province → commune → terrain, en accordéons `<details>`/`<summary>` imbriqués (même style que la FAQ) :
+  - 3 tuiles région en tête, avec densité de terrains affichée en /100km² (superficies Statbel codées en dur dans `script.js`, données géographiques stables)
+  - Filigranes régionaux discrets sur les tuiles (lion flamand, coq wallon, iris bruxellois), vectorisés à partir de fichiers SVG du domaine public
+  - Bruxelles traité comme cas particulier (région-enclave sans niveau province), avec garde-fou pour fusionner toute commune égarée sous une fausse province
+  - Recherche de commune par nom (filtre les lignes déjà en mémoire, insensible aux accents/casse)
+  - Clic sur une commune → centre la carte sur la position moyenne de ses terrains ; clic sur un terrain → zoome et ouvre son popup
+- Données région/province/commune agrégées côté script Python (`data/stats_geo.json`), canonicalisées via les codes ISO 3166-2 (fiables, indépendants de la langue de réponse de Nominatim)
 
 ## 🎨 Identité visuelle et confort d'usage
 
 - Jeu de mots visuel dans le titre : "**Map**etanque" (Map en italique/gras/bleu)
+- Clic sur le logo/nom du site : ramène à l'état du tout premier chargement (vue initiale de la carte, recherche et géolocalisation réinitialisées, panneaux refermés, filtres de la liste des terrains remis à zéro)
 - Layout en flexbox occupant toute la hauteur d'écran (`min-height: 100vh`) : la carte s'étire pour occuper tout l'espace disponible, sans zone vide ni scrollbar parasite
 - Site entièrement responsive (mobile/desktop), avec espace réservé en haut sur mobile pour éviter que le titre ne chevauche les boutons flottants
 - Icône de marqueur cohérente (position utilisateur ou résultat de recherche)
@@ -79,9 +87,18 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 
 ## 🛠️ Infrastructure
 
-- Site 100 % statique : `index.html`, `style.css`, `script.js`, `translations.js`, `data/terrains.geojson`, `data/stats_geo.json`
+- Site 100 % statique : `index.html` (+ `nl/index.html`, `de/index.html`), `style.css`, `script.js`, `translations.js`, `data/terrains.geojson`, `data/stats_geo.json`
 - Hébergé sur GitHub Pages (`mapetanque.github.io`), déploiement automatique à chaque `git push`
-- Génération des données via `scripts/update_terrains.py`, à exécuter manuellement ou via tâche planifiée (~30 min d'exécution à cause de la limite Nominatim d'1 requête/seconde) — produit à la fois `data/terrains.geojson` (données brutes) et `data/stats_geo.json` (agrégats région/province/commune pour la page statistiques)
+- Génération des données via `scripts/update_terrains.py`, à exécuter manuellement ou via tâche planifiée (~30 min d'exécution à cause de la limite Nominatim d'1 requête/seconde) — produit à la fois `data/terrains.geojson` (données brutes) et `data/stats_geo.json` (agrégats région/province/commune pour la liste des terrains à parcourir)
+
+---
+
+## 🔎 Référencement (SEO)
+
+- Balise `<meta name="description">` et `<title>` traduits dynamiquement selon la langue affichée
+- `sitemap.xml` et `robots.txt` à la racine, soumis à Google Search Console
+- Balises Open Graph (`og:title`, `og:description`, `og:image`, `og:url`) pour un aperçu soigné lors du partage du lien sur les réseaux sociaux/messageries
+- Favicon (logo au format SVG)
 
 ---
 
@@ -90,7 +107,6 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 - Fiches individuelles par terrain avec URL dédiée, pour l'indexation Google (génération statique envisagée)
 - Système de notes (/5) et commentaires par terrain (nécessiterait un backend — Supabase/Firebase envisagés)
 - Tags associables à un terrain par les usagers (zone ombragée, bar à proximité, terrain en pente, compteur de points, etc. — liste complète déjà brainstormée)
-- Balises Open Graph pour un rendu soigné des liens partagés sur les réseaux sociaux
 - Nom de domaine personnalisé (ex. `mapetanque.be`) à la place de `mapetanque.github.io`
 - Système de versionning des données, pour pouvoir revenir en arrière en cas d'attaque ou de mauvaise utilisation
 
@@ -113,10 +129,17 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 ## Structure du projet
 
 ```
-├── index.html                    # Structure de la page
+├── index.html                    # Structure de la page (français, à la racine)
+├── nl/index.html                 # Version néerlandaise (même contenu, piloté par le même JS)
+├── de/index.html                 # Version allemande (même contenu, piloté par le même JS)
 ├── style.css                     # Mise en forme
 ├── script.js                     # Logique de la carte et des interactions
 ├── translations.js               # Textes du site en FR / NL / DE
+├── sitemap.xml                   # Plan du site (3 URLs, avec annotations hreflang)
+├── robots.txt                    # Référence le sitemap pour les robots d'indexation
+├── images/
+│   ├── logomap.svg               # Logo (favicon)
+│   └── logomap.png               # Logo (image de partage Open Graph)
 ├── scripts/
 │   └── update_terrains.py        # Script de génération hebdomadaire des données
 ├── data/

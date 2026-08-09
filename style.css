@@ -35,6 +35,51 @@ body {
     min-height: 300px;
 }
 
+/* Bouton plein écran : injecté par script.js comme un vrai contrôle Leaflet (même famille que
+   le zoom et le sélecteur Plan/Satellite), donc son positionnement/empilement dans le coin de la
+   carte et son style de boîte (fond blanc, bordure) sont déjà gérés par Leaflet lui-même. */
+#fullscreenBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#fullscreenBtn .btn-icon {
+    width: 16px;
+    height: 16px;
+}
+
+/* Mode plein écran : la carte (avec ses contrôles de recherche) occupe tout le viewport, header et
+   liens "Ajouter un terrain" masqués. z-index 1060 : au-dessus du footer fixe (1050) pour le
+   recouvrir entièrement, mais sous les panneaux menu/info/partage (1100+) au cas où l'un d'eux
+   était resté ouvert. */
+.map-view.fullscreen-active {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh !important;
+    height: 100svh !important;
+    z-index: 1060;
+    background: white;
+}
+
+.map-view.fullscreen-active .header,
+.map-view.fullscreen-active #browseListBtn,
+.map-view.fullscreen-active .add-terrain-link-wrapper,
+.map-view.fullscreen-active .search-error {
+    display: none;
+}
+
+.map-view.fullscreen-active #map {
+    height: 100%;
+}
+
+/* Empêche la page de scroller derrière la carte tant que le plein écran est actif */
+body.fullscreen-lock {
+    overflow: hidden;
+}
+
 /* Section statistiques, sous le bloc carte : contenu normal, toujours affiché */
 #stats-section {
     scroll-margin-top: 10px;
@@ -415,9 +460,8 @@ body {
 }
 
 .logo {
-    height: 2.07em;
-    width: auto;
-    display: block;
+    width: 30px;
+    height: 30px;
     flex-shrink: 0;
 }
 
@@ -431,6 +475,12 @@ body {
 .brand-tld {
     color: #999;
     font-weight: 400;
+}
+
+.logo {
+    height: 2.07em;
+    width: auto;
+    display: block;
 }
 
 /* Grand titre au-dessus des contrôles de recherche, inspiré d'AllTrails */
@@ -507,21 +557,6 @@ body {
 /* Barre de liens vers les sections de contenu sous la carte (Statistiques, puis d'autres),
    alignée à gauche, juste au-dessus de la bordure haute de la carte.
    Réutilisée aussi pour le lien "Revenir en haut" juste sous cette bordure. */
-.section-links-bar {
-    display: flex;
-    align-items: center;
-    flex: 0 0 auto;
-    gap: 4px;
-    height: 44px;
-    padding: 0 15px;
-    box-sizing: border-box;
-}
-
-.content-section-arrow {
-    width: 12px;
-    height: 12px;
-}
-
 /* Menu burger : masqué en desktop, réservé au mobile */
 #menu-button {
     display: none;
@@ -1084,8 +1119,8 @@ footer {
        info, partage), qui commencent à 1100. */
     z-index: 1050;
 
-    /* Même hauteur exacte que .section-links-bar (44px), pour un rendu visuellement cohérent
-       entre le lien "Revenir en haut" juste au-dessus et le footer juste en dessous */
+    /* Hauteur fixe choisie pour rester compacte tout en laissant assez de place au texte
+       + aux icônes de partage sur une seule ligne, y compris en mobile */
     height: 44px;
     box-sizing: border-box;
     display: flex;
