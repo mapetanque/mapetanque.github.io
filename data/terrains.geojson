@@ -780,24 +780,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          5.6106787,
-          50.6182401
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "nearest_street": "Place Joseph Dejardin",
-        "commune": "Liège",
-        "province": "liege",
-        "region": "wallonie"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           4.4162556,
           51.17832
         ]
@@ -1598,7 +1580,7 @@
         "leisure": "pitch",
         "sport": "boules",
         "nearest_street": "Hemelsbreedte",
-        "commune": "Sinaai",
+        "commune": "Sint-Niklaas",
         "province": "flandre_orientale",
         "region": "flandre"
       }
@@ -3002,7 +2984,7 @@
         "leisure": "pitch",
         "sport": "boules",
         "nearest_street": "Place du Roi Albert",
-        "commune": "Remicourt",
+        "commune": "Pousset",
         "province": "liege",
         "region": "wallonie"
       }
@@ -5296,7 +5278,7 @@
       "properties": {
         "leisure": "pitch",
         "sport": "boules",
-        "nearest_street": "Bondgenotenstraat",
+        "nearest_street": "Hoefstraat",
         "commune": "Halle",
         "province": "brabant_flamand",
         "region": "flandre"
@@ -8497,7 +8479,7 @@
         "sport": "boules",
         "surface": "gravel",
         "nearest_street": "Filip de Pillecynlaan",
-        "commune": "Belsele",
+        "commune": "Sint-Niklaas",
         "province": "flandre_orientale",
         "region": "flandre"
       }
@@ -10387,7 +10369,7 @@
         "leisure": "pitch",
         "sport": "boules",
         "nearest_street": "Kapelstraat",
-        "commune": "Steendorp",
+        "commune": "Temse",
         "province": "flandre_orientale",
         "region": "flandre"
       }
@@ -12369,7 +12351,7 @@
         "leisure": "pitch",
         "sport": "boules",
         "nearest_street": "Goed dreef",
-        "commune": "Sinaai",
+        "commune": "Sint-Niklaas",
         "province": "flandre_orientale",
         "region": "flandre"
       }
@@ -13136,7 +13118,7 @@
       "properties": {
         "leisure": "pitch",
         "sport": "boules",
-        "nearest_street": "Rue de Trixhes",
+        "nearest_street": "Rue des Abruns",
         "commune": "Vivegnis",
         "province": "liege",
         "region": "wallonie"
@@ -15904,6 +15886,7 @@
       },
       "properties": {
         "leisure": "pitch",
+        "lit": "no",
         "sport": "boules",
         "surface": "fine_gravel",
         "nearest_street": "Onze-Lieve-Vrouwemarkt",
@@ -25306,7 +25289,7 @@
         "leisure": "pitch",
         "sport": "boules",
         "nearest_street": "Rue de l'École",
-        "commune": "Incourt",
+        "commune": "Roux-Miroir",
         "province": "brabant_wallon",
         "region": "wallonie"
       }
@@ -30899,7 +30882,7 @@
         "lit": "yes",
         "sport": "petanque",
         "nearest_street": "Rue de la Cochette",
-        "commune": "Straimont",
+        "commune": "Herbeumont",
         "province": "luxembourg",
         "region": "wallonie"
       }
@@ -31339,7 +31322,7 @@
         "leisure": "pitch",
         "sport": "boules",
         "nearest_street": "Klokke Roelandlaan",
-        "commune": "Sint-Niklaas",
+        "commune": "Sinaai",
         "province": "flandre_orientale",
         "region": "flandre"
       }
@@ -34405,6 +34388,25 @@
         "nearest_street": "Pré-RAVeL",
         "commune": "La Louvière",
         "province": "hainaut",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.1876331,
+          50.663934
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "surface": "fine_gravel",
+        "nearest_street": "Rue de Coeurcq",
+        "commune": "Tubize",
+        "province": "brabant_wallon",
         "region": "wallonie"
       }
     }
