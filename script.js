@@ -68,10 +68,15 @@ function appliquerTraductions() {
     document.documentElement.lang = dict.html_lang;
 
     // Titre de l'onglet + balise meta description, pour un extrait Google correct
-    // dans la langue affichée (au lieu du texte piqué au hasard dans la page)
-    document.title = dict.meta_title;
+    // dans la langue affichée (au lieu du texte piqué au hasard dans la page).
+    // Garde-fou : si meta_title/meta_description est absent pour une raison quelconque
+    // (ex. translations.js et script.js désynchronisés lors d'un déploiement), on laisse
+    // la valeur existante plutôt que d'écrire la chaîne littérale "undefined".
+    if (dict.meta_title) {
+        document.title = dict.meta_title;
+    }
     const metaDescription = document.getElementById('meta-description');
-    if (metaDescription) {
+    if (metaDescription && dict.meta_description) {
         metaDescription.setAttribute('content', dict.meta_description);
     }
 
