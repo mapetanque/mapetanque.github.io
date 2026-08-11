@@ -4,6 +4,7 @@ import time
 import sys
 import os
 import unicodedata
+import urllib.parse
 
 OVERPASS_SERVERS = [
     "https://overpass-api.de/api/interpreter",
@@ -174,6 +175,73 @@ def recuperer_infos_adresse(lat, lon):
     return resultat
 
 
+# Token optionnel pour résoudre les tags mapillary=<id> en URL de vignette via l'API Mapillary.
+# Si absent (secret non configuré côté GitHub Actions), ces tags sont simplement ignorés plutôt
+# que de faire échouer tout le script — image= et wikimedia_commons= continuent de fonctionner
+# sans aucune clé, dans tous les cas.
+MAPILLARY_TOKEN = os.environ.get("MAPILLARY_TOKEN")
+
+
+def resoudre_wikimedia_commons(valeur):
+    """
+    Convertit un tag wikimedia_commons=File:XXX.jpg en URL d'image directement affichable,
+    via le mécanisme Special:FilePath de Wikimedia Commons (ne nécessite aucune clé d'API).
+    Retourne aussi l'URL de la page du fichier sur Commons (auteur/licence exacte), pour créditer
+    correctement la source plutôt que d'afficher juste l'image sans attribution.
+    """
+    nom_fichier = valeur.split(":", 1)[-1]  # retire un éventuel préfixe "File:"/"Fichier:"
+    url_image = f"https://commons.wikimedia.org/wiki/Special:FilePath/{urllib.parse.quote(nom_fichier)}?width=800"
+    url_credit = f"https://commons.wikimedia.org/wiki/{urllib.parse.quote(valeur)}"
+    return url_image, url_credit
+
+
+def resoudre_mapillary(image_id):
+    """
+    Résout un tag mapillary=<id> (photo choisie manuellement par un mappeur, pas une recherche
+    de proximité) en URL de vignette, via l'API Mapillary. Le lien de crédit pointe vers la page
+    d'accueil Mapillary : leurs conditions d'utilisation exigent d'attribuer visiblement la source
+    dès que leurs données/images sont affichées.
+    """
+    if not MAPILLARY_TOKEN:
+        return None
+    try:
+        response = requests.get(
+            f"https://graph.mapillary.com/{image_id}",
+            params={"access_token": MAPILLARY_TOKEN, "fields": "thumb_1024_url"},
+            timeout=10
+        )
+        response.raise_for_status()
+        return response.json().get("thumb_1024_url")
+    except Exception as e:
+        print(f"    ⚠ Erreur résolution photo Mapillary (id {image_id}) : {e}")
+        return None
+
+
+def resoudre_photo(tags):
+    """
+    Détermine la photo à afficher pour un terrain, par ordre de priorité :
+    1. image=<url>                    — déjà une URL directe, utilisable telle quelle
+    2. wikimedia_commons=File:XXX.jpg — convertie via Special:FilePath
+    3. mapillary=<id>                 — résolue via l'API Mapillary (nécessite MAPILLARY_TOKEN)
+    Retourne (url, source, url_credit) où source vaut "image"/"wikimedia_commons"/"mapillary",
+    et url_credit est le lien vers la source à créditer (None pour "image", aucune page de
+    référence connue dans ce cas). Retourne (None, None, None) si aucune photo n'est disponible.
+    """
+    if tags.get("image"):
+        return tags["image"], "image", None
+
+    if tags.get("wikimedia_commons"):
+        url_image, url_credit = resoudre_wikimedia_commons(tags["wikimedia_commons"])
+        return url_image, "wikimedia_commons", url_credit
+
+    if tags.get("mapillary"):
+        url = resoudre_mapillary(tags["mapillary"])
+        if url:
+            return url, "mapillary", "https://www.mapillary.com/"
+
+    return None, None, None
+
+
 print("Interrogation d'OpenStreetMap en cours...")
 
 osm_data = None
@@ -238,6 +306,13 @@ for index, element in enumerate(osm_data["elements"], start=1):
     proprietes["commune"] = infos_adresse["commune"]
     proprietes["province"] = infos_adresse["province"]
     proprietes["region"] = infos_adresse["region"]
+
+    photo_url, photo_source, photo_credit_url = resoudre_photo(element.get("tags", {}))
+    if photo_url:
+        proprietes["photo_url"] = photo_url
+        proprietes["photo_source"] = photo_source
+        if photo_credit_url:
+            proprietes["photo_credit_url"] = photo_credit_url
 
     features.append({
         "type": "Feature",

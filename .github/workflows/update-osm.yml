@@ -27,6 +27,8 @@ jobs:
           pip install requests
 
       - name: Mise à jour des terrains
+        env:
+          MAPILLARY_TOKEN: ${{ secrets.MAPILLARY_TOKEN }}
         run: |
           python scripts/update_terrains.py
 

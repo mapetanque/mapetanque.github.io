@@ -859,6 +859,22 @@ body.fullscreen-lock {
     color: #74C15A;
 }
 
+/* Photo du terrain dans le popup (issue d'un tag OSM image=/wikimedia_commons=/mapillary=,
+   voir resoudre_photo() dans update_terrains.py) */
+.popup-photo {
+    display: block;
+    width: 100%;
+    max-height: 140px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 4px;
+}
+
+.popup-photo-credit {
+    font-size: 11px;
+    color: #999;
+}
+
 /* Marqueur de position utilisateur */
 /* Marqueur de terrain (pin vert) : ombre portée pour se détacher de tous les fonds de carte */
 .terrain-marker-icon {

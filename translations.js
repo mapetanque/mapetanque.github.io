@@ -57,7 +57,6 @@ const translations = {
         geo_province_limbourg: "Limbourg",
         geo_province_flandre_orientale: "Flandre-Orientale",
         geo_province_flandre_occidentale: "Flandre-Occidentale",
-        back_to_top: "Revenir en haut",
 
         about_title: "À propos",
         about_text: "Mapetanque est né de la constatation qu'il n'existait aucun site recensant de manière " +
@@ -116,6 +115,8 @@ const translations = {
         popup_access_probable: "probablement public",
         popup_distance_label: "Distance",
         popup_distance_hint: "Cliquez sur \"Me localiser\" pour voir la distance",
+        popup_photo_credit_wikimedia: "Photo : Wikimedia Commons",
+        popup_photo_credit_mapillary: "Photo : Mapillary",
         popup_itinerary: "Afficher l'itinéraire",
         popup_here: "Vous êtes ici",
         nearest_terrain_label: "Terrain le plus proche",
@@ -183,7 +184,6 @@ const translations = {
         geo_province_limbourg: "Limburg",
         geo_province_flandre_orientale: "Oost-Vlaanderen",
         geo_province_flandre_occidentale: "West-Vlaanderen",
-        back_to_top: "Terug naar boven",
 
         about_title: "Over ons",
         about_text: "Mapetanque is ontstaan uit de vaststelling dat er geen enkele website bestond die op een " +
@@ -245,6 +245,8 @@ const translations = {
         popup_access_probable: "waarschijnlijk openbaar",
         popup_distance_label: "Afstand",
         popup_distance_hint: "Klik op \"Localiseer mij\" om de afstand te zien",
+        popup_photo_credit_wikimedia: "Foto: Wikimedia Commons",
+        popup_photo_credit_mapillary: "Foto: Mapillary",
         popup_itinerary: "Route weergeven",
         popup_here: "Je bent hier",
         nearest_terrain_label: "Dichtstbijzijnde terrein",
@@ -312,7 +314,6 @@ const translations = {
         geo_province_limbourg: "Limburg",
         geo_province_flandre_orientale: "Ostflandern",
         geo_province_flandre_occidentale: "Westflandern",
-        back_to_top: "Nach oben",
 
         about_title: "Über uns",
         about_text: "Mapetanque entstand aus der Feststellung, dass es keine Website gab, die schnell und " +
@@ -374,6 +375,8 @@ const translations = {
         popup_access_probable: "wahrscheinlich öffentlich",
         popup_distance_label: "Entfernung",
         popup_distance_hint: "Klicken Sie auf \"Meinen Standort finden\", um die Entfernung zu sehen",
+        popup_photo_credit_wikimedia: "Foto: Wikimedia Commons",
+        popup_photo_credit_mapillary: "Foto: Mapillary",
         popup_itinerary: "Route anzeigen",
         popup_here: "Sie sind hier",
         nearest_terrain_label: "Nächstgelegener Platz",

@@ -639,6 +639,21 @@ fetch('data/terrains.geojson')
                         ? t('popup_terrain_prefix') + " " + tags.nearest_street
                         : t('popup_terrain_default');
 
+                    // Photo du terrain (issue d'un tag OSM image=/wikimedia_commons=/mapillary=
+                    // renseigné manuellement par un mappeur — voir resoudre_photo() dans
+                    // update_terrains.py). Absente pour la grande majorité des terrains pour
+                    // l'instant, purement additive quand elle existe.
+                    let photo = "";
+                    if (tags.photo_url) {
+                        let credit = "";
+                        if (tags.photo_source === 'wikimedia_commons') {
+                            credit = `<br><a href="${tags.photo_credit_url}" target="_blank" rel="noopener" class="popup-photo-credit">${t('popup_photo_credit_wikimedia')}</a>`;
+                        } else if (tags.photo_source === 'mapillary') {
+                            credit = `<br><a href="${tags.photo_credit_url}" target="_blank" rel="noopener" class="popup-photo-credit">${t('popup_photo_credit_mapillary')}</a>`;
+                        }
+                        photo = `<img src="${tags.photo_url}" alt="" class="popup-photo" loading="lazy">${credit}<br>`;
+                    }
+
                     let distance = "";
 
                     if (userPosition) {
@@ -684,6 +699,7 @@ fetch('data/terrains.geojson')
 
                     return `
                     <b>${titre}</b><br><br>
+                    ${photo}
                     <span class="popup-icon">${ICON_UNLOCK}</span> ${t('popup_access_label')} : ${acces}
                     ${distance}
                     ${itineraire}
