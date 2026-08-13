@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>[TEST] Mapetanque — Page d'accueil avec pages provinces</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ==========================================================================================
+     FICHIER DE TEST — copie indépendante de la page d'accueil, PAS l'index.html du site en prod.
+     Objectif : valider le rendu de la bannière + la réduction de la carte + la grille de tuiles
+     provinces, avant d'envisager de reporter ces changements sur le vrai index.html.
+     ========================================================================================== -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+<style>
+    :root {
+        --green: #74C15A;
+        --green-dark: #56A03D;
+        --green-soft: rgba(116, 193, 90, 0.1);
+        --text-dark: #333;
+        --border: #e2e6de;
+    }
+
+    html, body {
+        margin: 0;
+        overflow-x: hidden;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        color: var(--text-dark);
+    }
+
+    a { color: inherit; }
+
+    /* ===================== Bloc supérieur avec bannière photo ===================== */
+    /* Reprend .map-view / .header / .hero-headline / .controls du site, avec une image de
+       fond + un voile sombre pour que le texte blanc reste lisible par-dessus. */
+
+    .map-view {
+        position: relative;
+        height: 300px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        box-sizing: border-box;
+        padding: 0 30px 51px;
+        background-image: url('images/banniere-accueil.jpg');
+        background-size: cover;
+        background-position: center 55%;
+    }
+
+    .header-top-row {
+        position: absolute;
+        top: 18px;
+        left: 30px;
+        right: 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        z-index: 2;
+    }
+
+    .brand-link {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        text-decoration: none;
+        flex-shrink: 0;
+    }
+
+    .brand-link .logo {
+        height: 2.07em;
+        width: auto;
+        display: block;
+        filter: drop-shadow(0 1px 3px rgba(0,0,0,0.5));
+    }
+
+    .brand {
+        font-family: 'Quicksand', Arial, sans-serif;
+        font-weight: 700;
+        font-size: 27.6px;
+        color: #fff;
+        text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    }
+
+    .brand-map {
+        font-weight: 700;
+        color: var(--green);
+    }
+
+    .brand-tld {
+        color: rgba(255,255,255,0.75);
+        font-weight: 400;
+    }
+
+    #desktop-nav {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+    }
+
+    .info-nav-trigger {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        border: none;
+        background: none;
+        text-decoration: none;
+        padding: 8px 14px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #fff;
+        text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        cursor: pointer;
+        border-radius: 20px;
+        white-space: nowrap;
+        transition: background-color 0.15s ease;
+    }
+
+    .info-nav-trigger:hover {
+        background: rgba(255,255,255,0.18);
+    }
+
+    #lang-switcher-inline {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        margin-left: 6px;
+        padding-left: 10px;
+        border-left: 1px solid rgba(255,255,255,0.35);
+    }
+
+    .lang-link {
+        border: none;
+        background: none;
+        padding: 6px 8px;
+        font-size: 12px;
+        font-weight: bold;
+        color: rgba(255,255,255,0.75);
+        cursor: pointer;
+        border-radius: 12px;
+        text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    }
+
+    .lang-link.active { color: #fff; }
+
+    .banner-credit {
+        position: absolute;
+        bottom: 8px;
+        right: 14px;
+        font-size: 10.5px;
+        color: rgba(255,255,255,0.75);
+        text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+        z-index: 2;
+    }
+
+    /* Grand titre au-dessus des contrôles de recherche */
+    .hero-headline {
+        text-align: center;
+        font-weight: 700;
+        font-size: 32px;
+        color: #fff;
+        margin: 0 0 4px;
+        line-height: 1.25;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.55);
+        position: relative;
+        z-index: 2;
+    }
+
+    .controls {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin: 14px auto 22px;
+        padding: 0 15px;
+        position: relative;
+        z-index: 2;
+    }
+
+    #locateBtn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 20px;
+        background-color: var(--green);
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    #locateBtn:hover { background-color: var(--green-dark); }
+
+    #locateBtn .btn-icon { width: 18px; height: 18px; flex-shrink: 0; }
+
+    .search-form {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .search-form input {
+        padding: 12px 16px 12px 42px;
+        border: 1px solid rgba(255,255,255,0.6);
+        border-radius: 24px;
+        font-size: 15px;
+        width: 240px;
+        max-width: 60vw;
+        box-sizing: border-box;
+        background: rgba(255,255,255,0.95);
+    }
+
+    .search-form input:focus {
+        outline: none;
+        border-color: var(--green);
+    }
+
+    .search-form button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        background: none;
+        padding: 0;
+        color: #888;
+        cursor: pointer;
+    }
+
+    .search-form button svg { width: 18px; height: 18px; }
+
+    /* ===================== Carte réduite ===================== */
+    /* Volontairement plus basse que l'ancienne version plein écran, pour laisser voir le haut
+       de la grille de tuiles provinces sans avoir à scroller trop loin. */
+    /* Effet "fiche" sur la carte : coins arrondis + ombre légère, cohérent avec le reste du site.
+       Léger espace au-dessus (repris pour moitié sur celui qui existait entre la carte et le
+       titre "Parcourir par province" ci-dessous). */
+    .map-wrapper {
+        margin: 25px 0 0;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 6px 24px rgba(30, 50, 20, 0.10);
+    }
+
+    #map {
+        width: 100%;
+        height: 470px;
+    }
+
+    /* ===================== Section Provinces ===================== */
+
+    #provinces-section {
+        background-color: #f7f9f6;
+        padding: 25px 20px 30px;
+    }
+
+    .provinces-container {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    .provinces-container h2 {
+        margin: 0 0 6px;
+        font-size: 26px;
+        color: #333;
+        text-align: center;
+    }
+
+    .provinces-subtitle {
+        text-align: center;
+        color: #666;
+        font-size: 14.5px;
+        margin: 0 0 30px;
+    }
+
+    .province-tiles-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+    }
+
+    .province-tile {
+        position: relative;
+        display: block;
+        text-decoration: none;
+        border-radius: 14px;
+        overflow: hidden;
+        padding-top: 75%; /* ratio 4:3, en technique padding-bottom pour compat. large */
+        background-size: cover;
+        background-position: center;
+        background-color: #dfe8da; /* fond de secours si l'image tarde à charger */
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+        box-shadow: 0 2px 10px rgba(30, 50, 20, 0.06);
+    }
+
+    .province-tile:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(30, 50, 20, 0.14);
+    }
+
+    .province-tile-name {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 10px 12px;
+        color: #fff;
+        font-weight: 700;
+        font-size: 14.5px;
+        text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+    }
+
+    /* Tuiles "photo à venir" : dégradé vert de marque, en attendant le choix des bannières */
+    .province-tile.placeholder {
+        background-image: linear-gradient(160deg, #8fc977 0%, #4f9a3b 100%);
+    }
+
+    .province-tile.placeholder .province-tile-caption {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 9.5px;
+        font-weight: 600;
+        color: rgba(255,255,255,0.85);
+        background: rgba(0,0,0,0.18);
+        padding: 3px 8px;
+        border-radius: 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+    }
+
+    @media (max-width: 900px) {
+        .province-tiles-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+        .province-tiles-grid { grid-template-columns: repeat(2, 1fr); }
+        .header { padding: 14px 15px 8px; }
+        .brand { font-size: 21px; }
+        .hero-headline { font-size: 23px; margin: 20px 0 4px; }
+        #map { height: 300px; }
+    }
+    /* ===================== Footer ===================== */
+    /* Repris tel quel du site (mêmes classes/styles), sauf position: static au lieu de fixed —
+       ici il suit le flux normal de page, en bas, plutôt que rester collé à l'écran en permanence. */
+    footer {
+        position: static;
+        height: 44px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        padding: 0 30px;
+        background: #f5f5f5;
+        color: #444;
+        font-size: 14px;
+        line-height: 1.6;
+        border-top: 1px solid #ddd;
+    }
+
+    .footer-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        flex: 1;
+        min-width: 0;
+        gap: 12px;
+    }
+
+    .footer-small {
+        font-size: 13px;
+        color: #777;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+    }
+
+    .footer-share {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex: 0 0 auto;
+    }
+
+    .footer-share-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        color: #999;
+        border: none;
+        background: none;
+        cursor: pointer;
+        transition: color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .footer-share-icon svg { width: 14px; height: 14px; }
+
+    .footer-share-icon:hover {
+        color: #74C15A;
+        background: rgba(116, 193, 90, 0.1);
+    }
+
+    @media (max-width: 600px) {
+        footer { padding: 0 15px; font-size: 13px; }
+        .footer-content { justify-content: center; }
+    }
+</style>
+</head>
+<body>
+
+<div class="map-view">
+
+    <div class="header">
+        <div class="header-top-row">
+            <a href="#" class="brand-link">
+                <svg class="logo" viewBox="0 0 878 884" aria-hidden="true">
+                    <path d="M424.499,112.128C439.588,112.168 439.514,111.999 454.535,113.252C459.282,113.647 464.985,126.287 468.428,132.54C493.822,178.652 509.506,246.447 512.842,263.422C526.266,331.73 534.962,392.68 530.995,497.518C530.73,504.523 532.222,510.697 526.548,510.074C486.775,505.708 418.691,489.158 409.409,486.902C341.188,470.318 196.794,419.279 126.375,344.613C116.876,334.541 108.935,326.226 110.547,322.519C166.783,193.217 295.634,112.983 424.499,112.128Z" style="fill:rgb(0,197,47);"/>
+                    <path d="M323.995,777.029C323.912,775.739 324.142,775.825 325.23,775.274C355.62,759.894 400.469,704.642 369.737,638.388C334.216,561.808 212.168,551.036 166.882,640.677C157.245,659.752 159.137,674.474 155.349,669.692C132.912,641.373 125.231,625.974 121.202,618.662C62.664,512.423 85.368,404.962 87.77,395.633C89.088,390.514 107.272,419.126 187.29,462.882C284.724,516.16 395.602,541.393 414.463,545.686C514.476,568.446 526.353,560.436 525.158,567.446C522.169,584.997 521.573,607.623 506.699,664.563C498.834,694.669 495.492,701.689 492.174,711.382C482.494,739.658 459.679,782.477 454.579,783.706C453.65,783.93 439.298,785.77 437.531,785.88C388.91,788.907 370.416,787.255 323.995,777.029Z" style="fill:rgb(0,197,47);"/>
+                    <path d="M751.947,414.476C752.392,421.598 755.056,464.245 746.578,503.518C746.139,505.555 746.093,507.227 715.57,511.981C663.956,520.02 589.643,517.532 587.708,515.292C585.652,512.911 590.985,470.859 585.771,398.481C576.52,270.067 553.298,197.303 523.767,131.39C523.228,130.188 519.23,124.88 523.526,126.209C645.086,163.82 740.976,269.929 751.947,414.476Z" style="fill:rgb(0,197,47);"/>
+                    <path d="M720.315,584.413C662.254,708.15 561.132,749.553 541.613,758.921C537.914,760.696 538.18,758.744 538.254,758.484C538.377,758.05 549.128,738.3 564.299,678.456C576.691,629.572 580.983,585.687 581.781,577.532C582.508,570.096 583.875,569.77 584.527,569.615C593.043,567.585 613.097,574.573 695.536,565.78C719.879,563.183 729.606,559.289 729.92,561.317C730.132,562.689 721.139,582.59 720.315,584.413Z" style="fill:rgb(0,197,47);"/>
+                </svg>
+                <span class="brand"><span class="brand-map">Map</span>etanque<span class="brand-tld">.be</span></span>
+            </a>
+
+            <nav id="desktop-nav">
+                <button type="button" class="info-nav-trigger">À propos</button>
+                <button type="button" class="info-nav-trigger">FAQ</button>
+                <button type="button" class="info-nav-trigger">Nous contacter</button>
+                <span id="lang-switcher-inline">
+                    <button type="button" class="lang-link active">FR</button>
+                    <button type="button" class="lang-link">NL</button>
+                    <button type="button" class="lang-link">DE</button>
+                </span>
+            </nav>
+        </div>
+
+        <p class="hero-headline">Trouvez un terrain de pétanque public</p>
+    </div>
+
+    <div class="banner-credit">
+        Photo : Jean-Claude Parayre, <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener" style="color: rgba(255,255,255,0.85); text-decoration: underline;">CC BY-SA 4.0</a>, via Wikimedia Commons
+    </div>
+
+    <div class="controls">
+        <button id="locateBtn">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span>Me localiser</span>
+        </button>
+
+        <form id="searchForm" class="search-form">
+            <input type="text" id="searchInput" placeholder="Rechercher une ville…" autocomplete="off">
+            <button type="submit" id="searchBtn" aria-label="Rechercher">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </button>
+        </form>
+
+        <!-- ============================================================================
+             "Parcourir la liste" retiré de la page avec l'arrivée des pages provinces
+             (qui remplissent ce rôle). Code conservé ici au cas où, non affiché.
+        <a href="#stats-section" id="browseListBtn">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            <span>Parcourir la liste</span>
+        </a>
+        ============================================================================= -->
+    </div>
+
+    <!-- ================================================================================
+         "Ajouter un terrain de pétanque" retiré de la page d'accueil. Code conservé ici
+         au cas où, non affiché.
+    <p class="add-terrain-link-wrapper">
+        <a href="#" id="add-terrain-link">Ajouter un terrain de pétanque</a>
+    </p>
+    ================================================================================= -->
+
+</div><!-- /.map-view -->
+
+<div class="map-wrapper">
+    <div id="map"></div>
+</div>
+
+
+<section id="provinces-section">
+    <div class="provinces-container">
+        <h2>Parcourir par province</h2>
+
+        <div class="province-tiles-grid">
+            <a href="province-anvers.html" class="province-tile" style="background-image: url('images/tuile-anvers.jpg');">
+                <span class="province-tile-name">Anvers</span>
+            </a>
+
+            <a href="#" class="province-tile placeholder">
+                <span class="province-tile-caption">Photo à venir</span>
+                <span class="province-tile-name">Brabant flamand</span>
+            </a>
+
+            <a href="#" class="province-tile placeholder">
+                <span class="province-tile-caption">Photo à venir</span>
+                <span class="province-tile-name">Flandre orientale</span>
+            </a>
+
+            <a href="#" class="province-tile placeholder">
+                <span class="province-tile-caption">Photo à venir</span>
+                <span class="province-tile-name">Flandre occidentale</span>
+            </a>
+
+            <a href="#" class="province-tile placeholder">
+                <span class="province-tile-caption">Photo à venir</span>
+                <span class="province-tile-name">Limbourg</span>
+            </a>
+
+            <a href="#" class="province-tile placeholder">
+                <span class="province-tile-caption">Photo à venir</span>
+                <span class="province-tile-name">Brabant wallon</span>
+            </a>
+
+            <a href="#" class="province-tile placeholder">
+                <span class="province-tile-caption">Photo à venir</span>
+                <span class="province-tile-name">Hainaut</span>
+            </a>
+
+            <a href="#" class="province-tile placeholder">
+                <span class="province-tile-caption">Photo à venir</span>
+                <span class="province-tile-name">Liège</span>
+            </a>
+
+            <a href="#" class="province-tile placeholder">
+                <span class="province-tile-caption">Photo à venir</span>
+                <span class="province-tile-name">Luxembourg</span>
+            </a>
+
+            <a href="#" class="province-tile placeholder">
+                <span class="province-tile-caption">Photo à venir</span>
+                <span class="province-tile-name">Namur</span>
+            </a>
+
+            <a href="#" class="province-tile placeholder">
+                <span class="province-tile-caption">Photo à venir</span>
+                <span class="province-tile-name">Bruxelles</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-content">
+        <p class="footer-small">1 791 terrains de pétanque recensés en Belgique</p>
+
+        <div class="footer-share">
+            <a href="#" class="footer-share-icon" target="_blank" rel="noopener" aria-label="WhatsApp">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            </a>
+            <a href="#" class="footer-share-icon" target="_blank" rel="noopener" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+            </a>
+            <a href="#" class="footer-share-icon" target="_blank" rel="noopener" aria-label="X (Twitter)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </a>
+            <a href="#" class="footer-share-icon" aria-label="E-mail">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </a>
+            <button type="button" class="footer-share-icon" aria-label="Copier le lien">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+            </button>
+        </div>
+    </div>
+</footer>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    const map = L.map('map').setView([50.64, 4.66], 8);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors',
+        maxZoom: 18
+    }).addTo(map);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,258 @@
+/* ==========================================================================================
+   style-accueil-provinces.css
+   Feuille additive chargée APRÈS /style.css — n'en modifie aucune règle existante.
+   Objectif : habiller la page d'accueil (bannière photo, carte "fiche", grille provinces)
+   sans toucher au CSS ni au JS qui font déjà tourner le reste du site (recherche,
+   géolocalisation, plein écran, langue, footer, panneaux d'info/partage...).
+
+   Stratégie :
+   - Les anciens éléments remplacés visuellement (#stats-section, #browseListBtn,
+     .add-terrain-link-wrapper) sont seulement masqués (display:none), jamais supprimés du DOM :
+     tout leur JS continue de fonctionner normalement, en arrière-plan, sans effet visible.
+   - .header et .controls sont désormais enveloppés dans un nouveau conteneur .hero-banner
+     (ajouté uniquement en HTML, aucun de leurs attributs/ID internes n'a changé).
+   ========================================================================================== */
+
+
+/* ===================== Masquage des éléments remplacés (jamais supprimés) ===================== */
+
+#stats-section,
+#browseListBtn,
+.add-terrain-link-wrapper {
+    display: none;
+}
+
+
+/* ===================== Bannière photo (.hero-banner) ===================== */
+
+.map-view {
+    /* Remplace la règle de style.css (height: calc(100vh - footer)) : la page n'a plus besoin
+       de remplir tout le viewport au chargement, elle prend sa hauteur naturelle. Uniquement
+       actif en dehors du mode plein écran (voir plus bas pour fullscreen-active). */
+    height: auto;
+}
+
+.hero-banner {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 4px;
+    background-image: url('/images/banniere-accueil.jpg');
+    background-size: cover;
+    background-position: center 55%;
+}
+
+/* .header et .controls gardent leurs propres règles de style.css (padding, flex, etc.) ;
+   on ne fait ici que recolorer le texte en blanc pour qu'il reste lisible sur la photo. */
+
+.hero-banner .brand,
+.hero-banner .hero-headline {
+    color: #fff;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+
+.hero-banner .hero-headline {
+    text-shadow: 0 2px 8px rgba(0,0,0,0.55);
+}
+
+.hero-banner .brand-tld {
+    color: rgba(255,255,255,0.75);
+}
+
+.hero-banner .info-nav-trigger,
+.hero-banner .lang-link {
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.hero-banner .info-nav-trigger:hover {
+    background: rgba(255,255,255,0.18);
+    color: #fff;
+}
+
+.hero-banner .lang-link {
+    color: rgba(255,255,255,0.75);
+}
+
+.hero-banner .lang-link:hover {
+    color: #fff;
+}
+
+.hero-banner .lang-link.active {
+    color: #fff;
+    background: rgba(255,255,255,0.18);
+}
+
+.hero-banner #lang-switcher-inline {
+    border-left: 1px solid rgba(255,255,255,0.35);
+}
+
+.hero-banner-credit {
+    position: absolute;
+    bottom: 8px;
+    right: 14px;
+    font-size: 10.5px;
+    color: rgba(255,255,255,0.75);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    z-index: 2;
+}
+
+.hero-banner-credit a {
+    color: rgba(255,255,255,0.85);
+}
+
+
+/* ===================== Carte "fiche" (.map-wrapper) ===================== */
+
+.map-wrapper {
+    margin: 25px 0 0;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 6px 24px rgba(30, 50, 20, 0.10);
+}
+
+#map {
+    /* Remplace flex:1 1 auto (qui remplissait tout le viewport) par une hauteur fixe */
+    flex: none;
+    width: 100%;
+    height: 455px;
+    min-height: 0;
+}
+
+
+/* ===================== Compatibilité mode plein écran ===================== */
+/* Le plein écran (script.js + règles .map-view.fullscreen-active de style.css) continue de
+   fonctionner : #map reste un descendant de .map-view, donc "​.map-view.fullscreen-active #map
+   { height:100% }" s'applique toujours. On adapte seulement .hero-banner et .map-wrapper pour
+   qu'ils s'effacent proprement au lieu de garder leur taille/forme "carte de la page normale". */
+
+.map-view.fullscreen-active .hero-banner {
+    height: auto;
+    background-image: none;
+    padding: 10px 15px;
+}
+
+.map-view.fullscreen-active .hero-banner-credit {
+    display: none;
+}
+
+.map-view.fullscreen-active .map-wrapper {
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+    height: 100%;
+}
+
+
+/* ===================== Section "Parcourir par province" ===================== */
+
+#provinces-section {
+    background-color: #f7f9f6;
+    padding: 25px 20px 60px;
+}
+
+.provinces-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.provinces-container h2 {
+    margin: 0 0 28px;
+    font-size: 26px;
+    color: #333;
+    text-align: center;
+}
+
+.province-tiles-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.province-tile {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    border-radius: 14px;
+    overflow: hidden;
+    padding-top: 75%; /* ratio 4:3, technique padding-bottom pour compatibilité large */
+    background-size: cover;
+    background-position: center;
+    background-color: #dfe8da;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 2px 10px rgba(30, 50, 20, 0.06);
+}
+
+.province-tile:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(30, 50, 20, 0.14);
+}
+
+.province-tile-name {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 10px 12px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14.5px;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+}
+
+
+/* ===================== Footer : plus fixe, suit le flux normal de page ===================== */
+
+footer {
+    position: static;
+}
+
+body {
+    /* Plus besoin de réserver la place du footer fixe (voir --footer-height dans style.css) */
+    padding-bottom: 0;
+}
+
+
+/* ===================== Responsive (même palier que style.css : 1024px) ===================== */
+
+@media (max-width: 1024px) {
+    .hero-banner {
+        height: 230px;
+    }
+
+    #map {
+        height: 320px;
+    }
+
+    .province-tiles-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .province-tiles-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+/* ===================== Fil d'Ariane région > province dans les popups de terrain ===================== */
+
+.popup-breadcrumb {
+    font-size: 11.5px;
+    color: #888;
+    margin-bottom: 4px;
+}
+
+.popup-breadcrumb a {
+    color: #74C15A;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.popup-breadcrumb a:hover {
+    text-decoration: underline;
+}

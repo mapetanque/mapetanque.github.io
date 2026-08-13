@@ -1,0 +1,468 @@
+/* ==========================================================================================
+   style-province.css
+   Feuille additive chargée APRÈS /style.css — n'en modifie aucune règle existante.
+   Même stratégie que style-accueil-provinces.css (page d'accueil) : les éléments remplacés
+   visuellement (#stats-section, #browseListBtn, .add-terrain-link-wrapper) sont seulement
+   masqués, jamais supprimés — leur JS continue de fonctionner normalement.
+   ========================================================================================== */
+
+
+/* ===================== Masquage des éléments remplacés (jamais supprimés) ===================== */
+
+#stats-section,
+#browseListBtn,
+.add-terrain-link-wrapper {
+    display: none;
+}
+
+/* Barre de recherche + "Me localiser" masqués sur les pages province : la carte est déjà
+   zoomée automatiquement sur la province au chargement, page plus épurée. Le formulaire reste
+   dans le DOM (juste invisible) car le script de la page l'utilise en coulisses pour la
+   recherche automatique et pour les clics sur les communes. */
+.controls {
+    display: none;
+}
+
+
+/* ===================== Bannière photo (.hero-banner) ===================== */
+
+.map-view {
+    height: auto;
+}
+
+.hero-banner {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background-size: cover;
+    background-position: center 55%;
+}
+
+.hero-banner .brand,
+.hero-banner .hero-headline {
+    color: #fff;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+
+/* Logo + nav du haut détachés du flux, toujours ancrés en haut de la bannière, indépendamment
+   de la position du fil d'Ariane + titre (qui eux restent en bas). */
+.hero-banner .header-top-row {
+    position: absolute;
+    top: 18px;
+    left: 30px;
+    right: 30px;
+    z-index: 2;
+}
+
+.hero-banner .hero-headline {
+    text-shadow: 0 2px 8px rgba(0,0,0,0.55);
+    text-align: left;
+    font-size: 42px;
+    max-width: 700px;
+    margin: 14px 0 0;
+}
+
+.hero-banner .brand-tld {
+    color: rgba(255,255,255,0.75);
+}
+
+.hero-banner .info-nav-trigger,
+.hero-banner .lang-link {
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.hero-banner .info-nav-trigger:hover {
+    background: rgba(255,255,255,0.18);
+    color: #fff;
+}
+
+.hero-banner .lang-link {
+    color: rgba(255,255,255,0.75);
+}
+
+.hero-banner .lang-link:hover {
+    color: #fff;
+}
+
+.hero-banner .lang-link.active {
+    color: #fff;
+    background: rgba(255,255,255,0.18);
+}
+
+.hero-banner #lang-switcher-inline {
+    border-left: 1px solid rgba(255,255,255,0.35);
+}
+
+.hero-banner-credit {
+    position: absolute;
+    bottom: 8px;
+    right: 14px;
+    font-size: 10.5px;
+    color: rgba(255,255,255,0.75);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    z-index: 2;
+}
+
+.hero-banner-credit a {
+    color: rgba(255,255,255,0.85);
+}
+
+.province-breadcrumb {
+    margin: 0 0 4px;
+    font-size: 13px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+
+.province-breadcrumb a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+}
+
+.province-breadcrumb a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.province-breadcrumb .sep {
+    opacity: 0.6;
+}
+
+.province-breadcrumb .current {
+    opacity: 1;
+    font-weight: bold;
+}
+
+
+/* ===================== Carte (incluse dans la fiche, même largeur que le contenu) ===================== */
+
+.province-map-title {
+    font-size: 19px;
+    color: #333;
+    margin: 6px 0 14px;
+}
+
+#map {
+    width: 100%;
+    height: 420px;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+
+/* ===================== Compatibilité mode plein écran ===================== */
+
+.map-view.fullscreen-active .hero-banner {
+    height: auto;
+    /* !important nécessaire : l'image de fond est posée en style="" directement sur la balise
+       (une image différente par province), qui passe toujours devant une règle CSS classique. */
+    background-image: none !important;
+    padding: 10px 15px;
+}
+
+.map-view.fullscreen-active .hero-banner-credit,
+.map-view.fullscreen-active .province-breadcrumb {
+    display: none;
+}
+
+/* La fiche qui contient la carte s'efface (plus de padding/coins arrondis/ombre) pour laisser
+   #map occuper tout l'espace disponible — la règle "height:100%" sur #map vient de style.css
+   (non modifié), on l'aide juste à s'appliquer correctement ici. */
+.map-view.fullscreen-active .province-content-top {
+    max-width: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.map-view.fullscreen-active .province-intro,
+.map-view.fullscreen-active .province-stats-tiles,
+.map-view.fullscreen-active .province-map-title {
+    display: none;
+}
+
+.map-view.fullscreen-active #map {
+    border-radius: 0;
+    flex: 1 1 auto;
+}
+
+
+/* ===================== Contenu province (carte blanche flottante) ===================== */
+
+.province-content {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 44px 44px 60px;
+    background: #fff;
+    border-radius: 22px;
+    box-shadow: 0 6px 28px rgba(30, 50, 20, 0.08);
+    box-sizing: border-box;
+}
+
+/* Bloc du haut (intro + tuiles) : élément flex à l'intérieur de .map-view, même technique de
+   centrage explicite que .map-wrapper pour éviter toute ambiguïté de calcul de taille. */
+.province-content-top {
+    align-self: center;
+    margin: 25px 0 0;
+    padding-bottom: 34px;
+}
+
+/* Bloc du bas (liste des communes) : flux normal de page, en dehors de .map-view. */
+.province-content-bottom {
+    margin: 0 auto 30px;
+    padding-top: 34px;
+}
+
+.province-intro {
+    font-size: 16px;
+    line-height: 1.65;
+    color: #444;
+    margin: 0 0 32px;
+}
+
+.province-stats-tiles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 0;
+}
+
+.province-stat-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 110px;
+    background: white;
+    border: 1px solid #e2e6de;
+    border-radius: 12px;
+    padding: 18px 10px;
+    box-sizing: border-box;
+}
+
+.province-stat-tile-number {
+    font-weight: 700;
+    font-size: 26px;
+    color: #333;
+    line-height: 1;
+}
+
+.province-stat-tile-label {
+    font-size: 12.5px;
+    color: #666;
+    margin-top: 7px;
+    line-height: 1.3;
+}
+
+.province-communes-section h2 {
+    font-size: 19px;
+    color: #333;
+    margin: 0 0 16px;
+}
+
+.commune-search {
+    width: 100%;
+    max-width: 360px;
+    box-sizing: border-box;
+    padding: 10px 14px;
+    font-size: 14px;
+    border: 1px solid #e2e6de;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-family: inherit;
+    display: block;
+}
+
+.commune-search:focus {
+    outline: none;
+    border-color: #74C15A;
+}
+
+.commune-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 60px;
+    row-gap: 4px;
+}
+
+.commune-item {
+    border-bottom: 1px solid #f0f2ee;
+}
+
+.commune-item a {
+    display: block;
+    padding: 11px 2px;
+    text-decoration: none;
+    font-size: 14.5px;
+    color: #444;
+    font-weight: 600;
+    transition: color 0.15s ease;
+}
+
+.commune-item a:hover {
+    color: #74C15A;
+}
+
+.commune-count {
+    font-weight: 400;
+    color: #999;
+}
+
+.commune-no-result {
+    text-align: center;
+    color: #999;
+    font-size: 13px;
+    font-style: italic;
+    padding: 20px 0;
+    display: none;
+    grid-column: 1 / -1;
+}
+
+
+/* ===================== Autres provinces (navigation) ===================== */
+
+.other-provinces-section {
+    margin-top: 40px;
+    padding-top: 34px;
+    border-top: 1px solid #f0f2ee;
+}
+
+.other-provinces-section h2 {
+    font-size: 19px;
+    color: #333;
+    margin: 0 0 18px;
+}
+
+.other-provinces-group {
+    margin-bottom: 16px;
+}
+
+.other-provinces-group:last-child {
+    margin-bottom: 0;
+}
+
+.other-provinces-group-label {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #999;
+    margin-bottom: 8px;
+}
+
+.other-provinces-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.other-provinces-links a {
+    display: inline-block;
+    padding: 7px 14px;
+    background: #f7f9f6;
+    border: 1px solid #e2e6de;
+    border-radius: 20px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #444;
+    text-decoration: none;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.other-provinces-links a:hover {
+    background: #74C15A;
+    border-color: #74C15A;
+    color: #fff;
+}
+
+
+/* ===================== Footer : plus fixe, suit le flux normal de page ===================== */
+
+footer {
+    position: static;
+}
+
+body {
+    padding-bottom: 0;
+}
+
+
+/* ===================== Responsive (même palier que style.css : 1024px) ===================== */
+
+@media (max-width: 1024px) {
+    .hero-banner {
+        height: 230px;
+    }
+
+    /* Sans ça, notre H1 (42px, plus spécifique) écrase la réduction mobile prévue par
+       style.css pour .hero-headline (32px -> 22px) : même réduction proportionnelle
+       appliquée ici, pour rester cohérent avec le comportement de la page d'accueil. */
+    .hero-banner .hero-headline {
+        font-size: 28px;
+        max-width: 100%;
+    }
+
+    /* Même chose pour le logo/menu du haut : détachés du flux normal (position absolute) pour
+       rester ancrés en haut de la bannière, ils n'héritent donc pas de la réduction mobile de
+       padding de .header prévue par style.css (30px -> 15px) — on la reproduit ici à l'identique
+       pour rester cohérent avec la page d'accueil, qui elle bénéficie de cette réduction
+       automatiquement (son .header-top-row est resté en flux normal). */
+    .hero-banner .header-top-row {
+        top: 14px;
+        left: 15px;
+        right: 15px;
+    }
+
+    #map {
+        height: 320px;
+    }
+
+    .province-stats-tiles {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    .province-content {
+        padding: 28px 18px 50px;
+    }
+
+    .commune-list {
+        grid-template-columns: 1fr;
+        column-gap: 0;
+    }
+}
+
+
+/* ===================== Fil d'Ariane région > province dans les popups de terrain ===================== */
+
+.popup-breadcrumb {
+    font-size: 11.5px;
+    color: #888;
+    margin-bottom: 4px;
+}
+
+.popup-breadcrumb a {
+    color: #74C15A;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.popup-breadcrumb a:hover {
+    text-decoration: underline;
+}

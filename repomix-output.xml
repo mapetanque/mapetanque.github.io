@@ -47,6 +47,10 @@ The content is organized as follows:
     update-osm.yml
 data/
   stats_geo.json
+de/
+  index.html
+nl/
+  index.html
 scripts/
   update_terrains.py
 .repomixignore
@@ -73,6 +77,152 @@ This section contains the contents of the repository's files.
     ]
   }
 }
+</file>
+
+<file path=".repomixignore">
+node_modules/
+.git/
+venv/
+.vscode/
+data/terrains.geojson
+data/stats.geojson
+repomix-output.xml
+LICENSE
+google22d25b80f0760f5.html
+images/
+</file>
+
+<file path="google2225db80bf0760f5.html">
+google-site-verification: google2225db80bf0760f5.html
+</file>
+
+<file path="NOTES_terrains_insolites.md">
+# 🔎 Exploration : terrains de pétanque insolites (usage perso / futurs articles)
+
+---
+
+## Catégories envisagées et faisabilité
+
+| Catégorie | Faisabilité | Méthode |
+|---|---|---|
+| Plus grands / plus de terrains côte à côte | ⚠️ Requête + tri manuel | Overpass sort la géométrie, mais ne calcule pas les surfaces ni ne détecte les regroupements — tri à faire après coup (tableur ou petit script) |
+| Plus isolés (loin de toute voirie) | ⚠️ Requête + calcul | Nécessite un calcul de distance à la route la plus proche (QGIS ou script Python + `shapely`) — pas natif dans Overpass |
+| Moins isolés (centre-ville) | ⚠️ Requête + calcul | Idem |
+| **Les "plus beaux"** (parc, Ravel, rivière, tourisme) | ✅ Requête directe | Filtre spatial `around:` vers `leisure=park`, `waterway=river`, `tourism=*`, réseaux cyclables/pédestres |
+| **Les mieux équipés** (éclairage, pique-nique, aire de jeux) | ✅ Requête directe | Tag `lit=yes` + proximité `leisure=playground` / `amenity=picnic_table` |
+| **Terrains qui portent un nom** | ✅ Requête directe | Filtre simple sur la présence du tag `name` |
+| **Près d'un bar (idéalement avec terrasse)** | ✅ Requête directe | Proximité `amenity=bar/pub` — ⚠️ la présence d'une terrasse est mal renseignée sur OSM, à vérifier sur place |
+| **Près d'une brasserie** | ✅ Requête directe | Proximité `craft=brewery` |
+| **Près d'un château ou d'une abbaye/monastère** | ✅ Requête directe | Proximité `historic=castle` / `historic=monastery` |
+| Terrains couverts strictement publics | ❌ Non exploitable actuellement | Testé : les seuls terrains `indoor=yes` trouvés en Belgique sont des clubs privés, aucun terrain couvert public identifiable sur OSM à ce jour |
+
+Autres pistes évoquées mais non explorées davantage : terrains en camping, près d'une piscine extérieure, en zone industrielle, multi-sports (tag `sport` combiné), en cimetière, avec revêtement inhabituel, tagués `access=private`.
+
+## Requêtes Overpass retenues (Liège, adaptables à toute la Belgique)
+
+Zone de référence utilisée : `area["name"="Liège"]["admin_level"="8"]["boundary"="administrative"]`
+(pour toute la Belgique : `area["ISO3166-1"="BE"]["admin_level"="2"]`)
+
+### 1. Les "plus beaux"
+```
+[out:json][timeout:60];
+area["name"="Liège"]["admin_level"="8"]["boundary"="administrative"]->.liege;
+nwr["leisure"="pitch"]["sport"~"petanque|boules"]["access"!="private"](area.liege)->.terrains;
+(
+  nwr(around.terrains:50)["leisure"="park"];
+  nwr(around.terrains:50)["waterway"="river"];
+  nwr(around.terrains:50)["tourism"];
+  nwr(around.terrains:50)["route"~"bicycle|foot"]["network"~"rcn|rwn|ncn|nwn"];
+)->.points_interet;
+nwr.terrains(around.points_interet:50);
+out center tags;
+```
+
+### 2. Les mieux équipés
+```
+[out:json][timeout:60];
+area["name"="Liège"]["admin_level"="8"]["boundary"="administrative"]->.liege;
+nwr["leisure"="pitch"]["sport"~"petanque|boules"]["access"!="private"](area.liege)->.terrains;
+(
+  nwr(around.terrains:30)["leisure"="playground"];
+  nwr(around.terrains:30)["amenity"="picnic_table"];
+)->.equipements;
+(
+  nwr.terrains["lit"="yes"];
+  nwr.terrains(around.equipements:30);
+);
+out center tags;
+```
+
+### 3. Terrains qui portent un nom
+```
+[out:json][timeout:60];
+area["name"="Liège"]["admin_level"="8"]["boundary"="administrative"]->.liege;
+nwr["leisure"="pitch"]["sport"~"petanque|boules"]["access"!="private"]["name"](area.liege);
+out center tags;
+```
+
+### 4. Près d'un bar
+```
+[out:json][timeout:60];
+area["name"="Liège"]["admin_level"="8"]["boundary"="administrative"]->.liege;
+nwr["leisure"="pitch"]["sport"~"petanque|boules"]["access"!="private"](area.liege)->.terrains;
+(
+  nwr(around.terrains:50)["amenity"~"bar|pub"];
+)->.bars;
+nwr.terrains(around.bars:50);
+out center tags;
+```
+
+### 5. Près d'une brasserie
+```
+[out:json][timeout:60];
+area["name"="Liège"]["admin_level"="8"]["boundary"="administrative"]->.liege;
+nwr["leisure"="pitch"]["sport"~"petanque|boules"]["access"!="private"](area.liege)->.terrains;
+nwr(around.terrains:150)["craft"="brewery"]->.brasseries;
+nwr.terrains(around.brasseries:150);
+out center tags;
+```
+
+### 6. Près d'un château ou d'une abbaye/monastère
+```
+[out:json][timeout:60];
+area["name"="Liège"]["admin_level"="8"]["boundary"="administrative"]->.liege;
+nwr["leisure"="pitch"]["sport"~"petanque|boules"]["access"!="private"](area.liege)->.terrains;
+(
+  nwr(around.terrains:200)["historic"="castle"];
+  nwr(around.terrains:200)["historic"="monastery"];
+)->.patrimoine;
+nwr.terrains(around.patrimoine:200);
+out center tags;
+```
+
+---
+
+## Terrains identifiés sur Liège
+Six terrains repérés, avec un itinéraire en boucle depuis le **Château de Fayenbois** (50.6315961, 5.6416968) :
+
+| # | Lieu | Coordonnées | Description |
+|---|---|---|---|
+| 1 | Grivegnée — square avec fontaine | 50.6182401, 5.6106787 | Terrain dans un square calme, nombreux bancs |
+| 2 | Grivegnée — nouveau terrain | 50.6215596, 5.5991553 | Petit square, plaine de jeux, fontaine d'eau potable |
+| 3 | Boulodrome d'Outremeuse | 50.6446584, 5.581959 | Deux terrains publics le long de la Meuse, à l'ombre des arbres |
+| 4 | Cointe — plaine des sports | 50.6217713, 5.5603485 | Près du parc communal (foot, athlétisme, streetworkout...) |
+| 5 | Angleur — parc du château de Péralta | 50.610604, 5.5859395 | En surplomb du parc, cafétéria du hall omnisport à proximité |
+| 6 | Chênée | 50.6097802, 5.6214508 | 2 terrains partiellement ombragés, parking et bancs |
+
+## Idées non testées, à explorer plus tard
+
+- Angle "brasserie + patrimoine" combiné pour un article dédié ("les terrains les plus insolites de Liège")
+- Élargir les 6 requêtes retenues à toute la Belgique (juste changer la zone de référence)
+- Pour les catégories "plus grands" / "plus/moins isolés" : passer par un export Overpass + tri dans un tableur, ou script Python avec `shapely` pour les calculs de distance/surface
+</file>
+
+<file path="robots.txt">
+User-agent: *
+Allow: /
+
+Sitemap: https://mapetanque.github.io/sitemap.xml
 </file>
 
 <file path=".github/workflows/update-osm.yml">
@@ -105,6 +255,8 @@ jobs:
           pip install requests
 
       - name: Mise à jour des terrains
+        env:
+          MAPILLARY_TOKEN: ${{ secrets.MAPILLARY_TOKEN }}
         run: |
           python scripts/update_terrains.py
 
@@ -126,10 +278,10 @@ jobs:
     "total": 449,
     "provinces": {
       "liege": {
-        "total": 160,
+        "total": 159,
         "communes": {
           "Fléron": 3,
-          "Liège": 26,
+          "Liège": 25,
           "Ougrée": 1,
           "Filot": 1,
           "Bütgenbach": 1,
@@ -138,7 +290,7 @@ jobs:
           "Visé": 2,
           "Blegny": 4,
           "Wanze": 2,
-          "Remicourt": 1,
+          "Pousset": 1,
           "Braives": 2,
           "Malmedy": 3,
           "Fexhe-le-Haut-Clocher": 1,
@@ -275,7 +427,7 @@ jobs:
           "Torgny": 1,
           "Journal": 1,
           "Opont": 1,
-          "Straimont": 1,
+          "Herbeumont": 1,
           "Fauvillers": 1,
           "Durbuy": 2,
           "Houffalize": 1,
@@ -285,7 +437,7 @@ jobs:
         }
       },
       "brabant_wallon": {
-        "total": 48,
+        "total": 49,
         "communes": {
           "Walhain-Saint-Paul": 2,
           "Genappe": 1,
@@ -293,7 +445,7 @@ jobs:
           "Rixensart": 1,
           "Wauthier-Braine": 3,
           "Braine-le-Château": 3,
-          "Tubize": 7,
+          "Tubize": 8,
           "Bierghes": 1,
           "Perwez": 4,
           "Braine-l'Alleud": 4,
@@ -306,7 +458,7 @@ jobs:
           "Villers-la-Ville": 2,
           "Rebecq-Rognon": 1,
           "Ramillies": 1,
-          "Incourt": 1,
+          "Roux-Miroir": 1,
           "Beauvechain": 1
         }
       },
@@ -498,7 +650,7 @@ jobs:
           "Hamme": 4,
           "Sint-Martens-Latem": 5,
           "Aalst": 13,
-          "Sinaai": 4,
+          "Sint-Niklaas": 13,
           "Mere": 2,
           "Etikhove": 1,
           "De Pinte": 8,
@@ -514,6 +666,7 @@ jobs:
           "Deinze": 9,
           "Gijzenzele": 1,
           "Zingem": 2,
+          "Sinaai": 3,
           "Assenede": 1,
           "Lede": 4,
           "Merelbeke": 9,
@@ -524,15 +677,14 @@ jobs:
           "Moerbeke": 1,
           "Kieldrecht": 1,
           "Lokeren": 14,
-          "Belsele": 1,
-          "Temse": 2,
+          "Temse": 3,
           "Watervliet": 1,
           "Neigem": 1,
           "Doorslaar": 1,
           "Waarschoot": 2,
           "Laarne": 2,
           "Lovendegem": 1,
-          "Steendorp": 2,
+          "Steendorp": 1,
           "Zevergem": 1,
           "Landskouter": 1,
           "Lochristi": 1,
@@ -541,7 +693,6 @@ jobs:
           "Machelen": 1,
           "Oostwinkel": 1,
           "Sint-Gillis-Waas": 2,
-          "Sint-Niklaas": 11,
           "Evergem": 1,
           "voormalige gemeente Ooike": 1,
           "Stekene": 2,
@@ -711,6 +862,496 @@ jobs:
 }
 </file>
 
+<file path="de/index.html">
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Mapetanque Belgien — Karte der Pétanque-Plätze in Belgien</title>
+    <meta name="description" id="meta-description" content="Mapetanque.be zeigt auf einer interaktiven Karte alle öffentlich zugänglichen Pétanque-Plätze in Belgien, mit Standortsuche nach Stadt oder Region.">
+    <link rel="icon" type="image/svg+xml" href="/images/logomap.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Open Graph : aperçu affiché lors du partage du lien (WhatsApp, Facebook, etc.) -->
+    <meta property="og:title" content="Mapetanque Belgien — Karte der Pétanque-Plätze in Belgien">
+    <meta property="og:description" content="Mapetanque.be zeigt auf einer interaktiven Karte alle öffentlich zugänglichen Pétanque-Plätze in Belgien, mit Standortsuche nach Stadt oder Region.">
+    <meta property="og:image" content="https://mapetanque.github.io/images/logomap.png">
+    <meta property="og:url" content="https://mapetanque.github.io/de/">
+    <meta property="og:type" content="website">
+
+    <!-- Versions par langue : indique à Google que /, /nl/ et /de/ sont la même page en 3
+         langues, et non 3 pages de contenu dupliqué. Ce bloc doit être identique (mêmes 4
+         lignes) dans les <head> de /index.html, /nl/index.html et /de/index.html. -->
+    <link rel="canonical" href="https://mapetanque.github.io/de/">
+    <link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/">
+    <link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/">
+    <link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/">
+    <link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/">
+
+    <!-- Police des titres (Quicksand, un seul poids chargé pour rester léger) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Bibliothèque Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+
+    <!-- Feuille de style du site (chemin absolu : ce même fichier index.html est aussi servi
+         depuis /nl/ et /de/, un chemin relatif irait chercher /nl/style.css et casserait tout) -->
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div class="map-view" id="top">
+
+<div class="header">
+
+    <div class="header-top-row">
+        <a href="#top" class="brand-link">
+            <svg class="logo" viewBox="0 0 878 884" aria-hidden="true">
+                <path d="M424.499,112.128C439.588,112.168 439.514,111.999 454.535,113.252C459.282,113.647 464.985,126.287 468.428,132.54C493.822,178.652 509.506,246.447 512.842,263.422C526.266,331.73 534.962,392.68 530.995,497.518C530.73,504.523 532.222,510.697 526.548,510.074C486.775,505.708 418.691,489.158 409.409,486.902C341.188,470.318 196.794,419.279 126.375,344.613C116.876,334.541 108.935,326.226 110.547,322.519C166.783,193.217 295.634,112.983 424.499,112.128Z" style="fill:rgb(0,197,47);"/>
+                <path d="M323.995,777.029C323.912,775.739 324.142,775.825 325.23,775.274C355.62,759.894 400.469,704.642 369.737,638.388C334.216,561.808 212.168,551.036 166.882,640.677C157.245,659.752 159.137,674.474 155.349,669.692C132.912,641.373 125.231,625.974 121.202,618.662C62.664,512.423 85.368,404.962 87.77,395.633C89.088,390.514 107.272,419.126 187.29,462.882C284.724,516.16 395.602,541.393 414.463,545.686C514.476,568.446 526.353,560.436 525.158,567.446C522.169,584.997 521.573,607.623 506.699,664.563C498.834,694.669 495.492,701.689 492.174,711.382C482.494,739.658 459.679,782.477 454.579,783.706C453.65,783.93 439.298,785.77 437.531,785.88C388.91,788.907 370.416,787.255 323.995,777.029Z" style="fill:rgb(0,197,47);"/>
+                <path d="M751.947,414.476C752.392,421.598 755.056,464.245 746.578,503.518C746.139,505.555 746.093,507.227 715.57,511.981C663.956,520.02 589.643,517.532 587.708,515.292C585.652,512.911 590.985,470.859 585.771,398.481C576.52,270.067 553.298,197.303 523.767,131.39C523.228,130.188 519.23,124.88 523.526,126.209C645.086,163.82 740.976,269.929 751.947,414.476Z" style="fill:rgb(0,197,47);"/>
+                <path d="M720.315,584.413C662.254,708.15 561.132,749.553 541.613,758.921C537.914,760.696 538.18,758.744 538.254,758.484C538.377,758.05 549.128,738.3 564.299,678.456C576.691,629.572 580.983,585.687 581.781,577.532C582.508,570.096 583.875,569.77 584.527,569.615C593.043,567.585 613.097,574.573 695.536,565.78C719.879,563.183 729.606,559.289 729.92,561.317C730.132,562.689 721.139,582.59 720.315,584.413Z" style="fill:rgb(0,197,47);"/>
+            </svg>
+            <span class="brand"><span class="brand-map">Map</span>etanque<span class="brand-tld">.be</span></span>
+        </a>
+
+        <!-- Navigation desktop : liens directs vers le panneau d'info + sélecteur de langue discret -->
+        <nav id="desktop-nav">
+            <button type="button" class="info-nav-trigger" data-target="about" data-i18n="menu_about">À propos</button>
+            <button type="button" class="info-nav-trigger" data-target="faq" data-i18n="menu_faq">FAQ</button>
+            <button type="button" class="info-nav-trigger" data-target="contact" data-i18n="menu_contact">Nous contacter</button>
+            <span id="lang-switcher-inline">
+                <button type="button" class="lang-link" data-lang="fr">FR</button>
+                <button type="button" class="lang-link" data-lang="nl">NL</button>
+                <button type="button" class="lang-link" data-lang="de">DE</button>
+            </span>
+        </nav>
+
+        <!-- Menu burger (mobile uniquement) -->
+        <button id="menu-button" data-i18n-aria="open_menu">
+            ☰
+        </button>
+
+        <nav id="side-menu">
+            <button id="close-menu" data-i18n-aria="close_menu">
+                ✕
+            </button>
+
+            <ul>
+                <li><a href="#about" data-i18n="menu_about">À propos</a></li>
+                <li><a href="#faq" data-i18n="menu_faq">FAQ</a></li>
+                <li><a href="#contact" data-i18n="menu_contact">Nous contacter</a></li>
+            </ul>
+
+            <!-- Sélecteur de langue discret, plus de bouton en évidence : la détection automatique
+                 (navigateur + mémorisation locale) suffit dans l'immense majorité des cas, ceci reste
+                 disponible en repli pour corriger manuellement si besoin. -->
+            <div id="side-menu-lang">
+                <button type="button" class="lang-link" data-lang="fr">FR</button>
+                <button type="button" class="lang-link" data-lang="nl">NL</button>
+                <button type="button" class="lang-link" data-lang="de">DE</button>
+            </div>
+        </nav>
+
+        <div id="menu-overlay"></div>
+    </div>
+
+    <p class="hero-headline" data-i18n="hero_headline">Trouvez un terrain de pétanque public</p>
+
+</div>
+
+<div class="controls">
+    <button id="locateBtn">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        <span data-i18n="locate_btn">Me localiser</span>
+    </button>
+
+    <form id="searchForm" class="search-form">
+        <input
+            type="text"
+            id="searchInput"
+            data-i18n-placeholder="search_placeholder"
+            autocomplete="off"
+        >
+        <button type="submit" id="searchBtn" aria-label="Rechercher">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </button>
+    </form>
+
+    <a href="#stats-section" id="browseListBtn">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+        <span data-i18n="browse_list_btn">Parcourir la liste</span>
+    </a>
+</div>
+
+<p class="add-terrain-link-wrapper">
+    <a href="#" id="add-terrain-link" data-i18n="add_terrain_link">Ajouter un terrain de pétanque</a>
+</p>
+
+<p id="searchError" class="search-error"></p>
+
+<!-- Panneau de partage réutilisable (site ou terrain précis) -->
+<div id="share-overlay"></div>
+<div id="share-panel">
+    <button id="share-close" data-i18n-aria="close_panel">✕</button>
+    <p id="share-title" class="share-title"></p>
+
+    <div class="share-links">
+        <a id="share-whatsapp" class="share-link" target="_blank" rel="noopener">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></span><span data-i18n="share_whatsapp">WhatsApp</span>
+        </a>
+        <a id="share-facebook" class="share-link" target="_blank" rel="noopener">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></span><span data-i18n="share_facebook">Facebook</span>
+        </a>
+        <a id="share-twitter" class="share-link" target="_blank" rel="noopener">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><span data-i18n="share_twitter">X (Twitter)</span>
+        </a>
+        <a id="share-email" class="share-link">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span><span data-i18n="share_email">E-mail</span>
+        </a>
+        <button type="button" id="share-copy" class="share-link">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></span><span id="share-copy-label" data-i18n="share_copy">Copier le lien</span>
+        </button>
+    </div>
+</div>
+
+<div id="map"></div>
+
+</div><!-- /.map-view -->
+
+<!-- Section statistiques : contenu HTML normal, toujours dans le DOM et indexable, comme n'importe quelle page. -->
+<section id="stats-section">
+    <div class="stats-container">
+        <h2 data-i18n="stats_page_title">Statistiques</h2>
+
+        <div class="stats-headline">
+            <span class="stats-headline-number">…</span>
+            <span class="stats-headline-label" data-i18n="stats_headline_label">terrains de pétanque recensés en Belgique</span>
+        </div>
+
+        <!-- Contenu construit dynamiquement en JS depuis data/stats_geo.json (voir construireStatsGeo
+             dans script.js), au chargement de la page et à chaque changement de langue — pas au clic,
+             donc indexable normalement, comme le reste des données de la carte. -->
+        <div id="stats-regions-tiles" class="stats-regions-tiles"></div>
+
+        <div id="stats-geo-tree"></div>
+    </div>
+</section>
+
+<!-- Panneau d'info coulissant -->
+<aside id="info-panel">
+    <button id="close-info" data-i18n-aria="close_panel">✕</button>
+
+    <nav id="info-nav">
+        <button type="button" class="info-nav-link" data-target="about" data-i18n="menu_about">À propos</button>
+        <button type="button" class="info-nav-link" data-target="faq" data-i18n="menu_faq">FAQ</button>
+        <button type="button" class="info-nav-link" data-target="contact" data-i18n="menu_contact">Contact</button>
+    </nav>
+
+    <!-- Contenu construit une seule fois au chargement (et à chaque changement de langue),
+         puis simplement affiché/masqué au clic : reste dans le DOM, donc indexable par Google. -->
+    <div id="info-content">
+        <div class="info-page" id="info-page-about"></div>
+        <div class="info-page" id="info-page-faq"></div>
+        <div class="info-page" id="info-page-contact"></div>
+    </div>
+</aside>
+<div id="info-overlay"></div>
+
+<footer>
+    <div class="footer-content">
+        <p class="footer-small">
+            <span id="site-stats"></span>
+        </p>
+
+        <div class="footer-share">
+            <a id="footer-share-whatsapp" class="footer-share-icon" target="_blank" rel="noopener" data-i18n-aria="share_whatsapp" aria-label="WhatsApp">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            </a>
+            <a id="footer-share-facebook" class="footer-share-icon" target="_blank" rel="noopener" data-i18n-aria="share_facebook" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+            </a>
+            <a id="footer-share-twitter" class="footer-share-icon" target="_blank" rel="noopener" data-i18n-aria="share_twitter" aria-label="X (Twitter)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </a>
+            <a id="footer-share-email" class="footer-share-icon" data-i18n-aria="share_email" aria-label="E-mail">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </a>
+            <span class="footer-share-copy-wrapper">
+                <button type="button" id="footer-share-copy" class="footer-share-icon" data-i18n-aria="share_copy" aria-label="Copier le lien">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                </button>
+                <span id="copy-tooltip" class="copy-tooltip"></span>
+            </span>
+        </div>
+    </div>
+</footer>
+
+<!-- Bibliothèque Leaflet -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
+<!-- Traductions -->
+<script src="/translations.js"></script>
+
+<!-- Script du site -->
+<script src="/script.js"></script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
+
+</body>
+</html>
+</file>
+
+<file path="nl/index.html">
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Mapetanque België — Kaart van petanquebanen in België</title>
+    <meta name="description" id="meta-description" content="Mapetanque.be toont op een interactieve kaart alle openbare petanquebanen in België, met geolocatie en zoeken op stad of regio.">
+    <link rel="icon" type="image/svg+xml" href="/images/logomap.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Open Graph : aperçu affiché lors du partage du lien (WhatsApp, Facebook, etc.) -->
+    <meta property="og:title" content="Mapetanque België — Kaart van petanquebanen in België">
+    <meta property="og:description" content="Mapetanque.be toont op een interactieve kaart alle openbare petanquebanen in België, met geolocatie en zoeken op stad of regio.">
+    <meta property="og:image" content="https://mapetanque.github.io/images/logomap.png">
+    <meta property="og:url" content="https://mapetanque.github.io/nl/">
+    <meta property="og:type" content="website">
+
+    <!-- Versions par langue : indique à Google que /, /nl/ et /de/ sont la même page en 3
+         langues, et non 3 pages de contenu dupliqué. Ce bloc doit être identique (mêmes 4
+         lignes) dans les <head> de /index.html, /nl/index.html et /de/index.html. -->
+    <link rel="canonical" href="https://mapetanque.github.io/nl/">
+    <link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/">
+    <link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/">
+    <link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/">
+    <link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/">
+
+    <!-- Police des titres (Quicksand, un seul poids chargé pour rester léger) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Bibliothèque Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+
+    <!-- Feuille de style du site (chemin absolu : ce même fichier index.html est aussi servi
+         depuis /nl/ et /de/, un chemin relatif irait chercher /nl/style.css et casserait tout) -->
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div class="map-view" id="top">
+
+<div class="header">
+
+    <div class="header-top-row">
+        <a href="#top" class="brand-link">
+            <svg class="logo" viewBox="0 0 878 884" aria-hidden="true">
+                <path d="M424.499,112.128C439.588,112.168 439.514,111.999 454.535,113.252C459.282,113.647 464.985,126.287 468.428,132.54C493.822,178.652 509.506,246.447 512.842,263.422C526.266,331.73 534.962,392.68 530.995,497.518C530.73,504.523 532.222,510.697 526.548,510.074C486.775,505.708 418.691,489.158 409.409,486.902C341.188,470.318 196.794,419.279 126.375,344.613C116.876,334.541 108.935,326.226 110.547,322.519C166.783,193.217 295.634,112.983 424.499,112.128Z" style="fill:rgb(0,197,47);"/>
+                <path d="M323.995,777.029C323.912,775.739 324.142,775.825 325.23,775.274C355.62,759.894 400.469,704.642 369.737,638.388C334.216,561.808 212.168,551.036 166.882,640.677C157.245,659.752 159.137,674.474 155.349,669.692C132.912,641.373 125.231,625.974 121.202,618.662C62.664,512.423 85.368,404.962 87.77,395.633C89.088,390.514 107.272,419.126 187.29,462.882C284.724,516.16 395.602,541.393 414.463,545.686C514.476,568.446 526.353,560.436 525.158,567.446C522.169,584.997 521.573,607.623 506.699,664.563C498.834,694.669 495.492,701.689 492.174,711.382C482.494,739.658 459.679,782.477 454.579,783.706C453.65,783.93 439.298,785.77 437.531,785.88C388.91,788.907 370.416,787.255 323.995,777.029Z" style="fill:rgb(0,197,47);"/>
+                <path d="M751.947,414.476C752.392,421.598 755.056,464.245 746.578,503.518C746.139,505.555 746.093,507.227 715.57,511.981C663.956,520.02 589.643,517.532 587.708,515.292C585.652,512.911 590.985,470.859 585.771,398.481C576.52,270.067 553.298,197.303 523.767,131.39C523.228,130.188 519.23,124.88 523.526,126.209C645.086,163.82 740.976,269.929 751.947,414.476Z" style="fill:rgb(0,197,47);"/>
+                <path d="M720.315,584.413C662.254,708.15 561.132,749.553 541.613,758.921C537.914,760.696 538.18,758.744 538.254,758.484C538.377,758.05 549.128,738.3 564.299,678.456C576.691,629.572 580.983,585.687 581.781,577.532C582.508,570.096 583.875,569.77 584.527,569.615C593.043,567.585 613.097,574.573 695.536,565.78C719.879,563.183 729.606,559.289 729.92,561.317C730.132,562.689 721.139,582.59 720.315,584.413Z" style="fill:rgb(0,197,47);"/>
+            </svg>
+            <span class="brand"><span class="brand-map">Map</span>etanque<span class="brand-tld">.be</span></span>
+        </a>
+
+        <!-- Navigation desktop : liens directs vers le panneau d'info + sélecteur de langue discret -->
+        <nav id="desktop-nav">
+            <button type="button" class="info-nav-trigger" data-target="about" data-i18n="menu_about">À propos</button>
+            <button type="button" class="info-nav-trigger" data-target="faq" data-i18n="menu_faq">FAQ</button>
+            <button type="button" class="info-nav-trigger" data-target="contact" data-i18n="menu_contact">Nous contacter</button>
+            <span id="lang-switcher-inline">
+                <button type="button" class="lang-link" data-lang="fr">FR</button>
+                <button type="button" class="lang-link" data-lang="nl">NL</button>
+                <button type="button" class="lang-link" data-lang="de">DE</button>
+            </span>
+        </nav>
+
+        <!-- Menu burger (mobile uniquement) -->
+        <button id="menu-button" data-i18n-aria="open_menu">
+            ☰
+        </button>
+
+        <nav id="side-menu">
+            <button id="close-menu" data-i18n-aria="close_menu">
+                ✕
+            </button>
+
+            <ul>
+                <li><a href="#about" data-i18n="menu_about">À propos</a></li>
+                <li><a href="#faq" data-i18n="menu_faq">FAQ</a></li>
+                <li><a href="#contact" data-i18n="menu_contact">Nous contacter</a></li>
+            </ul>
+
+            <!-- Sélecteur de langue discret, plus de bouton en évidence : la détection automatique
+                 (navigateur + mémorisation locale) suffit dans l'immense majorité des cas, ceci reste
+                 disponible en repli pour corriger manuellement si besoin. -->
+            <div id="side-menu-lang">
+                <button type="button" class="lang-link" data-lang="fr">FR</button>
+                <button type="button" class="lang-link" data-lang="nl">NL</button>
+                <button type="button" class="lang-link" data-lang="de">DE</button>
+            </div>
+        </nav>
+
+        <div id="menu-overlay"></div>
+    </div>
+
+    <p class="hero-headline" data-i18n="hero_headline">Trouvez un terrain de pétanque public</p>
+
+</div>
+
+<div class="controls">
+    <button id="locateBtn">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        <span data-i18n="locate_btn">Me localiser</span>
+    </button>
+
+    <form id="searchForm" class="search-form">
+        <input
+            type="text"
+            id="searchInput"
+            data-i18n-placeholder="search_placeholder"
+            autocomplete="off"
+        >
+        <button type="submit" id="searchBtn" aria-label="Rechercher">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </button>
+    </form>
+
+    <a href="#stats-section" id="browseListBtn">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+        <span data-i18n="browse_list_btn">Parcourir la liste</span>
+    </a>
+</div>
+
+<p class="add-terrain-link-wrapper">
+    <a href="#" id="add-terrain-link" data-i18n="add_terrain_link">Ajouter un terrain de pétanque</a>
+</p>
+
+<p id="searchError" class="search-error"></p>
+
+<!-- Panneau de partage réutilisable (site ou terrain précis) -->
+<div id="share-overlay"></div>
+<div id="share-panel">
+    <button id="share-close" data-i18n-aria="close_panel">✕</button>
+    <p id="share-title" class="share-title"></p>
+
+    <div class="share-links">
+        <a id="share-whatsapp" class="share-link" target="_blank" rel="noopener">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></span><span data-i18n="share_whatsapp">WhatsApp</span>
+        </a>
+        <a id="share-facebook" class="share-link" target="_blank" rel="noopener">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></span><span data-i18n="share_facebook">Facebook</span>
+        </a>
+        <a id="share-twitter" class="share-link" target="_blank" rel="noopener">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><span data-i18n="share_twitter">X (Twitter)</span>
+        </a>
+        <a id="share-email" class="share-link">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span><span data-i18n="share_email">E-mail</span>
+        </a>
+        <button type="button" id="share-copy" class="share-link">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></span><span id="share-copy-label" data-i18n="share_copy">Copier le lien</span>
+        </button>
+    </div>
+</div>
+
+<div id="map"></div>
+
+</div><!-- /.map-view -->
+
+<!-- Section statistiques : contenu HTML normal, toujours dans le DOM et indexable, comme n'importe quelle page. -->
+<section id="stats-section">
+    <div class="stats-container">
+        <h2 data-i18n="stats_page_title">Statistiques</h2>
+
+        <div class="stats-headline">
+            <span class="stats-headline-number">…</span>
+            <span class="stats-headline-label" data-i18n="stats_headline_label">terrains de pétanque recensés en Belgique</span>
+        </div>
+
+        <!-- Contenu construit dynamiquement en JS depuis data/stats_geo.json (voir construireStatsGeo
+             dans script.js), au chargement de la page et à chaque changement de langue — pas au clic,
+             donc indexable normalement, comme le reste des données de la carte. -->
+        <div id="stats-regions-tiles" class="stats-regions-tiles"></div>
+
+        <div id="stats-geo-tree"></div>
+    </div>
+</section>
+
+<!-- Panneau d'info coulissant -->
+<aside id="info-panel">
+    <button id="close-info" data-i18n-aria="close_panel">✕</button>
+
+    <nav id="info-nav">
+        <button type="button" class="info-nav-link" data-target="about" data-i18n="menu_about">À propos</button>
+        <button type="button" class="info-nav-link" data-target="faq" data-i18n="menu_faq">FAQ</button>
+        <button type="button" class="info-nav-link" data-target="contact" data-i18n="menu_contact">Contact</button>
+    </nav>
+
+    <!-- Contenu construit une seule fois au chargement (et à chaque changement de langue),
+         puis simplement affiché/masqué au clic : reste dans le DOM, donc indexable par Google. -->
+    <div id="info-content">
+        <div class="info-page" id="info-page-about"></div>
+        <div class="info-page" id="info-page-faq"></div>
+        <div class="info-page" id="info-page-contact"></div>
+    </div>
+</aside>
+<div id="info-overlay"></div>
+
+<footer>
+    <div class="footer-content">
+        <p class="footer-small">
+            <span id="site-stats"></span>
+        </p>
+
+        <div class="footer-share">
+            <a id="footer-share-whatsapp" class="footer-share-icon" target="_blank" rel="noopener" data-i18n-aria="share_whatsapp" aria-label="WhatsApp">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            </a>
+            <a id="footer-share-facebook" class="footer-share-icon" target="_blank" rel="noopener" data-i18n-aria="share_facebook" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+            </a>
+            <a id="footer-share-twitter" class="footer-share-icon" target="_blank" rel="noopener" data-i18n-aria="share_twitter" aria-label="X (Twitter)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </a>
+            <a id="footer-share-email" class="footer-share-icon" data-i18n-aria="share_email" aria-label="E-mail">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </a>
+            <span class="footer-share-copy-wrapper">
+                <button type="button" id="footer-share-copy" class="footer-share-icon" data-i18n-aria="share_copy" aria-label="Copier le lien">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                </button>
+                <span id="copy-tooltip" class="copy-tooltip"></span>
+            </span>
+        </div>
+    </div>
+</footer>
+
+<!-- Bibliothèque Leaflet -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
+<!-- Traductions -->
+<script src="/translations.js"></script>
+
+<!-- Script du site -->
+<script src="/script.js"></script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
+
+</body>
+</html>
+</file>
+
 <file path="scripts/update_terrains.py">
 import requests
 import json
@@ -718,6 +1359,7 @@ import time
 import sys
 import os
 import unicodedata
+import urllib.parse
 
 OVERPASS_SERVERS = [
     "https://overpass-api.de/api/interpreter",
@@ -888,6 +1530,73 @@ def recuperer_infos_adresse(lat, lon):
     return resultat
 
 
+# Token optionnel pour résoudre les tags mapillary=<id> en URL de vignette via l'API Mapillary.
+# Si absent (secret non configuré côté GitHub Actions), ces tags sont simplement ignorés plutôt
+# que de faire échouer tout le script — image= et wikimedia_commons= continuent de fonctionner
+# sans aucune clé, dans tous les cas.
+MAPILLARY_TOKEN = os.environ.get("MAPILLARY_TOKEN")
+
+
+def resoudre_wikimedia_commons(valeur):
+    """
+    Convertit un tag wikimedia_commons=File:XXX.jpg en URL d'image directement affichable,
+    via le mécanisme Special:FilePath de Wikimedia Commons (ne nécessite aucune clé d'API).
+    Retourne aussi l'URL de la page du fichier sur Commons (auteur/licence exacte), pour créditer
+    correctement la source plutôt que d'afficher juste l'image sans attribution.
+    """
+    nom_fichier = valeur.split(":", 1)[-1]  # retire un éventuel préfixe "File:"/"Fichier:"
+    url_image = f"https://commons.wikimedia.org/wiki/Special:FilePath/{urllib.parse.quote(nom_fichier)}?width=800"
+    url_credit = f"https://commons.wikimedia.org/wiki/{urllib.parse.quote(valeur)}"
+    return url_image, url_credit
+
+
+def resoudre_mapillary(image_id):
+    """
+    Résout un tag mapillary=<id> (photo choisie manuellement par un mappeur, pas une recherche
+    de proximité) en URL de vignette, via l'API Mapillary. Le lien de crédit pointe vers la page
+    d'accueil Mapillary : leurs conditions d'utilisation exigent d'attribuer visiblement la source
+    dès que leurs données/images sont affichées.
+    """
+    if not MAPILLARY_TOKEN:
+        return None
+    try:
+        response = requests.get(
+            f"https://graph.mapillary.com/{image_id}",
+            params={"access_token": MAPILLARY_TOKEN, "fields": "thumb_1024_url"},
+            timeout=10
+        )
+        response.raise_for_status()
+        return response.json().get("thumb_1024_url")
+    except Exception as e:
+        print(f"    ⚠ Erreur résolution photo Mapillary (id {image_id}) : {e}")
+        return None
+
+
+def resoudre_photo(tags):
+    """
+    Détermine la photo à afficher pour un terrain, par ordre de priorité :
+    1. image=<url>                    — déjà une URL directe, utilisable telle quelle
+    2. wikimedia_commons=File:XXX.jpg — convertie via Special:FilePath
+    3. mapillary=<id>                 — résolue via l'API Mapillary (nécessite MAPILLARY_TOKEN)
+    Retourne (url, source, url_credit) où source vaut "image"/"wikimedia_commons"/"mapillary",
+    et url_credit est le lien vers la source à créditer (None pour "image", aucune page de
+    référence connue dans ce cas). Retourne (None, None, None) si aucune photo n'est disponible.
+    """
+    if tags.get("image"):
+        return tags["image"], "image", None
+
+    if tags.get("wikimedia_commons"):
+        url_image, url_credit = resoudre_wikimedia_commons(tags["wikimedia_commons"])
+        return url_image, "wikimedia_commons", url_credit
+
+    if tags.get("mapillary"):
+        url = resoudre_mapillary(tags["mapillary"])
+        if url:
+            return url, "mapillary", "https://www.mapillary.com/"
+
+    return None, None, None
+
+
 print("Interrogation d'OpenStreetMap en cours...")
 
 osm_data = None
@@ -952,6 +1661,13 @@ for index, element in enumerate(osm_data["elements"], start=1):
     proprietes["commune"] = infos_adresse["commune"]
     proprietes["province"] = infos_adresse["province"]
     proprietes["region"] = infos_adresse["region"]
+
+    photo_url, photo_source, photo_credit_url = resoudre_photo(element.get("tags", {}))
+    if photo_url:
+        proprietes["photo_url"] = photo_url
+        proprietes["photo_source"] = photo_source
+        if photo_credit_url:
+            proprietes["photo_credit_url"] = photo_credit_url
 
     features.append({
         "type": "Feature",
@@ -1082,159 +1798,36 @@ if sans_region > 0:
 print(f"✓ {len(features)} terrains mis à jour")
 </file>
 
-<file path=".repomixignore">
-node_modules/
-.git/
-venv/
-.vscode/
-data/terrains.geojson
-data/stats.geojson
-repomix-output.xml
-LICENSE
-google22d25b80f0760f5.html
-images/
-</file>
-
-<file path="google2225db80bf0760f5.html">
-google-site-verification: google2225db80bf0760f5.html
-</file>
-
-<file path="NOTES_terrains_insolites.md">
-# 🔎 Exploration : terrains de pétanque insolites (usage perso / futurs articles)
-
----
-
-## Catégories envisagées et faisabilité
-
-| Catégorie | Faisabilité | Méthode |
-|---|---|---|
-| Plus grands / plus de terrains côte à côte | ⚠️ Requête + tri manuel | Overpass sort la géométrie, mais ne calcule pas les surfaces ni ne détecte les regroupements — tri à faire après coup (tableur ou petit script) |
-| Plus isolés (loin de toute voirie) | ⚠️ Requête + calcul | Nécessite un calcul de distance à la route la plus proche (QGIS ou script Python + `shapely`) — pas natif dans Overpass |
-| Moins isolés (centre-ville) | ⚠️ Requête + calcul | Idem |
-| **Les "plus beaux"** (parc, Ravel, rivière, tourisme) | ✅ Requête directe | Filtre spatial `around:` vers `leisure=park`, `waterway=river`, `tourism=*`, réseaux cyclables/pédestres |
-| **Les mieux équipés** (éclairage, pique-nique, aire de jeux) | ✅ Requête directe | Tag `lit=yes` + proximité `leisure=playground` / `amenity=picnic_table` |
-| **Terrains qui portent un nom** | ✅ Requête directe | Filtre simple sur la présence du tag `name` |
-| **Près d'un bar (idéalement avec terrasse)** | ✅ Requête directe | Proximité `amenity=bar/pub` — ⚠️ la présence d'une terrasse est mal renseignée sur OSM, à vérifier sur place |
-| **Près d'une brasserie** | ✅ Requête directe | Proximité `craft=brewery` |
-| **Près d'un château ou d'une abbaye/monastère** | ✅ Requête directe | Proximité `historic=castle` / `historic=monastery` |
-| Terrains couverts strictement publics | ❌ Non exploitable actuellement | Testé : les seuls terrains `indoor=yes` trouvés en Belgique sont des clubs privés, aucun terrain couvert public identifiable sur OSM à ce jour |
-
-Autres pistes évoquées mais non explorées davantage : terrains en camping, près d'une piscine extérieure, en zone industrielle, multi-sports (tag `sport` combiné), en cimetière, avec revêtement inhabituel, tagués `access=private`.
-
-## Requêtes Overpass retenues (Liège, adaptables à toute la Belgique)
-
-Zone de référence utilisée : `area["name"="Liège"]["admin_level"="8"]["boundary"="administrative"]`
-(pour toute la Belgique : `area["ISO3166-1"="BE"]["admin_level"="2"]`)
-
-### 1. Les "plus beaux"
-```
-[out:json][timeout:60];
-area["name"="Liège"]["admin_level"="8"]["boundary"="administrative"]->.liege;
-nwr["leisure"="pitch"]["sport"~"petanque|boules"]["access"!="private"](area.liege)->.terrains;
-(
-  nwr(around.terrains:50)["leisure"="park"];
-  nwr(around.terrains:50)["waterway"="river"];
-  nwr(around.terrains:50)["tourism"];
-  nwr(around.terrains:50)["route"~"bicycle|foot"]["network"~"rcn|rwn|ncn|nwn"];
-)->.points_interet;
-nwr.terrains(around.points_interet:50);
-out center tags;
-```
-
-### 2. Les mieux équipés
-```
-[out:json][timeout:60];
-area["name"="Liège"]["admin_level"="8"]["boundary"="administrative"]->.liege;
-nwr["leisure"="pitch"]["sport"~"petanque|boules"]["access"!="private"](area.liege)->.terrains;
-(
-  nwr(around.terrains:30)["leisure"="playground"];
-  nwr(around.terrains:30)["amenity"="picnic_table"];
-)->.equipements;
-(
-  nwr.terrains["lit"="yes"];
-  nwr.terrains(around.equipements:30);
-);
-out center tags;
-```
-
-### 3. Terrains qui portent un nom
-```
-[out:json][timeout:60];
-area["name"="Liège"]["admin_level"="8"]["boundary"="administrative"]->.liege;
-nwr["leisure"="pitch"]["sport"~"petanque|boules"]["access"!="private"]["name"](area.liege);
-out center tags;
-```
-
-### 4. Près d'un bar
-```
-[out:json][timeout:60];
-area["name"="Liège"]["admin_level"="8"]["boundary"="administrative"]->.liege;
-nwr["leisure"="pitch"]["sport"~"petanque|boules"]["access"!="private"](area.liege)->.terrains;
-(
-  nwr(around.terrains:50)["amenity"~"bar|pub"];
-)->.bars;
-nwr.terrains(around.bars:50);
-out center tags;
-```
-
-### 5. Près d'une brasserie
-```
-[out:json][timeout:60];
-area["name"="Liège"]["admin_level"="8"]["boundary"="administrative"]->.liege;
-nwr["leisure"="pitch"]["sport"~"petanque|boules"]["access"!="private"](area.liege)->.terrains;
-nwr(around.terrains:150)["craft"="brewery"]->.brasseries;
-nwr.terrains(around.brasseries:150);
-out center tags;
-```
-
-### 6. Près d'un château ou d'une abbaye/monastère
-```
-[out:json][timeout:60];
-area["name"="Liège"]["admin_level"="8"]["boundary"="administrative"]->.liege;
-nwr["leisure"="pitch"]["sport"~"petanque|boules"]["access"!="private"](area.liege)->.terrains;
-(
-  nwr(around.terrains:200)["historic"="castle"];
-  nwr(around.terrains:200)["historic"="monastery"];
-)->.patrimoine;
-nwr.terrains(around.patrimoine:200);
-out center tags;
-```
-
----
-
-## Terrains identifiés sur Liège
-Six terrains repérés, avec un itinéraire en boucle depuis le **Château de Fayenbois** (50.6315961, 5.6416968) :
-
-| # | Lieu | Coordonnées | Description |
-|---|---|---|---|
-| 1 | Grivegnée — square avec fontaine | 50.6182401, 5.6106787 | Terrain dans un square calme, nombreux bancs |
-| 2 | Grivegnée — nouveau terrain | 50.6215596, 5.5991553 | Petit square, plaine de jeux, fontaine d'eau potable |
-| 3 | Boulodrome d'Outremeuse | 50.6446584, 5.581959 | Deux terrains publics le long de la Meuse, à l'ombre des arbres |
-| 4 | Cointe — plaine des sports | 50.6217713, 5.5603485 | Près du parc communal (foot, athlétisme, streetworkout...) |
-| 5 | Angleur — parc du château de Péralta | 50.610604, 5.5859395 | En surplomb du parc, cafétéria du hall omnisport à proximité |
-| 6 | Chênée | 50.6097802, 5.6214508 | 2 terrains partiellement ombragés, parking et bancs |
-
-## Idées non testées, à explorer plus tard
-
-- Angle "brasserie + patrimoine" combiné pour un article dédié ("les terrains les plus insolites de Liège")
-- Élargir les 6 requêtes retenues à toute la Belgique (juste changer la zone de référence)
-- Pour les catégories "plus grands" / "plus/moins isolés" : passer par un export Overpass + tri dans un tableur, ou script Python avec `shapely` pour les calculs de distance/surface
-</file>
-
-<file path="robots.txt">
-User-agent: *
-Allow: /
-
-Sitemap: https://mapetanque.github.io/sitemap.xml
-</file>
-
 <file path="sitemap.xml">
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
     <url>
         <loc>https://mapetanque.github.io/</loc>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/" />
+    </url>
+    <url>
+        <loc>https://mapetanque.github.io/nl/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/" />
+    </url>
+    <url>
+        <loc>https://mapetanque.github.io/de/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/" />
     </url>
 </urlset>
 </file>
@@ -1253,6 +1846,7 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 
 - Carte interactive de la Belgique (Leaflet + fonds OpenStreetMap)
 - Deux fonds de carte au choix : "Plan" et "Satellite" (contrôle de calques Leaflet)
+- Bouton plein écran (coin haut-droit de la carte, à côté du sélecteur de fond) : masque le reste de l'interface pour n'afficher que la carte, avec la recherche et la géolocalisation toujours accessibles ; touche Échap pour quitter
 - Terrains regroupés en clusters (chiffres colorés) qui se séparent automatiquement au zoom
 - Données des terrains issues d'OpenStreetMap (requête Overpass ciblant `leisure=pitch` + `sport=boules`/`petanque` sur la Belgique)
 - Régénération hebdomadaire automatique via le script `scripts/update_terrains.py`
@@ -1282,11 +1876,12 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 
 ## 🌍 Multilingue (FR / NL / DE)
 
-- Sélecteur de langue fixe en haut à gauche de l'écran, visible en permanence
 - Détection automatique de la langue du navigateur au premier passage (repli sur le français si langue non reconnue)
 - Mémorisation du choix via `localStorage` (le visiteur retrouve sa langue lors d'une prochaine visite)
-- Traduction complète et dynamique : titre, tagline, menu, panneau À propos/Contact/FAQ, popups des terrains, panneau de partage, footer
+- Sélecteur de langue discret (liens texte FR/NL/DE dans la nav desktop et le menu burger mobile) — pas de gros boutons en évidence, la détection automatique suffit dans l'immense majorité des cas
+- Traduction complète et dynamique : titre, tagline, menu, panneau À propos/Contact/FAQ, popups des terrains, panneau de partage, footer, liste des terrains à parcourir
 - Toutes les traductions centralisées dans `translations.js`
+- **URL dédiée par langue** pour l'indexation Google : `/` (français), `/nl/`, `/de/` — trois fichiers `index.html` distincts (même contenu, piloté par le même JS), avec balises `hreflang` réciproques pour indiquer à Google qu'il s'agit de 3 versions d'une même page plutôt que de contenu dupliqué. Changer de langue via le sélecteur met aussi à jour l'URL (sans recharger la page), pour que chaque langue reste partageable via sa propre adresse
 
 ## 📖 Panneau d'info coulissant
 
@@ -1303,17 +1898,23 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 - Icônes de partage du site
 - Toujours visible à l'écran (`position: fixed`), quelle que soit la position de scroll
 
-## 📈 Page statistiques
+## 📈 Liste des terrains à parcourir
 
-- Carte plein écran par défaut (comme historiquement) ; le contenu qui suit est révélé simplement en scrollant
-- Accès depuis un lien "Statistiques" juste au-dessus de la bordure haute de la carte (à gauche), et un lien "Revenir en haut" symétrique juste en dessous
+- Carte plein écran par défaut au chargement ; le contenu qui suit est révélé simplement en scrollant, sans JS de scroll custom (ancres HTML natives + `scroll-behavior: smooth`)
+- Accès depuis un bouton "Parcourir la liste" aligné avec les contrôles de recherche, au-dessus de la carte
 - Bandeau chiffré global (nombre total de terrains en Belgique)
-- Détail par région/province/commune prévu en entonnoir (`<details>`/`<summary>` imbriqués, comme la FAQ) — affichage pas encore construit, mais les données sont déjà extraites et agrégées côté script Python (`data/stats_geo.json`, voir Infrastructure)
-- Conçue pour accueillir facilement d'autres futures sections du même type (ex. "Terrains insolites") : chaque section n'a besoin que d'un lien d'ancre (`<a href="#id-section">`) dans la barre au-dessus de la carte, sans JS ni logique de bascule à dupliquer
+- Entonnoir complet région → province → commune → terrain, en accordéons `<details>`/`<summary>` imbriqués (même style que la FAQ) :
+  - 3 tuiles région en tête, avec densité de terrains affichée en /100km² (superficies Statbel codées en dur dans `script.js`, données géographiques stables)
+  - Filigranes régionaux discrets sur les tuiles (lion flamand, coq wallon, iris bruxellois), vectorisés à partir de fichiers SVG du domaine public
+  - Bruxelles traité comme cas particulier (région-enclave sans niveau province), avec garde-fou pour fusionner toute commune égarée sous une fausse province
+  - Recherche de commune par nom (filtre les lignes déjà en mémoire, insensible aux accents/casse)
+  - Clic sur une commune → centre la carte sur la position moyenne de ses terrains ; clic sur un terrain → zoome et ouvre son popup
+- Données région/province/commune agrégées côté script Python (`data/stats_geo.json`), canonicalisées via les codes ISO 3166-2 (fiables, indépendants de la langue de réponse de Nominatim)
 
 ## 🎨 Identité visuelle et confort d'usage
 
 - Jeu de mots visuel dans le titre : "**Map**etanque" (Map en italique/gras/bleu)
+- Clic sur le logo/nom du site : ramène à l'état du tout premier chargement (vue initiale de la carte, recherche et géolocalisation réinitialisées, panneaux refermés, filtres de la liste des terrains remis à zéro)
 - Layout en flexbox occupant toute la hauteur d'écran (`min-height: 100vh`) : la carte s'étire pour occuper tout l'espace disponible, sans zone vide ni scrollbar parasite
 - Site entièrement responsive (mobile/desktop), avec espace réservé en haut sur mobile pour éviter que le titre ne chevauche les boutons flottants
 - Icône de marqueur cohérente (position utilisateur ou résultat de recherche)
@@ -1321,9 +1922,18 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 
 ## 🛠️ Infrastructure
 
-- Site 100 % statique : `index.html`, `style.css`, `script.js`, `translations.js`, `data/terrains.geojson`, `data/stats_geo.json`
+- Site 100 % statique : `index.html` (+ `nl/index.html`, `de/index.html`), `style.css`, `script.js`, `translations.js`, `data/terrains.geojson`, `data/stats_geo.json`
 - Hébergé sur GitHub Pages (`mapetanque.github.io`), déploiement automatique à chaque `git push`
-- Génération des données via `scripts/update_terrains.py`, à exécuter manuellement ou via tâche planifiée (~30 min d'exécution à cause de la limite Nominatim d'1 requête/seconde) — produit à la fois `data/terrains.geojson` (données brutes) et `data/stats_geo.json` (agrégats région/province/commune pour la page statistiques)
+- Génération des données via `scripts/update_terrains.py`, à exécuter manuellement ou via tâche planifiée (~30 min d'exécution à cause de la limite Nominatim d'1 requête/seconde) — produit à la fois `data/terrains.geojson` (données brutes) et `data/stats_geo.json` (agrégats région/province/commune pour la liste des terrains à parcourir)
+
+---
+
+## 🔎 Référencement (SEO)
+
+- Balise `<meta name="description">` et `<title>` traduits dynamiquement selon la langue affichée
+- `sitemap.xml` et `robots.txt` à la racine, soumis à Google Search Console
+- Balises Open Graph (`og:title`, `og:description`, `og:image`, `og:url`) pour un aperçu soigné lors du partage du lien sur les réseaux sociaux/messageries
+- Favicon (logo au format SVG)
 
 ---
 
@@ -1332,7 +1942,6 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 - Fiches individuelles par terrain avec URL dédiée, pour l'indexation Google (génération statique envisagée)
 - Système de notes (/5) et commentaires par terrain (nécessiterait un backend — Supabase/Firebase envisagés)
 - Tags associables à un terrain par les usagers (zone ombragée, bar à proximité, terrain en pente, compteur de points, etc. — liste complète déjà brainstormée)
-- Balises Open Graph pour un rendu soigné des liens partagés sur les réseaux sociaux
 - Nom de domaine personnalisé (ex. `mapetanque.be`) à la place de `mapetanque.github.io`
 - Système de versionning des données, pour pouvoir revenir en arrière en cas d'attaque ou de mauvaise utilisation
 
@@ -1355,10 +1964,17 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 ## Structure du projet
 
 ```
-├── index.html                    # Structure de la page
+├── index.html                    # Structure de la page (français, à la racine)
+├── nl/index.html                 # Version néerlandaise (même contenu, piloté par le même JS)
+├── de/index.html                 # Version allemande (même contenu, piloté par le même JS)
 ├── style.css                     # Mise en forme
 ├── script.js                     # Logique de la carte et des interactions
 ├── translations.js               # Textes du site en FR / NL / DE
+├── sitemap.xml                   # Plan du site (3 URLs, avec annotations hreflang)
+├── robots.txt                    # Référence le sitemap pour les robots d'indexation
+├── images/
+│   ├── logomap.svg               # Logo (favicon)
+│   └── logomap.png               # Logo (image de partage Open Graph)
 ├── scripts/
 │   └── update_terrains.py        # Script de génération hebdomadaire des données
 ├── data/
@@ -1367,6 +1983,251 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 ├── LICENSE                       # Licence MIT
 └── README.md                     # Ce fichier
 ```
+</file>
+
+<file path="index.html">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mapetanque Belgique — Carte des terrains de pétanque en Belgique</title>
+    <meta name="description" id="meta-description" content="Carte interactive des terrains de pétanque accessibles au public en Belgique : recherche par ville, géolocalisation et liste par région sur Mapetanque.be.">
+    <link rel="icon" type="image/svg+xml" href="/images/logomap.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Open Graph : aperçu affiché lors du partage du lien (WhatsApp, Facebook, etc.) -->
+    <meta property="og:title" content="Mapetanque Belgique — Carte des terrains de pétanque en Belgique">
+    <meta property="og:description" content="Carte interactive des terrains de pétanque accessibles au public en Belgique : recherche par ville, géolocalisation et liste par région sur Mapetanque.be.">
+    <meta property="og:image" content="https://mapetanque.github.io/images/logomap.png">
+    <meta property="og:url" content="https://mapetanque.github.io/">
+    <meta property="og:type" content="website">
+
+    <!-- Versions par langue : indique à Google que /, /nl/ et /de/ sont la même page en 3
+         langues, et non 3 pages de contenu dupliqué. Ce bloc doit être identique (mêmes 4
+         lignes) dans les <head> de /index.html, /nl/index.html et /de/index.html. -->
+    <link rel="canonical" href="https://mapetanque.github.io/">
+    <link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/">
+    <link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/">
+    <link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/">
+    <link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/">
+
+    <!-- Police des titres (Quicksand, un seul poids chargé pour rester léger) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Bibliothèque Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+
+    <!-- Feuille de style du site (chemin absolu : ce même fichier index.html est aussi servi
+         depuis /nl/ et /de/, un chemin relatif irait chercher /nl/style.css et casserait tout) -->
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<div class="map-view" id="top">
+
+<div class="header">
+
+    <div class="header-top-row">
+        <a href="#top" class="brand-link">
+            <svg class="logo" viewBox="0 0 878 884" aria-hidden="true">
+                <path d="M424.499,112.128C439.588,112.168 439.514,111.999 454.535,113.252C459.282,113.647 464.985,126.287 468.428,132.54C493.822,178.652 509.506,246.447 512.842,263.422C526.266,331.73 534.962,392.68 530.995,497.518C530.73,504.523 532.222,510.697 526.548,510.074C486.775,505.708 418.691,489.158 409.409,486.902C341.188,470.318 196.794,419.279 126.375,344.613C116.876,334.541 108.935,326.226 110.547,322.519C166.783,193.217 295.634,112.983 424.499,112.128Z" style="fill:rgb(0,197,47);"/>
+                <path d="M323.995,777.029C323.912,775.739 324.142,775.825 325.23,775.274C355.62,759.894 400.469,704.642 369.737,638.388C334.216,561.808 212.168,551.036 166.882,640.677C157.245,659.752 159.137,674.474 155.349,669.692C132.912,641.373 125.231,625.974 121.202,618.662C62.664,512.423 85.368,404.962 87.77,395.633C89.088,390.514 107.272,419.126 187.29,462.882C284.724,516.16 395.602,541.393 414.463,545.686C514.476,568.446 526.353,560.436 525.158,567.446C522.169,584.997 521.573,607.623 506.699,664.563C498.834,694.669 495.492,701.689 492.174,711.382C482.494,739.658 459.679,782.477 454.579,783.706C453.65,783.93 439.298,785.77 437.531,785.88C388.91,788.907 370.416,787.255 323.995,777.029Z" style="fill:rgb(0,197,47);"/>
+                <path d="M751.947,414.476C752.392,421.598 755.056,464.245 746.578,503.518C746.139,505.555 746.093,507.227 715.57,511.981C663.956,520.02 589.643,517.532 587.708,515.292C585.652,512.911 590.985,470.859 585.771,398.481C576.52,270.067 553.298,197.303 523.767,131.39C523.228,130.188 519.23,124.88 523.526,126.209C645.086,163.82 740.976,269.929 751.947,414.476Z" style="fill:rgb(0,197,47);"/>
+                <path d="M720.315,584.413C662.254,708.15 561.132,749.553 541.613,758.921C537.914,760.696 538.18,758.744 538.254,758.484C538.377,758.05 549.128,738.3 564.299,678.456C576.691,629.572 580.983,585.687 581.781,577.532C582.508,570.096 583.875,569.77 584.527,569.615C593.043,567.585 613.097,574.573 695.536,565.78C719.879,563.183 729.606,559.289 729.92,561.317C730.132,562.689 721.139,582.59 720.315,584.413Z" style="fill:rgb(0,197,47);"/>
+            </svg>
+            <span class="brand"><span class="brand-map">Map</span>etanque<span class="brand-tld">.be</span></span>
+        </a>
+
+        <!-- Navigation desktop : liens directs vers le panneau d'info + sélecteur de langue discret -->
+        <nav id="desktop-nav">
+            <button type="button" class="info-nav-trigger" data-target="about" data-i18n="menu_about">À propos</button>
+            <button type="button" class="info-nav-trigger" data-target="faq" data-i18n="menu_faq">FAQ</button>
+            <button type="button" class="info-nav-trigger" data-target="contact" data-i18n="menu_contact">Nous contacter</button>
+            <span id="lang-switcher-inline">
+                <button type="button" class="lang-link" data-lang="fr">FR</button>
+                <button type="button" class="lang-link" data-lang="nl">NL</button>
+                <button type="button" class="lang-link" data-lang="de">DE</button>
+            </span>
+        </nav>
+
+        <!-- Menu burger (mobile uniquement) -->
+        <button id="menu-button" data-i18n-aria="open_menu">
+            ☰
+        </button>
+
+        <nav id="side-menu">
+            <button id="close-menu" data-i18n-aria="close_menu">
+                ✕
+            </button>
+
+            <ul>
+                <li><a href="#about" data-i18n="menu_about">À propos</a></li>
+                <li><a href="#faq" data-i18n="menu_faq">FAQ</a></li>
+                <li><a href="#contact" data-i18n="menu_contact">Nous contacter</a></li>
+            </ul>
+
+            <!-- Sélecteur de langue discret, plus de bouton en évidence : la détection automatique
+                 (navigateur + mémorisation locale) suffit dans l'immense majorité des cas, ceci reste
+                 disponible en repli pour corriger manuellement si besoin. -->
+            <div id="side-menu-lang">
+                <button type="button" class="lang-link" data-lang="fr">FR</button>
+                <button type="button" class="lang-link" data-lang="nl">NL</button>
+                <button type="button" class="lang-link" data-lang="de">DE</button>
+            </div>
+        </nav>
+
+        <div id="menu-overlay"></div>
+    </div>
+
+    <p class="hero-headline" data-i18n="hero_headline">Trouvez un terrain de pétanque public</p>
+
+</div>
+
+<div class="controls">
+    <button id="locateBtn">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        <span data-i18n="locate_btn">Me localiser</span>
+    </button>
+
+    <form id="searchForm" class="search-form">
+        <input
+            type="text"
+            id="searchInput"
+            data-i18n-placeholder="search_placeholder"
+            autocomplete="off"
+        >
+        <button type="submit" id="searchBtn" aria-label="Rechercher">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </button>
+    </form>
+
+    <a href="#stats-section" id="browseListBtn">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+        <span data-i18n="browse_list_btn">Parcourir la liste</span>
+    </a>
+</div>
+
+<p class="add-terrain-link-wrapper">
+    <a href="#" id="add-terrain-link" data-i18n="add_terrain_link">Ajouter un terrain de pétanque</a>
+</p>
+
+<p id="searchError" class="search-error"></p>
+
+<!-- Panneau de partage réutilisable (site ou terrain précis) -->
+<div id="share-overlay"></div>
+<div id="share-panel">
+    <button id="share-close" data-i18n-aria="close_panel">✕</button>
+    <p id="share-title" class="share-title"></p>
+
+    <div class="share-links">
+        <a id="share-whatsapp" class="share-link" target="_blank" rel="noopener">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></span><span data-i18n="share_whatsapp">WhatsApp</span>
+        </a>
+        <a id="share-facebook" class="share-link" target="_blank" rel="noopener">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></span><span data-i18n="share_facebook">Facebook</span>
+        </a>
+        <a id="share-twitter" class="share-link" target="_blank" rel="noopener">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><span data-i18n="share_twitter">X (Twitter)</span>
+        </a>
+        <a id="share-email" class="share-link">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span><span data-i18n="share_email">E-mail</span>
+        </a>
+        <button type="button" id="share-copy" class="share-link">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></span><span id="share-copy-label" data-i18n="share_copy">Copier le lien</span>
+        </button>
+    </div>
+</div>
+
+<div id="map"></div>
+
+</div><!-- /.map-view -->
+
+<!-- Section statistiques : contenu HTML normal, toujours dans le DOM et indexable, comme n'importe quelle page. -->
+<section id="stats-section">
+    <div class="stats-container">
+        <h2 data-i18n="stats_page_title">Statistiques</h2>
+
+        <div class="stats-headline">
+            <span class="stats-headline-number">…</span>
+            <span class="stats-headline-label" data-i18n="stats_headline_label">terrains de pétanque recensés en Belgique</span>
+        </div>
+
+        <!-- Contenu construit dynamiquement en JS depuis data/stats_geo.json (voir construireStatsGeo
+             dans script.js), au chargement de la page et à chaque changement de langue — pas au clic,
+             donc indexable normalement, comme le reste des données de la carte. -->
+        <div id="stats-regions-tiles" class="stats-regions-tiles"></div>
+
+        <div id="stats-geo-tree"></div>
+    </div>
+</section>
+
+<!-- Panneau d'info coulissant -->
+<aside id="info-panel">
+    <button id="close-info" data-i18n-aria="close_panel">✕</button>
+
+    <nav id="info-nav">
+        <button type="button" class="info-nav-link" data-target="about" data-i18n="menu_about">À propos</button>
+        <button type="button" class="info-nav-link" data-target="faq" data-i18n="menu_faq">FAQ</button>
+        <button type="button" class="info-nav-link" data-target="contact" data-i18n="menu_contact">Contact</button>
+    </nav>
+
+    <!-- Contenu construit une seule fois au chargement (et à chaque changement de langue),
+         puis simplement affiché/masqué au clic : reste dans le DOM, donc indexable par Google. -->
+    <div id="info-content">
+        <div class="info-page" id="info-page-about"></div>
+        <div class="info-page" id="info-page-faq"></div>
+        <div class="info-page" id="info-page-contact"></div>
+    </div>
+</aside>
+<div id="info-overlay"></div>
+
+<footer>
+    <div class="footer-content">
+        <p class="footer-small">
+            <span id="site-stats"></span>
+        </p>
+
+        <div class="footer-share">
+            <a id="footer-share-whatsapp" class="footer-share-icon" target="_blank" rel="noopener" data-i18n-aria="share_whatsapp" aria-label="WhatsApp">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            </a>
+            <a id="footer-share-facebook" class="footer-share-icon" target="_blank" rel="noopener" data-i18n-aria="share_facebook" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+            </a>
+            <a id="footer-share-twitter" class="footer-share-icon" target="_blank" rel="noopener" data-i18n-aria="share_twitter" aria-label="X (Twitter)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </a>
+            <a id="footer-share-email" class="footer-share-icon" data-i18n-aria="share_email" aria-label="E-mail">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </a>
+            <span class="footer-share-copy-wrapper">
+                <button type="button" id="footer-share-copy" class="footer-share-icon" data-i18n-aria="share_copy" aria-label="Copier le lien">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                </button>
+                <span id="copy-tooltip" class="copy-tooltip"></span>
+            </span>
+        </div>
+    </div>
+</footer>
+
+<!-- Bibliothèque Leaflet -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
+<!-- Traductions -->
+<script src="/translations.js"></script>
+
+<!-- Script du site -->
+<script src="/script.js"></script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
+
+</body>
+</html>
 </file>
 
 <file path="script.js">
@@ -1379,6 +2240,8 @@ const ICON_UNLOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" 
 const ICON_MAP_PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>';
 const ICON_CLOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>';
 const ICON_MAIL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>';
+const ICON_MAXIMIZE = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>';
+const ICON_MINIMIZE = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path></svg>';
 
 // Icône des marqueurs de terrain sur la carte (pin vert personnalisé, remplace le pin bleu par défaut de Leaflet)
 const terrainMarkerIcon = L.divIcon({
@@ -1399,7 +2262,20 @@ const terrainMarkerIcon = L.divIcon({
 
 const LANGUES_DISPONIBLES = ['fr', 'nl', 'de'];
 
+// Langue déduite du chemin de l'URL (/nl/, /de/), le cas échéant. Cette détection passe en
+// priorité sur tout le reste : c'est elle qui permet à Google d'indexer /nl/ et /de/ comme
+// deux pages distinctes et réellement en néerlandais/allemand dès le premier rendu.
+function detecterLangueDepuisURL() {
+    const chemin = window.location.pathname;
+    if (chemin === '/nl' || chemin.startsWith('/nl/')) return 'nl';
+    if (chemin === '/de' || chemin.startsWith('/de/')) return 'de';
+    return null;
+}
+
 function detecterLanguePreferee() {
+    const depuisURL = detecterLangueDepuisURL();
+    if (depuisURL) return depuisURL;
+
     const sauvegardee = localStorage.getItem('mapetanque_lang');
     if (sauvegardee && LANGUES_DISPONIBLES.includes(sauvegardee)) {
         return sauvegardee;
@@ -1425,10 +2301,15 @@ function appliquerTraductions() {
     document.documentElement.lang = dict.html_lang;
 
     // Titre de l'onglet + balise meta description, pour un extrait Google correct
-    // dans la langue affichée (au lieu du texte piqué au hasard dans la page)
-    document.title = dict.meta_title;
+    // dans la langue affichée (au lieu du texte piqué au hasard dans la page).
+    // Garde-fou : si meta_title/meta_description est absent pour une raison quelconque
+    // (ex. translations.js et script.js désynchronisés lors d'un déploiement), on laisse
+    // la valeur existante plutôt que d'écrire la chaîne littérale "undefined".
+    if (dict.meta_title) {
+        document.title = dict.meta_title;
+    }
     const metaDescription = document.getElementById('meta-description');
-    if (metaDescription) {
+    if (metaDescription && dict.meta_description) {
         metaDescription.setAttribute('content', dict.meta_description);
     }
 
@@ -1485,8 +2366,22 @@ function changerLangue(langue) {
     if (!LANGUES_DISPONIBLES.includes(langue)) return;
     currentLang = langue;
     localStorage.setItem('mapetanque_lang', langue);
+
+    // Met à jour l'URL sans recharger la page, pour que chaque langue reste indexable et
+    // partageable via sa propre adresse (/nl/, /de/, ou / pour le français)
+    const cheminCible = langue === 'fr' ? '/' : '/' + langue + '/';
+    if (window.location.pathname !== cheminCible) {
+        history.pushState({ lang: langue }, '', cheminCible + window.location.search + window.location.hash);
+    }
+
     appliquerTraductions();
 }
+
+// Recalcule la langue depuis l'URL quand l'utilisateur navigue avec les boutons précédent/suivant
+window.addEventListener('popstate', function () {
+    currentLang = detecterLanguePreferee();
+    appliquerTraductions();
+});
 
 document.querySelectorAll('.lang-link').forEach(function (btn) {
     btn.addEventListener('click', function () {
@@ -1528,6 +2423,32 @@ const baseMaps = {
 };
 
 L.control.layers(baseMaps).addTo(map);
+
+// Bouton plein écran, ajouté juste après pour s'empiler sous le sélecteur Plan/Satellite dans
+// le même coin (topright) — voir definirModePleinEcran() plus bas pour la logique de bascule
+const FullscreenControl = L.Control.extend({
+    options: { position: 'topright' },
+    onAdd: function () {
+        const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
+        const btn = L.DomUtil.create('a', '', container);
+        btn.id = 'fullscreenBtn';
+        btn.href = '#';
+        btn.setAttribute('role', 'button');
+        btn.dataset.i18nAria = 'fullscreen_enter';
+        btn.setAttribute('aria-label', t('fullscreen_enter'));
+        btn.innerHTML = ICON_MAXIMIZE;
+
+        L.DomEvent.disableClickPropagation(container);
+        L.DomEvent.disableScrollPropagation(container);
+        L.DomEvent.on(btn, 'click', function (e) {
+            L.DomEvent.stop(e);
+            definirModePleinEcran(!mapView.classList.contains('fullscreen-active'));
+        });
+
+        return container;
+    }
+});
+map.addControl(new FullscreenControl());
 
 // Sécurité : recalcule la taille de la carte une fois la page pleinement chargée
 window.addEventListener('load', function () {
@@ -1956,6 +2877,21 @@ fetch('data/terrains.geojson')
                         ? t('popup_terrain_prefix') + " " + tags.nearest_street
                         : t('popup_terrain_default');
 
+                    // Photo du terrain (issue d'un tag OSM image=/wikimedia_commons=/mapillary=
+                    // renseigné manuellement par un mappeur — voir resoudre_photo() dans
+                    // update_terrains.py). Absente pour la grande majorité des terrains pour
+                    // l'instant, purement additive quand elle existe.
+                    let photo = "";
+                    if (tags.photo_url) {
+                        let credit = "";
+                        if (tags.photo_source === 'wikimedia_commons') {
+                            credit = `<br><a href="${tags.photo_credit_url}" target="_blank" rel="noopener" class="popup-photo-credit">${t('popup_photo_credit_wikimedia')}</a>`;
+                        } else if (tags.photo_source === 'mapillary') {
+                            credit = `<br><a href="${tags.photo_credit_url}" target="_blank" rel="noopener" class="popup-photo-credit">${t('popup_photo_credit_mapillary')}</a>`;
+                        }
+                        photo = `<img src="${tags.photo_url}" alt="" class="popup-photo" loading="lazy">${credit}<br>`;
+                    }
+
                     let distance = "";
 
                     if (userPosition) {
@@ -2001,6 +2937,7 @@ fetch('data/terrains.geojson')
 
                     return `
                     <b>${titre}</b><br><br>
+                    ${photo}
                     <span class="popup-icon">${ICON_UNLOCK}</span> ${t('popup_access_label')} : ${acces}
                     ${distance}
                     ${itineraire}
@@ -2284,7 +3221,7 @@ const FILIGRANE_REGIONS = {
     wallonie:
         '<svg viewBox="0 0 682 722" class="stats-region-tile-watermark" aria-hidden="true"><path fill-rule="evenodd" fill="currentColor" d="M380,569 347,563 335,581 318,628 303,646 301,653 288,661 240,666 232,682 237,679 246,681 254,674 263,672 289,675 291,679 288,685 272,697 271,706 275,712 287,702 289,694 308,678 318,676 333,663 340,667 347,682 361,691 358,676 340,659 332,646 343,625 367,627 353,623 348,617 348,612ZM584,481 555,495 515,499 499,515 489,519 461,521 471,525 494,526 496,531 490,537 450,555 473,556 514,543 519,546 513,574 514,604 519,630 526,584 537,542 541,540 545,545 549,561 554,537 559,533 569,565 570,534 578,513 568,514 566,511ZM11,492 14,498 20,494 27,495 43,485 61,486 63,491 48,509 48,513 54,519 57,513 64,511 63,495 69,489 80,485 99,486 109,494 106,514 119,522 110,487 116,485 147,493 153,501 153,507 164,501 222,521 202,489 137,479 88,466 72,467 20,483ZM268,474 297,501 308,517 327,528 354,551 363,556 386,559 390,549 390,504 373,515 366,512 375,482 340,476 313,465 293,473ZM210,463 219,491 229,501 234,515 242,524 247,525 289,513 286,506 272,492 245,471ZM382,434 363,456 358,454 357,447 336,457 331,451 288,445 326,461 378,472ZM267,428 337,441 339,435 292,426ZM297,417 341,424 344,420 344,415 328,416 316,412 304,412ZM420,400 423,413 441,442 452,454 469,463 442,437 423,401ZM152,395 183,428 225,454 261,463 292,461 254,432 242,431 208,410 174,405ZM336,381 317,404 345,406 345,403 337,404 335,401ZM402,366 416,389 433,381 441,382 453,398 454,412 475,397 477,404 474,413 479,408 485,392 491,390 495,395 495,408 485,433 497,432 515,423 517,428 512,437 533,423 539,424 542,434 536,460 547,453 554,441 559,443 562,412 565,410 569,413 562,379 552,361 540,349 514,333 492,328 461,331 434,342ZM519,296 532,308 515,311 527,325 558,350 576,378 582,403 581,427 571,450 553,467 537,474 520,477 492,475 511,487 542,488 568,478 609,450 610,461 595,494 619,466 629,441 630,408 622,378 603,342 584,322 555,305ZM507,300 494,296 474,296 449,303 413,327 393,345 391,351 396,355 423,336 457,321 482,317 510,319 502,308 502,304ZM287,290 301,300 317,319 326,339 329,367 339,358 343,361 345,389 355,392 348,440 363,428 368,429 369,436 384,406 390,406 394,428 394,458 387,493 401,486 404,500 409,491 417,487 414,522 419,543 420,509 424,494 429,491 443,498 430,474 434,472 453,485 463,486 454,480 434,457 419,430 403,389 372,346 347,322 326,307ZM169,325 168,333 172,344 194,380 215,401 239,416 264,419 278,415 309,395 319,385 312,381 317,352 310,333 289,307 266,293 246,288 227,289 222,293 217,307 212,312 177,320ZM503,284 553,292 591,312 616,337 635,373 641,392 645,424 644,462 628,500 592,557 585,582 584,612 587,622 595,588 619,563 622,569 622,592 628,627 638,652 646,660 641,595 669,478 672,454 669,404 656,352 635,314 617,298 602,290 551,280ZM591,274 562,262 535,257 499,256 469,261 440,273 407,295 381,319 375,332 385,342 413,313 431,300 452,290 475,286 502,275 534,270ZM413,244 396,267 386,288 382,305 404,284ZM486,247 505,248 507,242 492,241ZM245,241 219,269 212,268 212,258 206,265 216,280 238,277 260,279 248,257ZM584,254 566,237 551,228 532,221 500,215 499,211 510,189 484,193 461,204 436,224 425,244 419,272 440,260 469,249 482,234 498,230 530,234ZM542,188 526,188 513,210 528,209ZM173,176 148,184 133,195 120,210 111,235 110,265 105,294 112,329 130,359 167,390 192,396 162,357 156,343 155,327 166,310 198,301 206,293 202,281 190,265 195,228 174,223 165,216 172,210 190,203 195,192 207,183 192,184ZM219,135 206,142 181,144 172,155 170,167 174,168 179,157 185,154 190,173 204,172 213,158ZM632,178 619,164 592,147 563,138 532,133 478,135 444,144 423,154 395,178 375,211 363,251 357,318 365,323 372,292 382,267 400,241 422,217 459,191 502,179 552,177 575,183 602,197 621,214 634,233 640,248 646,280 653,254 652,230 645,209 625,182ZM591,11 573,38 559,47 536,70 443,131 497,121 545,121 604,79 611,72 560,91 544,91 577,47ZM275,10 251,39 244,35 240,21 225,50 220,42 219,30 216,30 209,40 207,59 199,62 193,54 177,86 177,99 183,114 173,126 173,132 180,126 186,126 199,134 209,132 210,125 199,107 199,93 207,82 212,86 223,82 222,89 210,103 210,109 220,126 220,131 225,128 228,132 220,162 220,169 225,177 212,192 214,197 188,218 207,218 213,221 205,236 203,250 216,238 221,240 223,248 241,221 252,215 258,250 265,247 271,263 273,233 283,183 285,147 276,117 258,95 277,86 287,77 293,58 288,35ZM218,99 227,102 230,108 228,113 215,109 214,104Z"/></svg>',
     flandre:
-        '<svg viewBox="0 0 960 640" class="stats-region-tile-watermark" aria-hidden="true"><path fill-rule="evenodd" fill="currentColor" d="M679,135 630,207 619,243 619,261 627,283 664,328 677,349 669,331 642,300 625,275 620,260 620,245 624,228 635,204 674,147ZM369,114 363,125 368,142 375,148 399,156 414,165 408,149 393,135 396,128 394,115 384,109ZM380,111 385,111 384,114 389,117 375,119 371,125 372,132 379,141 396,149 391,152 390,149 382,149 366,134 368,132 365,130 365,124ZM677,70 657,60 634,58 617,61 597,72 584,86 574,104 562,167 558,177 547,190 554,192 575,184 573,217 584,237 582,214 585,200 606,159 609,161 609,196 622,170 624,137 640,134 653,125 642,115 643,104 651,97 666,96 676,104 681,114 677,102 668,93 681,101 686,113 686,129 682,142 639,206 631,222 625,246 626,265 632,278 674,330 683,347 682,365 680,367 678,363 670,371 652,367 634,351 588,280 552,241 505,214 523,206 538,208 540,205 532,197 532,190 536,187 530,186 526,178 534,183 540,183 541,186 550,177 549,175 538,179 533,175 545,166 539,165 535,160 534,134 546,125 550,117 550,111 543,118 537,118 533,114 544,94 544,78 540,68 524,76 466,76 443,92 428,94 425,104 422,99 425,95 421,96 422,109 418,115 417,136 425,134 435,140 437,155 433,165 420,176 405,178 395,165 378,164 369,171 366,188 360,187 347,172 336,147 336,129 351,110 345,101 346,85 343,78 331,93 321,94 318,105 313,101 313,86 306,85 300,75 289,67 285,67 289,84 282,90 287,103 284,108 281,108 273,98 247,94 258,110 257,121 260,127 274,128 278,135 271,140 259,140 257,148 242,142 245,155 254,162 267,165 284,157 288,162 287,171 281,177 269,181 277,185 293,185 293,193 288,201 273,201 275,205 288,212 283,216 270,213 274,226 285,232 306,227 307,233 302,241 328,237 322,262 314,272 300,272 295,265 295,256 286,274 290,287 302,296 323,296 333,292 345,280 367,267 374,281 368,290 346,307 315,322 303,322 298,317 298,304 286,305 277,295 265,293 272,307 267,315 271,330 266,333 253,328 246,337 233,342 227,349 246,350 254,358 267,350 273,353 268,362 255,367 250,383 251,397 264,383 272,389 280,388 284,369 288,364 291,365 292,379 296,384 289,399 306,393 320,378 321,359 329,360 330,374 334,379 335,370 345,352 349,350 354,354 351,344 356,346 358,352 354,363 352,358 351,371 353,372 361,359 368,340 372,345 372,365 383,344 387,327 393,326 395,344 401,331 401,321 407,321 404,316 406,314 411,318 410,327 405,330 407,338 414,313 417,312 419,315 417,306 423,311 422,320 418,320 422,331 432,294 436,295 433,290 436,289 440,293 440,301 437,301 439,309 448,291 450,273 506,292 522,307 519,310 508,311 523,312 526,315 519,316 522,322 520,332 514,318 510,317 514,326 511,335 508,322 502,319 507,326 504,337 501,324 494,322 500,329 499,337 494,328 483,327 456,349 451,350 479,323 500,312 490,315 476,323 442,355 407,357 391,362 347,404 331,406 321,402 320,415 326,422 335,425 348,424 373,412 388,426 391,435 397,441 394,453 382,464 366,468 356,466 354,452 345,451 329,441 319,441 332,458 327,467 339,478 334,483 313,480 309,489 298,496 290,508 311,505 314,510 319,511 329,504 334,506 334,510 322,520 325,529 323,542 330,554 335,537 343,536 347,532 350,520 354,517 359,521 359,532 363,536 357,552 368,548 385,524 381,512 385,504 395,523 394,514 399,493 402,498 402,515 408,504 410,488 414,494 415,507 418,509 417,502 427,476 429,492 434,499 434,491 446,458 452,458 457,462 450,480 451,486 468,469 475,458 474,448 450,420 446,405 452,395 471,388 515,389 526,425 528,443 524,448 517,449 506,437 504,448 507,456 518,466 539,468 546,465 555,455 565,459 576,459 609,449 612,456 609,480 604,489 590,501 583,500 573,484 561,487 549,481 538,481 549,498 547,509 557,512 560,519 556,522 538,522 520,549 521,555 530,548 541,545 544,551 549,553 567,537 568,542 563,550 567,558 567,568 572,578 583,586 580,564 587,564 593,560 592,547 596,541 601,544 603,558 608,562 605,577 620,569 630,549 627,538 635,531 637,508 642,509 649,528 649,516 656,503 663,519 668,522 668,481 673,484 677,500 682,504 682,479 674,460 678,450 682,449 689,455 691,475 697,484 696,469 702,443 695,433 687,430 667,432 657,422 642,418 627,407 603,401 610,379 610,355 650,396 703,411 708,420 710,440 716,445 716,402 701,386 715,366 717,343 711,326 694,300 694,292 702,280 713,278 721,285 720,278 712,267 694,265 682,274 675,291 669,279 671,256 681,244 695,238 716,242 711,236 697,229 678,230 654,242 693,208 714,184 726,157 730,128 713,161 724,145 724,151 705,180 678,204 660,211 677,199 661,205 689,153 699,121 695,92ZM572,559 575,564 575,576 571,574 571,568 568,566ZM602,538 606,539 609,551 625,552 607,557ZM572,533 575,536 572,549 576,555 567,552ZM540,534 540,537 528,542 533,533ZM541,529 546,533 549,543 554,546 550,550 544,544ZM325,523 334,524 344,532 339,534ZM359,518 363,519 365,526 382,526 363,531ZM550,504 562,507 566,511 565,517ZM641,500 648,506 647,515 643,505 638,503ZM657,491 664,495 663,513ZM315,482 319,496 317,510 314,507 312,487ZM412,481 418,487 416,497ZM668,474 676,476 678,490ZM428,468 435,474 432,487ZM453,453 461,455 464,461 456,475 459,462ZM613,449 618,458 617,479 608,495 596,503 613,477ZM507,447 509,446 522,460 540,463 533,467 522,466 512,458ZM326,446 331,446 338,456 335,458ZM402,443 403,449 398,459 387,469 378,471 378,468 385,466 394,458ZM677,444 683,442 693,448 693,465 689,451 684,447 677,447ZM645,441 654,462 638,490 638,482 648,464 647,455 642,447 642,442ZM546,410 552,422 562,430 575,430 588,422 588,439 580,452 566,455 561,451 576,448 584,433 576,436 559,435 548,424ZM434,409 442,433 424,457 425,449 437,432 432,415ZM323,404 329,421 322,415ZM699,403 706,405 713,414 712,437 708,415ZM376,409 394,421 408,422 418,415 405,416 397,412 389,401 390,397 397,407 412,412 426,407 422,419 408,427 388,423ZM258,368 265,370 275,381 281,383 273,386ZM294,367 297,368 299,376 317,378 297,381ZM421,359 390,370 354,406 351,405 390,365 407,359ZM614,354 616,353 640,378 656,390 689,402 675,403 652,393 629,373ZM370,335 377,340 377,351 374,356ZM255,331 257,348 254,354 252,333ZM528,312 532,318 532,333 523,360 523,387 535,430 535,442 532,447 530,427 520,396 517,376 519,357 529,325ZM519,297 542,305 531,307ZM504,288 534,291 517,295ZM378,289 372,297 348,315 328,323 320,323 347,310 376,287ZM484,280 487,278 500,282 513,279 525,281 506,286 493,286ZM492,272 482,278 463,275 465,272ZM451,270 453,267 468,269 456,273ZM704,266 704,269 690,277 681,293 680,288 685,276 693,268ZM291,264 294,280 300,292 292,286 289,279ZM494,254 485,250 462,252 456,247 486,245ZM696,232 676,237 653,252 661,242 678,231ZM436,225 437,235 431,260 445,244 450,229 452,237 432,274 426,258ZM458,225 488,227 493,234 485,231 464,232ZM373,211 361,232 354,266 347,276 355,233 362,221ZM297,206 297,212 286,220 285,217ZM477,205 479,203 488,214 497,216 494,219 486,219ZM405,202 407,214 402,227ZM392,199 392,221 372,254 372,245 388,218ZM367,196 343,219 330,257 319,273 337,219 350,204ZM492,196 513,209 500,207ZM412,194 429,227 424,258 421,263 411,250 395,250 390,256 390,267 405,283 396,288 388,288 377,280 370,264 374,263 384,281 396,283 385,266 389,249 398,243 407,243 420,252 424,239 424,225 411,202ZM522,194 524,193 535,206 527,205ZM428,189 435,206 434,214 426,197ZM355,185 356,192 346,203ZM297,184 298,197 292,205 286,206 285,204 292,200ZM436,181 439,183 443,201 442,210 435,190ZM349,179 349,188 340,197ZM445,170 448,173 451,191 449,203 444,180ZM343,170 345,178 339,187ZM380,165 371,186 371,173ZM338,163 339,172 331,181ZM453,154 461,177 460,191 452,164ZM246,154 262,158 261,161 255,161ZM463,145 471,168 470,181 462,156ZM441,143 441,163 425,177 438,159ZM262,140 270,163 266,162 261,149ZM475,135 483,163 480,171 473,140ZM593,119 594,129 585,170 591,169 580,189 577,222 574,213 575,189ZM427,107 422,123 424,131 420,133 419,118ZM627,89 632,90 620,104 620,120 631,135 623,133 615,120 616,102ZM535,83 526,104 526,92ZM462,82 465,93 493,114 493,124 486,115 480,117 484,119 480,122 468,122 463,119 456,121 460,116 462,102 465,103 464,112 468,117 477,109 462,97 459,89ZM618,78 608,96 605,108 606,124 615,158 615,175 612,179 600,113 607,88ZM612,66 593,85 582,103 571,156 560,179 579,99 587,86 601,72Z"/></svg>',
+        '<svg viewBox="202 32 553 580" class="stats-region-tile-watermark" aria-hidden="true"><path fill-rule="evenodd" fill="currentColor" d="M679,135 630,207 619,243 619,261 627,283 664,328 677,349 669,331 642,300 625,275 620,260 620,245 624,228 635,204 674,147ZM369,114 363,125 368,142 375,148 399,156 414,165 408,149 393,135 396,128 394,115 384,109ZM380,111 385,111 384,114 389,117 375,119 371,125 372,132 379,141 396,149 391,152 390,149 382,149 366,134 368,132 365,130 365,124ZM677,70 657,60 634,58 617,61 597,72 584,86 574,104 562,167 558,177 547,190 554,192 575,184 573,217 584,237 582,214 585,200 606,159 609,161 609,196 622,170 624,137 640,134 653,125 642,115 643,104 651,97 666,96 676,104 681,114 677,102 668,93 681,101 686,113 686,129 682,142 639,206 631,222 625,246 626,265 632,278 674,330 683,347 682,365 680,367 678,363 670,371 652,367 634,351 588,280 552,241 505,214 523,206 538,208 540,205 532,197 532,190 536,187 530,186 526,178 534,183 540,183 541,186 550,177 549,175 538,179 533,175 545,166 539,165 535,160 534,134 546,125 550,117 550,111 543,118 537,118 533,114 544,94 544,78 540,68 524,76 466,76 443,92 428,94 425,104 422,99 425,95 421,96 422,109 418,115 417,136 425,134 435,140 437,155 433,165 420,176 405,178 395,165 378,164 369,171 366,188 360,187 347,172 336,147 336,129 351,110 345,101 346,85 343,78 331,93 321,94 318,105 313,101 313,86 306,85 300,75 289,67 285,67 289,84 282,90 287,103 284,108 281,108 273,98 247,94 258,110 257,121 260,127 274,128 278,135 271,140 259,140 257,148 242,142 245,155 254,162 267,165 284,157 288,162 287,171 281,177 269,181 277,185 293,185 293,193 288,201 273,201 275,205 288,212 283,216 270,213 274,226 285,232 306,227 307,233 302,241 328,237 322,262 314,272 300,272 295,265 295,256 286,274 290,287 302,296 323,296 333,292 345,280 367,267 374,281 368,290 346,307 315,322 303,322 298,317 298,304 286,305 277,295 265,293 272,307 267,315 271,330 266,333 253,328 246,337 233,342 227,349 246,350 254,358 267,350 273,353 268,362 255,367 250,383 251,397 264,383 272,389 280,388 284,369 288,364 291,365 292,379 296,384 289,399 306,393 320,378 321,359 329,360 330,374 334,379 335,370 345,352 349,350 354,354 351,344 356,346 358,352 354,363 352,358 351,371 353,372 361,359 368,340 372,345 372,365 383,344 387,327 393,326 395,344 401,331 401,321 407,321 404,316 406,314 411,318 410,327 405,330 407,338 414,313 417,312 419,315 417,306 423,311 422,320 418,320 422,331 432,294 436,295 433,290 436,289 440,293 440,301 437,301 439,309 448,291 450,273 506,292 522,307 519,310 508,311 523,312 526,315 519,316 522,322 520,332 514,318 510,317 514,326 511,335 508,322 502,319 507,326 504,337 501,324 494,322 500,329 499,337 494,328 483,327 456,349 451,350 479,323 500,312 490,315 476,323 442,355 407,357 391,362 347,404 331,406 321,402 320,415 326,422 335,425 348,424 373,412 388,426 391,435 397,441 394,453 382,464 366,468 356,466 354,452 345,451 329,441 319,441 332,458 327,467 339,478 334,483 313,480 309,489 298,496 290,508 311,505 314,510 319,511 329,504 334,506 334,510 322,520 325,529 323,542 330,554 335,537 343,536 347,532 350,520 354,517 359,521 359,532 363,536 357,552 368,548 385,524 381,512 385,504 395,523 394,514 399,493 402,498 402,515 408,504 410,488 414,494 415,507 418,509 417,502 427,476 429,492 434,499 434,491 446,458 452,458 457,462 450,480 451,486 468,469 475,458 474,448 450,420 446,405 452,395 471,388 515,389 526,425 528,443 524,448 517,449 506,437 504,448 507,456 518,466 539,468 546,465 555,455 565,459 576,459 609,449 612,456 609,480 604,489 590,501 583,500 573,484 561,487 549,481 538,481 549,498 547,509 557,512 560,519 556,522 538,522 520,549 521,555 530,548 541,545 544,551 549,553 567,537 568,542 563,550 567,558 567,568 572,578 583,586 580,564 587,564 593,560 592,547 596,541 601,544 603,558 608,562 605,577 620,569 630,549 627,538 635,531 637,508 642,509 649,528 649,516 656,503 663,519 668,522 668,481 673,484 677,500 682,504 682,479 674,460 678,450 682,449 689,455 691,475 697,484 696,469 702,443 695,433 687,430 667,432 657,422 642,418 627,407 603,401 610,379 610,355 650,396 703,411 708,420 710,440 716,445 716,402 701,386 715,366 717,343 711,326 694,300 694,292 702,280 713,278 721,285 720,278 712,267 694,265 682,274 675,291 669,279 671,256 681,244 695,238 716,242 711,236 697,229 678,230 654,242 693,208 714,184 726,157 730,128 713,161 724,145 724,151 705,180 678,204 660,211 677,199 661,205 689,153 699,121 695,92ZM572,559 575,564 575,576 571,574 571,568 568,566ZM602,538 606,539 609,551 625,552 607,557ZM572,533 575,536 572,549 576,555 567,552ZM540,534 540,537 528,542 533,533ZM541,529 546,533 549,543 554,546 550,550 544,544ZM325,523 334,524 344,532 339,534ZM359,518 363,519 365,526 382,526 363,531ZM550,504 562,507 566,511 565,517ZM641,500 648,506 647,515 643,505 638,503ZM657,491 664,495 663,513ZM315,482 319,496 317,510 314,507 312,487ZM412,481 418,487 416,497ZM668,474 676,476 678,490ZM428,468 435,474 432,487ZM453,453 461,455 464,461 456,475 459,462ZM613,449 618,458 617,479 608,495 596,503 613,477ZM507,447 509,446 522,460 540,463 533,467 522,466 512,458ZM326,446 331,446 338,456 335,458ZM402,443 403,449 398,459 387,469 378,471 378,468 385,466 394,458ZM677,444 683,442 693,448 693,465 689,451 684,447 677,447ZM645,441 654,462 638,490 638,482 648,464 647,455 642,447 642,442ZM546,410 552,422 562,430 575,430 588,422 588,439 580,452 566,455 561,451 576,448 584,433 576,436 559,435 548,424ZM434,409 442,433 424,457 425,449 437,432 432,415ZM323,404 329,421 322,415ZM699,403 706,405 713,414 712,437 708,415ZM376,409 394,421 408,422 418,415 405,416 397,412 389,401 390,397 397,407 412,412 426,407 422,419 408,427 388,423ZM258,368 265,370 275,381 281,383 273,386ZM294,367 297,368 299,376 317,378 297,381ZM421,359 390,370 354,406 351,405 390,365 407,359ZM614,354 616,353 640,378 656,390 689,402 675,403 652,393 629,373ZM370,335 377,340 377,351 374,356ZM255,331 257,348 254,354 252,333ZM528,312 532,318 532,333 523,360 523,387 535,430 535,442 532,447 530,427 520,396 517,376 519,357 529,325ZM519,297 542,305 531,307ZM504,288 534,291 517,295ZM378,289 372,297 348,315 328,323 320,323 347,310 376,287ZM484,280 487,278 500,282 513,279 525,281 506,286 493,286ZM492,272 482,278 463,275 465,272ZM451,270 453,267 468,269 456,273ZM704,266 704,269 690,277 681,293 680,288 685,276 693,268ZM291,264 294,280 300,292 292,286 289,279ZM494,254 485,250 462,252 456,247 486,245ZM696,232 676,237 653,252 661,242 678,231ZM436,225 437,235 431,260 445,244 450,229 452,237 432,274 426,258ZM458,225 488,227 493,234 485,231 464,232ZM373,211 361,232 354,266 347,276 355,233 362,221ZM297,206 297,212 286,220 285,217ZM477,205 479,203 488,214 497,216 494,219 486,219ZM405,202 407,214 402,227ZM392,199 392,221 372,254 372,245 388,218ZM367,196 343,219 330,257 319,273 337,219 350,204ZM492,196 513,209 500,207ZM412,194 429,227 424,258 421,263 411,250 395,250 390,256 390,267 405,283 396,288 388,288 377,280 370,264 374,263 384,281 396,283 385,266 389,249 398,243 407,243 420,252 424,239 424,225 411,202ZM522,194 524,193 535,206 527,205ZM428,189 435,206 434,214 426,197ZM355,185 356,192 346,203ZM297,184 298,197 292,205 286,206 285,204 292,200ZM436,181 439,183 443,201 442,210 435,190ZM349,179 349,188 340,197ZM445,170 448,173 451,191 449,203 444,180ZM343,170 345,178 339,187ZM380,165 371,186 371,173ZM338,163 339,172 331,181ZM453,154 461,177 460,191 452,164ZM246,154 262,158 261,161 255,161ZM463,145 471,168 470,181 462,156ZM441,143 441,163 425,177 438,159ZM262,140 270,163 266,162 261,149ZM475,135 483,163 480,171 473,140ZM593,119 594,129 585,170 591,169 580,189 577,222 574,213 575,189ZM427,107 422,123 424,131 420,133 419,118ZM627,89 632,90 620,104 620,120 631,135 623,133 615,120 616,102ZM535,83 526,104 526,92ZM462,82 465,93 493,114 493,124 486,115 480,117 484,119 480,122 468,122 463,119 456,121 460,116 462,102 465,103 464,112 468,117 477,109 462,97 459,89ZM618,78 608,96 605,108 606,124 615,158 615,175 612,179 600,113 607,88ZM612,66 593,85 582,103 571,156 560,179 579,99 587,86 601,72Z"/></svg>',
     bruxelles:
         '<svg viewBox="142 108 615 384" class="stats-region-tile-watermark" aria-hidden="true"><path fill="currentColor" d="m436.5 465.19c-0.0491 7.0149-2.7854 12.616-9.6576 12.614-7.2644-2e-3 -15.488-14.137-35.871-23.848-18.222-8.6818-36.068-12.586-52.23-12.614-19.969-0.0347-53.649 9.6343-85.539 10.052-30.08 0.39384-57.29-13.939-74.502-32.718-12.846-14.016-21.77-36.238-21.68-56.369 0.11311-25.378 9.9407-50.264 32.324-68.983 16.294-13.627 35.116-19.246 56.96-19.315 32.721-0.10341 65.657 16.73 86.525 33.309 30.609 24.319 58.744 56.638 78.247 91.649 11.101 19.929 25.516 53.222 25.425 66.224z"/><path fill="currentColor" transform="matrix(-1,0,0,1,900,0)" d="m436.5 465.19c-0.0491 7.0149-2.7854 12.616-9.6576 12.614-7.2644-2e-3 -15.488-14.137-35.871-23.848-18.222-8.6818-36.068-12.586-52.23-12.614-19.969-0.0347-53.649 9.6343-85.539 10.052-30.08 0.39384-57.29-13.939-74.502-32.718-12.846-14.016-21.77-36.238-21.68-56.369 0.11311-25.378 9.9407-50.264 32.324-68.983 16.294-13.627 35.116-19.246 56.96-19.315 32.721-0.10341 65.657 16.73 86.525 33.309 30.609 24.319 58.744 56.638 78.247 91.649 11.101 19.929 25.516 53.222 25.425 66.224z"/><path fill="currentColor" d="m507.06 123.03c26.469-0.15281 45.029 10.159 60.393 25.228 16.558 16.24 24.63 37.548 24.752 61.691 0.11823 23.288-7.9523 39.95-17.032 52.509-14.835 20.519-31.873 33.736-49.341 49.783-28.278 25.979-45.83 49.119-60.556 78.05-3.6335 7.1382-6.7536 17.776-15.279 17.776-8.5251 0-11.645-10.638-15.279-17.776-14.726-28.93-32.278-52.071-60.556-78.05-17.468-16.048-34.507-29.265-49.341-49.783-9.0795-12.558-17.15-29.221-17.032-52.509 0.12263-24.143 8.1946-45.451 24.752-61.691 15.364-15.069 33.924-25.381 60.393-25.228 27.318 0.15772 44.667 9.595 57.063 25.425 12.395-15.83 29.745-25.268 57.063-25.425z"/></svg>'
 };
@@ -2749,6 +3686,10 @@ function revenirAccueil() {
     sideMenu.classList.remove('open');
     menuOverlay.classList.remove('visible');
 
+    if (typeof definirModePleinEcran === 'function') {
+        definirModePleinEcran(false);
+    }
+
     construireStatsGeo();
 }
 
@@ -2758,244 +3699,38 @@ if (brandLink) {
 }
 
 
+// ===================== Plein écran de la carte =====================
+
+const mapView = document.querySelector('.map-view');
+
+// Bascule CSS plutôt que l'API plein écran native du navigateur : cette dernière n'est pas
+// fiable sur Safari iOS, alors qu'une part importante des visiteurs consulte le site sur mobile.
+function definirModePleinEcran(actif) {
+    mapView.classList.toggle('fullscreen-active', actif);
+    document.body.classList.toggle('fullscreen-lock', actif);
+
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    if (fullscreenBtn) {
+        fullscreenBtn.innerHTML = actif ? ICON_MINIMIZE : ICON_MAXIMIZE;
+        fullscreenBtn.dataset.i18nAria = actif ? 'fullscreen_exit' : 'fullscreen_enter';
+        fullscreenBtn.setAttribute('aria-label', t(fullscreenBtn.dataset.i18nAria));
+    }
+
+    // Laisse le CSS recalculer la taille du conteneur avant que Leaflet ne s'y adapte
+    setTimeout(function () { map.invalidateSize(); }, 50);
+}
+
+// Touche Échap pour quitter, comme le ferait une vraie API plein écran de navigateur
+document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && mapView.classList.contains('fullscreen-active')) {
+        definirModePleinEcran(false);
+    }
+});
+
+
 // ===================== Initialisation =====================
 
 appliquerTraductions();
-</file>
-
-<file path="index.html">
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Mapetanque Belgique — Carte des terrains de pétanque en Belgique</title>
-    <meta name="description" id="meta-description" content="Carte interactive des terrains de pétanque accessibles au public en Belgique : recherche par ville, géolocalisation et liste par région sur Mapetanque.be.">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Police des titres (Quicksand, un seul poids chargé pour rester léger) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet">
-
-    <!-- Bibliothèque Leaflet -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
-
-    <!-- Feuille de style du site -->
-    <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-
-<div class="map-view" id="top">
-
-<div class="header">
-
-    <div class="header-top-row">
-        <a href="#top" class="brand-link">
-            <svg class="logo" viewBox="0 0 878 884" aria-hidden="true">
-                <path d="M424.499,112.128C439.588,112.168 439.514,111.999 454.535,113.252C459.282,113.647 464.985,126.287 468.428,132.54C493.822,178.652 509.506,246.447 512.842,263.422C526.266,331.73 534.962,392.68 530.995,497.518C530.73,504.523 532.222,510.697 526.548,510.074C486.775,505.708 418.691,489.158 409.409,486.902C341.188,470.318 196.794,419.279 126.375,344.613C116.876,334.541 108.935,326.226 110.547,322.519C166.783,193.217 295.634,112.983 424.499,112.128Z" style="fill:rgb(0,197,47);"/>
-                <path d="M323.995,777.029C323.912,775.739 324.142,775.825 325.23,775.274C355.62,759.894 400.469,704.642 369.737,638.388C334.216,561.808 212.168,551.036 166.882,640.677C157.245,659.752 159.137,674.474 155.349,669.692C132.912,641.373 125.231,625.974 121.202,618.662C62.664,512.423 85.368,404.962 87.77,395.633C89.088,390.514 107.272,419.126 187.29,462.882C284.724,516.16 395.602,541.393 414.463,545.686C514.476,568.446 526.353,560.436 525.158,567.446C522.169,584.997 521.573,607.623 506.699,664.563C498.834,694.669 495.492,701.689 492.174,711.382C482.494,739.658 459.679,782.477 454.579,783.706C453.65,783.93 439.298,785.77 437.531,785.88C388.91,788.907 370.416,787.255 323.995,777.029Z" style="fill:rgb(0,197,47);"/>
-                <path d="M751.947,414.476C752.392,421.598 755.056,464.245 746.578,503.518C746.139,505.555 746.093,507.227 715.57,511.981C663.956,520.02 589.643,517.532 587.708,515.292C585.652,512.911 590.985,470.859 585.771,398.481C576.52,270.067 553.298,197.303 523.767,131.39C523.228,130.188 519.23,124.88 523.526,126.209C645.086,163.82 740.976,269.929 751.947,414.476Z" style="fill:rgb(0,197,47);"/>
-                <path d="M720.315,584.413C662.254,708.15 561.132,749.553 541.613,758.921C537.914,760.696 538.18,758.744 538.254,758.484C538.377,758.05 549.128,738.3 564.299,678.456C576.691,629.572 580.983,585.687 581.781,577.532C582.508,570.096 583.875,569.77 584.527,569.615C593.043,567.585 613.097,574.573 695.536,565.78C719.879,563.183 729.606,559.289 729.92,561.317C730.132,562.689 721.139,582.59 720.315,584.413Z" style="fill:rgb(0,197,47);"/>
-            </svg>
-            <span class="brand"><span class="brand-map">Map</span>etanque<span class="brand-tld">.be</span></span>
-        </a>
-
-        <!-- Navigation desktop : liens directs vers le panneau d'info + sélecteur de langue discret -->
-        <nav id="desktop-nav">
-            <button type="button" class="info-nav-trigger" data-target="about" data-i18n="menu_about">À propos</button>
-            <button type="button" class="info-nav-trigger" data-target="faq" data-i18n="menu_faq">FAQ</button>
-            <button type="button" class="info-nav-trigger" data-target="contact" data-i18n="menu_contact">Nous contacter</button>
-            <span id="lang-switcher-inline">
-                <button type="button" class="lang-link" data-lang="fr">FR</button>
-                <button type="button" class="lang-link" data-lang="nl">NL</button>
-                <button type="button" class="lang-link" data-lang="de">DE</button>
-            </span>
-        </nav>
-
-        <!-- Menu burger (mobile uniquement) -->
-        <button id="menu-button" data-i18n-aria="open_menu">
-            ☰
-        </button>
-
-        <nav id="side-menu">
-            <button id="close-menu" data-i18n-aria="close_menu">
-                ✕
-            </button>
-
-            <ul>
-                <li><a href="#about" data-i18n="menu_about">À propos</a></li>
-                <li><a href="#faq" data-i18n="menu_faq">FAQ</a></li>
-                <li><a href="#contact" data-i18n="menu_contact">Nous contacter</a></li>
-            </ul>
-
-            <!-- Sélecteur de langue discret, plus de bouton en évidence : la détection automatique
-                 (navigateur + mémorisation locale) suffit dans l'immense majorité des cas, ceci reste
-                 disponible en repli pour corriger manuellement si besoin. -->
-            <div id="side-menu-lang">
-                <button type="button" class="lang-link" data-lang="fr">FR</button>
-                <button type="button" class="lang-link" data-lang="nl">NL</button>
-                <button type="button" class="lang-link" data-lang="de">DE</button>
-            </div>
-        </nav>
-
-        <div id="menu-overlay"></div>
-    </div>
-
-    <p class="hero-headline" data-i18n="hero_headline">Trouvez un terrain de pétanque public</p>
-
-</div>
-
-<div class="controls">
-    <button id="locateBtn">
-        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-        <span data-i18n="locate_btn">Me localiser</span>
-    </button>
-
-    <form id="searchForm" class="search-form">
-        <input
-            type="text"
-            id="searchInput"
-            data-i18n-placeholder="search_placeholder"
-            autocomplete="off"
-        >
-        <button type="submit" id="searchBtn" aria-label="Rechercher">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        </button>
-    </form>
-
-    <a href="#stats-section" id="browseListBtn">
-        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
-        <span data-i18n="browse_list_btn">Parcourir la liste</span>
-    </a>
-</div>
-
-<p class="add-terrain-link-wrapper">
-    <a href="#" id="add-terrain-link" data-i18n="add_terrain_link">Ajouter un terrain de pétanque</a>
-</p>
-
-<p id="searchError" class="search-error"></p>
-
-<!-- Panneau de partage réutilisable (site ou terrain précis) -->
-<div id="share-overlay"></div>
-<div id="share-panel">
-    <button id="share-close" data-i18n-aria="close_panel">✕</button>
-    <p id="share-title" class="share-title"></p>
-
-    <div class="share-links">
-        <a id="share-whatsapp" class="share-link" target="_blank" rel="noopener">
-            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></span><span data-i18n="share_whatsapp">WhatsApp</span>
-        </a>
-        <a id="share-facebook" class="share-link" target="_blank" rel="noopener">
-            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></span><span data-i18n="share_facebook">Facebook</span>
-        </a>
-        <a id="share-twitter" class="share-link" target="_blank" rel="noopener">
-            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><span data-i18n="share_twitter">X (Twitter)</span>
-        </a>
-        <a id="share-email" class="share-link">
-            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span><span data-i18n="share_email">E-mail</span>
-        </a>
-        <button type="button" id="share-copy" class="share-link">
-            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></span><span id="share-copy-label" data-i18n="share_copy">Copier le lien</span>
-        </button>
-    </div>
-</div>
-
-<div id="map"></div>
-
-</div><!-- /.map-view -->
-
-<!-- Lien symétrique du précédent, juste sous la bordure de la carte : remonter en haut de page -->
-<nav id="back-to-top-nav" class="section-links-bar">
-    <a href="#top" class="info-nav-trigger content-section-link">
-        <span data-i18n="back_to_top">Revenir en haut</span>
-        <svg class="content-section-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
-    </a>
-</nav>
-
-<!-- Section statistiques : contenu HTML normal, toujours dans le DOM et indexable, comme n'importe quelle page. -->
-<section id="stats-section">
-    <div class="stats-container">
-        <h2 data-i18n="stats_page_title">Statistiques</h2>
-
-        <div class="stats-headline">
-            <span class="stats-headline-number">…</span>
-            <span class="stats-headline-label" data-i18n="stats_headline_label">terrains de pétanque recensés en Belgique</span>
-        </div>
-
-        <!-- Contenu construit dynamiquement en JS depuis data/stats_geo.json (voir construireStatsGeo
-             dans script.js), au chargement de la page et à chaque changement de langue — pas au clic,
-             donc indexable normalement, comme le reste des données de la carte. -->
-        <div id="stats-regions-tiles" class="stats-regions-tiles"></div>
-
-        <div id="stats-geo-tree"></div>
-    </div>
-</section>
-
-<!-- Panneau d'info coulissant -->
-<aside id="info-panel">
-    <button id="close-info" data-i18n-aria="close_panel">✕</button>
-
-    <nav id="info-nav">
-        <button type="button" class="info-nav-link" data-target="about" data-i18n="menu_about">À propos</button>
-        <button type="button" class="info-nav-link" data-target="faq" data-i18n="menu_faq">FAQ</button>
-        <button type="button" class="info-nav-link" data-target="contact" data-i18n="menu_contact">Contact</button>
-    </nav>
-
-    <!-- Contenu construit une seule fois au chargement (et à chaque changement de langue),
-         puis simplement affiché/masqué au clic : reste dans le DOM, donc indexable par Google. -->
-    <div id="info-content">
-        <div class="info-page" id="info-page-about"></div>
-        <div class="info-page" id="info-page-faq"></div>
-        <div class="info-page" id="info-page-contact"></div>
-    </div>
-</aside>
-<div id="info-overlay"></div>
-
-<footer>
-    <div class="footer-content">
-        <p class="footer-small">
-            <span id="site-stats"></span>
-        </p>
-
-        <div class="footer-share">
-            <a id="footer-share-whatsapp" class="footer-share-icon" target="_blank" rel="noopener" data-i18n-aria="share_whatsapp" aria-label="WhatsApp">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-            </a>
-            <a id="footer-share-facebook" class="footer-share-icon" target="_blank" rel="noopener" data-i18n-aria="share_facebook" aria-label="Facebook">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
-            </a>
-            <a id="footer-share-twitter" class="footer-share-icon" target="_blank" rel="noopener" data-i18n-aria="share_twitter" aria-label="X (Twitter)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </a>
-            <a id="footer-share-email" class="footer-share-icon" data-i18n-aria="share_email" aria-label="E-mail">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-            </a>
-            <span class="footer-share-copy-wrapper">
-                <button type="button" id="footer-share-copy" class="footer-share-icon" data-i18n-aria="share_copy" aria-label="Copier le lien">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-                </button>
-                <span id="copy-tooltip" class="copy-tooltip"></span>
-            </span>
-        </div>
-    </div>
-</footer>
-
-<!-- Bibliothèque Leaflet -->
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
-
-<!-- Traductions -->
-<script src="translations.js"></script>
-
-<!-- Script du site -->
-<script src="script.js"></script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
-
-</body>
-</html>
 </file>
 
 <file path="translations.js">
@@ -3017,6 +3752,8 @@ const translations = {
 
         open_menu: "Ouvrir le menu",
         close_menu: "Fermer le menu",
+        fullscreen_enter: "Plein écran",
+        fullscreen_exit: "Quitter le plein écran",
         close_panel: "Fermer",
 
         share_site_btn: "📤 Partager",
@@ -3031,7 +3768,7 @@ const translations = {
         popup_share: "Partager ce terrain",
 
         menu_about: "À propos",
-        menu_contact: "Nous contacter",
+        menu_contact: "Me contacter",
         menu_faq: "FAQ",
 
         stats_page_title: "Liste des terrains",
@@ -3056,7 +3793,6 @@ const translations = {
         geo_province_limbourg: "Limbourg",
         geo_province_flandre_orientale: "Flandre-Orientale",
         geo_province_flandre_occidentale: "Flandre-Occidentale",
-        back_to_top: "Revenir en haut",
 
         about_title: "À propos",
         about_text: "Mapetanque est né de la constatation qu'il n'existait aucun site recensant de manière " +
@@ -3064,7 +3800,7 @@ const translations = {
             "actuellement en développement. L'objectif, à terme, est de proposer une plateforme communautaire " +
             "permettant d'ajouter des photos, des informations pratiques et des avis utiles pour les joueurs.",
 
-        contact_title: "Nous contacter",
+        contact_title: "Me contacter",
         contact_text: "Vous avez une suggestion, vous souhaitez signaler une erreur ou participer au projet ? " +
             "N'hésitez pas à me contacter.",
         contact_email: "mapetanque@outlook.be",
@@ -3088,20 +3824,19 @@ const translations = {
             },
             {
                 q: "Comment ajouter un terrain manquant ?",
-                a: "Les terrains affichés sur Mapetanque proviennent des données libres d'OpenStreetMap. " +
+                a: "Les terrains affichés sur Mapetanque proviennent des données libres d'OpenStreetMap (OSM). " +
                    "Si vous connaissez un terrain de pétanque accessible au public qui n'apparaît pas sur la " +
-                   "carte, vous pouvez : l'ajouter directement dans OpenStreetMap grâce à leur outil d'édition ; " +
-                   "ou nous envoyer les informations nécessaires par e-mail 📧 mapetanque@outlook.be " +
+                   "carte, vous pouvez : l'ajouter directement dans OSM grâce à leur outil d'édition ; " +
+                   "ou m'envoyer les informations nécessaires par e-mail 📧 mapetanque@outlook.be " +
                    "(localisation précise, nombre de pistes si connu, etc.). Après mise à jour des données " +
-                   "OpenStreetMap, le terrain apparaîtra automatiquement sur Mapetanque lors de la prochaine " +
+                   "OSM, le terrain apparaîtra automatiquement sur Mapetanque lors de la prochaine " +
                    "synchronisation."
             },
             {
-                q: "Un terrain indiqué sur la carte n'existe plus ou n'est plus praticable, que faire ?",
-                a: "Les terrains affichés sur Mapetanque proviennent des données libres d'OpenStreetMap. Comme " +
-                   "cette base est collaborative, certaines informations peuvent être incomplètes ou ne plus " +
-                   "être à jour. Si un terrain n'existe plus ou n'est plus accessible au public, vous pouvez : " +
-                   "modifier directement l'information dans OpenStreetMap via leur outil d'édition ; ou nous " +
+                q: "Comment retirer un terrain qui n'existe plus ou n'est plus praticable ?",
+                a: "Les terrains affichés sur Mapetanque proviennent des données libres d'OpenStreetMap (OSM). " +
+                   "Si un terrain n'existe plus ou n'est plus accessible au public, vous pouvez : " +
+                   "modifier directement l'information dans OSM via leur outil d'édition ; ou me " +
                    "signaler l'erreur par e-mail 📧 mapetanque@outlook.be en précisant l'emplacement du terrain " +
                    "et les informations utiles. Si le terrain existe toujours mais est simplement mal entretenu " +
                    "ou dégradé, le mieux est de contacter la commune concernée (service des sports, travaux ou " +
@@ -3116,6 +3851,8 @@ const translations = {
         popup_access_probable: "probablement public",
         popup_distance_label: "Distance",
         popup_distance_hint: "Cliquez sur \"Me localiser\" pour voir la distance",
+        popup_photo_credit_wikimedia: "Photo : Wikimedia Commons",
+        popup_photo_credit_mapillary: "Photo : Mapillary",
         popup_itinerary: "Afficher l'itinéraire",
         popup_here: "Vous êtes ici",
         nearest_terrain_label: "Terrain le plus proche",
@@ -3142,6 +3879,8 @@ const translations = {
 
         open_menu: "Menu openen",
         close_menu: "Menu sluiten",
+        fullscreen_enter: "Volledig scherm",
+        fullscreen_exit: "Volledig scherm afsluiten",
         close_panel: "Sluiten",
 
         share_site_btn: "📤 Delen",
@@ -3181,7 +3920,6 @@ const translations = {
         geo_province_limbourg: "Limburg",
         geo_province_flandre_orientale: "Oost-Vlaanderen",
         geo_province_flandre_occidentale: "West-Vlaanderen",
-        back_to_top: "Terug naar boven",
 
         about_title: "Over ons",
         about_text: "Mapetanque is ontstaan uit de vaststelling dat er geen enkele website bestond die op een " +
@@ -3243,6 +3981,8 @@ const translations = {
         popup_access_probable: "waarschijnlijk openbaar",
         popup_distance_label: "Afstand",
         popup_distance_hint: "Klik op \"Localiseer mij\" om de afstand te zien",
+        popup_photo_credit_wikimedia: "Foto: Wikimedia Commons",
+        popup_photo_credit_mapillary: "Foto: Mapillary",
         popup_itinerary: "Route weergeven",
         popup_here: "Je bent hier",
         nearest_terrain_label: "Dichtstbijzijnde terrein",
@@ -3269,6 +4009,8 @@ const translations = {
 
         open_menu: "Menü öffnen",
         close_menu: "Menü schließen",
+        fullscreen_enter: "Vollbild",
+        fullscreen_exit: "Vollbild beenden",
         close_panel: "Schließen",
 
         share_site_btn: "📤 Teilen",
@@ -3308,7 +4050,6 @@ const translations = {
         geo_province_limbourg: "Limburg",
         geo_province_flandre_orientale: "Ostflandern",
         geo_province_flandre_occidentale: "Westflandern",
-        back_to_top: "Nach oben",
 
         about_title: "Über uns",
         about_text: "Mapetanque entstand aus der Feststellung, dass es keine Website gab, die schnell und " +
@@ -3370,6 +4111,8 @@ const translations = {
         popup_access_probable: "wahrscheinlich öffentlich",
         popup_distance_label: "Entfernung",
         popup_distance_hint: "Klicken Sie auf \"Meinen Standort finden\", um die Entfernung zu sehen",
+        popup_photo_credit_wikimedia: "Foto: Wikimedia Commons",
+        popup_photo_credit_mapillary: "Foto: Mapillary",
         popup_itinerary: "Route anzeigen",
         popup_here: "Sie sind hier",
         nearest_terrain_label: "Nächstgelegener Platz",
@@ -3419,6 +4162,51 @@ body {
     flex: 1 1 auto;
     width: 100%;
     min-height: 300px;
+}
+
+/* Bouton plein écran : injecté par script.js comme un vrai contrôle Leaflet (même famille que
+   le zoom et le sélecteur Plan/Satellite), donc son positionnement/empilement dans le coin de la
+   carte et son style de boîte (fond blanc, bordure) sont déjà gérés par Leaflet lui-même. */
+#fullscreenBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#fullscreenBtn .btn-icon {
+    width: 16px;
+    height: 16px;
+}
+
+/* Mode plein écran : la carte (avec ses contrôles de recherche) occupe tout le viewport, header et
+   liens "Ajouter un terrain" masqués. z-index 1060 : au-dessus du footer fixe (1050) pour le
+   recouvrir entièrement, mais sous les panneaux menu/info/partage (1100+) au cas où l'un d'eux
+   était resté ouvert. */
+.map-view.fullscreen-active {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh !important;
+    height: 100svh !important;
+    z-index: 1060;
+    background: white;
+}
+
+.map-view.fullscreen-active .header,
+.map-view.fullscreen-active #browseListBtn,
+.map-view.fullscreen-active .add-terrain-link-wrapper,
+.map-view.fullscreen-active .search-error {
+    display: none;
+}
+
+.map-view.fullscreen-active #map {
+    height: 100%;
+}
+
+/* Empêche la page de scroller derrière la carte tant que le plein écran est actif */
+body.fullscreen-lock {
+    overflow: hidden;
 }
 
 /* Section statistiques, sous le bloc carte : contenu normal, toujours affiché */
@@ -3898,21 +4686,6 @@ body {
 /* Barre de liens vers les sections de contenu sous la carte (Statistiques, puis d'autres),
    alignée à gauche, juste au-dessus de la bordure haute de la carte.
    Réutilisée aussi pour le lien "Revenir en haut" juste sous cette bordure. */
-.section-links-bar {
-    display: flex;
-    align-items: center;
-    flex: 0 0 auto;
-    gap: 4px;
-    height: 44px;
-    padding: 0 15px;
-    box-sizing: border-box;
-}
-
-.content-section-arrow {
-    width: 12px;
-    height: 12px;
-}
-
 /* Menu burger : masqué en desktop, réservé au mobile */
 #menu-button {
     display: none;
@@ -4215,6 +4988,22 @@ body {
     color: #74C15A;
 }
 
+/* Photo du terrain dans le popup (issue d'un tag OSM image=/wikimedia_commons=/mapillary=,
+   voir resoudre_photo() dans update_terrains.py) */
+.popup-photo {
+    display: block;
+    width: 100%;
+    max-height: 140px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 4px;
+}
+
+.popup-photo-credit {
+    font-size: 11px;
+    color: #999;
+}
+
 /* Marqueur de position utilisateur */
 /* Marqueur de terrain (pin vert) : ombre portée pour se détacher de tous les fonds de carte */
 .terrain-marker-icon {
@@ -4475,8 +5264,8 @@ footer {
        info, partage), qui commencent à 1100. */
     z-index: 1050;
 
-    /* Même hauteur exacte que .section-links-bar (44px), pour un rendu visuellement cohérent
-       entre le lien "Revenir en haut" juste au-dessus et le footer juste en dessous */
+    /* Hauteur fixe choisie pour rester compacte tout en laissant assez de place au texte
+       + aux icônes de partage sur une seule ligne, y compris en mobile */
     height: 44px;
     box-sizing: border-box;
     display: flex;

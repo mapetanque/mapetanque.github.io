@@ -2,26 +2,23 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Mapetanque Belgique — Carte des terrains de pétanque en Belgique</title>
-    <meta name="description" id="meta-description" content="Carte interactive des terrains de pétanque accessibles au public en Belgique : recherche par ville, géolocalisation et liste par région sur Mapetanque.be.">
+    <title>Terrains de pétanque en province de Brabant flamand — Mapetanque</title>
+    <meta name="description" id="meta-description" content="Terrains de pétanque publics en province Brabant flamand : carte interactive, liste par commune, recherche par ville sur Mapetanque.be.">
     <link rel="icon" type="image/svg+xml" href="/images/logomap.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Open Graph : aperçu affiché lors du partage du lien (WhatsApp, Facebook, etc.) -->
-    <meta property="og:title" content="Mapetanque Belgique — Carte des terrains de pétanque en Belgique">
-    <meta property="og:description" content="Carte interactive des terrains de pétanque accessibles au public en Belgique : recherche par ville, géolocalisation et liste par région sur Mapetanque.be.">
+    <meta property="og:title" content="Terrains de pétanque en province de Brabant flamand — Mapetanque">
+    <meta property="og:description" content="Terrains de pétanque publics en province Brabant flamand : carte interactive, liste par commune, recherche par ville sur Mapetanque.be.">
     <meta property="og:image" content="https://mapetanque.github.io/images/logomap.png">
-    <meta property="og:url" content="https://mapetanque.github.io/">
+    <meta property="og:url" content="https://mapetanque.github.io/province-brabant-flamand.html">
     <meta property="og:type" content="website">
 
-    <!-- Versions par langue : indique à Google que /, /nl/ et /de/ sont la même page en 3
-         langues, et non 3 pages de contenu dupliqué. Ce bloc doit être identique (mêmes 4
-         lignes) dans les <head> de /index.html, /nl/index.html et /de/index.html. -->
-    <link rel="canonical" href="https://mapetanque.github.io/">
-    <link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/">
-    <link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/">
-    <link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/">
-    <link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/">
+    <link rel="canonical" href="https://mapetanque.github.io/province-brabant-flamand.html">
+    <!-- Versions par langue de cette même page province, uniquement quand elles existent
+         réellement (le générateur ne les inclut que si la traduction correspondante est prête). -->
+    <link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/province-brabant-flamand.html">
+    <link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/province-brabant-flamand.html">
 
     <!-- Police des titres (Quicksand, un seul poids chargé pour rester léger) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,25 +30,25 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
 
-    <!-- Feuille de style du site (chemin absolu : ce même fichier index.html est aussi servi
-         depuis /nl/ et /de/, un chemin relatif irait chercher /nl/style.css et casserait tout) -->
+    <!-- Feuille de style du site (chemin absolu : cette page est aussi servie depuis /nl/ et
+         /de/, un chemin relatif irait chercher un mauvais dossier et casserait tout) -->
     <link rel="stylesheet" href="/style.css">
 
-    <!-- Bannière photo + grille "Parcourir par province" : ajouts additifs uniquement, aucune
-         règle de /style.css n'est modifiée par ce fichier. -->
-    <link rel="stylesheet" href="/style-accueil-provinces.css">
+    <!-- Bannière photo + contenu province : ajouts additifs uniquement, aucune règle de
+         /style.css n'est modifiée par ce fichier. -->
+    <link rel="stylesheet" href="/style-province.css">
 </head>
 
 <body>
 
 <div class="map-view" id="top">
 
-<div class="hero-banner">
+<div class="hero-banner" style="background-image: url('/images/provinces/banniere-brabant-flamand.jpg');">
 
 <div class="header">
 
     <div class="header-top-row">
-        <a href="#top" class="brand-link">
+        <a href="/" class="brand-link">
             <svg class="logo" viewBox="0 0 878 884" aria-hidden="true">
                 <path d="M424.499,112.128C439.588,112.168 439.514,111.999 454.535,113.252C459.282,113.647 464.985,126.287 468.428,132.54C493.822,178.652 509.506,246.447 512.842,263.422C526.266,331.73 534.962,392.68 530.995,497.518C530.73,504.523 532.222,510.697 526.548,510.074C486.775,505.708 418.691,489.158 409.409,486.902C341.188,470.318 196.794,419.279 126.375,344.613C116.876,334.541 108.935,326.226 110.547,322.519C166.783,193.217 295.634,112.983 424.499,112.128Z" style="fill:rgb(0,197,47);"/>
                 <path d="M323.995,777.029C323.912,775.739 324.142,775.825 325.23,775.274C355.62,759.894 400.469,704.642 369.737,638.388C334.216,561.808 212.168,551.036 166.882,640.677C157.245,659.752 159.137,674.474 155.349,669.692C132.912,641.373 125.231,625.974 121.202,618.662C62.664,512.423 85.368,404.962 87.77,395.633C89.088,390.514 107.272,419.126 187.29,462.882C284.724,516.16 395.602,541.393 414.463,545.686C514.476,568.446 526.353,560.436 525.158,567.446C522.169,584.997 521.573,607.623 506.699,664.563C498.834,694.669 495.492,701.689 492.174,711.382C482.494,739.658 459.679,782.477 454.579,783.706C453.65,783.93 439.298,785.77 437.531,785.88C388.91,788.907 370.416,787.255 323.995,777.029Z" style="fill:rgb(0,197,47);"/>
@@ -67,42 +64,29 @@
             <button type="button" class="info-nav-trigger" data-target="faq" data-i18n="menu_faq">FAQ</button>
             <button type="button" class="info-nav-trigger" data-target="contact" data-i18n="menu_contact">Nous contacter</button>
             <span id="lang-switcher-inline">
-                <button type="button" class="lang-link" data-lang="fr">FR</button>
-                <button type="button" class="lang-link" data-lang="nl">NL</button>
-                <button type="button" class="lang-link" data-lang="de">DE</button>
+                <button type="button" class="lang-link" data-lang="fr" data-lang-url="/province-brabant-flamand.html">FR</button>
+                <button type="button" class="lang-link" data-lang="nl" data-lang-url="/nl/">NL</button>
+                <button type="button" class="lang-link" data-lang="de" data-lang-url="/de/">DE</button>
             </span>
         </nav>
 
-        <!-- Menu burger (mobile uniquement) -->
+        <!-- Menu burger (mobile uniquement) : la fenêtre elle-même (#side-menu) et son voile
+             (#menu-overlay) vivent hors de .hero-banner (voir plus bas), pour ne jamais être
+             tronqués ou empilés sous d'autres éléments à cause de l'overflow/position de la
+             bannière — le bouton qui l'ouvre, lui, reste ici avec le reste de la nav. -->
         <button id="menu-button" data-i18n-aria="open_menu">
             ☰
         </button>
-
-        <nav id="side-menu">
-            <button id="close-menu" data-i18n-aria="close_menu">
-                ✕
-            </button>
-
-            <ul>
-                <li><a href="#about" data-i18n="menu_about">À propos</a></li>
-                <li><a href="#faq" data-i18n="menu_faq">FAQ</a></li>
-                <li><a href="#contact" data-i18n="menu_contact">Nous contacter</a></li>
-            </ul>
-
-            <!-- Sélecteur de langue discret, plus de bouton en évidence : la détection automatique
-                 (navigateur + mémorisation locale) suffit dans l'immense majorité des cas, ceci reste
-                 disponible en repli pour corriger manuellement si besoin. -->
-            <div id="side-menu-lang">
-                <button type="button" class="lang-link" data-lang="fr">FR</button>
-                <button type="button" class="lang-link" data-lang="nl">NL</button>
-                <button type="button" class="lang-link" data-lang="de">DE</button>
-            </div>
-        </nav>
-
-        <div id="menu-overlay"></div>
     </div>
 
-    <p class="hero-headline" data-i18n="hero_headline">Trouvez un terrain de pétanque public</p>
+    <div class="province-breadcrumb">
+        <a href="/">Accueil</a>
+        <span class="sep">›</span>
+        <span>Flandre</span>
+        <span class="sep">›</span>
+        <span class="current">Brabant flamand</span>
+    </div>
+    <h1 class="hero-headline">Terrains de pétanque en province de Brabant flamand</h1>
 
 </div>
 
@@ -132,10 +116,31 @@
 
 <!-- Crédit photo bannière -->
 <div class="hero-banner-credit">
-    Photo : Jean-Claude Parayre, <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a>
+    Photo : Johan Bakker, <a href="https://commons.wikimedia.org/w/index.php?curid=72405373" target="_blank" rel="noopener">CC BY-SA 3.0</a>
 </div>
 
 </div><!-- /.hero-banner -->
+
+<!-- Fenêtre du menu burger + voile, hors de .hero-banner (voir commentaire plus haut) -->
+<nav id="side-menu">
+    <button id="close-menu" data-i18n-aria="close_menu">
+        ✕
+    </button>
+
+    <ul>
+        <li><a href="#about" data-i18n="menu_about">À propos</a></li>
+        <li><a href="#faq" data-i18n="menu_faq">FAQ</a></li>
+        <li><a href="#contact" data-i18n="menu_contact">Nous contacter</a></li>
+    </ul>
+
+    <div id="side-menu-lang">
+        <button type="button" class="lang-link" data-lang="fr" data-lang-url="/province-brabant-flamand.html">FR</button>
+        <button type="button" class="lang-link" data-lang="nl" data-lang-url="/nl/">NL</button>
+        <button type="button" class="lang-link" data-lang="de" data-lang-url="/de/">DE</button>
+    </div>
+</nav>
+
+<div id="menu-overlay"></div>
 
 <p class="add-terrain-link-wrapper">
     <a href="#" id="add-terrain-link" data-i18n="add_terrain_link">Ajouter un terrain de pétanque</a>
@@ -168,56 +173,79 @@
     </div>
 </div>
 
-<div class="map-wrapper">
+<!-- Intro + tuiles chiffres + carte : un seul bloc-fiche, toujours à l'intérieur de .map-view
+     (nécessaire pour que le mode plein écran continue de fonctionner sur #map). La carte est
+     incluse dans la fiche, à la même largeur que le texte/les tuiles — pas une boîte à part. -->
+<div class="province-content province-content-top">
+
+    <p class="province-intro">
+        Le Brabant flamand compte <strong>191 terrains de pétanque</strong> recensés sur Mapetanque, répartis dans <strong>54 communes</strong>. Louvain arrive en tête avec 29 terrains, suivie de Hal avec 21. Au Sollenbeemd Tennis Club de Halle, quelques amis ont commencé à jouer à la pétanque sur les terrains du club en 2015. Comme ils jouaient de plus en plus régulièrement, l'assemblée générale a décidé en mai 2016 de créer officiellement une section pétanque. C'est ainsi qu'est né le Sollenbeemd Petanque Club Halle, qui dispose aujourd'hui de cinq pistes. De son côté, le club PC Kerkom, à Boutersem, a été sacré champion du Brabant flamand en 2023, en évoluant dans la plus haute division provinciale. Retrouvez ci-dessous l'ensemble des communes de la province disposant d'au moins un terrain, avec accès direct à chaque fiche.
+    </p>
+
+    <div class="province-stats-tiles">
+        <div class="province-stat-tile">
+            <span class="province-stat-tile-number">191</span>
+            <span class="province-stat-tile-label">terrains recensés</span>
+        </div>
+        <div class="province-stat-tile">
+            <span class="province-stat-tile-number">54</span>
+            <span class="province-stat-tile-label">communes couvertes</span>
+        </div>
+        <div class="province-stat-tile">
+            <span class="province-stat-tile-number">9,1</span>
+            <span class="province-stat-tile-label">terrains pour 100 km²</span>
+        </div>
+    </div>
+
+    <h2 class="province-map-title">Carte des terrains</h2>
     <div id="map"></div>
+
 </div>
 
 </div><!-- /.map-view -->
 
-<!-- Section "Parcourir par province" : remplace visuellement l'ancienne section statistiques
-     (#stats-section juste en dessous, désormais masquée en CSS mais conservée intacte dans le DOM
-     — tout son JS continue de tourner normalement, rien n'a été retiré). -->
-<section id="provinces-section">
-    <div class="provinces-container">
-        <h2>Parcourir par province</h2>
+<!-- Liste des communes : reste après la carte. Remplace visuellement l'ancienne section
+     statistiques (#stats-section juste en dessous, désormais masquée en CSS mais conservée
+     intacte dans le DOM — tout son JS continue de tourner normalement). -->
+<div class="province-content province-content-bottom">
 
-        <div class="province-tiles-grid">
-            <a href="/province-anvers.html" class="province-tile" style="background-image: url('/images/provinces/tuile-anvers.jpg');">
-                <span class="province-tile-name">Anvers</span>
-            </a>
-            <a href="/province-brabant-flamand.html" class="province-tile" style="background-image: url('/images/provinces/tuile-brabant-flamand.jpg');">
-                <span class="province-tile-name">Brabant flamand</span>
-            </a>
-            <a href="/province-flandre-orientale.html" class="province-tile" style="background-image: url('/images/provinces/tuile-flandre-orientale.jpg');">
-                <span class="province-tile-name">Flandre orientale</span>
-            </a>
-            <a href="/province-flandre-occidentale.html" class="province-tile" style="background-image: url('/images/provinces/tuile-flandre-occidentale.jpg');">
-                <span class="province-tile-name">Flandre occidentale</span>
-            </a>
-            <a href="/province-limbourg.html" class="province-tile" style="background-image: url('/images/provinces/tuile-limbourg.jpg');">
-                <span class="province-tile-name">Limbourg</span>
-            </a>
-            <a href="/province-brabant-wallon.html" class="province-tile" style="background-image: url('/images/provinces/tuile-brabant-wallon.jpg');">
-                <span class="province-tile-name">Brabant wallon</span>
-            </a>
-            <a href="/province-hainaut.html" class="province-tile" style="background-image: url('/images/provinces/tuile-hainaut.jpg');">
-                <span class="province-tile-name">Hainaut</span>
-            </a>
-            <a href="/province-liege.html" class="province-tile" style="background-image: url('/images/provinces/tuile-liege.jpg');">
-                <span class="province-tile-name">Liège</span>
-            </a>
-            <a href="/province-luxembourg.html" class="province-tile" style="background-image: url('/images/provinces/tuile-luxembourg.jpg');">
-                <span class="province-tile-name">Luxembourg</span>
-            </a>
-            <a href="/province-namur.html" class="province-tile" style="background-image: url('/images/provinces/tuile-namur.jpg');">
-                <span class="province-tile-name">Namur</span>
-            </a>
-            <a href="/province-bruxelles.html" class="province-tile" style="background-image: url('/images/provinces/tuile-bruxelles.jpg');">
-                <span class="province-tile-name">Bruxelles</span>
-            </a>
+    <div class="province-communes-section">
+        <h2>Communes de la province</h2>
+        <input type="text" class="commune-search" id="communeSearch" placeholder="Rechercher une commune…">
+        <div class="commune-list" id="communeList"></div>
+        <p class="commune-no-result" id="communeNoResult">Aucune commune ne correspond à votre recherche.</p>
+    </div>
+
+    <div class="other-provinces-section">
+        <h2>Autres provinces</h2>
+        <div class="other-provinces-group">
+            <span class="other-provinces-group-label">Flandre</span>
+            <div class="other-provinces-links">
+            <a href="/province-anvers.html">Anvers</a>
+            <a href="/province-flandre-occidentale.html">Flandre occidentale</a>
+            <a href="/province-flandre-orientale.html">Flandre orientale</a>
+            <a href="/province-limbourg.html">Limbourg</a>
+            </div>
+        </div>
+        <div class="other-provinces-group">
+            <span class="other-provinces-group-label">Wallonie</span>
+            <div class="other-provinces-links">
+            <a href="/province-brabant-wallon.html">Brabant wallon</a>
+            <a href="/province-hainaut.html">Hainaut</a>
+            <a href="/province-liege.html">Liège</a>
+            <a href="/province-luxembourg.html">Luxembourg</a>
+            <a href="/province-namur.html">Namur</a>
+            </div>
+        </div>
+        <div class="other-provinces-group">
+            <span class="other-provinces-group-label">Bruxelles</span>
+            <div class="other-provinces-links">
+            <a href="/province-bruxelles.html">Bruxelles</a>
+            </div>
         </div>
     </div>
-</section>
+
+</div>
 
 <!-- Section statistiques : conservée intacte, JS toujours actif, seulement masquée visuellement
      (voir /style-accueil-provinces.css). Rien n'est supprimé ici. -->
@@ -298,6 +326,102 @@
 <!-- Script du site -->
 <script src="/script.js"></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
+
+<!-- ===================== Comportement propre à la page province ===================== -->
+<!-- Ne redéfinit rien de script.js : réutilise tel quel le vrai formulaire de recherche
+     (même mécanisme que si un visiteur tapait "Vlaams-Brabant, België" sur la page
+     d'accueil) pour centrer la carte — avec les vrais terrains, popups, distances, etc. -->
+<script>
+(function () {
+    function lancerRecherche(texte) {
+        const input = document.getElementById('searchInput');
+        const form = document.getElementById('searchForm');
+        if (!input || !form) return;
+        input.value = texte;
+        form.requestSubmit ? form.requestSubmit() : form.dispatchEvent(new Event('submit', { cancelable: true }));
+    }
+
+    // Sécurité : force Leaflet à recalculer la taille de son conteneur AVANT de lancer la
+    // recherche (et pas après), pour que fitBounds() calcule le bon niveau de zoom sur une
+    // carte déjà correctement dimensionnée plutôt que sur une taille pas encore stabilisée.
+    if (typeof map !== 'undefined') {
+        map.invalidateSize();
+    }
+
+    // Recherche initiale sur la province, une fois que script.js a fini de s'exécuter
+    // (ce <script> est chargé après lui, donc la carte et le gestionnaire de recherche
+    // existent déjà à ce stade).
+    lancerRecherche('Vlaams-Brabant, België');
+
+    // Filet de sécurité pour les très grandes provinces (le Luxembourg notamment) : si le
+    // contour est si vaste que fitBounds() calcule un zoom proche ou égal au zoom par défaut
+    // de la carte (8, vue Belgique entière), on force un zoom intermédiaire supplémentaire
+    // pour que le recentrage reste visuellement perceptible.
+    setTimeout(function () {
+        if (typeof map !== 'undefined' && map.getZoom() <= 8) {
+            if (typeof searchMarker !== 'undefined' && searchMarker) {
+                map.setView(searchMarker.getLatLng(), 9);
+            } else {
+                map.setZoom(9);
+            }
+        }
+    }, 1200);
+
+    // Liste des communes (issues de data/stats_geo.json, province "brabant_flamand") : chaque
+    // clic relance une recherche réelle sur cette commune, exactement comme la taper soi-même.
+    fetch('/data/communes-brabant-flamand.json')
+        .then(function (r) { return r.json(); })
+        .then(function (communes) {
+            const conteneur = document.getElementById('communeList');
+            const nomsTries = Object.keys(communes).sort(function (a, b) { return communes[b] - communes[a]; });
+
+            nomsTries.forEach(function (nom) {
+                const item = document.createElement('div');
+                item.className = 'commune-item';
+                item.dataset.rechercheClef = nom.toLowerCase();
+
+                const link = document.createElement('a');
+                link.href = '#';
+                const count = communes[nom];
+                const unite = count > 1 ? 'terrains' : 'terrain';
+                link.innerHTML = nom + ' <span class="commune-count">(' + count + ' ' + unite + ')</span>';
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    lancerRecherche(nom + ', Belgique');
+                    document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                });
+
+                item.appendChild(link);
+                conteneur.appendChild(item);
+            });
+        });
+
+    document.getElementById('communeSearch').addEventListener('input', function (e) {
+        const q = e.target.value.trim().toLowerCase();
+        const items = document.querySelectorAll('.commune-item');
+        let visibleCount = 0;
+        items.forEach(function (item) {
+            const match = item.dataset.rechercheClef.includes(q);
+            item.style.display = match ? '' : 'none';
+            if (match) visibleCount++;
+        });
+        document.getElementById('communeNoResult').style.display = visibleCount === 0 ? 'block' : 'none';
+    });
+
+    // Sélecteur de langue : script.js (non modifié) renvoie toujours vers la racine de la
+    // langue choisie (/nl/, /de/) et ne traduit que les menus/boutons partagés, pas le contenu
+    // spécifique à cette page. On surcharge la navigation pour aller vers la vraie page province
+    // équivalente quand elle existe (repli sur la racine de la langue sinon, comme avant).
+    document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const cible = btn.dataset.langUrl;
+            if (cible) {
+                window.location.href = cible;
+            }
+        });
+    });
+})();
+</script>
 
 </body>
 </html>

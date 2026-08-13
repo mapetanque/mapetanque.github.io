@@ -644,6 +644,26 @@ fetch('data/terrains.geojson')
                         ? t('popup_terrain_prefix') + " " + tags.nearest_street
                         : t('popup_terrain_default');
 
+                    // Fil d'Ariane région > province > commune (province cliquable vers sa page
+                    // dédiée, région et commune en texte simple). Réutilise les clés
+                    // geo_region_*/geo_province_* déjà traduites dans les 3 langues du site ;
+                    // le nom de commune vient tel quel des données OSM (pas de clé de traduction
+                    // dédiée pour ça). Absent si le terrain n'a aucune de ces informations.
+                    // Remarque : le lien pointe toujours vers la version française de la page
+                    // province pour l'instant (seules certaines provinces ont une traduction
+                    // NL/DE à ce jour) ; à revoir une fois toutes les provinces traduites.
+                    let filAriane = "";
+                    if (tags.province) {
+                        const regionNom = tags.region ? t('geo_region_' + tags.region) : null;
+                        const provinceNom = t('geo_province_' + tags.province);
+                        const provinceSlug = tags.province.replace(/_/g, '-');
+                        const communeNom = tags.commune ? ' › ' + tags.commune : '';
+                        filAriane = `<div class="popup-breadcrumb">${regionNom ? regionNom + ' › ' : ''}<a href="/province-${provinceSlug}.html">${provinceNom}</a>${communeNom}</div>`;
+                    } else if (tags.region === 'bruxelles') {
+                        const communeNom = tags.commune ? ' › ' + tags.commune : '';
+                        filAriane = `<div class="popup-breadcrumb"><a href="/province-bruxelles.html">${t('geo_region_bruxelles')}</a>${communeNom}</div>`;
+                    }
+
                     // Photo du terrain (issue d'un tag OSM image=/wikimedia_commons=/mapillary=
                     // renseigné manuellement par un mappeur — voir resoudre_photo() dans
                     // update_terrains.py). Absente pour la grande majorité des terrains pour
@@ -703,6 +723,7 @@ fetch('data/terrains.geojson')
                     `;
 
                     return `
+                    ${filAriane}
                     <b>${titre}</b><br><br>
                     ${photo}
                     <span class="popup-icon">${ICON_UNLOCK}</span> ${t('popup_access_label')} : ${acces}
