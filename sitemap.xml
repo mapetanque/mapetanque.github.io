@@ -28,4 +28,7 @@
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/" />
     </url>
+
+<!-- DEBUT PAGES PROVINCES (géré automatiquement par scripts/generate_provinces.py, ne pas éditer à la main : réécrit à chaque lancement) -->
+<!-- FIN PAGES PROVINCES -->
 </urlset>

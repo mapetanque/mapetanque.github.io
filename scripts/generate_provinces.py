@@ -37,6 +37,10 @@ GEO_NAMES_PATH = BASE_DIR / "data" / "geo_names.json"
 UI_STRINGS_PATH = BASE_DIR / "data" / "ui_strings.json"
 OUTPUT_DIR = BASE_DIR  # écrit directement à la racine du repo, comme index.html
 
+SITEMAP_PATH = BASE_DIR / "sitemap.xml"
+MARQUEUR_DEBUT = "<!-- DEBUT PAGES PROVINCES"
+MARQUEUR_FIN = "<!-- FIN PAGES PROVINCES -->"
+
 LANGUES = ["fr", "nl", "de"]
 
 
@@ -235,6 +239,55 @@ def generer_page(cle, config, langue, langues_disponibles, other_provinces_block
           f"({total_terrains} terrains, {nb_communes} communes{extra})")
 
 
+def construire_bloc_sitemap_url(url_absolue, langues_disponibles, url_par_langue):
+    """Un <url> de sitemap avec ses <xhtml:link> alternate pour les langues réellement
+    disponibles pour cette page (jamais de lien vers une page qui n'existe pas)."""
+    lignes = [
+        "    <url>",
+        f"        <loc>{url_absolue}</loc>",
+        "        <changefreq>weekly</changefreq>",
+        "        <priority>0.7</priority>",
+    ]
+    for langue in langues_disponibles:
+        lignes.append(
+            f'        <xhtml:link rel="alternate" hreflang="{langue}" href="{url_par_langue[langue]}" />'
+        )
+    if langues_disponibles:
+        lignes.append(
+            f'        <xhtml:link rel="alternate" hreflang="x-default" href="{url_par_langue["fr"]}" />'
+        )
+    lignes.append("    </url>")
+    return "\n".join(lignes)
+
+
+def mettre_a_jour_sitemap(provinces_generees):
+    """provinces_generees : liste de (slug, langues_disponibles). Remplace uniquement la
+    section entre les marqueurs DEBUT/FIN PAGES PROVINCES, laisse tout le reste du fichier
+    (page d'accueil FR/NL/DE, etc.) strictement intact."""
+    if not SITEMAP_PATH.exists():
+        print("  [attention] sitemap.xml introuvable, section provinces non mise à jour.")
+        return
+
+    contenu = SITEMAP_PATH.read_text(encoding="utf-8")
+    debut = contenu.find(MARQUEUR_DEBUT)
+    fin = contenu.find(MARQUEUR_FIN)
+    if debut == -1 or fin == -1:
+        print("  [attention] Marqueurs PAGES PROVINCES introuvables dans sitemap.xml, "
+              "section provinces non mise à jour.")
+        return
+    fin_marqueur_debut = contenu.find("-->", debut) + len("-->")
+
+    blocs = []
+    for slug, langues_disponibles in provinces_generees:
+        url_par_langue = {l: f"https://mapetanque.github.io{url_page(slug, l)}" for l in langues_disponibles}
+        blocs.append(construire_bloc_sitemap_url(url_par_langue["fr"], langues_disponibles, url_par_langue))
+
+    nouvelle_section = "\n" + "\n".join(blocs) + "\n"
+    nouveau_contenu = contenu[:fin_marqueur_debut] + nouvelle_section + contenu[fin:]
+    SITEMAP_PATH.write_text(nouveau_contenu, encoding="utf-8")
+    print(f"\nsitemap.xml mis à jour ({len(blocs)} page(s) province).")
+
+
 def main():
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     provinces = charger_json(PROVINCES_PATH)
@@ -246,6 +299,7 @@ def main():
 
     communes_deja_ecrites = set()
     generees, ignorees = 0, 0
+    provinces_generees = []  # [(slug, [langues_disponibles]), ...] pour le sitemap
 
     for cle, config in provinces.items():
         if cle.startswith("_"):
@@ -277,7 +331,11 @@ def main():
         if langues_manquantes:
             print(f"            (pas encore traduit en : {', '.join(langues_manquantes)})")
 
+        provinces_generees.append((config["slug"], langues_disponibles))
+
     print(f"\n{generees} page(s) générée(s), {ignorees} province(s) ignorée(s) (français incomplet).")
+
+    mettre_a_jour_sitemap(provinces_generees)
 
 
 if __name__ == "__main__":
