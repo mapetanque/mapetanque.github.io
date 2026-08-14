@@ -174,8 +174,39 @@ const map = L.map('map', {
 // page dès qu'on fait glisser le doigt en partant de la carte. Désactivé par défaut, activé au
 // premier tap (le tap continue de fonctionner normalement pour ouvrir les popups des terrains,
 // seul le glissé-déplacement de la carte est concerné).
+
+// Déclarée ici (pas avec const à l'intérieur du bloc if ci-dessous) pour rester accessible
+// depuis le gestionnaire de clic juste après, y compris quand ce bloc ne s'exécute pas.
+let masquerIndiceCarteTactile = function () {};
+
 if (L.Browser.mobile) {
     map.dragging.disable();
+
+    // Petit indice discret, mobile uniquement (sur desktop le comportement de la molette est
+    // assez explicite en lui-même) : disparaît dès qu'on touche la carte, ou après 4 secondes.
+    const indiceCarteTactile = L.DomUtil.create('div', '', map.getContainer());
+    indiceCarteTactile.textContent = t('map_touch_hint') || 'Touchez la carte pour la déplacer';
+    Object.assign(indiceCarteTactile.style, {
+        position: 'absolute',
+        bottom: '14px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        background: 'rgba(30, 34, 28, 0.85)',
+        color: '#fff',
+        fontSize: '12.5px',
+        padding: '8px 14px',
+        borderRadius: '20px',
+        zIndex: '900',
+        pointerEvents: 'none',
+        transition: 'opacity 0.3s ease',
+        whiteSpace: 'nowrap'
+    });
+
+    masquerIndiceCarteTactile = function () {
+        indiceCarteTactile.style.opacity = '0';
+        setTimeout(function () { indiceCarteTactile.remove(); }, 300);
+    };
+    setTimeout(masquerIndiceCarteTactile, 4000);
 }
 
 // Un premier clic ou tap sur la carte active la molette (desktop) et le déplacement au doigt
@@ -183,6 +214,7 @@ if (L.Browser.mobile) {
 map.once('click', function () {
     map.scrollWheelZoom.enable();
     map.dragging.enable();
+    masquerIndiceCarteTactile();
 });
 
 let userPosition = null;

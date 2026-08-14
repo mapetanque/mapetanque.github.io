@@ -41,6 +41,7 @@ const translations = {
         stats_geo_loading: "Chargement du détail par région…",
         stats_geo_error: "Impossible de charger le détail par région pour le moment.",
         stats_search_commune_placeholder: "Rechercher une commune…",
+        map_touch_hint: "Touchez la carte pour la déplacer",
         stats_no_results: "Aucune commune trouvée.",
         stats_show_terrains: "Afficher les terrains",
 
@@ -168,6 +169,7 @@ const translations = {
         stats_geo_loading: "Details per regio laden…",
         stats_geo_error: "De details per regio konden niet worden geladen.",
         stats_search_commune_placeholder: "Gemeente zoeken…",
+        map_touch_hint: "Raak de kaart aan om ze te verplaatsen",
         stats_no_results: "Geen gemeente gevonden.",
         stats_show_terrains: "Terreinen weergeven",
 
@@ -298,6 +300,7 @@ const translations = {
         stats_geo_loading: "Details nach Region werden geladen…",
         stats_geo_error: "Die Details nach Region konnten nicht geladen werden.",
         stats_search_commune_placeholder: "Gemeinde suchen…",
+        map_touch_hint: "Karte berühren, um sie zu verschieben",
         stats_no_results: "Keine Gemeinde gefunden.",
         stats_show_terrains: "Plätze anzeigen",
 
