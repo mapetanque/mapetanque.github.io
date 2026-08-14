@@ -3,7 +3,7 @@ const translations = {
     fr: {
         html_lang: "fr",
 
-        meta_title: "Mapetanque Belgique — Carte des terrains de pétanque en Belgique",
+        meta_title: "Mapetanque.be",
         meta_description: "Carte interactive des terrains de pétanque accessibles au public en Belgique : recherche par ville, géolocalisation et liste par région sur Mapetanque.be.",
 
         locate_btn: "Me localiser",
@@ -21,7 +21,7 @@ const translations = {
         close_panel: "Fermer",
 
         share_site_btn: "📤 Partager",
-        share_site_title: "Partager Mapetanque",
+        share_site_title: "Partager Mapetanque.be",
         share_terrain_title: "Partager ce terrain",
         share_whatsapp: "WhatsApp",
         share_facebook: "Facebook",
@@ -59,7 +59,7 @@ const translations = {
         geo_province_flandre_occidentale: "Flandre-Occidentale",
 
         about_title: "À propos",
-        about_text: "Mapetanque est né de la constatation qu'il n'existait aucun site recensant de manière " +
+        about_text: "Mapetanque.be est né de la constatation qu'il n'existait aucun site recensant de manière " +
             "pratique et rapide les terrains de pétanque librement accessibles en Belgique. Le projet est " +
             "actuellement en développement. L'objectif, à terme, est de proposer une plateforme communautaire " +
             "permettant d'ajouter des photos, des informations pratiques et des avis utiles pour les joueurs.",
@@ -73,7 +73,7 @@ const translations = {
         faq_items: [
             {
                 q: "D'où viennent les informations affichées sur la carte ?",
-                a: "Les terrains affichés proviennent des données libres d'OpenStreetMap. Mapetanque récupère " +
+                a: "Les terrains affichés proviennent des données libres d'OpenStreetMap. Mapetanque.be récupère " +
                    "chaque lundi ces informations afin de proposer une carte actualisée des terrains de pétanque " +
                    "en Belgique."
             },
@@ -84,21 +84,21 @@ const translations = {
             },
             {
                 q: "Puis-je ajouter une photo, un avis ou des informations pratiques ?",
-                a: "Cette fonctionnalité est envisagée pour une prochaine évolution de Mapetanque."
+                a: "Cette fonctionnalité est envisagée pour une prochaine évolution de Mapetanque.be."
             },
             {
                 q: "Comment ajouter un terrain manquant ?",
-                a: "Les terrains affichés sur Mapetanque proviennent des données libres d'OpenStreetMap (OSM). " +
+                a: "Les terrains affichés sur Mapetanque.be proviennent des données libres d'OpenStreetMap (OSM). " +
                    "Si vous connaissez un terrain de pétanque accessible au public qui n'apparaît pas sur la " +
                    "carte, vous pouvez : l'ajouter directement dans OSM grâce à leur outil d'édition ; " +
                    "ou m'envoyer les informations nécessaires par e-mail 📧 mapetanque@outlook.be " +
                    "(localisation précise, nombre de pistes si connu, etc.). Après mise à jour des données " +
-                   "OSM, le terrain apparaîtra automatiquement sur Mapetanque lors de la prochaine " +
+                   "OSM, le terrain apparaîtra automatiquement sur Mapetanque.be lors de la prochaine " +
                    "synchronisation."
             },
             {
                 q: "Comment retirer un terrain qui n'existe plus ou n'est plus praticable ?",
-                a: "Les terrains affichés sur Mapetanque proviennent des données libres d'OpenStreetMap (OSM). " +
+                a: "Les terrains affichés sur Mapetanque.be proviennent des données libres d'OpenStreetMap (OSM). " +
                    "Si un terrain n'existe plus ou n'est plus accessible au public, vous pouvez : " +
                    "modifier directement l'information dans OSM via leur outil d'édition ; ou me " +
                    "signaler l'erreur par e-mail 📧 mapetanque@outlook.be en précisant l'emplacement du terrain " +
@@ -130,7 +130,7 @@ const translations = {
     nl: {
         html_lang: "nl",
 
-        meta_title: "Mapetanque België — Kaart van petanquebanen in België",
+        meta_title: "Mapetanque.be",
         meta_description: "Mapetanque.be toont op een interactieve kaart alle openbare petanquebanen in België, met geolocatie en zoeken op stad of regio.",
 
         locate_btn: "Localiseer mij",
@@ -148,7 +148,7 @@ const translations = {
         close_panel: "Sluiten",
 
         share_site_btn: "📤 Delen",
-        share_site_title: "Mapetanque delen",
+        share_site_title: "Mapetanque.be delen",
         share_terrain_title: "Dit terrein delen",
         share_whatsapp: "WhatsApp",
         share_facebook: "Facebook",
@@ -186,7 +186,7 @@ const translations = {
         geo_province_flandre_occidentale: "West-Vlaanderen",
 
         about_title: "Over ons",
-        about_text: "Mapetanque is ontstaan uit de vaststelling dat er geen enkele website bestond die op een " +
+        about_text: "Mapetanque.be is ontstaan uit de vaststelling dat er geen enkele website bestond die op een " +
             "praktische en snelle manier de vrij toegankelijke petanquebanen in België in kaart bracht. Het " +
             "project is momenteel in ontwikkeling. Het doel is om op termijn een gemeenschapsplatform aan te " +
             "bieden waarop foto's, praktische informatie en nuttige beoordelingen voor spelers kunnen worden " +
@@ -201,7 +201,7 @@ const translations = {
         faq_items: [
             {
                 q: "Waar komt de informatie op de kaart vandaan?",
-                a: "De weergegeven terreinen zijn afkomstig van de vrije gegevens van OpenStreetMap. Mapetanque " +
+                a: "De weergegeven terreinen zijn afkomstig van de vrije gegevens van OpenStreetMap. Mapetanque.be " +
                    "haalt deze informatie elke maandag op om een bijgewerkte kaart van de petanquebanen in " +
                    "België aan te bieden."
             },
@@ -212,21 +212,21 @@ const translations = {
             },
             {
                 q: "Kan ik een foto, beoordeling of praktische informatie toevoegen?",
-                a: "Deze functie is gepland voor een toekomstige update van Mapetanque."
+                a: "Deze functie is gepland voor een toekomstige update van Mapetanque.be."
             },
             {
                 q: "Hoe voeg ik een ontbrekend terrein toe?",
-                a: "De terreinen die op Mapetanque worden weergegeven, zijn afkomstig van de vrije gegevens van " +
+                a: "De terreinen die op Mapetanque.be worden weergegeven, zijn afkomstig van de vrije gegevens van " +
                    "OpenStreetMap. Als je een openbaar toegankelijke petanquebaan kent die niet op de " +
                    "kaart verschijnt, kun je: het rechtstreeks toevoegen aan OpenStreetMap via hun " +
                    "bewerkingstool; of ons de nodige informatie per e-mail bezorgen 📧 mapetanque@outlook.be " +
                    "(precieze locatie, aantal banen indien bekend, enz.). Na bijwerking van de " +
-                   "OpenStreetMap-gegevens verschijnt het terrein automatisch op Mapetanque bij de volgende " +
+                   "OpenStreetMap-gegevens verschijnt het terrein automatisch op Mapetanque.be bij de volgende " +
                    "synchronisatie."
             },
             {
                 q: "Een terrein op de kaart bestaat niet meer of is niet meer bruikbaar, wat kan ik doen?",
-                a: "De terreinen die op Mapetanque worden weergegeven, zijn afkomstig van de vrije gegevens van " +
+                a: "De terreinen die op Mapetanque.be worden weergegeven, zijn afkomstig van de vrije gegevens van " +
                    "OpenStreetMap. Aangezien deze database collaboratief is, kan sommige informatie onvolledig " +
                    "of verouderd zijn. Als een terrein niet meer bestaat of niet meer openbaar toegankelijk is, " +
                    "kun je: de informatie rechtstreeks aanpassen in OpenStreetMap via hun bewerkingstool; of de " +
@@ -260,7 +260,7 @@ const translations = {
     de: {
         html_lang: "de",
 
-        meta_title: "Mapetanque Belgien — Karte der Pétanque-Plätze in Belgien",
+        meta_title: "Mapetanque.be",
         meta_description: "Mapetanque.be zeigt auf einer interaktiven Karte alle öffentlich zugänglichen Pétanque-Plätze in Belgien, mit Standortsuche nach Stadt oder Region.",
 
         locate_btn: "Meinen Standort finden",
@@ -278,7 +278,7 @@ const translations = {
         close_panel: "Schließen",
 
         share_site_btn: "📤 Teilen",
-        share_site_title: "Mapetanque teilen",
+        share_site_title: "Mapetanque.be teilen",
         share_terrain_title: "Diesen Platz teilen",
         share_whatsapp: "WhatsApp",
         share_facebook: "Facebook",
@@ -316,7 +316,7 @@ const translations = {
         geo_province_flandre_occidentale: "Westflandern",
 
         about_title: "Über uns",
-        about_text: "Mapetanque entstand aus der Feststellung, dass es keine Website gab, die schnell und " +
+        about_text: "Mapetanque.be entstand aus der Feststellung, dass es keine Website gab, die schnell und " +
             "übersichtlich die öffentlich zugänglichen Pétanque-Plätze in Belgien auflistet. Das Projekt " +
             "befindet sich derzeit in der Entwicklung. Ziel ist es, langfristig eine Community-Plattform " +
             "anzubieten, auf der Fotos, praktische Informationen und hilfreiche Bewertungen für Spieler " +
@@ -331,7 +331,7 @@ const translations = {
         faq_items: [
             {
                 q: "Woher stammen die auf der Karte angezeigten Informationen?",
-                a: "Die angezeigten Plätze stammen aus den freien Daten von OpenStreetMap. Mapetanque ruft " +
+                a: "Die angezeigten Plätze stammen aus den freien Daten von OpenStreetMap. Mapetanque.be ruft " +
                    "diese Informationen jeden Montag ab, um eine aktualisierte Karte der Pétanque-Plätze in " +
                    "Belgien anzubieten."
             },
@@ -342,21 +342,21 @@ const translations = {
             },
             {
                 q: "Kann ich ein Foto, eine Bewertung oder praktische Informationen hinzufügen?",
-                a: "Diese Funktion ist für eine zukünftige Aktualisierung von Mapetanque geplant."
+                a: "Diese Funktion ist für eine zukünftige Aktualisierung von Mapetanque.be geplant."
             },
             {
                 q: "Wie füge ich einen fehlenden Platz hinzu?",
-                a: "Die auf Mapetanque angezeigten Plätze stammen aus den freien Daten von OpenStreetMap. " +
+                a: "Die auf Mapetanque.be angezeigten Plätze stammen aus den freien Daten von OpenStreetMap. " +
                    "Wenn Sie einen öffentlich zugänglichen Pétanque-Platz kennen, der nicht auf der Karte " +
                    "erscheint, können Sie: ihn direkt über das Bearbeitungswerkzeug zu OpenStreetMap " +
                    "hinzufügen; oder uns die notwendigen Informationen per E-Mail zusenden " +
                    "📧 mapetanque@outlook.be (genauer Standort, Anzahl der Bahnen, falls bekannt, usw.). " +
                    "Nach der Aktualisierung der OpenStreetMap-Daten erscheint der Platz bei der nächsten " +
-                   "Synchronisierung automatisch auf Mapetanque."
+                   "Synchronisierung automatisch auf Mapetanque.be."
             },
             {
                 q: "Ein auf der Karte angezeigter Platz existiert nicht mehr oder ist nicht mehr nutzbar, was kann ich tun?",
-                a: "Die auf Mapetanque angezeigten Plätze stammen aus den freien Daten von OpenStreetMap. Da " +
+                a: "Die auf Mapetanque.be angezeigten Plätze stammen aus den freien Daten von OpenStreetMap. Da " +
                    "diese Datenbank kollaborativ ist, können manche Informationen unvollständig oder veraltet " +
                    "sein. Wenn ein Platz nicht mehr existiert oder nicht mehr öffentlich zugänglich ist, " +
                    "können Sie: die Information direkt über das Bearbeitungswerkzeug in OpenStreetMap ändern; " +

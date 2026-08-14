@@ -2,13 +2,13 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Terrains de pétanque en province de Limbourg — Mapetanque</title>
+    <title>Terrains de pétanque en province de Limbourg — Mapetanque.be</title>
     <meta name="description" id="meta-description" content="Terrains de pétanque publics en province Limbourg : carte interactive, liste par commune, recherche par ville sur Mapetanque.be.">
     <link rel="icon" type="image/svg+xml" href="/images/logomap.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Open Graph : aperçu affiché lors du partage du lien (WhatsApp, Facebook, etc.) -->
-    <meta property="og:title" content="Terrains de pétanque en province de Limbourg — Mapetanque">
+    <meta property="og:title" content="Terrains de pétanque en province de Limbourg — Mapetanque.be">
     <meta property="og:description" content="Terrains de pétanque publics en province Limbourg : carte interactive, liste par commune, recherche par ville sur Mapetanque.be.">
     <meta property="og:image" content="https://mapetanque.github.io/images/logomap.png">
     <meta property="og:url" content="https://mapetanque.github.io/province-limbourg.html">
@@ -43,7 +43,7 @@
 
 <div class="map-view" id="top">
 
-<div class="hero-banner" style="background-image: url('/images/provinces/banniere-limbourg.jpg');">
+<div class="hero-banner" style="background-image: url('/images/provinces/banniere-limbourg.webp');">
 
 <div class="header">
 
@@ -173,14 +173,9 @@
     </div>
 </div>
 
-<!-- Intro + tuiles chiffres + carte : un seul bloc-fiche, toujours à l'intérieur de .map-view
-     (nécessaire pour que le mode plein écran continue de fonctionner sur #map). La carte est
-     incluse dans la fiche, à la même largeur que le texte/les tuiles — pas une boîte à part. -->
-<div class="province-content province-content-top">
-
-    <p class="province-intro">
-        Le Limbourg compte <strong>198 terrains de pétanque</strong> recensés sur Mapetanque, répartis dans <strong>51 communes</strong>. Genk domine largement avec 32 terrains, devant Hasselt qui en compte 20. La PFV Limburg recense 23 clubs, dont 21 clubs compétitifs et 2 récréatifs, pour près de 1 300 membres. Elle indique elle-même que le Limbourg est actuellement la plus petite province flamande en nombre de membres. Retrouvez ci-dessous l'ensemble des communes de la province disposant d'au moins un terrain, avec accès direct à chaque fiche.
-    </p>
+<!-- Tuiles + carte + description + liste des communes : une seule fiche, toujours à l'intérieur
+     de .map-view (nécessaire pour que le mode plein écran continue de fonctionner sur #map). -->
+<div class="province-content">
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
@@ -197,17 +192,14 @@
         </div>
     </div>
 
-    <h2 class="province-map-title">Carte des terrains</h2>
-    <div id="map"></div>
+    <div class="province-map-inline-wrapper" style="position: relative;">
+        <div id="map"></div>
+        <div class="map-toast" id="mapToast"></div>
+    </div>
 
-</div>
-
-</div><!-- /.map-view -->
-
-<!-- Liste des communes : reste après la carte. Remplace visuellement l'ancienne section
-     statistiques (#stats-section juste en dessous, désormais masquée en CSS mais conservée
-     intacte dans le DOM — tout son JS continue de tourner normalement). -->
-<div class="province-content province-content-bottom">
+    <p class="province-intro">
+        Le Limbourg compte <strong>198 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>51 communes</strong>. Genk domine largement avec 32 terrains, devant Hasselt qui en compte 20. La PFV Limburg recense 23 clubs, dont 21 clubs compétitifs et 2 récréatifs, pour près de 1 300 membres. Elle indique elle-même que le Limbourg est actuellement la plus petite province flamande en nombre de membres.
+    </p>
 
     <div class="province-communes-section">
         <h2>Communes de la province</h2>
@@ -247,10 +239,13 @@
 
 </div>
 
+</div><!-- /.map-view -->
+
 <!-- Section statistiques : conservée intacte, JS toujours actif, seulement masquée visuellement
      (voir /style-accueil-provinces.css). Rien n'est supprimé ici. -->
 <section id="stats-section">
     <div class="stats-container">
+
         <h2 data-i18n="stats_page_title">Statistiques</h2>
 
         <div class="stats-headline">
@@ -323,57 +318,100 @@
 <!-- Traductions -->
 <script src="/translations.js"></script>
 
+<!-- Empêche script.js de charger/afficher son jeu de marqueurs par défaut (tous les terrains de
+     Belgique, avec clustering) : cette page construit son propre sous-ensemble juste après. -->
+<script>window.MAPETANQUE_SKIP_DEFAULT_MARKERS = true;</script>
+
 <!-- Script du site -->
 <script src="/script.js"></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
 
 <!-- ===================== Comportement propre à la page province ===================== -->
-<!-- Ne redéfinit rien de script.js : réutilise tel quel le vrai formulaire de recherche
-     (même mécanisme que si un visiteur tapait "Limburg, België" sur la page
-     d'accueil) pour centrer la carte — avec les vrais terrains, popups, distances, etc. -->
+<!-- Réutilise les briques de script.js (icône des terrains, contenu des popups, calcul de
+     distance, etc. — voir window.MAPETANQUE_SKIP_DEFAULT_MARKERS plus haut) mais charge et
+     affiche uniquement les terrains de cette province, sans regroupement (clustering) puisque
+     le sous-ensemble est déjà restreint. -->
 <script>
 (function () {
-    function lancerRecherche(texte) {
-        const input = document.getElementById('searchInput');
-        const form = document.getElementById('searchForm');
-        if (!input || !form) return;
-        input.value = texte;
-        form.requestSubmit ? form.requestSubmit() : form.dispatchEvent(new Event('submit', { cancelable: true }));
-    }
 
-    // Sécurité : force Leaflet à recalculer la taille de son conteneur AVANT de lancer la
-    // recherche (et pas après), pour que fitBounds() calcule le bon niveau de zoom sur une
-    // carte déjà correctement dimensionnée plutôt que sur une taille pas encore stabilisée.
+    // Sécurité : force Leaflet à recalculer la taille de son conteneur avant tout calcul de
+    // cadrage, pour que fitBounds() s'appuie sur une carte déjà correctement dimensionnée.
     if (typeof map !== 'undefined') {
         map.invalidateSize();
     }
 
-    // Recherche initiale sur la province, une fois que script.js a fini de s'exécuter
-    // (ce <script> est chargé après lui, donc la carte et le gestionnaire de recherche
-    // existent déjà à ce stade).
-    lancerRecherche('Limburg, België');
+    function appartientALaProvince(props) {
+        if (props.province) return props.province === 'limbourg';
+        return props.region === 'limbourg'; // cas particulier Bruxelles (pas de province)
+    }
 
-    // Filet de sécurité pour les très grandes provinces (le Luxembourg notamment) : si le
-    // contour est si vaste que fitBounds() calcule un zoom proche ou égal au zoom par défaut
-    // de la carte (8, vue Belgique entière), on force un zoom intermédiaire supplémentaire
-    // pour que le recentrage reste visuellement perceptible.
-    setTimeout(function () {
-        if (typeof map !== 'undefined' && map.getZoom() <= 8) {
-            if (typeof searchMarker !== 'undefined' && searchMarker) {
-                map.setView(searchMarker.getLatLng(), 9);
-            } else {
-                map.setZoom(9);
-            }
-        }
-    }, 1200);
+    let toastTimeout = null;
+    function afficherToast(texte) {
+        const toast = document.getElementById('mapToast');
+        if (!toast) return;
+        toast.textContent = texte;
+        toast.classList.add('visible');
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(function () { toast.classList.remove('visible'); }, 2800);
+    }
 
-    // Liste des communes (issues de data/stats_geo.json, province "limbourg") : chaque
-    // clic relance une recherche réelle sur cette commune, exactement comme la taper soi-même.
-    fetch('/data/communes-limbourg.json')
+    fetch('/data/terrains.geojson')
         .then(function (r) { return r.json(); })
-        .then(function (communes) {
-            const conteneur = document.getElementById('communeList');
-            const nomsTries = Object.keys(communes).sort(function (a, b) { return communes[b] - communes[a]; });
+        .then(function (data) {
+
+            // Compteur du footer : total Belgique (comme sur la page d'accueil), pas seulement
+            // cette province — script.js ne le fait plus lui-même vu MAPETANQUE_SKIP_DEFAULT_MARKERS.
+            if (typeof afficherNombreTerrains === 'function') {
+                afficherNombreTerrains(data.features.length);
+            }
+
+            const featuresProvince = data.features.filter(function (f) {
+                return appartientALaProvince(f.properties);
+            });
+
+            if (featuresProvince.length === 0) {
+                afficherToast('Aucun terrain chargé pour cette province');
+                return;
+            }
+
+            const groupe = L.layerGroup();
+            const layersParCommune = {};
+
+            featuresProvince.forEach(function (feature) {
+                const coords = feature.geometry.coordinates; // [lon, lat]
+                const latlng = [coords[1], coords[0]];
+                const layer = L.marker(latlng, { icon: terrainMarkerIcon });
+
+                layer.bindPopup(function () {
+                    return window.construireContenuPopupTerrain(feature, layer);
+                });
+                layer.on('popupopen', function (e) {
+                    window.brancherPartagePopup(e, feature, layer);
+                });
+
+                layer.addTo(groupe);
+
+                const commune = feature.properties.commune;
+                if (commune) {
+                    if (!layersParCommune[commune]) layersParCommune[commune] = [];
+                    layersParCommune[commune].push(layer);
+                }
+            });
+
+            groupe.addTo(map);
+
+            const bounds = L.latLngBounds(featuresProvince.map(function (f) {
+                return [f.geometry.coordinates[1], f.geometry.coordinates[0]];
+            }));
+            map.fitBounds(bounds, { padding: [30, 30] });
+
+            // Liste des communes : construite depuis ce même jeu de données (garantit qu'elle
+            // correspond exactement à ce qui est affiché sur la carte), triée par nombre de
+            // terrains décroissant comme avant.
+            const conteneurListe = document.getElementById('communeList');
+            const nomsTries = Object.keys(layersParCommune).sort(function (a, b) {
+                return layersParCommune[b].length - layersParCommune[a].length;
+            });
 
             nomsTries.forEach(function (nom) {
                 const item = document.createElement('div');
@@ -382,18 +420,26 @@
 
                 const link = document.createElement('a');
                 link.href = '#';
-                const count = communes[nom];
+                const count = layersParCommune[nom].length;
                 const unite = count > 1 ? 'terrains' : 'terrain';
                 link.innerHTML = nom + ' <span class="commune-count">(' + count + ' ' + unite + ')</span>';
                 link.addEventListener('click', function (e) {
                     e.preventDefault();
-                    lancerRecherche(nom + ', Belgique');
+                    const layersCommune = layersParCommune[nom];
+                    const boundsCommune = L.latLngBounds(layersCommune.map(function (l) { return l.getLatLng(); }));
+                    map.fitBounds(boundsCommune, { padding: [40, 40], maxZoom: 16 });
+                    if (layersCommune.length === 1) {
+                        layersCommune[0].openPopup();
+                    }
                     document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' });
                 });
 
                 item.appendChild(link);
-                conteneur.appendChild(item);
+                conteneurListe.appendChild(item);
             });
+        })
+        .catch(function () {
+            afficherToast('Impossible de charger les terrains pour le moment');
         });
 
     document.getElementById('communeSearch').addEventListener('input', function (e) {

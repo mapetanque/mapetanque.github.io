@@ -163,7 +163,27 @@ document.querySelectorAll('.lang-link').forEach(function (btn) {
 const VUE_CARTE_INITIALE = { center: [50.8503, 4.3517], zoom: 8 };
 
 // Création de la carte centrée sur la Belgique
-const map = L.map('map').setView(VUE_CARTE_INITIALE.center, VUE_CARTE_INITIALE.zoom);
+// scrollWheelZoom désactivé par défaut : sans ça, la molette de la souris zoome la carte au lieu
+// de faire défiler la page dès qu'on scrolle en passant dessus. Un premier clic/toucher sur la
+// carte l'active (voir plus bas) — même principe que Google Maps.
+const map = L.map('map', {
+    scrollWheelZoom: false
+}).setView(VUE_CARTE_INITIALE.center, VUE_CARTE_INITIALE.zoom);
+
+// Mobile : idem pour le déplacement au doigt, qui sinon capture le geste de défilement de la
+// page dès qu'on fait glisser le doigt en partant de la carte. Désactivé par défaut, activé au
+// premier tap (le tap continue de fonctionner normalement pour ouvrir les popups des terrains,
+// seul le glissé-déplacement de la carte est concerné).
+if (L.Browser.mobile) {
+    map.dragging.disable();
+}
+
+// Un premier clic ou tap sur la carte active la molette (desktop) et le déplacement au doigt
+// (mobile) pour le reste de la visite — une seule fois suffit.
+map.once('click', function () {
+    map.scrollWheelZoom.enable();
+    map.dragging.enable();
+});
 
 let userPosition = null;
 
@@ -575,9 +595,151 @@ function calculDistance(lat1, lon1, lat2, lon2) {
 }
 
 
-// ===================== Chargement des terrains =====================
+// ===================== Contenu des popups de terrain =====================
+// Extrait en fonction autonome (au lieu d'être imbriquée dans onEachFeature) pour pouvoir être
+// réutilisée telle quelle par les pages provinces, qui affichent leur propre sous-ensemble de
+// terrains sans passer par le clustering de la page d'accueil.
+function construireContenuPopupTerrain(feature, layer) {
 
-const markers = L.markerClusterGroup({
+    let tags = feature.properties;
+
+    let acces = (tags.access === "public" || tags.access === "yes")
+        ? t('popup_access_public')
+        : t('popup_access_probable');
+
+    let titre = tags.nearest_street
+        ? t('popup_terrain_prefix') + " " + tags.nearest_street
+        : t('popup_terrain_default');
+
+    // Fil d'Ariane région > province > commune (province cliquable vers sa page
+    // dédiée, région et commune en texte simple). Réutilise les clés
+    // geo_region_*/geo_province_* déjà traduites dans les 3 langues du site ;
+    // le nom de commune vient tel quel des données OSM (pas de clé de traduction
+    // dédiée pour ça). Absent si le terrain n'a aucune de ces informations.
+    // Remarque : le lien pointe toujours vers la version française de la page
+    // province pour l'instant (seules certaines provinces ont une traduction
+    // NL/DE à ce jour) ; à revoir une fois toutes les provinces traduites.
+    let filAriane = "";
+    if (tags.province) {
+        const regionNom = tags.region ? t('geo_region_' + tags.region) : null;
+        const provinceNom = t('geo_province_' + tags.province);
+        const provinceSlug = tags.province.replace(/_/g, '-');
+        const communeNom = tags.commune ? ' › ' + tags.commune : '';
+        filAriane = `<div class="popup-breadcrumb">${regionNom ? regionNom + ' › ' : ''}<a href="/province-${provinceSlug}.html">${provinceNom}</a>${communeNom}</div>`;
+    } else if (tags.region === 'bruxelles') {
+        const communeNom = tags.commune ? ' › ' + tags.commune : '';
+        filAriane = `<div class="popup-breadcrumb"><a href="/province-bruxelles.html">${t('geo_region_bruxelles')}</a>${communeNom}</div>`;
+    }
+
+    // Photo du terrain (issue d'un tag OSM image=/wikimedia_commons=/mapillary=
+    // renseigné manuellement par un mappeur — voir resoudre_photo() dans
+    // update_terrains.py). Absente pour la grande majorité des terrains pour
+    // l'instant, purement additive quand elle existe.
+    let photo = "";
+    if (tags.photo_url) {
+        let credit = "";
+        if (tags.photo_source === 'wikimedia_commons') {
+            credit = `<br><a href="${tags.photo_credit_url}" target="_blank" rel="noopener" class="popup-photo-credit">${t('popup_photo_credit_wikimedia')}</a>`;
+        } else if (tags.photo_source === 'mapillary') {
+            credit = `<br><a href="${tags.photo_credit_url}" target="_blank" rel="noopener" class="popup-photo-credit">${t('popup_photo_credit_mapillary')}</a>`;
+        }
+        photo = `<img src="${tags.photo_url}" alt="" class="popup-photo" loading="lazy">${credit}<br>`;
+    }
+
+    let distance = "";
+
+    if (userPosition) {
+
+        let terrainLat = layer.getLatLng().lat;
+        let terrainLon = layer.getLatLng().lng;
+
+        let km = calculDistance(
+            userPosition[0],
+            userPosition[1],
+            terrainLat,
+            terrainLon
+        );
+
+        let valeurDistance = km < 1
+            ? `${Math.round(km * 1000)} m`
+            : `${km.toFixed(1)} km`;
+
+        distance = `<br><span class="popup-icon">${ICON_PIN}</span> ${t('popup_distance_label')} : ${valeurDistance}`;
+
+    } else {
+
+        distance = `<br><span class="popup-icon">${ICON_PIN}</span> ${t('popup_distance_hint')}`;
+
+    }
+
+    let terrainLat = layer.getLatLng().lat;
+    let terrainLon = layer.getLatLng().lng;
+
+    let itineraire = `
+    <br><br>
+    <a href="https://www.google.com/maps/dir/?api=1&destination=${terrainLat},${terrainLon}" target="_blank">
+    <span class="popup-link-icon">${ICON_ROUTE}</span> <span class="popup-link-text">${t('popup_itinerary')}</span>
+    </a>
+    `;
+
+    let partager = `
+    <br>
+    <a href="#" class="popup-share-btn">
+    <span class="popup-link-icon">${ICON_SHARE}</span> <span class="popup-link-text">${t('popup_share')}</span>
+    </a>
+    `;
+
+    return `
+    ${filAriane}
+    <b>${titre}</b><br><br>
+    ${photo}
+    <span class="popup-icon">${ICON_UNLOCK}</span> ${t('popup_access_label')} : ${acces}
+    ${distance}
+    ${itineraire}
+    ${partager}
+    `;
+
+}
+
+// Exposée globalement : les pages provinces (script chargé après celui-ci) l'appellent aussi,
+// pour afficher des popups strictement identiques sans dupliquer cette logique.
+window.construireContenuPopupTerrain = construireContenuPopupTerrain;
+
+// Bouton "Partager" du popup : branché à chaque ouverture (réutilisé par la page d'accueil et
+// les pages provinces), pour éviter tout souci d'échappement de caractères spéciaux dans le nom
+// de rue.
+function brancherPartagePopup(e, feature, layer) {
+    const boutonPartage = e.popup.getElement().querySelector('.popup-share-btn');
+    if (!boutonPartage) return;
+
+    boutonPartage.onclick = function (evt) {
+        evt.preventDefault();
+
+        const tags = feature.properties;
+        const titreActuel = tags.nearest_street
+            ? t('popup_terrain_prefix') + " " + tags.nearest_street
+            : t('popup_terrain_default');
+
+        window.partagerTerrain(layer.getLatLng().lat, layer.getLatLng().lng, titreActuel);
+    };
+}
+window.brancherPartagePopup = brancherPartagePopup;
+
+
+// ===================== Chargement des terrains =====================
+// Les pages provinces définissent window.MAPETANQUE_SKIP_DEFAULT_MARKERS = true (avant de
+// charger ce script) pour afficher leur propre sous-ensemble de terrains, sans clustering,
+// plutôt que la totalité des terrains de Belgique groupés en amas. Elles réutilisent malgré
+// tout construireContenuPopupTerrain()/brancherPartagePopup() ci-dessus pour des popups
+// identiques, et appellent elles-mêmes afficherNombreTerrains() pour le compteur du footer.
+
+// Déclarée ici (pas avec const/let à l'intérieur du bloc if ci-dessous) pour rester accessible
+// depuis allerVersTerrain() plus loin dans ce fichier, y compris quand ce bloc ne s'exécute pas.
+let markers;
+
+if (!window.MAPETANQUE_SKIP_DEFAULT_MARKERS) {
+
+markers = L.markerClusterGroup({
     disableClusteringAtZoom: 16
 });
 
@@ -632,125 +794,12 @@ fetch('data/terrains.geojson')
 
             onEachFeature: function(feature, layer) {
 
-                let tags = feature.properties;
+                layer.bindPopup(function () {
+                    return construireContenuPopupTerrain(feature, layer);
+                });
 
-                function genererContenuPopup() {
-
-                    let acces = (tags.access === "public" || tags.access === "yes")
-                        ? t('popup_access_public')
-                        : t('popup_access_probable');
-
-                    let titre = tags.nearest_street
-                        ? t('popup_terrain_prefix') + " " + tags.nearest_street
-                        : t('popup_terrain_default');
-
-                    // Fil d'Ariane région > province > commune (province cliquable vers sa page
-                    // dédiée, région et commune en texte simple). Réutilise les clés
-                    // geo_region_*/geo_province_* déjà traduites dans les 3 langues du site ;
-                    // le nom de commune vient tel quel des données OSM (pas de clé de traduction
-                    // dédiée pour ça). Absent si le terrain n'a aucune de ces informations.
-                    // Remarque : le lien pointe toujours vers la version française de la page
-                    // province pour l'instant (seules certaines provinces ont une traduction
-                    // NL/DE à ce jour) ; à revoir une fois toutes les provinces traduites.
-                    let filAriane = "";
-                    if (tags.province) {
-                        const regionNom = tags.region ? t('geo_region_' + tags.region) : null;
-                        const provinceNom = t('geo_province_' + tags.province);
-                        const provinceSlug = tags.province.replace(/_/g, '-');
-                        const communeNom = tags.commune ? ' › ' + tags.commune : '';
-                        filAriane = `<div class="popup-breadcrumb">${regionNom ? regionNom + ' › ' : ''}<a href="/province-${provinceSlug}.html">${provinceNom}</a>${communeNom}</div>`;
-                    } else if (tags.region === 'bruxelles') {
-                        const communeNom = tags.commune ? ' › ' + tags.commune : '';
-                        filAriane = `<div class="popup-breadcrumb"><a href="/province-bruxelles.html">${t('geo_region_bruxelles')}</a>${communeNom}</div>`;
-                    }
-
-                    // Photo du terrain (issue d'un tag OSM image=/wikimedia_commons=/mapillary=
-                    // renseigné manuellement par un mappeur — voir resoudre_photo() dans
-                    // update_terrains.py). Absente pour la grande majorité des terrains pour
-                    // l'instant, purement additive quand elle existe.
-                    let photo = "";
-                    if (tags.photo_url) {
-                        let credit = "";
-                        if (tags.photo_source === 'wikimedia_commons') {
-                            credit = `<br><a href="${tags.photo_credit_url}" target="_blank" rel="noopener" class="popup-photo-credit">${t('popup_photo_credit_wikimedia')}</a>`;
-                        } else if (tags.photo_source === 'mapillary') {
-                            credit = `<br><a href="${tags.photo_credit_url}" target="_blank" rel="noopener" class="popup-photo-credit">${t('popup_photo_credit_mapillary')}</a>`;
-                        }
-                        photo = `<img src="${tags.photo_url}" alt="" class="popup-photo" loading="lazy">${credit}<br>`;
-                    }
-
-                    let distance = "";
-
-                    if (userPosition) {
-
-                        let terrainLat = layer.getLatLng().lat;
-                        let terrainLon = layer.getLatLng().lng;
-
-                        let km = calculDistance(
-                            userPosition[0],
-                            userPosition[1],
-                            terrainLat,
-                            terrainLon
-                        );
-
-                        let valeurDistance = km < 1
-                            ? `${Math.round(km * 1000)} m`
-                            : `${km.toFixed(1)} km`;
-
-                        distance = `<br><span class="popup-icon">${ICON_PIN}</span> ${t('popup_distance_label')} : ${valeurDistance}`;
-
-                    } else {
-
-                        distance = `<br><span class="popup-icon">${ICON_PIN}</span> ${t('popup_distance_hint')}`;
-
-                    }
-
-                    let terrainLat = layer.getLatLng().lat;
-                    let terrainLon = layer.getLatLng().lng;
-
-                    let itineraire = `
-                    <br><br>
-                    <a href="https://www.google.com/maps/dir/?api=1&destination=${terrainLat},${terrainLon}" target="_blank">
-                    <span class="popup-link-icon">${ICON_ROUTE}</span> <span class="popup-link-text">${t('popup_itinerary')}</span>
-                    </a>
-                    `;
-
-                    let partager = `
-                    <br>
-                    <a href="#" class="popup-share-btn">
-                    <span class="popup-link-icon">${ICON_SHARE}</span> <span class="popup-link-text">${t('popup_share')}</span>
-                    </a>
-                    `;
-
-                    return `
-                    ${filAriane}
-                    <b>${titre}</b><br><br>
-                    ${photo}
-                    <span class="popup-icon">${ICON_UNLOCK}</span> ${t('popup_access_label')} : ${acces}
-                    ${distance}
-                    ${itineraire}
-                    ${partager}
-                    `;
-
-                }
-
-                layer.bindPopup(genererContenuPopup);
-
-                // Bouton "Partager" du popup : branché à chaque ouverture pour éviter
-                // tout souci d'échappement de caractères spéciaux dans le nom de rue
                 layer.on('popupopen', function (e) {
-                    const boutonPartage = e.popup.getElement().querySelector('.popup-share-btn');
-                    if (!boutonPartage) return;
-
-                    boutonPartage.onclick = function (evt) {
-                        evt.preventDefault();
-
-                        const titreActuel = tags.nearest_street
-                            ? t('popup_terrain_prefix') + " " + tags.nearest_street
-                            : t('popup_terrain_default');
-
-                        window.partagerTerrain(layer.getLatLng().lat, layer.getLatLng().lng, titreActuel);
-                    };
+                    brancherPartagePopup(e, feature, layer);
                 });
 
             }
@@ -769,6 +818,8 @@ fetch('data/terrains.geojson')
         }
 
     });
+
+} // fin du if (!window.MAPETANQUE_SKIP_DEFAULT_MARKERS)
 
 
 // ===================== Menu burger =====================

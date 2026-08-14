@@ -144,10 +144,10 @@
 
 /* ===================== Carte (incluse dans la fiche, même largeur que le contenu) ===================== */
 
-.province-map-title {
-    font-size: 19px;
-    color: #333;
-    margin: 6px 0 14px;
+/* Même espacement que celui déjà utilisé entre l'intro et les tuiles (32px), pour rester
+   cohérent : remplace l'ancien titre "Carte des terrains" retiré au-dessus de la carte. */
+.province-map-inline-wrapper {
+    margin-top: 32px;
 }
 
 #map {
@@ -155,6 +155,28 @@
     height: 420px;
     border-radius: 14px;
     overflow: hidden;
+}
+
+.map-toast {
+    position: absolute;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: rgba(30, 34, 28, 0.92);
+    color: white;
+    font-size: 13px;
+    padding: 9px 16px;
+    border-radius: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    white-space: nowrap;
+    z-index: 500;
+}
+
+.map-toast.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
 
 
@@ -173,10 +195,11 @@
     display: none;
 }
 
-/* La fiche qui contient la carte s'efface (plus de padding/coins arrondis/ombre) pour laisser
-   #map occuper tout l'espace disponible — la règle "height:100%" sur #map vient de style.css
-   (non modifié), on l'aide juste à s'appliquer correctement ici. */
-.map-view.fullscreen-active .province-content-top {
+/* La fiche qui contient tout (tuiles, carte, description, liste) s'efface (plus de
+   padding/coins arrondis/ombre) pour laisser #map occuper tout l'espace disponible — la règle
+   "height:100%" sur #map vient de style.css (non modifié), on l'aide juste à s'appliquer
+   correctement ici. */
+.map-view.fullscreen-active .province-content {
     max-width: none;
     width: 100%;
     margin: 0;
@@ -190,7 +213,8 @@
 
 .map-view.fullscreen-active .province-intro,
 .map-view.fullscreen-active .province-stats-tiles,
-.map-view.fullscreen-active .province-map-title {
+.map-view.fullscreen-active .province-communes-section,
+.map-view.fullscreen-active .other-provinces-section {
     display: none;
 }
 
@@ -200,38 +224,25 @@
 }
 
 
-/* ===================== Contenu province (carte blanche flottante) ===================== */
+/* ===================== Contenu province (une seule fiche blanche flottante) ===================== */
 
 .province-content {
+    align-self: center;
     width: 100%;
     max-width: 1100px;
-    margin: 0 auto;
-    padding: 44px 44px 60px;
+    margin: 25px 0 30px;
+    padding: 44px;
     background: #fff;
     border-radius: 22px;
     box-shadow: 0 6px 28px rgba(30, 50, 20, 0.08);
     box-sizing: border-box;
 }
 
-/* Bloc du haut (intro + tuiles) : élément flex à l'intérieur de .map-view, même technique de
-   centrage explicite que .map-wrapper pour éviter toute ambiguïté de calcul de taille. */
-.province-content-top {
-    align-self: center;
-    margin: 25px 0 0;
-    padding-bottom: 34px;
-}
-
-/* Bloc du bas (liste des communes) : flux normal de page, en dehors de .map-view. */
-.province-content-bottom {
-    margin: 0 auto 30px;
-    padding-top: 34px;
-}
-
 .province-intro {
     font-size: 16px;
     line-height: 1.65;
     color: #444;
-    margin: 0 0 32px;
+    margin: 32px 0;
 }
 
 .province-stats-tiles {

@@ -40,7 +40,7 @@
     flex-direction: column;
     justify-content: flex-start;
     padding-top: 4px;
-    background-image: url('/images/banniere-accueil.jpg');
+    background-image: url('/images/banniere-accueil.webp');
     background-size: cover;
     background-position: center 55%;
 }
