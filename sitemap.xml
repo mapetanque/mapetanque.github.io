@@ -44,6 +44,8 @@
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/province-brabant-flamand.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/province-brabant-flamand.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/province-brabant-flamand.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/province-brabant-flamand.html" />
     </url>
     <url>
@@ -51,6 +53,8 @@
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/province-flandre-orientale.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/province-flandre-orientale.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/province-flandre-orientale.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/province-flandre-orientale.html" />
     </url>
     <url>
@@ -58,6 +62,8 @@
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/province-flandre-occidentale.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/province-flandre-occidentale.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/province-flandre-occidentale.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/province-flandre-occidentale.html" />
     </url>
     <url>
@@ -65,6 +71,8 @@
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/province-limbourg.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/province-limbourg.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/province-limbourg.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/province-limbourg.html" />
     </url>
     <url>
@@ -72,6 +80,8 @@
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/province-brabant-wallon.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/province-brabant-wallon.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/province-brabant-wallon.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/province-brabant-wallon.html" />
     </url>
     <url>
@@ -79,6 +89,8 @@
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/province-hainaut.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/province-hainaut.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/province-hainaut.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/province-hainaut.html" />
     </url>
     <url>
@@ -86,6 +98,8 @@
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/province-liege.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/province-liege.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/province-liege.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/province-liege.html" />
     </url>
     <url>
@@ -93,6 +107,8 @@
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/province-luxembourg.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/province-luxembourg.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/province-luxembourg.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/province-luxembourg.html" />
     </url>
     <url>
@@ -100,6 +116,8 @@
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/province-namur.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/province-namur.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/province-namur.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/province-namur.html" />
     </url>
     <url>
@@ -107,6 +125,8 @@
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/province-bruxelles.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/province-bruxelles.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/province-bruxelles.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/province-bruxelles.html" />
     </url>
 <!-- FIN PAGES PROVINCES -->

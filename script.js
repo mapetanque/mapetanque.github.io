@@ -209,13 +209,18 @@ if (L.Browser.mobile) {
     setTimeout(masquerIndiceCarteTactile, 4000);
 }
 
-// Un premier clic ou tap sur la carte active la molette (desktop) et le déplacement au doigt
-// (mobile) pour le reste de la visite — une seule fois suffit.
-map.once('click', function () {
+// Active la carte (molette + déplacement au doigt) au tout premier contact — clic souris ou
+// toucher —, où qu'il ait lieu sur la carte, y compris directement sur un marqueur/terrain.
+// Volontairement un event listener natif en 'pointerdown' plutôt que map.once('click', ...) :
+// Leaflet arrête la propagation du clic sur un marqueur (pour ne pas perturber l'ouverture de
+// son popup), donc ce clic ne remontait jamais jusqu'à la carte — sur une carte chargée en
+// terrains, il fallait alors viser un pixel vide, ce qui n'est pas réaliste. 'pointerdown' se
+// déclenche avant toute cette logique, sur n'importe quel point de la carte.
+map.getContainer().addEventListener('pointerdown', function () {
     map.scrollWheelZoom.enable();
     map.dragging.enable();
     masquerIndiceCarteTactile();
-});
+}, { once: true });
 
 let userPosition = null;
 
@@ -775,7 +780,7 @@ markers = L.markerClusterGroup({
     disableClusteringAtZoom: 16
 });
 
-fetch('data/terrains.geojson')
+fetch('/data/terrains.geojson')
     .then(response => response.json())
     .then(data => {
 
@@ -1412,7 +1417,7 @@ if (arbreInitial) {
     arbreInitial.innerHTML = '<p class="stats-geo-loading">' + translations[currentLang].stats_geo_loading + '</p>';
 }
 
-fetch('data/stats_geo.json')
+fetch('/data/stats_geo.json')
     .then(function (response) {
         if (!response.ok) throw new Error('HTTP ' + response.status);
         return response.json();

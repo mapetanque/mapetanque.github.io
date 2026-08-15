@@ -2,14 +2,14 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Mapetanque Belgien — Karte der Pétanque-Plätze in Belgien</title>
-    <meta name="description" id="meta-description" content="Mapetanque.be zeigt auf einer interaktiven Karte alle öffentlich zugänglichen Pétanque-Plätze in Belgien, mit Standortsuche nach Stadt oder Region.">
+    <title>Mapetanque.be</title>
+    <meta name="description" id="meta-description" content="Carte interactive des terrains de pétanque accessibles au public en Belgique : recherche par ville, géolocalisation et liste par région sur Mapetanque.be.">
     <link rel="icon" type="image/svg+xml" href="/images/logomap.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Open Graph : aperçu affiché lors du partage du lien (WhatsApp, Facebook, etc.) -->
-    <meta property="og:title" content="Mapetanque Belgien — Karte der Pétanque-Plätze in Belgien">
-    <meta property="og:description" content="Mapetanque.be zeigt auf einer interaktiven Karte alle öffentlich zugänglichen Pétanque-Plätze in Belgien, mit Standortsuche nach Stadt oder Region.">
+    <meta property="og:title" content="Mapetanque.be">
+    <meta property="og:description" content="Carte interactive des terrains de pétanque accessibles au public en Belgique : recherche par ville, géolocalisation et liste par région sur Mapetanque.be.">
     <meta property="og:image" content="https://mapetanque.github.io/images/logomap.png">
     <meta property="og:url" content="https://mapetanque.github.io/de/">
     <meta property="og:type" content="website">
@@ -36,11 +36,17 @@
     <!-- Feuille de style du site (chemin absolu : ce même fichier index.html est aussi servi
          depuis /nl/ et /de/, un chemin relatif irait chercher /nl/style.css et casserait tout) -->
     <link rel="stylesheet" href="/style.css">
+
+    <!-- Bannière photo + grille "Parcourir par province" : ajouts additifs uniquement, aucune
+         règle de /style.css n'est modifiée par ce fichier. -->
+    <link rel="stylesheet" href="/style-accueil-provinces.css">
 </head>
 
 <body>
 
 <div class="map-view" id="top">
+
+<div class="hero-banner">
 
 <div class="header">
 
@@ -61,9 +67,9 @@
             <button type="button" class="info-nav-trigger" data-target="faq" data-i18n="menu_faq">FAQ</button>
             <button type="button" class="info-nav-trigger" data-target="contact" data-i18n="menu_contact">Nous contacter</button>
             <span id="lang-switcher-inline">
-                <button type="button" class="lang-link" data-lang="fr">FR</button>
-                <button type="button" class="lang-link" data-lang="nl">NL</button>
-                <button type="button" class="lang-link" data-lang="de">DE</button>
+                <button type="button" class="lang-link" data-lang="fr" data-lang-url="/">FR</button>
+                <button type="button" class="lang-link" data-lang="nl" data-lang-url="/nl/">NL</button>
+                <button type="button" class="lang-link" data-lang="de" data-lang-url="/de/">DE</button>
             </span>
         </nav>
 
@@ -87,9 +93,9 @@
                  (navigateur + mémorisation locale) suffit dans l'immense majorité des cas, ceci reste
                  disponible en repli pour corriger manuellement si besoin. -->
             <div id="side-menu-lang">
-                <button type="button" class="lang-link" data-lang="fr">FR</button>
-                <button type="button" class="lang-link" data-lang="nl">NL</button>
-                <button type="button" class="lang-link" data-lang="de">DE</button>
+                <button type="button" class="lang-link" data-lang="fr" data-lang-url="/">FR</button>
+                <button type="button" class="lang-link" data-lang="nl" data-lang-url="/nl/">NL</button>
+                <button type="button" class="lang-link" data-lang="de" data-lang-url="/de/">DE</button>
             </div>
         </nav>
 
@@ -124,6 +130,13 @@
     </a>
 </div>
 
+<!-- Crédit photo bannière -->
+<div class="hero-banner-credit">
+    Photo : Jean-Claude Parayre, <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a>
+</div>
+
+</div><!-- /.hero-banner -->
+
 <p class="add-terrain-link-wrapper">
     <a href="#" id="add-terrain-link" data-i18n="add_terrain_link">Ajouter un terrain de pétanque</a>
 </p>
@@ -155,11 +168,59 @@
     </div>
 </div>
 
-<div id="map"></div>
+<div class="map-wrapper">
+    <div id="map"></div>
+</div>
 
 </div><!-- /.map-view -->
 
-<!-- Section statistiques : contenu HTML normal, toujours dans le DOM et indexable, comme n'importe quelle page. -->
+<!-- Section "Parcourir par province" : remplace visuellement l'ancienne section statistiques
+     (#stats-section juste en dessous, désormais masquée en CSS mais conservée intacte dans le DOM
+     — tout son JS continue de tourner normalement, rien n'a été retiré). -->
+<section id="provinces-section">
+    <div class="provinces-container">
+        <h2 data-i18n="provinces_section_title">Parcourir par province</h2>
+
+        <div class="province-tiles-grid">
+            <a href="/de/province-anvers.html" class="province-tile" style="background-image: url('/images/provinces/tuile-anvers.jpg');">
+                <span class="province-tile-name">Antwerpen</span>
+            </a>
+            <a href="/de/province-brabant-flamand.html" class="province-tile" style="background-image: url('/images/provinces/tuile-brabant-flamand.jpg');">
+                <span class="province-tile-name">Flämisch-Brabant</span>
+            </a>
+            <a href="/de/province-flandre-orientale.html" class="province-tile" style="background-image: url('/images/provinces/tuile-flandre-orientale.jpg');">
+                <span class="province-tile-name">Ostflandern</span>
+            </a>
+            <a href="/de/province-flandre-occidentale.html" class="province-tile" style="background-image: url('/images/provinces/tuile-flandre-occidentale.jpg');">
+                <span class="province-tile-name">Westflandern</span>
+            </a>
+            <a href="/de/province-limbourg.html" class="province-tile" style="background-image: url('/images/provinces/tuile-limbourg.jpg');">
+                <span class="province-tile-name">Limburg</span>
+            </a>
+            <a href="/de/province-brabant-wallon.html" class="province-tile" style="background-image: url('/images/provinces/tuile-brabant-wallon.jpg');">
+                <span class="province-tile-name">Wallonisch-Brabant</span>
+            </a>
+            <a href="/de/province-hainaut.html" class="province-tile" style="background-image: url('/images/provinces/tuile-hainaut.jpg');">
+                <span class="province-tile-name">Hennegau</span>
+            </a>
+            <a href="/de/province-liege.html" class="province-tile" style="background-image: url('/images/provinces/tuile-liege.jpg');">
+                <span class="province-tile-name">Lüttich</span>
+            </a>
+            <a href="/de/province-luxembourg.html" class="province-tile" style="background-image: url('/images/provinces/tuile-luxembourg.jpg');">
+                <span class="province-tile-name">Luxemburg</span>
+            </a>
+            <a href="/de/province-namur.html" class="province-tile" style="background-image: url('/images/provinces/tuile-namur.jpg');">
+                <span class="province-tile-name">Namur</span>
+            </a>
+            <a href="/de/province-bruxelles.html" class="province-tile" style="background-image: url('/images/provinces/tuile-bruxelles.jpg');">
+                <span class="province-tile-name">Brüssel</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Section statistiques : conservée intacte, JS toujours actif, seulement masquée visuellement
+     (voir /style-accueil-provinces.css). Rien n'est supprimé ici. -->
 <section id="stats-section">
     <div class="stats-container">
         <h2 data-i18n="stats_page_title">Statistiques</h2>
@@ -238,5 +299,13 @@
 <script src="/script.js"></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
 
+
+<script>
+document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+        window.location.href = btn.dataset.langUrl;
+    });
+});
+</script>
 </body>
 </html>

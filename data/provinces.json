@@ -34,7 +34,15 @@
     "banner_credit_html": "Photo : Johan Bakker, <a href=\"https://commons.wikimedia.org/w/index.php?curid=72405373\" target=\"_blank\" rel=\"noopener\">CC BY-SA 3.0</a>",
     "area_km2": 2106,
     "nominatim_query": "Vlaams-Brabant, België",
-    "intro_html": "Le Brabant flamand compte <strong>{{STAT_TERRAINS}} terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>{{STAT_COMMUNES}} communes</strong>. Louvain arrive en tête avec 29 terrains, suivie de Hal avec 21. Le club PC Kerkom, à Boutersem, a été sacré champion du Brabant flamand en 2023, en évoluant dans la plus haute division provinciale."
+    "intro_html": "Le Brabant flamand compte <strong>{{STAT_TERRAINS}} terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>{{STAT_COMMUNES}} communes</strong>. Louvain arrive en tête avec 29 terrains, suivie de Hal avec 21. Le club PC Kerkom, à Boutersem, a été sacré champion du Brabant flamand en 2023, en évoluant dans la plus haute division provinciale.",
+    "translations": {
+      "nl": {
+        "intro_html": "Vlaams-Brabant telt <strong>{{STAT_TERRAINS}} petanquebanen</strong> op Mapetanque.be, verspreid over <strong>{{STAT_COMMUNES}} gemeenten</strong>. Leuven staat op kop met 29 terreinen, gevolgd door Halle met 21. Petanqueclub PC Kerkom uit Boutersem werd in 2023 kampioen van Vlaams-Brabant in de hoogste provinciale afdeling."
+      },
+      "de": {
+        "intro_html": "Flämisch-Brabant zählt <strong>{{STAT_TERRAINS}} Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>{{STAT_COMMUNES}} Gemeinden</strong>. Löwen führt mit 29 Plätzen, gefolgt von Halle mit 21. Der Verein PC Kerkom aus Boutersem wurde 2023 Meister von Flämisch-Brabant in der höchsten Provinzliga."
+      }
+    }
   },
   "flandre_orientale": {
     "slug": "flandre-orientale",
@@ -48,7 +56,15 @@
     "banner_credit_html": "Photo : Smiley.toerist, <a href=\"https://commons.wikimedia.org/w/index.php?curid=148846862\" target=\"_blank\" rel=\"noopener\">CC BY-SA 4.0</a>",
     "area_km2": 2982,
     "nominatim_query": "Oost-Vlaanderen, België",
-    "intro_html": "La Flandre orientale compte <strong>{{STAT_TERRAINS}} terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>{{STAT_COMMUNES}} communes</strong>. Gand concentre à elle seule 114 terrains, loin devant Lokeren avec 14. La PFV organise chaque année à Gand un tournoi de Beach Pétanque sur le Sint-Pietersplein. Pour l'édition 2026, le tournoi a eu lieu le 22 mai, avec le célèbre grand square gantois transformé en terrain de pétanque sur sable. Les équipes jouent en triplettes et le tournoi est ouvert aussi bien aux licenciés qu'aux non-licenciés."
+    "intro_html": "La Flandre orientale compte <strong>{{STAT_TERRAINS}} terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>{{STAT_COMMUNES}} communes</strong>. Gand concentre à elle seule 114 terrains, loin devant Lokeren avec 14. La PFV organise chaque année à Gand un tournoi de Beach Pétanque sur le Sint-Pietersplein. Pour l'édition 2026, le tournoi a eu lieu le 22 mai, avec le célèbre grand square gantois transformé en terrain de pétanque sur sable. Les équipes jouent en triplettes et le tournoi est ouvert aussi bien aux licenciés qu'aux non-licenciés.",
+    "translations": {
+      "nl": {
+        "intro_html": "Oost-Vlaanderen telt <strong>{{STAT_TERRAINS}} petanquebanen</strong> op Mapetanque.be, verspreid over <strong>{{STAT_COMMUNES}} gemeenten</strong>. Gent telt alleen al 114 terreinen, ver voor Lokeren met 14. De PFV organiseert elk jaar in Gent een Beach Petanquetoernooi op het Sint-Pietersplein. De editie van 2026 vond plaats op 22 mei, waarbij het bekende Gentse plein werd omgetoverd tot een petanqueterrein op zand. De teams spelen in triples en het toernooi staat open voor zowel aangesloten als niet-aangesloten spelers."
+      },
+      "de": {
+        "intro_html": "Ostflandern zählt <strong>{{STAT_TERRAINS}} Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>{{STAT_COMMUNES}} Gemeinden</strong>. Allein Gent kommt auf 114 Plätze, weit vor Lokeren mit 14. Der Verband PFV veranstaltet jedes Jahr in Gent ein Beach-Pétanque-Turnier auf dem Sint-Pietersplein. Die Ausgabe 2026 fand am 22. Mai statt, wobei der bekannte Gentse Platz in einen Sand-Pétanque-Platz verwandelt wurde. Die Teams spielen in Dreierteams, das Turnier steht sowohl Vereinsmitgliedern als auch Nicht-Mitgliedern offen."
+      }
+    }
   },
   "flandre_occidentale": {
     "slug": "flandre-occidentale",
@@ -62,7 +78,15 @@
     "banner_credit_html": "Photo : Marc Ryckaert (MJJR), <a href=\"https://commons.wikimedia.org/w/index.php?curid=26496349\" target=\"_blank\" rel=\"noopener\">CC BY 3.0</a>",
     "area_km2": 3144,
     "nominatim_query": "West-Vlaanderen, België",
-    "intro_html": "La Flandre occidentale compte <strong>{{STAT_TERRAINS}} terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>{{STAT_COMMUNES}} communes</strong>. Chaque année, Bruges organise son « Grand Prix de Bruges », un tournoi international de pétanque qui se tient notamment fin août et qui réunit des pelotons d'équipes importants, comme son tournoi majeur limité à 128 triplettes."
+    "intro_html": "La Flandre occidentale compte <strong>{{STAT_TERRAINS}} terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>{{STAT_COMMUNES}} communes</strong>. Chaque année, Bruges organise son « Grand Prix de Bruges », un tournoi international de pétanque qui se tient notamment fin août et qui réunit des pelotons d'équipes importants, comme son tournoi majeur limité à 128 triplettes.",
+    "translations": {
+      "nl": {
+        "intro_html": "West-Vlaanderen telt <strong>{{STAT_TERRAINS}} petanquebanen</strong> op Mapetanque.be, verspreid over <strong>{{STAT_COMMUNES}} gemeenten</strong>. Brugge organiseert elk jaar de \"Grand Prix van Brugge\", een internationaal petanquetoernooi dat onder meer eind augustus plaatsvindt en grote pelotons ploegen samenbrengt, met een hoofdtoernooi beperkt tot 128 triples."
+      },
+      "de": {
+        "intro_html": "Westflandern zählt <strong>{{STAT_TERRAINS}} Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>{{STAT_COMMUNES}} Gemeinden</strong>. Brügge veranstaltet jedes Jahr seinen „Grand Prix von Brügge“, ein internationales Pétanque-Turnier, das unter anderem Ende August stattfindet und große Mannschaftsfelder versammelt, mit einem Hauptturnier, das auf 128 Dreierteams begrenzt ist."
+      }
+    }
   },
   "limbourg": {
     "slug": "limbourg",
@@ -76,7 +100,15 @@
     "banner_credit_html": "Photo : Kleon3, <a href=\"https://commons.wikimedia.org/w/index.php?curid=29821622\" target=\"_blank\" rel=\"noopener\">CC BY-SA 3.0</a>",
     "area_km2": 2422,
     "nominatim_query": "Limburg, België",
-    "intro_html": "Le Limbourg compte <strong>{{STAT_TERRAINS}} terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>{{STAT_COMMUNES}} communes</strong>. Genk domine largement avec 32 terrains, devant Hasselt qui en compte 20. La PFV Limburg recense 23 clubs, dont 21 clubs compétitifs et 2 récréatifs, pour près de 1 300 membres. Elle indique elle-même que le Limbourg est actuellement la plus petite province flamande en nombre de membres."
+    "intro_html": "Le Limbourg compte <strong>{{STAT_TERRAINS}} terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>{{STAT_COMMUNES}} communes</strong>. Genk domine largement avec 32 terrains, devant Hasselt qui en compte 20. La PFV Limburg recense 23 clubs, dont 21 clubs compétitifs et 2 récréatifs, pour près de 1 300 membres. Elle indique elle-même que le Limbourg est actuellement la plus petite province flamande en nombre de membres.",
+    "translations": {
+      "nl": {
+        "intro_html": "Limburg telt <strong>{{STAT_TERRAINS}} petanquebanen</strong> op Mapetanque.be, verspreid over <strong>{{STAT_COMMUNES}} gemeenten</strong>. Genk domineert met 32 terreinen, voor Hasselt met 20. De PFV Limburg telt 23 clubs, waarvan 21 competitieve en 2 recreatieve, goed voor bijna 1.300 leden. Ze geeft zelf aan dat Limburg momenteel de kleinste Vlaamse provincie is qua ledenaantal."
+      },
+      "de": {
+        "intro_html": "Limburg zählt <strong>{{STAT_TERRAINS}} Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>{{STAT_COMMUNES}} Gemeinden</strong>. Genk liegt mit 32 Plätzen deutlich vorn, vor Hasselt mit 20. Der Verband PFV Limburg zählt 23 Vereine, davon 21 Wettkampf- und 2 Freizeitvereine, mit knapp 1.300 Mitgliedern. Er gibt selbst an, dass Limburg derzeit die mitgliederschwächste flämische Provinz ist."
+      }
+    }
   },
   "brabant_wallon": {
     "slug": "brabant-wallon",
@@ -90,7 +122,15 @@
     "banner_credit_html": "Photo : Dom Lochet, <a href=\"https://commons.wikimedia.org/w/index.php?curid=34332128\" target=\"_blank\" rel=\"noopener\">CC BY-SA 3.0</a>",
     "area_km2": 1097,
     "nominatim_query": "Brabant wallon, Belgique",
-    "intro_html": "Le Brabant wallon compte <strong>{{STAT_TERRAINS}} terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>{{STAT_COMMUNES}} communes</strong>. Tubize mène le classement avec 8 terrains, suivie d'Ottignies-Louvain-la-Neuve avec 5. Originaire d'Ottignies, William Van der Biest est devenu champion du monde junior à seulement 13 ans, puis a remporté un deuxième titre mondial junior à 15 ans."
+    "intro_html": "Le Brabant wallon compte <strong>{{STAT_TERRAINS}} terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>{{STAT_COMMUNES}} communes</strong>. Tubize mène le classement avec 8 terrains, suivie d'Ottignies-Louvain-la-Neuve avec 5. Originaire d'Ottignies, William Van der Biest est devenu champion du monde junior à seulement 13 ans, puis a remporté un deuxième titre mondial junior à 15 ans.",
+    "translations": {
+      "nl": {
+        "intro_html": "Waals-Brabant telt <strong>{{STAT_TERRAINS}} petanquebanen</strong> op Mapetanque.be, verspreid over <strong>{{STAT_COMMUNES}} gemeenten</strong>. Tubeke voert de lijst aan met 8 terreinen, gevolgd door Ottignies-Louvain-la-Neuve met 5. William Van der Biest, afkomstig uit Ottignies, werd op amper 13 jaar wereldkampioen bij de junioren, en behaalde op 15-jarige leeftijd een tweede wereldtitel bij de junioren."
+      },
+      "de": {
+        "intro_html": "Wallonisch-Brabant zählt <strong>{{STAT_TERRAINS}} Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>{{STAT_COMMUNES}} Gemeinden</strong>. Tubize führt mit 8 Plätzen, gefolgt von Ottignies-Louvain-la-Neuve mit 5. William Van der Biest aus Ottignies wurde bereits mit 13 Jahren Junioren-Weltmeister und holte sich mit 15 Jahren einen zweiten Junioren-Weltmeistertitel."
+      }
+    }
   },
   "hainaut": {
     "slug": "hainaut",
@@ -104,7 +144,15 @@
     "banner_credit_html": "Photo : Jean-Pol Grandmont, <a href=\"https://commons.wikimedia.org/w/index.php?curid=63955403\" target=\"_blank\" rel=\"noopener\">CC BY 3.0</a>",
     "area_km2": 3813,
     "nominatim_query": "Hainaut, Belgique",
-    "intro_html": "Le Hainaut compte <strong>{{STAT_TERRAINS}} terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>{{STAT_COMMUNES}} communes</strong>. À Farciennes, le Pétanque Club Le Pays Noir disposait, en 2023, de 7 terrains intérieurs et 20 terrains extérieurs, soit 27 pistes au total. Il pourrait ainsi être le plus grand complexe de pétanque de Belgique."
+    "intro_html": "Le Hainaut compte <strong>{{STAT_TERRAINS}} terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>{{STAT_COMMUNES}} communes</strong>. À Farciennes, le Pétanque Club Le Pays Noir disposait, en 2023, de 7 terrains intérieurs et 20 terrains extérieurs, soit 27 pistes au total. Il pourrait ainsi être le plus grand complexe de pétanque de Belgique.",
+    "translations": {
+      "nl": {
+        "intro_html": "Henegouwen telt <strong>{{STAT_TERRAINS}} petanquebanen</strong> op Mapetanque.be, verspreid over <strong>{{STAT_COMMUNES}} gemeenten</strong>. In Farciennes beschikte Pétanque Club Le Pays Noir in 2023 over 7 overdekte en 20 openluchtterreinen, goed voor 27 banen in totaal. Daarmee is het mogelijk het grootste petanquecomplex van België."
+      },
+      "de": {
+        "intro_html": "Hennegau zählt <strong>{{STAT_TERRAINS}} Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>{{STAT_COMMUNES}} Gemeinden</strong>. In Farciennes verfügte der Pétanque Club Le Pays Noir 2023 über 7 Innen- und 20 Außenplätze, insgesamt also 27 Bahnen. Damit ist er wohl die größte Pétanque-Anlage Belgiens."
+      }
+    }
   },
   "liege": {
     "slug": "liege",
@@ -118,7 +166,15 @@
     "banner_credit_html": "Photo : M0tty, <a href=\"https://commons.wikimedia.org/w/index.php?curid=41647690\" target=\"_blank\" rel=\"noopener\">CC BY-SA 3.0</a>",
     "area_km2": 3862,
     "nominatim_query": "Liège, Belgique",
-    "intro_html": "La province de Liège compte <strong>{{STAT_TERRAINS}} terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>{{STAT_COMMUNES}} communes</strong>. La ville de Liège concentre 25 terrains, suivie d'Eupen avec 8. La Fédération belge francophone de pétanque (FBFP) y a élu domicile à Herstal, rue Haute Marexhe. À Herve, un passionné a développé la « Boogle House », une version événementielle de la pétanque avec tapis synthétique démontable et boules souples."
+    "intro_html": "La province de Liège compte <strong>{{STAT_TERRAINS}} terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>{{STAT_COMMUNES}} communes</strong>. La ville de Liège concentre 25 terrains, suivie d'Eupen avec 8. La Fédération belge francophone de pétanque (FBFP) y a élu domicile à Herstal, rue Haute Marexhe. À Herve, un passionné a développé la « Boogle House », une version événementielle de la pétanque avec tapis synthétique démontable et boules souples.",
+    "translations": {
+      "nl": {
+        "intro_html": "De provincie Luik telt <strong>{{STAT_TERRAINS}} petanquebanen</strong> op Mapetanque.be, verspreid over <strong>{{STAT_COMMUNES}} gemeenten</strong>. De stad Luik telt 25 terreinen, gevolgd door Eupen met 8. De Franstalige Belgische petanquefederatie (FBFP) heeft er haar zetel, in de Rue Haute Marexhe in Herstal. In Herve ontwikkelde een liefhebber de \"Boogle House\", een evenementenversie van petanque met een demonteerbare kunststofmat en zachte ballen."
+      },
+      "de": {
+        "intro_html": "Die Provinz Lüttich zählt <strong>{{STAT_TERRAINS}} Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>{{STAT_COMMUNES}} Gemeinden</strong>. Die Stadt Lüttich kommt auf 25 Plätze, gefolgt von Eupen mit 8. Der frankophone belgische Pétanque-Verband (FBFP) hat seinen Sitz in der Rue Haute Marexhe in Herstal. In Herve entwickelte ein Enthusiast das „Boogle House“, eine Eventversion von Pétanque mit einer abbaubaren Kunststoffmatte und weichen Kugeln."
+      }
+    }
   },
   "luxembourg": {
     "slug": "luxembourg",
@@ -132,7 +188,15 @@
     "banner_credit_html": "Photo : Jean Housen, <a href=\"https://commons.wikimedia.org/w/index.php?curid=41870270\" target=\"_blank\" rel=\"noopener\">CC BY-SA 3.0</a>",
     "area_km2": 4459,
     "nominatim_query": "Luxembourg, Wallonie, Belgique",
-    "intro_html": "La province de Luxembourg compte <strong>{{STAT_TERRAINS}} terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>{{STAT_COMMUNES}} communes</strong>. Arlon, son chef-lieu, arrive en tête avec 7 terrains, devant Vielsalm avec 6. C'est la plus vaste province de Belgique, mais aussi la moins peuplée. Elle peut surtout se targuer d'avoir vu naître Claudy Weibel : né à Arlon, il est double champion du monde de pétanque, sacré en triplette en 2000 puis en tête-à-tête en 2015. Anecdote historique : en 1961, un boulodrome de 3 000 m² a été aménagé au pied de la centrale électrique de Saint-Hubert. Le 11 mai 1982, le bâtiment a été entièrement ravagé par un incendie, avant d'être reconstruit pour le 20ᵉ anniversaire du club."
+    "intro_html": "La province de Luxembourg compte <strong>{{STAT_TERRAINS}} terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>{{STAT_COMMUNES}} communes</strong>. Arlon, son chef-lieu, arrive en tête avec 7 terrains, devant Vielsalm avec 6. C'est la plus vaste province de Belgique, mais aussi la moins peuplée. Elle peut surtout se targuer d'avoir vu naître Claudy Weibel : né à Arlon, il est double champion du monde de pétanque, sacré en triplette en 2000 puis en tête-à-tête en 2015. Anecdote historique : en 1961, un boulodrome de 3 000 m² a été aménagé au pied de la centrale électrique de Saint-Hubert. Le 11 mai 1982, le bâtiment a été entièrement ravagé par un incendie, avant d'être reconstruit pour le 20ᵉ anniversaire du club.",
+    "translations": {
+      "nl": {
+        "intro_html": "De provincie Luxemburg telt <strong>{{STAT_TERRAINS}} petanquebanen</strong> op Mapetanque.be, verspreid over <strong>{{STAT_COMMUNES}} gemeenten</strong>. Aarlen, de hoofdplaats, staat op kop met 7 terreinen, voor Vielsalm met 6. Het is de grootste provincie van België, maar ook de minst bevolkte. Ze kan bovendien prat gaan op de geboorte van Claudy Weibel: geboren in Aarlen, is hij tweevoudig wereldkampioen petanque, gekroond in triples in 2000 en in tête-à-tête in 2015. Historisch weetje: in 1961 werd aan de voet van de elektriciteitscentrale van Saint-Hubert een petanqueterrein van 3.000 m² aangelegd. Op 11 mei 1982 werd het gebouw volledig verwoest door brand, voordat het werd heropgebouwd voor het 20-jarig bestaan van de club."
+      },
+      "de": {
+        "intro_html": "Die Provinz Luxemburg zählt <strong>{{STAT_TERRAINS}} Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>{{STAT_COMMUNES}} Gemeinden</strong>. Arlon, die Provinzhauptstadt, führt mit 7 Plätzen, vor Vielsalm mit 6. Es ist die flächenmäßig größte, aber am dünnsten besiedelte Provinz Belgiens. Sie kann sich zudem rühmen, die Geburtsstadt von Claudy Weibel zu sein: In Arlon geboren, ist er zweifacher Pétanque-Weltmeister, Titelgewinn in der Dreiermannschaft 2000 und im Tête-à-tête 2015. Historische Anekdote: 1961 wurde am Fuß des Kraftwerks von Saint-Hubert ein 3.000 m² großer Bouleplatz angelegt. Am 11. Mai 1982 wurde das Gebäude durch einen Brand vollständig zerstört, bevor es zum 20-jährigen Bestehen des Vereins wieder aufgebaut wurde."
+      }
+    }
   },
   "namur": {
     "slug": "namur",
@@ -146,7 +210,15 @@
     "banner_credit_html": "Photo : Guywets, <a href=\"https://commons.wikimedia.org/w/index.php?curid=29821618\" target=\"_blank\" rel=\"noopener\">CC BY-SA 3.0</a>",
     "area_km2": 3666,
     "nominatim_query": "Namur, Belgique",
-    "intro_html": "La province de Namur compte <strong>{{STAT_TERRAINS}} terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>{{STAT_COMMUNES}} communes</strong>. Namur-ville totalise 14 terrains, devant Eghezée avec 6. « Champion », un des villages de la commune de Namur, a fondé sa section de pétanque il y a plus de 50 ans ; elle rassemble aujourd'hui plus de 900 joueurs lors du championnat d'hiver. À Belgrade, dans la ville de Namur, le centre sportif José Tyssaen situé rue des Tautîts possède 10 pistes de pétanque extérieures éclairées."
+    "intro_html": "La province de Namur compte <strong>{{STAT_TERRAINS}} terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>{{STAT_COMMUNES}} communes</strong>. Namur-ville totalise 14 terrains, devant Eghezée avec 6. « Champion », un des villages de la commune de Namur, a fondé sa section de pétanque il y a plus de 50 ans ; elle rassemble aujourd'hui plus de 900 joueurs lors du championnat d'hiver. À Belgrade, dans la ville de Namur, le centre sportif José Tyssaen situé rue des Tautîts possède 10 pistes de pétanque extérieures éclairées.",
+    "translations": {
+      "nl": {
+        "intro_html": "De provincie Namen telt <strong>{{STAT_TERRAINS}} petanquebanen</strong> op Mapetanque.be, verspreid over <strong>{{STAT_COMMUNES}} gemeenten</strong>. Namen-stad telt 14 terreinen, voor Eghezée met 6. \"Champion\", een van de dorpen van de gemeente Namen, richtte meer dan 50 jaar geleden zijn petanqueafdeling op; die brengt vandaag meer dan 900 spelers samen tijdens het winterkampioenschap. In Belgrade, in de stad Namen, beschikt het sportcentrum José Tyssaen in de Rue des Tautîts over 10 verlichte openluchtterreinen."
+      },
+      "de": {
+        "intro_html": "Die Provinz Namur zählt <strong>{{STAT_TERRAINS}} Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>{{STAT_COMMUNES}} Gemeinden</strong>. Die Stadt Namur kommt auf 14 Plätze, vor Eghezée mit 6. „Champion“, eines der Dörfer der Gemeinde Namur, gründete vor über 50 Jahren seine Pétanque-Abteilung; sie versammelt heute über 900 Spieler bei der Wintermeisterschaft. In Belgrade, im Stadtgebiet von Namur, verfügt das Sportzentrum José Tyssaen in der Rue des Tautîts über 10 beleuchtete Außenplätze."
+      }
+    }
   },
   "bruxelles": {
     "slug": "bruxelles",
@@ -160,6 +232,14 @@
     "banner_credit_html": "Photo : Michielverbeek, <a href=\"https://commons.wikimedia.org/w/index.php?curid=59383870\" target=\"_blank\" rel=\"noopener\">CC BY-SA 4.0</a>",
     "area_km2": 161,
     "nominatim_query": "Bruxelles-Capitale, Belgique",
-    "intro_html": "Bruxelles compte <strong>{{STAT_TERRAINS}} terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>{{STAT_COMMUNES}} des 19 communes</strong> de la Région. Anderlecht arrive en tête avec 34 terrains, suivie de la Ville de Bruxelles avec 30. À Saint-Gilles, le boulodrome Charles Picqué est installé dans le parc Pierre Paulus depuis environ 40 ans. Il a fait l'objet d'une importante rénovation achevée en 2023 : le bâtiment a été davantage ouvert sur le parc grâce à une grande baie vitrée, et trois terrains extérieurs ainsi qu'une grande terrasse ont été ajoutés."
+    "intro_html": "Bruxelles compte <strong>{{STAT_TERRAINS}} terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>{{STAT_COMMUNES}} des 19 communes</strong> de la Région. Anderlecht arrive en tête avec 34 terrains, suivie de la Ville de Bruxelles avec 30. À Saint-Gilles, le boulodrome Charles Picqué est installé dans le parc Pierre Paulus depuis environ 40 ans. Il a fait l'objet d'une importante rénovation achevée en 2023 : le bâtiment a été davantage ouvert sur le parc grâce à une grande baie vitrée, et trois terrains extérieurs ainsi qu'une grande terrasse ont été ajoutés.",
+    "translations": {
+      "nl": {
+        "intro_html": "Brussel telt <strong>{{STAT_TERRAINS}} petanquebanen</strong> op Mapetanque.be, verspreid over <strong>{{STAT_COMMUNES}} van de 19 gemeenten</strong> van het Gewest. Anderlecht staat op kop met 34 terreinen, gevolgd door de Stad Brussel met 30. In Sint-Gillis is het petanquecentrum Charles Picqué al zo'n 40 jaar gevestigd in het Pierre Paulus-park. Het onderging een grote renovatie die in 2023 werd afgerond: het gebouw werd door een grote glaspartij meer opengesteld naar het park, en er kwamen drie buitenterreinen en een groot terras bij."
+      },
+      "de": {
+        "intro_html": "Brüssel zählt <strong>{{STAT_TERRAINS}} Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>{{STAT_COMMUNES}} der 19 Gemeinden</strong> der Region. Anderlecht führt mit 34 Plätzen, gefolgt von der Stadt Brüssel mit 30. In Saint-Gilles befindet sich die Pétanque-Anlage Charles Picqué seit rund 40 Jahren im Pierre-Paulus-Park. Sie wurde 2023 umfassend renoviert: Das Gebäude wurde durch eine große Glasfront stärker zum Park hin geöffnet, und drei Außenplätze sowie eine große Terrasse kamen hinzu."
+      }
+    }
   }
 }

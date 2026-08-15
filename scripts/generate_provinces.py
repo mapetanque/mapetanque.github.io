@@ -339,4 +339,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()python3 scripts/generate_provinces.py
+        main()

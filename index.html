@@ -67,9 +67,9 @@
             <button type="button" class="info-nav-trigger" data-target="faq" data-i18n="menu_faq">FAQ</button>
             <button type="button" class="info-nav-trigger" data-target="contact" data-i18n="menu_contact">Nous contacter</button>
             <span id="lang-switcher-inline">
-                <button type="button" class="lang-link" data-lang="fr">FR</button>
-                <button type="button" class="lang-link" data-lang="nl">NL</button>
-                <button type="button" class="lang-link" data-lang="de">DE</button>
+                <button type="button" class="lang-link" data-lang="fr" data-lang-url="/">FR</button>
+                <button type="button" class="lang-link" data-lang="nl" data-lang-url="/nl/">NL</button>
+                <button type="button" class="lang-link" data-lang="de" data-lang-url="/de/">DE</button>
             </span>
         </nav>
 
@@ -93,9 +93,9 @@
                  (navigateur + mémorisation locale) suffit dans l'immense majorité des cas, ceci reste
                  disponible en repli pour corriger manuellement si besoin. -->
             <div id="side-menu-lang">
-                <button type="button" class="lang-link" data-lang="fr">FR</button>
-                <button type="button" class="lang-link" data-lang="nl">NL</button>
-                <button type="button" class="lang-link" data-lang="de">DE</button>
+                <button type="button" class="lang-link" data-lang="fr" data-lang-url="/">FR</button>
+                <button type="button" class="lang-link" data-lang="nl" data-lang-url="/nl/">NL</button>
+                <button type="button" class="lang-link" data-lang="de" data-lang-url="/de/">DE</button>
             </div>
         </nav>
 
@@ -179,7 +179,7 @@
      — tout son JS continue de tourner normalement, rien n'a été retiré). -->
 <section id="provinces-section">
     <div class="provinces-container">
-        <h2>Parcourir par province</h2>
+        <h2 data-i18n="provinces_section_title">Parcourir par province</h2>
 
         <div class="province-tiles-grid">
             <a href="/province-anvers.html" class="province-tile" style="background-image: url('/images/provinces/tuile-anvers.jpg');">
@@ -299,5 +299,13 @@
 <script src="/script.js"></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
 
+
+<script>
+document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+        window.location.href = btn.dataset.langUrl;
+    });
+});
+</script>
 </body>
 </html>
