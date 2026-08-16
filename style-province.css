@@ -419,6 +419,9 @@ body {
 @media (max-width: 1024px) {
     .hero-banner {
         height: 230px;
+        /* Réserve une bande en bas pour la mention de licence, pour qu'elle ne se retrouve
+           jamais superposée au titre quand celui-ci passe sur 2 lignes en mobile. */
+        padding-bottom: 26px;
     }
 
     /* Sans ça, notre H1 (42px, plus spécifique) écrase la réduction mobile prévue par

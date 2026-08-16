@@ -172,6 +172,17 @@
     gap: 16px;
 }
 
+#regions-section {
+    background-color: #ffffff;
+    padding: 50px 20px 60px;
+}
+
+.regions-tiles-grid {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 780px;
+    margin: 0 auto;
+}
+
 .province-tile {
     position: relative;
     display: block;
@@ -221,6 +232,10 @@ body {
 @media (max-width: 1024px) {
     .hero-banner {
         height: 230px;
+        /* Réserve une bande en bas pour la mention de licence, pour qu'elle ne se retrouve
+           jamais superposée au titre/boutons quand leur pile de contenu remplit toute la
+           hauteur réduite de la bannière en mobile. */
+        padding-bottom: 26px;
     }
 
     #map {

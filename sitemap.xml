@@ -129,5 +129,19 @@
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/province-bruxelles.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/province-bruxelles.html" />
     </url>
+    <url>
+        <loc>https://mapetanque.github.io/region-flandre.html</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/region-flandre.html" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/region-flandre.html" />
+    </url>
+    <url>
+        <loc>https://mapetanque.github.io/region-wallonie.html</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/region-wallonie.html" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/region-wallonie.html" />
+    </url>
 <!-- FIN PAGES PROVINCES -->
 </urlset>

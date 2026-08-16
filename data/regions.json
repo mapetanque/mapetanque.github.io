@@ -1,0 +1,33 @@
+{
+  "_comment": "Un objet par page region a generer. Meme logique que provinces.json : le script ignore (avec un avertissement) toute entree dont banner_image ou intro_html vaut null. Bruxelles n'a pas d'entree ici : la tuile region 'Bruxelles' de la page d'accueil renvoie directement vers sa page province existante (province-bruxelles.html), pas de page region dediee necessaire puisque Bruxelles n'a pas de sous-provinces.",
+  "flandre": {
+    "slug": "flandre",
+    "region_key": "flandre",
+    "banner_image": "banniere-flandre.webp",
+    "banner_credit_html": "Photo : Missvain, d'après une image de Klaus with K, <a href=\"https://commons.wikimedia.org/w/index.php?curid=35827473\" target=\"_blank\" rel=\"noopener\">CC BY-SA 3.0</a>",
+    "intro_html": "La Flandre compte <strong>{{STAT_TERRAINS}} terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans ses <strong>{{STAT_PROVINCES}} provinces</strong> et <strong>{{STAT_COMMUNES}} communes</strong>. La Flandre orientale arrive en tête avec 316 terrains, suivie de la province d'Anvers avec 286, puis de la Flandre occidentale avec 226. Que vous soyez de Flandre orientale, d'Anvers ou de Flandre occidentale, retrouvez ci-dessous toutes les provinces flamandes pour affiner votre recherche.",
+    "translations": {
+      "nl": {
+        "intro_html": "Vlaanderen telt <strong>{{STAT_TERRAINS}} petanquebanen</strong> op Mapetanque.be, verspreid over <strong>{{STAT_PROVINCES}} provincies</strong> en <strong>{{STAT_COMMUNES}} gemeenten</strong>. Oost-Vlaanderen staat op kop met 316 terreinen, gevolgd door de provincie Antwerpen met 286 en West-Vlaanderen met 226. Of u nu in Oost-Vlaanderen, Antwerpen of West-Vlaanderen speelt, hieronder vindt u alle Vlaamse provincies om uw zoekopdracht te verfijnen."
+      },
+      "de": {
+        "intro_html": "Flandern zählt <strong>{{STAT_TERRAINS}} Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>{{STAT_PROVINCES}} Provinzen</strong> und <strong>{{STAT_COMMUNES}} Gemeinden</strong>. Ostflandern führt mit 316 Plätzen, gefolgt von der Provinz Antwerpen mit 286 und Westflandern mit 226. Ob in Ostflandern, Antwerpen oder Westflandern – hier finden Sie alle flämischen Provinzen, um Ihre Suche zu verfeinern."
+      }
+    }
+  },
+  "wallonie": {
+    "slug": "wallonie",
+    "region_key": "wallonie",
+    "banner_image": "banniere-wallonie.webp",
+    "banner_credit_html": "Photo : Jean-Pol Grandmont, <a href=\"https://commons.wikimedia.org/w/index.php?curid=134014880\" target=\"_blank\" rel=\"noopener\">CC BY 3.0</a>",
+    "intro_html": "La Wallonie compte <strong>{{STAT_TERRAINS}} terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans ses <strong>{{STAT_PROVINCES}} provinces</strong> et <strong>{{STAT_COMMUNES}} communes</strong>. La province de Liège arrive en tête avec 159 terrains, devant le Hainaut avec 100 et Namur avec 91. Que vous soyez de Liège, du Hainaut ou de Namur, retrouvez ci-dessous toutes les provinces wallonnes pour affiner votre recherche.",
+    "translations": {
+      "nl": {
+        "intro_html": "Wallonië telt <strong>{{STAT_TERRAINS}} petanquebanen</strong> op Mapetanque.be, verspreid over <strong>{{STAT_PROVINCES}} provincies</strong> en <strong>{{STAT_COMMUNES}} gemeenten</strong>. De provincie Luik staat op kop met 159 terreinen, voor Henegouwen met 100 en Namen met 91. Of u nu uit Luik, Henegouwen of Namen komt, hieronder vindt u alle Waalse provincies om uw zoekopdracht te verfijnen."
+      },
+      "de": {
+        "intro_html": "Wallonien zählt <strong>{{STAT_TERRAINS}} Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>{{STAT_PROVINCES}} Provinzen</strong> und <strong>{{STAT_COMMUNES}} Gemeinden</strong>. Die Provinz Lüttich führt mit 159 Plätzen, vor Hennegau mit 100 und Namur mit 91. Ob aus Lüttich, Hennegau oder Namur – hier finden Sie alle wallonischen Provinzen, um Ihre Suche zu verfeinern."
+      }
+    }
+  }
+}

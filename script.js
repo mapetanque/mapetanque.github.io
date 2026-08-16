@@ -164,62 +164,22 @@ const VUE_CARTE_INITIALE = { center: [50.8503, 4.3517], zoom: 8 };
 
 // Création de la carte centrée sur la Belgique
 // scrollWheelZoom désactivé par défaut : sans ça, la molette de la souris zoome la carte au lieu
-// de faire défiler la page dès qu'on scrolle en passant dessus. Un premier clic/toucher sur la
-// carte l'active (voir plus bas) — même principe que Google Maps.
+// de faire défiler la page dès qu'on scrolle en passant dessus. Un premier clic sur la carte
+// l'active (voir plus bas) — même principe que Google Maps. Concerne uniquement la souris/molette
+// (desktop) : la version tactile équivalente a été essayée puis retirée, elle gênait plus qu'elle
+// n'aidait (le premier tap la plupart du temps sur un terrain/cluster plutôt que sur une zone
+// vide, rendant la désactivation quasi permanente en pratique).
 const map = L.map('map', {
     scrollWheelZoom: false
 }).setView(VUE_CARTE_INITIALE.center, VUE_CARTE_INITIALE.zoom);
 
-// Mobile : idem pour le déplacement au doigt, qui sinon capture le geste de défilement de la
-// page dès qu'on fait glisser le doigt en partant de la carte. Désactivé par défaut, activé au
-// premier tap (le tap continue de fonctionner normalement pour ouvrir les popups des terrains,
-// seul le glissé-déplacement de la carte est concerné).
-
-// Déclarée ici (pas avec const à l'intérieur du bloc if ci-dessous) pour rester accessible
-// depuis le gestionnaire de clic juste après, y compris quand ce bloc ne s'exécute pas.
-let masquerIndiceCarteTactile = function () {};
-
-if (L.Browser.mobile) {
-    map.dragging.disable();
-
-    // Petit indice discret, mobile uniquement (sur desktop le comportement de la molette est
-    // assez explicite en lui-même) : disparaît dès qu'on touche la carte, ou après 4 secondes.
-    const indiceCarteTactile = L.DomUtil.create('div', '', map.getContainer());
-    indiceCarteTactile.textContent = t('map_touch_hint') || 'Touchez la carte pour la déplacer';
-    Object.assign(indiceCarteTactile.style, {
-        position: 'absolute',
-        bottom: '14px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        background: 'rgba(30, 34, 28, 0.85)',
-        color: '#fff',
-        fontSize: '12.5px',
-        padding: '8px 14px',
-        borderRadius: '20px',
-        zIndex: '900',
-        pointerEvents: 'none',
-        transition: 'opacity 0.3s ease',
-        whiteSpace: 'nowrap'
-    });
-
-    masquerIndiceCarteTactile = function () {
-        indiceCarteTactile.style.opacity = '0';
-        setTimeout(function () { indiceCarteTactile.remove(); }, 300);
-    };
-    setTimeout(masquerIndiceCarteTactile, 4000);
-}
-
-// Active la carte (molette + déplacement au doigt) au tout premier contact — clic souris ou
-// toucher —, où qu'il ait lieu sur la carte, y compris directement sur un marqueur/terrain.
-// Volontairement un event listener natif en 'pointerdown' plutôt que map.once('click', ...) :
-// Leaflet arrête la propagation du clic sur un marqueur (pour ne pas perturber l'ouverture de
-// son popup), donc ce clic ne remontait jamais jusqu'à la carte — sur une carte chargée en
-// terrains, il fallait alors viser un pixel vide, ce qui n'est pas réaliste. 'pointerdown' se
-// déclenche avant toute cette logique, sur n'importe quel point de la carte.
+// Active la molette de la carte au tout premier clic, où qu'il ait lieu sur la carte, y compris
+// directement sur un marqueur/terrain. Volontairement un event listener natif en 'pointerdown'
+// plutôt que map.once('click', ...) : Leaflet arrête la propagation du clic sur un marqueur
+// (pour ne pas perturber l'ouverture de son popup), donc ce clic ne remontait jamais jusqu'à la
+// carte. 'pointerdown' se déclenche avant toute cette logique, sur n'importe quel point de la carte.
 map.getContainer().addEventListener('pointerdown', function () {
     map.scrollWheelZoom.enable();
-    map.dragging.enable();
-    masquerIndiceCarteTactile();
 }, { once: true });
 
 let userPosition = null;
