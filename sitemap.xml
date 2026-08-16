@@ -2,146 +2,150 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
     <url>
-        <loc>https://mapetanque.github.io/</loc>
+        <loc>https://mapetanque.be/</loc>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
-        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/" />
-        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/" />
-        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/" />
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/" />
     </url>
     <url>
-        <loc>https://mapetanque.github.io/nl/</loc>
+        <loc>https://mapetanque.be/nl/</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
-        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/" />
-        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/" />
-        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/" />
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/" />
     </url>
     <url>
-        <loc>https://mapetanque.github.io/de/</loc>
+        <loc>https://mapetanque.be/de/</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
-        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/" />
-        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/" />
-        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/" />
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/" />
     </url>
 
 <!-- DEBUT PAGES PROVINCES (géré automatiquement par scripts/generate_provinces.py, ne pas éditer à la main : réécrit à chaque lancement) -->
     <url>
-        <loc>https://mapetanque.github.io/province-anvers.html</loc>
+        <loc>https://mapetanque.be/province-anvers.html</loc>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
-        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/province-anvers.html" />
-        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/province-anvers.html" />
-        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/province-anvers.html" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/province-anvers.html" />
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/province-anvers.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/province-anvers.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/province-anvers.html" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/province-anvers.html" />
     </url>
     <url>
-        <loc>https://mapetanque.github.io/province-brabant-flamand.html</loc>
+        <loc>https://mapetanque.be/province-brabant-flamand.html</loc>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
-        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/province-brabant-flamand.html" />
-        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/province-brabant-flamand.html" />
-        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/province-brabant-flamand.html" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/province-brabant-flamand.html" />
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/province-brabant-flamand.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/province-brabant-flamand.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/province-brabant-flamand.html" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/province-brabant-flamand.html" />
     </url>
     <url>
-        <loc>https://mapetanque.github.io/province-flandre-orientale.html</loc>
+        <loc>https://mapetanque.be/province-flandre-orientale.html</loc>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
-        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/province-flandre-orientale.html" />
-        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/province-flandre-orientale.html" />
-        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/province-flandre-orientale.html" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/province-flandre-orientale.html" />
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/province-flandre-orientale.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/province-flandre-orientale.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/province-flandre-orientale.html" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/province-flandre-orientale.html" />
     </url>
     <url>
-        <loc>https://mapetanque.github.io/province-flandre-occidentale.html</loc>
+        <loc>https://mapetanque.be/province-flandre-occidentale.html</loc>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
-        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/province-flandre-occidentale.html" />
-        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/province-flandre-occidentale.html" />
-        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/province-flandre-occidentale.html" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/province-flandre-occidentale.html" />
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/province-flandre-occidentale.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/province-flandre-occidentale.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/province-flandre-occidentale.html" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/province-flandre-occidentale.html" />
     </url>
     <url>
-        <loc>https://mapetanque.github.io/province-limbourg.html</loc>
+        <loc>https://mapetanque.be/province-limbourg.html</loc>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
-        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/province-limbourg.html" />
-        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/province-limbourg.html" />
-        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/province-limbourg.html" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/province-limbourg.html" />
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/province-limbourg.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/province-limbourg.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/province-limbourg.html" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/province-limbourg.html" />
     </url>
     <url>
-        <loc>https://mapetanque.github.io/province-brabant-wallon.html</loc>
+        <loc>https://mapetanque.be/province-brabant-wallon.html</loc>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
-        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/province-brabant-wallon.html" />
-        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/province-brabant-wallon.html" />
-        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/province-brabant-wallon.html" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/province-brabant-wallon.html" />
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/province-brabant-wallon.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/province-brabant-wallon.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/province-brabant-wallon.html" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/province-brabant-wallon.html" />
     </url>
     <url>
-        <loc>https://mapetanque.github.io/province-hainaut.html</loc>
+        <loc>https://mapetanque.be/province-hainaut.html</loc>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
-        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/province-hainaut.html" />
-        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/province-hainaut.html" />
-        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/province-hainaut.html" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/province-hainaut.html" />
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/province-hainaut.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/province-hainaut.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/province-hainaut.html" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/province-hainaut.html" />
     </url>
     <url>
-        <loc>https://mapetanque.github.io/province-liege.html</loc>
+        <loc>https://mapetanque.be/province-liege.html</loc>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
-        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/province-liege.html" />
-        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/province-liege.html" />
-        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/province-liege.html" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/province-liege.html" />
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/province-liege.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/province-liege.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/province-liege.html" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/province-liege.html" />
     </url>
     <url>
-        <loc>https://mapetanque.github.io/province-luxembourg.html</loc>
+        <loc>https://mapetanque.be/province-luxembourg.html</loc>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
-        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/province-luxembourg.html" />
-        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/province-luxembourg.html" />
-        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/province-luxembourg.html" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/province-luxembourg.html" />
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/province-luxembourg.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/province-luxembourg.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/province-luxembourg.html" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/province-luxembourg.html" />
     </url>
     <url>
-        <loc>https://mapetanque.github.io/province-namur.html</loc>
+        <loc>https://mapetanque.be/province-namur.html</loc>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
-        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/province-namur.html" />
-        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/province-namur.html" />
-        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/province-namur.html" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/province-namur.html" />
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/province-namur.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/province-namur.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/province-namur.html" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/province-namur.html" />
     </url>
     <url>
-        <loc>https://mapetanque.github.io/province-bruxelles.html</loc>
+        <loc>https://mapetanque.be/province-bruxelles.html</loc>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
-        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/province-bruxelles.html" />
-        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.github.io/nl/province-bruxelles.html" />
-        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.github.io/de/province-bruxelles.html" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/province-bruxelles.html" />
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/province-bruxelles.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/province-bruxelles.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/province-bruxelles.html" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/province-bruxelles.html" />
     </url>
     <url>
-        <loc>https://mapetanque.github.io/region-flandre.html</loc>
+        <loc>https://mapetanque.be/region-flandre.html</loc>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
-        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/region-flandre.html" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/region-flandre.html" />
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/region-flandre.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/region-flandre.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/region-flandre.html" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/region-flandre.html" />
     </url>
     <url>
-        <loc>https://mapetanque.github.io/region-wallonie.html</loc>
+        <loc>https://mapetanque.be/region-wallonie.html</loc>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
-        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.github.io/region-wallonie.html" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io/region-wallonie.html" />
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/region-wallonie.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/region-wallonie.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/region-wallonie.html" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/region-wallonie.html" />
     </url>
 <!-- FIN PAGES PROVINCES -->
 </urlset>

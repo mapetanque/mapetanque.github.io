@@ -232,9 +232,9 @@ def construire_bloc_autres_provinces(cle_courante, provinces, langue, traduction
 def construire_hreflang_links(slug, langues_disponibles, fonction_url=url_page):
     lignes = []
     for langue in langues_disponibles:
-        lignes.append(f'    <link rel="alternate" hreflang="{langue}" href="https://mapetanque.github.io{fonction_url(slug, langue)}">')
+        lignes.append(f'    <link rel="alternate" hreflang="{langue}" href="https://mapetanque.be{fonction_url(slug, langue)}">')
     if langues_disponibles:
-        lignes.append(f'    <link rel="alternate" hreflang="x-default" href="https://mapetanque.github.io{fonction_url(slug, "fr")}">')
+        lignes.append(f'    <link rel="alternate" hreflang="x-default" href="https://mapetanque.be{fonction_url(slug, "fr")}">')
     return "\n".join(lignes)
 
 
@@ -295,7 +295,7 @@ def generer_page(cle, config, langue, langues_disponibles, other_provinces_block
         "{{STATS_GEO_KEY}}": config["stats_geo_province"] or config["stats_geo_region"],
         "{{SLUG}}": config["slug"],
         "{{HOME_URL}}": url_racine_langue(langue),
-        "{{CANONICAL_URL}}": f'https://mapetanque.github.io{url_page(config["slug"], langue)}',
+        "{{CANONICAL_URL}}": f'https://mapetanque.be{url_page(config["slug"], langue)}',
         "{{HREFLANG_LINKS}}": construire_hreflang_links(config["slug"], langues_disponibles),
         "{{URL_FR}}": url_page(config["slug"], "fr") if "fr" in langues_disponibles else url_racine_langue("fr"),
         "{{URL_NL}}": url_page(config["slug"], "nl") if "nl" in langues_disponibles else url_racine_langue("nl"),
@@ -371,7 +371,7 @@ def generer_page_region(cle, config, langue, langues_disponibles, template, stat
         "{{STATS_GEO_KEY}}": config["region_key"],
         "{{SLUG}}": config["slug"],
         "{{HOME_URL}}": url_racine_langue(langue),
-        "{{CANONICAL_URL}}": f'https://mapetanque.github.io{url_page_region(config["slug"], langue)}',
+        "{{CANONICAL_URL}}": f'https://mapetanque.be{url_page_region(config["slug"], langue)}',
         "{{HREFLANG_LINKS}}": construire_hreflang_links(config["slug"], langues_disponibles, url_page_region),
         "{{URL_FR}}": url_page_region(config["slug"], "fr") if "fr" in langues_disponibles else url_racine_langue("fr"),
         "{{URL_NL}}": url_page_region(config["slug"], "nl") if "nl" in langues_disponibles else url_racine_langue("nl"),
@@ -443,7 +443,7 @@ def mettre_a_jour_sitemap(pages_generees):
 
     blocs = []
     for slug, langues_disponibles, fonction_url in pages_generees:
-        url_par_langue = {l: f"https://mapetanque.github.io{fonction_url(slug, l)}" for l in langues_disponibles}
+        url_par_langue = {l: f"https://mapetanque.be{fonction_url(slug, l)}" for l in langues_disponibles}
         blocs.append(construire_bloc_sitemap_url(url_par_langue["fr"], langues_disponibles, url_par_langue))
 
     nouvelle_section = "\n" + "\n".join(blocs) + "\n"

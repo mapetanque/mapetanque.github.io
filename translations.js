@@ -75,10 +75,9 @@ const translations = {
         geo_province_flandre_occidentale: "Flandre occidentale",
 
         about_title: "À propos",
-        about_text: "Mapetanque.be est né de la constatation qu'il n'existait aucun site recensant de manière " +
-            "pratique et rapide les terrains de pétanque librement accessibles en Belgique. Le projet est " +
-            "actuellement en développement. L'objectif, à terme, est de proposer une plateforme communautaire " +
-            "permettant d'ajouter des photos, des informations pratiques et des avis utiles pour les joueurs.",
+        about_text: "Mapetanque.be est né de la constatation qu'il n'existait aucun site permettant de trouver " +
+            "de façon pratique et rapide des terrains de pétanque librement accessibles en Belgique. Le projet " +
+            "est toujours en développement. Le site est gratuit, sans publicité et son code est open-source.",
 
         contact_title: "Me contacter",
         contact_text: "Vous avez une suggestion, vous souhaitez signaler une erreur ou participer au projet ? " +
@@ -218,11 +217,10 @@ const translations = {
         geo_province_flandre_occidentale: "West-Vlaanderen",
 
         about_title: "Over ons",
-        about_text: "Mapetanque.be is ontstaan uit de vaststelling dat er geen enkele website bestond die op een " +
-            "praktische en snelle manier de vrij toegankelijke petanquebanen in België in kaart bracht. Het " +
-            "project is momenteel in ontwikkeling. Het doel is om op termijn een gemeenschapsplatform aan te " +
-            "bieden waarop foto's, praktische informatie en nuttige beoordelingen voor spelers kunnen worden " +
-            "toegevoegd.",
+        about_text: "Mapetanque.be is ontstaan uit de vaststelling dat er geen enkele website bestond waarmee " +
+            "je op een praktische en snelle manier vrij toegankelijke petanquebanen in België kon vinden. Het " +
+            "project is nog steeds in ontwikkeling. De site is gratis, zonder advertenties, en de broncode is " +
+            "open-source.",
 
         contact_title: "Contacteer ons",
         contact_text: "Heb je een suggestie, wil je een fout melden of wil je meewerken aan het project? " +
@@ -364,11 +362,10 @@ const translations = {
         geo_province_flandre_occidentale: "Westflandern",
 
         about_title: "Über uns",
-        about_text: "Mapetanque.be entstand aus der Feststellung, dass es keine Website gab, die schnell und " +
-            "übersichtlich die öffentlich zugänglichen Pétanque-Plätze in Belgien auflistet. Das Projekt " +
-            "befindet sich derzeit in der Entwicklung. Ziel ist es, langfristig eine Community-Plattform " +
-            "anzubieten, auf der Fotos, praktische Informationen und hilfreiche Bewertungen für Spieler " +
-            "hinzugefügt werden können.",
+        about_text: "Mapetanque.be entstand aus der Feststellung, dass es keine Website gab, mit der man " +
+            "schnell und unkompliziert öffentlich zugängliche Pétanque-Plätze in Belgien finden konnte. Das " +
+            "Projekt befindet sich weiterhin in der Entwicklung. Die Seite ist kostenlos, werbefrei, und der " +
+            "Quellcode ist Open Source.",
 
         contact_title: "Kontakt",
         contact_text: "Haben Sie einen Vorschlag, einen Fehler entdeckt oder möchten Sie am Projekt " +
