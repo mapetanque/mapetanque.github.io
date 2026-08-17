@@ -592,6 +592,21 @@ function calculDistance(lat1, lon1, lat2, lon2) {
 }
 
 
+// Certaines communes bruxelloises n'ont pas de nom belge unique mais un nom officiel bilingue
+// FR/NL (ex. "Woluwe-Saint-Lambert - Sint-Lambrechts-Woluwe", tel que renvoyé par Nominatim et
+// stocké tel quel dans terrains.geojson — voir commentaire plus bas sur le fil d'Ariane). N'affiche
+// que la partie correspondant à la langue courante. Pas de nom officiel distinct en allemand pour
+// ces communes : on retombe sur le néerlandais (choix assumé, cohérent avec le reste du site DE
+// qui n'a pas toujours de traduction propre à ce niveau de détail). Exposée sur window car
+// réutilisée par le script inline des pages province/région (voir templates/province_template.html).
+// Sans effet sur les communes à nom unique (pas de séparateur " - " trouvé) : renvoyées telles quelles.
+window.nomCommuneAffiche = function (nomBrut, langue) {
+    if (!nomBrut) return nomBrut;
+    const parties = nomBrut.split(' - ');
+    if (parties.length !== 2) return nomBrut;
+    return langue === 'fr' ? parties[0] : parties[1];
+};
+
 // ===================== Contenu des popups de terrain =====================
 // Extrait en fonction autonome (au lieu d'être imbriquée dans onEachFeature) pour pouvoir être
 // réutilisée telle quelle par les pages provinces, qui affichent leur propre sous-ensemble de
@@ -621,10 +636,10 @@ function construireContenuPopupTerrain(feature, layer) {
         const regionNom = tags.region ? t('geo_region_' + tags.region) : null;
         const provinceNom = t('geo_province_' + tags.province);
         const provinceSlug = tags.province.replace(/_/g, '-');
-        const communeNom = tags.commune ? ' › ' + tags.commune : '';
+        const communeNom = tags.commune ? ' › ' + window.nomCommuneAffiche(tags.commune, currentLang) : '';
         filAriane = `<div class="popup-breadcrumb">${regionNom ? regionNom + ' › ' : ''}<a href="/province-${provinceSlug}.html">${provinceNom}</a>${communeNom}</div>`;
     } else if (tags.region === 'bruxelles') {
-        const communeNom = tags.commune ? ' › ' + tags.commune : '';
+        const communeNom = tags.commune ? ' › ' + window.nomCommuneAffiche(tags.commune, currentLang) : '';
         filAriane = `<div class="popup-breadcrumb"><a href="/province-bruxelles.html">${t('geo_region_bruxelles')}</a>${communeNom}</div>`;
     }
 
@@ -1158,7 +1173,7 @@ function construireListeCommunes(communes, dict) {
         lienCommune.className = 'stats-commune-link';
 
         const nomSpan = document.createElement('span');
-        nomSpan.textContent = nom;
+        nomSpan.textContent = window.nomCommuneAffiche(nom, currentLang);
 
         const compteSpan = document.createElement('span');
         compteSpan.className = 'stats-details-count';

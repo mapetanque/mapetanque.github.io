@@ -10,7 +10,7 @@
     <!-- Open Graph : aperçu affiché lors du partage du lien (WhatsApp, Facebook, etc.) -->
     <meta property="og:title" content="Petanqueterreinen in provincie Vlaams-Brabant — Mapetanque.be">
     <meta property="og:description" content="Openbare petanqueterreinen in provincie Vlaams-Brabant: interactieve kaart, lijst per gemeente, zoeken op stad op Mapetanque.be.">
-    <meta property="og:image" content="https://mapetanque.github.io/images/logomap.png">
+    <meta property="og:image" content="https://mapetanque.be/images/logomap.png">
     <meta property="og:url" content="https://mapetanque.be/nl/province-brabant-flamand.html">
     <meta property="og:type" content="website">
 
@@ -181,7 +181,7 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">191</span>
+            <span class="province-stat-tile-number">195</span>
             <span class="province-stat-tile-label">geregistreerde terreinen</span>
         </div>
         <div class="province-stat-tile">
@@ -189,7 +189,7 @@
             <span class="province-stat-tile-label">gemeenten met terreinen</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">9,1</span>
+            <span class="province-stat-tile-number">9,3</span>
             <span class="province-stat-tile-label">terreinen per 100 km²</span>
         </div>
     </div>
@@ -200,7 +200,7 @@
     </div>
 
     <p class="province-intro">
-        Vlaams-Brabant telt <strong>191 petanquebanen</strong> op Mapetanque.be, verspreid over <strong>54 gemeenten</strong>. Leuven staat op kop met 29 terreinen, gevolgd door Halle met 21. Petanqueclub PC Kerkom uit Boutersem werd in 2023 kampioen van Vlaams-Brabant in de hoogste provinciale afdeling.
+        Vlaams-Brabant telt <strong>195 petanquebanen</strong> op Mapetanque.be, verspreid over <strong>54 gemeenten</strong>. Leuven staat op kop met 29 terreinen, gevolgd door Halle met 21. Petanqueclub PC Kerkom uit Boutersem werd in 2023 kampioen van Vlaams-Brabant in de hoogste provinciale afdeling.
     </p>
 
     <div class="province-communes-section">
@@ -424,7 +424,8 @@
                 link.href = '#';
                 const count = layersParCommune[nom].length;
                 const unite = count > 1 ? 'terreinen' : 'terrein';
-                link.innerHTML = nom + ' <span class="commune-count">(' + count + ' ' + unite + ')</span>';
+                const nomAffiche = window.nomCommuneAffiche(nom, 'nl');
+                link.innerHTML = nomAffiche + ' <span class="commune-count">(' + count + ' ' + unite + ')</span>';
                 link.addEventListener('click', function (e) {
                     e.preventDefault();
                     const layersCommune = layersParCommune[nom];

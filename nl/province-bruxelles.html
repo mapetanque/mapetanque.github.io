@@ -10,7 +10,7 @@
     <!-- Open Graph : aperçu affiché lors du partage du lien (WhatsApp, Facebook, etc.) -->
     <meta property="og:title" content="Petanqueterreinen in Brussel — Mapetanque.be">
     <meta property="og:description" content="Openbare petanqueterreinen in provincie Brussel: interactieve kaart, lijst per gemeente, zoeken op stad op Mapetanque.be.">
-    <meta property="og:image" content="https://mapetanque.github.io/images/logomap.png">
+    <meta property="og:image" content="https://mapetanque.be/images/logomap.png">
     <meta property="og:url" content="https://mapetanque.be/nl/province-bruxelles.html">
     <meta property="og:type" content="website">
 
@@ -204,7 +204,7 @@
     </p>
 
     <div class="province-communes-section">
-        <h2>Gemeenten van de provincie</h2>
+        <h2>Gemeenten van het gewest</h2>
         <input type="text" class="commune-search" id="communeSearch" placeholder="Gemeente zoeken…">
         <div class="commune-list" id="communeList"></div>
         <p class="commune-no-result" id="communeNoResult">Geen gemeente gevonden.</p>
@@ -419,7 +419,8 @@
                 link.href = '#';
                 const count = layersParCommune[nom].length;
                 const unite = count > 1 ? 'terreinen' : 'terrein';
-                link.innerHTML = nom + ' <span class="commune-count">(' + count + ' ' + unite + ')</span>';
+                const nomAffiche = window.nomCommuneAffiche(nom, 'nl');
+                link.innerHTML = nomAffiche + ' <span class="commune-count">(' + count + ' ' + unite + ')</span>';
                 link.addEventListener('click', function (e) {
                     e.preventDefault();
                     const layersCommune = layersParCommune[nom];

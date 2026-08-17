@@ -10,7 +10,7 @@
     <!-- Open Graph : aperçu affiché lors du partage du lien (WhatsApp, Facebook, etc.) -->
     <meta property="og:title" content="{{H1}} — Mapetanque.be">
     <meta property="og:description" content="{{UI_META_DESCRIPTION}}">
-    <meta property="og:image" content="https://mapetanque.github.io/images/logomap.png">
+    <meta property="og:image" content="https://mapetanque.be/images/logomap.png">
     <meta property="og:url" content="{{CANONICAL_URL}}">
     <meta property="og:type" content="website">
 
@@ -390,7 +390,8 @@
                 link.href = '#';
                 const count = layersParCommune[nom].length;
                 const unite = count > 1 ? '{{UI_TERRAIN_PLURIEL}}' : '{{UI_TERRAIN_SINGULIER}}';
-                link.innerHTML = nom + ' <span class="commune-count">(' + count + ' ' + unite + ')</span>';
+                const nomAffiche = window.nomCommuneAffiche(nom, '{{LANG_CODE}}');
+                link.innerHTML = nomAffiche + ' <span class="commune-count">(' + count + ' ' + unite + ')</span>';
                 link.addEventListener('click', function (e) {
                     e.preventDefault();
                     const layersCommune = layersParCommune[nom];

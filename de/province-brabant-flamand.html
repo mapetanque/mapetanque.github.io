@@ -10,7 +10,7 @@
     <!-- Open Graph : aperçu affiché lors du partage du lien (WhatsApp, Facebook, etc.) -->
     <meta property="og:title" content="Pétanque-Plätze in der Provinz Flämisch-Brabant — Mapetanque.be">
     <meta property="og:description" content="Öffentliche Pétanque-Plätze in der Provinz Flämisch-Brabant: interaktive Karte, Liste nach Gemeinde, Suche nach Stadt auf Mapetanque.be.">
-    <meta property="og:image" content="https://mapetanque.github.io/images/logomap.png">
+    <meta property="og:image" content="https://mapetanque.be/images/logomap.png">
     <meta property="og:url" content="https://mapetanque.be/de/province-brabant-flamand.html">
     <meta property="og:type" content="website">
 
@@ -181,7 +181,7 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">191</span>
+            <span class="province-stat-tile-number">195</span>
             <span class="province-stat-tile-label">erfasste Plätze</span>
         </div>
         <div class="province-stat-tile">
@@ -189,7 +189,7 @@
             <span class="province-stat-tile-label">Gemeinden mit Plätzen</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">9,1</span>
+            <span class="province-stat-tile-number">9,3</span>
             <span class="province-stat-tile-label">Plätze pro 100 km²</span>
         </div>
     </div>
@@ -200,7 +200,7 @@
     </div>
 
     <p class="province-intro">
-        Flämisch-Brabant zählt <strong>191 Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>54 Gemeinden</strong>. Löwen führt mit 29 Plätzen, gefolgt von Halle mit 21. Der Verein PC Kerkom aus Boutersem wurde 2023 Meister von Flämisch-Brabant in der höchsten Provinzliga.
+        Flämisch-Brabant zählt <strong>195 Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>54 Gemeinden</strong>. Löwen führt mit 29 Plätzen, gefolgt von Halle mit 21. Der Verein PC Kerkom aus Boutersem wurde 2023 Meister von Flämisch-Brabant in der höchsten Provinzliga.
     </p>
 
     <div class="province-communes-section">
@@ -424,7 +424,8 @@
                 link.href = '#';
                 const count = layersParCommune[nom].length;
                 const unite = count > 1 ? 'Plätze' : 'Platz';
-                link.innerHTML = nom + ' <span class="commune-count">(' + count + ' ' + unite + ')</span>';
+                const nomAffiche = window.nomCommuneAffiche(nom, 'de');
+                link.innerHTML = nomAffiche + ' <span class="commune-count">(' + count + ' ' + unite + ')</span>';
                 link.addEventListener('click', function (e) {
                     e.preventDefault();
                     const layersCommune = layersParCommune[nom];

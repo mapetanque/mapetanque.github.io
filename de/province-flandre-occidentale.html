@@ -10,7 +10,7 @@
     <!-- Open Graph : aperçu affiché lors du partage du lien (WhatsApp, Facebook, etc.) -->
     <meta property="og:title" content="Pétanque-Plätze in der Provinz Westflandern — Mapetanque.be">
     <meta property="og:description" content="Öffentliche Pétanque-Plätze in der Provinz Westflandern: interaktive Karte, Liste nach Gemeinde, Suche nach Stadt auf Mapetanque.be.">
-    <meta property="og:image" content="https://mapetanque.github.io/images/logomap.png">
+    <meta property="og:image" content="https://mapetanque.be/images/logomap.png">
     <meta property="og:url" content="https://mapetanque.be/de/province-flandre-occidentale.html">
     <meta property="og:type" content="website">
 
@@ -424,7 +424,8 @@
                 link.href = '#';
                 const count = layersParCommune[nom].length;
                 const unite = count > 1 ? 'Plätze' : 'Platz';
-                link.innerHTML = nom + ' <span class="commune-count">(' + count + ' ' + unite + ')</span>';
+                const nomAffiche = window.nomCommuneAffiche(nom, 'de');
+                link.innerHTML = nomAffiche + ' <span class="commune-count">(' + count + ' ' + unite + ')</span>';
                 link.addEventListener('click', function (e) {
                     e.preventDefault();
                     const layersCommune = layersParCommune[nom];

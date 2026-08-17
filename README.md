@@ -113,7 +113,6 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 - Système de notes (/5) et commentaires par terrain (nécessiterait un backend — Supabase/Firebase envisagés)
 - Tags associables à un terrain par les usagers (zone ombragée, bar à proximité, terrain en pente, compteur de points, etc. — liste complète déjà brainstormée)
 - Système de versionning des données, pour pouvoir revenir en arrière en cas d'attaque ou de mauvaise utilisation
-- Traduction NL/DE des provinces/régions restantes (actuellement : Anvers, Flandre, Wallonie en 3 langues ; les autres provinces uniquement en français)
 
 ---
 

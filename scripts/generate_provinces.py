@@ -303,7 +303,11 @@ def generer_page(cle, config, langue, langues_disponibles, other_provinces_block
         "{{UI_ACCUEIL}}": tr["province_accueil_breadcrumb"],
         "{{UI_TERRAINS_RECENSES}}": tr["province_terrains_recenses"],
         "{{UI_COMMUNES_COUVERTES}}": tr["province_communes_couvertes"],
-        "{{UI_COMMUNES_DE_LA_PROVINCE}}": tr["province_communes_de_la_province"],
+        "{{UI_COMMUNES_DE_LA_PROVINCE}}": (
+            tr["province_communes_de_la_region_bruxelles"]
+            if config["region_key"] == "bruxelles"
+            else tr["province_communes_de_la_province"]
+        ),
         "{{UI_RECHERCHER_UNE_COMMUNE}}": tr["stats_search_commune_placeholder"],
         "{{UI_AUCUNE_COMMUNE}}": tr["stats_no_results"],
         "{{UI_TERRAIN_SINGULIER}}": tr["province_terrain_singulier"],

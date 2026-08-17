@@ -10,7 +10,7 @@
     <!-- Open Graph : aperçu affiché lors du partage du lien (WhatsApp, Facebook, etc.) -->
     <meta property="og:title" content="Terrains de pétanque en province de Brabant flamand — Mapetanque.be">
     <meta property="og:description" content="Terrains de pétanque publics en province Brabant flamand : carte interactive, liste par commune, recherche par ville sur Mapetanque.be.">
-    <meta property="og:image" content="https://mapetanque.github.io/images/logomap.png">
+    <meta property="og:image" content="https://mapetanque.be/images/logomap.png">
     <meta property="og:url" content="https://mapetanque.be/province-brabant-flamand.html">
     <meta property="og:type" content="website">
 
@@ -181,7 +181,7 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">191</span>
+            <span class="province-stat-tile-number">195</span>
             <span class="province-stat-tile-label">terrains recensés</span>
         </div>
         <div class="province-stat-tile">
@@ -189,7 +189,7 @@
             <span class="province-stat-tile-label">communes couvertes</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">9,1</span>
+            <span class="province-stat-tile-number">9,3</span>
             <span class="province-stat-tile-label">terrains pour 100 km²</span>
         </div>
     </div>
@@ -200,7 +200,7 @@
     </div>
 
     <p class="province-intro">
-        Le Brabant flamand compte <strong>191 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>54 communes</strong>. Louvain arrive en tête avec 29 terrains, suivie de Hal avec 21. Le club PC Kerkom, à Boutersem, a été sacré champion du Brabant flamand en 2023, en évoluant dans la plus haute division provinciale.
+        Le Brabant flamand compte <strong>195 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>54 communes</strong>. Louvain arrive en tête avec 29 terrains, suivie de Hal avec 21. Le club PC Kerkom, à Boutersem, a été sacré champion du Brabant flamand en 2023, en évoluant dans la plus haute division provinciale.
     </p>
 
     <div class="province-communes-section">
@@ -424,7 +424,8 @@
                 link.href = '#';
                 const count = layersParCommune[nom].length;
                 const unite = count > 1 ? 'terrains' : 'terrain';
-                link.innerHTML = nom + ' <span class="commune-count">(' + count + ' ' + unite + ')</span>';
+                const nomAffiche = window.nomCommuneAffiche(nom, 'fr');
+                link.innerHTML = nomAffiche + ' <span class="commune-count">(' + count + ' ' + unite + ')</span>';
                 link.addEventListener('click', function (e) {
                     e.preventDefault();
                     const layersCommune = layersParCommune[nom];

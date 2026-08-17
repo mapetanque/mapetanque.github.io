@@ -10,7 +10,7 @@
     <!-- Open Graph : aperçu affiché lors du partage du lien (WhatsApp, Facebook, etc.) -->
     <meta property="og:title" content="Pétanque-Plätze in der Provinz Luxemburg — Mapetanque.be">
     <meta property="og:description" content="Öffentliche Pétanque-Plätze in der Provinz Luxemburg: interaktive Karte, Liste nach Gemeinde, Suche nach Stadt auf Mapetanque.be.">
-    <meta property="og:image" content="https://mapetanque.github.io/images/logomap.png">
+    <meta property="og:image" content="https://mapetanque.be/images/logomap.png">
     <meta property="og:url" content="https://mapetanque.be/de/province-luxembourg.html">
     <meta property="og:type" content="website">
 
@@ -181,7 +181,7 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">50</span>
+            <span class="province-stat-tile-number">51</span>
             <span class="province-stat-tile-label">erfasste Plätze</span>
         </div>
         <div class="province-stat-tile">
@@ -200,7 +200,7 @@
     </div>
 
     <p class="province-intro">
-        Die Provinz Luxemburg zählt <strong>50 Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>28 Gemeinden</strong>. Arlon, die Provinzhauptstadt, führt mit 7 Plätzen, vor Vielsalm mit 6. Sie kann sich rühmen, die Geburtsstadt von Claudy Weibel zu sein, zweifacher Pétanque-Weltmeister, Titelgewinn in der Dreiermannschaft 2000 und im Tête-à-tête 2015. Historische Anekdote: 1961 wurde am Fuß des Kraftwerks von Saint-Hubert ein 3.000 m² großer Bouleplatz angelegt. Das Gebäude wurde '82 durch einen Brand vollständig zerstört, bevor es wieder aufgebaut wurde.
+        Die Provinz Luxemburg zählt <strong>51 Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>28 Gemeinden</strong>. Arlon, die Provinzhauptstadt, führt mit 7 Plätzen, vor Vielsalm mit 6. Sie kann sich rühmen, die Geburtsstadt von Claudy Weibel zu sein, zweifacher Pétanque-Weltmeister, Titelgewinn in der Dreiermannschaft 2000 und im Tête-à-tête 2015. Historische Anekdote: 1961 wurde am Fuß des Kraftwerks von Saint-Hubert ein 3.000 m² großer Bouleplatz angelegt. Das Gebäude wurde '82 durch einen Brand vollständig zerstört, bevor es wieder aufgebaut wurde.
     </p>
 
     <div class="province-communes-section">
@@ -424,7 +424,8 @@
                 link.href = '#';
                 const count = layersParCommune[nom].length;
                 const unite = count > 1 ? 'Plätze' : 'Platz';
-                link.innerHTML = nom + ' <span class="commune-count">(' + count + ' ' + unite + ')</span>';
+                const nomAffiche = window.nomCommuneAffiche(nom, 'de');
+                link.innerHTML = nomAffiche + ' <span class="commune-count">(' + count + ' ' + unite + ')</span>';
                 link.addEventListener('click', function (e) {
                     e.preventDefault();
                     const layersCommune = layersParCommune[nom];

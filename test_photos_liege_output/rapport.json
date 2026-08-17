@@ -1,0 +1,43 @@
+[
+  {
+    "terrain_id": 1,
+    "rue": "Steensedijk",
+    "lat": 51.2015525,
+    "lon": 2.9178635,
+    "nb_images_trouvees": 8,
+    "nb_candidats_geometrie_ok": 1,
+    "resultat": "plate_bien_orientee",
+    "distance_m": 22.0,
+    "ecart_cap_deg": 3.8,
+    "luminosite": 163.2,
+    "mapillary_image_id": "1526510745885907",
+    "fichier": "terrain_001.jpg"
+  },
+  {
+    "terrain_id": 2,
+    "rue": "Graaf de Smet de Naeyerlaan",
+    "lat": 51.2250674,
+    "lon": 2.9245386,
+    "nb_images_trouvees": 14,
+    "nb_candidats_geometrie_ok": 0,
+    "resultat": "aucun_candidat_geometrique"
+  },
+  {
+    "terrain_id": 3,
+    "rue": "Havenstraat",
+    "lat": 51.2349069,
+    "lon": 2.9470604,
+    "nb_images_trouvees": 0,
+    "nb_candidats_geometrie_ok": 0,
+    "resultat": "aucun_candidat_geometrique"
+  },
+  {
+    "terrain_id": 4,
+    "rue": "Mansveldstraat",
+    "lat": 51.2348842,
+    "lon": 2.947,
+    "nb_images_trouvees": 0,
+    "nb_candidats_geometrie_ok": 0,
+    "resultat": "aucun_candidat_geometrique"
+  }
+]

@@ -10,7 +10,7 @@
     <!-- Open Graph : aperçu affiché lors du partage du lien (WhatsApp, Facebook, etc.) -->
     <meta property="og:title" content="Petanqueterreinen in provincie Luxemburg — Mapetanque.be">
     <meta property="og:description" content="Openbare petanqueterreinen in provincie Luxemburg: interactieve kaart, lijst per gemeente, zoeken op stad op Mapetanque.be.">
-    <meta property="og:image" content="https://mapetanque.github.io/images/logomap.png">
+    <meta property="og:image" content="https://mapetanque.be/images/logomap.png">
     <meta property="og:url" content="https://mapetanque.be/nl/province-luxembourg.html">
     <meta property="og:type" content="website">
 
@@ -181,7 +181,7 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">50</span>
+            <span class="province-stat-tile-number">51</span>
             <span class="province-stat-tile-label">geregistreerde terreinen</span>
         </div>
         <div class="province-stat-tile">
@@ -200,7 +200,7 @@
     </div>
 
     <p class="province-intro">
-        De provincie Luxemburg telt <strong>50 petanquebanen</strong> op Mapetanque.be, verspreid over <strong>28 gemeenten</strong>. Aarlen, de hoofdplaats, staat op kop met 7 terreinen, voor Vielsalm met 6. Ze kan prat gaan op de geboorte van Claudy Weibel, tweevoudig wereldkampioen petanque, gekroond in triples in 2000 en in tête-à-tête in 2015. Historisch weetje: in 1961 werd aan de voet van de elektriciteitscentrale van Saint-Hubert een petanqueterrein van 3.000 m² aangelegd. Het gebouw werd in '82 volledig verwoest door brand, voordat het werd heropgebouwd.
+        De provincie Luxemburg telt <strong>51 petanquebanen</strong> op Mapetanque.be, verspreid over <strong>28 gemeenten</strong>. Aarlen, de hoofdplaats, staat op kop met 7 terreinen, voor Vielsalm met 6. Ze kan prat gaan op de geboorte van Claudy Weibel, tweevoudig wereldkampioen petanque, gekroond in triples in 2000 en in tête-à-tête in 2015. Historisch weetje: in 1961 werd aan de voet van de elektriciteitscentrale van Saint-Hubert een petanqueterrein van 3.000 m² aangelegd. Het gebouw werd in '82 volledig verwoest door brand, voordat het werd heropgebouwd.
     </p>
 
     <div class="province-communes-section">
@@ -424,7 +424,8 @@
                 link.href = '#';
                 const count = layersParCommune[nom].length;
                 const unite = count > 1 ? 'terreinen' : 'terrein';
-                link.innerHTML = nom + ' <span class="commune-count">(' + count + ' ' + unite + ')</span>';
+                const nomAffiche = window.nomCommuneAffiche(nom, 'nl');
+                link.innerHTML = nomAffiche + ' <span class="commune-count">(' + count + ' ' + unite + ')</span>';
                 link.addEventListener('click', function (e) {
                     e.preventDefault();
                     const layersCommune = layersParCommune[nom];

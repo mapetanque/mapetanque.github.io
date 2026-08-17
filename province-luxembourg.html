@@ -10,7 +10,7 @@
     <!-- Open Graph : aperçu affiché lors du partage du lien (WhatsApp, Facebook, etc.) -->
     <meta property="og:title" content="Terrains de pétanque en province de Luxembourg — Mapetanque.be">
     <meta property="og:description" content="Terrains de pétanque publics en province Luxembourg : carte interactive, liste par commune, recherche par ville sur Mapetanque.be.">
-    <meta property="og:image" content="https://mapetanque.github.io/images/logomap.png">
+    <meta property="og:image" content="https://mapetanque.be/images/logomap.png">
     <meta property="og:url" content="https://mapetanque.be/province-luxembourg.html">
     <meta property="og:type" content="website">
 
@@ -181,7 +181,7 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">50</span>
+            <span class="province-stat-tile-number">51</span>
             <span class="province-stat-tile-label">terrains recensés</span>
         </div>
         <div class="province-stat-tile">
@@ -200,7 +200,7 @@
     </div>
 
     <p class="province-intro">
-        La province de Luxembourg compte <strong>50 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>28 communes</strong>. Arlon, son chef-lieu, arrive en tête avec 7 terrains, devant Vielsalm avec 6. Elle peut se targuer d'avoir vu naître Claudy Weibel, double champion du monde de pétanque, sacré en triplette en 2000 puis en tête-à-tête en 2015. Anecdote historique : en 1961, un boulodrome de 3 000 m² a été aménagé au pied de la centrale électrique de Saint-Hubert. Le bâtiment a été entièrement ravagé par un incendie en 82 avant d'être reconstruit.
+        La province de Luxembourg compte <strong>51 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>28 communes</strong>. Arlon, son chef-lieu, arrive en tête avec 7 terrains, devant Vielsalm avec 6. Elle peut se targuer d'avoir vu naître Claudy Weibel, double champion du monde de pétanque, sacré en triplette en 2000 puis en tête-à-tête en 2015. Anecdote historique : en 1961, un boulodrome de 3 000 m² a été aménagé au pied de la centrale électrique de Saint-Hubert. Le bâtiment a été entièrement ravagé par un incendie en 82 avant d'être reconstruit.
     </p>
 
     <div class="province-communes-section">
@@ -424,7 +424,8 @@
                 link.href = '#';
                 const count = layersParCommune[nom].length;
                 const unite = count > 1 ? 'terrains' : 'terrain';
-                link.innerHTML = nom + ' <span class="commune-count">(' + count + ' ' + unite + ')</span>';
+                const nomAffiche = window.nomCommuneAffiche(nom, 'fr');
+                link.innerHTML = nomAffiche + ' <span class="commune-count">(' + count + ' ' + unite + ')</span>';
                 link.addEventListener('click', function (e) {
                     e.preventDefault();
                     const layersCommune = layersParCommune[nom];
