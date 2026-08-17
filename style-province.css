@@ -218,9 +218,18 @@
     display: none;
 }
 
-.map-view.fullscreen-active #map {
-    border-radius: 0;
+/* #map n'est pas lui-même un enfant flex de .province-content (il est imbriqué dans
+   .province-map-inline-wrapper) : donner du "flex: 1 1 auto" à #map directement n'avait donc
+   aucun effet, et la carte restait coincée à sa hauteur normale (420px) avec beaucoup de vide en
+   dessous. C'est le wrapper qui doit grandir ; #map n'a plus qu'à occuper 100% de sa hauteur. */
+.map-view.fullscreen-active .province-map-inline-wrapper {
     flex: 1 1 auto;
+    margin-top: 0;
+}
+
+.map-view.fullscreen-active #map {
+    height: 100%;
+    border-radius: 0;
 }
 
 
