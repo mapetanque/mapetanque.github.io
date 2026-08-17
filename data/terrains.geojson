@@ -1434,6 +1434,26 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          5.6343367,
+          49.7915188
+        ]
+      },
+      "properties": {
+        "fixme": "Geometry to be drawn, added by MapComplete",
+        "leisure": "pitch",
+        "sport": "boules",
+        "surface": "fine_gravel",
+        "nearest_street": "Rue Saint-Orban",
+        "commune": "Léglise",
+        "province": "luxembourg",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           2.6810649,
           51.1352824
         ]
@@ -2984,7 +3004,7 @@
         "leisure": "pitch",
         "sport": "boules",
         "nearest_street": "Place du Roi Albert",
-        "commune": "Pousset",
+        "commune": "Remicourt",
         "province": "liege",
         "region": "wallonie"
       }
@@ -4917,7 +4937,7 @@
       "properties": {
         "leisure": "pitch",
         "sport": "boules",
-        "nearest_street": "Vladslostraat",
+        "nearest_street": "Kloosterwegel",
         "commune": "Werken",
         "province": "flandre_occidentale",
         "region": "flandre"
@@ -5764,7 +5784,7 @@
         "name": "Petanque terreinen",
         "sport": "boules",
         "nearest_street": "Finse piste",
-        "commune": "Sinaai",
+        "commune": "Sint-Niklaas",
         "province": "flandre_orientale",
         "region": "flandre"
       }
@@ -6971,12 +6991,16 @@
       "properties": {
         "building": "yes",
         "leisure": "pitch",
+        "mapillary": "2585664148528878",
         "name": "Boulodrome",
         "sport": "boules",
         "nearest_street": "Weibroekstraat",
         "commune": "Knokke-Heist",
         "province": "flandre_occidentale",
-        "region": "flandre"
+        "region": "flandre",
+        "photo_url": "https://scontent-lga3-1.xx.fbcdn.net/m1/v/t6/An_826nXBC4N2y38_46JfHk8TYlVeq-hNAQyzdi3RGipbSCTiu-UDyRUbVxSsn3AtQHTJC5D0XSUSCYVrkOORldTwq1jZBjhb4xAKNsDBtL7z72Ymk2r6Lm5q-lmR7rzHlQbfvo134VEeJ8nxcqte8Q?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=9I2SBNrSb7zseHJZYf7NNA&_nc_oc=AdoFXXFSNKJDHqam8zWYWC5SC5Ii-rLwW1RBogl4bRv-Rw8E9U6wDQ4XTIP7SPrPp3k&ccb=10-5&oh=00_AQF3Jv08ga-oKdhLfk6NSNR8_mj_0eoErevp27--G4QClw&oe=6AAA1E74&_nc_sid=201bca",
+        "photo_source": "mapillary",
+        "photo_credit_url": "https://www.mapillary.com/"
       }
     },
     {
@@ -8736,6 +8760,7 @@
         ]
       },
       "properties": {
+        "access": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "nearest_street": "Germain Hoetstraat",
@@ -10369,7 +10394,7 @@
         "leisure": "pitch",
         "sport": "boules",
         "nearest_street": "Kapelstraat",
-        "commune": "Temse",
+        "commune": "Steendorp",
         "province": "flandre_orientale",
         "region": "flandre"
       }
@@ -14096,7 +14121,9 @@
       "properties": {
         "boules": "petanque",
         "leisure": "pitch",
+        "lit": "no",
         "sport": "boules",
+        "surface": "compacted",
         "nearest_street": "Mechelen-Zuid",
         "commune": "Mechelen",
         "province": "anvers",
@@ -14158,7 +14185,9 @@
         "nearest_street": "Iepersestraat",
         "commune": "Moorslede",
         "province": "flandre_occidentale",
-        "region": "flandre"
+        "region": "flandre",
+        "photo_url": "https://www.moorslede.be/files/uploads/photoGallery/img_0521.jpg",
+        "photo_source": "image"
       }
     },
     {
@@ -14179,7 +14208,9 @@
         "nearest_street": "Iepersestraat",
         "commune": "Moorslede",
         "province": "flandre_occidentale",
-        "region": "flandre"
+        "region": "flandre",
+        "photo_url": "https://www.moorslede.be/files/uploads/photoGallery/img_0521.jpg",
+        "photo_source": "image"
       }
     },
     {
@@ -14200,7 +14231,9 @@
         "nearest_street": "Iepersestraat",
         "commune": "Moorslede",
         "province": "flandre_occidentale",
-        "region": "flandre"
+        "region": "flandre",
+        "photo_url": "https://www.moorslede.be/files/uploads/photoGallery/img_0521.jpg",
+        "photo_source": "image"
       }
     },
     {
@@ -14221,7 +14254,9 @@
         "nearest_street": "Iepersestraat",
         "commune": "Moorslede",
         "province": "flandre_occidentale",
-        "region": "flandre"
+        "region": "flandre",
+        "photo_url": "https://www.moorslede.be/files/uploads/photoGallery/img_0521.jpg",
+        "photo_source": "image"
       }
     },
     {
@@ -22546,6 +22581,7 @@
         "boules": "petanque",
         "leisure": "pitch",
         "sport": "boules",
+        "surface": "sand",
         "nearest_street": "Heirnis",
         "commune": "Gent",
         "province": "flandre_orientale",
@@ -25289,7 +25325,7 @@
         "leisure": "pitch",
         "sport": "boules",
         "nearest_street": "Rue de l'École",
-        "commune": "Roux-Miroir",
+        "commune": "Incourt",
         "province": "brabant_wallon",
         "region": "wallonie"
       }
@@ -31340,7 +31376,7 @@
         "leisure": "pitch",
         "sport": "boules",
         "nearest_street": "Klokke Roelandlaan",
-        "commune": "Sint-Niklaas",
+        "commune": "Sinaai",
         "province": "flandre_orientale",
         "region": "flandre"
       }
@@ -33391,7 +33427,10 @@
         "nearest_street": "Vuurwerkstraat",
         "commune": "Antwerpen",
         "province": "anvers",
-        "region": "flandre"
+        "region": "flandre",
+        "photo_url": "https://scontent-lga3-1.xx.fbcdn.net/m1/v/t6/An9eRdQmXCN4yubsaSpfzMly5AetIuhgH4M1EIfCu_o9OXHzHM2o7mt2bWV8R8YodldvBBeEv-Mw1TIfU24F2LquK6ClQlY0yt6zhb9sHWwZdbwWQcene-17tCznvEC2bj6_g9kqHsXJJZvcgGWADXY?stp=s1024x771&edm=ALXxkZ8EAAAA&_nc_gid=-IXQoem5-z_bGvBaWVcMwQ&_nc_oc=AdpY_e2EeaFj5-uvn06oJiqqpqstQ3MZWLA-cCb7E_oxVEFEP0EvpAkQUdU28SZ5-6c&ccb=10-5&oh=00_AQFeaQq5Av2IkRjiS7UegTmcREiYDGgJqCJQ8smEe8AAFA&oe=6AAA11A0&_nc_sid=201bca",
+        "photo_source": "mapillary",
+        "photo_credit_url": "https://www.mapillary.com/"
       }
     },
     {
@@ -34408,6 +34447,82 @@
         "commune": "Tubize",
         "province": "brabant_wallon",
         "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2242726,
+          50.9859353
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "nearest_street": "Processiebaan",
+        "commune": "Merchtem",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2244278,
+          50.9858293
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "nearest_street": "Processiebaan",
+        "commune": "Merchtem",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2244719,
+          50.9856504
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "nearest_street": "Processiebaan",
+        "commune": "Merchtem",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2245754,
+          50.9855655
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "nearest_street": "Processiebaan",
+        "commune": "Merchtem",
+        "province": "brabant_flamand",
+        "region": "flandre"
       }
     }
   ]

@@ -1,6 +1,6 @@
 {
   "wallonie": {
-    "total": 449,
+    "total": 450,
     "provinces": {
       "liege": {
         "total": 159,
@@ -15,7 +15,7 @@
           "Visé": 2,
           "Blegny": 4,
           "Wanze": 2,
-          "Pousset": 1,
+          "Remicourt": 1,
           "Braives": 2,
           "Malmedy": 3,
           "Fexhe-le-Haut-Clocher": 1,
@@ -129,13 +129,14 @@
         }
       },
       "luxembourg": {
-        "total": 50,
+        "total": 51,
         "communes": {
           "Haut-Fays": 1,
           "Saint-Hubert": 3,
           "Bastogne": 2,
           "Ronzon": 4,
           "La Roche-en-Ardenne": 1,
+          "Léglise": 2,
           "Marche-en-Famenne": 1,
           "Vielsalm": 6,
           "Meix-devant-Virton": 1,
@@ -147,7 +148,6 @@
           "Marbehan": 2,
           "Aubange": 1,
           "Messancy": 3,
-          "Léglise": 1,
           "Virton": 1,
           "Torgny": 1,
           "Journal": 1,
@@ -183,7 +183,7 @@
           "Villers-la-Ville": 2,
           "Rebecq-Rognon": 1,
           "Ramillies": 1,
-          "Roux-Miroir": 1,
+          "Incourt": 1,
           "Beauvechain": 1
         }
       },
@@ -237,10 +237,10 @@
     "communes": {}
   },
   "flandre": {
-    "total": 1217,
+    "total": 1221,
     "provinces": {
       "brabant_flamand": {
-        "total": 191,
+        "total": 195,
         "communes": {
           "Tienen": 3,
           "Sint-Genesius-Rode - Rhode-Saint-Genèse": 5,
@@ -284,7 +284,7 @@
           "Oud-Heverlee": 3,
           "Humbeek": 2,
           "Pamel": 1,
-          "Merchtem": 1,
+          "Merchtem": 5,
           "Lubbeek": 1,
           "Bever": 1,
           "Pepingen": 2,
@@ -391,7 +391,6 @@
           "Deinze": 9,
           "Gijzenzele": 1,
           "Zingem": 2,
-          "Sinaai": 3,
           "Assenede": 1,
           "Lede": 4,
           "Merelbeke": 9,
@@ -402,16 +401,17 @@
           "Moerbeke": 1,
           "Kieldrecht": 1,
           "Lokeren": 14,
-          "Temse": 3,
+          "Temse": 2,
           "Watervliet": 1,
           "Neigem": 1,
           "Doorslaar": 1,
           "Waarschoot": 2,
           "Laarne": 2,
           "Lovendegem": 1,
-          "Steendorp": 1,
+          "Steendorp": 2,
           "Zevergem": 1,
           "Landskouter": 1,
+          "Sinaai": 3,
           "Lochristi": 1,
           "Munkzwalm": 2,
           "Sint-Lievens-Houtem": 2,
