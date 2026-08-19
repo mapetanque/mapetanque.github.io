@@ -903,6 +903,51 @@ body.fullscreen-lock {
     filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.45));
 }
 
+/* Amas (clusters) de clubs affiliés, en bleu — voir creerIconeClusterClub dans script.js. Style
+   entièrement dédié (ne réutilise pas .marker-cluster-* de MarkerCluster.Default.css, chargé
+   depuis le CDN pour les amas de terrains) : anneau extérieur clair (toujours 40×40, taille fixe
+   passée à L.divIcon) + rond intérieur plus soutenu et plus grand selon le nombre de clubs
+   regroupés, nombre centré via flexbox (pas de marges calculées à la main par palier). */
+.club-cluster-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(25, 118, 210, 0.3);
+    border-radius: 50%;
+}
+
+.club-cluster-icon div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    background: rgba(25, 118, 210, 0.75);
+
+    color: white;
+    font-weight: bold;
+    font-family: inherit;
+}
+
+.club-cluster-icon-small div {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+}
+
+.club-cluster-icon-medium div {
+    width: 34px;
+    height: 34px;
+    font-size: 13px;
+}
+
+.club-cluster-icon-large div {
+    width: 38px;
+    height: 38px;
+    font-size: 14px;
+}
+
 /* Contrôle indépendant "Afficher les clubs" (voir ClubsToggleControl dans script.js) : ajouté
    juste après le sélecteur Plan/Satellite dans le DOM, pour flotter à sa gauche sur la même
    rangée plutôt que sur une nouvelle ligne. Les contrôles Leaflet d'un même coin flottent à

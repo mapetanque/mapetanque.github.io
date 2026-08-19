@@ -41,6 +41,26 @@ const clubMarkerIcon = L.divIcon({
     popupAnchor: [0, -36]
 });
 
+// Icône des amas (clusters) de clubs affiliés, en bleu (assorti à clubMarkerIcon) pour rester
+// visuellement distincte des amas de terrains (orange/jaune, style par défaut de la librairie
+// Leaflet.markercluster — voir MarkerCluster.Default.css, non modifié). Même principe de 3
+// paliers de taille que le style par défaut (small/medium/large selon le nombre de clubs
+// regroupés), mais entièrement stylée via des classes dédiées plutôt que d'hériter du style par
+// défaut, pour ne dépendre d'aucun détail interne de la feuille de style chargée depuis le CDN.
+function creerIconeClusterClub(cluster) {
+    const nombre = cluster.getChildCount();
+    let palier = 'small';
+    if (nombre >= 20) palier = 'large';
+    else if (nombre >= 10) palier = 'medium';
+
+    return L.divIcon({
+        html: '<div><span>' + nombre + '</span></div>',
+        className: 'club-cluster-icon club-cluster-icon-' + palier,
+        iconSize: L.point(40, 40)
+    });
+}
+
+
 
 // ===================== Gestion de la langue =====================
 
@@ -240,7 +260,17 @@ const baseMaps = {
 // ajoutée à la carte dès maintenant même si elle est encore vide, les marqueurs y seront ajoutés
 // au fur et à mesure de l'arrivée de data/clubs.json (voir plus bas) sans que rien de spécial ne
 // soit nécessaire ici pour ça.
-const clubsLayer = L.layerGroup();
+// Regroupement (clustering) comme pour les terrains, mais avec une icône d'amas bleue dédiée
+// (voir creerIconeClusterClub plus haut) pour rester visuellement distincte des amas de terrains.
+// Nécessaire pour les performances sur mobile : sur la page d'accueil, jusqu'à 197 marqueurs
+// individuels sans regroupement pouvaient ralentir sensiblement le pan/zoom sur les appareils
+// bas de gamme. Sur les pages province/région, où les clubs sont déjà filtrés à la zone (une
+// vingtaine tout au plus), le clustering se désactive de toute façon très vite en zoomant
+// (disableClusteringAtZoom: 16, même seuil que pour les terrains) et reste donc peu visible.
+const clubsLayer = L.markerClusterGroup({
+    disableClusteringAtZoom: 16,
+    iconCreateFunction: creerIconeClusterClub
+});
 if (localStorage.getItem(STORAGE_KEY_CLUBS_VISIBLE) === 'true') {
     map.addLayer(clubsLayer);
 }
@@ -1108,12 +1138,12 @@ fetch('/data/terrains.geojson')
 // ===================== Chargement des clubs affiliés =====================
 // Contrairement aux terrains, ce bloc est inconditionnel : il tourne sur la page d'accueil ET
 // sur les pages province/région, pour que la couche "Afficher les clubs" y soit disponible aussi
-// (voir clubsLayer/ClubsToggleControl plus haut). Pas de clustering pour les clubs (couche superposée
-// simple, voir spec) et pas de fetch séparé par province : les 197 clubs sont chargés en une
-// fois, puis filtrés ici même à la province/région de la page courante le cas échéant (voir
-// window.MAPETANQUE_STATS_GEO_KEY, défini par templates/province_template.html et
-// templates/region_template.html juste avant le chargement de ce fichier — absent sur la page
-// d'accueil, qui affiche donc bien les 197 clubs de Belgique sans filtrage).
+// (voir clubsLayer/ClubsToggleControl plus haut, avec regroupement par clusters bleus). Pas de
+// fetch séparé par province : les 197 clubs sont chargés en une fois, puis filtrés ici même à la
+// province/région de la page courante le cas échéant (voir window.MAPETANQUE_STATS_GEO_KEY,
+// défini par templates/province_template.html et templates/region_template.html juste avant le
+// chargement de ce fichier — absent sur la page d'accueil, qui affiche donc bien les 197 clubs
+// de Belgique sans filtrage, mais regroupés en amas aux faibles niveaux de zoom).
 fetch('/data/clubs.json')
     .then(response => response.json())
     .then(data => {
@@ -1468,9 +1498,12 @@ function allerVersTerrain(lat, lon) {
     if (top) top.scrollIntoView({ behavior: 'smooth' });
 }
 
-// Équivalent de allerVersTerrain() mais pour un club affilié : clubsLayer est un simple
-// L.layerGroup (pas de clustering pour les clubs, voir spec), donc pas de zoomToShowLayer
-// disponible ici — on centre directement la carte sur le marqueur trouvé.
+// Centre la carte sur un club précis et ouvre son popup (si le marqueur correspondant est trouvé
+// dans les données chargées), puis remonte en haut de page pour voir la carte. Réutilisée par le
+// lien de partage (?club=1&lat=&lon=). Même schéma que allerVersTerrain (zoomToShowLayer, pas un
+// simple setView) depuis que clubsLayer est un L.markerClusterGroup : le marqueur ciblé peut être
+// replié dans un amas selon le zoom courant, zoomToShowLayer s'en charge (dé-zoome/zoome jusqu'à
+// ce que le marqueur soit visible individuellement) avant d'ouvrir son popup.
 function allerVersClub(lat, lon) {
     let layerCorrespondant = null;
 
@@ -1493,8 +1526,9 @@ function allerVersClub(lat, lon) {
     }
 
     if (layerCorrespondant) {
-        map.setView(layerCorrespondant.getLatLng(), 18);
-        layerCorrespondant.openPopup();
+        clubsLayer.zoomToShowLayer(layerCorrespondant, function () {
+            layerCorrespondant.openPopup();
+        });
     } else {
         // Club introuvable (peut-être retiré depuis) : on centre quand même sur les coordonnées
         map.setView([lat, lon], 18);
