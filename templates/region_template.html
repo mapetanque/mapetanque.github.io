@@ -290,6 +290,10 @@
      Belgique, avec clustering) : cette page construit son propre sous-ensemble juste après. -->
 <script>window.MAPETANQUE_SKIP_DEFAULT_MARKERS = true;</script>
 
+<!-- Restreint la couche clubs (chargée par script.js, voir plus bas) à cette région — même clé
+     que celle utilisée juste après pour filtrer les terrains. -->
+<script>window.MAPETANQUE_STATS_GEO_KEY = '{{STATS_GEO_KEY}}';</script>
+
 <!-- Script du site -->
 <script src="/script.js"></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->

@@ -895,6 +895,163 @@ body.fullscreen-lock {
     box-shadow: 0 0 8px rgba(0,0,0,0.4);
 }
 
+/* ===================== Couche "Clubs affiliés" ===================== */
+
+/* Marqueur de club (pin bleu) : même traitement que .terrain-marker-icon (ombre portée pour se
+   détacher de tous les fonds de carte), voir clubMarkerIcon dans script.js */
+.club-marker-icon {
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.45));
+}
+
+/* Contrôle indépendant "Afficher les clubs" (voir ClubsToggleControl dans script.js) : ajouté
+   juste après le sélecteur Plan/Satellite dans le DOM, pour flotter à sa gauche sur la même
+   rangée plutôt que sur une nouvelle ligne. Les contrôles Leaflet d'un même coin flottent à
+   droite dans l'ordre d'ajout (règle .leaflet-right .leaflet-control de leaflet.css, avec
+   clear:right par défaut, qui les empile normalement les uns sous les autres) : on annule ce
+   clear uniquement pour ce contrôle, pour qu'il continue de flotter sur la même ligne que le
+   sélecteur Plan/Satellite ajouté juste avant lui, au lieu de passer dessous. Le bouton plein
+   écran, ajouté après ce contrôle-ci, garde lui son clear:right par défaut et s'empile donc
+   normalement sous cette rangée. */
+.clubs-toggle-control {
+    clear: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 0 8px;
+    height: 30px;
+    background: white;
+
+    font-size: 12px;
+    color: #333;
+}
+
+.clubs-toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    margin: 0;
+    user-select: none;
+}
+
+.clubs-toggle-text {
+    white-space: nowrap;
+}
+
+/* Interrupteur rond (case à cocher masquée, remplacée visuellement par le curseur .clubs-toggle-slider) */
+.clubs-toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 17px;
+    flex-shrink: 0;
+}
+
+.clubs-toggle-switch input {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    cursor: pointer;
+}
+
+.clubs-toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: #ccc;
+    border-radius: 999px;
+    transition: background-color 0.2s ease;
+    pointer-events: none;
+}
+
+.clubs-toggle-slider::before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 13px;
+    height: 13px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease;
+}
+
+.clubs-toggle-switch input:checked + .clubs-toggle-slider {
+    background: #1976d2;
+}
+
+.clubs-toggle-switch input:checked + .clubs-toggle-slider::before {
+    transform: translateX(13px);
+}
+
+.clubs-toggle-switch input:focus-visible + .clubs-toggle-slider {
+    outline: 2px solid #1976d2;
+    outline-offset: 2px;
+}
+
+/* Sur les écrans étroits, la rangée [interrupteur clubs] + [sélecteur Plan/Satellite] peut ne
+   plus tenir sur une seule ligne : les floats Leaflet la font alors naturellement passer à la
+   ligne suivante (comportement standard, pas de règle spécifique nécessaire ici), au prix d'un
+   empilement vertical avec le sélecteur de couches plutôt qu'un alignement côte à côte. */
+
+/* Bouton d'aide (i) cliquable, à côté du contrôle "Afficher les clubs" sur la carte */
+.clubs-help-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: none;
+    color: #74C15A;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.clubs-help-trigger:hover {
+    color: #5a9945;
+}
+
+.clubs-help-trigger svg {
+    width: 15px;
+    height: 15px;
+}
+
+/* Bulle d'aide "Clubs affiliés" (composant unique, repositionné/rempli dynamiquement — voir
+   basculerBulleAideClubs dans script.js). z-index sous les panneaux menu/info du site (1100+),
+   mais au-dessus des contrôles Leaflet (le sélecteur de couches est à 1000 par défaut). */
+.clubs-help-popover {
+    display: none;
+    position: fixed;
+    width: 260px;
+    max-width: calc(100vw - 16px);
+
+    background: white;
+    color: #333;
+    font-size: 13px;
+    line-height: 1.5;
+
+    padding: 12px 14px;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+
+    z-index: 1080;
+}
+
+.clubs-help-popover a {
+    color: #74C15A;
+    font-weight: 600;
+}
+
+.clubs-help-popover.open {
+    display: block;
+}
+
 /* Menu latéral */
 #side-menu {
     position: fixed;

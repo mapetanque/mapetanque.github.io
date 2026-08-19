@@ -9,6 +9,8 @@ const ICON_CLOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" s
 const ICON_MAIL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>';
 const ICON_MAXIMIZE = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>';
 const ICON_MINIMIZE = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path></svg>';
+const ICON_BADGE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.39 4.84 5.34.78-3.87 3.77.91 5.32L12 14.27l-4.77 2.44.91-5.32-3.87-3.77 5.34-.78L12 2z"></path></svg>';
+const ICON_INFO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>';
 
 // Icône des marqueurs de terrain sur la carte (pin vert personnalisé, remplace le pin bleu par défaut de Leaflet)
 const terrainMarkerIcon = L.divIcon({
@@ -16,6 +18,21 @@ const terrainMarkerIcon = L.divIcon({
     html: '<svg width="29" height="45" viewBox="0 0 29 45" xmlns="http://www.w3.org/2000/svg">' +
           '<g transform="translate(2,2)">' +
           '<path d="M12.5 0C5.6 0 0 5.6 0 12.5c0 9.4 12.5 28.5 12.5 28.5s12.5-19.1 12.5-28.5C25 5.6 19.4 0 12.5 0z" fill="#74C15A" stroke="white" stroke-width="2"/>' +
+          '<circle cx="12.5" cy="12.5" r="5" fill="white"/>' +
+          '</g>' +
+          '</svg>',
+    iconSize: [29, 45],
+    iconAnchor: [14, 43],
+    popupAnchor: [0, -36]
+});
+
+// Icône des marqueurs de club affilié sur la carte (pin bleu, pour se distinguer du pin vert des
+// terrains — même silhouette de pin que terrainMarkerIcon, seule la couleur change)
+const clubMarkerIcon = L.divIcon({
+    className: 'club-marker-icon',
+    html: '<svg width="29" height="45" viewBox="0 0 29 45" xmlns="http://www.w3.org/2000/svg">' +
+          '<g transform="translate(2,2)">' +
+          '<path d="M12.5 0C5.6 0 0 5.6 0 12.5c0 9.4 12.5 28.5 12.5 28.5s12.5-19.1 12.5-28.5C25 5.6 19.4 0 12.5 0z" fill="#1976d2" stroke="white" stroke-width="2"/>' +
           '<circle cx="12.5" cy="12.5" r="5" fill="white"/>' +
           '</g>' +
           '</svg>',
@@ -197,8 +214,18 @@ const satellite = L.tileLayer(
     }
 );
 
-// Afficher OpenStreetMap par défaut
-osm.addTo(map);
+// Mémorisation des choix liés à la carte (fond Plan/Satellite, visibilité de la couche clubs)
+// d'une page à l'autre, sur le même principe que 'mapetanque_lang' plus haut (localStorage,
+// donc persiste aussi d'une visite à l'autre, pas seulement le temps de la session).
+const STORAGE_KEY_BASE_LAYER = 'mapetanque_base_layer';
+const STORAGE_KEY_CLUBS_VISIBLE = 'mapetanque_clubs_visible';
+
+// Affiche le fond satellite par défaut uniquement si c'est le dernier choisi ; Plan sinon (comme avant)
+if (localStorage.getItem(STORAGE_KEY_BASE_LAYER) === 'satellite') {
+    satellite.addTo(map);
+} else {
+    osm.addTo(map);
+}
 
 // Sélecteur de couches
 const baseMaps = {
@@ -206,7 +233,154 @@ const baseMaps = {
     "🛰️ Satellite": satellite
 };
 
-L.control.layers(baseMaps).addTo(map);
+// Couche superposée des clubs affiliés (voir section "Chargement des clubs affiliés" plus bas
+// pour le peuplement effectif — créée ici, vide, pour être référencée immédiatement par le
+// contrôle dédié ci-dessous). Décochée par défaut, sauf si l'utilisateur l'avait laissée cochée
+// sur une page précédente (voir STORAGE_KEY_CLUBS_VISIBLE) : la couche elle-même peut être
+// ajoutée à la carte dès maintenant même si elle est encore vide, les marqueurs y seront ajoutés
+// au fur et à mesure de l'arrivée de data/clubs.json (voir plus bas) sans que rien de spécial ne
+// soit nécessaire ici pour ça.
+const clubsLayer = L.layerGroup();
+if (localStorage.getItem(STORAGE_KEY_CLUBS_VISIBLE) === 'true') {
+    map.addLayer(clubsLayer);
+}
+
+const layersControl = L.control.layers(baseMaps).addTo(map);
+
+// Mémorise le fond de carte choisi via le sélecteur Plan/Satellite pour le restaurer sur la
+// prochaine page (voir plus haut). 'baselayerchange' est l'événement Leaflet standard, déclenché
+// à chaque changement de fond, qu'il vienne de ce contrôle ou d'un appel programmatique.
+map.on('baselayerchange', function (e) {
+    localStorage.setItem(STORAGE_KEY_BASE_LAYER, e.layer === satellite ? 'satellite' : 'osm');
+});
+
+// Contrôle indépendant "Afficher les clubs" (interrupteur rond + bouton d'aide (i)), directement
+// visible à côté du sélecteur Plan/Satellite plutôt que caché dans son menu déroulant. Ajouté
+// juste après le sélecteur de couches : les contrôles Leaflet d'un même coin (topright) flottent
+// naturellement à droite (règle CSS .leaflet-right .leaflet-control { float:right; clear:right })
+// — .clubs-toggle-control retire ce clear:right (voir style.css) pour flotter juste à gauche du
+// sélecteur déjà en place plutôt que de passer à la ligne en dessous. Le bouton plein écran, lui,
+// garde son clear:right par défaut et continue donc de s'empiler sous cette rangée.
+const ClubsToggleControl = L.Control.extend({
+    options: { position: 'topright' },
+    onAdd: function () {
+        const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control clubs-toggle-control');
+
+        const label = L.DomUtil.create('label', 'clubs-toggle-label', container);
+
+        const switchWrapper = L.DomUtil.create('span', 'clubs-toggle-switch', label);
+        const checkbox = L.DomUtil.create('input', '', switchWrapper);
+        checkbox.type = 'checkbox';
+        checkbox.id = 'clubs-toggle-checkbox';
+        // Reflète l'état déjà décidé plus haut (clubsLayer ajoutée ou non à la carte selon
+        // STORAGE_KEY_CLUBS_VISIBLE), plutôt que de relire localStorage une seconde fois ici :
+        // une seule source de vérité (l'état réel de la carte) pour éviter toute désynchronisation.
+        checkbox.checked = map.hasLayer(clubsLayer);
+        L.DomUtil.create('span', 'clubs-toggle-slider', switchWrapper);
+
+        const texte = L.DomUtil.create('span', 'clubs-toggle-text', label);
+        texte.textContent = t('clubs_layer_label');
+        texte.dataset.i18n = 'clubs_layer_label';
+
+        const boutonAide = L.DomUtil.create('button', 'clubs-help-trigger control-clubs-help-trigger', container);
+        boutonAide.type = 'button';
+        boutonAide.setAttribute('aria-label', t('clubs_help_aria'));
+        boutonAide.dataset.i18nAria = 'clubs_help_aria';
+        boutonAide.innerHTML = ICON_INFO;
+
+        L.DomEvent.disableClickPropagation(container);
+        L.DomEvent.disableScrollPropagation(container);
+
+        L.DomEvent.on(checkbox, 'change', function () {
+            if (checkbox.checked) {
+                map.addLayer(clubsLayer);
+            } else {
+                map.removeLayer(clubsLayer);
+            }
+            localStorage.setItem(STORAGE_KEY_CLUBS_VISIBLE, checkbox.checked ? 'true' : 'false');
+            // Consommé par le script inline des pages province, pour compléter/retirer le
+            // comptage de clubs dans la liste des communes (voir clubsParCommune plus bas).
+            window.dispatchEvent(new CustomEvent('clubsAffichageChange', { detail: { visible: checkbox.checked } }));
+        });
+
+        L.DomEvent.on(boutonAide, 'click', function (e) {
+            L.DomEvent.stop(e);
+            basculerBulleAideClubs(boutonAide);
+        });
+
+        return container;
+    }
+});
+map.addControl(new ClubsToggleControl());
+
+// Interrupteur du contrôle ci-dessus : gardé accessible pour être resynchronisé (coché) depuis
+// allerVersClub() quand un lien de partage active la couche clubs par programme plutôt que par clic.
+const clubsToggleCheckbox = document.getElementById('clubs-toggle-checkbox');
+
+// ===================== Bulle d'aide "Clubs affiliés" =====================
+// Composant unique et partagé (pas un par déclencheur) : repositionné et son contenu
+// réinjecté à chaque clic, pour fonctionner aussi bien depuis le bouton (i) du sélecteur de
+// couches que depuis celui de la popup d'un club — et sur mobile (clic, pas survol).
+const clubsHelpPopover = document.createElement('div');
+clubsHelpPopover.className = 'clubs-help-popover';
+clubsHelpPopover.setAttribute('role', 'note');
+document.body.appendChild(clubsHelpPopover);
+
+let clubsHelpPopoverTrigger = null;
+
+function positionnerBulleAideClubs(trigger) {
+    const rect = trigger.getBoundingClientRect();
+    const largeurBulle = 260;
+
+    let gauche = rect.left + (rect.width / 2) - (largeurBulle / 2);
+    gauche = Math.max(8, Math.min(gauche, window.innerWidth - largeurBulle - 8));
+
+    let haut = rect.bottom + 8;
+    // Si la bulle déborderait en bas de l'écran (déclencheur proche du bas), on l'affiche
+    // au-dessus du déclencheur plutôt qu'en dessous
+    if (haut + 160 > window.innerHeight) {
+        haut = rect.top - 8;
+        clubsHelpPopover.classList.add('clubs-help-popover-above');
+        clubsHelpPopover.style.transform = 'translateY(-100%)';
+    } else {
+        clubsHelpPopover.classList.remove('clubs-help-popover-above');
+        clubsHelpPopover.style.transform = 'none';
+    }
+
+    clubsHelpPopover.style.left = gauche + 'px';
+    clubsHelpPopover.style.top = haut + 'px';
+}
+
+function fermerBulleAideClubs() {
+    clubsHelpPopover.classList.remove('open');
+    clubsHelpPopoverTrigger = null;
+}
+
+function basculerBulleAideClubs(trigger) {
+    if (clubsHelpPopoverTrigger === trigger && clubsHelpPopover.classList.contains('open')) {
+        fermerBulleAideClubs();
+        return;
+    }
+
+    clubsHelpPopover.innerHTML = t('clubs_help_intro');
+    clubsHelpPopoverTrigger = trigger;
+    positionnerBulleAideClubs(trigger);
+    clubsHelpPopover.classList.add('open');
+}
+
+// Fermeture au clic en dehors de la bulle (et en dehors de n'importe quel déclencheur (i))
+document.addEventListener('click', function (e) {
+    if (!clubsHelpPopover.classList.contains('open')) return;
+    if (clubsHelpPopover.contains(e.target)) return;
+    if (e.target.closest && e.target.closest('.clubs-help-trigger')) return;
+    fermerBulleAideClubs();
+});
+
+// Repositionnement si la bulle est ouverte pendant un redimensionnement (rotation mobile, etc.)
+window.addEventListener('resize', function () {
+    if (clubsHelpPopoverTrigger) positionnerBulleAideClubs(clubsHelpPopoverTrigger);
+});
+
 
 // Bouton plein écran, ajouté juste après pour s'empiler sous le sélecteur Plan/Satellite dans
 // le même coin (topright) — voir definirModePleinEcran() plus bas pour la logique de bascule
@@ -738,6 +912,101 @@ function brancherPartagePopup(e, feature, layer) {
 window.brancherPartagePopup = brancherPartagePopup;
 
 
+// ===================== Contenu des popups de club affilié =====================
+// Même schéma que construireContenuPopupTerrain ci-dessus, mais pour un club issu de
+// data/clubs.json (pas de GeoJSON ici, club = objet simple {name, lat, lon, region, province,
+// federation}). Pas de commune dans le fil d'Ariane (les clubs n'ont pas cette donnée), et la
+// ligne "Accès" des terrains est remplacée par la ligne "Club affilié" (fédération + bouton
+// d'aide (i) cliquable — voir brancherBullesAideClubs plus bas pour la logique de la bulle).
+function construireContenuPopupClub(club) {
+
+    let filAriane = "";
+    if (club.province) {
+        const regionNom = club.region ? t('geo_region_' + club.region) : null;
+        const provinceNom = t('geo_province_' + club.province);
+        const provinceSlug = club.province.replace(/_/g, '-');
+        const communeNom = club.commune ? ' › ' + window.nomCommuneAffiche(club.commune, currentLang) : '';
+        filAriane = `<div class="popup-breadcrumb">${regionNom ? regionNom + ' › ' : ''}<a href="/province-${provinceSlug}.html">${provinceNom}</a>${communeNom}</div>`;
+    } else if (club.region === 'bruxelles') {
+        const communeNom = club.commune ? ' › ' + window.nomCommuneAffiche(club.commune, currentLang) : '';
+        filAriane = `<div class="popup-breadcrumb"><a href="/province-bruxelles.html">${t('geo_region_bruxelles')}</a>${communeNom}</div>`;
+    }
+
+    const federationTexte = club.federation === 'PFV'
+        ? t('federation_flamande')
+        : t('federation_wallonne');
+
+    let distance = "";
+
+    if (userPosition) {
+
+        let km = calculDistance(
+            userPosition[0],
+            userPosition[1],
+            club.lat,
+            club.lon
+        );
+
+        let valeurDistance = km < 1
+            ? `${Math.round(km * 1000)} m`
+            : `${km.toFixed(1)} km`;
+
+        distance = `<br><span class="popup-icon">${ICON_PIN}</span> ${t('popup_distance_label')} : ${valeurDistance}`;
+
+    } else {
+
+        distance = `<br><span class="popup-icon">${ICON_PIN}</span> ${t('popup_distance_hint')}`;
+
+    }
+
+    let itineraire = `
+    <br><br>
+    <a href="https://www.google.com/maps/dir/?api=1&destination=${club.lat},${club.lon}" target="_blank">
+    <span class="popup-link-icon">${ICON_ROUTE}</span> <span class="popup-link-text">${t('popup_itinerary')}</span>
+    </a>
+    `;
+
+    let partager = `
+    <br>
+    <a href="#" class="popup-share-btn-club">
+    <span class="popup-link-icon">${ICON_SHARE}</span> <span class="popup-link-text">${t('popup_share_club')}</span>
+    </a>
+    `;
+
+    return `
+    ${filAriane}
+    <b>${club.name}</b><br><br>
+    <span class="popup-icon">${ICON_BADGE}</span> ${t('club_affilie_label')} : ${federationTexte}
+    ${distance}
+    ${itineraire}
+    ${partager}
+    `;
+
+}
+window.construireContenuPopupClub = construireContenuPopupClub;
+
+// Bouton "Partager ce club" du popup : même schéma que brancherPartagePopup, avec un paramètre
+// distinctif (club=1) dans l'URL de partage pour que la résolution du deep-link sache qu'il
+// s'agit d'un club et pas d'un terrain (voir plus bas, section deep-link).
+function brancherPartagePopupClub(e, club, layer) {
+    const boutonPartage = e.popup.getElement().querySelector('.popup-share-btn-club');
+    if (!boutonPartage) return;
+
+    boutonPartage.onclick = function (evt) {
+        evt.preventDefault();
+        window.partagerClub(layer.getLatLng().lat, layer.getLatLng().lng, club.name);
+    };
+}
+window.brancherPartagePopupClub = brancherPartagePopupClub;
+
+// Fonction globale appelée depuis le lien "Partager ce club" de chaque popup de club
+window.partagerClub = function (lat, lon, titre) {
+    const url = window.location.origin + window.location.pathname
+        + `?club=1&lat=${lat.toFixed(6)}&lon=${lon.toFixed(6)}&z=18`;
+    ouvrirPartage(url, titre);
+};
+
+
 // ===================== Chargement des terrains =====================
 // Les pages provinces définissent window.MAPETANQUE_SKIP_DEFAULT_MARKERS = true (avant de
 // charger ce script) pour afficher leur propre sous-ensemble de terrains, sans clustering,
@@ -820,18 +1089,92 @@ fetch('/data/terrains.geojson')
 
         map.addLayer(markers);
 
-        // Lien de partage d'un terrain précis (?lat=...&lon=...) : centrer et ouvrir son popup
+        // Lien de partage d'un terrain précis (?lat=...&lon=...) : centrer et ouvrir son popup.
+        // Exclut le cas ?club=1&lat=...&lon=... (lien de partage d'un club, pas d'un terrain —
+        // voir la résolution dédiée dans le chargement des clubs plus bas).
         const urlParams = new URLSearchParams(window.location.search);
         const paramLat = parseFloat(urlParams.get('lat'));
         const paramLon = parseFloat(urlParams.get('lon'));
 
-        if (!isNaN(paramLat) && !isNaN(paramLon)) {
+        if (urlParams.get('club') !== '1' && !isNaN(paramLat) && !isNaN(paramLon)) {
             allerVersTerrain(paramLat, paramLon);
         }
 
     });
 
 } // fin du if (!window.MAPETANQUE_SKIP_DEFAULT_MARKERS)
+
+
+// ===================== Chargement des clubs affiliés =====================
+// Contrairement aux terrains, ce bloc est inconditionnel : il tourne sur la page d'accueil ET
+// sur les pages province/région, pour que la couche "Afficher les clubs" y soit disponible aussi
+// (voir clubsLayer/ClubsToggleControl plus haut). Pas de clustering pour les clubs (couche superposée
+// simple, voir spec) et pas de fetch séparé par province : les 197 clubs sont chargés en une
+// fois, puis filtrés ici même à la province/région de la page courante le cas échéant (voir
+// window.MAPETANQUE_STATS_GEO_KEY, défini par templates/province_template.html et
+// templates/region_template.html juste avant le chargement de ce fichier — absent sur la page
+// d'accueil, qui affiche donc bien les 197 clubs de Belgique sans filtrage).
+fetch('/data/clubs.json')
+    .then(response => response.json())
+    .then(data => {
+
+        const cleGeo = window.MAPETANQUE_STATS_GEO_KEY;
+        // club.province vaut la clé de province (ex. "anvers"), sauf pour les clubs de
+        // Bruxelles-Capitale qui n'ont pas de province propre et n'ont que club.region ===
+        // "bruxelles" (voir data/clubs.json) : la condition ci-dessous couvre les trois cas -
+        // page province normale, page province Bruxelles, et page région (cleGeo vaut alors une
+        // clé de région comme "flandre"/"wallonie", qui ne correspond à aucune clé de province).
+        const clubsAffiches = cleGeo
+            ? data.filter(function (club) { return club.province === cleGeo || club.region === cleGeo; })
+            : data;
+
+        clubsAffiches.forEach(function (club) {
+
+            const marker = L.marker([club.lat, club.lon], { icon: clubMarkerIcon });
+
+            marker.bindPopup(function () {
+                return construireContenuPopupClub(club);
+            });
+
+            marker.on('popupopen', function (e) {
+                brancherPartagePopupClub(e, club, marker);
+            });
+
+            marker.addTo(clubsLayer);
+
+        });
+
+        // Nombre de clubs par commune (clé = même nom de commune que terrainsParCommune, voir
+        // data/clubs.json — champ "commune" ajouté via club/geocoder_communes_clubs.py). Construit
+        // à partir de clubsAffiches (déjà filtré ci-dessus), pas de data brut : sur une page
+        // province/région, seules les communes de cette zone doivent compter, cohérent avec ce
+        // qui est effectivement affiché sur la carte. Exposé globalement : consommé par le script
+        // inline des pages province pour compléter "Nom de la commune (x terrains)" en
+        // "(x terrains, x clubs)" quand la couche clubs est affichée — voir
+        // templates/province_template.html. Absent (undefined) tant que ce fetch n'a pas résolu ;
+        // l'événement 'clubsChargees' ci-dessous permet de réagir à son arrivée.
+        window.clubsParCommune = {};
+        clubsAffiches.forEach(function (club) {
+            if (!club.commune) return;
+            window.clubsParCommune[club.commune] = (window.clubsParCommune[club.commune] || 0) + 1;
+        });
+        window.dispatchEvent(new CustomEvent('clubsChargees'));
+
+        // Lien de partage d'un club précis (?club=1&lat=...&lon=...) : active la couche clubs
+        // (si elle ne l'est pas déjà), centre la carte et ouvre son popup. Fonctionne dès le
+        // départ sur toutes les pages (accueil, province, région) puisque ce bloc de chargement
+        // est inconditionnel — contrairement au deep-link terrain, limité à la page d'accueil
+        // (voir commentaire plus haut) : ce n'est pas un correctif d'un comportement existant,
+        // juste une nouvelle fonctionnalité un peu plus large que celle des terrains.
+        const urlParamsClub = new URLSearchParams(window.location.search);
+        const paramClubLat = parseFloat(urlParamsClub.get('lat'));
+        const paramClubLon = parseFloat(urlParamsClub.get('lon'));
+
+        if (urlParamsClub.get('club') === '1' && !isNaN(paramClubLat) && !isNaN(paramClubLon)) {
+            allerVersClub(paramClubLat, paramClubLon);
+        }
+
+    });
 
 
 // ===================== Menu burger =====================
@@ -1118,6 +1461,42 @@ function allerVersTerrain(lat, lon) {
         });
     } else {
         // Terrain introuvable (peut-être retiré depuis) : on centre quand même sur les coordonnées
+        map.setView([lat, lon], 18);
+    }
+
+    const top = document.getElementById('top');
+    if (top) top.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Équivalent de allerVersTerrain() mais pour un club affilié : clubsLayer est un simple
+// L.layerGroup (pas de clustering pour les clubs, voir spec), donc pas de zoomToShowLayer
+// disponible ici — on centre directement la carte sur le marqueur trouvé.
+function allerVersClub(lat, lon) {
+    let layerCorrespondant = null;
+
+    if (clubsLayer) {
+        clubsLayer.eachLayer(function (layer) {
+            if (layerCorrespondant) return;
+            const pos = layer.getLatLng();
+            if (Math.abs(pos.lat - lat) < 0.0001 && Math.abs(pos.lng - lon) < 0.0001) {
+                layerCorrespondant = layer;
+            }
+        });
+    }
+
+    // S'assure que la couche clubs est active, sinon le marqueur ciblé n'existe pas encore sur la carte
+    if (clubsLayer && !map.hasLayer(clubsLayer)) {
+        map.addLayer(clubsLayer);
+        if (clubsToggleCheckbox) clubsToggleCheckbox.checked = true;
+        localStorage.setItem(STORAGE_KEY_CLUBS_VISIBLE, 'true');
+        window.dispatchEvent(new CustomEvent('clubsAffichageChange', { detail: { visible: true } }));
+    }
+
+    if (layerCorrespondant) {
+        map.setView(layerCorrespondant.getLatLng(), 18);
+        layerCorrespondant.openPopup();
+    } else {
+        // Club introuvable (peut-être retiré depuis) : on centre quand même sur les coordonnées
         map.setView([lat, lon], 18);
     }
 

@@ -1,0 +1,1757 @@
+[
+  {
+    "name": "MPC De Rode Loop",
+    "lat": 51.2619429,
+    "lon": 4.4598113,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "anvers",
+    "commune": "Antwerpen"
+  },
+  {
+    "name": "PC Aartselaar",
+    "lat": 51.1403624,
+    "lon": 4.400671,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "anvers",
+    "commune": "Aartselaar"
+  },
+  {
+    "name": "PC Bernardus",
+    "lat": 51.1888217,
+    "lon": 4.3812037,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "anvers",
+    "commune": "Antwerpen"
+  },
+  {
+    "name": "PC Boom",
+    "lat": 51.0924382,
+    "lon": 4.3775755,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "anvers",
+    "commune": "Boom"
+  },
+  {
+    "name": "PC De Lindepet",
+    "lat": 51.217852,
+    "lon": 4.6545232,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "anvers",
+    "commune": "Zandhoven"
+  },
+  {
+    "name": "PC Duffel",
+    "lat": 51.092084,
+    "lon": 4.5132936,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "anvers",
+    "commune": "Duffel"
+  },
+  {
+    "name": "PC Hemelhof",
+    "lat": 51.2862727,
+    "lon": 4.4928498,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "anvers",
+    "commune": "Brasschaat"
+  },
+  {
+    "name": "PC Herentals",
+    "lat": 51.1917273,
+    "lon": 4.8382843,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "anvers",
+    "commune": "Herentals"
+  },
+  {
+    "name": "PC Kalmthout",
+    "lat": 51.3779266,
+    "lon": 4.4794077,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "anvers",
+    "commune": "Kalmthout"
+  },
+  {
+    "name": "PC Kontich",
+    "lat": 51.1251522,
+    "lon": 4.4382638,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "anvers",
+    "commune": "Kontich"
+  },
+  {
+    "name": "PC Lier",
+    "lat": 51.130885,
+    "lon": 4.5602474,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "anvers",
+    "commune": "Lier"
+  },
+  {
+    "name": "PC Lint",
+    "lat": 51.1284977,
+    "lon": 4.4813236,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "anvers",
+    "commune": "Lint"
+  },
+  {
+    "name": "PC Markdal",
+    "lat": 51.4748845,
+    "lon": 4.7408659,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "anvers",
+    "commune": "Hoogstraten"
+  },
+  {
+    "name": "PC Meerosa",
+    "lat": 51.2105602,
+    "lon": 4.4796758,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "anvers",
+    "commune": "Antwerpen"
+  },
+  {
+    "name": "PC Mercurius",
+    "lat": 51.1647994,
+    "lon": 4.3493421,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "anvers",
+    "commune": "Antwerpen"
+  },
+  {
+    "name": "PC Mol",
+    "lat": 51.184626,
+    "lon": 5.0811864,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "anvers",
+    "commune": "Mol"
+  },
+  {
+    "name": "PC Niel",
+    "lat": 51.1018944,
+    "lon": 4.3321617,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "anvers",
+    "commune": "Niel"
+  },
+  {
+    "name": "PC Rozemaai",
+    "lat": 51.2720462,
+    "lon": 4.4107009,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "anvers",
+    "commune": "Antwerpen"
+  },
+  {
+    "name": "PC Technico",
+    "lat": 51.3142164,
+    "lon": 4.9458372,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "anvers",
+    "commune": "Turnhout"
+  },
+  {
+    "name": "PC Wijnegem",
+    "lat": 51.2235199,
+    "lon": 4.5384171,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "anvers",
+    "commune": "Wijnegem"
+  },
+  {
+    "name": "PC de Nete",
+    "lat": 51.1487257,
+    "lon": 4.6337715,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "anvers",
+    "commune": "Nijlen"
+  },
+  {
+    "name": "PK De Evers",
+    "lat": 51.2010006,
+    "lon": 4.4910254,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "anvers",
+    "commune": "Wommelgem"
+  },
+  {
+    "name": "Putse Petanque",
+    "lat": 51.0509252,
+    "lon": 4.6138153,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "anvers",
+    "commune": "Putte"
+  },
+  {
+    "name": "KPC Tienen",
+    "lat": 50.8200337,
+    "lon": 4.9412429,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "brabant_flamand",
+    "commune": "Tienen"
+  },
+  {
+    "name": "PC Beersel",
+    "lat": 50.7586632,
+    "lon": 4.2783325,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "brabant_flamand",
+    "commune": "Lot"
+  },
+  {
+    "name": "PC De Blockskes",
+    "lat": 50.985511,
+    "lon": 4.2247869,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "brabant_flamand",
+    "commune": "Merchtem"
+  },
+  {
+    "name": "PC De Valkerij (Tervuren)",
+    "lat": 50.8294358,
+    "lon": 4.5069284,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "brabant_flamand",
+    "commune": "Tervuren"
+  },
+  {
+    "name": "PC Dilbeek",
+    "lat": 50.8497574,
+    "lon": 4.259647,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "brabant_flamand",
+    "commune": "Dilbeek"
+  },
+  {
+    "name": "PC Hap (Asse)",
+    "lat": 50.910165,
+    "lon": 4.1889241,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "brabant_flamand",
+    "commune": "Asse"
+  },
+  {
+    "name": "PC Vilvoorde",
+    "lat": 50.9285529,
+    "lon": 4.4487423,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "brabant_flamand",
+    "commune": "Vilvoorde"
+  },
+  {
+    "name": "PC Wemmel",
+    "lat": 50.903587,
+    "lon": 4.3040346,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "brabant_flamand",
+    "commune": "Wemmel"
+  },
+  {
+    "name": "Petanque Club Affligem",
+    "lat": 50.8984648,
+    "lon": 4.1067559,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "brabant_flamand",
+    "commune": "Affligem"
+  },
+  {
+    "name": "Petanque Kerkom",
+    "lat": 50.8289909,
+    "lon": 4.8332045,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "brabant_flamand",
+    "commune": "Boutersem"
+  },
+  {
+    "name": "Petanqueclub Leuven",
+    "lat": 50.9105821,
+    "lon": 4.713808,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "brabant_flamand",
+    "commune": "Leuven"
+  },
+  {
+    "name": "S.P.E.M. Petek (Everberg)",
+    "lat": 50.9058379,
+    "lon": 4.5697787,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "brabant_flamand",
+    "commune": "Kwerps"
+  },
+  {
+    "name": "Singel PC (Strombeek)",
+    "lat": 50.9133332,
+    "lon": 4.3588537,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "brabant_flamand",
+    "commune": "Strombeek-Bever"
+  },
+  {
+    "name": "AS Beauchamp",
+    "lat": 50.7105404,
+    "lon": 4.5580338,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "brabant_wallon",
+    "commune": "Wavre"
+  },
+  {
+    "name": "ASBL Petanque Club De Genappe",
+    "lat": 50.6107468,
+    "lon": 4.4512987,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "brabant_wallon",
+    "commune": "Genappe"
+  },
+  {
+    "name": "Kiki Tubizien",
+    "lat": 50.6820981,
+    "lon": 4.1968156,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "brabant_wallon",
+    "commune": "Tubize"
+  },
+  {
+    "name": "La Petanque Jauchoise",
+    "lat": 50.681349,
+    "lon": 4.9590659,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "brabant_wallon",
+    "commune": "Orp-Jauche"
+  },
+  {
+    "name": "La Wavrienne",
+    "lat": 50.7224722,
+    "lon": 4.6191427,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "brabant_wallon",
+    "commune": "Wavre"
+  },
+  {
+    "name": "PC Caramboul",
+    "lat": 50.6928663,
+    "lon": 4.1099502,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "brabant_wallon",
+    "commune": "Bierghes"
+  },
+  {
+    "name": "Pachy PC",
+    "lat": 50.7165638,
+    "lon": 4.3966071,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "brabant_wallon",
+    "commune": "Waterloo"
+  },
+  {
+    "name": "Petanque Club Genval",
+    "lat": 50.7150174,
+    "lon": 4.5000199,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "brabant_wallon",
+    "commune": "Rixensart"
+  },
+  {
+    "name": "Royal Blanc Ry Ottignies",
+    "lat": 50.6630488,
+    "lon": 4.6222527,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "brabant_wallon",
+    "commune": "Ottignies-Louvain-la-Neuve"
+  },
+  {
+    "name": "Royal CP Limaloise",
+    "lat": 50.6904336,
+    "lon": 4.5793558,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "brabant_wallon",
+    "commune": "Wavre"
+  },
+  {
+    "name": "Royal PC Paradis",
+    "lat": 50.6783372,
+    "lon": 4.386169,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "brabant_wallon",
+    "commune": "Braine-l'Alleud"
+  },
+  {
+    "name": "Royal Petanque Club La Hulpe",
+    "lat": 50.7301392,
+    "lon": 4.4929591,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "brabant_wallon",
+    "commune": "La Hulpe"
+  },
+  {
+    "name": "Royal Petanque Club Nivelloise",
+    "lat": 50.6102153,
+    "lon": 4.3359167,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "brabant_wallon",
+    "commune": "Nivelles"
+  },
+  {
+    "name": "Amicale Anderlechtoise P.C.",
+    "lat": 50.8213476,
+    "lon": 4.2744595,
+    "region": "bruxelles",
+    "federation": "FBFP",
+    "commune": "Anderlecht"
+  },
+  {
+    "name": "Forever Saint Josse",
+    "lat": 50.8594075,
+    "lon": 4.4228293,
+    "region": "bruxelles",
+    "federation": "FBFP",
+    "commune": "Evere"
+  },
+  {
+    "name": "New Ixelles",
+    "lat": 50.8123555,
+    "lon": 4.393361,
+    "region": "bruxelles",
+    "federation": "FBFP",
+    "commune": "Ixelles - Elsene"
+  },
+  {
+    "name": "PC Esseghem (Jette)",
+    "lat": 50.8809184,
+    "lon": 4.3375838,
+    "region": "bruxelles",
+    "federation": "PFV",
+    "commune": "Jette"
+  },
+  {
+    "name": "PC Etterbeekois",
+    "lat": 50.8355579,
+    "lon": 4.3957368,
+    "region": "bruxelles",
+    "federation": "FBFP",
+    "commune": "Etterbeek"
+  },
+  {
+    "name": "PC Le Domaine",
+    "lat": 50.8005239,
+    "lon": 4.3393058,
+    "region": "bruxelles",
+    "federation": "FBFP",
+    "commune": "Uccle - Ukkel"
+  },
+  {
+    "name": "PC Le Silence",
+    "lat": 50.829943,
+    "lon": 4.3473761,
+    "region": "bruxelles",
+    "federation": "FBFP",
+    "commune": "Saint-Gilles - Sint-Gillis"
+  },
+  {
+    "name": "PC New F.E.S.",
+    "lat": 50.8610757,
+    "lon": 4.4173074,
+    "region": "bruxelles",
+    "federation": "FBFP",
+    "commune": "Evere"
+  },
+  {
+    "name": "Petanque Club Saint-Gillois",
+    "lat": 50.8297698,
+    "lon": 4.3475182,
+    "region": "bruxelles",
+    "federation": "FBFP",
+    "commune": "Saint-Gilles - Sint-Gillis"
+  },
+  {
+    "name": "Pétanque Auderghem Sainte Anne (P.A.S.A.)",
+    "lat": 50.8172788,
+    "lon": 4.4296944,
+    "region": "bruxelles",
+    "federation": "FBFP",
+    "commune": "Auderghem - Oudergem"
+  },
+  {
+    "name": "Royal PC Cite Modele",
+    "lat": 50.8972307,
+    "lon": 4.3248842,
+    "region": "bruxelles",
+    "federation": "FBFP",
+    "commune": "Bruxelles - Brussel"
+  },
+  {
+    "name": "Royal PC Elite",
+    "lat": 50.844433,
+    "lon": 4.4356537,
+    "region": "bruxelles",
+    "federation": "FBFP",
+    "commune": "Woluwe-Saint-Lambert - Sint-Lambrechts-Woluwe"
+  },
+  {
+    "name": "Royal PC Floreal",
+    "lat": 50.8068065,
+    "lon": 4.4113209,
+    "region": "bruxelles",
+    "federation": "FBFP",
+    "commune": "Watermael-Boitsfort - Watermaal-Bosvoorde"
+  },
+  {
+    "name": "Royal PC Joli-Bois",
+    "lat": 50.8226703,
+    "lon": 4.4624487,
+    "region": "bruxelles",
+    "federation": "FBFP",
+    "commune": "Woluwe-Saint-Pierre - Sint-Pieters-Woluwe"
+  },
+  {
+    "name": "Royal Petanque Club De Rivieren",
+    "lat": 50.881762,
+    "lon": 4.2999753,
+    "region": "bruxelles",
+    "federation": "FBFP",
+    "commune": "Ganshoren"
+  },
+  {
+    "name": "Royal Petanque Club Le Frankveld ASBL",
+    "lat": 50.8037723,
+    "lon": 4.3109715,
+    "region": "bruxelles",
+    "federation": "FBFP",
+    "commune": "Forest - Vorst"
+  },
+  {
+    "name": "Royal Petanque Uccle Centre",
+    "lat": 50.8002966,
+    "lon": 4.3391987,
+    "region": "bruxelles",
+    "federation": "FBFP",
+    "commune": "Uccle - Ukkel"
+  },
+  {
+    "name": "Royale P.U.S.",
+    "lat": 50.7974969,
+    "lon": 4.3193558,
+    "region": "bruxelles",
+    "federation": "FBFP",
+    "commune": "Uccle - Ukkel"
+  },
+  {
+    "name": "Blankenbergse PC",
+    "lat": 51.3155105,
+    "lon": 3.1438873,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_occidentale",
+    "commune": "Blankenberge"
+  },
+  {
+    "name": "KPC De Bevers",
+    "lat": 50.887023,
+    "lon": 3.4180286,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_occidentale",
+    "commune": "Waregem"
+  },
+  {
+    "name": "Nieuwpoortse PC",
+    "lat": 51.132106,
+    "lon": 2.7402031,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_occidentale",
+    "commune": "Nieuwpoort"
+  },
+  {
+    "name": "Oostendse PC",
+    "lat": 51.2015896,
+    "lon": 2.9181235,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_occidentale",
+    "commune": "Oostende"
+  },
+  {
+    "name": "PC De Bouchon",
+    "lat": 51.1911525,
+    "lon": 3.1420921,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_occidentale",
+    "commune": "Varsenare"
+  },
+  {
+    "name": "PC De Gulden Kamer",
+    "lat": 51.2161679,
+    "lon": 3.2444408,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_occidentale",
+    "commune": "Brugge"
+  },
+  {
+    "name": "PC De Vuurtoren",
+    "lat": 51.335069,
+    "lon": 3.2342643,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_occidentale",
+    "commune": "Knokke-Heist"
+  },
+  {
+    "name": "PC De Zeemeermin",
+    "lat": 51.1800926,
+    "lon": 2.8052536,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_occidentale",
+    "commune": "Middelkerke"
+  },
+  {
+    "name": "PC Den Akker",
+    "lat": 51.1673905,
+    "lon": 3.3327531,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_occidentale",
+    "commune": "Beernem"
+  },
+  {
+    "name": "PC Gullegem",
+    "lat": 50.8480334,
+    "lon": 3.2022039,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_occidentale",
+    "commune": "Gullegem"
+  },
+  {
+    "name": "PC Jeanne d'Arc",
+    "lat": 51.0951568,
+    "lon": 2.5898162,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_occidentale",
+    "commune": "De Panne"
+  },
+  {
+    "name": "PC Koksijde",
+    "lat": 51.1161064,
+    "lon": 2.6886751,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_occidentale",
+    "commune": "Koksijde"
+  },
+  {
+    "name": "PC Kortrijk",
+    "lat": 50.8188699,
+    "lon": 3.2749199,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_occidentale",
+    "commune": "Kortrijk"
+  },
+  {
+    "name": "PC Le Pastis",
+    "lat": 51.3091103,
+    "lon": 3.1993386,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_occidentale",
+    "commune": "Brugge"
+  },
+  {
+    "name": "PC Leiemeers",
+    "lat": 50.846889,
+    "lon": 3.2892065,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_occidentale",
+    "commune": "Kuurne"
+  },
+  {
+    "name": "PC Lisseweg",
+    "lat": 51.2943463,
+    "lon": 3.1962677,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_occidentale",
+    "commune": "Brugge"
+  },
+  {
+    "name": "PC Okapi",
+    "lat": 50.818903,
+    "lon": 3.2749119,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_occidentale",
+    "commune": "Kortrijk"
+  },
+  {
+    "name": "PC Ricard Oostkamp",
+    "lat": 51.1543786,
+    "lon": 3.2358459,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_occidentale",
+    "commune": "Oostkamp"
+  },
+  {
+    "name": "PC Wijnendale",
+    "lat": 51.0922748,
+    "lon": 3.0704262,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_occidentale",
+    "commune": "Torhout"
+  },
+  {
+    "name": "Poperingse Petanquekoppen",
+    "lat": 50.8568992,
+    "lon": 2.7094484,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_occidentale",
+    "commune": "Poperinge"
+  },
+  {
+    "name": "KP Mistral",
+    "lat": 51.0146874,
+    "lon": 3.8177673,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_orientale",
+    "commune": "Heusden"
+  },
+  {
+    "name": "KP Verbroedering",
+    "lat": 50.9948095,
+    "lon": 3.8069227,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_orientale",
+    "commune": "Melle"
+  },
+  {
+    "name": "KPC Alosta",
+    "lat": 50.9419426,
+    "lon": 4.0599877,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_orientale",
+    "commune": "Aalst"
+  },
+  {
+    "name": "KPC Schorpioen",
+    "lat": 51.0882236,
+    "lon": 3.7028565,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_orientale",
+    "commune": "Gent"
+  },
+  {
+    "name": "PC Apollo",
+    "lat": 50.9423985,
+    "lon": 4.0159713,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_orientale",
+    "commune": "Aalst"
+  },
+  {
+    "name": "PC Chapoo",
+    "lat": 50.9259334,
+    "lon": 3.8842962,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_orientale",
+    "commune": "Sint-Lievens-Houtem"
+  },
+  {
+    "name": "PC Donkmeer",
+    "lat": 51.0487002,
+    "lon": 3.9704822,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_orientale",
+    "commune": "Berlare"
+  },
+  {
+    "name": "PC Haeseveld",
+    "lat": 51.0088425,
+    "lon": 3.8075815,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_orientale",
+    "commune": "Heusden"
+  },
+  {
+    "name": "PC Heirnis",
+    "lat": 51.0465221,
+    "lon": 3.7438155,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_orientale",
+    "commune": "Gent"
+  },
+  {
+    "name": "PC Hof Ter Burst",
+    "lat": 50.9827506,
+    "lon": 4.1479309,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_orientale",
+    "commune": "Lebbeke"
+  },
+  {
+    "name": "PC Lokeren",
+    "lat": 51.1161238,
+    "lon": 4.0080106,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_orientale",
+    "commune": "Lokeren"
+  },
+  {
+    "name": "PC Oudenaarde",
+    "lat": 50.8536777,
+    "lon": 3.6151502,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_orientale",
+    "commune": "Oudenaarde"
+  },
+  {
+    "name": "PC Patijntje",
+    "lat": 51.0396147,
+    "lon": 3.7082307,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_orientale",
+    "commune": "Gent"
+  },
+  {
+    "name": "PC Reynaert",
+    "lat": 51.1031856,
+    "lon": 4.0007973,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_orientale",
+    "commune": "Lokeren"
+  },
+  {
+    "name": "PC Stekene",
+    "lat": 51.2077033,
+    "lon": 4.0454029,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_orientale",
+    "commune": "Stekene"
+  },
+  {
+    "name": "PC Terheiden",
+    "lat": 50.86452,
+    "lon": 3.978498,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_orientale",
+    "commune": "Outer"
+  },
+  {
+    "name": "PC Zelzate",
+    "lat": 51.1894517,
+    "lon": 3.8093489,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "flandre_orientale",
+    "commune": "Zelzate"
+  },
+  {
+    "name": "Ernelle Monceau",
+    "lat": 50.4122036,
+    "lon": 4.3823876,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "hainaut",
+    "commune": "Charleroi"
+  },
+  {
+    "name": "Kiki Leval PC",
+    "lat": 50.2355162,
+    "lon": 4.2272783,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "hainaut",
+    "commune": "Beaumont"
+  },
+  {
+    "name": "La Fanny Bivort",
+    "lat": 50.4192352,
+    "lon": 4.3272867,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "hainaut",
+    "commune": "Fontaine-l'Évêque"
+  },
+  {
+    "name": "La Petanque Montoise",
+    "lat": 50.4467645,
+    "lon": 3.9511241,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "hainaut",
+    "commune": "Mons"
+  },
+  {
+    "name": "Les Boules Noires",
+    "lat": 50.435988,
+    "lon": 4.4943257,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "hainaut",
+    "commune": "Charleroi"
+  },
+  {
+    "name": "Les Six Boulettes Elouges",
+    "lat": 50.3906038,
+    "lon": 3.7772943,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "hainaut",
+    "commune": "Dour"
+  },
+  {
+    "name": "Masice Ravel Petanque",
+    "lat": 50.4567898,
+    "lon": 3.7771252,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "hainaut",
+    "commune": "Saint-Ghislain"
+  },
+  {
+    "name": "PC A.S. Jumet",
+    "lat": 50.4290532,
+    "lon": 4.4418994,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "hainaut",
+    "commune": "Charleroi"
+  },
+  {
+    "name": "PC Au Boule'o",
+    "lat": 50.4766139,
+    "lon": 4.2213752,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "hainaut",
+    "commune": "La Louvière"
+  },
+  {
+    "name": "PC Boussu",
+    "lat": 50.4687935,
+    "lon": 3.807764,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "hainaut",
+    "commune": "Saint-Ghislain"
+  },
+  {
+    "name": "PC Chatelet",
+    "lat": 50.3973558,
+    "lon": 4.4967031,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "hainaut",
+    "commune": "Châtelet"
+  },
+  {
+    "name": "PC La Botte",
+    "lat": 50.0268926,
+    "lon": 4.1693303,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "hainaut",
+    "commune": "Momignies"
+  },
+  {
+    "name": "PC Le Pays Noir Farciennes",
+    "lat": 50.432985,
+    "lon": 4.5250064,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "hainaut",
+    "commune": "Farciennes"
+  },
+  {
+    "name": "PC Lessines",
+    "lat": 50.7114059,
+    "lon": 3.8331905,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "hainaut",
+    "commune": "Lessines"
+  },
+  {
+    "name": "PC Lutosa",
+    "lat": 50.5891441,
+    "lon": 3.6176559,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "hainaut",
+    "commune": "Leuze"
+  },
+  {
+    "name": "PC Moeskroen",
+    "lat": 50.7411533,
+    "lon": 3.1895321,
+    "region": "wallonie",
+    "federation": "PFV",
+    "province": "hainaut",
+    "commune": "Mouscron"
+  },
+  {
+    "name": "PC Tertre Esperance",
+    "lat": 50.4687935,
+    "lon": 3.807764,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "hainaut",
+    "commune": "Saint-Ghislain"
+  },
+  {
+    "name": "PC Thulisien",
+    "lat": 50.2938273,
+    "lon": 4.3298336,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "hainaut",
+    "commune": "Thuin"
+  },
+  {
+    "name": "Petanque Club Le Roux",
+    "lat": 50.3924227,
+    "lon": 4.6216384,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "hainaut",
+    "commune": "Fosses-la-Ville"
+  },
+  {
+    "name": "Petanque Club Les Marsupilamis",
+    "lat": 50.164067,
+    "lon": 4.2227739,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "hainaut",
+    "commune": "Sautin"
+  },
+  {
+    "name": "Petanque Frasnoise",
+    "lat": 50.5308472,
+    "lon": 4.452057,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "hainaut",
+    "commune": "Frasnes-lez-Gosselies"
+  },
+  {
+    "name": "Royal PC Les Carolos",
+    "lat": 50.4277489,
+    "lon": 4.4449295,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "hainaut",
+    "commune": "Charleroi"
+  },
+  {
+    "name": "Royal Petanque Club Marcinelle",
+    "lat": 50.3795223,
+    "lon": 4.4252823,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "hainaut",
+    "commune": "Charleroi"
+  },
+  {
+    "name": "Tournai Petanque Club (Tpc)",
+    "lat": 50.5715177,
+    "lon": 3.5046843,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "hainaut",
+    "commune": "Tournai"
+  },
+  {
+    "name": "Bocholter Petanque",
+    "lat": 51.1670652,
+    "lon": 5.5703098,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "limbourg",
+    "commune": "Bocholt"
+  },
+  {
+    "name": "Inter Lommel Petanque",
+    "lat": 51.2247246,
+    "lon": 5.3080798,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "limbourg",
+    "commune": "Lommel"
+  },
+  {
+    "name": "PC Boekt",
+    "lat": 51.0115125,
+    "lon": 5.2810145,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "limbourg",
+    "commune": "Zolder"
+  },
+  {
+    "name": "PC De Berk",
+    "lat": 50.9457447,
+    "lon": 4.5617215,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "limbourg",
+    "commune": "Kampenhout"
+  },
+  {
+    "name": "PC De Venne",
+    "lat": 50.9328162,
+    "lon": 5.1396206,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "limbourg",
+    "commune": "Herk-de-Stad"
+  },
+  {
+    "name": "PC Fenix",
+    "lat": 50.9226463,
+    "lon": 5.321535,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "limbourg",
+    "commune": "Hasselt"
+  },
+  {
+    "name": "PC Genenbos",
+    "lat": 51.0088648,
+    "lon": 5.2297396,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "limbourg",
+    "commune": "Lummen"
+  },
+  {
+    "name": "PC Genk",
+    "lat": 50.9516315,
+    "lon": 5.4877696,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "limbourg",
+    "commune": "Genk"
+  },
+  {
+    "name": "PC Hasselt",
+    "lat": 50.9226463,
+    "lon": 5.321535,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "limbourg",
+    "commune": "Hasselt"
+  },
+  {
+    "name": "PC Kelchteren",
+    "lat": 51.0381988,
+    "lon": 5.3744907,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "limbourg",
+    "commune": "Houthalen"
+  },
+  {
+    "name": "PC Maaseik",
+    "lat": 51.0979584,
+    "lon": 5.7742635,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "limbourg",
+    "commune": "Maaseik"
+  },
+  {
+    "name": "PC Meldert",
+    "lat": 50.9974351,
+    "lon": 5.1433618,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "limbourg",
+    "commune": "Lummen"
+  },
+  {
+    "name": "PC Olympia",
+    "lat": 51.0300609,
+    "lon": 5.2655019,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "limbourg",
+    "commune": "Heusden-Zolder"
+  },
+  {
+    "name": "PC Opec",
+    "lat": 51.0551911,
+    "lon": 5.5905389,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "limbourg",
+    "commune": "Opglabbeek"
+  },
+  {
+    "name": "PC Royal Hasselt Yachting Club",
+    "lat": 50.9436791,
+    "lon": 5.3348386,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "limbourg",
+    "commune": "Hasselt"
+  },
+  {
+    "name": "PC Sparrendal",
+    "lat": 50.9009093,
+    "lon": 5.6315212,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "limbourg",
+    "commune": "Lanaken"
+  },
+  {
+    "name": "PC St.-Truiden",
+    "lat": 50.8134998,
+    "lon": 5.1662905,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "limbourg",
+    "commune": "Sint-Truiden"
+  },
+  {
+    "name": "PC Terbiest",
+    "lat": 50.8291478,
+    "lon": 5.2065964,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "limbourg",
+    "commune": "Sint-Truiden"
+  },
+  {
+    "name": "PC Tongeren",
+    "lat": 50.8541914,
+    "lon": 5.4950265,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "limbourg",
+    "commune": "Hoeselt"
+  },
+  {
+    "name": "Pelter PC",
+    "lat": 51.2156504,
+    "lon": 5.4462473,
+    "region": "flandre",
+    "federation": "PFV",
+    "province": "limbourg",
+    "commune": "Neerpelt"
+  },
+  {
+    "name": "Bon Accueil Seresien",
+    "lat": 50.602527,
+    "lon": 5.5119157,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Seraing"
+  },
+  {
+    "name": "C.P.G.H.",
+    "lat": 50.6441991,
+    "lon": 5.5065795,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Grâce-Hollogne"
+  },
+  {
+    "name": "La Blegnytoise",
+    "lat": 50.6707765,
+    "lon": 5.6990779,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Blegny"
+  },
+  {
+    "name": "La Boule Anthisnoise ASBL",
+    "lat": 50.4738844,
+    "lon": 5.5118865,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Anthisnes"
+  },
+  {
+    "name": "La Boule D'Aaz De Haccourt",
+    "lat": 50.7375441,
+    "lon": 5.6711698,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Haccourt"
+  },
+  {
+    "name": "La Fanny Pepinster",
+    "lat": 50.566476,
+    "lon": 5.8020565,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Pepinster"
+  },
+  {
+    "name": "La Fanny Visetoise",
+    "lat": 50.7320438,
+    "lon": 5.6947687,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Visé"
+  },
+  {
+    "name": "Lam's PC Forever",
+    "lat": 50.7376541,
+    "lon": 5.6700771,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Haccourt"
+  },
+  {
+    "name": "Le Carreau Hannutois",
+    "lat": 50.667655,
+    "lon": 5.0820532,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Hannut"
+  },
+  {
+    "name": "Le Muguet Laminois",
+    "lat": 50.6844689,
+    "lon": 5.3323365,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Remicourt"
+  },
+  {
+    "name": "Les Boutons D'Or",
+    "lat": 50.596964,
+    "lon": 5.4480226,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Flémalle"
+  },
+  {
+    "name": "Les Cigales De Boncelles",
+    "lat": 50.570555,
+    "lon": 5.5355974,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Seraing"
+  },
+  {
+    "name": "Marius Petank's Club Omal",
+    "lat": 50.6552931,
+    "lon": 5.1995255,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Omal"
+  },
+  {
+    "name": "P.C. Beyne",
+    "lat": 50.6281189,
+    "lon": 5.6450015,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Beyne-Heusay"
+  },
+  {
+    "name": "PC Boulewanis",
+    "lat": 50.6956721,
+    "lon": 5.2049977,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Berloz"
+  },
+  {
+    "name": "PC La Romseenne",
+    "lat": 50.6108255,
+    "lon": 5.6714147,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Fléron"
+  },
+  {
+    "name": "PC Mabotte",
+    "lat": 50.626022,
+    "lon": 5.5145888,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Seraing"
+  },
+  {
+    "name": "PC Malmedy",
+    "lat": 50.4258006,
+    "lon": 6.0206609,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Malmedy"
+  },
+  {
+    "name": "PC Moha",
+    "lat": 50.5516914,
+    "lon": 5.1925947,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Wanze"
+  },
+  {
+    "name": "PC Oreye",
+    "lat": 50.7316518,
+    "lon": 5.342602,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Oreye"
+  },
+  {
+    "name": "PC Sprimont",
+    "lat": 50.5130069,
+    "lon": 5.6619772,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Sprimont"
+  },
+  {
+    "name": "PC Tivoli - Herbesthal",
+    "lat": 50.6601942,
+    "lon": 5.9832905,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Lontzen"
+  },
+  {
+    "name": "Petanque New Esneux",
+    "lat": 50.5224364,
+    "lon": 5.5696448,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Esneux"
+  },
+  {
+    "name": "Pétanque Club La Boule Vottemoise D'Herstal",
+    "lat": 50.6560658,
+    "lon": 5.6208243,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Herstal"
+  },
+  {
+    "name": "Royal PC Wanze",
+    "lat": 50.5349366,
+    "lon": 5.2102893,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Wanze"
+  },
+  {
+    "name": "Royal Petanque Club Embourg",
+    "lat": 50.6003857,
+    "lon": 5.620718,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Vaux-sous-Chèvremont"
+  },
+  {
+    "name": "Royal Petanque Club La Moisson",
+    "lat": 50.6281189,
+    "lon": 5.6450015,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Beyne-Heusay"
+  },
+  {
+    "name": "Royale Petanque Hutoise",
+    "lat": 50.5305418,
+    "lon": 5.2550397,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "liege",
+    "commune": "Huy"
+  },
+  {
+    "name": "Abc Durbuy PC",
+    "lat": 50.3554979,
+    "lon": 5.4756065,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "luxembourg",
+    "commune": "Bohon"
+  },
+  {
+    "name": "Arel Boules Club",
+    "lat": 49.6994614,
+    "lon": 5.8156104,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "luxembourg",
+    "commune": "Arlon"
+  },
+  {
+    "name": "La Boule Bastognarde",
+    "lat": 50.0020213,
+    "lon": 5.7244097,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "luxembourg",
+    "commune": "Bastogne"
+  },
+  {
+    "name": "La Boule Feodale Latour",
+    "lat": 49.5557179,
+    "lon": 5.5829821,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "luxembourg",
+    "commune": "Virton"
+  },
+  {
+    "name": "La Mechoise",
+    "lat": 49.6043971,
+    "lon": 5.4830461,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "luxembourg",
+    "commune": "Meix-devant-Virton"
+  },
+  {
+    "name": "Les 3 Frontieres Longeau",
+    "lat": 49.5779845,
+    "lon": 5.8332097,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "luxembourg",
+    "commune": "Messancy"
+  },
+  {
+    "name": "PC Gouvy",
+    "lat": 50.186483,
+    "lon": 5.9468946,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "luxembourg",
+    "commune": "Limerlé"
+  },
+  {
+    "name": "PC Lhomme",
+    "lat": 50.1626844,
+    "lon": 5.256782,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "luxembourg",
+    "commune": "Jemelle"
+  },
+  {
+    "name": "PC Rochefortois",
+    "lat": 50.1626844,
+    "lon": 5.256782,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "luxembourg",
+    "commune": "Jemelle"
+  },
+  {
+    "name": "PC Saint-Hubert",
+    "lat": 50.0271052,
+    "lon": 5.3703803,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "luxembourg",
+    "commune": "Saint-Hubert"
+  },
+  {
+    "name": "PC Val D'Attert",
+    "lat": 49.7591957,
+    "lon": 5.7752702,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "luxembourg",
+    "commune": "Attert"
+  },
+  {
+    "name": "Royal PC Aubange",
+    "lat": 49.563688,
+    "lon": 5.8004732,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "luxembourg",
+    "commune": "Aubange"
+  },
+  {
+    "name": "ASBL Petanque Beauraing",
+    "lat": 50.1339452,
+    "lon": 4.9402244,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "namur",
+    "commune": "Beauraing"
+  },
+  {
+    "name": "La Fanny Nismoise",
+    "lat": 50.0752309,
+    "lon": 4.5499914,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "namur",
+    "commune": "Nismes"
+  },
+  {
+    "name": "La Petanque Belgradoise",
+    "lat": 50.4711229,
+    "lon": 4.8251365,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "namur",
+    "commune": "Namur"
+  },
+  {
+    "name": "Le Cochonnet Mosan",
+    "lat": 50.2542751,
+    "lon": 4.9130451,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "namur",
+    "commune": "Dinant"
+  },
+  {
+    "name": "New PC Velainois",
+    "lat": 50.4702875,
+    "lon": 4.6080785,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "namur",
+    "commune": "Sambreville"
+  },
+  {
+    "name": "PC Les Crayas",
+    "lat": 50.0768231,
+    "lon": 4.5520035,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "namur",
+    "commune": "Nismes"
+  },
+  {
+    "name": "Petanque Club Tamines Sambre",
+    "lat": 50.4325636,
+    "lon": 4.5915161,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "namur",
+    "commune": "Sambreville"
+  },
+  {
+    "name": "Royal Petanque Club Saint-Servais",
+    "lat": 50.475508,
+    "lon": 4.8404752,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "namur",
+    "commune": "Namur"
+  },
+  {
+    "name": "Royal Pitchoun Petanque Club ASBL",
+    "lat": 50.4561234,
+    "lon": 4.8765518,
+    "region": "wallonie",
+    "federation": "FBFP",
+    "province": "namur",
+    "commune": "Namur"
+  }
+]

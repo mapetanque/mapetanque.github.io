@@ -324,6 +324,11 @@
      Belgique, avec clustering) : cette page construit son propre sous-ensemble juste après. -->
 <script>window.MAPETANQUE_SKIP_DEFAULT_MARKERS = true;</script>
 
+<!-- Restreint la couche clubs (chargée par script.js, voir plus bas) à cette province — même
+     clé que celle utilisée juste après pour filtrer les terrains, namur valant soit
+     le slug de la province, soit celui de la région pour Bruxelles (pas de province dédiée). -->
+<script>window.MAPETANQUE_STATS_GEO_KEY = 'namur';</script>
+
 <!-- Script du site -->
 <script src="/script.js"></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
@@ -415,6 +420,36 @@
                 return layersParCommune[b].length - layersParCommune[a].length;
             });
 
+            // Référence conservée vers le <span> de comptage de chaque commune, pour pouvoir
+            // ajouter/retirer le nombre de clubs sans reconstruire toute la liste (voir
+            // mettreAJourComptagesCommunes plus bas, appelée au chargement de data/clubs.json et
+            // à chaque bascule de la couche clubs — voir clubsParCommune/ClubsToggleControl dans
+            // script.js, chargé sur cette page indépendamment de ce sous-ensemble de terrains).
+            const spansComptageParCommune = {};
+
+            // Construit le texte "x terrains" ou "x terrains, x clubs" (ce dernier uniquement si
+            // la couche clubs est actuellement affichée sur la carte) pour une commune donnée.
+            function texteComptageCommune(nom) {
+                const nbTerrains = layersParCommune[nom].length;
+                const uniteTerrain = nbTerrains > 1 ? 'Plätze' : 'Platz';
+                let texte = nbTerrains + ' ' + uniteTerrain;
+
+                const clubsAffiches = typeof clubsLayer !== 'undefined' && map.hasLayer(clubsLayer);
+                if (clubsAffiches) {
+                    const nbClubs = (window.clubsParCommune && window.clubsParCommune[nom]) || 0;
+                    const uniteClub = nbClubs > 1 ? 'Vereine' : 'Verein';
+                    texte += ', ' + nbClubs + ' ' + uniteClub;
+                }
+
+                return texte;
+            }
+
+            function mettreAJourComptagesCommunes() {
+                Object.keys(spansComptageParCommune).forEach(function (nom) {
+                    spansComptageParCommune[nom].textContent = '(' + texteComptageCommune(nom) + ')';
+                });
+            }
+
             nomsTries.forEach(function (nom) {
                 const item = document.createElement('div');
                 item.className = 'commune-item';
@@ -422,10 +457,18 @@
 
                 const link = document.createElement('a');
                 link.href = '#';
-                const count = layersParCommune[nom].length;
-                const unite = count > 1 ? 'Plätze' : 'Platz';
                 const nomAffiche = window.nomCommuneAffiche(nom, 'de');
-                link.innerHTML = nomAffiche + ' <span class="commune-count">(' + count + ' ' + unite + ')</span>';
+
+                const spanNom = document.createElement('span');
+                spanNom.textContent = nomAffiche + ' ';
+
+                const spanCount = document.createElement('span');
+                spanCount.className = 'commune-count';
+                spanCount.textContent = '(' + texteComptageCommune(nom) + ')';
+                spansComptageParCommune[nom] = spanCount;
+
+                link.appendChild(spanNom);
+                link.appendChild(spanCount);
                 link.addEventListener('click', function (e) {
                     e.preventDefault();
                     const layersCommune = layersParCommune[nom];
@@ -440,6 +483,12 @@
                 item.appendChild(link);
                 conteneurListe.appendChild(item);
             });
+
+            // Réagit à l'arrivée de data/clubs.json (peut résoudre avant ou après ce fetch-ci) et
+            // à chaque coche/décoche de "Afficher les clubs" (voir script.js) pour compléter ou
+            // retirer le comptage de clubs de chaque commune, sans recharger ni reconstruire la liste.
+            window.addEventListener('clubsChargees', mettreAJourComptagesCommunes);
+            window.addEventListener('clubsAffichageChange', mettreAJourComptagesCommunes);
         })
         .catch(function () {
             afficherToast('Impossible de charger les terrains pour le moment');

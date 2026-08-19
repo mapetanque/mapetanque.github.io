@@ -312,6 +312,8 @@ def generer_page(cle, config, langue, langues_disponibles, other_provinces_block
         "{{UI_AUCUNE_COMMUNE}}": tr["stats_no_results"],
         "{{UI_TERRAIN_SINGULIER}}": tr["province_terrain_singulier"],
         "{{UI_TERRAIN_PLURIEL}}": tr["stats_terrains_unit"],
+        "{{UI_CLUB_SINGULIER}}": tr["province_club_singulier"],
+        "{{UI_CLUB_PLURIEL}}": tr["province_clubs_pluriel"],
         "{{UI_META_DESCRIPTION}}": tr["province_meta_description"].format(nom=nom_province),
         "{{OTHER_PROVINCES_BLOCK}}": other_provinces_block,
     }

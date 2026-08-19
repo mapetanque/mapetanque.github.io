@@ -1,0 +1,202 @@
+code;nom;province;region;adresse;latitude;longitude;type_resultat;a_verifier
+02-030;MPC De Rode Loop;Anvers;Flandre;Fortsteenweg 120, 2170 Merksem;51.2619429;4.4598113;/house;
+02-004;PC Aartselaar;Anvers;Flandre;'t Sportzicht - Kleistraat 204, 2630 Aartselaar;;;;oui
+02-017;PC Bernardus;Anvers;Flandre;Pierenbergstraat 65, 2020 Antwerpen;51.1888217;4.3812037;/residential;oui
+02-024;PC Boom;Anvers;Flandre;Kerkhofstraat 88/92, 2850 Boom;51.0924382;4.3775755;/tertiary;oui
+02-008;PC De Lindepet;Anvers;Flandre;Veldstraat 33, 2240 Zandhoven;51.2178520;4.6545232;/residential;oui
+02-007;PC Duffel;Anvers;Flandre;Perwijsstraat 33, 2570 Duffel;51.0920840;4.5132936;/yes;
+02-026;PC Hemelhof;Anvers;Flandre;Hemeldreef 5, 2930 Brasschaat;51.2862727;4.4928498;/unclassified;oui
+02-014;PC Herentals;Anvers;Flandre;Wijngaard 8, 2200 Herentals;51.1917273;4.8382843;/house;
+02-034;PC Kalmthout;Anvers;Flandre;Heikantstraat 60, 2920 Kalmthout;51.3779266;4.4794077;/sports_centre;oui
+02-001;PC Kontich;Anvers;Flandre;Keizershoek 196 B, 2550 Kontich;51.1251522;4.4382638;/sport;oui
+02-009;PC Lier;Anvers;Flandre;Kazernedreef 99, 2500 Lier;51.1308850;4.5602474;/residential;oui
+02-003;PC Lint;Anvers;Flandre;Kontichsesteenweg 83, 2547 Lint;51.1284977;4.4813236;/tertiary;oui
+02-020;PC Markdal;Anvers;Flandre;Hoogeind 74c, 2321 Meer-Hoogstraten;51.4748845;4.7408659;/house;
+02-002;PC Meerosa;Anvers;Flandre;Peter Benoitlaan zn, 2100 Deurne;51.2105602;4.4796758;/unclassified;oui
+02-022;PC Mercurius;Anvers;Flandre;Hoofdfrontweg 3/10, 2660 Hoboken;51.1647994;4.3493421;/unclassified;oui
+02-013;PC Mol;Anvers;Flandre;Spoorwegstraat 27/1, 2400 Mol;51.1846260;5.0811864;/unclassified;oui
+02-005;PC Niel;Anvers;Flandre;Legastraat 21, 2845 Niel;51.1018944;4.3321617;/sport;oui
+02-011;PC Rozemaai;Anvers;Flandre;Leo Baekelandstraat 2, 2180 Ekeren;51.2720462;4.4107009;/residential;oui
+02-010;PC Technico;Anvers;Flandre;Smiskensstraat 45, 2300 Turnhout;51.3142164;4.9458372;/sports_centre;oui
+02-021;PC Wijnegem;Anvers;Flandre;Kasteellei 79A, 2110 Wijnegem;51.2235199;4.5384171;/yes;
+02-012;PC de Nete;Anvers;Flandre;Grote Puttingbaan 4, 2560 Kessel;51.1487257;4.6337715;/sports_centre;oui
+02-006;PK De Evers;Anvers;Flandre;Fort II straat, 2160 Wommelgem;51.2010006;4.4910254;/living_street;oui
+02-019;Putse Petanque;Anvers;Flandre;Mechelbaan 604, 2580 Putte;51.0509252;4.6138153;/community_centre;oui
+04-003;KPC Tienen;Brabant flamand;Flandre;Sporthalstraat 8, 3300 Tienen;50.8200337;4.9412429;/sports_centre;oui
+04-005;PC Beersel;Brabant flamand;Flandre;Goutstouwersstraat 59, 1651 Lot;50.7586632;4.2783325;/residential;oui
+04-011;PC De Blockskes;Brabant flamand;Flandre;Processiebaan 5, 1785 Merchtem;50.9855110;4.2247869;/residential;oui
+04-018;PC De Valkerij (Tervuren);Brabant flamand;Flandre;Oppemstraat 57, 3080 Tervuren;50.8294358;4.5069284;/yes;
+04-025;PC Dilbeek;Brabant flamand;Flandre;Bal-O-Droom, d'Arconatistraat 3, 1700 Dilbeek;;;;oui
+04-007;PC Hap (Asse);Brabant flamand;Flandre;Broekeweg Z/N, 1730 Asse;;;;oui
+04-020;PC Vilvoorde;Brabant flamand;Flandre;Perksestraat 288, 1800 Vilvoorde;50.9285529;4.4487423;/residential;oui
+04-001;PC Wemmel;Brabant flamand;Flandre;Steenweg op Brussel 113, 1780 Wemmel;50.9035870;4.3040346;/yes;
+04-027;Petanque Club Affligem;Brabant flamand;Flandre;Brusselsebaan 182, 1790 Affligem;;;;oui
+04-031;Petanque Kerkom;Brabant flamand;Flandre;Schoolstraat 15, 3370 Boutersem;50.8289909;4.8332045;/community_centre;oui
+04-030;Petanqueclub Leuven;Brabant flamand;Flandre;Aarschotsesteenweg 334, 3000 Leuven;50.9105821;4.7138080;/yes;oui
+04-010;S.P.E.M. Petek (Everberg);Brabant flamand;Flandre;Sint-Pietersplein 10, 3071 Erps-Kwerps;50.9058379;4.5697787;/yes;
+04-006;Singel PC (Strombeek);Brabant flamand;Flandre;Grimbergsesteenweg 99A, 1850 Grimbergen;50.9133332;4.3588537;/sport;oui
+05-017;Blankenbergse PC;Flandre occidentale;Flandre;Koning Albert 1 laan 114, 8370 Blankenberge;;;;oui
+05-007;KPC De Bevers;Flandre occidentale;Flandre;Weversstraat 39, 8790 Waregem;50.8870230;3.4180286;/residential;oui
+05-016;Nieuwpoortse PC;Flandre occidentale;Flandre;Dudenhoflaan 2A, 8620 Nieuwpoort;;;;oui
+05-009;Oostendse PC;Flandre occidentale;Flandre;Steensedijk 2, 8400 Oostende;51.2015896;2.9181235;/sports_centre;oui
+05-022;PC De Bouchon;Flandre occidentale;Flandre;Hof Van Straeten 2, 8490 Varsenare;51.1911525;3.1420921;/sports_centre;oui
+05-005;PC De Gulden Kamer;Flandre occidentale;Flandre;Blauwkasteelweg 28A, 8310 Sint-Kruis Brugge;51.2161679;3.2444408;/residential;oui
+05-026;PC De Vuurtoren;Flandre occidentale;Flandre;Heistlaan 124, 8301 Knokke-Heist;51.3350690;3.2342643;/school;oui
+05-015;PC De Zeemeermin;Flandre occidentale;Flandre;Duinenweg 427, 8430 Middelkerke;51.1800926;2.8052536;/yes;
+05-004;PC Den Akker;Flandre occidentale;Flandre;Sportstraat 1, 8730 Oedelem;51.1673905;3.3327531;/yes;
+05-008;PC Gullegem;Flandre occidentale;Flandre;Kwadries 78, 8560 Gullegem;50.8480334;3.2022039;/sport;oui
+05-036;PC Jeanne d'Arc;Flandre occidentale;Flandre;Veurnestraat 24, 8660 De Panne;51.0951568;2.5898162;/house;
+05-023;PC Koksijde;Flandre occidentale;Flandre;Hazebeekstraat 11, 8670 Oostduinkerke;51.1161064;2.6886751;/sports_centre;oui
+05-001;PC Kortrijk;Flandre occidentale;Flandre;Leynvaalstraat 2, 8501 Kortrijk;;;;oui
+05-030;PC Le Pastis;Flandre occidentale;Flandre;Lisseweegsesteenweg 102, 8380 Zeebrugge;;;;oui
+05-039;PC Leiemeers;Flandre occidentale;Flandre;Luitenant Gen. Gérardstraat 64, 8520 Kuurne;50.8468890;3.2892065;/unclassified;oui
+05-021;PC Lisseweg;Flandre occidentale;Flandre;Stationsstraat 9, 8380 Lissewege;51.2943463;3.1962677;/house;
+05-010;PC Okapi;Flandre occidentale;Flandre;Otegemsestraat 238, 8550 Zwevegem;;;;oui
+05-038;PC Ricard Oostkamp;Flandre occidentale;Flandre;Stationsstraat 4, 8020 Oostkamp;51.1543786;3.2358459;/apartments;oui
+05-034;PC Wijnendale;Flandre occidentale;Flandre;Baarsstraat 10, 8820 Wijnendale;51.0922748;3.0704262;/house;
+05-018;Poperingse Petanquekoppen;Flandre occidentale;Flandre;Duinkerkestraat 157, 8970 Poperinge;50.8568992;2.7094484;/yes;
+01-002;KP Mistral;Flandre orientale;Flandre;Bosheidestraat 7, 9070 Heusden;51.0146874;3.8177673;/sport;oui
+01-014;KP Verbroedering;Flandre orientale;Flandre;Ovenveldstraat 9, 9090 Merelbeke-Melle;50.9948095;3.8069227;/sports_centre;oui
+01-006;KPC Alosta;Flandre orientale;Flandre;Domein Beukenhof, Langestraat 12, 9300 Aalst;;;;oui
+01-005;KPC Schorpioen;Flandre orientale;Flandre;Botestraat 98A, 9032 Wondelgem;51.0882236;3.7028565;/sports_centre;oui
+01-009;PC Apollo;Flandre orientale;Flandre;Square J. Geerinckx 1, 9300 Aalst;;;;oui
+01-017;PC Chapoo;Flandre orientale;Flandre;Klein Zottegem 42, 9520 Letterhoutem;50.9259334;3.8842962;/house;oui
+01-039;PC Donkmeer;Flandre orientale;Flandre;Dendermondsesteenweg 43, 9290 Berlare;51.0487002;3.9704822;/laundry;oui
+01-003;PC Haeseveld;Flandre orientale;Flandre;Wellingstraat 95, 9070 Heusden;51.0088425;3.8075815;/yes;
+01-011;PC Heirnis;Flandre orientale;Flandre;Snoeckstraat 101, 9000 Gent;;;;oui
+01-022;PC Hof Ter Burst;Flandre orientale;Flandre;Hof Ter Burstlaan 13, 9280 Lebbeke;;;;oui
+01-016;PC Lokeren;Flandre orientale;Flandre;Nieuwe Heirweg 19, 9180 Lokeren;;;;oui
+01-036;PC Oudenaarde;Flandre orientale;Flandre;Galgestraat 75, 9700 Oudenaarde;50.8536777;3.6151502;/yes;
+01-008;PC Patijntje;Flandre orientale;Flandre;Patijntjestraat 27, 9000 Gent;51.0396147;3.7082307;/yes;
+01-012;PC Reynaert;Flandre orientale;Flandre;Oude Bruglaan 49, 9160 Lokeren;51.1031856;4.0007973;/primary;oui
+01-010;PC Stekene;Flandre orientale;Flandre;Nieuwstraat 60G, 9190 Stekene;51.2077033;4.0454029;/residential;oui
+01-037;PC Terheiden;Flandre orientale;Flandre;Kerkstraat 73, 9406 Outer (Ninove);50.8645200;3.9784980;/pub;oui
+01-007;PC Zelzate;Flandre orientale;Flandre;Broeder Leopoldstraat, 9060 Zelzate;51.1894517;3.8093489;/unclassified;oui
+03-030;Bocholter Petanque;Limbourg;Flandre;Eikenlaan z/n, 3950 Bocholt;;;;oui
+03-020;Inter Lommel Petanque;Limbourg;Flandre;Vreyshorring 143, 3920 Lommel;51.2247246;5.3080798;/house;
+03-007;PC Boekt;Limbourg;Flandre;Ubbelstraat 104, 3550 Heusden-Zolder;51.0115125;5.2810145;/community_centre;oui
+03-009;PC De Berk;Limbourg;Flandre;Valentinusweg 50, 3550 Heusden-Zolder;;;;oui
+03-029;PC De Venne;Limbourg;Flandre;Hurbroekstraat z/n, 3540 Herk-de-Stad;;;;oui
+03-032;PC Fenix;Limbourg;Flandre;Kramerslaan 1A, 3500 Hasselt;50.9226463;5.3215350;/residential;oui
+03-008;PC Genenbos;Limbourg;Flandre;Boskesstraat 1, 3560 Lummen;;;;oui
+03-014;PC Genk;Limbourg;Flandre;Melbergstraat 1 bus 2, 3600 Genk;50.9516315;5.4877696;/tertiary;oui
+03-004;PC Hasselt;Limbourg;Flandre;Kramerslaan 1A, 3500 Hasselt;50.9226463;5.3215350;/residential;oui
+03-003;PC Kelchteren;Limbourg;Flandre;Oudstrijderslaan 44c, 3530 Houthalen-Helchteren;51.0381988;5.3744907;/residential;oui
+03-024;PC Maaseik;Limbourg;Flandre;Koningin Astridlaan 91, 3680 Maaseik;51.0979584;5.7742635;/school;oui
+03-022;PC Meldert;Limbourg;Flandre;Meldertsebaan 1, 3560 Meldert;50.9974351;5.1433618;/house;
+03-021;PC Oetervallei;Limbourg;Flandre;Eikenlaan z/n, 3950 Bocholt;;;;oui
+03-001;PC Olympia;Limbourg;Flandre;Veenderweg 48, 3550 Heusden-Zolder;51.0300609;5.2655019;/sports_centre;oui
+03-006;PC Opec;Limbourg;Flandre;Oude Kerkstraat 24B, 3660 Opglabbeek;51.0551911;5.5905389;/residential;oui
+03-033;PC Royal Hasselt Yachting Club;Limbourg;Flandre;Hoogbrugkaai 91, 3800 Hasselt;50.9436791;5.3348386;/yes;oui
+03-002;PC Sparrendal;Limbourg;Flandre;Roelerdreef 17, 3620 Lanaken;50.9009093;5.6315212;/residential;oui
+03-023;PC St.-Truiden;Limbourg;Flandre;Tiensesteenweg 168, 3800 Sint-Truiden;50.8134998;5.1662905;/pitch;oui
+03-028;PC Terbiest;Limbourg;Flandre;Hasseltsesteenweg 103, 3800 Sint-Truiden;50.8291478;5.2065964;/community_centre;oui
+03-015;PC Tongeren;Limbourg;Flandre;Bilzersteenweg 36A, 3700 Tongeren;50.8541914;5.4950265;/house;oui
+03-011;PC Zig Zag;Limbourg;Flandre;Oude Baan z/n, 3945 Ham;;;;oui
+03-012;Pelter PC;Limbourg;Flandre;Sportpark 4, 3910 Pelt;51.2156504;5.4462473;/sports_hall;oui
+A17;Amicale Anderlechtoise P.C.;Bruxelles-Capitale;Bruxelles-Capitale;Dreve Olympique, 60 - 1070 Anderlecht;50.8213476;4.2744595;/yes;
+A10;Forever Saint Josse;Bruxelles-Capitale;Bruxelles-Capitale;Avenue des Communautés, 6 - 1140 Evere;50.8594075;4.4228293;/house;
+A09;New Ixelles;Bruxelles-Capitale;Bruxelles-Capitale;rue des Brebis, 48 - 1050 Bruxelles;50.8123555;4.3933610;/residential;oui
+04-004;PC Esseghem (Jette);Bruxelles-Capitale;Bruxelles-Capitale;Rue Jules Lahaye 304, 1020 Bruxelles;50.8809184;4.3375838;/service;oui
+A40;PC Etterbeekois;Bruxelles-Capitale;Bruxelles-Capitale;Rue Général Tombeur, 53 - 1040 Etterbeek;50.8355579;4.3957368;/house;
+A29;PC Le Domaine;Bruxelles-Capitale;Bruxelles-Capitale;rue Robert Scott, 14 - 1180 Bruxelles (Royal P.U.C.);;;;oui
+A33;PC Le Silence;Bruxelles-Capitale;Bruxelles-Capitale;Boulodrome Ch. PICQUE - rue de l'Hôtel des Monnaies, 108 - 1060 Bruxelles;;;;oui
+A47;PC New F.E.S.;Bruxelles-Capitale;Bruxelles-Capitale;Rue des Deux Maisons, 34-36 1140 Bruxelles;50.8610757;4.4173074;/residential;oui
+A46;Petanque Club Saint-Gillois;Bruxelles-Capitale;Bruxelles-Capitale;rue de l'Hôtel des Monnaies, 108 - 1060 St-Gilles;50.8297698;4.3475182;/yes;
+A18;Pétanque Auderghem Sainte Anne (P.A.S.A.);Bruxelles-Capitale;Bruxelles-Capitale;rue du Vieux Moulin, 23 - 1160 Auderghem;50.8172788;4.4296944;/house;
+A43;Royal PC Cite Modele;Bruxelles-Capitale;Bruxelles-Capitale;Allée de l'Amethyste, 6B - 1020 Bruxelles;50.8972307;4.3248842;/footway;oui
+A39;Royal PC Elite;Bruxelles-Capitale;Bruxelles-Capitale;Rue Saint Lambert, 34 - 1200 Bruxelles;50.8444330;4.4356537;/residential;oui
+A14;Royal PC Floreal;Bruxelles-Capitale;Bruxelles-Capitale;Avenue des Nymphes 1a, 1170 Bruxelles;50.8068065;4.4113209;/house;
+A30;Royal PC Joli-Bois;Bruxelles-Capitale;Bruxelles-Capitale;Rue Balis, 2 - 1150 Bruxelles;50.8226703;4.4624487;/yes;
+A34;Royal Petanque Club De Rivieren;Bruxelles-Capitale;Bruxelles-Capitale;rue au bois, 14 - 1083 Ganshoren;50.8817620;4.2999753;/pitch;oui
+A27;Royal Petanque Club Le Frankveld ASBL;Bruxelles-Capitale;Bruxelles-Capitale;Bd de la 2ème Armée Britannique, 520 - 1190 Bruxelles (Forest);;;;oui
+A08;Royal Petanque Uccle Centre;Bruxelles-Capitale;Bruxelles-Capitale;rue Robert Scott, 14 - 1180 Uccle;50.8002966;4.3391987;/house;
+A23;Royale P.U.S.;Bruxelles-Capitale;Bruxelles-Capitale;rue Zwartebeek, 21 - 1180 Bruxelles;50.7974969;4.3193558;/yes;
+A24;AS Beauchamp;Brabant wallon;Wallonie;Place de la Constellation, 3 - 1300 Limal;50.7105404;4.5580338;/yes;
+A35;ASBL Petanque Club De Genappe;Brabant wallon;Wallonie;rue de Ways, 115z - 1470 Genappe;50.6107468;4.4512987;/secondary;oui
+A21;Kiki Tubizien;Brabant wallon;Wallonie;Chemin Massart, 66a - 1480 Tubize;50.6820981;4.1968156;/unclassified;oui
+A12;La Petanque Jauchoise;Brabant wallon;Wallonie;Ruelle du Cuvé, 2 - 1350 Orp-Jauche;50.6813490;4.9590659;/community_centre;oui
+A05;La Wavrienne;Brabant wallon;Wallonie;Avenue du Centre Sportif, 20 - 1300 Wavre;50.7224722;4.6191427;/residential;oui
+A31;PC Caramboul;Brabant wallon;Wallonie;Chaussée Maîeur Habils,145 - 1430 Bierghes;50.6928663;4.1099502;/primary;oui
+A44;Pachy PC;Brabant wallon;Wallonie;Rue Théophile Delbar, 33/4 - 1410 Waterloo;50.7165638;4.3966071;/residential;oui
+A02;Petanque Club Genval;Brabant wallon;Wallonie;rue de la Fontaine, 3 - 1332 Genval;50.7150174;4.5000199;/unclassified;oui
+A13;Royal Blanc Ry Ottignies;Brabant wallon;Wallonie;Bld Baudouin 1er - 1348 Louvain-La-Neuve;;;;oui
+A37;Royal CP Limaloise;Brabant wallon;Wallonie;Rue Bois l'Abbé, 7 - 1300 Limal;50.6904336;4.5793558;/yes;
+A28;Royal PC Paradis;Brabant wallon;Wallonie;rue Ernest Laurent 215 - 1420 Braine-L'Alleud;50.6783372;4.3861690;/sports_centre;oui
+A25;Royal Petanque Club La Hulpe;Brabant wallon;Wallonie;Avenue René Soyer, 7 - 1310 La Hulpe;50.7301392;4.4929591;/residential;oui
+A19;Royal Petanque Club Nivelloise;Brabant wallon;Wallonie;Chaussée de Bruxelles, 91b - 1400 Nivelles;50.6102153;4.3359167;/sports_centre;oui
+H03;Climbia's La Ruche;Hainaut;Wallonie;Rue Puissant - 6040 Jumet (Cfr H20 PC A.S. Jumet);;;;oui
+H06;Ernelle Monceau;Hainaut;Wallonie;rue Albert Camus, 20 - 6031 Monceau;50.4122036;4.3823876;/sports_centre;oui
+H14;Kiki Leval PC;Hainaut;Wallonie;rue Jean Leroy, 1 - 6500 Leval-Chaudeville;50.2355162;4.2272783;/residential;oui
+H04;La Fanny Bivort;Hainaut;Wallonie;rue de Forchies, 14 - 6140 Fontaine L'Evêque;50.4192352;4.3272867;/secondary;oui
+H08;La Petanque Montoise;Hainaut;Wallonie;rue de la Boulangerie, 2 - 7000 Mons;50.4467645;3.9511241;/residential;oui
+H17;Les Boules Noires;Hainaut;Wallonie;rue Pont d'Arcole, 65 - 6060 Gilly;;;;oui
+H33;Les Six Boulettes Elouges;Hainaut;Wallonie;Route d'Elouges - 7370 Elouges;50.3906038;3.7772943;/secondary;oui
+H32;Masice Ravel Petanque;Hainaut;Wallonie;rue des Anglais, 12B - 7333 Tertre;50.4567898;3.7771252;/residential;oui
+H20;PC A.S. Jumet;Hainaut;Wallonie;Rue du Chemin Vert, 25B - 6042 Lodelinsart;50.4290532;4.4418994;/residential;oui
+H09;PC Au Boule'o;Hainaut;Wallonie;Chaussée de Jolimont, 50 - 7100 Haine-Saint-Pierre;50.4766139;4.2213752;/retail;oui
+H19;PC Boussu;Hainaut;Wallonie;rue Zéphirin Caron, 1 - 7333 Tertre;50.4687935;3.8077640;/residential;oui
+H27;PC Chatelet;Hainaut;Wallonie;rue de Couillet, 146B - 6200 Chatelet;50.3973558;4.4967031;/secondary;oui
+H07;PC La Botte;Hainaut;Wallonie;rue de la Gendarmerie, 1 - 6590 Momignies;50.0268926;4.1693303;/house;
+H11;PC Le Pays Noir Farciennes;Hainaut;Wallonie;rue Centrale, 45 - 6240 Pironchamps;50.4329850;4.5250064;/house;
+H26;PC Lessines;Hainaut;Wallonie;rue du Pont de pierre, 1 - 7860 Lessines;50.7114059;3.8331905;/sports_centre;oui
+H12;PC Lutosa;Hainaut;Wallonie;Avenue des Sports, 1 - 7900 Leuze-En-Hainaut;50.5891441;3.6176559;/house;
+01-024;PC Moeskroen;Hainaut;Wallonie;Av. de la Bourgogne 1, 7700 Mouscron;50.7411533;3.1895321;/residential;oui
+H23;PC Tertre Esperance;Hainaut;Wallonie;rue Zéphirin Caron, 1 - 7333 Tertre;50.4687935;3.8077640;/residential;oui
+H16;PC Thulisien;Hainaut;Wallonie;Place de Thuillies, 2 - 6536 Thuillies;50.2938273;4.3298336;/unclassified;oui
+H15;Petanque Club Le Roux;Hainaut;Wallonie;rue de la Maladrie, 9A - 5070 Le Roux;50.3924227;4.6216384;/yes;
+H05;Petanque Club Les Marsupilamis;Hainaut;Wallonie;rue de Sourenne, 9A - 6470 Sautin (Sivry-Rance);50.1640670;4.2227739;/public;oui
+H10;Petanque Frasnoise;Hainaut;Wallonie;rue Jean-Baptiste Loriaux, 3A - 6210 Les Bons Villiers (Complexe sportif);;;;oui
+H01;Royal PC Les Carolos;Hainaut;Wallonie;Rue du Chemin Vert ,125B - 6042 Lodelinsart;50.4277489;4.4449295;/sports_centre;oui
+H02;Royal Petanque Club Marcinelle;Hainaut;Wallonie;Av. Eugène Mascaux, 879 - 6001 Marcinelle;50.3795223;4.4252823;/house;
+H30;Tournai Petanque Club (Tpc);Hainaut;Wallonie;Rue Albert 1er ,112 - 7538 Vezon;50.5715177;3.5046843;/tertiary;oui
+B13;Bon Accueil Seresien;Liège;Wallonie;rue Colson, 29 - 4100 Seraing;50.6025270;5.5119157;/yes;
+B22;C.P.G.H.;Liège;Wallonie;rue Adrien Materne, 80 - 4460 Grâce-Hollogne;50.6441991;5.5065795;/sports_centre;oui
+B21;La Blegnytoise;Liège;Wallonie;rue d'El Potale, 42 - 4671 Barchon;;;;oui
+B32;La Boule Anthisnoise ASBL;Liège;Wallonie;rue de la Libération, 1 - 4160 Anthisnes;50.4738844;5.5118865;/yes;
+B09;La Boule D'Aaz De Haccourt;Liège;Wallonie;rue des 7 Bonniers, 25 - 4684 Haccourt;50.7375441;5.6711698;/residential;oui
+B34;La Fanny Pepinster;Liège;Wallonie;rue Jean Simon, 9 - 4860 Pepinster;50.5664760;5.8020565;/yes;
+B20;La Fanny Visetoise;Liège;Wallonie;Porte de Souvré, 18 - 4600 Vise;50.7320438;5.6947687;/yes;
+B16;Lam's PC Forever;Liège;Wallonie;rue des 7 Bonniers, 25 - 4684 Haccourt (Pistes du B09);;;;oui
+B37;Le Carreau Hannutois;Liège;Wallonie;rue Lambert Mottart, 21 - 4280 Hannut;50.6676550;5.0820532;/community_centre;oui
+B49;Le Muguet Laminois;Liège;Wallonie;rue de la Victoire, 64 - 4350 Remicourt;50.6844689;5.3323365;/residential;oui
+B45;Les Boutons D'Or;Liège;Wallonie;rue du Beau Site, 25 - 4400 Flemalle;50.5969640;5.4480226;/community_centre;oui
+B14;Les Cigales De Boncelles;Liège;Wallonie;rue Victor Yansenne - 4510 Beyne-Heusay (Pistes du B43);;;;oui
+B04;Marius Petank's Club Omal;Liège;Wallonie;rue Jules Stiernet, 82 - 4252 Omal;50.6552931;5.1995255;/yes;oui
+B03;P.C. Beyne;Liège;Wallonie;rue Victor Yansenne, 2 - 4610 Beyne-Heusay;50.6281189;5.6450015;/yes;
+B10;PC Boulewanis;Liège;Wallonie;Rue du Brouck, 12 - 4300 Waremme;50.6956721;5.2049977;/house;oui
+B08;PC Esneux;Liège;Wallonie;rue d'Evieux, 51 - 4130 Esneux;;;;oui
+B26;PC La Romseenne;Liège;Wallonie;Avenue Thomas Leclercq, 28b - 4624 Romsee;50.6108255;5.6714147;/living_street;oui
+B40;PC Mabotte;Liège;Wallonie;rue Waleffe, 86 - 4101 Jemeppe Sur Meuse;50.6260220;5.5145888;/tertiary;oui
+B17;PC Malmedy;Liège;Wallonie;rue Frédéric Lang - 4960 Malmedy;50.4258006;6.0206609;/residential;oui
+B41;PC Moha;Liège;Wallonie;rue des Bruyères, 500a - 4520 Moha;50.5516914;5.1925947;/yes;
+B27;PC Oreye;Liège;Wallonie;Grand Route, 132/4 - 4360 Oreye;50.7316518;5.3426020;/primary;oui
+B12;PC Sprimont;Liège;Wallonie;rue Neronry, 21 - 4140 Sprimont;50.5130069;5.6619772;/residential;oui
+B11;PC Tivoli - Herbesthal;Liège;Wallonie;rue de la Gare, 20 - 4710 Herbesthal;;;;oui
+B15;Petanque New Esneux;Liège;Wallonie;rue d'Evieux, 51 - 4130 Esneux;;;;oui
+B05;Pétanque Club La Boule Vottemoise D'Herstal;Liège;Wallonie;rue Haute Marexhe, 142 - 4040 Herstal;50.6560658;5.6208243;/residential;oui
+B30;Royal PC Wanze;Liège;Wallonie;rue Arthur Galand, 26a - 4520 Wanze;50.5349366;5.2102893;/tertiary;oui
+B06;Royal Petanque Club Embourg;Liège;Wallonie;rue des Coquelicots, 2 - 4053 Embourg;;;;oui
+B43;Royal Petanque Club La Moisson;Liège;Wallonie;rue Victor Yansenne, 2- 4610 Beyne-Heusay;50.6281189;5.6450015;/yes;
+B23;Royale Petanque Hutoise;Liège;Wallonie;rue de la Campagne, 36 - 4500 Huy;50.5305418;5.2550397;/residential;oui
+E09;Abc Durbuy PC;Luxembourg;Wallonie;Fond Sainte-Anne, 3 - 6940 Durbuy-Bohon;50.3554979;5.4756065;/sports_centre;oui
+E07;Arel Boules Club;Luxembourg;Wallonie;La Cova - Chemin de la Hart - 6700 Arlon (Eté) - La Grange - Rue de Schoppach - 6700 Arlon (Hiver);;;;oui
+E03;La Boule Bastognarde;Luxembourg;Wallonie;Rue de la Californie, 42 - 6600 Bastogne;50.0020213;5.7244097;/yes;
+E12;La Boule Feodale Latour;Luxembourg;Wallonie;Rue Baillet-Latour , 26A - 6761 Latour;49.5557179;5.5829821;/secondary;oui
+E01;La Mechoise;Luxembourg;Wallonie;rue de Launoy - 6769 Meix-Devant-Virton;49.6043971;5.4830461;/tertiary;oui
+E05;Les 3 Frontieres Longeau;Luxembourg;Wallonie;rue d'Athus, 8 - 6780 Longeau;49.5779845;5.8332097;/house;
+E02;PC Gouvy;Luxembourg;Wallonie;rue d'Houffalize, 22 - 6670 Gouvy;50.1864830;5.9468946;/residential;oui
+E10;PC Lhomme;Luxembourg;Wallonie;Rue de la Lhomme, 53E - 5580 Jemelle;50.1626844;5.2567820;/residential;oui
+E11;PC Rochefortois;Luxembourg;Wallonie;Rue de la Lhomme, 53E - 5580 Jemelle;50.1626844;5.2567820;/residential;oui
+E04;PC Saint-Hubert;Luxembourg;Wallonie;Avenue des Chasseurs Ardennais, 7 - 6870 Saint-Hubert;50.0271052;5.3703803;/secondary;oui
+E08;PC Val D'Attert;Luxembourg;Wallonie;Voie de la Liberté, 115 - 6717 Attert;49.7591957;5.7752702;/trunk_link;oui
+E06;Royal PC Aubange;Luxembourg;Wallonie;Rue du Stade - 6790 Aubange;49.5636880;5.8004732;/unclassified;oui
+D08;ASBL Petanque Beauraing;Namur;Wallonie;rue Lieutenant Tholomé, 23 Bte 35 - 5570 Baronville (Beauraing);;;;oui
+D18;La Fanny Nismoise;Namur;Wallonie;Parc communal - 5670 Nismes;50.0752309;4.5499914;/service;oui
+D09;La Petanque Belgradoise;Namur;Wallonie;rue des Tautis, 1 - 5020 Belgrade;50.4711229;4.8251365;/school;oui
+D06;Le Cochonnet Mosan;Namur;Wallonie;Avenue des Combattants - 5500 Dinant;50.2542751;4.9130451;/primary;oui
+D04;New PC Velainois;Namur;Wallonie;rue Jules Destrée, 19 - 5060 Velaine-Sur-Sambre;50.4702875;4.6080785;/yes;
+D07;PC Les Crayas;Namur;Wallonie;Parc communal de Nismes , 1 - 5670 Nismes (Eté) - rue de la Gare, 101 - 5670 Treignes (Hiver);;;;oui
+D05;Petanque Club Tamines Sambre;Namur;Wallonie;rue de l'Ecluse, 1/A - 5060 Tamines (Sambreville);50.4325636;4.5915161;/public;oui
+D02;Royal Petanque Club Saint-Servais;Namur;Wallonie;Rue du Beau-Vallon, 162 - 5002 Saint-Servais;50.4755080;4.8404752;/yes;
+D03;Royal Pitchoun Petanque Club ASBL;Namur;Wallonie;rue Baivy, 26/28 - 5100 Jambes;50.4561234;4.8765518;/yes;
