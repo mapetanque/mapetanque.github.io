@@ -381,7 +381,15 @@
                 return;
             }
 
-            const groupe = L.layerGroup();
+            // Regroupement (clustering) des terrains, comme sur la page d'accueil et les pages
+            // région — jusqu'ici cette page utilisait un simple L.layerGroup (pas de
+            // regroupement), ce qui pouvait ralentir sensiblement le pan/zoom sur mobile pour les
+            // provinces comptant beaucoup de terrains. Même seuil que partout ailleurs sur le site
+            // (disableClusteringAtZoom: 16) : au clic sur une commune n'ayant qu'un seul terrain
+            // plus bas, fitBounds({maxZoom:16}) zoome exactement jusqu'à ce seuil, où le
+            // regroupement est déjà désactivé — le marqueur est donc bien individualisé avant
+            // l'appel à openPopup() juste après, sans changement nécessaire à cette logique.
+            const groupe = L.markerClusterGroup({ disableClusteringAtZoom: 16 });
             const layersParCommune = {};
 
             featuresProvince.forEach(function (feature) {

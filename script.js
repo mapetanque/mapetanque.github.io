@@ -207,7 +207,14 @@ const VUE_CARTE_INITIALE = { center: [50.8503, 4.3517], zoom: 8 };
 // n'aidait (le premier tap la plupart du temps sur un terrain/cluster plutôt que sur une zone
 // vide, rendant la désactivation quasi permanente en pratique).
 const map = L.map('map', {
-    scrollWheelZoom: false
+    scrollWheelZoom: false,
+    // Sensibilité de la molette : Leaflet accumule le défilement et change de niveau de zoom
+    // tous les wheelPxPerZoomLevel pixels équivalents (défaut : 60, ce qui fait sauter plusieurs
+    // niveaux d'un coup pour un seul cran de molette sur la plupart des souris/OS, contrairement
+    // aux boutons +/-  qui avancent toujours d'exactement un niveau). Valeur relevée pour se
+    // rapprocher d'un niveau par cran — à ajuster ici si ce n'est pas encore le bon compte selon
+    // la souris utilisée pour tester (plus haut = molette moins sensible, plus bas = plus sensible).
+    wheelPxPerZoomLevel: 320
 }).setView(VUE_CARTE_INITIALE.center, VUE_CARTE_INITIALE.zoom);
 
 // Active la molette de la carte au tout premier clic, où qu'il ait lieu sur la carte, y compris

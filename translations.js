@@ -93,7 +93,10 @@ const translations = {
                 q: "D'où viennent les informations affichées sur la carte ?",
                 a: "Les terrains affichés proviennent des données libres d'OpenStreetMap. Mapetanque.be récupère " +
                    "chaque lundi ces informations afin de proposer une carte actualisée des terrains de pétanque " +
-                   "en Belgique."
+                   "en Belgique. Les clubs affiliés, quant à eux, proviennent des informations publiées sur les " +
+                   "pages des fédérations wallonne et flamande, ainsi que de leurs provinces respectives. Ces " +
+                   "informations peuvent parfois ne plus être à jour : n'hésitez pas à me contacter par e-mail " +
+                   "📧 mapetanque@outlook.be pour signaler une erreur."
             },
             {
                 q: "Comment trouver un terrain près de moi ?",
@@ -247,7 +250,10 @@ const translations = {
                 q: "Waar komt de informatie op de kaart vandaan?",
                 a: "De weergegeven terreinen zijn afkomstig van de vrije gegevens van OpenStreetMap. Mapetanque.be " +
                    "haalt deze informatie elke maandag op om een bijgewerkte kaart van de petanquebanen in " +
-                   "België aan te bieden."
+                   "België aan te bieden. De aangesloten clubs zijn op hun beurt afkomstig van de informatie " +
+                   "gepubliceerd op de pagina's van de Waalse en Vlaamse federatie, evenals van hun " +
+                   "respectieve provincies. Deze informatie kan soms verouderd zijn: aarzel niet om ons te " +
+                   "contacteren per e-mail 📧 mapetanque@outlook.be om een fout te melden."
             },
             {
                 q: "Hoe vind ik een terrein in mijn buurt?",
@@ -403,7 +409,11 @@ const translations = {
                 q: "Woher stammen die auf der Karte angezeigten Informationen?",
                 a: "Die angezeigten Plätze stammen aus den freien Daten von OpenStreetMap. Mapetanque.be ruft " +
                    "diese Informationen jeden Montag ab, um eine aktualisierte Karte der Pétanque-Plätze in " +
-                   "Belgien anzubieten."
+                   "Belgien anzubieten. Die angeschlossenen Vereine wiederum stammen aus den Informationen, " +
+                   "die auf den Seiten des wallonischen und des flämischen Verbands sowie ihrer jeweiligen " +
+                   "Provinzen veröffentlicht wurden. Diese Informationen sind möglicherweise nicht mehr " +
+                   "aktuell: Zögern Sie nicht, uns per E-Mail zu kontaktieren 📧 mapetanque@outlook.be, um " +
+                   "einen Fehler zu melden."
             },
             {
                 q: "Wie finde ich einen Platz in meiner Nähe?",
