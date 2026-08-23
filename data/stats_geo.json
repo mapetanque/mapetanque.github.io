@@ -1,6 +1,6 @@
 {
   "wallonie": {
-    "total": 450,
+    "total": 452,
     "provinces": {
       "liege": {
         "total": 159,
@@ -77,7 +77,7 @@
         }
       },
       "namur": {
-        "total": 91,
+        "total": 93,
         "communes": {
           "Hamois": 1,
           "Vencimont": 1,
@@ -125,7 +125,8 @@
           "Yvoir": 1,
           "Hastière-Lavaux": 1,
           "Bohan": 2,
-          "Blaimont": 1
+          "Blaimont": 1,
+          "Houyet": 2
         }
       },
       "luxembourg": {
@@ -152,7 +153,7 @@
           "Torgny": 1,
           "Journal": 1,
           "Opont": 1,
-          "Herbeumont": 1,
+          "Straimont": 1,
           "Fauvillers": 1,
           "Durbuy": 2,
           "Houffalize": 1,
@@ -183,7 +184,7 @@
           "Villers-la-Ville": 2,
           "Rebecq-Rognon": 1,
           "Ramillies": 1,
-          "Incourt": 1,
+          "Roux-Miroir": 1,
           "Beauvechain": 1
         }
       },
@@ -237,7 +238,7 @@
     "communes": {}
   },
   "flandre": {
-    "total": 1221,
+    "total": 1222,
     "provinces": {
       "brabant_flamand": {
         "total": 195,
@@ -299,7 +300,7 @@
         }
       },
       "anvers": {
-        "total": 286,
+        "total": 287,
         "communes": {
           "Willebroek": 1,
           "Mechelen": 7,
@@ -337,7 +338,7 @@
           "Vosselaar": 5,
           "Vorst": 5,
           "Olen": 7,
-          "Puurs": 3,
+          "Puurs": 2,
           "Mol": 7,
           "Geel": 27,
           "Heist-op-den-Berg": 1,
@@ -361,11 +362,12 @@
           "Eindhout": 1,
           "Veerle": 3,
           "Hulshout": 2,
-          "Zoersel": 2
+          "Zoersel": 2,
+          "Ranst": 2
         }
       },
       "flandre_orientale": {
-        "total": 316,
+        "total": 317,
         "communes": {
           "Dendermonde": 5,
           "Wetteren": 3,
@@ -375,7 +377,7 @@
           "Hamme": 4,
           "Sint-Martens-Latem": 5,
           "Aalst": 13,
-          "Sint-Niklaas": 13,
+          "Sint-Niklaas": 10,
           "Mere": 2,
           "Etikhove": 1,
           "De Pinte": 8,
@@ -391,6 +393,7 @@
           "Deinze": 9,
           "Gijzenzele": 1,
           "Zingem": 2,
+          "Sinaai": 5,
           "Assenede": 1,
           "Lede": 4,
           "Merelbeke": 9,
@@ -401,17 +404,17 @@
           "Moerbeke": 1,
           "Kieldrecht": 1,
           "Lokeren": 14,
-          "Temse": 2,
+          "Belsele": 1,
+          "Temse": 3,
           "Watervliet": 1,
           "Neigem": 1,
           "Doorslaar": 1,
           "Waarschoot": 2,
           "Laarne": 2,
           "Lovendegem": 1,
-          "Steendorp": 2,
+          "Steendorp": 1,
           "Zevergem": 1,
           "Landskouter": 1,
-          "Sinaai": 3,
           "Lochristi": 1,
           "Munkzwalm": 2,
           "Sint-Lievens-Houtem": 2,
@@ -434,15 +437,15 @@
           "Ninove": 1,
           "Asper": 1,
           "Denderhoutem": 3,
-          "Outer": 2
+          "Outer": 2,
+          "Kruibeke": 1
         }
       },
       "flandre_occidentale": {
-        "total": 226,
+        "total": 225,
         "communes": {
           "Zedelgem": 2,
           "Gullegem": 9,
-          "Oostende": 4,
           "Izegem": 8,
           "Brugge": 28,
           "Kortrijk": 5,
@@ -472,6 +475,7 @@
           "Staden": 1,
           "Lendelede": 1,
           "Wevelgem": 3,
+          "Oostende": 3,
           "Houtave": 1,
           "Waregem": 8,
           "Wijtschate": 1,
