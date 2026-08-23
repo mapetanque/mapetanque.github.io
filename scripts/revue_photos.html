@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Revue des photos Mapillary — Mapetanque.be</title>
+<style>
+    body { font-family: system-ui, sans-serif; margin: 0; background: #f4f5f0; color: #222; }
+    header {
+        position: sticky; top: 0; background: #1e1e1e; color: white;
+        padding: 14px 20px; z-index: 10; display: flex; gap: 16px; align-items: center;
+        flex-wrap: wrap;
+    }
+    header h1 { font-size: 16px; margin: 0; flex: 1 1 auto; }
+    header input, header select, header button {
+        padding: 6px 10px; border-radius: 6px; border: none; font-size: 14px;
+    }
+    #progression { font-size: 13px; color: #ccc; }
+    .commune-groupe { margin: 16px; background: white; border-radius: 10px; overflow: hidden; }
+    .commune-titre {
+        padding: 12px 16px; background: #eee; cursor: pointer; font-weight: bold;
+        display: flex; justify-content: space-between;
+    }
+    .commune-contenu { display: none; padding: 8px; }
+    .commune-contenu.ouvert { display: block; }
+    .terrain-carte {
+        display: flex; gap: 12px; padding: 10px; border-bottom: 1px solid #eee; align-items: center;
+    }
+    .terrain-carte.decide-accepte { background: #eaffea; }
+    .terrain-carte.decide-rejete { background: #fff0f0; opacity: 0.6; }
+    .terrain-carte img { width: 160px; height: 120px; object-fit: cover; border-radius: 6px; background: #ddd; }
+    .terrain-info { flex: 1; font-size: 14px; }
+    .terrain-info b { display: block; margin-bottom: 4px; }
+    .terrain-meta { color: #777; font-size: 12px; }
+    .terrain-actions button {
+        padding: 6px 12px; margin-right: 6px; border-radius: 6px; border: 1px solid #ccc;
+        background: white; cursor: pointer; font-size: 13px;
+    }
+    .terrain-actions button.actif-accepte { background: #74C15A; color: white; border-color: #74C15A; }
+    .terrain-actions button.actif-rejete { background: #d9534f; color: white; border-color: #d9534f; }
+    .terrain-alternative { margin-top: 6px; }
+    .champ-alternative {
+        width: 100%; max-width: 420px; box-sizing: border-box;
+        padding: 5px 8px; border-radius: 6px; border: 1px solid #ccc; font-size: 12px;
+    }
+    .sans-candidat { color: #999; font-style: italic; padding: 10px 16px; font-size: 13px; }
+    .cachee { display: none !important; }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Revue des photos Mapillary</h1>
+    <span id="progression"></span>
+    <input type="text" id="recherche" placeholder="Filtrer par commune ou terrain...">
+    <select id="filtreDecision">
+        <option value="tous">Tout afficher</option>
+        <option value="a_decider">À décider seulement</option>
+        <option value="acceptes">Acceptés seulement</option>
+        <option value="rejetes">Rejetés seulement</option>
+    </select>
+    <button id="exporter">Exporter mes décisions (JSON)</button>
+    <button id="importer">Importer des décisions (JSON)</button>
+    <input type="file" id="fichierImport" accept=".json" style="display:none">
+</header>
+
+<div id="conteneur"></div>
+
+<script>
+const DONNEES = [{"commune": "Gent", "terrains": [{"nom": "Terrain (51.04157, 3.69125)", "commune": "Gent", "lat": 51.0415745, "lon": 3.6912481, "candidat": null}, {"nom": "Terrain (51.04164, 3.69143)", "commune": "Gent", "lat": 51.041641, "lon": 3.6914301, "candidat": null}, {"nom": "Terrain (51.04503, 3.71501)", "commune": "Gent", "lat": 51.0450255, "lon": 3.7150081, "candidat": {"id": "1078677684097518", "score": 0.614, "distance_m": 63.9, "ecart_angle_deg": 71.5, "captured_at": 1743769158500, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An9zZAPwk1sk48GLzjGLjNGSM0LNqANKCS67UrX5HW92PpXx4iAqDe-jg5xwQl5x0uQNdlMQ1-NVqBtvI8E-1gxf9jqArXuXpUw9S_i8PEoUXSSiU_5GWm5wBFAudbxREgtrWCuP07ca-iuMxdLSE7s?stp=s1024x896&edm=AOnQwmMEAAAA&_nc_gid=tEa0H5_wayc2zXgEEBLb6g&_nc_oc=AdpFntsDcrk99uUMnfo6OrYgYh1pqBtPYh-ZB3dT1iVXRCpg4KYT-tc4Me06GLnWkJpGDD_gLSHLU1V6KZj3gfGK&ccb=10-5&oh=00_AQE38CqRo9y49sSLaZZoeJVTTm4y-W96kvYn72A4vPywLw&oe=6AB19767&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/1078677684097518"}}, {"nom": "Absdalestraat", "commune": "Gent", "lat": 51.0997217, "lon": 3.7808477, "candidat": null}, {"nom": "Acaciastraat", "commune": "Gent", "lat": 51.0609925, "lon": 3.6993684, "candidat": null}, {"nom": "Adolf Lootensstraat", "commune": "Gent", "lat": 51.0528647, "lon": 3.6146467, "candidat": null}, {"nom": "Afsneedorp", "commune": "Gent", "lat": 51.0311811, "lon": 3.6682746, "candidat": {"id": "308907050901321", "score": 0.363, "distance_m": 19.7, "ecart_angle_deg": 2.3, "captured_at": 1622979340000, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An9wG9_0uDwRWv18EZTF3zUH2EkehA7JOTVN1TSRdpmh8ac2vXXjaMjl-dO080Mxx4OWwv9BHIJLQBpMUpqQMw39OXoOlgD1ncHg7BLqC0Zo_bCU0cNVv5TRFcAuAWJY_HmO_HW_GYECCFaTiBVrYw?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=Gt70W62HcX76H_05KPL_ow&_nc_oc=AdqW1BF6aIVBFWdiYtv3ZRixIzrz-WP3eg_xo3UDGIQLmQVyZL80jOE9hxMYF5HNaGcJg7CeidghCg8M1vWouw47&ccb=10-5&oh=00_AQGUBS-VfE0Zr77GADhtoo5G8QrHb7UAGdsQj1Ox4RgZXw&oe=6AB184A2&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/308907050901321"}}, {"nom": "Afsneedorp", "commune": "Gent", "lat": 51.0313345, "lon": 3.6685187, "candidat": {"id": "483058302949281", "score": 0.392, "distance_m": 21.3, "ecart_angle_deg": 9.8, "captured_at": 1622979350000, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An8vuUHLRTY3whE7JeNJk2E0VKJtV_lA5q8jvGLd9MRNVj_TPkjzbmJE6MktDv7gd5QoAJLO3EYIRtpdxHLEQ1iL1nDwLVTe2IZViMUnklbn1Js9tGv-btgl2aYRHyTT2fh6_li_N-YykJ2YUHOcnQ?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=rAkqrEtlRQqXIEV1hAIYDg&_nc_oc=Adq6hBd6kvFpAQgvT_HQLvfzXK5yDqGY88LnJ_bGtD_gF3UHL63hciI0jlQNvEfEBu5A-0ai8gHIVzABI0zGIqcj&ccb=10-5&oh=00_AQF3sFC_qHvVB-Fa4LRQoJdhU95zKZlTvZ4h3MoudweKRA&oe=6AB1791C&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/483058302949281"}}, {"nom": "Alphonse Claeys-Bouüaertdreef", "commune": "Gent", "lat": 51.0734228, "lon": 3.6758127, "candidat": null}, {"nom": "Alphonse Claeys-Bouüaertdreef", "commune": "Gent", "lat": 51.0733882, "lon": 3.6758362, "candidat": null}, {"nom": "Antwerpsesteenweg", "commune": "Gent", "lat": 51.0753016, "lon": 3.7786042, "candidat": {"id": "203641444717458", "score": 0.627, "distance_m": 42.4, "ecart_angle_deg": 39.2, "captured_at": 1552044118500, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An_V5FemMaVq5h-pH1vudNhoq1zYyfKadLiQmAsm9ad23cyM27CCKkcvAwLEeOBs-Qy5wXdQ9TbjUPF6MFv--ooh7uVoIYFFN8lMnNhhZLdhX-Ki0i4RuOZV5Y7wPlg79NS0eVrqIQwl7iJVgsWfoQ?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=TzGCwr-Pr4AUyto9apOu7g&_nc_oc=Adqz8nL6WKsQ13olKhiffCju2_tdIP1boMoVcDAYjzFureRCfNu-msy7ATcaX8IcJ7vRNHFvslMpNJYuJ25IcdvO&ccb=10-5&oh=00_AQE_JR95dxaSxFwnEAGUyQxrVe9sZlJK4sje2qVQS1JCcw&oe=6AB1A09E&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/203641444717458"}}, {"nom": "Antwerpsesteenweg", "commune": "Gent", "lat": 51.075348, "lon": 3.7786801, "candidat": {"id": "278549870667237", "score": 0.614, "distance_m": 42.9, "ecart_angle_deg": 31.8, "captured_at": 1552044118000, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An_R3VTBF_YsdEnnalzEj-Lqru7ybzkR8g8wtkWvhgIswb8FvarzBMmuNu531hTzYkyn8UPfogqEm4H4zqkgkT60NFJReKWqXRa6MpRc0XQfihX-ReyppSPYPUE8JPcYoBxujJ9ksfDEIV2BzBaVYA?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=ZISTN7dEMTIl12wsI6LgUA&_nc_oc=AdqKf7mJUB1ve1wajYTFXgqTpjU1JWnzPLvgbtWkWo1_gLcBqZiQGZarRdN9Z3m-2sXN0N_xpe4NgLJVZ_TimCyq&ccb=10-5&oh=00_AQEaVHll-K3sAgajZolqXBxHPxMPO6QsjXq2koZjb1wWqw&oe=6AB1A295&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/278549870667237"}}, {"nom": "Antwerpsesteenweg", "commune": "Gent", "lat": 51.0676086, "lon": 3.762352, "candidat": null}, {"nom": "Appelterrepad", "commune": "Gent", "lat": 51.0830173, "lon": 3.7138297, "candidat": null}, {"nom": "Augusta De Taeyepad", "commune": "Gent", "lat": 51.0517339, "lon": 3.7439743, "candidat": null}, {"nom": "Bassijnstraat", "commune": "Gent", "lat": 51.0455315, "lon": 3.747946, "candidat": {"id": "589550819114502", "score": 0.432, "distance_m": 20.7, "ecart_angle_deg": 30.0, "captured_at": 1568374862000, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An_C9r9wtfkTcJcWYLP3znwnLaEF26tLZAU2NMr7YwTLCAwkT2Oow2rZMQ3jrlqVEE0WlJcSXO4zFpVHI_ha8QbYlhlbtNK_SllHQeFWRpxylkOwjIsJ6XfrMrXtmqvtSQTj4br4on4ZBUOxFZnegA?stp=s1024x576&edm=AOnQwmMEAAAA&_nc_gid=3Z0cRjRaZ0XUU2aTp5j_xw&_nc_oc=AdozZrBPq1Ny3I3-mLnNb8-erMAKEWsdwUTLHK8u_vgl35quq5lsDKkrXtCw_ID6RjdVbvLofpWinqroWGf5Bq-6&ccb=10-5&oh=00_AQEIjFh8UFgzD8pTPmgHMm46TG-MQKVrO0HiLEbJtzxgTw&oe=6AB19463&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/589550819114502"}}, {"nom": "Bassijnstraat", "commune": "Gent", "lat": 51.0452707, "lon": 3.7481064, "candidat": {"id": "503280860826427", "score": 0.342, "distance_m": 10.9, "ecart_angle_deg": 24.7, "captured_at": 1568374858000, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An8jmJOObs2lnzUD1GXyQYVXWAi4KaIL1rCZDIwQNZwfpTwWmlGMHNSMCiidDg46JRWp3W7NxUBxfA2rkUzGuIJxMuA62E4wwgeZA-PXLuAaAMafvV4iz_xRqmxMSFOFRaInNzs4GBOmerL70Wz3pw?stp=s1024x576&edm=AOnQwmMEAAAA&_nc_gid=AH8c6vEkh0iX0xNdSYYZLA&_nc_oc=AdqiONP38at45EkjWi0bOIxG4--RaKoA_YXFON6pVz5PmqXEcD-8NvRiK5Q1JeJ_jXAHw85oZu30TmAR6ef6MG01&ccb=10-5&oh=00_AQF_Q7zB8f_UBTxRHg0xqGBwq-4cwFSD1hJeSmJkgpJmOg&oe=6AB1974B&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/503280860826427"}}, {"nom": "Biest", "commune": "Gent", "lat": 51.0685997, "lon": 3.7543364, "candidat": null}, {"nom": "Biest", "commune": "Gent", "lat": 51.0686379, "lon": 3.7543482, "candidat": null}, {"nom": "Biest", "commune": "Gent", "lat": 51.0686749, "lon": 3.7543558, "candidat": null}, {"nom": "Bisschopstraat", "commune": "Gent", "lat": 51.0376452, "lon": 3.7390697, "candidat": {"id": "6495837560496088", "score": 0.301, "distance_m": 13.1, "ecart_angle_deg": 33.9, "captured_at": 1691687086000, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An8DpfW8oVijILKxXdj-rpDHYaW6I1kACUGTkSmY5JfvNetcXLINnEmG0HbvIx75A0zZAybQbjOmtSNxCoaiyu_JBtdFSxFmtU2tl85HnovAsEFfoy7Ko9Mc9qo0oy5Cms80n-yJE961fkBORW4Wm9s?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=6For7arHAhCsfRud4WxCBQ&_nc_oc=AdpDSV0-x_ouxr924MYYYRgkhzk2tebu5LlaONKHzDeBgbHWezBRyrSx66QXuWJ2Ruk6huh4HoZeu7a7Nb9Ysphg&ccb=10-5&oh=00_AQFeVcEOEm6inRXllGhmC-NpKesc-fV5XETwBuKRNeTlGA&oe=6AB19D7B&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/6495837560496088"}}, {"nom": "Boswachterstraat", "commune": "Gent", "lat": 51.0387914, "lon": 3.7746283, "candidat": {"id": "126155686164020", "score": 0.526, "distance_m": 15.3, "ecart_angle_deg": 91.7, "captured_at": 1569080251500, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An8syCkxvPfz0EXSCJ4WjzcFEbPlUs7dvFGVota8kCHKbjMIs-9cvUsa4TMtz7TFCX1Xwm_d4tSeFqH9t_rNUUkeJTTYz3-2V7aaC_GtjCZ7CjwI3Hm4t2MjVESsU6WLTGDWpCQz1ywxYP_G5mCECIw?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=BKtq9an6XAoj1zVa3sbQfA&_nc_oc=Adp4oEE6LkJykkMAIcJ9ZvZON1wa8SUBi2TUzNjSbBA0YeCOho9UJd_-LBAkyaAhRXreAy-qGKOmma6M9LusBrzA&ccb=10-5&oh=00_AQE8WsmBlZrh4cf5lY2F-8lTTV__fH4cQthx_UH-vczslw&oe=6AB17C2D&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/126155686164020"}}, {"nom": "Brandstraat", "commune": "Gent", "lat": 51.0512599, "lon": 3.7151756, "candidat": null}, {"nom": "Brugsevaart", "commune": "Gent", "lat": 51.0707666, "lon": 3.6927253, "candidat": {"id": "787857950614361", "score": 0.227, "distance_m": 12.7, "ecart_angle_deg": 48.9, "captured_at": 1773909110500, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An_qnRDHpZNcqE86mlXXgN4Q-Nw6ps9gNkZvJilYLHsm7tFwagk4PRHriI9I6PuiWT-WCeQDV06aBcVFYDnU86FeilFk79tEexfUJy20O9Bh9uW5gjh9JpxzPicQQesMhHbY32ol5NWoFOOVYEeEjbo?stp=s1024x896&edm=AOnQwmMEAAAA&_nc_gid=7VIpJzkj6V2VKIwTkhhdUA&_nc_oc=AdrXeyU3BznKD115Poi9j2RFRzWVaQSAn8qtupi3bvAMXPS59UYCw5tOGt9ua2fYa49wv_aUUotars26IUmD-f_u&ccb=10-5&oh=00_AQE64dx4JAo1MsA5O9KxSxn8zNOukJ7oiate0S3ck5Qzdw&oe=6AB1A96A&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/787857950614361"}}, {"nom": "Buitensingel", "commune": "Gent", "lat": 51.0741689, "lon": 3.7233974, "candidat": null}, {"nom": "Buitensingel", "commune": "Gent", "lat": 51.0741683, "lon": 3.7233516, "candidat": null}, {"nom": "Chantal Claeysdreef", "commune": "Gent", "lat": 51.0393122, "lon": 3.7026384, "candidat": {"id": "1521873535440320", "score": 0.522, "distance_m": 39.4, "ecart_angle_deg": 70.8, "captured_at": 1748516550000, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An_UHhxjMiIdt9JiCseEHUfyyo0xnahxdV6W2Ab8L9iJlmIQQ-RHYjIy0bUOdsXY2IgtEaT4GkVgwxvn0VC-OKC6CShc0CqD07hSbtlRmR_4KmUt9wsdCKbOn7Ke0La-kexj__hnJpbzAX5p-V1RgA?stp=s1024x896&edm=AOnQwmMEAAAA&_nc_gid=auo7tH341dzd1wLV8gYZ1A&_nc_oc=AdoGviGk2CRD0xkH3V-QgBVQ_kDvBBcWiHgwToH92jpJOB3LjdddI3oJ4kvCMo1bMFZTDSzeVjl9NlJbhli7Txqx&ccb=10-5&oh=00_AQH_veGOLiS7gnDAXBVijRRIqH3dCaQehiANoydQVZv2lA&oe=6AB18796&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/1521873535440320"}}, {"nom": "Charles Van Lerbergheplein", "commune": "Gent", "lat": 51.0487898, "lon": 3.7462712, "candidat": null}, {"nom": "Cretonnepad", "commune": "Gent", "lat": 51.0266808, "lon": 3.7641207, "candidat": null}, {"nom": "De Binnenweg", "commune": "Gent", "lat": 51.0567521, "lon": 3.700686, "candidat": {"id": "322738636192517", "score": 0.618, "distance_m": 47.9, "ecart_angle_deg": 15.5, "captured_at": 1469361528162, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An-VjqWIWndWwj_sU0yH8lVMYfHYYV6Py87ekZr0pFU6e3U3EA7lyTI4XSk2P21rp_VmyPudYquX1m4EkvgljIg3mPGuPFBle4kwrFefuTsgn7CejTVhV4cXav0XFCp392e5rsot-2oHU02dvSDSlA?stp=s1024x579&edm=AOnQwmMEAAAA&_nc_gid=2srvIbryhb6tfGwzQY7-1w&_nc_oc=AdopZvMPTxNVOR8lXING64OvzK_S7lqhTq_NaxZWwj9Q8JlroTa7nRXAfr0HR0Dn1m6n-1ESe2VA_PZ4c8amIzkb&ccb=10-5&oh=00_AQFY8SGgFMcHHjNUnF6fJ10rTvOOvfThMV-1Wnnu7VIdDA&oe=6AB19722&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/322738636192517"}}, {"nom": "De Naeyerdreef", "commune": "Gent", "lat": 51.0343356, "lon": 3.7481237, "candidat": {"id": "477150400168008", "score": 0.408, "distance_m": 11.8, "ecart_angle_deg": 51.4, "captured_at": 1595351384562, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An9ak4YoEws1_Z_6APt_PiF8r7RjctdblYuxyvHSgw0drJO3lsMpXDDpbYI5JLkZ-EzFSFUloP43pCQweCMj8wcsZrkxix2EFFxJ38dI9URT_cG2gvvj8WAGVV8os6NfCQ_5Dbv23E_MAPtbY2Ji2g?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=ZfsUd5WwY9AjmEF7ygYF3A&_nc_oc=Adq3BUeVlbhFAhKKQE3rQaZ4mOSvLnSs-tOJ4HAqUWcq9N1xSGtPv5nEgOqq2Y8DhupJn59e2aC0DTm--1wcaM2C&ccb=10-5&oh=00_AQHGKJCmMegItooboHEqIyqFuA2yfKjXg0BHiLQA8HhZJA&oe=6AB172BB&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/477150400168008"}}, {"nom": "Distelstraat", "commune": "Gent", "lat": 51.0395311, "lon": 3.7078374, "candidat": {"id": "315208433318402", "score": 0.681, "distance_m": 52.3, "ecart_angle_deg": 36.3, "captured_at": 1428048610325, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An_lyejsEqHT7jZCODr0uuHP-Yc-WpRs73ItFe3UCnN9Gtn7oI-B1qR-4JFVJ2h5yrpLV05ejbbomRKwA5yscfymMstiS1LdF60u_x1itcKtRBxsUPQxkEakKXH-O_SKBRHTk8Ie9ZXMEViIY7I8O6w?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=9C_PQpUBw9odWxWmvSlzig&_nc_oc=AdqkMQ3RFWAeykDLrKAO64N1xuXw59iSRE1wfUKy7KPr1A0Cb48Ia1BJ_oWPslDzf9MsReSxDzlkJQXMa7_2KM4E&ccb=10-5&oh=00_AQFsU4e00R7Dj_W-8dNZ2PL17eTKH1M-AatKaZNf9pmbwA&oe=6AB177C8&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/315208433318402"}}, {"nom": "Distelstraat", "commune": "Gent", "lat": 51.0395635, "lon": 3.7079864, "candidat": {"id": "467263477697428", "score": 0.571, "distance_m": 45.2, "ecart_angle_deg": 4.2, "captured_at": 1428048588399, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An9qu__lXHgXUgRoFVkFG4ZwtkhjRZJV83aVTfhJfb_5ZChiXukXErrDVYCX4jLn-ij0sizrxY1_VaI2iyS-f5eQFaZvsta5uhdgBjh0N4WWogcACRtz9TzfoskFQa_7ZcAhLPzOXngIgglNByeRbw?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=SHe8Ptw-DTMH53TMy9ZVpg&_nc_oc=AdpAbC3w5ttw9jLHDqlN16cwDPPX3AJCIGS6bFbNlE7GwZXRzJT9QJbnqQVpgQq_ZDuAEuL4hnHFgfzFDNCjTSNv&ccb=10-5&oh=00_AQEcWTPR0ttD-JZRMlKwLeHRpp7OuM6S8YrRdd6u1pDyxQ&oe=6AB1A642&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/467263477697428"}}, {"nom": "Domien Ingelsstraat", "commune": "Gent", "lat": 51.0513311, "lon": 3.664404, "candidat": {"id": "847680072832899", "score": 0.622, "distance_m": 52.1, "ecart_angle_deg": 9.7, "captured_at": 1622982028000, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An9KdtzsjH0ngy9E5zv88LgGsA4zwjFkLhtiqBbfEn7tsiR1RQdvEtXh3u3_H-HNbgDb_fok_khXCc0knoP1ubk9tVR1BqnFpMaohvIEBSvd1BBJEA6V_wmEpAvyJEJ6t1Q1s20XCRyGmYLEA5m3lJE?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=yXmQKkdt_YmZZUaWYnfDXg&_nc_oc=Adp2pj8o001OKY1a3B1gEoArjtsGtJ_MqlfF2lwDUOEl6VWag3_dREmQl-147weElFTFpQBkfFXFmLM-zXtI34O9&ccb=10-5&oh=00_AQGNS2ihY6tOanw6Tbxz_fRMFF3cfMpADLTLpz6J6mtY-A&oe=6AB177B7&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/847680072832899"}}, {"nom": "Dosweg", "commune": "Gent", "lat": 51.0427482, "lon": 3.6473113, "candidat": null}, {"nom": "Drongenhof", "commune": "Gent", "lat": 51.0591789, "lon": 3.7235475, "candidat": {"id": "514831659545768", "score": 0.441, "distance_m": 21.6, "ecart_angle_deg": 30.7, "captured_at": 1430748342000, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An9dVgeBN13p4gTDj0SqbakDikdqYJXTPFp4SApzFDKjVivY8kYUlzb-LVmOjcjJzElVvCNL07xsiSvMIaP372o8QRvn1R5Y76tQ2Sjp3ida3SLTtXW8t_xAiZOhW7Pi_Nc14wduXOmHM7ap70us5g?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=QaL_buLIo2d5NE-LR73wrg&_nc_oc=AdqndnY6bppD8GkydGBEX9kBANSC9d5QgeAf8NE2duYobeiwXh0zhDP1pSH3ygEq2YTyZlJKcOFWakpHO8kg4nVl&ccb=10-5&oh=00_AQEUXI_3Pe8r-pQ1TjWSgDWfPOEfkzsPSuWmTa7czCfNbg&oe=6AB18FB9&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/514831659545768"}}, {"nom": "Edmond Ronsestraat", "commune": "Gent", "lat": 51.0972469, "lon": 3.7679512, "candidat": null}, {"nom": "Elsakker", "commune": "Gent", "lat": 51.0362148, "lon": 3.6138984, "candidat": {"id": "542609790089537", "score": 0.551, "distance_m": 39.4, "ecart_angle_deg": 15.9, "captured_at": 1563127219000, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An913BMon-Oab5fJH6OIStIeJqx_nn3aUJFnOaK5AEMJFmUh2OQqjpRJKrX_0ZG0eI_3LgcNlhC4TMeeUQQ-eLdu9r0tmq1nYH0gJEHg0kRsKMFhj56krfO_ViUIJGKAt9N9bsiTPCpOzze5S_0gdA?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=s5FtB7RljG5C1Nc13RmGhA&_nc_oc=Adq2LqPH9RzMBzySTqjfOIevO-Eb3F1tBxDNlsg4Bb5GMwT3xXEyXg-czvFOXNYhWMVzL-55TnwKZomiCWhot3m4&ccb=10-5&oh=00_AQHlDXNPyWLfPyY4XJX0QDCo2bbEd7DxbkkQFVS-w_TK_A&oe=6AB19CA7&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/542609790089537"}}, {"nom": "Fernand Van Bellepad", "commune": "Gent", "lat": 51.0388443, "lon": 3.7746003, "candidat": {"id": "517935762950164", "score": 0.497, "distance_m": 14.8, "ecart_angle_deg": 80.4, "captured_at": 1569080250500, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An_M9bbp5aSwP6KI7Qeym3hTt2gYMeD_73bpxZfYASLSsIbPdHTNrsoJlfI1LRPfyUIhqQm5HhdyleNPWGsWx8TUd2Zt0N0s8YZDAchVo55WYiadvlPUohLh3JMu4QWLwM6DC4pyvjxfiiKtiiP6lQ?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=oII7WSlTFWa6aonzShYZKA&_nc_oc=Adqo5pAUkfDvn3hgpOxZM6XwFTr1ZSewTfzWj4amk9QiD2b3FzQNMzC8CfBjqdVRbgHwnV0ZbDl6MROCkuIuND49&ccb=10-5&oh=00_AQEifWbOnTJND5WXBV2F7Ii6CuJmaGDAE-YnfGlvZ9qUvQ&oe=6AB17D45&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/517935762950164"}}, {"nom": "Firapeelpad", "commune": "Gent", "lat": 51.064997, "lon": 3.6897954, "candidat": {"id": "303474076035372", "score": 0.452, "distance_m": 26.7, "ecart_angle_deg": 66.3, "captured_at": 1715790639000, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An8uXuQsR5IsKwVU1X48FYtOvMf718ZFzy9hT1Fd2hfjJ-Htei6n3c2HeMfhQlnyFbAFxR7UvAdi4kFqvrox0-_-VXe7oDwH9zcklkrkw2afx2NfRsbqXVHhQfqbnmPYZq_lEfBY9zhRkMZkctpJ-qk?stp=s1024x896&edm=AOnQwmMEAAAA&_nc_gid=vkfqYJiWhba0CnmYVHPlsg&_nc_oc=AdocnxdtCw9QKtYqTsDIPRv8cWsSImoYyLbZW8-JLosNdbWtXeerU2evzklFxMPL_kC38nTeNPN7o3Nh3heNELrg&ccb=10-5&oh=00_AQGAzplkzHnnweWPtw_5p2-sV7cuvXJMusFXW5acnud-VQ&oe=6AB1A994&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/303474076035372"}}, {"nom": "Flamingostraat", "commune": "Gent", "lat": 51.0296276, "lon": 3.7071998, "candidat": null}, {"nom": "Fluweelstraat", "commune": "Gent", "lat": 51.06795, "lon": 3.6901253, "candidat": {"id": "1055757636617848", "score": 0.177, "distance_m": 7.7, "ecart_angle_deg": 29.7, "captured_at": 1748521730000, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An8uQtuEd8IF4KhdRFkizzbaDI1dqwr37WzeOBy3UMXiF3A4FBc62n3nsNqyDcn9VA1toibvGQV5O4nhOrkC84yFzdnLOjMS_qPr3fkW-KU6avMjdc5nqgaNl-X-K6C5JE-zQmLlr9SzA0XFnmrol8c?stp=s1024x896&edm=AOnQwmMEAAAA&_nc_gid=bTOhFcg1QWIth3BazRJd-w&_nc_oc=Adr1bXT2OTmUKJtPNchCPenjsNVrg4px4vkncpMxjYxhhGCDorKeSG4hO9W3shDsg29zF1XmO2cww401wWOjUF60&ccb=10-5&oh=00_AQEQkvBlnPOcfhikQ9is0KcMwHBFCV8VdomlQB6s18cN-w&oe=6AB17A67&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/1055757636617848"}}, {"nom": "Gebroeders De Smetstraat", "commune": "Gent", "lat": 51.0631386, "lon": 3.7059147, "candidat": {"id": "2924676367809496", "score": 0.552, "distance_m": 30.3, "ecart_angle_deg": 49.4, "captured_at": 1568198970000, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An8FRA2xrGC5a9UE8-Zt7juPhXV3ZGmau-f8x4Kbv7yCGVajpdLAVbjciJbzRDJbZoU3MLz68tkGBDqwO0VxpdvjF7gIhI79Ke_yjqP8_ZEkmOuF1YEyoc39dqI1ZlgBLi9tlD7R4zpDOCWA7oij8Q?stp=s1024x576&edm=AOnQwmMEAAAA&_nc_gid=LPNtthtmIlUvUUaaqlyBUg&_nc_oc=AdryHz0ksCgmBxCRkEF5xgukUgZy6zmGR1OMa6pKvIHBPp4vlmjszzZCQVN9hy5c9roTFCrSb3XpX8lzwrikajGr&ccb=10-5&oh=00_AQEXt66aGPP3Ohgiy4LOdwMa1aLbwbzsG0i0p_7iJg5V7g&oe=6AB19880&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/2924676367809496"}}, {"nom": "Groot-Brittanniëhof", "commune": "Gent", "lat": 51.0434899, "lon": 3.7112166, "candidat": {"id": "1528631065219019", "score": 0.33, "distance_m": 23.6, "ecart_angle_deg": 41.4, "captured_at": 1748535589000, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An_9w1uggJVCMF8XinhAkqsDDRxQbdSwjuuVRrarol9h-5XFWoyq8gOmDU4IBM2ncx_NI0-6qrNM5BcSNbrV0FyBzu8YWDfXqtytqb4gTO933VQdA5a57TA_k-S88cl-AS-abvNxFMi0aJtSwTzSPQ?stp=s1024x896&edm=AOnQwmMEAAAA&_nc_gid=f95HxQXZvwxQRa0KemNSpw&_nc_oc=AdoaedElFJMUmpLzxSQkkaGYiiOVBgM5dH_RoeyxpF-JqZ8DK1jq7hmyw7fEu8pTEBqsFZPOTnMrcb2iJA0Ghoec&ccb=10-5&oh=00_AQHFY0InG3Z2QJv742HITrP70Zo8oJ12Ph8d0dS8vhKr_w&oe=6AB19D2C&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/1528631065219019"}}, {"nom": "Handbalstraat", "commune": "Gent", "lat": 51.0406841, "lon": 3.7087063, "candidat": {"id": "453748229070565", "score": 0.369, "distance_m": 15.9, "ecart_angle_deg": 18.8, "captured_at": 1427876129000, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An_jNg2_D2R3zd22iydi1dsiUEWNHbi6ePFAVjXkV4Z3vT_gRlXkbB7RDU5sfJPzKAI42Z_7km6bx4pJb9pz1rbHbHDHTYpTwSJ4-cEkVYGQEKgDxm7SqWJAG0ZX8pZemCcx_XQpj-7KmUZRDmMDbw?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=ytqwCUXSNsZv3PE_ghsESw&_nc_oc=AdoayojcWMn0xRRhsjZkYIr2O3Hd-dieXnMro2lM3-0t0-f27ZQRPd_juNOFFyJ0_veooluvaP8KBeXW3Oik0YIH&ccb=10-5&oh=00_AQH2qQjgIwa0-ScPtfjAExvHLUy7vLT7ewzcAsBh_9TvuQ&oe=6AB19583&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/453748229070565"}}, {"nom": "Heirnis", "commune": "Gent", "lat": 51.0463577, "lon": 3.7405852, "candidat": {"id": "191393196165920", "score": 0.591, "distance_m": 46.4, "ecart_angle_deg": 8.9, "captured_at": 1593279946000, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An8VlAEU4gwY1_8dYL_IxVN3XqUambubXgXkyseKnibfcgfvKg4UpMlgTk1nJV2O9nVD2PzNxt-7QPmM5CdhSZkA9lbUxgBoWnbaKT3ZQUqYR_iBTq-0va4BgW-fv6a3TL7BvKFua9ynbZtYNBNhaA?stp=s1024x639&edm=AOnQwmMEAAAA&_nc_gid=cQQ2XP-Hff5F9s6ZqcmWyQ&_nc_oc=AdoZ9GnQPHXeCKP0BYb88yGBzY3xRmL170vN1qK-CZe6u7Mr71UfVBtqQ4pSxR1wS16Lk6RnsdB92x_UVfLkoSWh&ccb=10-5&oh=00_AQFj8L0RdA5Ux-6dOcKWzKUiMfiEJJmGo7aE2cjibM9Lag&oe=6AB18321&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/191393196165920"}}, {"nom": "Hemingplein", "commune": "Gent", "lat": 51.0272549, "lon": 3.6800201, "candidat": null}, {"nom": "Hondelee", "commune": "Gent", "lat": 50.9970991, "lon": 3.7161348, "candidat": {"id": "4345588795766552", "score": 0.388, "distance_m": 38.9, "ecart_angle_deg": 15.9, "captured_at": 1754853955190, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An_goa7ZNKSnjSMRfdySZ9eNwCs95gZKqIcuCpFB3EdJuQzHWe46ZRa2MJXB0_Kce6DCixDdKMTjcNSO-R1eWMaTX1lpx0OrBKt3b4sOtL669prUDVraHwKY4LPQ40S8FCKS6AH194RL-OObOeU50tk?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=OZ-M2RZ0Rl5RnCuDP1pX5A&_nc_oc=AdrUkGU7eC3DQgldj1zOyNOkjaxqAdJKtGabSW6hVVumQlBu7ENQQnAE6dWgS806qEYjwwracApi-49bIvLnEgLV&ccb=10-5&oh=00_AQG9sA_Cy-Hlkn7apiQcxB_Q33VmiYPafIbuPGYlcE9gmA&oe=6AB1A4BD&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/4345588795766552"}}, {"nom": "Hoogoeverstraat", "commune": "Gent", "lat": 51.0414437, "lon": 3.7750866, "candidat": null}, {"nom": "Hugo Van der Goesstraat", "commune": "Gent", "lat": 51.0668827, "lon": 3.7276196, "candidat": {"id": "947495392463741", "score": 0.482, "distance_m": 28.3, "ecart_angle_deg": 25.1, "captured_at": 1469372843577, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An_rqOucFCmvxj3aLcpxwte10JJ-7dLauI04ZOoy5pg5cizsfhRC8u3gbsJwZn_MkKbj3kJ24gixWihMKOOFMGXZV-5RCT7ceUuMTrzNTdR6WVJ1-KE_KThNiewuBzvm3FThH3JRQTHte7M73q1NLg?stp=s1024x579&edm=AOnQwmMEAAAA&_nc_gid=ypDtI-mKl0EICh4mcTBb1A&_nc_oc=AdoGfrJUG2KzbvxKkduD1r7FHn2ICwezclU7bQda6LypYtSKyg3GJU9cms1806hKtjQIGFOTJC2QmUBjbK1BFhN0&ccb=10-5&oh=00_AQEW4Bci8E2ztsJ2oK70J0THievcFNIjei_XHyWVFaP9Zg&oe=6AB17A60&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/947495392463741"}}, {"nom": "Hundelgemsesteenweg", "commune": "Gent", "lat": 51.0331084, "lon": 3.7404725, "candidat": {"id": "607908970974931", "score": 0.63, "distance_m": 41.4, "ecart_angle_deg": 62.4, "captured_at": 1660996575500, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An91OnDpmPHM_YoSNjHfYZ30fYtHS1n_pGAQ0FC1veFhP4_hKeugTMt1HXeoDVhkWozo2xDDlb0mK8iE2Le_OyNla-caNW76qlPPAsX54SVLgl5ykbAuPjodAngAMlciEZYxs6WoINKz_hhLTJ7JTU4?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=D-nrfIw0W2VbUiJ4skh-5w&_nc_oc=AdqUxpxUDTcxddQCWvGrrL5htnOMk6aFSal6r9e_v8f4JibFnzulCK7vhkzl4Rr4Q0ipgXuOvLW7lYMwu6evJ6ss&ccb=10-5&oh=00_AQEodgV-m_m8XOIUHBKrAnP2IkhL8SLNWQoWsNYztALHng&oe=6AB17869&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/607908970974931"}}, {"nom": "Hyacintstraat", "commune": "Gent", "lat": 51.0706724, "lon": 3.7034316, "candidat": null}, {"nom": "Inslagpad", "commune": "Gent", "lat": 51.0275265, "lon": 3.7582208, "candidat": {"id": "763426817706685", "score": 0.28, "distance_m": 9.8, "ecart_angle_deg": 0.7, "captured_at": 1438369858539, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An_JiXvfH4xNVQ2kH0kJ4-4PRk03mZ2pqYiuUpM4WTp8e1DtCLTawznSIp3wJ8nHuSIXUTX1dyfeecaAOhl4_RAjyxCI2FyLyaqqodhAe3mcd85PwyBqPxig185RiCQNTFdLgl6UNQdy-j7tqt9gH_o?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=Bnx6-y4SZLEHP37hzNw66g&_nc_oc=Adq8y5Ur2PHwlAraVFS-nwRCPir7Fpe6OAB4ghTkhXvV1ZDzO8HerHr6phsnzkhrRH7oH9hYAIoOdsIKplzEZgu8&ccb=10-5&oh=00_AQFFs0Zq5Mvba7gkDpynSA0p08H9PtUyOMkGMhPosHeSJA&oe=6AB19441&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/763426817706685"}}, {"nom": "Invalidenstraat", "commune": "Gent", "lat": 51.076738, "lon": 3.7615001, "candidat": null}, {"nom": "Joannes Schinckdreef", "commune": "Gent", "lat": 51.0669635, "lon": 3.6206894, "candidat": null}, {"nom": "Jozef Guislainstraat", "commune": "Gent", "lat": 51.0671176, "lon": 3.7041481, "candidat": null}, {"nom": "Jubileumlaan", "commune": "Gent", "lat": 51.0443341, "lon": 3.7081275, "candidat": {"id": "1784061359019409", "score": 0.168, "distance_m": 12.0, "ecart_angle_deg": 2.9, "captured_at": 1736006166500, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An9GPECRUhFAzE1OBS7NwSQvCbo1AP0eWhF6A6uMV4XCV6vBByJZqDETSeQBcJ1TSbfEvkyjw8bqbDaC5i-rFmanFi6FpmmfNeJmCbNiqc30jG9Fm_kcRlZj-EMFdZoNn7wnz_DkP_DfmcZtUCGNIWE?stp=s1024x896&edm=AOnQwmMEAAAA&_nc_gid=E1moHBjZCVZv4v7izPuSGw&_nc_oc=AdpTeBr3gHDVDtoRS80aq_xlxOy6U50Tq5MAVICGmc6b1Nr050LCQUiS_HVvFGPXdGErxtqI9qy4e_0oDevTfrtW&ccb=10-5&oh=00_AQHyJ-KFBXAfr4WUtQS_Ch_J9lgbT-vG-e6MIhputz_uWA&oe=6AB195BE&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/1784061359019409"}}, {"nom": "Kasteeldreef", "commune": "Gent", "lat": 51.0752928, "lon": 3.6740755, "candidat": {"id": "309073190750484", "score": 0.567, "distance_m": 8.1, "ecart_angle_deg": 136.2, "captured_at": 1610894385911, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An9MCHvs9f8xIFQj04OfGeDesf8JmP3beSCXzYdc06ZThyAL-v78NU4El1tT8Np3mnT2THvL-jnkdpVMvWxhyRavx0R4mxj_RqCQm0fdrG13ZWgRu5l02dl6mp47S3KgPnIuaU00tZnSu13uJcDSwQ?stp=s1024x1513&edm=AOnQwmMEAAAA&_nc_gid=Py-otRfPabIVcEW-Ol0Dvw&_nc_oc=AdoxMBVrGkfTT6HqaEdP0iwNHEuKgc75O-xSP67UvBJBKDPbeM_E2mE-wgvA0YCVA3ys4eoDirhmFWBCNyar6sYF&ccb=10-5&oh=00_AQHU8DVRRwZ58mlGOqddt0LOkGdAcgu9WFMdohRczbJoIA&oe=6AB17FF8&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/309073190750484"}}, {"nom": "Kasteeldreef", "commune": "Gent", "lat": 51.0753062, "lon": 3.6738126, "candidat": {"id": "309073190750484", "score": 0.615, "distance_m": 24.3, "ecart_angle_deg": 99.5, "captured_at": 1610894385911, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An9MCHvs9f8xIFQj04OfGeDesf8JmP3beSCXzYdc06ZThyAL-v78NU4El1tT8Np3mnT2THvL-jnkdpVMvWxhyRavx0R4mxj_RqCQm0fdrG13ZWgRu5l02dl6mp47S3KgPnIuaU00tZnSu13uJcDSwQ?stp=s1024x1513&edm=AOnQwmMEAAAA&_nc_gid=nJ8i4jUoU7KAO1CiC0X2dg&_nc_oc=AdoxMBVrGkfTT6HqaEdP0iwNHEuKgc75O-xSP67UvBJBKDPbeM_E2mE-wgvA0YCVA3ys4eoDirhmFWBCNyar6sYF&ccb=10-5&oh=00_AQH4SBE9BTbmak1TpbRv3aZ01Enh5PzdzeneWuIaj2YcKg&oe=6AB17FF8&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/309073190750484"}}, {"nom": "Kasteeldreef", "commune": "Gent", "lat": 51.0753846, "lon": 3.6737328, "candidat": {"id": "309073190750484", "score": 0.617, "distance_m": 29.7, "ecart_angle_deg": 80.7, "captured_at": 1610894385911, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An9MCHvs9f8xIFQj04OfGeDesf8JmP3beSCXzYdc06ZThyAL-v78NU4El1tT8Np3mnT2THvL-jnkdpVMvWxhyRavx0R4mxj_RqCQm0fdrG13ZWgRu5l02dl6mp47S3KgPnIuaU00tZnSu13uJcDSwQ?stp=s1024x1513&edm=AOnQwmMEAAAA&_nc_gid=vJoHxefteLZaEjn0p9EtQw&_nc_oc=AdoxMBVrGkfTT6HqaEdP0iwNHEuKgc75O-xSP67UvBJBKDPbeM_E2mE-wgvA0YCVA3ys4eoDirhmFWBCNyar6sYF&ccb=10-5&oh=00_AQFa11LZ-iVXO4uXuWwJHa4tcBYD0IFFcklOwazGrZX08Q&oe=6AB17FF8&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/309073190750484"}}, {"nom": "Klaverdries", "commune": "Gent", "lat": 51.0522465, "lon": 3.6592979, "candidat": null}, {"nom": "Kortrijksesteenweg", "commune": "Gent", "lat": 51.0252967, "lon": 3.7113268, "candidat": null}, {"nom": "Kriekerijstraat", "commune": "Gent", "lat": 51.0578745, "lon": 3.7562673, "candidat": {"id": "528966984782246", "score": 0.446, "distance_m": 30.5, "ecart_angle_deg": 0.9, "captured_at": 1594668543000, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An9n0o7-WeS7OxdZbzx1oZpeEDGTBLWneyCvho5f0YFWMu9p8QZtJuyNr5A6vpWNRtHGsN8OccCZnfEVZzLY4zAHLr5SSLih0fo8pz9t9Y_JwluD3LL062UqP_OhBMp96kgbmpk_PyvPcYv9PYixOQ?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=n8XB0EB0g4sKhcSkIfxUpA&_nc_oc=AdofJDrmu0WaOuKagi0aKi4fz6yoGX4GO_WjLNRVJy78p7Cc7SRcuCO3jJnRQYF_Id2OhuRjj51sKKpHIz6pAOPe&ccb=10-5&oh=00_AQEFKDo-QCL_Mwu7K5Hc9UvAfVPf-eYLhB9H6sq9UZ7mjg&oe=6AB182B2&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/528966984782246"}}, {"nom": "Leon Sarteelplein", "commune": "Gent", "lat": 51.0486655, "lon": 3.7461676, "candidat": null}, {"nom": "Leon Sarteelstraat", "commune": "Gent", "lat": 51.0690012, "lon": 3.792676, "candidat": null}, {"nom": "Lucas de Heerestraat", "commune": "Gent", "lat": 51.0334694, "lon": 3.7228753, "candidat": {"id": "501492131291706", "score": 0.718, "distance_m": 29.3, "ecart_angle_deg": 127.5, "captured_at": 1556001075000, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An_RX8vpkmLkShGu4j6c3NAgF3ap68eN4lJQNHqxtlyqVwBVl3ohB3OLEhJ8ESN5B9k2zzXGIRgB-PYnUBcw6jLK-LbRZBWQFQTbF55QAwJhO8b-1fgKKFPSOCiiOzJ19SRAx-X6_F4_OpQt4MmyJq4?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=blqsiPx3-M5t2POviGEZKA&_nc_oc=Adpj8jHboKXPSJMxjMZHYhMgGMVTBpyK5amlc3pEIGt92o1KDp6vZR72qxC2TPekDBU57IZbThOoZ85tlBZ_YPJU&ccb=10-5&oh=00_AQH5WoP_AQfwwBx7ZngT0cFZALCh-gNdwE62IsiGHmLARQ&oe=6AB18927&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/501492131291706"}}, {"nom": "Marseillestraat", "commune": "Gent", "lat": 51.0859197, "lon": 3.7277951, "candidat": null}, {"nom": "Meersemdries", "commune": "Gent", "lat": 51.0409758, "lon": 3.7622243, "candidat": {"id": "177894464192381", "score": 0.56, "distance_m": 37.4, "ecart_angle_deg": 27.1, "captured_at": 1440348899000, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An-FsELeHl1c673qBIpN9vuVH8DUK05WeOiMhJXkSX0qsQEEHrEFmodny2chdtTwuxzxifwc4YGxs2PZUCfXuvTQ7xeSAojT1xBeHJZdo3CyrVpbuWROk1xkWC3dQBqLUyznxE9Io1UOAUBcdrtbsg?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=BsK1Q1OzZ-iP7UNcQJ7cDQ&_nc_oc=AdrdkwI_qFaPrOpXWQg_aXuuc8K5Y2kNnlR9sY-TflHAN65si2YbhzaUuZ1cqQVmKJ6GXpDhigV0q8t2Ksh8WZNO&ccb=10-5&oh=00_AQGE1uoVUe7ISCQgVQgZ09W1HAMqkHrU0yY3OT6K3E9xzA&oe=6AB1963D&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/177894464192381"}}, {"nom": "Meersemdries", "commune": "Gent", "lat": 51.0408393, "lon": 3.7622912, "candidat": {"id": "272279821266659", "score": 0.521, "distance_m": 30.3, "ecart_angle_deg": 35.5, "captured_at": 1440348900000, "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An_WV0_axX8Gev6AQQMuuS_UM8jQtmZVyQql4GaVoZUfVKKx76TECE9H6UorCOSLrPF40qdaEPhxtzY8KZA1rSTAdJQhViZnVo9PYFjo5kO_aRvNQFmcvtRlb2CHA1Mw4GGBiPf-dhDo9AEwqRnvWQ?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=1DAU0-SZYVHwFvb7Xx4CZQ&_nc_oc=AdpooserHhpxsgJk8T3V-I75K9llO25hAs4kCpB8WOb3zt5rE6HyfHmup-VokZg-eMuHLW_FgdZVxopMexxtgp0_&ccb=10-5&oh=00_AQHALgCcHHQZOheVdZxXEmH9s8cJarVlsO3SCgn72cQ0oQ&oe=6AB174F8&_nc_sid=201bca", "lien": "https://www.mapillary.com/map/im/272279821266659"}}, {"nom": "Mercuriusstraat", "commune": "Gent", "lat": 51.0809275, "lon": 3.6659145, "candidat": null}, {"nom": "Mercuriusstraat", "commune": "Gent", "lat": 51.0801448, "lon": 3.6657083, "candidat": null}, {"nom": "Metselaarsstraat", "commune": "Gent", "lat": 51.059173, "lon": 3.7356514, "candidat": null}]}];
+const CLE_STOCKAGE = "mapetanque_revue_photos_decisions";
+
+function chargerDecisions() {
+    try {
+        return JSON.parse(localStorage.getItem(CLE_STOCKAGE)) || {};
+    } catch (e) {
+        return {};
+    }
+}
+
+// Chaque décision est un objet { statut: 'accepte'|'rejete'|undefined, alternative: '...' }
+// plutôt qu'une simple chaîne, pour pouvoir noter une photo alternative indépendamment du
+// statut accepté/rejeté (ex. rejeter la proposition ET indiquer ce qui serait mieux).
+function mettreAJourDecision(cleTerrain, correctifs) {
+    const decisions = chargerDecisions();
+    const actuel = decisions[cleTerrain] || {};
+    const nouveau = { ...actuel, ...correctifs };
+
+    // Nettoie l'entrée entièrement si elle ne contient plus rien d'utile
+    if (!nouveau.statut && !nouveau.alternative) {
+        delete decisions[cleTerrain];
+    } else {
+        decisions[cleTerrain] = nouveau;
+    }
+
+    localStorage.setItem(CLE_STOCKAGE, JSON.stringify(decisions));
+    mettreAJourProgression();
+}
+
+function cleDe(terrain) {
+    return terrain.lat.toFixed(6) + "," + terrain.lon.toFixed(6);
+}
+
+function mettreAJourProgression() {
+    const decisions = chargerDecisions();
+    let total = 0, decides = 0;
+    DONNEES.forEach(groupe => groupe.terrains.forEach(t => {
+        if (t.candidat) {
+            total++;
+            if (decisions[cleDe(t)]?.statut) decides++;
+        }
+    }));
+    document.getElementById('progression').textContent = decides + " / " + total + " décidé(s)";
+}
+
+function construireCarte(terrain) {
+    const decisions = chargerDecisions();
+    const cle = cleDe(terrain);
+    const decision = decisions[cle] || {};
+
+    if (!terrain.candidat) {
+        const div = document.createElement('div');
+        div.className = 'sans-candidat';
+        div.textContent = terrain.nom + " — aucun candidat trouvé";
+        return div;
+    }
+
+    const c = terrain.candidat;
+    const div = document.createElement('div');
+    div.className = 'terrain-carte' + (decision.statut === 'accepte' ? ' decide-accepte' : decision.statut === 'rejete' ? ' decide-rejete' : '');
+    div.dataset.cle = cle;
+    div.dataset.recherche = (terrain.commune + ' ' + terrain.nom).toLowerCase();
+
+    div.innerHTML = `
+        <a href="${c.lien}" target="_blank"><img src="${c.thumbnail}" loading="lazy"></a>
+        <div class="terrain-info">
+            <b>${terrain.nom}</b>
+            <div class="terrain-meta">${terrain.commune} — score ${c.score} — ${c.distance_m} m — écart angle ${c.ecart_angle_deg}°</div>
+            <div class="terrain-actions">
+                <button class="btn-accepter">Accepter</button>
+                <button class="btn-rejeter">Rejeter</button>
+                <a href="${c.lien}" target="_blank"><button type="button">Voir sur Mapillary</button></a>
+                <a href="https://www.openstreetmap.org/edit#map=20/${terrain.lat}/${terrain.lon}" target="_blank"><button type="button">Ouvrir dans OSM</button></a>
+                <button type="button" class="btn-copier-id">Copier l'ID Mapillary</button>
+            </div>
+            <div class="terrain-alternative">
+                <input type="text" class="champ-alternative" placeholder="Meilleure photo trouvée sur Mapillary ? Colle son lien ou son ID ici" value="${decision.alternative || ''}">
+            </div>
+        </div>
+    `;
+
+    const btnAccepter = div.querySelector('.btn-accepter');
+    const btnRejeter = div.querySelector('.btn-rejeter');
+    const champAlternative = div.querySelector('.champ-alternative');
+    const btnCopierId = div.querySelector('.btn-copier-id');
+
+    btnCopierId.addEventListener('click', () => {
+        // Si une alternative a été notée, on copie son ID plutôt que celui proposé par défaut
+        // (accepte soit un ID brut, soit un lien mapillary.com/map/im/ID collé tel quel)
+        const valeurAlt = champAlternative.value.trim();
+        let idACopier = c.id;
+        if (valeurAlt) {
+            const correspondance = valeurAlt.match(/(\d{10,})/);
+            idACopier = correspondance ? correspondance[1] : valeurAlt;
+        }
+
+        navigator.clipboard.writeText(idACopier).then(() => {
+            const texteOriginal = btnCopierId.textContent;
+            btnCopierId.textContent = 'Copié !';
+            setTimeout(() => { btnCopierId.textContent = texteOriginal; }, 1500);
+        });
+    });
+
+    function rafraichirBoutons() {
+        const d = chargerDecisions()[cle] || {};
+        btnAccepter.className = 'btn-accepter' + (d.statut === 'accepte' ? ' actif-accepte' : '');
+        btnRejeter.className = 'btn-rejeter' + (d.statut === 'rejete' ? ' actif-rejete' : '');
+        div.className = 'terrain-carte' + (d.statut === 'accepte' ? ' decide-accepte' : d.statut === 'rejete' ? ' decide-rejete' : '');
+    }
+
+    btnAccepter.addEventListener('click', () => {
+        const actuel = chargerDecisions()[cle] || {};
+        mettreAJourDecision(cle, { statut: actuel.statut === 'accepte' ? undefined : 'accepte' });
+        rafraichirBoutons();
+        appliquerFiltres();
+    });
+    btnRejeter.addEventListener('click', () => {
+        const actuel = chargerDecisions()[cle] || {};
+        mettreAJourDecision(cle, { statut: actuel.statut === 'rejete' ? undefined : 'rejete' });
+        rafraichirBoutons();
+        appliquerFiltres();
+    });
+    // Sauvegarde au fil de la frappe (léger, pas besoin de bouton "Enregistrer" séparé)
+    champAlternative.addEventListener('input', () => {
+        mettreAJourDecision(cle, { alternative: champAlternative.value.trim() || undefined });
+    });
+
+    rafraichirBoutons();
+    return div;
+}
+
+function construirePage() {
+    const conteneur = document.getElementById('conteneur');
+    DONNEES.forEach((groupe, index) => {
+        const div = document.createElement('div');
+        div.className = 'commune-groupe';
+
+        const nbCandidats = groupe.terrains.filter(t => t.candidat).length;
+
+        const titre = document.createElement('div');
+        titre.className = 'commune-titre';
+        titre.innerHTML = `<span>${groupe.commune} (${groupe.terrains.length} terrain(s), ${nbCandidats} candidat(s))</span><span>&#9660;</span>`;
+
+        const contenu = document.createElement('div');
+        contenu.className = 'commune-contenu' + (index === 0 ? ' ouvert' : '');
+
+        groupe.terrains.forEach(t => contenu.appendChild(construireCarte(t)));
+
+        titre.addEventListener('click', () => contenu.classList.toggle('ouvert'));
+
+        div.appendChild(titre);
+        div.appendChild(contenu);
+        conteneur.appendChild(div);
+    });
+
+    mettreAJourProgression();
+}
+
+function appliquerFiltres() {
+    const recherche = document.getElementById('recherche').value.toLowerCase();
+    const filtreDecision = document.getElementById('filtreDecision').value;
+    const decisions = chargerDecisions();
+
+    document.querySelectorAll('.terrain-carte').forEach(carte => {
+        const correspondRecherche = !recherche || carte.dataset.recherche.includes(recherche);
+        const statut = decisions[carte.dataset.cle]?.statut;
+        let correspondDecision = true;
+        if (filtreDecision === 'a_decider') correspondDecision = !statut;
+        if (filtreDecision === 'acceptes') correspondDecision = statut === 'accepte';
+        if (filtreDecision === 'rejetes') correspondDecision = statut === 'rejete';
+
+        carte.classList.toggle('cachee', !(correspondRecherche && correspondDecision));
+    });
+}
+
+document.getElementById('recherche').addEventListener('input', appliquerFiltres);
+document.getElementById('filtreDecision').addEventListener('change', appliquerFiltres);
+
+document.getElementById('exporter').addEventListener('click', () => {
+    const decisions = chargerDecisions();
+    const blob = new Blob([JSON.stringify(decisions, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'decisions_photos_mapillary.json';
+    a.click();
+});
+
+// Import : fusionne le fichier choisi avec les décisions déjà présentes sur CETTE machine
+// (les clés du fichier importé écrasent celles en commun, mais rien n'est perdu de ce qui
+// n'est présent que localement) — utile pour rapporter les décisions prises sur une autre
+// machine, vu que le stockage est propre à chaque navigateur (voir localStorage plus haut).
+document.getElementById('importer').addEventListener('click', () => {
+    document.getElementById('fichierImport').click();
+});
+
+document.getElementById('fichierImport').addEventListener('change', (evenement) => {
+    const fichier = evenement.target.files[0];
+    if (!fichier) return;
+
+    const lecteur = new FileReader();
+    lecteur.onload = () => {
+        let importees;
+        try {
+            importees = JSON.parse(lecteur.result);
+        } catch (e) {
+            alert("Fichier invalide : ce n'est pas un JSON lisible.");
+            return;
+        }
+
+        const actuelles = chargerDecisions();
+        const fusionnees = { ...actuelles, ...importees };
+        localStorage.setItem(CLE_STOCKAGE, JSON.stringify(fusionnees));
+
+        alert(Object.keys(importees).length + " décision(s) importée(s) et fusionnée(s).");
+        location.reload();
+    };
+    lecteur.readAsText(fichier);
+
+    // Réinitialise le champ pour pouvoir réimporter le même fichier plus tard si besoin
+    evenement.target.value = '';
+});
+
+construirePage();
+</script>
+
+</body>
+</html>

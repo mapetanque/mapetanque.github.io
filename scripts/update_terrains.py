@@ -302,6 +302,11 @@ for index, element in enumerate(osm_data["elements"], start=1):
     time.sleep(1)
 
     proprietes = dict(element.get("tags", {}))
+    # Identifiant stable du terrain (ex. "node/123456789"), qui ne change jamais même si ses
+    # coordonnées sont corrigées par la suite sur OSM — contrairement aux coordonnées, utilisées
+    # ailleurs dans le site comme clé de correspondance mais qui peuvent légèrement bouger d'une
+    # semaine à l'autre. Sert de clé stable pour data/photos_mapillary.json (voir ce fichier).
+    proprietes["osm_id"] = f"{element['type']}/{element['id']}"
     proprietes["nearest_street"] = infos_adresse["rue"]
     proprietes["commune"] = infos_adresse["commune"]
     proprietes["province"] = infos_adresse["province"]
