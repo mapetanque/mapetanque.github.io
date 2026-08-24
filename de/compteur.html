@@ -519,16 +519,16 @@
       <button data-t="11">11</button>
       <button data-t="13" class="active">13</button>
     </div>
-    <div class="mene-count" id="meneLabel">mène 0</div>
-    <button id="resetBtn">Nouvelle partie</button>
-    <button class="fullscreen-toggle-btn" id="fullscreenToggleBtn" aria-label="Plein écran">
+    <div class="mene-count" id="meneLabel">Runde 0</div>
+    <button id="resetBtn">Neues Spiel</button>
+    <button class="fullscreen-toggle-btn" id="fullscreenToggleBtn" aria-label="Vollbild">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
     </button>
   </div>
 
   <div class="halves">
     <div class="team a" id="teamA">
-      <div class="name" id="nameA" contenteditable="false">Équipe A</div>
+      <div class="name" id="nameA" contenteditable="false">Team A</div>
       <div class="score" id="scoreA">0</div>
       <div class="boules" id="boulesA"></div>
       <div class="controls">
@@ -536,13 +536,13 @@
         <div class="chip" data-team="a" data-action="2">+2</div>
         <div class="chip" data-team="a" data-action="3">+3</div>
       </div>
-      <div class="hint">touchez pour +1</div>
+      <div class="hint">tippen für +1</div>
     </div>
 
     <div class="divider"></div>
 
     <div class="team b" id="teamB">
-      <div class="name" id="nameB" contenteditable="false">Équipe B</div>
+      <div class="name" id="nameB" contenteditable="false">Team B</div>
       <div class="score" id="scoreB">0</div>
       <div class="boules" id="boulesB"></div>
       <div class="controls">
@@ -550,36 +550,36 @@
         <div class="chip" data-team="b" data-action="2">+2</div>
         <div class="chip" data-team="b" data-action="3">+3</div>
       </div>
-      <div class="hint">touchez pour +1</div>
+      <div class="hint">tippen für +1</div>
     </div>
   </div>
 
   <div class="bottombar">
-    <button id="undoBtn" disabled>↺ Annuler</button>
-    <button id="editBtn">✎ Renommer</button>
+    <button id="undoBtn" disabled>↺ Rückgängig</button>
+    <button id="editBtn">✎ Umbenennen</button>
   </div>
 
   <div class="win" id="winOverlay">
     <div class="confetti-field" id="confettiField"></div>
-    <div class="trophy-line">Partie terminée</div>
-    <div class="winner-name" id="winnerName">Équipe A gagne</div>
+    <div class="trophy-line">Spiel beendet</div>
+    <div class="winner-name" id="winnerName">Team A gewinnt</div>
     <div class="final-score" id="finalScore">13 – 7</div>
-    <button id="playAgainBtn">Nouvelle partie</button>
+    <button id="playAgainBtn">Neues Spiel</button>
   </div>
 
   <div class="win" id="renameModal">
-    <div class="trophy-line">Renommer les équipes</div>
+    <div class="trophy-line">Teams umbenennen</div>
     <label class="modal-field">
-      <span>Équipe A</span>
+      <span>Team A</span>
       <input type="text" id="inputA" maxlength="20">
     </label>
     <label class="modal-field">
-      <span>Équipe B</span>
+      <span>Team B</span>
       <input type="text" id="inputB" maxlength="20">
     </label>
     <div style="display:flex; gap:12px; margin-top:6px;">
-      <button id="cancelRename" class="secondary">Annuler</button>
-      <button id="saveRename">Enregistrer</button>
+      <button id="cancelRename" class="secondary">Abbrechen</button>
+      <button id="saveRename">Speichern</button>
     </div>
   </div>
 
@@ -678,8 +678,8 @@
     scoreB: 0,
     mene: 0,
     finished: false,
-    nameA: 'Équipe A',
-    nameB: 'Équipe B',
+    nameA: 'Team A',
+    nameB: 'Team B',
   };
   const history = [];
 
@@ -737,7 +737,7 @@
     el.scoreB.textContent = state.scoreB;
     renderBoules(el.boulesA, state.scoreA);
     renderBoules(el.boulesB, state.scoreB);
-    el.meneLabel.textContent = 'mène ' + state.mene;
+    el.meneLabel.textContent = 'Runde ' + state.mene;
     el.nameA.textContent = state.nameA;
     el.nameB.textContent = state.nameB;
 
@@ -774,7 +774,7 @@
       state.finished = true;
       sauvegarderPartie(); // le dernier render() a eu lieu AVANT ce passage à finished=true
       const aWon = state.scoreA >= state.target;
-      el.winnerName.textContent = (aWon ? state.nameA : state.nameB) + ' gagne';
+      el.winnerName.textContent = (aWon ? state.nameA : state.nameB) + ' gewinnt';
       el.finalScore.textContent = state.scoreA + ' – ' + state.scoreB;
       el.win.classList.remove('win-a', 'win-b');
       el.win.classList.add(aWon ? 'win-a' : 'win-b');
@@ -900,7 +900,7 @@
     widget.classList.toggle('fullscreen-active', actif);
     document.body.classList.toggle('fullscreen-lock', actif);
     fullscreenToggleBtn.innerHTML = actif ? ICON_MINIMIZE : ICON_MAXIMIZE;
-    fullscreenToggleBtn.setAttribute('aria-label', actif ? 'Quitter le plein écran' : 'Plein écran');
+    fullscreenToggleBtn.setAttribute('aria-label', actif ? 'Vollbild verlassen' : 'Vollbild');
   }
 
   fullscreenToggleBtn.addEventListener('click', (e) => {
@@ -914,6 +914,19 @@
     }
   });
 })();
+</script>
+
+<script>
+    // Sélecteur de langue : même correctif que sur la page "Comment jouer" et les pages
+    // province/région — voir le commentaire équivalent dans generer_page() plus haut.
+    document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const cible = btn.dataset.langUrl;
+            if (cible) {
+                window.location.href = cible;
+            }
+        });
+    });
 </script>
 
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->

@@ -401,6 +401,22 @@
 <script src="/translations.js"></script>
 <script>window.MAPETANQUE_SKIP_DEFAULT_MARKERS = true;</script>
 <script src="/script.js"></script>
+
+<script>
+    // Sélecteur de langue : script.js (non modifié) renvoie toujours vers la racine de la
+    // langue choisie et ne traduit que les menus/boutons partagés, pas cette page elle-même
+    // (chaque langue est un fichier statique séparé). On surcharge la navigation pour aller
+    // vers la vraie URL équivalente — même correctif que templates/province_template.html.
+    document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const cible = btn.dataset.langUrl;
+            if (cible) {
+                window.location.href = cible;
+            }
+        });
+    });
+</script>
+
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
