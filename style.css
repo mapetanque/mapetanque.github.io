@@ -500,6 +500,53 @@ body.fullscreen-lock {
     gap: 2px;
 }
 
+/* Liens "Comment jouer" / "Compteur de points", directement visibles dans la nav desktop (pas
+   cachés dans le panneau d'info comme À propos/FAQ/Contact — ce sont de vraies pages séparées).
+   Séparés du reste par une bordure à droite, même traitement visuel que #lang-switcher-inline
+   plus bas (juste inversé, puisque ce bloc-ci précède #desktop-nav dans le DOM). */
+#game-nav-inline {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-right: 6px;
+    padding-right: 10px;
+    border-right: 1px solid #e2e2e2;
+}
+
+/* Regroupe les liens "jeu" et le reste de la nav (À propos/FAQ/Contact + langue) en un seul
+   bloc flex, pour que justify-content:space-between (sur .header-top-row) ne les écarte pas
+   l'un de l'autre — seul le logo doit être poussé à gauche, tout le reste doit rester groupé
+   à droite. */
+.header-nav-group {
+    display: flex;
+    align-items: center;
+}
+
+.game-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #444;
+    border-radius: 20px;
+    white-space: nowrap;
+    transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.game-nav-link svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.game-nav-link:hover {
+    background: rgba(116, 193, 90, 0.1);
+    color: #74C15A;
+}
+
 /* Sélecteur de langue discret (repli manuel ; la détection automatique suffit dans l'immense
    majorité des cas, donc pas besoin d'un bouton bien visible comme avant) */
 #lang-switcher-inline {
@@ -584,6 +631,10 @@ body.fullscreen-lock {
 
     /* La navigation desktop (incluant le sélecteur de langue) cède la place au menu burger */
     #desktop-nav {
+        display: none;
+    }
+
+    #game-nav-inline {
         display: none;
     }
 
@@ -1134,6 +1185,30 @@ body.fullscreen-lock {
     text-decoration: none;
     color: #333;
     font-size: 18px;
+}
+
+/* Liens "Comment jouer" / "Compteur de points" en tête du menu burger, même style que les
+   autres liens du menu (#side-menu a), avec juste une petite icône en plus — séparés du reste
+   (À propos/FAQ/Contact) par un léger trait sous le second lien. */
+.side-menu-game-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+}
+
+.side-menu-game-link svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    color: #999;
+}
+
+#side-menu li:has(.side-menu-game-link.compteur) {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
 }
 
 /* Sélecteur de langue discret en bas du menu burger */

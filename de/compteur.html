@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Punktezähler — Mapetanque.be</title>
+    <meta name="description" content="Ein interaktiver Punktezähler, um den Spielstand Ihrer Pétanque-Partien auf Handy oder Tablet zu verfolgen.">
+    <link rel="icon" type="image/svg+xml" href="/images/logomap.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta property="og:title" content="Punktezähler — Mapetanque.be">
+    <meta property="og:description" content="Ein interaktiver Punktezähler, um den Spielstand Ihrer Pétanque-Partien auf Handy oder Tablet zu verfolgen.">
+    <meta property="og:image" content="https://mapetanque.be/images/logomap.png">
+    <meta property="og:url" content="https://mapetanque.be/de/compteur.html">
+    <meta property="og:type" content="website">
+
+    <link rel="canonical" href="https://mapetanque.be/de/compteur.html">
+    <link rel="alternate" hreflang="fr" href="https://mapetanque.be/compteur.html">
+    <link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/compteur.html">
+    <link rel="alternate" hreflang="de" href="https://mapetanque.be/de/compteur.html">
+    <link rel="alternate" hreflang="x-default" href="https://mapetanque.be/compteur.html">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Polices propres au widget compteur (Space Grotesk pour les gros scores), en plus de
+         Quicksand déjà utilisée par le reste du site -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style-accueil-provinces.css">
+    <link rel="stylesheet" href="/style-comment-jouer.css">
+    <!-- Styles du widget compteur lui-même : volontairement séparés, palette et typographie
+         propres à cet outil (voir .compteur-widget) — seule zone du site où cette identité
+         visuelle distincte est utilisée. -->
+    <style>
+
+  :root{
+    --bg: #1c1b17;
+    --bg-soft: #26241e;
+    --line: #3a372f;
+    --sand: #f2ece0;
+    --sand-dim: #a89e8c;
+    --green: #4c7a3d;
+    --green-deep: #375a2c;
+    --terracotta: #b5502e;
+    --terracotta-deep: #8a3b21;
+    --boule: #c9c2b4;
+  }
+
+  *{ box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  /* Le compteur est un widget autonome intégré dans la page normale du site (pas le document
+     entier comme dans un premier prototype) : sa palette sombre/dédiée (vert+terracotta,
+     Quicksand+Space Grotesk) reste entièrement confinée à l'intérieur de .compteur-widget,
+     comportement volontairement différent du thème clair du reste du site. Par défaut, hauteur
+     bornée façon "carte" ; en plein écran (.fullscreen-active, bouton dans la barre du haut),
+     passe en position fixe pour occuper tout le viewport — même mécanisme que le mode plein
+     écran de la carte ailleurs sur le site (voir definirModePleinEcran dans script.js). */
+  .compteur-widget{
+    position: relative;
+    height: min(640px, 80vh);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+
+    background: var(--bg);
+    font-family: 'Quicksand', sans-serif;
+    color: var(--sand);
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .compteur-widget.fullscreen-active{
+    position: fixed;
+    inset: 0;
+    height: 100vh;
+    height: 100dvh;
+    border-radius: 0;
+    z-index: 1060;
+  }
+
+  /* Empêche la page de scroller derrière le widget tant que le plein écran est actif */
+  body.fullscreen-lock {
+    overflow: hidden;
+  }
+
+  .app{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fullscreen-toggle-btn{
+    background: none;
+    border: none;
+    color: var(--sand-dim);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    margin-left: 8px;
+  }
+  .fullscreen-toggle-btn svg{ width: 18px; height: 18px; }
+  .fullscreen-toggle-btn:hover{ color: var(--sand); }
+
+  /* top bar */
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    padding: max(10px, env(safe-area-inset-top)) 14px 8px;
+    background: var(--bg);
+    font-size: 12px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--sand-dim);
+    flex: 0 0 auto;
+    z-index: 5;
+  }
+  .topbar button{
+    background:none; border:none; color: var(--sand-dim);
+    font-family: inherit; font-size: 12px; letter-spacing:.06em; text-transform:uppercase;
+    padding: 6px 8px; cursor:pointer;
+  }
+  .target-toggle{ display:flex; gap:4px; background: var(--bg-soft); border-radius: 20px; padding:3px; }
+  .target-toggle button{
+    padding: 5px 12px; border-radius: 16px; color: var(--sand-dim);
+  }
+  .target-toggle button.active{ background: var(--sand); color: var(--bg); font-weight:700; }
+  .mene-count{ font-variant-numeric: tabular-nums; }
+
+  /* halves */
+  .halves{
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  @media (orientation: landscape){
+    .halves{ flex-direction: row; }
+    .divider{ width:1px; height:100%; }
+  }
+
+  .team{
+    flex: 1 1 0;
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content:center;
+    position: relative;
+    padding: 8px 16px 14px;
+    min-height: 0;
+    cursor: pointer;
+    transition: filter .15s ease;
+  }
+  .team:active{ filter: brightness(1.12); }
+  .team.a{ background: var(--green); }
+  .team.b{ background: var(--terracotta); }
+
+  .divider{
+    height: 1px;
+    background: rgba(0,0,0,.35);
+    flex: 0 0 auto;
+  }
+
+  .name{
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.85);
+    padding: 4px 10px;
+    border-radius: 8px;
+    max-width: 90%;
+    text-align:center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .name[contenteditable="true"]{
+    background: rgba(0,0,0,.25);
+    outline: none;
+    white-space: normal;
+  }
+
+  .score{
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: min(28vh, 32vw);
+    line-height: 1;
+    color: var(--sand);
+    margin: 2px 0 6px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .boules{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content:center;
+    gap: 4px;
+    max-width: 260px;
+    margin-bottom: 14px;
+  }
+  .boule{
+    width: 9px; height: 9px; border-radius: 50%;
+    background: rgba(255,255,255,.18);
+    flex: 0 0 auto;
+  }
+  .boule.filled{ background: var(--boule); box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset; }
+
+  .controls{
+    display:flex;
+    align-items:center;
+    flex-wrap: wrap;
+    justify-content:center;
+    gap: 8px;
+    max-width: 260px;
+  }
+  .chip{
+    border: 1.5px solid rgba(255,255,255,.4);
+    color: var(--sand);
+    background: rgba(0,0,0,.12);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    border-radius: 999px;
+    padding: 7px 13px;
+    font-size: 14px;
+    line-height: 1;
+  }
+  .chip.minus{
+    border-color: rgba(255,255,255,.25);
+    color: rgba(255,255,255,.7);
+    font-size: 12px;
+    padding: 6px 11px;
+  }
+
+  .hint{
+    position:absolute;
+    bottom: 8px;
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.35);
+  }
+
+  /* bottom bar */
+  .bottombar{
+    flex: 0 0 auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap: 18px;
+    padding: 10px 14px max(10px, env(safe-area-inset-bottom));
+    background: var(--bg);
+  }
+  .bottombar button{
+    background:none; border:none; color: var(--sand-dim);
+    font-family: 'Quicksand', sans-serif; font-weight:600;
+    font-size: 13px; letter-spacing:.04em;
+    padding: 8px 10px; cursor:pointer;
+    display:flex; align-items:center; gap:6px;
+  }
+  .bottombar button:disabled{ opacity:.35; }
+
+  /* win overlay */
+  .win{
+    position:absolute; inset:0;
+    background: rgba(10,9,7,.92);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap: 18px;
+    opacity:0; pointer-events:none;
+    transition: opacity .3s ease, background .3s ease;
+    z-index: 20;
+    text-align:center;
+    padding: 20px;
+    overflow: hidden;
+  }
+  .win.show{ opacity:1; pointer-events:auto; }
+  .win.win-a{ background: linear-gradient(180deg, #1e2e17, #14200f); }
+  .win.win-b{ background: linear-gradient(180deg, #3a2015, #26140d); }
+  .win .trophy-line{
+    font-size: 12px; letter-spacing:.14em; text-transform:uppercase; color: var(--sand-dim);
+  }
+  .win .winner-name{
+    font-family:'Space Grotesk', sans-serif; font-weight:700;
+    font-size: 34px; color: var(--sand);
+  }
+  .win .final-score{
+    font-family:'Space Grotesk', sans-serif; font-weight:700;
+    font-size: 20px; color: var(--sand-dim);
+  }
+  .win button{
+    margin-top: 8px;
+    background: var(--sand); color: var(--bg);
+    border:none; border-radius: 999px;
+    font-family:'Quicksand',sans-serif; font-weight:700;
+    padding: 12px 26px; font-size: 15px; cursor:pointer;
+  }
+  .win button.secondary{
+    background: transparent; color: var(--sand);
+    border: 1.5px solid rgba(255,255,255,.35);
+    margin-top: 8px;
+  }
+
+  .confetti-field{
+    position:absolute; inset:0;
+    pointer-events:none;
+    overflow:hidden;
+  }
+  .confetti-piece{
+    position:absolute;
+    top: -20px;
+    width: 8px;
+    height: 14px;
+    opacity: .9;
+    border-radius: 2px;
+    animation-name: confetti-fall;
+    animation-timing-function: cubic-bezier(.35,.05,.6,.95);
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+  @keyframes confetti-fall{
+    0%{ transform: translateY(0) rotate(0deg); opacity: .95; }
+    85%{ opacity: .9; }
+    100%{ transform: translateY(115vh) rotate(540deg); opacity: 0; }
+  }
+  .modal-field{
+    display:flex; flex-direction:column; gap:6px;
+    width: min(280px, 80vw);
+    text-align:left;
+  }
+  .modal-field span{
+    font-size: 11px; letter-spacing:.08em; text-transform:uppercase; color: var(--sand-dim);
+  }
+  .modal-field input{
+    font-family:'Quicksand',sans-serif; font-weight:600; font-size:17px;
+    background: var(--bg-soft); color: var(--sand);
+    border: 1.5px solid rgba(255,255,255,.25); border-radius: 10px;
+    padding: 10px 12px; outline:none;
+  }
+  .modal-field input:focus{ border-color: var(--sand); }
+
+    </style>
+</head>
+
+<body>
+
+<div id="top">
+
+<div class="hero-banner">
+
+<div class="header">
+
+    <div class="header-top-row">
+        <a href="/de/" class="brand-link">
+            <svg class="logo" viewBox="0 0 878 884" aria-hidden="true">
+                <path d="M424.499,112.128C439.588,112.168 439.514,111.999 454.535,113.252C459.282,113.647 464.985,126.287 468.428,132.54C493.822,178.652 509.506,246.447 512.842,263.422C526.266,331.73 534.962,392.68 530.995,497.518C530.73,504.523 532.222,510.697 526.548,510.074C486.775,505.708 418.691,489.158 409.409,486.902C341.188,470.318 196.794,419.279 126.375,344.613C116.876,334.541 108.935,326.226 110.547,322.519C166.783,193.217 295.634,112.983 424.499,112.128Z" style="fill:rgb(0,197,47);"/>
+                <path d="M323.995,777.029C323.912,775.739 324.142,775.825 325.23,775.274C355.62,759.894 400.469,704.642 369.737,638.388C334.216,561.808 212.168,551.036 166.882,640.677C157.245,659.752 159.137,674.474 155.349,669.692C132.912,641.373 125.231,625.974 121.202,618.662C62.664,512.423 85.368,404.962 87.77,395.633C89.088,390.514 107.272,419.126 187.29,462.882C284.724,516.16 395.602,541.393 414.463,545.686C514.476,568.446 526.353,560.436 525.158,567.446C522.169,584.997 521.573,607.623 506.699,664.563C498.834,694.669 495.492,701.689 492.174,711.382C482.494,739.658 459.679,782.477 454.579,783.706C453.65,783.93 439.298,785.77 437.531,785.88C388.91,788.907 370.416,787.255 323.995,777.029Z" style="fill:rgb(0,197,47);"/>
+                <path d="M751.947,414.476C752.392,421.598 755.056,464.245 746.578,503.518C746.139,505.555 746.093,507.227 715.57,511.981C663.956,520.02 589.643,517.532 587.708,515.292C585.652,512.911 590.985,470.859 585.771,398.481C576.52,270.067 553.298,197.303 523.767,131.39C523.228,130.188 519.23,124.88 523.526,126.209C645.086,163.82 740.976,269.929 751.947,414.476Z" style="fill:rgb(0,197,47);"/>
+                <path d="M720.315,584.413C662.254,708.15 561.132,749.553 541.613,758.921C537.914,760.696 538.18,758.744 538.254,758.484C538.377,758.05 549.128,738.3 564.299,678.456C576.691,629.572 580.983,585.687 581.781,577.532C582.508,570.096 583.875,569.77 584.527,569.615C593.043,567.585 613.097,574.573 695.536,565.78C719.879,563.183 729.606,559.289 729.92,561.317C730.132,562.689 721.139,582.59 720.315,584.413Z" style="fill:rgb(0,197,47);"/>
+            </svg>
+            <span class="brand"><span class="brand-map">Map</span>etanque<span class="brand-tld">.be</span></span>
+        </a>
+
+        <div class="header-nav-group">
+        <span id="game-nav-inline">
+            <a href="/de/comment-jouer.html" class="game-nav-link jouer"><svg viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;stroke-width:1.91px;}</style></defs><polyline class="cls-1" points="13.91 10.09 14.86 11.04 16.77 9.14"/><polyline class="cls-1" points="13.91 13.91 14.86 14.86 16.77 12.96"/><line class="cls-1" x1="7.23" y1="11.05" x2="11.05" y2="11.05"/><line class="cls-1" x1="7.23" y1="14.86" x2="11.05" y2="14.86"/><polyline class="cls-1" points="13.91 17.73 14.86 18.68 16.77 16.77"/><line class="cls-1" x1="7.23" y1="18.68" x2="11.05" y2="18.68"/><polygon class="cls-1" points="20.59 6.27 20.59 22.5 3.41 22.5 3.41 1.5 15.82 1.5 20.59 6.27"/><polygon class="cls-1" points="20.59 6.27 20.59 7.23 14.86 7.23 14.86 1.5 15.82 1.5 20.59 6.27"/></svg><span data-i18n="menu_comment_jouer">Comment jouer</span></a>
+            <a href="/de/compteur.html" class="game-nav-link compteur"><svg fill="currentColor" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+	 viewBox="0 0 512 512" xml:space="preserve">
+<g>
+	<g>
+		<path d="M469.973,75.985H353.357V50.769c0-11.605-9.408-21.013-21.013-21.013c-11.605,0-21.013,9.408-21.013,21.013v25.216
+			H200.659V50.769c0-11.605-9.408-21.013-21.013-21.013c-11.605,0-21.013,9.408-21.013,21.013v25.216H42.027
+			C18.853,75.985,0,94.838,0,118.012c0,11.55,0,297.873,0,322.206c0,23.174,18.853,42.027,42.027,42.027
+			c18.793,0,409.188,0,427.946,0c23.174,0,42.027-18.853,42.027-42.027c0-24.441,0-310.739,0-322.206
+			C512,94.838,493.147,75.985,469.973,75.985z M42.027,190.858v-72.847h0l116.607-0.007v19.62c0,11.605,9.408,21.013,21.013,21.013
+			c11.605,0,21.013-9.408,21.013-21.013v-19.621l110.671-0.006v19.627c0,11.605,9.408,21.013,21.013,21.013
+			c11.605,0,21.013-9.408,21.013-21.013v-19.629l116.615-0.007c0,0,0,0.008,0,0.024v72.847
+			C451.18,190.858,60.785,190.858,42.027,190.858z M234.987,440.218H42.027V232.885h192.96V440.218z M469.973,440.218h-192.96
+			V232.885h192.96V440.218z"/>
+	</g>
+</g>
+<g>
+	<g>
+		<path d="M159.904,299.504c-13.867-21.128-39.257-21.367-53.278,0c-13.111,19.069-12.829,49.983,0,68.643
+			c14.155,21.236,39.103,21.263,53.278,0C172.663,349.154,172.846,318.766,159.904,299.504z M146.691,359.243
+			c-8.047,11.931-18.766,11.8-26.997,0c-9.068-13.601-9.289-36.713,0-50.98c8.108-11.35,18.614-12.139,26.997,0
+			C155.973,322.516,155.766,345.634,146.691,359.243z"/>
+	</g>
+</g>
+<g>
+	<g>
+		<path d="M394.889,299.504c-13.866-21.128-39.256-21.367-53.278,0c-13.111,19.069-12.829,49.983,0,68.643
+			c14.155,21.236,39.103,21.263,53.278,0C407.648,349.154,407.831,318.766,394.889,299.504z M381.676,359.243
+			c-8.045,11.931-18.765,11.8-26.997,0c-9.068-13.603-9.289-36.713,0-50.98c8.108-11.35,18.614-12.139,26.997,0
+			C390.957,322.516,390.751,345.634,381.676,359.243z"/>
+	</g>
+</g>
+</svg><span data-i18n="menu_compteur">Compteur de points</span></a>
+        </span>
+        <nav id="desktop-nav">
+            <button type="button" class="info-nav-trigger" data-target="about" data-i18n="menu_about">À propos</button>
+            <button type="button" class="info-nav-trigger" data-target="faq" data-i18n="menu_faq">FAQ</button>
+            <button type="button" class="info-nav-trigger" data-target="contact" data-i18n="menu_contact">Nous contacter</button>
+            <span id="lang-switcher-inline">
+                <button type="button" class="lang-link" data-lang="fr" data-lang-url="/compteur.html">FR</button>
+                <button type="button" class="lang-link" data-lang="nl" data-lang-url="/nl/compteur.html">NL</button>
+                <button type="button" class="lang-link" data-lang="de" data-lang-url="/de/compteur.html">DE</button>
+            </span>
+        </nav>
+        </div>
+
+        <button id="menu-button" data-i18n-aria="open_menu">
+            ☰
+        </button>
+    </div>
+
+    <h1 class="hero-headline">Punktezähler</h1>
+    <p class="rules-subtitle">Den Punktestand Ihrer Partien verfolgen</p>
+
+</div><!-- /.header -->
+
+<div class="hero-banner-credit">
+    Photo : Jean-Claude Parayre, <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a>
+</div>
+
+</div><!-- /.hero-banner -->
+
+<nav id="side-menu">
+    <button id="close-menu" data-i18n-aria="close_menu">
+        ✕
+    </button>
+
+    <ul>
+        <li><a href="/de/comment-jouer.html" class="side-menu-game-link jouer"><svg viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;stroke-width:1.91px;}</style></defs><polyline class="cls-1" points="13.91 10.09 14.86 11.04 16.77 9.14"/><polyline class="cls-1" points="13.91 13.91 14.86 14.86 16.77 12.96"/><line class="cls-1" x1="7.23" y1="11.05" x2="11.05" y2="11.05"/><line class="cls-1" x1="7.23" y1="14.86" x2="11.05" y2="14.86"/><polyline class="cls-1" points="13.91 17.73 14.86 18.68 16.77 16.77"/><line class="cls-1" x1="7.23" y1="18.68" x2="11.05" y2="18.68"/><polygon class="cls-1" points="20.59 6.27 20.59 22.5 3.41 22.5 3.41 1.5 15.82 1.5 20.59 6.27"/><polygon class="cls-1" points="20.59 6.27 20.59 7.23 14.86 7.23 14.86 1.5 15.82 1.5 20.59 6.27"/></svg><span data-i18n="menu_comment_jouer">Comment jouer</span></a></li>
+                <li><a href="/de/compteur.html" class="side-menu-game-link compteur"><svg fill="currentColor" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+	 viewBox="0 0 512 512" xml:space="preserve">
+<g>
+	<g>
+		<path d="M469.973,75.985H353.357V50.769c0-11.605-9.408-21.013-21.013-21.013c-11.605,0-21.013,9.408-21.013,21.013v25.216
+			H200.659V50.769c0-11.605-9.408-21.013-21.013-21.013c-11.605,0-21.013,9.408-21.013,21.013v25.216H42.027
+			C18.853,75.985,0,94.838,0,118.012c0,11.55,0,297.873,0,322.206c0,23.174,18.853,42.027,42.027,42.027
+			c18.793,0,409.188,0,427.946,0c23.174,0,42.027-18.853,42.027-42.027c0-24.441,0-310.739,0-322.206
+			C512,94.838,493.147,75.985,469.973,75.985z M42.027,190.858v-72.847h0l116.607-0.007v19.62c0,11.605,9.408,21.013,21.013,21.013
+			c11.605,0,21.013-9.408,21.013-21.013v-19.621l110.671-0.006v19.627c0,11.605,9.408,21.013,21.013,21.013
+			c11.605,0,21.013-9.408,21.013-21.013v-19.629l116.615-0.007c0,0,0,0.008,0,0.024v72.847
+			C451.18,190.858,60.785,190.858,42.027,190.858z M234.987,440.218H42.027V232.885h192.96V440.218z M469.973,440.218h-192.96
+			V232.885h192.96V440.218z"/>
+	</g>
+</g>
+<g>
+	<g>
+		<path d="M159.904,299.504c-13.867-21.128-39.257-21.367-53.278,0c-13.111,19.069-12.829,49.983,0,68.643
+			c14.155,21.236,39.103,21.263,53.278,0C172.663,349.154,172.846,318.766,159.904,299.504z M146.691,359.243
+			c-8.047,11.931-18.766,11.8-26.997,0c-9.068-13.601-9.289-36.713,0-50.98c8.108-11.35,18.614-12.139,26.997,0
+			C155.973,322.516,155.766,345.634,146.691,359.243z"/>
+	</g>
+</g>
+<g>
+	<g>
+		<path d="M394.889,299.504c-13.866-21.128-39.256-21.367-53.278,0c-13.111,19.069-12.829,49.983,0,68.643
+			c14.155,21.236,39.103,21.263,53.278,0C407.648,349.154,407.831,318.766,394.889,299.504z M381.676,359.243
+			c-8.045,11.931-18.765,11.8-26.997,0c-9.068-13.603-9.289-36.713,0-50.98c8.108-11.35,18.614-12.139,26.997,0
+			C390.957,322.516,390.751,345.634,381.676,359.243z"/>
+	</g>
+</g>
+</svg><span data-i18n="menu_compteur">Compteur de points</span></a></li>
+                <li><a href="#about" data-i18n="menu_about">À propos</a></li>
+        <li><a href="#faq" data-i18n="menu_faq">FAQ</a></li>
+        <li><a href="#contact" data-i18n="menu_contact">Nous contacter</a></li>
+    </ul>
+
+    <div id="side-menu-lang">
+        <button type="button" class="lang-link" data-lang="fr" data-lang-url="/compteur.html">FR</button>
+        <button type="button" class="lang-link" data-lang="nl" data-lang-url="/nl/compteur.html">NL</button>
+        <button type="button" class="lang-link" data-lang="de" data-lang-url="/de/compteur.html">DE</button>
+    </div>
+</nav>
+
+<div id="menu-overlay"></div>
+
+<p id="searchError" class="search-error" style="display:none;"></p>
+
+<div id="share-overlay"></div>
+<div id="share-panel">
+    <button id="share-close" data-i18n-aria="close_panel">✕</button>
+    <p id="share-title" class="share-title"></p>
+
+    <div class="share-links">
+        <a id="share-whatsapp" class="share-link" target="_blank" rel="noopener">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></span><span data-i18n="share_whatsapp">WhatsApp</span>
+        </a>
+        <a id="share-facebook" class="share-link" target="_blank" rel="noopener">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></span><span data-i18n="share_facebook">Facebook</span>
+        </a>
+        <a id="share-twitter" class="share-link" target="_blank" rel="noopener">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><span data-i18n="share_twitter">X (Twitter)</span>
+        </a>
+        <a id="share-email" class="share-link">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span><span data-i18n="share_email">E-mail</span>
+        </a>
+        <button type="button" id="share-copy" class="share-link">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></span><span id="share-copy-label" data-i18n="share_copy">Copier le lien</span>
+        </button>
+    </div>
+</div>
+
+<div class="rules-content compteur-page-content">
+
+<div class="compteur-widget" id="compteurWidget">
+<div class="app">
+
+  <div class="topbar">
+    <div class="target-toggle" id="targetToggle">
+      <button data-t="11">11</button>
+      <button data-t="13" class="active">13</button>
+    </div>
+    <div class="mene-count" id="meneLabel">mène 0</div>
+    <button id="resetBtn">Nouvelle partie</button>
+    <button class="fullscreen-toggle-btn" id="fullscreenToggleBtn" aria-label="Plein écran">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+    </button>
+  </div>
+
+  <div class="halves">
+    <div class="team a" id="teamA">
+      <div class="name" id="nameA" contenteditable="false">Équipe A</div>
+      <div class="score" id="scoreA">0</div>
+      <div class="boules" id="boulesA"></div>
+      <div class="controls">
+        <div class="chip minus" data-team="a" data-action="minus">−1</div>
+        <div class="chip" data-team="a" data-action="2">+2</div>
+        <div class="chip" data-team="a" data-action="3">+3</div>
+      </div>
+      <div class="hint">touchez pour +1</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="team b" id="teamB">
+      <div class="name" id="nameB" contenteditable="false">Équipe B</div>
+      <div class="score" id="scoreB">0</div>
+      <div class="boules" id="boulesB"></div>
+      <div class="controls">
+        <div class="chip minus" data-team="b" data-action="minus">−1</div>
+        <div class="chip" data-team="b" data-action="2">+2</div>
+        <div class="chip" data-team="b" data-action="3">+3</div>
+      </div>
+      <div class="hint">touchez pour +1</div>
+    </div>
+  </div>
+
+  <div class="bottombar">
+    <button id="undoBtn" disabled>↺ Annuler</button>
+    <button id="editBtn">✎ Renommer</button>
+  </div>
+
+  <div class="win" id="winOverlay">
+    <div class="confetti-field" id="confettiField"></div>
+    <div class="trophy-line">Partie terminée</div>
+    <div class="winner-name" id="winnerName">Équipe A gagne</div>
+    <div class="final-score" id="finalScore">13 – 7</div>
+    <button id="playAgainBtn">Nouvelle partie</button>
+  </div>
+
+  <div class="win" id="renameModal">
+    <div class="trophy-line">Renommer les équipes</div>
+    <label class="modal-field">
+      <span>Équipe A</span>
+      <input type="text" id="inputA" maxlength="20">
+    </label>
+    <label class="modal-field">
+      <span>Équipe B</span>
+      <input type="text" id="inputB" maxlength="20">
+    </label>
+    <div style="display:flex; gap:12px; margin-top:6px;">
+      <button id="cancelRename" class="secondary">Annuler</button>
+      <button id="saveRename">Enregistrer</button>
+    </div>
+  </div>
+
+</div><!-- /.app -->
+</div><!-- /.compteur-widget -->
+
+</div><!-- /.rules-content -->
+
+</div><!-- /#top -->
+
+<section id="stats-section">
+    <div class="stats-container">
+
+        <h2 data-i18n="stats_page_title">Statistiques</h2>
+
+        <div class="stats-headline">
+            <span class="stats-headline-number">…</span>
+            <span class="stats-headline-label" data-i18n="stats_headline_label">terrains de pétanque recensés en Belgique</span>
+        </div>
+
+        <!-- Contenu construit dynamiquement en JS depuis data/stats_geo.json (voir construireStatsGeo
+             dans script.js), au chargement de la page et à chaque changement de langue — pas au clic,
+             donc indexable normalement, comme le reste des données de la carte. -->
+        <div id="stats-regions-tiles" class="stats-regions-tiles"></div>
+
+        <div id="stats-geo-tree"></div>
+    </div>
+</section>
+
+<aside id="info-panel">
+    <button id="close-info" data-i18n-aria="close_panel">✕</button>
+
+    <nav id="info-nav">
+        <button type="button" class="info-nav-link" data-target="about" data-i18n="menu_about">À propos</button>
+        <button type="button" class="info-nav-link" data-target="faq" data-i18n="menu_faq">FAQ</button>
+        <button type="button" class="info-nav-link" data-target="contact" data-i18n="menu_contact">Contact</button>
+    </nav>
+
+    <!-- Contenu construit une seule fois au chargement (et à chaque changement de langue),
+         puis simplement affiché/masqué au clic : reste dans le DOM, donc indexable par Google. -->
+    <div id="info-content">
+        <div class="info-page" id="info-page-about"></div>
+        <div class="info-page" id="info-page-faq"></div>
+        <div class="info-page" id="info-page-contact"></div>
+    </div>
+</aside>
+<div id="info-overlay"></div>
+
+<footer>
+    <div class="footer-content">
+        <p class="footer-small">
+            <span id="site-stats"></span>
+        </p>
+
+        <div class="footer-share">
+            <a id="footer-share-whatsapp" class="footer-share-icon" target="_blank" rel="noopener" data-i18n-aria="share_whatsapp" aria-label="WhatsApp">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            </a>
+            <a id="footer-share-facebook" class="footer-share-icon" target="_blank" rel="noopener" data-i18n-aria="share_facebook" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+            </a>
+            <a id="footer-share-twitter" class="footer-share-icon" target="_blank" rel="noopener" data-i18n-aria="share_twitter" aria-label="X (Twitter)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </a>
+            <a id="footer-share-email" class="footer-share-icon" data-i18n-aria="share_email" aria-label="E-mail">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </a>
+            <span class="footer-share-copy-wrapper">
+                <button type="button" id="footer-share-copy" class="footer-share-icon" data-i18n-aria="share_copy" aria-label="Copier le lien">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                </button>
+                <span id="copy-tooltip" class="copy-tooltip"></span>
+            </span>
+        </div>
+    </div>
+</footer>
+
+<div id="map" style="display:none;"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
+<script src="/translations.js"></script>
+<script>window.MAPETANQUE_SKIP_DEFAULT_MARKERS = true;</script>
+<script src="/script.js"></script>
+
+<!-- Script du widget compteur lui-même, indépendant de script.js (aucune variable/fonction en
+     commun, chacun dans sa propre portée) -->
+<script>
+(function(){
+  const CLE_STOCKAGE = 'mapetanque_compteur_partie';
+
+  const state = {
+    target: 13,
+    scoreA: 0,
+    scoreB: 0,
+    mene: 0,
+    finished: false,
+    nameA: 'Équipe A',
+    nameB: 'Équipe B',
+  };
+  const history = [];
+
+  // Persistance de la partie en cours (localStorage), pour survivre à une fermeture d'onglet
+  // accidentelle — même mécanisme que les préférences de carte ailleurs sur le site. Ne
+  // sauvegarde/restaure jamais l'historique Annuler (pas essentiel, et sérialiser une pile
+  // d'états à chaque action serait plus coûteux pour un bénéfice marginal).
+  function sauvegarderPartie(){
+    try {
+      localStorage.setItem(CLE_STOCKAGE, JSON.stringify(state));
+    } catch (e) { /* stockage indisponible (navigation privée, quota...) : tant pis, pas bloquant */ }
+  }
+
+  function restaurerPartie(){
+    try {
+      const brut = localStorage.getItem(CLE_STOCKAGE);
+      if (!brut) return;
+      const sauvegarde = JSON.parse(brut);
+      Object.assign(state, sauvegarde);
+    } catch (e) { /* sauvegarde absente ou corrompue : on repart d'une partie neuve */ }
+  }
+
+  const el = {
+    scoreA: document.getElementById('scoreA'),
+    scoreB: document.getElementById('scoreB'),
+    boulesA: document.getElementById('boulesA'),
+    boulesB: document.getElementById('boulesB'),
+    nameA: document.getElementById('nameA'),
+    nameB: document.getElementById('nameB'),
+    meneLabel: document.getElementById('meneLabel'),
+    undoBtn: document.getElementById('undoBtn'),
+    win: document.getElementById('winOverlay'),
+    winnerName: document.getElementById('winnerName'),
+    finalScore: document.getElementById('finalScore'),
+    targetToggle: document.getElementById('targetToggle'),
+  };
+
+  function snapshot(){
+    history.push(JSON.stringify(state));
+    if(history.length > 60) history.shift();
+    el.undoBtn.disabled = false;
+  }
+
+  function renderBoules(container, score){
+    container.innerHTML = '';
+    for(let i=0;i<state.target;i++){
+      const d = document.createElement('div');
+      d.className = 'boule' + (i < score ? ' filled' : '');
+      container.appendChild(d);
+    }
+  }
+
+  function render(){
+    el.scoreA.textContent = state.scoreA;
+    el.scoreB.textContent = state.scoreB;
+    renderBoules(el.boulesA, state.scoreA);
+    renderBoules(el.boulesB, state.scoreB);
+    el.meneLabel.textContent = 'mène ' + state.mene;
+    el.nameA.textContent = state.nameA;
+    el.nameB.textContent = state.nameB;
+
+    [...el.targetToggle.children].forEach(btn=>{
+      btn.classList.toggle('active', Number(btn.dataset.t) === state.target);
+    });
+
+    sauvegarderPartie();
+  }
+
+  function launchConfetti(colors){
+    const field = document.getElementById('confettiField');
+    field.innerHTML = '';
+    const count = 46;
+    for(let i=0;i<count;i++){
+      const p = document.createElement('div');
+      p.className = 'confetti-piece';
+      const left = Math.random()*100;
+      const delay = Math.random()*0.5;
+      const duration = 2.2 + Math.random()*1.3;
+      const color = colors[Math.floor(Math.random()*colors.length)];
+      const rotateStart = Math.random()*360;
+      p.style.left = left + '%';
+      p.style.background = color;
+      p.style.animationDelay = delay + 's';
+      p.style.animationDuration = duration + 's';
+      p.style.transform = 'rotate(' + rotateStart + 'deg)';
+      field.appendChild(p);
+    }
+  }
+
+  function checkWin(){
+    if(state.scoreA >= state.target || state.scoreB >= state.target){
+      state.finished = true;
+      sauvegarderPartie(); // le dernier render() a eu lieu AVANT ce passage à finished=true
+      const aWon = state.scoreA >= state.target;
+      el.winnerName.textContent = (aWon ? state.nameA : state.nameB) + ' gagne';
+      el.finalScore.textContent = state.scoreA + ' – ' + state.scoreB;
+      el.win.classList.remove('win-a', 'win-b');
+      el.win.classList.add(aWon ? 'win-a' : 'win-b');
+      const palette = aWon
+        ? ['#4c7a3d', '#f2ece0', '#c9c2b4', '#7ea968']
+        : ['#b5502e', '#f2ece0', '#c9c2b4', '#d97c53'];
+      launchConfetti(palette);
+      el.win.classList.add('show');
+    }
+  }
+
+  function addPoints(team, pts){
+    if(state.finished) return;
+    snapshot();
+    if(team === 'a') state.scoreA = Math.min(state.scoreA + pts, state.target);
+    else state.scoreB = Math.min(state.scoreB + pts, state.target);
+    state.mene++;
+    render();
+    checkWin();
+  }
+
+  function subtractPoint(team){
+    if(state.finished) return;
+    snapshot();
+    if(team === 'a') state.scoreA = Math.max(0, state.scoreA - 1);
+    else state.scoreB = Math.max(0, state.scoreB - 1);
+    render();
+  }
+
+  function undo(){
+    const prev = history.pop();
+    if(!prev) return;
+    Object.assign(state, JSON.parse(prev));
+    el.win.classList.remove('show', 'win-a', 'win-b');
+    el.undoBtn.disabled = history.length === 0;
+    render();
+  }
+
+  function newGame(){
+    history.length = 0;
+    state.scoreA = 0;
+    state.scoreB = 0;
+    state.mene = 0;
+    state.finished = false;
+    el.win.classList.remove('show', 'win-a', 'win-b');
+    el.undoBtn.disabled = true;
+    render();
+  }
+
+  // team tap = +1, unless a chip button was tapped
+  ['teamA','teamB'].forEach(id=>{
+    const teamEl = document.getElementById(id);
+    const team = id === 'teamA' ? 'a' : 'b';
+    teamEl.addEventListener('click', (e)=>{
+      const chip = e.target.closest('.chip');
+      if(chip){
+        const action = chip.dataset.action;
+        if(action === 'minus') subtractPoint(team);
+        else addPoints(team, Number(action));
+        return;
+      }
+      if(e.target.closest('.name')) return; // editing name, don't score
+      addPoints(team, 1);
+    });
+  });
+
+  document.getElementById('undoBtn').addEventListener('click', (e)=>{ e.stopPropagation(); undo(); });
+  document.getElementById('resetBtn').addEventListener('click', (e)=>{ e.stopPropagation(); newGame(); });
+  document.getElementById('playAgainBtn').addEventListener('click', (e)=>{ e.stopPropagation(); newGame(); });
+
+  const renameModal = document.getElementById('renameModal');
+  const inputA = document.getElementById('inputA');
+  const inputB = document.getElementById('inputB');
+
+  document.getElementById('editBtn').addEventListener('click', (e)=>{
+    e.stopPropagation();
+    inputA.value = state.nameA;
+    inputB.value = state.nameB;
+    renameModal.classList.add('show');
+    setTimeout(()=> inputA.focus(), 50);
+  });
+
+  document.getElementById('cancelRename').addEventListener('click', (e)=>{
+    e.stopPropagation();
+    renameModal.classList.remove('show');
+  });
+
+  document.getElementById('saveRename').addEventListener('click', (e)=>{
+    e.stopPropagation();
+    const a = inputA.value.trim();
+    const b = inputB.value.trim();
+    if(a) state.nameA = a;
+    if(b) state.nameB = b;
+    renameModal.classList.remove('show');
+    render();
+  });
+
+  [inputA, inputB, renameModal].forEach(n=>{
+    n.addEventListener('click', (e)=> e.stopPropagation());
+  });
+
+  el.targetToggle.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    const btn = e.target.closest('button');
+    if(!btn) return;
+    state.target = Number(btn.dataset.t);
+    newGame();
+  });
+
+  restaurerPartie();
+  render();
+  if (state.finished) checkWin();
+
+  // Plein écran : bascule de classe CSS plutôt que l'API plein écran native du navigateur —
+  // même choix que definirModePleinEcran() dans script.js pour le reste du site, pour la même
+  // raison (l'API native n'est pas fiable sur Safari iOS, une part importante des visiteurs).
+  const widget = document.getElementById('compteurWidget');
+  const fullscreenToggleBtn = document.getElementById('fullscreenToggleBtn');
+  const ICON_MAXIMIZE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>';
+  const ICON_MINIMIZE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path></svg>';
+
+  function definirPleinEcran(actif) {
+    widget.classList.toggle('fullscreen-active', actif);
+    document.body.classList.toggle('fullscreen-lock', actif);
+    fullscreenToggleBtn.innerHTML = actif ? ICON_MINIMIZE : ICON_MAXIMIZE;
+    fullscreenToggleBtn.setAttribute('aria-label', actif ? 'Quitter le plein écran' : 'Plein écran');
+  }
+
+  fullscreenToggleBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    definirPleinEcran(!widget.classList.contains('fullscreen-active'));
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && widget.classList.contains('fullscreen-active')) {
+      definirPleinEcran(false);
+    }
+  });
+})();
+</script>
+
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

@@ -18,21 +18,42 @@ Peut être relancé plus tard pour rafraîchir la page HTML sans tout refaire si
 import json
 import math
 import os
+import socket
 import time
 from datetime import datetime, timezone
 
 import requests
+import urllib3.util.connection as urllib3_cn
+from urllib3.util.connection import create_connection
+
+# ===================== Forçage IPv4 =====================
+# Certaines connexions (souvent une configuration IPv6 mal résolue chez le fournisseur d'accès ou
+# la box) font que chaque requête tente d'abord IPv6, échoue silencieusement après ~15-20s, puis
+# retombe sur IPv4 qui fonctionne — d'où un délai fixe et systématique à chaque appel, sans lien
+# avec la vitesse réelle de la connexion ni avec Mapillary. On force IPv4 directement en patchant
+# la fonction de résolution de connexion d'urllib3 (utilisée par toutes les requêtes du script,
+# qu'elles passent par une Session ou par requests.get() directement).
+
+def _creer_connexion_ipv4(address, *args, **kwargs):
+    host, port = address
+    infos = socket.getaddrinfo(host, port, socket.AF_INET, socket.SOCK_STREAM)
+    adresse_ipv4 = (infos[0][4][0], port)
+    return create_connection(adresse_ipv4, *args, **kwargs)
+
+
+urllib3_cn.create_connection = _creer_connexion_ipv4
+
 
 # ===================== Configuration =====================
 
-MAPILLARY_TOKEN = "MLY|28430029179916530|430abb722289aec39e460c5f2753d6d0"
+MAPILLARY_TOKEN = "COLLE_TON_TOKEN_ICI"
 RAYON_METRES = 50
 LIMITE_PAR_TERRAIN = 100
 DELAI_ENTRE_REQUETES = 0.3  # secondes, pour rester raisonnable vis-à-vis de l'API
 
 # Pour un premier test rapide sur un petit échantillon avant de lancer les ~1800 terrains :
 # mets un nombre ici (ex. 10). Remets None pour traiter tous les terrains.
-LIMITE_TERRAINS = None
+LIMITE_TERRAINS = 10
 
 FICHIER_CACHE = "cache_candidats.json"
 FICHIER_HTML = "revue_photos.html"
@@ -128,8 +149,11 @@ def meilleur_candidat(terrain_lat, terrain_lon, images):
 # ===================== Récupération + mise en cache =====================
 
 def cle_terrain(feature):
-    lon, lat = feature["geometry"]["coordinates"]
-    return f"{lat:.6f},{lon:.6f}"
+    # osm_id (ex. "node/123456789") plutôt que les coordonnées : stable même si le terrain est
+    # légèrement déplacé sur OSM par la suite (remesure, correction...) — contrairement aux
+    # coordonnées, qui casseraient silencieusement la correspondance dans ce cas. Nécessite une
+    # version de terrains.geojson générée avec le osm_id ajouté dans scripts/update_terrains.py.
+    return feature["properties"].get("osm_id")
 
 
 def charger_cache():
@@ -171,9 +195,19 @@ def recuperer_tous_les_candidats():
     cache = charger_cache()
     deja_fait = 0
     a_faire = 0
+    sans_osm_id = 0
 
     for i, feature in enumerate(terrains, start=1):
         cle = cle_terrain(feature)
+
+        if not cle:
+            # terrains.geojson pas encore régénéré avec osm_id pour ce terrain (ou une version
+            # trop ancienne) — on ne peut pas l'identifier de façon stable, donc on le saute
+            # plutôt que d'improviser une clé fragile. Se corrige tout seul dès que le site aura
+            # regénéré terrains.geojson avec la version à jour de update_terrains.py.
+            sans_osm_id += 1
+            continue
+
         if cle in cache:
             deja_fait += 1
             continue
@@ -182,14 +216,17 @@ def recuperer_tous_les_candidats():
         commune = feature["properties"].get("commune") or "Commune inconnue"
         nom = feature["properties"].get("nearest_street") or f"Terrain ({lat:.5f}, {lon:.5f})"
 
+        debut = time.time()
         try:
             images = images_a_proximite(lat, lon)
             candidat = meilleur_candidat(lat, lon, images)
         except Exception as e:
             candidat = None
             print(f"  [{i}/{len(terrains)}] {commune} — {nom} → erreur : {e}")
+        duree = time.time() - debut
 
         cache[cle] = {
+            "osm_id": cle,
             "nom": nom,
             "commune": commune,
             "lat": lat,
@@ -199,12 +236,21 @@ def recuperer_tous_les_candidats():
         sauvegarder_cache(cache)
         a_faire += 1
 
-        if a_faire % 20 == 0 or i == len(terrains):
-            print(f"  [{i}/{len(terrains)}] traités ({a_faire} nouveaux, {deja_fait} déjà en cache)")
+        # Affiche le temps de CHAQUE requête (pas juste tous les 20) tant que ça reste lent, pour
+        # repérer si c'est généralisé ou seulement certains terrains qui traînent — repasse à un
+        # affichage groupé (tous les 20) automatiquement une fois que ça redevient rapide.
+        if duree > 2:
+            print(f"  [{i}/{len(terrains)}] {nom} → {duree:.1f}s (lent)")
+        elif a_faire % 20 == 0 or i == len(terrains):
+            print(f"  [{i}/{len(terrains)}] traités ({a_faire} nouveaux, {deja_fait} déjà en cache) — dernière requête : {duree:.1f}s")
 
         time.sleep(DELAI_ENTRE_REQUETES)
 
     print(f"\nTerminé : {len(cache)} terrain(s) dans le cache ({a_faire} nouveaux cette session).")
+    if sans_osm_id:
+        print(f"\n⚠ {sans_osm_id} terrain(s) ignoré(s) car sans osm_id : terrains.geojson n'est")
+        print("  probablement pas encore régénéré avec la version à jour de update_terrains.py.")
+        print("  Relance ce script une fois la régénération terminée sur mapetanque.be.")
     return cache
 
 
@@ -239,7 +285,16 @@ def generer_html(cache):
     header input, header select, header button {
         padding: 6px 10px; border-radius: 6px; border: none; font-size: 14px;
     }
-    #progression { font-size: 13px; color: #ccc; }
+    .stats-resume { display: flex; gap: 6px; flex-wrap: wrap; }
+    .stat-chip {
+        font-size: 12px; padding: 3px 9px; border-radius: 999px;
+        background: #3a3a3a; color: #ddd; white-space: nowrap;
+    }
+    .stat-chip b { color: white; }
+    .stat-chip.accepte { background: rgba(116, 193, 90, 0.25); }
+    .stat-chip.accepte b { color: #a6e08a; }
+    .stat-chip.rejete { background: rgba(217, 83, 79, 0.25); }
+    .stat-chip.rejete b { color: #ef9d9a; }
     .commune-groupe { margin: 16px; background: white; border-radius: 10px; overflow: hidden; }
     .commune-titre {
         padding: 12px 16px; background: #eee; cursor: pointer; font-weight: bold;
@@ -263,6 +318,12 @@ def generer_html(cache):
     .terrain-actions button.actif-accepte { background: #74C15A; color: white; border-color: #74C15A; }
     .terrain-actions button.actif-rejete { background: #d9534f; color: white; border-color: #d9534f; }
     .terrain-alternative { margin-top: 6px; }
+    .terrain-pano { margin-top: 4px; }
+    .champ-pano {
+        width: 100%; max-width: 420px; box-sizing: border-box;
+        padding: 5px 8px; border-radius: 6px; border: 1px dashed #b48ead; font-size: 12px;
+        background: #faf5fc;
+    }
     .champ-alternative {
         width: 100%; max-width: 420px; box-sizing: border-box;
         padding: 5px 8px; border-radius: 6px; border: 1px solid #ccc; font-size: 12px;
@@ -275,16 +336,19 @@ def generer_html(cache):
 
 <header>
     <h1>Revue des photos Mapillary</h1>
-    <span id="progression"></span>
+    <div id="progression" class="stats-resume"></div>
     <input type="text" id="recherche" placeholder="Filtrer par commune ou terrain...">
     <select id="filtreDecision">
         <option value="tous">Tout afficher</option>
         <option value="a_decider">À décider seulement</option>
         <option value="acceptes">Acceptés seulement</option>
         <option value="rejetes">Rejetés seulement</option>
+        <option value="avec_alternative">Avec alternative notée</option>
+        <option value="avec_pano">Avec 360° repérée</option>
     </select>
     <button id="exporter">Exporter mes décisions (JSON)</button>
     <button id="importer">Importer des décisions (JSON)</button>
+    <button id="telechargerPhotosMapillary">Télécharger photos_mapillary.json</button>
     <input type="file" id="fichierImport" accept=".json" style="display:none">
 </header>
 
@@ -311,7 +375,7 @@ function mettreAJourDecision(cleTerrain, correctifs) {
     const nouveau = { ...actuel, ...correctifs };
 
     // Nettoie l'entrée entièrement si elle ne contient plus rien d'utile
-    if (!nouveau.statut && !nouveau.alternative) {
+    if (!nouveau.statut && !nouveau.alternative && !nouveau.pano) {
         delete decisions[cleTerrain];
     } else {
         decisions[cleTerrain] = nouveau;
@@ -321,20 +385,48 @@ function mettreAJourDecision(cleTerrain, correctifs) {
     mettreAJourProgression();
 }
 
+function formaterDate(captureMs) {
+    if (!captureMs) return "date inconnue";
+    const d = new Date(captureMs);
+    return "photo du " + d.toLocaleDateString('fr-BE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+}
+
 function cleDe(terrain) {
-    return terrain.lat.toFixed(6) + "," + terrain.lon.toFixed(6);
+    return terrain.osm_id;
 }
 
 function mettreAJourProgression() {
     const decisions = chargerDecisions();
-    let total = 0, decides = 0;
+
+    let totalTerrains = 0, avecCandidat = 0, sansCandidat = 0;
+    let acceptes = 0, rejetes = 0, avecAlternative = 0, avecPano = 0;
+
     DONNEES.forEach(groupe => groupe.terrains.forEach(t => {
-        if (t.candidat) {
-            total++;
-            if (decisions[cleDe(t)]?.statut) decides++;
+        totalTerrains++;
+        if (!t.candidat) {
+            sansCandidat++;
+            return;
         }
+        avecCandidat++;
+        const d = decisions[cleDe(t)] || {};
+        if (d.statut === 'accepte') acceptes++;
+        if (d.statut === 'rejete') rejetes++;
+        if (d.alternative) avecAlternative++;
+        if (d.pano) avecPano++;
     }));
-    document.getElementById('progression').textContent = decides + " / " + total + " décidé(s)";
+
+    const aDecider = avecCandidat - acceptes - rejetes;
+
+    document.getElementById('progression').innerHTML = `
+        <span class="stat-chip">Terrains : <b>${totalTerrains}</b></span>
+        <span class="stat-chip">Avec photo candidate : <b>${avecCandidat}</b></span>
+        <span class="stat-chip">Sans photo à proximité : <b>${sansCandidat}</b></span>
+        <span class="stat-chip">À décider : <b>${aDecider}</b></span>
+        <span class="stat-chip accepte">Acceptés : <b>${acceptes}</b></span>
+        <span class="stat-chip rejete">Rejetés : <b>${rejetes}</b></span>
+        <span class="stat-chip">Avec alternative : <b>${avecAlternative}</b></span>
+        <span class="stat-chip">Avec 360° repérée : <b>${avecPano}</b></span>
+    `;
 }
 
 function construireCarte(terrain) {
@@ -359,16 +451,18 @@ function construireCarte(terrain) {
         <a href="${c.lien}" target="_blank"><img src="${c.thumbnail}" loading="lazy"></a>
         <div class="terrain-info">
             <b>${terrain.nom}</b>
-            <div class="terrain-meta">${terrain.commune} — score ${c.score} — ${c.distance_m} m — écart angle ${c.ecart_angle_deg}°</div>
+            <div class="terrain-meta">${terrain.commune} — score ${c.score} — ${c.distance_m} m — écart angle ${c.ecart_angle_deg}° — ${formaterDate(c.captured_at)}</div>
             <div class="terrain-actions">
                 <button class="btn-accepter">Accepter</button>
                 <button class="btn-rejeter">Rejeter</button>
                 <a href="${c.lien}" target="_blank"><button type="button">Voir sur Mapillary</button></a>
-                <a href="https://www.openstreetmap.org/edit#map=20/${terrain.lat}/${terrain.lon}" target="_blank"><button type="button">Ouvrir dans OSM</button></a>
-                <button type="button" class="btn-copier-id">Copier l'ID Mapillary</button>
+                <a href="https://www.openstreetmap.org/edit#map=20/${terrain.lat}/${terrain.lon}" target="_blank"><button type="button">Localiser sur OSM</button></a>
             </div>
             <div class="terrain-alternative">
-                <input type="text" class="champ-alternative" placeholder="Meilleure photo trouvée sur Mapillary ? Colle son lien ou son ID ici" value="${decision.alternative || ''}">
+                <input type="text" class="champ-alternative" autocomplete="off" placeholder="Meilleure photo trouvée sur Mapillary ? Colle son lien ou son ID ici" value="${decision.alternative || ''}">
+            </div>
+            <div class="terrain-pano">
+                <input type="text" class="champ-pano" autocomplete="off" placeholder="Une 360° qui conviendrait bien ? Note-la ici pour plus tard (pas encore affichable sur le site)" value="${decision.pano || ''}">
             </div>
         </div>
     `;
@@ -376,24 +470,7 @@ function construireCarte(terrain) {
     const btnAccepter = div.querySelector('.btn-accepter');
     const btnRejeter = div.querySelector('.btn-rejeter');
     const champAlternative = div.querySelector('.champ-alternative');
-    const btnCopierId = div.querySelector('.btn-copier-id');
-
-    btnCopierId.addEventListener('click', () => {
-        // Si une alternative a été notée, on copie son ID plutôt que celui proposé par défaut
-        // (accepte soit un ID brut, soit un lien mapillary.com/map/im/ID collé tel quel)
-        const valeurAlt = champAlternative.value.trim();
-        let idACopier = c.id;
-        if (valeurAlt) {
-            const correspondance = valeurAlt.match(/(\\d{10,})/);
-            idACopier = correspondance ? correspondance[1] : valeurAlt;
-        }
-
-        navigator.clipboard.writeText(idACopier).then(() => {
-            const texteOriginal = btnCopierId.textContent;
-            btnCopierId.textContent = 'Copié !';
-            setTimeout(() => { btnCopierId.textContent = texteOriginal; }, 1500);
-        });
-    });
+    const champPano = div.querySelector('.champ-pano');
 
     function rafraichirBoutons() {
         const d = chargerDecisions()[cle] || {};
@@ -414,9 +491,27 @@ function construireCarte(terrain) {
         rafraichirBoutons();
         appliquerFiltres();
     });
-    // Sauvegarde au fil de la frappe (léger, pas besoin de bouton "Enregistrer" séparé)
+    // Noter une alternative vaut décision : pas besoin de cliquer Accepter en plus. Si le
+    // terrain avait été explicitement rejeté, on ne force pas le passage à "accepté" (le rejet
+    // explicite reste prioritaire) — mais taper une alternative sur un terrain pas encore décidé,
+    // ou déjà accepté, le marque/maintient comme accepté.
     champAlternative.addEventListener('input', () => {
-        mettreAJourDecision(cle, { alternative: champAlternative.value.trim() || undefined });
+        const actuel = chargerDecisions()[cle] || {};
+        const alternative = champAlternative.value.trim() || undefined;
+        const correctifs = { alternative };
+        if (alternative && actuel.statut !== 'rejete') {
+            correctifs.statut = 'accepte';
+        }
+        mettreAJourDecision(cle, correctifs);
+        rafraichirBoutons();
+        appliquerFiltres();
+    });
+    // Simple pense-bête, sans incidence sur le statut accepté/rejeté ni sur l'export
+    // photos_mapillary.json (pas encore affichable sur le site — voir CSS .terrain-pano) :
+    // juste conservé pour retrouver facilement ces terrains le jour où les 360° seront gérées.
+    champPano.addEventListener('input', () => {
+        mettreAJourDecision(cle, { pano: champPano.value.trim() || undefined });
+        appliquerFiltres();
     });
 
     rafraichirBoutons();
@@ -457,11 +552,13 @@ function appliquerFiltres() {
 
     document.querySelectorAll('.terrain-carte').forEach(carte => {
         const correspondRecherche = !recherche || carte.dataset.recherche.includes(recherche);
-        const statut = decisions[carte.dataset.cle]?.statut;
+        const decision = decisions[carte.dataset.cle] || {};
         let correspondDecision = true;
-        if (filtreDecision === 'a_decider') correspondDecision = !statut;
-        if (filtreDecision === 'acceptes') correspondDecision = statut === 'accepte';
-        if (filtreDecision === 'rejetes') correspondDecision = statut === 'rejete';
+        if (filtreDecision === 'a_decider') correspondDecision = !decision.statut;
+        if (filtreDecision === 'acceptes') correspondDecision = decision.statut === 'accepte';
+        if (filtreDecision === 'rejetes') correspondDecision = decision.statut === 'rejete';
+        if (filtreDecision === 'avec_alternative') correspondDecision = !!decision.alternative;
+        if (filtreDecision === 'avec_pano') correspondDecision = !!decision.pano;
 
         carte.classList.toggle('cachee', !(correspondRecherche && correspondDecision));
     });
@@ -478,6 +575,53 @@ document.getElementById('exporter').addEventListener('click', () => {
     a.href = url;
     a.download = 'decisions_photos_mapillary.json';
     a.click();
+});
+
+// Extrait un ID Mapillary (suite de chiffres) depuis un texte libre — accepte aussi bien un ID
+// brut collé tel quel qu'un lien complet (mapillary.com/map/im/ID) copié depuis la barre d'adresse.
+function extraireIdMapillary(texte) {
+    const correspondance = texte.match(/(\\d{10,})/);
+    return correspondance ? correspondance[1] : texte;
+}
+
+// Construit et télécharge data/photos_mapillary.json directement au format attendu par le site
+// (voir scripts/update_terrains.py) : uniquement les terrains ACCEPTÉS, avec l'ID de l'alternative
+// notée si elle existe, sinon celui du candidat proposé par défaut. Prêt à déposer tel quel dans
+// data/ puis à committer — aucune étape OSM nécessaire dans ce flux.
+document.getElementById('telechargerPhotosMapillary').addEventListener('click', () => {
+    const decisions = chargerDecisions();
+    const photosMapillary = {};
+
+    DONNEES.forEach(groupe => groupe.terrains.forEach(terrain => {
+        if (!terrain.candidat) return;
+        const cle = cleDe(terrain);
+        const decision = decisions[cle];
+        if (!decision || decision.statut !== 'accepte') return;
+
+        const idMapillary = decision.alternative
+            ? extraireIdMapillary(decision.alternative)
+            : terrain.candidat.id;
+
+        photosMapillary[cle] = {
+            mapillary_id: idMapillary,
+            credit_url: `https://www.mapillary.com/map/im/${idMapillary}`,
+        };
+    }));
+
+    const nombre = Object.keys(photosMapillary).length;
+    if (nombre === 0) {
+        alert("Aucun terrain accepté pour l'instant — accepte au moins une photo avant de télécharger.");
+        return;
+    }
+
+    const blob = new Blob([JSON.stringify(photosMapillary, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'photos_mapillary.json';
+    a.click();
+
+    alert(nombre + " terrain(s) accepté(s) inclus dans le fichier téléchargé.");
 });
 
 // Import : fusionne le fichier choisi avec les décisions déjà présentes sur CETTE machine

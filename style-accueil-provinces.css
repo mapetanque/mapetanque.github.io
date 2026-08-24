@@ -63,14 +63,26 @@
 }
 
 .hero-banner .info-nav-trigger,
-.hero-banner .lang-link {
+.hero-banner .lang-link,
+.hero-banner .game-nav-link {
     color: #fff;
     text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
 
-.hero-banner .info-nav-trigger:hover {
+.hero-banner .info-nav-trigger:hover,
+.hero-banner .game-nav-link:hover {
     background: rgba(255,255,255,0.18);
     color: #fff;
+}
+
+/* text-shadow (utilisé ci-dessus pour le texte) ne s'applique pas aux tracés SVG — sans ceci,
+   les icônes blanches se fondent dans les zones claires de la photo. */
+.hero-banner .game-nav-link svg {
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.5));
+}
+
+.hero-banner #game-nav-inline {
+    border-right: 1px solid rgba(255,255,255,0.35);
 }
 
 .hero-banner .lang-link {

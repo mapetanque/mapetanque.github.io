@@ -61,6 +61,42 @@
         </a>
 
         <!-- Navigation desktop : liens directs vers le panneau d'info + sélecteur de langue discret -->
+        <div class="header-nav-group">
+        <span id="game-nav-inline">
+            <a href="/nl/comment-jouer.html" class="game-nav-link jouer"><svg viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;stroke-width:1.91px;}</style></defs><polyline class="cls-1" points="13.91 10.09 14.86 11.04 16.77 9.14"/><polyline class="cls-1" points="13.91 13.91 14.86 14.86 16.77 12.96"/><line class="cls-1" x1="7.23" y1="11.05" x2="11.05" y2="11.05"/><line class="cls-1" x1="7.23" y1="14.86" x2="11.05" y2="14.86"/><polyline class="cls-1" points="13.91 17.73 14.86 18.68 16.77 16.77"/><line class="cls-1" x1="7.23" y1="18.68" x2="11.05" y2="18.68"/><polygon class="cls-1" points="20.59 6.27 20.59 22.5 3.41 22.5 3.41 1.5 15.82 1.5 20.59 6.27"/><polygon class="cls-1" points="20.59 6.27 20.59 7.23 14.86 7.23 14.86 1.5 15.82 1.5 20.59 6.27"/></svg><span data-i18n="menu_comment_jouer">Comment jouer</span></a>
+            <a href="/nl/compteur.html" class="game-nav-link compteur"><svg fill="currentColor" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+	 viewBox="0 0 512 512" xml:space="preserve">
+<g>
+	<g>
+		<path d="M469.973,75.985H353.357V50.769c0-11.605-9.408-21.013-21.013-21.013c-11.605,0-21.013,9.408-21.013,21.013v25.216
+			H200.659V50.769c0-11.605-9.408-21.013-21.013-21.013c-11.605,0-21.013,9.408-21.013,21.013v25.216H42.027
+			C18.853,75.985,0,94.838,0,118.012c0,11.55,0,297.873,0,322.206c0,23.174,18.853,42.027,42.027,42.027
+			c18.793,0,409.188,0,427.946,0c23.174,0,42.027-18.853,42.027-42.027c0-24.441,0-310.739,0-322.206
+			C512,94.838,493.147,75.985,469.973,75.985z M42.027,190.858v-72.847h0l116.607-0.007v19.62c0,11.605,9.408,21.013,21.013,21.013
+			c11.605,0,21.013-9.408,21.013-21.013v-19.621l110.671-0.006v19.627c0,11.605,9.408,21.013,21.013,21.013
+			c11.605,0,21.013-9.408,21.013-21.013v-19.629l116.615-0.007c0,0,0,0.008,0,0.024v72.847
+			C451.18,190.858,60.785,190.858,42.027,190.858z M234.987,440.218H42.027V232.885h192.96V440.218z M469.973,440.218h-192.96
+			V232.885h192.96V440.218z"/>
+	</g>
+</g>
+<g>
+	<g>
+		<path d="M159.904,299.504c-13.867-21.128-39.257-21.367-53.278,0c-13.111,19.069-12.829,49.983,0,68.643
+			c14.155,21.236,39.103,21.263,53.278,0C172.663,349.154,172.846,318.766,159.904,299.504z M146.691,359.243
+			c-8.047,11.931-18.766,11.8-26.997,0c-9.068-13.601-9.289-36.713,0-50.98c8.108-11.35,18.614-12.139,26.997,0
+			C155.973,322.516,155.766,345.634,146.691,359.243z"/>
+	</g>
+</g>
+<g>
+	<g>
+		<path d="M394.889,299.504c-13.866-21.128-39.256-21.367-53.278,0c-13.111,19.069-12.829,49.983,0,68.643
+			c14.155,21.236,39.103,21.263,53.278,0C407.648,349.154,407.831,318.766,394.889,299.504z M381.676,359.243
+			c-8.045,11.931-18.765,11.8-26.997,0c-9.068-13.603-9.289-36.713,0-50.98c8.108-11.35,18.614-12.139,26.997,0
+			C390.957,322.516,390.751,345.634,381.676,359.243z"/>
+	</g>
+</g>
+</svg><span data-i18n="menu_compteur">Compteur de points</span></a>
+        </span>
         <nav id="desktop-nav">
             <button type="button" class="info-nav-trigger" data-target="about" data-i18n="menu_about">À propos</button>
             <button type="button" class="info-nav-trigger" data-target="faq" data-i18n="menu_faq">FAQ</button>
@@ -71,6 +107,7 @@
                 <button type="button" class="lang-link" data-lang="de" data-lang-url="/de/province-namur.html">DE</button>
             </span>
         </nav>
+        </div>
 
         <!-- Menu burger (mobile uniquement) : la fenêtre elle-même (#side-menu) et son voile
              (#menu-overlay) vivent hors de .hero-banner (voir plus bas), pour ne jamais être
@@ -130,7 +167,40 @@
     </button>
 
     <ul>
-        <li><a href="#about" data-i18n="menu_about">À propos</a></li>
+        <li><a href="/nl/comment-jouer.html" class="side-menu-game-link jouer"><svg viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;stroke-width:1.91px;}</style></defs><polyline class="cls-1" points="13.91 10.09 14.86 11.04 16.77 9.14"/><polyline class="cls-1" points="13.91 13.91 14.86 14.86 16.77 12.96"/><line class="cls-1" x1="7.23" y1="11.05" x2="11.05" y2="11.05"/><line class="cls-1" x1="7.23" y1="14.86" x2="11.05" y2="14.86"/><polyline class="cls-1" points="13.91 17.73 14.86 18.68 16.77 16.77"/><line class="cls-1" x1="7.23" y1="18.68" x2="11.05" y2="18.68"/><polygon class="cls-1" points="20.59 6.27 20.59 22.5 3.41 22.5 3.41 1.5 15.82 1.5 20.59 6.27"/><polygon class="cls-1" points="20.59 6.27 20.59 7.23 14.86 7.23 14.86 1.5 15.82 1.5 20.59 6.27"/></svg><span data-i18n="menu_comment_jouer">Comment jouer</span></a></li>
+                <li><a href="/nl/compteur.html" class="side-menu-game-link compteur"><svg fill="currentColor" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+	 viewBox="0 0 512 512" xml:space="preserve">
+<g>
+	<g>
+		<path d="M469.973,75.985H353.357V50.769c0-11.605-9.408-21.013-21.013-21.013c-11.605,0-21.013,9.408-21.013,21.013v25.216
+			H200.659V50.769c0-11.605-9.408-21.013-21.013-21.013c-11.605,0-21.013,9.408-21.013,21.013v25.216H42.027
+			C18.853,75.985,0,94.838,0,118.012c0,11.55,0,297.873,0,322.206c0,23.174,18.853,42.027,42.027,42.027
+			c18.793,0,409.188,0,427.946,0c23.174,0,42.027-18.853,42.027-42.027c0-24.441,0-310.739,0-322.206
+			C512,94.838,493.147,75.985,469.973,75.985z M42.027,190.858v-72.847h0l116.607-0.007v19.62c0,11.605,9.408,21.013,21.013,21.013
+			c11.605,0,21.013-9.408,21.013-21.013v-19.621l110.671-0.006v19.627c0,11.605,9.408,21.013,21.013,21.013
+			c11.605,0,21.013-9.408,21.013-21.013v-19.629l116.615-0.007c0,0,0,0.008,0,0.024v72.847
+			C451.18,190.858,60.785,190.858,42.027,190.858z M234.987,440.218H42.027V232.885h192.96V440.218z M469.973,440.218h-192.96
+			V232.885h192.96V440.218z"/>
+	</g>
+</g>
+<g>
+	<g>
+		<path d="M159.904,299.504c-13.867-21.128-39.257-21.367-53.278,0c-13.111,19.069-12.829,49.983,0,68.643
+			c14.155,21.236,39.103,21.263,53.278,0C172.663,349.154,172.846,318.766,159.904,299.504z M146.691,359.243
+			c-8.047,11.931-18.766,11.8-26.997,0c-9.068-13.601-9.289-36.713,0-50.98c8.108-11.35,18.614-12.139,26.997,0
+			C155.973,322.516,155.766,345.634,146.691,359.243z"/>
+	</g>
+</g>
+<g>
+	<g>
+		<path d="M394.889,299.504c-13.866-21.128-39.256-21.367-53.278,0c-13.111,19.069-12.829,49.983,0,68.643
+			c14.155,21.236,39.103,21.263,53.278,0C407.648,349.154,407.831,318.766,394.889,299.504z M381.676,359.243
+			c-8.045,11.931-18.765,11.8-26.997,0c-9.068-13.603-9.289-36.713,0-50.98c8.108-11.35,18.614-12.139,26.997,0
+			C390.957,322.516,390.751,345.634,381.676,359.243z"/>
+	</g>
+</g>
+</svg><span data-i18n="menu_compteur">Compteur de points</span></a></li>
+                <li><a href="#about" data-i18n="menu_about">À propos</a></li>
         <li><a href="#faq" data-i18n="menu_faq">FAQ</a></li>
         <li><a href="#contact" data-i18n="menu_contact">Nous contacter</a></li>
     </ul>
@@ -181,11 +251,11 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">91</span>
+            <span class="province-stat-tile-number">93</span>
             <span class="province-stat-tile-label">geregistreerde terreinen</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">47</span>
+            <span class="province-stat-tile-number">48</span>
             <span class="province-stat-tile-label">gemeenten met terreinen</span>
         </div>
         <div class="province-stat-tile">
@@ -200,7 +270,7 @@
     </div>
 
     <p class="province-intro">
-        De provincie Namen telt <strong>91 petanquebanen</strong> op Mapetanque.be, verspreid over <strong>47 gemeenten</strong>. Namen-stad telt 14 terreinen, voor Eghezée met 6. "Champion", een van de dorpen van de gemeente Namen, richtte meer dan 50 jaar geleden zijn petanqueafdeling op; die brengt vandaag meer dan 900 spelers samen tijdens het winterkampioenschap. In Belgrade, in de stad Namen, beschikt het sportcentrum José Tyssaen in de Rue des Tautîts over 10 verlichte openluchtterreinen.
+        De provincie Namen telt <strong>93 petanquebanen</strong> op Mapetanque.be, verspreid over <strong>48 gemeenten</strong>. Namen-stad telt 14 terreinen, voor Eghezée met 6. "Champion", een van de dorpen van de gemeente Namen, richtte meer dan 50 jaar geleden zijn petanqueafdeling op; die brengt vandaag meer dan 900 spelers samen tijdens het winterkampioenschap. In Belgrade, in de stad Namen, beschikt het sportcentrum José Tyssaen in de Rue des Tautîts over 10 verlichte openluchtterreinen.
     </p>
 
     <div class="province-communes-section">

@@ -1,53 +1,51 @@
 <!DOCTYPE html>
-<html lang="{{LANG_CODE}}">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <title>{{H1}} — Mapetanque.be</title>
-    <meta name="description" id="meta-description" content="{{UI_META_DESCRIPTION}}">
+    <title>Hoe petanque spelen — Mapetanque.be</title>
+    <meta name="description" content="De essentiële regels van petanque eenvoudig uitgelegd: teams, materiaal, terrein, verloop van een partij. Met een interactieve scoreteller.">
     <link rel="icon" type="image/svg+xml" href="/images/logomap.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Open Graph : aperçu affiché lors du partage du lien (WhatsApp, Facebook, etc.) -->
-    <meta property="og:title" content="{{H1}} — Mapetanque.be">
-    <meta property="og:description" content="{{UI_META_DESCRIPTION}}">
+    <meta property="og:title" content="Hoe petanque spelen — Mapetanque.be">
+    <meta property="og:description" content="De essentiële regels van petanque eenvoudig uitgelegd: teams, materiaal, terrein, verloop van een partij. Met een interactieve scoreteller.">
     <meta property="og:image" content="https://mapetanque.be/images/logomap.png">
-    <meta property="og:url" content="{{CANONICAL_URL}}">
+    <meta property="og:url" content="https://mapetanque.be/nl/comment-jouer.html">
     <meta property="og:type" content="website">
 
-    <link rel="canonical" href="{{CANONICAL_URL}}">
-    <!-- Versions par langue de cette même page province, uniquement quand elles existent
-         réellement (le générateur ne les inclut que si la traduction correspondante est prête). -->
-{{HREFLANG_LINKS}}
+    <link rel="canonical" href="https://mapetanque.be/nl/comment-jouer.html">
+    <link rel="alternate" hreflang="fr" href="https://mapetanque.be/comment-jouer.html">
+    <link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/comment-jouer.html">
+    <link rel="alternate" hreflang="de" href="https://mapetanque.be/de/comment-jouer.html">
+    <link rel="alternate" hreflang="x-default" href="https://mapetanque.be/comment-jouer.html">
 
-    <!-- Police des titres (Quicksand, un seul poids chargé pour rester léger) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
 
-    <!-- Bibliothèque Leaflet -->
+    <!-- Bibliothèque Leaflet : script.js instancie une carte inconditionnellement (voir plus
+         bas, #map masqué) — non utilisée visuellement sur cette page, mais nécessaire pour que
+         le reste du script (nav, menu, panneaux info) s'exécute sans erreur. -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
 
-    <!-- Feuille de style du site (chemin absolu : cette page est aussi servie depuis /nl/ et
-         /de/, un chemin relatif irait chercher un mauvais dossier et casserait tout) -->
     <link rel="stylesheet" href="/style.css">
-
-    <!-- Bannière photo + contenu province : ajouts additifs uniquement, aucune règle de
-         /style.css n'est modifiée par ce fichier. -->
-    <link rel="stylesheet" href="/style-province.css">
+    <!-- Réutilise la bannière et le traitement visuel de la page d'accueil (même photo, mêmes
+         couleurs) plutôt qu'une identité graphique à part — pour le moment, en attendant une
+         éventuelle bannière dédiée à cette page plus tard. -->
+    <link rel="stylesheet" href="/style-accueil-provinces.css">
+    <link rel="stylesheet" href="/style-comment-jouer.css">
 </head>
 
 <body>
 
-<div class="map-view" id="top">
+<div id="top">
 
-<div class="hero-banner" style="background-image: url('/images/provinces/{{BANNER_IMAGE}}');">
+<div class="hero-banner">
 
 <div class="header">
 
     <div class="header-top-row">
-        <a href="{{HOME_URL}}" class="brand-link">
+        <a href="/nl/" class="brand-link">
             <svg class="logo" viewBox="0 0 878 884" aria-hidden="true">
                 <path d="M424.499,112.128C439.588,112.168 439.514,111.999 454.535,113.252C459.282,113.647 464.985,126.287 468.428,132.54C493.822,178.652 509.506,246.447 512.842,263.422C526.266,331.73 534.962,392.68 530.995,497.518C530.73,504.523 532.222,510.697 526.548,510.074C486.775,505.708 418.691,489.158 409.409,486.902C341.188,470.318 196.794,419.279 126.375,344.613C116.876,334.541 108.935,326.226 110.547,322.519C166.783,193.217 295.634,112.983 424.499,112.128Z" style="fill:rgb(0,197,47);"/>
                 <path d="M323.995,777.029C323.912,775.739 324.142,775.825 325.23,775.274C355.62,759.894 400.469,704.642 369.737,638.388C334.216,561.808 212.168,551.036 166.882,640.677C157.245,659.752 159.137,674.474 155.349,669.692C132.912,641.373 125.231,625.974 121.202,618.662C62.664,512.423 85.368,404.962 87.77,395.633C89.088,390.514 107.272,419.126 187.29,462.882C284.724,516.16 395.602,541.393 414.463,545.686C514.476,568.446 526.353,560.436 525.158,567.446C522.169,584.997 521.573,607.623 506.699,664.563C498.834,694.669 495.492,701.689 492.174,711.382C482.494,739.658 459.679,782.477 454.579,783.706C453.65,783.93 439.298,785.77 437.531,785.88C388.91,788.907 370.416,787.255 323.995,777.029Z" style="fill:rgb(0,197,47);"/>
@@ -57,11 +55,10 @@
             <span class="brand"><span class="brand-map">Map</span>etanque<span class="brand-tld">.be</span></span>
         </a>
 
-        <!-- Navigation desktop : liens directs vers le panneau d'info + sélecteur de langue discret -->
         <div class="header-nav-group">
         <span id="game-nav-inline">
-            <a href="{{COMMENT_JOUER_URL}}" class="game-nav-link jouer"><svg viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;stroke-width:1.91px;}</style></defs><polyline class="cls-1" points="13.91 10.09 14.86 11.04 16.77 9.14"/><polyline class="cls-1" points="13.91 13.91 14.86 14.86 16.77 12.96"/><line class="cls-1" x1="7.23" y1="11.05" x2="11.05" y2="11.05"/><line class="cls-1" x1="7.23" y1="14.86" x2="11.05" y2="14.86"/><polyline class="cls-1" points="13.91 17.73 14.86 18.68 16.77 16.77"/><line class="cls-1" x1="7.23" y1="18.68" x2="11.05" y2="18.68"/><polygon class="cls-1" points="20.59 6.27 20.59 22.5 3.41 22.5 3.41 1.5 15.82 1.5 20.59 6.27"/><polygon class="cls-1" points="20.59 6.27 20.59 7.23 14.86 7.23 14.86 1.5 15.82 1.5 20.59 6.27"/></svg><span data-i18n="menu_comment_jouer">Comment jouer</span></a>
-            <a href="{{COMPTEUR_URL}}" class="game-nav-link compteur"><svg fill="currentColor" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+            <a href="/nl/comment-jouer.html" class="game-nav-link jouer"><svg viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;stroke-width:1.91px;}</style></defs><polyline class="cls-1" points="13.91 10.09 14.86 11.04 16.77 9.14"/><polyline class="cls-1" points="13.91 13.91 14.86 14.86 16.77 12.96"/><line class="cls-1" x1="7.23" y1="11.05" x2="11.05" y2="11.05"/><line class="cls-1" x1="7.23" y1="14.86" x2="11.05" y2="14.86"/><polyline class="cls-1" points="13.91 17.73 14.86 18.68 16.77 16.77"/><line class="cls-1" x1="7.23" y1="18.68" x2="11.05" y2="18.68"/><polygon class="cls-1" points="20.59 6.27 20.59 22.5 3.41 22.5 3.41 1.5 15.82 1.5 20.59 6.27"/><polygon class="cls-1" points="20.59 6.27 20.59 7.23 14.86 7.23 14.86 1.5 15.82 1.5 20.59 6.27"/></svg><span data-i18n="menu_comment_jouer">Comment jouer</span></a>
+            <a href="/nl/compteur.html" class="game-nav-link compteur"><svg fill="currentColor" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
 	 viewBox="0 0 512 512" xml:space="preserve">
 <g>
 	<g>
@@ -99,71 +96,37 @@
             <button type="button" class="info-nav-trigger" data-target="faq" data-i18n="menu_faq">FAQ</button>
             <button type="button" class="info-nav-trigger" data-target="contact" data-i18n="menu_contact">Nous contacter</button>
             <span id="lang-switcher-inline">
-                <button type="button" class="lang-link" data-lang="fr" data-lang-url="{{URL_FR}}">FR</button>
-                <button type="button" class="lang-link" data-lang="nl" data-lang-url="{{URL_NL}}">NL</button>
-                <button type="button" class="lang-link" data-lang="de" data-lang-url="{{URL_DE}}">DE</button>
+                <button type="button" class="lang-link" data-lang="fr" data-lang-url="/comment-jouer.html">FR</button>
+                <button type="button" class="lang-link" data-lang="nl" data-lang-url="/nl/comment-jouer.html">NL</button>
+                <button type="button" class="lang-link" data-lang="de" data-lang-url="/de/comment-jouer.html">DE</button>
             </span>
         </nav>
         </div>
 
-        <!-- Menu burger (mobile uniquement) : la fenêtre elle-même (#side-menu) et son voile
-             (#menu-overlay) vivent hors de .hero-banner (voir plus bas), pour ne jamais être
-             tronqués ou empilés sous d'autres éléments à cause de l'overflow/position de la
-             bannière — le bouton qui l'ouvre, lui, reste ici avec le reste de la nav. -->
         <button id="menu-button" data-i18n-aria="open_menu">
             ☰
         </button>
     </div>
 
-    <div class="province-breadcrumb">
-        <a href="{{HOME_URL}}">{{UI_ACCUEIL}}</a>
-        <span class="sep">›</span>
-        <span class="current">{{REGION_NAME}}</span>
-    </div>
-    <h1 class="hero-headline">{{H1}}</h1>
+    <h1 class="hero-headline">Hoe petanque spelen</h1>
+    <p class="rules-subtitle">De essentiële regels, in een paar minuten</p>
 
-</div>
+</div><!-- /.header -->
 
-<div class="controls">
-    <button id="locateBtn">
-        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-        <span data-i18n="locate_btn">Me localiser</span>
-    </button>
-
-    <form id="searchForm" class="search-form">
-        <input
-            type="text"
-            id="searchInput"
-            data-i18n-placeholder="search_placeholder"
-            autocomplete="off"
-        >
-        <button type="submit" id="searchBtn" aria-label="Rechercher">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        </button>
-    </form>
-
-    <a href="#stats-section" id="browseListBtn">
-        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
-        <span data-i18n="browse_list_btn">Parcourir la liste</span>
-    </a>
-</div>
-
-<!-- Crédit photo bannière -->
 <div class="hero-banner-credit">
-    {{BANNER_CREDIT_HTML}}
+    Photo : Jean-Claude Parayre, <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a>
 </div>
 
 </div><!-- /.hero-banner -->
 
-<!-- Fenêtre du menu burger + voile, hors de .hero-banner (voir commentaire plus haut) -->
 <nav id="side-menu">
     <button id="close-menu" data-i18n-aria="close_menu">
         ✕
     </button>
 
     <ul>
-        <li><a href="{{COMMENT_JOUER_URL}}" class="side-menu-game-link jouer"><svg viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;stroke-width:1.91px;}</style></defs><polyline class="cls-1" points="13.91 10.09 14.86 11.04 16.77 9.14"/><polyline class="cls-1" points="13.91 13.91 14.86 14.86 16.77 12.96"/><line class="cls-1" x1="7.23" y1="11.05" x2="11.05" y2="11.05"/><line class="cls-1" x1="7.23" y1="14.86" x2="11.05" y2="14.86"/><polyline class="cls-1" points="13.91 17.73 14.86 18.68 16.77 16.77"/><line class="cls-1" x1="7.23" y1="18.68" x2="11.05" y2="18.68"/><polygon class="cls-1" points="20.59 6.27 20.59 22.5 3.41 22.5 3.41 1.5 15.82 1.5 20.59 6.27"/><polygon class="cls-1" points="20.59 6.27 20.59 7.23 14.86 7.23 14.86 1.5 15.82 1.5 20.59 6.27"/></svg><span data-i18n="menu_comment_jouer">Comment jouer</span></a></li>
-                <li><a href="{{COMPTEUR_URL}}" class="side-menu-game-link compteur"><svg fill="currentColor" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+        <li><a href="/nl/comment-jouer.html" class="side-menu-game-link jouer"><svg viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;stroke-width:1.91px;}</style></defs><polyline class="cls-1" points="13.91 10.09 14.86 11.04 16.77 9.14"/><polyline class="cls-1" points="13.91 13.91 14.86 14.86 16.77 12.96"/><line class="cls-1" x1="7.23" y1="11.05" x2="11.05" y2="11.05"/><line class="cls-1" x1="7.23" y1="14.86" x2="11.05" y2="14.86"/><polyline class="cls-1" points="13.91 17.73 14.86 18.68 16.77 16.77"/><line class="cls-1" x1="7.23" y1="18.68" x2="11.05" y2="18.68"/><polygon class="cls-1" points="20.59 6.27 20.59 22.5 3.41 22.5 3.41 1.5 15.82 1.5 20.59 6.27"/><polygon class="cls-1" points="20.59 6.27 20.59 7.23 14.86 7.23 14.86 1.5 15.82 1.5 20.59 6.27"/></svg><span data-i18n="menu_comment_jouer">Comment jouer</span></a></li>
+                <li><a href="/nl/compteur.html" class="side-menu-game-link compteur"><svg fill="currentColor" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
 	 viewBox="0 0 512 512" xml:space="preserve">
 <g>
 	<g>
@@ -201,21 +164,16 @@
     </ul>
 
     <div id="side-menu-lang">
-        <button type="button" class="lang-link" data-lang="fr" data-lang-url="{{URL_FR}}">FR</button>
-        <button type="button" class="lang-link" data-lang="nl" data-lang-url="{{URL_NL}}">NL</button>
-        <button type="button" class="lang-link" data-lang="de" data-lang-url="{{URL_DE}}">DE</button>
+        <button type="button" class="lang-link" data-lang="fr" data-lang-url="/comment-jouer.html">FR</button>
+        <button type="button" class="lang-link" data-lang="nl" data-lang-url="/nl/comment-jouer.html">NL</button>
+        <button type="button" class="lang-link" data-lang="de" data-lang-url="/de/comment-jouer.html">DE</button>
     </div>
 </nav>
 
 <div id="menu-overlay"></div>
 
-<p class="add-terrain-link-wrapper">
-    <a href="#" id="add-terrain-link" data-i18n="add_terrain_link">Ajouter un terrain de pétanque</a>
-</p>
+<p id="searchError" class="search-error" style="display:none;"></p>
 
-<p id="searchError" class="search-error"></p>
-
-<!-- Panneau de partage réutilisable (site ou terrain précis) -->
 <div id="share-overlay"></div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
@@ -240,47 +198,132 @@
     </div>
 </div>
 
-<!-- Tuiles + carte + description + liste des communes : une seule fiche, toujours à l'intérieur
-     de .map-view (nécessaire pour que le mode plein écran continue de fonctionner sur #map). -->
-<div class="province-content">
+<div class="rules-content">
 
-    <div class="province-stats-tiles">
-        <div class="province-stat-tile">
-            <span class="province-stat-tile-number">{{STAT_TERRAINS}}</span>
-            <span class="province-stat-tile-label">{{UI_TERRAINS_RECENSES}}</span>
-        </div>
-        <div class="province-stat-tile">
-            <span class="province-stat-tile-number">{{STAT_PROVINCES}}</span>
-            <span class="province-stat-tile-label">{{UI_PROVINCES_COUVERTES}}</span>
-        </div>
-        <div class="province-stat-tile">
-            <span class="province-stat-tile-number">{{STAT_COMMUNES}}</span>
-            <span class="province-stat-tile-label">{{UI_COMMUNES_COUVERTES}}</span>
-        </div>
-    </div>
+            <details class="rule-accordion">
+                <summary>
+                    <span class="rule-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span>
+                    <span class="rule-title">Teamvorming</span>
+                </summary>
+                <ul class="rule-body">
+                <li><b>Triplet</b>: 2 teams van 3 spelers, elk 2 ballen</li>
+                <li><b>Doublet</b>: 2 teams van 2 spelers, elk 3 ballen</li>
+                <li><b>Tête-à-tête</b>: 1 tegen 1, elk 3 ballen</li>
+                </ul>
+            </details>
 
-    <div class="province-map-inline-wrapper" style="position: relative;">
-        <div id="map"></div>
-        <div class="map-toast" id="mapToast"></div>
-    </div>
+            <details class="rule-accordion">
+                <summary>
+                    <span class="rule-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="3" x2="12" y2="8"></line><line x1="12" y1="16" x2="12" y2="21"></line></svg></span>
+                    <span class="rule-title">Het materiaal</span>
+                </summary>
+                <ul class="rule-body">
+                <li>2-3 identieke ballen per speler (afhankelijk van het team), in metaal, 7 tot 8 cm, 650 tot 800 gram</li>
+                <li>1 but (cochonnet) in hout of kunststof, 30 mm diameter, 10 tot 18 g</li>
+                </ul>
+            </details>
 
-    <p class="province-intro">
-        {{INTRO_HTML}}
+            <details class="rule-accordion">
+                <summary>
+                    <span class="rule-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.4 2.4 0 0 1 0-3.4l2.6-2.6a2.4 2.4 0 0 1 3.4 0Z"></path><path d="m14.5 12.5 2-2"></path><path d="m11.5 9.5 2-2"></path><path d="m8.5 6.5 2-2"></path><path d="m17.5 15.5 2-2"></path></svg></span>
+                    <span class="rule-title">Het terrein</span>
+                </summary>
+                <ul class="rule-body">
+                <li>Officiële afmetingen: 4 m breed x 15 m lang (minimum 3 m x 12 m), samengesteld uit grind, zand, aangestampte aarde…</li>
+                </ul>
+            </details>
+
+            <details class="rule-accordion">
+                <summary>
+                    <span class="rule-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="2"></circle><path d="M12 2v4"></path><path d="M12 18v4"></path></svg></span>
+                    <span class="rule-title">Het but werpen</span>
+                </summary>
+                <ul class="rule-body">
+                <li>De werpcirkel: diameter 35 tot 50 cm (getekend) of 50 cm bij een vaste cirkel</li>
+                <li>Het but moet tussen 6 en 10 m van de cirkel geworpen worden</li>
+                <li>Het but moet zichtbaar zijn vanuit de cirkel, op minstens 50 cm van elk obstakel</li>
+                </ul>
+            </details>
+
+            <details class="rule-accordion">
+                <summary>
+                    <span class="rule-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg></span>
+                    <span class="rule-title">Verloop van een ronde</span>
+                </summary>
+                <ul class="rule-body">
+                <li>Loting om te bepalen wie het but werpt</li>
+                <li>Het team dat het but werpt speelt ook de eerste bal (voeten volledig in de cirkel tot de bal de grond raakt)</li>
+                <li>Daarna is het steeds aan het team zonder het punt om te spelen (= de bal die het dichtst bij het but ligt)</li>
+                <li>Zodra alle ballen gespeeld zijn, worden de punten geteld</li>
+                </ul>
+            </details>
+
+            <details class="rule-accordion">
+                <summary>
+                    <span class="rule-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"></rect><line x1="8" y1="7" x2="16" y2="7"></line><line x1="8" y1="11" x2="16" y2="11"></line><line x1="8" y1="15" x2="12" y2="15"></line></svg></span>
+                    <span class="rule-title">Puntentelling</span>
+                </summary>
+                <ul class="rule-body">
+                <li>Enkel de ballen van het team met het punt tellen mee</li>
+                <li>Elke bal die dichter bij het but ligt dan de beste tegenstanderbal = 1 punt</li>
+                <li>Een partij wordt gespeeld tot 13 punten</li>
+                <li>Het team dat de ronde wint, werpt het but opnieuw voor de volgende ronde, vanaf de plek waar het tot stilstand kwam</li>
+                </ul>
+            </details>
+
+            <details class="rule-accordion">
+                <summary>
+                    <span class="rule-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></span>
+                    <span class="rule-title">Bijkomende regel</span>
+                </summary>
+                <ul class="rule-body">
+                <li>Als het but tijdens de partij buiten het terrein terechtkomt, doen zich 2 gevallen voor:</li>
+                <li class="no-bullet"><b>1)</b> Er blijven nog ballen te spelen voor beide teams, OF geen enkel team heeft nog ballen in handen: geen enkel team scoort, en het but keert terug naar het team dat voordien scoorde of de loting won.</li>
+                <li class="no-bullet"><b>2)</b> Slechts één team heeft nog ballen te spelen: dat team scoort evenveel punten als het nog ballen heeft.</li>
+                </ul>
+            </details>
+
+    <p class="rules-footer-note">
+        Dit is een samenvatting van de belangrijkste regels. Voor het volledige officiële reglement, raadpleeg het <a href="https://www.ffpjp.org/portail/images/arbitrage/2021/R%C3%A9glement_P%C3%A9tanque_au_1er_Janvier_2021.pdf" target="_blank" rel="noopener">FFPJP/FIPJP-document (PDF)</a>.
     </p>
 
-    <div class="other-provinces-section">
-        <h2>{{UI_PROVINCES_DE_LA_REGION}}</h2>
-        <div class="other-provinces-links">
-{{PROVINCES_LINKS}}
-        </div>
-    </div>
+    <a href="/nl/compteur.html" class="btn-open-compteur bottom"><svg fill="currentColor" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+	 viewBox="0 0 512 512" xml:space="preserve">
+<g>
+	<g>
+		<path d="M469.973,75.985H353.357V50.769c0-11.605-9.408-21.013-21.013-21.013c-11.605,0-21.013,9.408-21.013,21.013v25.216
+			H200.659V50.769c0-11.605-9.408-21.013-21.013-21.013c-11.605,0-21.013,9.408-21.013,21.013v25.216H42.027
+			C18.853,75.985,0,94.838,0,118.012c0,11.55,0,297.873,0,322.206c0,23.174,18.853,42.027,42.027,42.027
+			c18.793,0,409.188,0,427.946,0c23.174,0,42.027-18.853,42.027-42.027c0-24.441,0-310.739,0-322.206
+			C512,94.838,493.147,75.985,469.973,75.985z M42.027,190.858v-72.847h0l116.607-0.007v19.62c0,11.605,9.408,21.013,21.013,21.013
+			c11.605,0,21.013-9.408,21.013-21.013v-19.621l110.671-0.006v19.627c0,11.605,9.408,21.013,21.013,21.013
+			c11.605,0,21.013-9.408,21.013-21.013v-19.629l116.615-0.007c0,0,0,0.008,0,0.024v72.847
+			C451.18,190.858,60.785,190.858,42.027,190.858z M234.987,440.218H42.027V232.885h192.96V440.218z M469.973,440.218h-192.96
+			V232.885h192.96V440.218z"/>
+	</g>
+</g>
+<g>
+	<g>
+		<path d="M159.904,299.504c-13.867-21.128-39.257-21.367-53.278,0c-13.111,19.069-12.829,49.983,0,68.643
+			c14.155,21.236,39.103,21.263,53.278,0C172.663,349.154,172.846,318.766,159.904,299.504z M146.691,359.243
+			c-8.047,11.931-18.766,11.8-26.997,0c-9.068-13.601-9.289-36.713,0-50.98c8.108-11.35,18.614-12.139,26.997,0
+			C155.973,322.516,155.766,345.634,146.691,359.243z"/>
+	</g>
+</g>
+<g>
+	<g>
+		<path d="M394.889,299.504c-13.866-21.128-39.256-21.367-53.278,0c-13.111,19.069-12.829,49.983,0,68.643
+			c14.155,21.236,39.103,21.263,53.278,0C407.648,349.154,407.831,318.766,394.889,299.504z M381.676,359.243
+			c-8.045,11.931-18.765,11.8-26.997,0c-9.068-13.603-9.289-36.713,0-50.98c8.108-11.35,18.614-12.139,26.997,0
+			C390.957,322.516,390.751,345.634,381.676,359.243z"/>
+	</g>
+</g>
+</svg>Open de scoreteller</a>
 
-</div>
+</div><!-- /.rules-content -->
 
-</div><!-- /.map-view -->
+</div><!-- /#top -->
 
-<!-- Section statistiques : conservée intacte, JS toujours actif, seulement masquée visuellement
-     (voir /style-accueil-provinces.css). Rien n'est supprimé ici. -->
 <section id="stats-section">
     <div class="stats-container">
 
@@ -300,7 +343,6 @@
     </div>
 </section>
 
-<!-- Panneau d'info coulissant -->
 <aside id="info-panel">
     <button id="close-info" data-i18n-aria="close_panel">✕</button>
 
@@ -349,111 +391,16 @@
     </div>
 </footer>
 
-<!-- Bibliothèque Leaflet -->
+<!-- #map masqué : script.js appelle L.map('map', ...) sans condition, cet élément doit exister
+     même si aucune carte n'est réellement affichée sur cette page. -->
+<div id="map" style="display:none;"></div>
+
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
 
-<!-- Traductions -->
 <script src="/translations.js"></script>
-
-<!-- Empêche script.js de charger/afficher son jeu de marqueurs par défaut (tous les terrains de
-     Belgique, avec clustering) : cette page construit son propre sous-ensemble juste après. -->
 <script>window.MAPETANQUE_SKIP_DEFAULT_MARKERS = true;</script>
-
-<!-- Restreint la couche clubs (chargée par script.js, voir plus bas) à cette région — même clé
-     que celle utilisée juste après pour filtrer les terrains. -->
-<script>window.MAPETANQUE_STATS_GEO_KEY = '{{STATS_GEO_KEY}}';</script>
-
-<!-- Script du site -->
 <script src="/script.js"></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
-
-<!-- ===================== Comportement propre à la page région ===================== -->
-<!-- Réutilise les briques de script.js (icône des terrains, contenu des popups, calcul de
-     distance, etc. — voir window.MAPETANQUE_SKIP_DEFAULT_MARKERS plus haut) mais charge et
-     affiche uniquement les terrains de cette région. Avec regroupement (clustering) cette
-     fois, contrairement aux pages province : une région comme la Flandre approche les 1 200
-     terrains, bien trop pour rester lisible sans regroupement. -->
-<script>
-(function () {
-
-    // Sécurité : force Leaflet à recalculer la taille de son conteneur avant tout calcul de
-    // cadrage, pour que fitBounds() s'appuie sur une carte déjà correctement dimensionnée.
-    if (typeof map !== 'undefined') {
-        map.invalidateSize();
-    }
-
-    let toastTimeout = null;
-    function afficherToast(texte) {
-        const toast = document.getElementById('mapToast');
-        if (!toast) return;
-        toast.textContent = texte;
-        toast.classList.add('visible');
-        clearTimeout(toastTimeout);
-        toastTimeout = setTimeout(function () { toast.classList.remove('visible'); }, 2800);
-    }
-
-    const groupe = L.markerClusterGroup({ disableClusteringAtZoom: 16 });
-
-    fetch('/data/terrains.geojson')
-        .then(function (r) { return r.json(); })
-        .then(function (data) {
-
-            // Compteur du footer : total Belgique (comme sur la page d'accueil), pas seulement
-            // cette région — script.js ne le fait plus lui-même vu MAPETANQUE_SKIP_DEFAULT_MARKERS.
-            if (typeof afficherNombreTerrains === 'function') {
-                afficherNombreTerrains(data.features.length);
-            }
-
-            const featuresRegion = data.features.filter(function (f) {
-                return f.properties.region === '{{STATS_GEO_KEY}}';
-            });
-
-            if (featuresRegion.length === 0) {
-                afficherToast('Aucun terrain chargé pour cette région');
-                return;
-            }
-
-            featuresRegion.forEach(function (feature) {
-                const coords = feature.geometry.coordinates; // [lon, lat]
-                const latlng = [coords[1], coords[0]];
-                const layer = L.marker(latlng, { icon: terrainMarkerIcon });
-
-                layer.bindPopup(function () {
-                    return window.construireContenuPopupTerrain(feature, layer);
-                });
-                layer.on('popupopen', function (e) {
-                    window.brancherPartagePopup(e, feature, layer);
-                });
-
-                layer.addTo(groupe);
-            });
-
-            map.addLayer(groupe);
-
-            const bounds = L.latLngBounds(featuresRegion.map(function (f) {
-                return [f.geometry.coordinates[1], f.geometry.coordinates[0]];
-            }));
-            map.fitBounds(bounds, { padding: [30, 30] });
-        })
-        .catch(function () {
-            afficherToast('Impossible de charger les terrains pour le moment');
-        });
-
-    // Sélecteur de langue : script.js (non modifié) renvoie toujours vers la racine de la
-    // langue choisie (/nl/, /de/) et ne traduit que les menus/boutons partagés, pas le contenu
-    // spécifique à cette page. On surcharge la navigation pour aller vers la vraie page région
-    // équivalente quand elle existe (repli sur la racine de la langue sinon, comme avant).
-    document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            const cible = btn.dataset.langUrl;
-            if (cible) {
-                window.location.href = cible;
-            }
-        });
-    });
-})();
-</script>
-
 </body>
 </html>

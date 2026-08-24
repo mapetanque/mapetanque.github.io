@@ -209,11 +209,9 @@ const VUE_CARTE_INITIALE = { center: [50.8503, 4.3517], zoom: 8 };
 const map = L.map('map', {
     scrollWheelZoom: false,
     // Sensibilité de la molette : Leaflet accumule le défilement et change de niveau de zoom
-    // tous les wheelPxPerZoomLevel pixels équivalents (défaut : 60, ce qui fait sauter plusieurs
-    // niveaux d'un coup pour un seul cran de molette sur la plupart des souris/OS, contrairement
-    // aux boutons +/-  qui avancent toujours d'exactement un niveau). Valeur relevée pour se
-    // rapprocher d'un niveau par cran — à ajuster ici si ce n'est pas encore le bon compte selon
-    // la souris utilisée pour tester (plus haut = molette moins sensible, plus bas = plus sensible).
+    // tous les wheelPxPerZoomLevel pixels équivalents (défaut Leaflet : 60, ce qui faisait sauter
+    // plusieurs niveaux d'un coup pour un seul cran de molette, contrairement aux boutons +/-
+    // qui avancent toujours d'exactement un niveau). 320 = valeur testée et validée par l'utilisateur.
     wheelPxPerZoomLevel: 320
 }).setView(VUE_CARTE_INITIALE.center, VUE_CARTE_INITIALE.zoom);
 
@@ -568,46 +566,55 @@ const positionIcon = L.divIcon({
 
 let locateMarker = null; // marqueur de la position géolocalisée (distinct de searchMarker)
 
-document.getElementById("locateBtn").addEventListener("click", function () {
+// Gardé optionnel (comme add-terrain-link plus bas) : les pages sans carte de recherche
+// (ex. "Comment jouer", "Compteur de points") n'ont pas ce bouton, et ne doivent pas faire
+// planter le reste du script pour autant.
+const locateBtn = document.getElementById("locateBtn");
+if (locateBtn) {
+    locateBtn.addEventListener("click", function () {
 
-    if (navigator.geolocation) {
+        if (navigator.geolocation) {
 
-        navigator.geolocation.getCurrentPosition(function(position) {
+            navigator.geolocation.getCurrentPosition(function(position) {
 
-            let lat = position.coords.latitude;
-            let lon = position.coords.longitude;
+                let lat = position.coords.latitude;
+                let lon = position.coords.longitude;
 
-            definirPositionUtilisateur(lat, lon);
+                definirPositionUtilisateur(lat, lon);
 
-            map.setView([lat, lon], 15);
+                map.setView([lat, lon], 15);
 
-            if (locateMarker) {
-                map.removeLayer(locateMarker);
-            }
+                if (locateMarker) {
+                    map.removeLayer(locateMarker);
+                }
 
-            locateMarker = L.marker([lat, lon], {
-                icon: positionIcon
-            })
-            .addTo(map)
-            .bindPopup(function () { return t('popup_here'); })
-            .openPopup();
+                locateMarker = L.marker([lat, lon], {
+                    icon: positionIcon
+                })
+                .addTo(map)
+                .bindPopup(function () { return t('popup_here'); })
+                .openPopup();
 
-        }, function() {
-            alert("Impossible de récupérer votre position.");
-        });
+            }, function() {
+                alert("Impossible de récupérer votre position.");
+            });
 
-    } else {
-        alert("La géolocalisation n'est pas supportée par votre navigateur.");
-    }
+        } else {
+            alert("La géolocalisation n'est pas supportée par votre navigateur.");
+        }
 
-});
+    });
+}
 
 
 // ===================== Recherche d'adresse =====================
 
 let searchMarker = null;
 
-document.getElementById('searchForm').addEventListener('submit', function (e) {
+// Même principe que locateBtn ci-dessus : optionnel, absent sur les pages sans recherche.
+const searchForm = document.getElementById('searchForm');
+if (searchForm) {
+    searchForm.addEventListener('submit', function (e) {
 
     e.preventDefault();
 
@@ -673,7 +680,8 @@ document.getElementById('searchForm').addEventListener('submit', function (e) {
             errorEl.textContent = t('search_failed');
         });
 
-});
+    });
+}
 
 
 // ===================== Partage (site ou terrain précis) =====================
@@ -1363,7 +1371,10 @@ if (addTerrainLink) {
     });
 }
 
-document.querySelectorAll('#side-menu a').forEach(function (link) {
+// Les liens vers de vraies pages (ex. "Comment jouer"/"Compteur de points", .side-menu-game-link)
+// sont exclus : contrairement à À propos/FAQ/Contact, ce ne sont pas des ancres vers un panneau
+// d'info mais de vraies URLs, qui doivent naviguer normalement plutôt qu'être interceptées.
+document.querySelectorAll('#side-menu a:not(.side-menu-game-link)').forEach(function (link) {
     link.addEventListener('click', function (e) {
         e.preventDefault();
 
