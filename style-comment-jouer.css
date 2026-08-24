@@ -1,7 +1,9 @@
-/* ===================== Page "Comment jouer" ===================== */
-/* Additif uniquement, aucune règle de /style.css ni /style-accueil-provinces.css n'est modifiée
-   par ce fichier. La bannière (photo, nav en blanc) vient entièrement de
-   style-accueil-provinces.css, réutilisée telle quelle — voir generer.py. */
+/* ===================== Page "Comment jouer" / "Compteur de points" ===================== */
+/* Additif uniquement, aucune règle de /style.css n'est modifiée par ce fichier. La bannière
+   photo (titre en bas à gauche, fil d'Ariane juste au-dessus, logo/nav ancrés en haut) est
+   copiée à l'identique de style-province.css, pour que toutes les pages de contenu du site
+   (province/région, "Comment jouer", "Compteur de points"...) partagent exactement le même
+   repère visuel — plutôt que le traitement centré propre à la page d'accueil. */
 
 /* Section Statistiques : gardée dans le DOM (script.js continue de la peupler normalement),
    seulement masquée visuellement — non pertinente sur une page de règles. Même principe que
@@ -10,12 +12,146 @@
     display: none;
 }
 
-.rules-subtitle {
-    color: rgba(255, 255, 255, 0.85);
-    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
-    font-size: 15px;
-    margin: 0 24px 20px;
-    text-align: center;
+/* ===================== Bannière photo (.hero-banner) — copié de style-province.css ===================== */
+
+.hero-banner {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background-size: cover;
+    background-position: center 55%;
+}
+
+.hero-banner .brand,
+.hero-banner .hero-headline {
+    color: #fff;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+
+/* Logo + nav du haut détachés du flux, toujours ancrés en haut de la bannière, indépendamment
+   de la position du fil d'Ariane + titre (qui eux restent en bas). */
+.hero-banner .header-top-row {
+    position: absolute;
+    top: 18px;
+    left: 30px;
+    right: 30px;
+    z-index: 2;
+}
+
+.hero-banner .hero-headline {
+    text-shadow: 0 2px 8px rgba(0,0,0,0.55);
+    text-align: left;
+    font-size: 42px;
+    max-width: 700px;
+    margin: 14px 0 0;
+}
+
+.hero-banner .brand-tld {
+    color: rgba(255,255,255,0.75);
+}
+
+.hero-banner .info-nav-trigger,
+.hero-banner .lang-link,
+.hero-banner .game-nav-link {
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.hero-banner .info-nav-trigger:hover,
+.hero-banner .game-nav-link:hover {
+    background: rgba(255,255,255,0.18);
+    color: #fff;
+}
+
+/* text-shadow (utilisé ci-dessus pour le texte) ne s'applique pas aux tracés SVG — sans ceci,
+   les icônes blanches se fondent dans les zones claires de la photo. */
+.hero-banner .game-nav-link svg {
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.5));
+}
+
+.hero-banner #game-nav-inline {
+    border-right: 1px solid rgba(255,255,255,0.35);
+}
+
+.hero-banner .lang-link {
+    color: rgba(255,255,255,0.75);
+}
+
+.hero-banner .lang-link:hover {
+    color: #fff;
+}
+
+.hero-banner .lang-link.active {
+    color: #fff;
+    background: rgba(255,255,255,0.18);
+}
+
+.hero-banner #lang-switcher-inline {
+    border-left: 1px solid rgba(255,255,255,0.35);
+}
+
+.hero-banner-credit {
+    position: absolute;
+    bottom: 8px;
+    right: 14px;
+    font-size: 10.5px;
+    color: rgba(255,255,255,0.75);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+}
+
+@media (max-width: 1024px) {
+    .hero-banner {
+        height: 230px;
+        /* Réserve une bande en bas pour la mention de licence, pour qu'elle ne se retrouve
+           jamais superposée au titre quand celui-ci passe sur 2 lignes en mobile. */
+        padding-bottom: 26px;
+    }
+
+    .hero-banner .hero-headline {
+        font-size: 28px;
+        max-width: 100%;
+    }
+
+    .hero-banner .header-top-row {
+        top: 14px;
+        left: 15px;
+        right: 15px;
+    }
+}
+
+/* Fil d'Ariane sous la nav, au-dessus du titre — copié à l'identique de .province-breadcrumb
+   dans style-province.css. */
+.province-breadcrumb {
+    margin: 0 0 4px;
+    font-size: 13px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+
+.province-breadcrumb a {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+}
+
+.province-breadcrumb a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.province-breadcrumb .sep {
+    opacity: 0.6;
+}
+
+.province-breadcrumb .current {
+    opacity: 1;
+    font-weight: bold;
 }
 
 /* Contenu : accordéons + notes */
