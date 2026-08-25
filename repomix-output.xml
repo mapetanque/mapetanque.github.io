@@ -112,34 +112,11 @@ scripts/
 templates/
   province_template.html
   region_template.html
-test_photo_map/
-  mapillary_candidats_antwerpen.json
-  mapillary_couverture_antwerpen.json
-  proposer_photos_mapillary.py
-  rapport.json
-  terrain_001.jpg
-  terrain_002.jpg
-  terrain_003.jpg
-  terrain_004.jpg
-  terrain_005.jpg
-  terrain_006.jpg
-  terrain_007.jpg
-  terrain_008.jpg
-  terrain_009.jpg
-  terrain_010.jpg
-  terrain_011.jpg
-  terrain_012.jpg
-  terrain_014.jpg
-  terrain_015.jpg
-  terrain_020.jpg
-  terrain_022.jpg
-  terrain_023.jpg
 .repomixignore
 CNAME
 comment-jouer.html
 compteur.html
 google2225db80bf0760f5.html
-index-test-provinces.html
 index.html
 NOTES_terrains_insolites.md
 province-anvers.html
@@ -163,7 +140,6 @@ style-accueil-provinces.css
 style-comment-jouer.css
 style-province.css
 style.css
-test_photos_liege.py
 translations.js
 </directory_structure>
 
@@ -1607,1063 +1583,6 @@ else:
     print("\nAucune entrée orpheline trouvée, rien à faire.")
 </file>
 
-<file path="test_photo_map/mapillary_candidats_antwerpen.json">
-[
-  {
-    "nom": "Lode Craeybeckxtunnel",
-    "lat": 51.17832,
-    "lon": 4.4162556,
-    "candidat": null
-  },
-  {
-    "nom": "Harmoniestraat",
-    "lat": 51.1997171,
-    "lon": 4.4092562,
-    "candidat": {
-      "id": "4437342663260783",
-      "score": 0.164,
-      "distance_m": 9.7,
-      "ecart_angle_deg": 38.7,
-      "captured_at": 1786807951000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An9sBt-nBHa2zdHihqVMZU2bSH_Wa2UC-j78OxNH8zdgvrx8Rx5OYitkRWPQL6rUPLdkQAsOWbfcEOk1zJZguTedJ3NoeRUDSfrLIYyLRBYIAvzEspMNQcA933sWQY9X91UwwG6Ce4ugOceMU6mugk0?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=-rGKuSwBmnwpkfAIjVxxdA&_nc_oc=AdogplFX2CfglkwIQZF2sQr_ax2diFgZVGp2Uk8TgF5MMGo8CWhKGkhzwBAo32Ell6AkxIHQQ1sYL37O-W0B1-k7&ccb=10-5&oh=00_AQF0keh4BU-6Z23rk79P2lav274Bc9bmieKAD203SCJMjw&oe=6AB18366&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/4437342663260783"
-    }
-  },
-  {
-    "nom": "Harmoniestraat",
-    "lat": 51.1997795,
-    "lon": 4.4093319,
-    "candidat": {
-      "id": "4437342663260783",
-      "score": 0.262,
-      "distance_m": 17.7,
-      "ecart_angle_deg": 53.9,
-      "captured_at": 1786807951000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An9sBt-nBHa2zdHihqVMZU2bSH_Wa2UC-j78OxNH8zdgvrx8Rx5OYitkRWPQL6rUPLdkQAsOWbfcEOk1zJZguTedJ3NoeRUDSfrLIYyLRBYIAvzEspMNQcA933sWQY9X91UwwG6Ce4ugOceMU6mugk0?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=MTAqgtBdN_U0P7-gZgz4PQ&_nc_oc=AdogplFX2CfglkwIQZF2sQr_ax2diFgZVGp2Uk8TgF5MMGo8CWhKGkhzwBAo32Ell6AkxIHQQ1sYL37O-W0B1-k7&ccb=10-5&oh=00_AQFmZQ-0RuWkdyTzJ9StDmq1h2GQLqCRpZvklo6Qb7IgHQ&oe=6AB18366&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/4437342663260783"
-    }
-  },
-  {
-    "nom": "Groenendaallaan",
-    "lat": 51.2473036,
-    "lon": 4.4215805,
-    "candidat": {
-      "id": "1227577134873332",
-      "score": 0.314,
-      "distance_m": 17.1,
-      "ecart_angle_deg": 38.1,
-      "captured_at": 1713881498745,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An-UDVdnKeRvU2Oygploar4Bp_f4xNZHo1WzZHeduY8CYw80vDxaeJ2mifQcsK-KGI-pwnP_YZxBIjfmgZvXxCchvJxEfvp_BdCBzc2vDvzAGJAVgmsUNYtiv9Dk-JSTayZsgwvTt_CNdcjeeQ-eLg?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=mYcw5FAAHXMA_Zg0VogtUg&_nc_oc=Adpof2vejYiRPaK_rp6n8UoJ1_Uazt9EIe4Q42jS_SapbUCsu3ov_zBhZfLyNqzAwx-O_mgC9IIxtaYWYQEZl8Zj&ccb=10-5&oh=00_AQFMk_laYWBHdXthYZ0Ap-swqAD3GzWQ3AflbKhzFdI5Rw&oe=6AB17F9E&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/1227577134873332"
-    }
-  },
-  {
-    "nom": "Tankgrachtpad",
-    "lat": 51.1618206,
-    "lon": 4.3948972,
-    "candidat": {
-      "id": "2959018244489594",
-      "score": 0.219,
-      "distance_m": 8.5,
-      "ecart_angle_deg": 58.2,
-      "captured_at": 1770479960000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An-DufGBum8H1DuRJVxMQKUBvga1qDyFwqAk0jQ_NaljSe9QXHzZevrmZsjqppzi8vJDlgAZQOvDA6lgs7DYDab9XdWq97rP-vRpXo3v9vg-WdYgfEcI7rCVXnG-2CVVCqthSE1YKntRZjmLz2RoS1g?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=0Wn9jWKhIhhWxmAiF10LmA&_nc_oc=Adp5tlLqawAjfjLnuGPGComsdX116vl9psvc89P67xIHlDdVbFNAwquBc70qPCkK82iRlq8laK9rEijPOJstEGJu&ccb=10-5&oh=00_AQE4P6fVuE6POVL7vHCmoK9S_IY6ZnOWtg3nXHM5YZjkSw&oe=6AB16F2B&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/2959018244489594"
-    }
-  },
-  {
-    "nom": "Baron D'hanislaan",
-    "lat": 51.2058354,
-    "lon": 4.3901974,
-    "candidat": null
-  },
-  {
-    "nom": "Hoofdfrontweg",
-    "lat": 51.1647395,
-    "lon": 4.3475201,
-    "candidat": {
-      "id": "1216133313010676",
-      "score": 0.081,
-      "distance_m": 1.0,
-      "ecart_angle_deg": 1.6,
-      "captured_at": 1732454968754,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An99OEjxWXRHN2ZvSp3pPj3LIigeN4uTBoEikDB5ZRRzfeBaHX6x4qTkMmo6nqsY1NAmmbYgJycUZPYWu9mJXQFECxl0clEtufm2et_K9b6AUl-N1gC6vK8WisQ6oIkbBuIZzV29edqhh15MuoMMwak?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=EfgzU04Btqfg9nG_-LOQdQ&_nc_oc=Adr2hxJUD3clBOPGi_IupsDSti8NypukrR170mjknHtu64NiVafHbPmcYE9D5sdLtIAUZnqJMIEbL5l20PsdEHDg&ccb=10-5&oh=00_AQF_O-ZRl6e069S6ctH8o75qPC-bD1jef91Lc3rkwOSBuQ&oe=6AB1805E&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/1216133313010676"
-    }
-  },
-  {
-    "nom": "August Leyweg",
-    "lat": 51.1945713,
-    "lon": 4.3781455,
-    "candidat": null
-  },
-  {
-    "nom": "Oortbroek",
-    "lat": 51.2515545,
-    "lon": 4.4313724,
-    "candidat": {
-      "id": "1430242775530544",
-      "score": 0.421,
-      "distance_m": 38.2,
-      "ecart_angle_deg": 48.8,
-      "captured_at": 1782036340000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An9bXxePIbUv7tTxiX4Vlo3ZysvlsQQ8i3C4phi9oNl7g3e3K1_U9rf_jn_fdLYP7AHZDxpsPaQdJYKaO0p7u81qIE3XMQBPzCB-cS0VtTlvU4khTMZ_FAmHYgpgvRNd8egu8_e9RVsn5GJngay08A?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=Wh4d2zVNTw-Jq65ajYCcCA&_nc_oc=Adr_dquPiU4NANSFrfmsqQqGYZBb91fDehYUT1jIJ_xWLMFqRv02yhHeWT17aV7UrK7vX7J8vLoCCfRwl1RfhwIV&ccb=10-5&oh=00_AQF2a8ZMvXkXEwkYzjd0u6qYs8kw_lOJFAj8BU0qYgR2SQ&oe=6AB17997&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/1430242775530544"
-    }
-  },
-  {
-    "nom": "Jules Bordetstraat",
-    "lat": 51.2022226,
-    "lon": 4.4226493,
-    "candidat": {
-      "id": "4016294758668273",
-      "score": 0.43,
-      "distance_m": 27.9,
-      "ecart_angle_deg": 84.1,
-      "captured_at": 1771942556000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An_Nfcu1ne2mXSKhPUa5vndLl5vBtbr2ADnmu_DxIm1g2d_S0LEYi5BE3HWvRESJ34sjaOrDFl-qPHPjBpjB8Ks0B4BBCMElHcMtj9zpnOKfK-q0xCZvEBMDQdF8wblI5aA2fvRffWWSyQ4kQWvmP2g?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=4KindB_9_F7hp97jkaTTrw&_nc_oc=AdoYEMTKFpkhPtQYFWNsvqMCbw29h8uL7hTxmr1oqIT0viDLvao53GdA9HSFYxx0D2VHrTAUMueuD8GVuhp3WK6b&ccb=10-5&oh=00_AQF3adv-YYLnvXaGLhqI26hP1hTjAAwgwt8X8x6EPF9bRQ&oe=6AB16FAA&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/4016294758668273"
-    }
-  },
-  {
-    "nom": "Fonteinstraat",
-    "lat": 51.2117452,
-    "lon": 4.4427692,
-    "candidat": {
-      "id": "1035741220968666",
-      "score": 0.319,
-      "distance_m": 17.3,
-      "ecart_angle_deg": 34.2,
-      "captured_at": 1704641716000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An9UwWZ4HjrbSfYnE2ts8mMH9ih89wjDzB0RmgJKBNLvqflJeFZ8TdXC65RC1vQbf3O139RcAQVg3fJsiycD6t39XRxmo9JXs0NJ1_rXlPvGR6Qb-X2AyJzmMf304eJknBDGShwde9Qx6OoL6k_ARg?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=IEZlcrLV-5ImzZUYBZEmww&_nc_oc=Adq-SW9PWQ6T2ykDdbo-XVzGWP49khunzt0BnjlvAVvYbpHbbiRkdXAL1mI-jy_VRWP_rZMkRPNAz-5zvON_8tJX&ccb=10-5&oh=00_AQEH3E1AMN7T4l1Rc53yUTSnRzWsdkabRD-XIpodlQZlSA&oe=6AB17398&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/1035741220968666"
-    }
-  },
-  {
-    "nom": "Terrain (51.21769, 4.47134)",
-    "lat": 51.2176894,
-    "lon": 4.4713402,
-    "candidat": {
-      "id": "1448990883661572",
-      "score": 0.256,
-      "distance_m": 16.5,
-      "ecart_angle_deg": 52.6,
-      "captured_at": 1781699914000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An-zoG7Iz_gMHSIS2gGo_2UilZptIMtU_IWm4MThI7yauiOdmxRiQTwPzIzleZekai-0hX0mupFjOdF71YB3WGAeABWe2tsQGRIAdUKCLBfN8L_llNbsThQINYnv95289PqjIwCxZzMG9fTCKYIQ6zg?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=RO99PXkSpzjCiOCDXYXPaQ&_nc_oc=AdpDzw9hLPPQUPLY5Eej7FZ5dMg3gxereA7HwDp1Ac_qxwx2DU67bAi3cXadFBN_hx2CmtDjbwrIKreXijLv6XVf&ccb=10-5&oh=00_AQFtj1YidYLZNuRW4n1-4bftwhZ2LIz9liP50W3xpEUX0A&oe=6AB1808B&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/1448990883661572"
-    }
-  },
-  {
-    "nom": "Laar",
-    "lat": 51.2167058,
-    "lon": 4.4344799,
-    "candidat": {
-      "id": "3054191364815851",
-      "score": 0.422,
-      "distance_m": 24.6,
-      "ecart_angle_deg": 11.4,
-      "captured_at": 1598094167000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An9Bwy9dsJ-ui2YageOj73xwGtvq6XRd17ivxqUvXyO2izzGBCE3412ttA995Hfv8GmpasYKe2lEUh0Q7Z1PNuccC6wBOHy-Ox6bcxN_hh3OYhTwVNkt5rX2YHGopPloXh6TEBw-lFB_RUmTQuv58w?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=_ykAKWlb-NJcQ239zJU53A&_nc_oc=AdoQ7_ePEEQvSWkVsNsjwONTS5Djtco8zvSuQnrYfyqeuGmvEviCDEKQ-S8zmXNF5w_VpmuZSa_NbZCN3_8VPb5o&ccb=10-5&oh=00_AQFCN5aM0TC-NGJexeNatRjRZ7wbu8K3220o-zQP3WQdiA&oe=6AB1A0AE&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/3054191364815851"
-    }
-  },
-  {
-    "nom": "Monnikenhofstraat",
-    "lat": 51.3475334,
-    "lon": 4.3302059,
-    "candidat": {
-      "id": "506978261189523",
-      "score": 0.442,
-      "distance_m": 17.8,
-      "ecart_angle_deg": 62.8,
-      "captured_at": 1661247185456,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An8PTQy8gltkPptoMPvmSYDEvtCX-mFa_PkafdWKsP47NtbUV8FSZrK4ZbZtvQ70ucCGVfJShQlRkn4_bMqXWDUqamLnmaYIRuglw3XDA4t1jxywQuan1VU6nArLvGB7pCrwF_tXjiS4JTLDsgRFCg?stp=s1024x576&edm=AOnQwmMEAAAA&_nc_gid=lUX4oKljdDiMX8n_WZmwtA&_nc_oc=Adrq6n1xllHkRMDdECHAxyIMkw59vVohLn0qhBnv4JGpmTS8PBpSaJ6skm4QgejsNZc6OglIBnTkWvqJUQoVFuNi&ccb=10-5&oh=00_AQGKw4W3hnXRN6AVSeSdvP00azcHZPFPOKbiBeUQnp7-dQ&oe=6AB16F00&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/506978261189523"
-    }
-  },
-  {
-    "nom": "Elsblok",
-    "lat": 51.1691948,
-    "lon": 4.3793678,
-    "candidat": {
-      "id": "507966521723257",
-      "score": 0.25,
-      "distance_m": 11.2,
-      "ecart_angle_deg": 35.0,
-      "captured_at": 1721916310000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An9jz1uwdSxhxrfqtMMMUn4ARsQwPNCBvVBTYLujn1yGceQZGIZOWqFmllm06jFEmCaLkXB-lnSFy7AvaEbm_oGTCy204J0tL6_dMOnCGzkC16Ifi_D6uh63q0ELoihCVzeD_awARvPRHEh6yac5vO8?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=riVxanjUJe64Ceh3Y0uG1w&_nc_oc=AdqxUMNXfz9X7dw1OiD5ck-is6l0o9ycBFBJD9-xU5_pz7Kpw4XW-vvuZ3Lpi3rk7zQkylfj0fQgvvr-yUFv0Q1o&ccb=10-5&oh=00_AQG-VBHHttZ5tybwvv-IbzkUBRXrgZ8G3nsyWTWKHeJwng&oe=6AB190B9&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/507966521723257"
-    }
-  },
-  {
-    "nom": "Boeksveldplein",
-    "lat": 51.1639745,
-    "lon": 4.3904275,
-    "candidat": {
-      "id": "1023879575833251",
-      "score": 0.364,
-      "distance_m": 21.9,
-      "ecart_angle_deg": 46.7,
-      "captured_at": 1720261111000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An89eJJ7I1ZH6kgxpAXBIZFnTNEXr9YYpTOjKIaDJTWwvapcqJkaH2RomkFTt66UfUZG3h3ciWw23hDKyJHoK3S6sWjtP4RE_NcPPHFXWsKryQEd7wnZNxWZ8hiCpkEYhB9j6iiblBOKmgsHa2pXh2U?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=x09TNwsk5eWroRt71qq0Ow&_nc_oc=AdpBj-a-BfeCVqTsheDXcDRKyIfyjKDepgFRaKraE-BcuqWVE_VYNJEtwuJ_vF8-1X7THjk5UzXfQZ66ZmxPk8Ou&ccb=10-5&oh=00_AQFD9ZzZ0OESULtPWIQeMZiY_avP6m7-BxyWeIFhZtrEFA&oe=6AB175C9&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/1023879575833251"
-    }
-  },
-  {
-    "nom": "Boeksveldplein",
-    "lat": 51.1639551,
-    "lon": 4.3904555,
-    "candidat": {
-      "id": "1023879575833251",
-      "score": 0.336,
-      "distance_m": 19.1,
-      "ecart_angle_deg": 44.3,
-      "captured_at": 1720261111000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An89eJJ7I1ZH6kgxpAXBIZFnTNEXr9YYpTOjKIaDJTWwvapcqJkaH2RomkFTt66UfUZG3h3ciWw23hDKyJHoK3S6sWjtP4RE_NcPPHFXWsKryQEd7wnZNxWZ8hiCpkEYhB9j6iiblBOKmgsHa2pXh2U?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=zb9dIbFam2_NbdGEao3V2g&_nc_oc=AdpBj-a-BfeCVqTsheDXcDRKyIfyjKDepgFRaKraE-BcuqWVE_VYNJEtwuJ_vF8-1X7THjk5UzXfQZ66ZmxPk8Ou&ccb=10-5&oh=00_AQFgQjW_ZG00XN9IL0MEwnYUMbv6AgwEqf9n0LnZMZ13uQ&oe=6AB175C9&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/1023879575833251"
-    }
-  },
-  {
-    "nom": "Boeksveldplein",
-    "lat": 51.1639356,
-    "lon": 4.3904844,
-    "candidat": {
-      "id": "454998344106274",
-      "score": 0.307,
-      "distance_m": 13.2,
-      "ecart_angle_deg": 52.3,
-      "captured_at": 1720261112000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An_z4P2diWqIbylzuKhIGiqdO5ZkdBjLxkv5cJICsHw5FQA8FHwxQ92ilMJ6Bh0DN-pXfcIE1d2sLqtydZxGv7-g-XBIKpj-D9ZNGAX9wySN5dwbdGXPqpcs89iAf2wZEFghL3wB3bnTUvxl0dQfwA?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=YVRIwqfmo6ZUhx10Jwc0cQ&_nc_oc=Ado_AUCtAbpfg_0ywatmo9abGh4u9hqvIIeJxZu2WgNgShPawrTBMcNqAgk9FXFCzagd8A4Mi6Y8ghTxQIyT1bcD&ccb=10-5&oh=00_AQFkBjcmuk_K8mfSzjahxLcbseN__W4GVNXuIKThWK85nQ&oe=6AB18139&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/454998344106274"
-    }
-  },
-  {
-    "nom": "Mertensstraat",
-    "lat": 51.196972,
-    "lon": 4.4782792,
-    "candidat": {
-      "id": "276509002214648",
-      "score": 0.577,
-      "distance_m": 43.1,
-      "ecart_angle_deg": 62.4,
-      "captured_at": 1713117550601,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An-MJ2d6CJiRwlxOrNLe7xqE-9JfMHifmPoz3tojVNX4RkEiUGuxgc0uYtoe31J3RrGSm2CKoM4U9zwAeuZk6Mc6OwK3RyEr8XzXGBsFdgnWCIDdZ7oMvuvUdQqfs-bXzBwy1NXx0M6lvzu9K0jeXR0?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=6vE1HQ-hjjNkqghyLZokCw&_nc_oc=Adrz4hdelnIp7L1VGF9b5MndNmi0z6DuSXbX8ZPI5S2qc4j918IUNYpO0mqVdG-o8wiwhlN73F5zMRNqc9Sgirq7&ccb=10-5&oh=00_AQGQf1WXdyE-_7zyyyw9vq2ExcRSJl2rajAgwIJHuu3Mgg&oe=6AB17303&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/276509002214648"
-    }
-  },
-  {
-    "nom": "Bredestraat",
-    "lat": 51.3037521,
-    "lon": 4.413037,
-    "candidat": {
-      "id": "548843221355094",
-      "score": 0.293,
-      "distance_m": 17.4,
-      "ecart_angle_deg": 38.2,
-      "captured_at": 1732979938501,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An_bfN19D9nQzeUT3fnAdVDuvmze5qJG6mwlz1diYajp9WC9M51hxHw3NWotblNjzLMvK-BeHWd8H0soZIKa3iG4NgewA2axehQFqAgr3PqX5-cEfDjGEt8oqch96xfhxCCzcuHN0ZOLsTKno5zNPg?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=MZ5HHov26X6LGQbcJ_CdbQ&_nc_oc=AdrKxT-ZjrLCYo3GB6B7TRxRyAHbynQWhmZDaLeiuMMS0e_2_GxUPD9V0bi3aVGq1wPK-MZVSGdYDCqFPypVYap6&ccb=10-5&oh=00_AQFaR71YGCk_Y5di4iYVa-KOMm-a5rNu1zxaOvz5qE2N-w&oe=6AB18165&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/548843221355094"
-    }
-  },
-  {
-    "nom": "Hendrik Kanorastraat",
-    "lat": 51.2878736,
-    "lon": 4.4334897,
-    "candidat": {
-      "id": "1136904343480895",
-      "score": 0.353,
-      "distance_m": 16.6,
-      "ecart_angle_deg": 9.0,
-      "captured_at": 1618769764000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An9dOem_dkZyEReHcyr38zTGvIQU6m3U5FtGcSGzBfbVYK1xZDn60MlaNWTYXvfThm_59gl9Prht1wOAtuosFZt73pTEO339TYunEnR2gaL4HB4eZETDtkIDNuPCRqP6MYN0sruuRQFRn1L6eUWCWg?stp=s1024x684&edm=AOnQwmMEAAAA&_nc_gid=bSeqoeoZF9E7dBQNZRFwFQ&_nc_oc=AdrW3wYSQUP2WwbDYtq2uyK9rY8A8xqxn23L_xgpCnKZWGqu4nO_QNrAohRjvCwm4QrgGrJC2hHuVXy1nHuWxsbR&ccb=10-5&oh=00_AQHjZf4mWrXtkI6zkYsGQGyWs1NkRWD5cMoF3ySCn19RDA&oe=6AB17BBD&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/1136904343480895"
-    }
-  },
-  {
-    "nom": "Hendrik Kanorastraat",
-    "lat": 51.287845,
-    "lon": 4.4334166,
-    "candidat": {
-      "id": "186693306649706",
-      "score": 0.329,
-      "distance_m": 15.6,
-      "ecart_angle_deg": 2.2,
-      "captured_at": 1618769763000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An-2ReXL1GGJz2oSp4dB-tnRjaCUbBTdlpNGZNg0nkI1FBAZtLwg_NMgEMmEzxeeUWoAYNNjOghAFuI0-Aa410YeirYsSYRSpW_opNCSj7zxrsq-YBsyuVO8VgTm11qzfE0ACmftgxjSUwZjwN3aIA?stp=s1024x684&edm=AOnQwmMEAAAA&_nc_gid=3xBeWypOiKPJ6gKJ05XPuw&_nc_oc=AdoCTnTCruEwzHANwWC0PBdoQyVaMF-FMcQxbQb8mYAVVKiJ1BdWbM72PYB5gsIvFNNjQ4D_Wx9ywwe_FuAk2IDg&ccb=10-5&oh=00_AQFzXuBH0R5be9FOekDfWN-5diGsoPEnPdw0w_oh2tjJBQ&oe=6AB16AEF&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/186693306649706"
-    }
-  },
-  {
-    "nom": "Napoleonkaai",
-    "lat": 51.2299106,
-    "lon": 4.4108867,
-    "candidat": null
-  },
-  {
-    "nom": "Pierenbergstraat",
-    "lat": 51.1870572,
-    "lon": 4.3801663,
-    "candidat": null
-  },
-  {
-    "nom": "Henri Deckerspad",
-    "lat": 51.3483292,
-    "lon": 4.32314,
-    "candidat": {
-      "id": "883882999135479",
-      "score": 0.616,
-      "distance_m": 35.8,
-      "ecart_angle_deg": 58.3,
-      "captured_at": 1539095229387,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An_7-kTJddh9-s3S15shlIz8-kDV-0x1xWJ57JoxeXu395KTSulQQMPqQmOeqz7oNhdMf6nf6HmqS8BjrhQ06nJQz2Dd311S__OKpC535fcFXO5AoPRn5tSAOSZVkK2ed4a-sKlrRFU-muWj1dzU2w?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=MsemJh-ybOopQYjdG-5KMg&_nc_oc=AdomfGBBDImgxTEH-ECOWW2LKICqd8Xq90K2bQxpnRYbzgRs3V380LIKjHbpHHf_dujKtHl6wLsCm4CZLyY85p9c&ccb=10-5&oh=00_AQHBJFdqTIeSJU0zoLoiw0CdJEuQmwo7EZJld_IhMb6qlA&oe=6AB19D7A&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/883882999135479"
-    }
-  },
-  {
-    "nom": "Populierenlaan",
-    "lat": 51.1836562,
-    "lon": 4.3940962,
-    "candidat": null
-  },
-  {
-    "nom": "Binnenvaartstraat",
-    "lat": 51.234027,
-    "lon": 4.4140762,
-    "candidat": {
-      "id": "828278853547387",
-      "score": 0.324,
-      "distance_m": 11.9,
-      "ecart_angle_deg": 92.1,
-      "captured_at": 1768315727000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An9STUQ-j5RSDN7lFaOVc3UmcD-X0xm7j9hzL_tswanRqElbBok7XzqWuZa2TDbl2tPSziXHqox_CwWsI41FieB-1NuHMZcluRHEndO-kdNZUVmkAoQ4C0KFx6b3wpP22WHu4tToRwzD_15W_pe0r8k?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=Z83o7g9fKu9nk92itxX51g&_nc_oc=AdqlItmB_KDmA7W8hAHI6agaeMkSHIj-ultC4Z-XzzywBFeBFO0bHnZ4Eqh0B_SNxBdXuxVdNGeqv9-ass4aVMXM&ccb=10-5&oh=00_AQHiZfC9vrJN-pOPaNoOqhRBwbqbmk9C83m_dBnJWDkMdg&oe=6AB16AC7&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/828278853547387"
-    }
-  },
-  {
-    "nom": "Bombaystraat",
-    "lat": 51.234934,
-    "lon": 4.4102834,
-    "candidat": {
-      "id": "791445555140410",
-      "score": 0.38,
-      "distance_m": 21.6,
-      "ecart_angle_deg": 3.2,
-      "captured_at": 1543934238000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An95gmHkGq4P6mIprSd8awDXL0drxsi4CyE9U7NVep5BpXojMz7zuEQ5a0HHBh_BtRIM8nUkTRVKH286UDolv84nuZtBS5uKvw7zOXeWojOywQUs95RW5oCXula8zDDRzmYA21h4BVk8iOfaiWJtNg?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=rZjH7HfGQ_aSgXa299d2Zg&_nc_oc=Adozf7joeAhMsB0gcjFyRUGLsXA5jves-Mr-WGjuYzsp4-pSec8NsGLA8ahKhHaMWqIt3235A58R7UphDFjX1BZ9&ccb=10-5&oh=00_AQEsrIMYOqwjnyw4BaD6ke00AujzncLgmy_StnB_v7awLw&oe=6AB17BEA&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/791445555140410"
-    }
-  },
-  {
-    "nom": "Damplein",
-    "lat": 51.2320846,
-    "lon": 4.4249525,
-    "candidat": {
-      "id": "1621376575555099",
-      "score": 0.236,
-      "distance_m": 10.9,
-      "ecart_angle_deg": 57.4,
-      "captured_at": 1770651457000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An9GWL1e40vSzF5OophpbQbuthE32zBa6Fdr2P_6LAZN_mCXekhaX4Ivmg6NiJf2g0YRl2CpTq8BQDNlR5kcxJ8FGasMtOSSG9KVlVuGsLEEyJax7h_98ou57kJBl2gE9hx8X8jPgTLR5fJihe-06uY?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=eclfIjMtXp78oLQ5a6Ff0A&_nc_oc=AdpYdZzWcFkwJ8uhUePdrNuSWECZfNrPdfaSpEWJKxXf9TUbkHD4vNikrn8B8gCDjJsQnkNgDkwYw1tYTla3QI3M&ccb=10-5&oh=00_AQGE0AVNymrNjHBgLVqxUdvDUGngN-nkIwnY7J8i7LMO9g&oe=6AB17D83&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/1621376575555099"
-    }
-  },
-  {
-    "nom": "Theo Van den Boschstraat",
-    "lat": 51.2009203,
-    "lon": 4.4678864,
-    "candidat": {
-      "id": "883728213567451",
-      "score": 0.323,
-      "distance_m": 27.0,
-      "ecart_angle_deg": 10.7,
-      "captured_at": 1722072243000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An8p6FC6428DaMPq30WuTZkup-ULSwaWVnv08yXSDs3Z-5mD0yQ8IShX2_90YMd6XIHdt_OHMSkRT6aIfWOvBdrPL7x_XHbVvIKVJQiSzeOGiNyNLl95IZX5dOwGkSn17A03TOPEqy_oAICuIVtSGg?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=-N-_MAtnxEhv93pxxICYXw&_nc_oc=AdoO48g_gLdgGWN4l3vIO2yNLgQfvW_FnewmoHO-QunK18wmYX-gSoq2KXiyd_BpA6oAlXu4RZFbusA8NOiGlel1&ccb=10-5&oh=00_AQFNU-NSfB4l8IxSqptDsThxrdSsF4Ngva01CXLlXKE-XA&oe=6AB16CED&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/883728213567451"
-    }
-  },
-  {
-    "nom": "Geitepad",
-    "lat": 51.1584217,
-    "lon": 4.4070172,
-    "candidat": {
-      "id": "1628860625914452",
-      "score": 0.232,
-      "distance_m": 14.0,
-      "ecart_angle_deg": 51.6,
-      "captured_at": 1783674198000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An8vMbAJ0z_3QJ1LKHJzWzBJLJegFTA8j_5iu2lbiY_2XOvB5UNY4Wg8KxezJilXLY3fpZ_07zehnPD67wdBDKNGZIRvFa6ejeBYxXeEJ3rZmS1SJPwuCLxHyQQkWkg8ccMueqU8tOwfPkLH3sp7RTw?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=R3McN0Qxn-4rParXc47VnQ&_nc_oc=Adp3IUBpuMwzFGM6ersA3Zg9agfP8-fZeJtpJxuzaV-gMS-8Eloyufq3AXqB-GzLfS2xBRFvd3x-c9rH0skS4PLE&ccb=10-5&oh=00_AQHb4qGv8BTfQXR2VPBzcxu-_bjLXAL0xQmSfybUsMFq3g&oe=6AB1795A&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/1628860625914452"
-    }
-  },
-  {
-    "nom": "Geitepad",
-    "lat": 51.1583855,
-    "lon": 4.4069348,
-    "candidat": {
-      "id": "1563393931963434",
-      "score": 0.26,
-      "distance_m": 15.9,
-      "ecart_angle_deg": 57.6,
-      "captured_at": 1783674206000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An98d8ByaITcWMCpNHOZvVRbt4yiZTe449_e1iaJaG1eFmX5Mt9e13Gl-3QPYQgMqZdsa9VyNyTPywghBcgIAg2NvE3sz8ech0IKlWEzHPyxiZebBzXIynE7tycohE0ZV2-UZpEONDsvtci1qKhqoeg?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=GZ7Tn1LWQQ2yEdZi-dA29g&_nc_oc=Adrf6xqAyav_jrk_jaiSm4j3oGgaYD6Z674Ro3ay4oi1zrbGcW9J_yFIPEd53RzNbJF17q7twSss-_Tz_rP8mUIS&ccb=10-5&oh=00_AQF84E8q5PColli7zhvoMtn28Pq8WIeo7vddZKZXYs6s1w&oe=6AB18BFD&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/1563393931963434"
-    }
-  },
-  {
-    "nom": "Berkenveldplein",
-    "lat": 51.1678343,
-    "lon": 4.3834086,
-    "candidat": {
-      "id": "807156094884479",
-      "score": 0.26,
-      "distance_m": 13.1,
-      "ecart_angle_deg": 32.2,
-      "captured_at": 1721385206000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An-bgP0i7VD8xaVyXSHroIyJcmLOK4EffxeJfips8rXdcuDiK_wWUMmE3hyAOKxTR2jYtgEYuLoVWsXNiHSRrm0K-of-lmwk0AP-ZA3wzLIGsPTI9vLwSJTPBun0pcMWc66irw1EQWsJwMRQLOVmiw?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=L_K4DcVJgXO8PwG-sFJvjg&_nc_oc=AdoUt5L9Hj6S9ZZrYt3nDCzW94MpkGmj8Dw70AiNvcmRVtXgWinfyQuNmL6jtR2t6YmIlnXg-5G9WCM07lqC2AaD&ccb=10-5&oh=00_AQG8pmfqAzYGcr6ClZxwZ4poQalpeIpM7xeawLNDYr_Cvw&oe=6AB16C83&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/807156094884479"
-    }
-  },
-  {
-    "nom": "Bernard De Pooterstraat",
-    "lat": 51.1684656,
-    "lon": 4.3806375,
-    "candidat": {
-      "id": "812453693979831",
-      "score": 0.261,
-      "distance_m": 18.4,
-      "ecart_angle_deg": 13.6,
-      "captured_at": 1721384883000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An9eoIuSxZB-PJRN9xEFYNZDMUK1osCxSMsoKh8syCRtZkIpUZk7isqoqwtV-2-v5XKucvw0KBn8DWCmyJUXgup-VKGMCIjYXtfIkHbsP8_SMtO7SYvbvVlJOyr3vR8l3ZbWJ9kuHqXi5zcBfyP90g?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=vS4gWFqGCeiaGsjOup_Vmg&_nc_oc=AdovgB1BQPbecklNRp8cXSXUzGEkssBhohYbHgTWdPVin1RUQ6hhYHkjT_WmryWj002YZIBGV1YRpTcZiCofRMXr&ccb=10-5&oh=00_AQEOImlw1JcNcek9dtZMkjBPDVqlNbHKJQo2f7m_L7dv4Q&oe=6AB18437&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/812453693979831"
-    }
-  },
-  {
-    "nom": "Hoge-Aardstraat",
-    "lat": 51.1753113,
-    "lon": 4.4302942,
-    "candidat": {
-      "id": "1671618890524383",
-      "score": 0.376,
-      "distance_m": 19.7,
-      "ecart_angle_deg": 90.4,
-      "captured_at": 1773936787000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An-R0f071v89dA-DWv8nedi5owUGweASFagsglQ81vo-lElBF-lGPTtoDR2sibGQaOmn_c2wLS06d5hbuVknk9pBxtR2E5NLEaoLEc-mc78bkP2_VpEb7pBIulE76QnJo-N4Ph1QepiVyVtFt-wzOis?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=Yblp6wIv75Y0pSgXiA0Qig&_nc_oc=AdpskmVAitEMEG7hMYg1OtQQ5k6fEhnq1hl4yiINOh27IsH5ApmgZBvqGLbzbTe51SYnpvk9fM_GLDiN5Pcd3fNY&ccb=10-5&oh=00_AQF9V4wjrVQEnwXSI0IZK5HuJ4v2K8KJ64Mp8y-tQDyk1Q&oe=6AB17EBC&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/1671618890524383"
-    }
-  },
-  {
-    "nom": "Peter Benoitlaan",
-    "lat": 51.2103563,
-    "lon": 4.4798821,
-    "candidat": {
-      "id": "1901971517418982",
-      "score": 0.32,
-      "distance_m": 19.8,
-      "ecart_angle_deg": 57.8,
-      "captured_at": 1761140771000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An93tnq2nuiCI9RRdRMs_hwyl6I-V7WUGBFxejxrp88Pjn45sed4WCMHvGa4Of7JsYM07JaQQ0Eiyg0VC-aW-9tG_D4C4Fu2jABJgMp5OVbZQbgcsHsnyP0Ly14009twq01c6FttLpysRfsaIxQcyJo?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=_30ONfAl07OV2LkDS25o1g&_nc_oc=AdoH91sIhYq3ltF8LYF0RCxnxzRHonB_c_99PKlcbfcmnyWbExkiKiHoXVPhXCeXSWlZWukCkdnw1TCymtrgZyfa&ccb=10-5&oh=00_AQHLNAZttIWPHtWYZl4JpnKVv3StNFxp0jMPppwquf7irQ&oe=6AB16AD3&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/1901971517418982"
-    }
-  },
-  {
-    "nom": "Peter Benoitlaan",
-    "lat": 51.2103294,
-    "lon": 4.4800487,
-    "candidat": {
-      "id": "1690367444966378",
-      "score": 0.322,
-      "distance_m": 23.6,
-      "ecart_angle_deg": 44.8,
-      "captured_at": 1761140772000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An_X0lYyOC6uV7SQaVyGHzVRdJW5gaefVHd52M4sZ3nHVsFY_eXvvlRenxnU7Hc5zuaU822ym9kaTvfKCa-E-FPM9F8J4hBgP-cXASKaNt9Q00rYW4J1FlSww94fKXzYGyyhLniO_JNwUY3t5Nm2m64?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=4CRddw2ox4ENSPvXHmAa8Q&_nc_oc=AdqcXZBIw7UNsZElOQUcM5waTt-RNeMTdhdNDIpGaQJwfqMZUUg6SB08TrgLbjW_NGVm6torGvWu6AburQJZDxDZ&ccb=10-5&oh=00_AQFbnVoVdTHnda279ReFSOP5eO8uhkkRMnmeG-Le6xI1ZQ&oe=6AB19771&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/1690367444966378"
-    }
-  },
-  {
-    "nom": "Vuurwerkstraat",
-    "lat": 51.2038771,
-    "lon": 4.4718764,
-    "candidat": {
-      "id": "1257601666575631",
-      "score": 0.161,
-      "distance_m": 16.0,
-      "ecart_angle_deg": 7.9,
-      "captured_at": 1775323069688,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An9eRdQmXCN4yubsaSpfzMly5AetIuhgH4M1EIfCu_o9OXHzHM2o7mt2bWV8R8YodldvBBeEv-Mw1TIfU24F2LquK6ClQlY0yt6zhb9sHWwZdbwWQcene-17tCznvEC2bj6_g9kqHsXJJZvcgGWADXY?stp=s1024x771&edm=AOnQwmMEAAAA&_nc_gid=caQQTPbPrVoHxAp2KzCwrw&_nc_oc=AdplQZdevq9MaKBbaTav95peZX-ZbyNqv4t2WMRXriQ5J1pJ9PM41p-8kH_PSv1REiDmvJB3xmytKpQXq9aq9N4x&ccb=10-5&oh=00_AQG7NtrwNdgGE0C8BjmwAO541MtpuYPIrD4XPsfee1VbjA&oe=6AB18A20&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/1257601666575631"
-    }
-  },
-  {
-    "nom": "Kastanjeboomplein",
-    "lat": 51.2579931,
-    "lon": 4.4465736,
-    "candidat": {
-      "id": "324915719063391",
-      "score": 0.321,
-      "distance_m": 7.2,
-      "ecart_angle_deg": 28.6,
-      "captured_at": 1536473646957,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An9arQmyFKTvZBoCtTtdQgQIrrh00RLnarenEng0lqZAou4-5k7uX4b_wYKYvOH3QEiXklUWrES6q_i7a-4lamEmDGTlHue3dat-mKgNsP9_ury1Uq4RiVg7tP1VPhxUTfLKTbjBMCzPyN0zoQCABQ?stp=s1024x576&edm=AOnQwmMEAAAA&_nc_gid=x9ynWOFoI7pXyuWDiugSOw&_nc_oc=Adq2hvXRJQqbiOlhGObpW5Bn9KwRanwA0I9m5aGbt6jI7i_plH9UUi6sSnl3-XcCQn6OZ-B-3lIX-qpIe3V9ir5X&ccb=10-5&oh=00_AQHDOvaGRY8ne3-_oEFaNgAIGH0m2__kQMTeWBoHGHDq4w&oe=6AB19C75&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/324915719063391"
-    }
-  },
-  {
-    "nom": "Zwanenlaan",
-    "lat": 51.1700094,
-    "lon": 4.4207369,
-    "candidat": {
-      "id": "2213171289520542",
-      "score": 0.353,
-      "distance_m": 21.1,
-      "ecart_angle_deg": 79.4,
-      "captured_at": 1781363210000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An_hRLLEtIjYIWKp8YdKZ5H24JrbBFy52BbBeeb9HvCImeYLagRAbfixwJl3cYJl69g3_nsO1gPnOyTLJpv5f834sit-cLvBLaHvtfHKeiugSHbpqU8zYhaGRJB8-21Gc_f50WvVHN8PAPaFXFccyks?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=z2kZlswILQVwWwXPqwxzAQ&_nc_oc=AdpzwXDPZkBBMKQCbk86XTbOGYMLh5anzCGUzC-Q0Rqby-QGcAMnP3_hu63t5BPMOq0D9cJaUUF192uDcR4ZIt3j&ccb=10-5&oh=00_AQFpDFPo3j7gxjSoDKO6m9jsEtG5W6Koz0g620VnaWEePQ&oe=6AB17116&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/2213171289520542"
-    }
-  },
-  {
-    "nom": "Sint-Nicolaasplaats",
-    "lat": 51.2204799,
-    "lon": 4.4059531,
-    "candidat": {
-      "id": "2420392971681054",
-      "score": 0.227,
-      "distance_m": 16.2,
-      "ecart_angle_deg": 24.0,
-      "captured_at": 1752912006000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An-GyKX5IANjp0zXHvP_0QqwTRbtzDflVQN5LXmJjbyBm5u66OJORvnLgsNAQgDADrQVw47WwY2eHDuRIOBGK4wadgZu3icr9zgcBD-XkpXc8awDNZtNZng30vDP1IGJki9BSfom4_pas8Sgra9m4vk?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=UVh24e30ILLcS4XEXMyocQ&_nc_oc=AdqInLlU__pKZ6OPcEmMhEkuOVfr0xBo6Hta2JcDdPsMPOY_iCFzv9aIudbiZsW4vMiXrVpOEsWyq85B2ASJFTb-&ccb=10-5&oh=00_AQHyFSVfzvQt6ZSi46DI8VYFSc35c59H6AZolkPBJ9AZmg&oe=6AB187F3&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/2420392971681054"
-    }
-  },
-  {
-    "nom": "Lange Bremstraat",
-    "lat": 51.2567265,
-    "lon": 4.4566355,
-    "candidat": {
-      "id": "934713567290687",
-      "score": 0.507,
-      "distance_m": 28.3,
-      "ecart_angle_deg": 36.4,
-      "captured_at": 1529859539990,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An_JbxTVn_rWJoQHyb1XSvQjXkE7CaVOXo5js_pQ5DjzOcNIiz4OVzYP7QLcWs1kBOqk5ZK_-IVbl3cqSIrZsBr2BB3cS3_DInZo0npjny-iUfIlopKGJfVlqciw-GFxzG0KkLhDE9e-5kThfw84Tg?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=W5at47UtqTYFzGk47QWEmw&_nc_oc=AdqMxJQGQUDBMSPUx3p-yG1E1ZZ9ZEBw-ogZ_VZI3psbgHWBtnQMCWKtei1LyWV_u9aySN0ASItT0XzRCptWjaOs&ccb=10-5&oh=00_AQEXbkAOfUZ-BcfZv8SbKY-6Gv9SgehQ-Mr-Jv06N9gZYw&oe=6AB177F2&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/934713567290687"
-    }
-  },
-  {
-    "nom": "Kroonplein",
-    "lat": 51.250974,
-    "lon": 4.4486652,
-    "candidat": {
-      "id": "1043160304739979",
-      "score": 0.356,
-      "distance_m": 38.2,
-      "ecart_angle_deg": 20.9,
-      "captured_at": 1784382833000,
-      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An8GgYdq8dxyyZWqcOxpM3oUCC35QFlOStJ9BGIq_sT-dgB1cM4Mkf8Jg-AxQSOXa7v7tDFQxCF-L-uXH_KZRxyjifyChWaU8_NeLFJ06rsIUHZ4bmXZYVsIaefxlYAL6tU5ZR10VLOIDr27PSIUUicO?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=dfWowyKDlyf-lvH0HRIJqQ&_nc_oc=AdpvGKYuEAFWiTpU_V5MR-S1A42L4U1RaqsDvxk3cxEupU7cnVa2cZQBUrgEsR-HTvFqkh2VYgKxtIY-f32Wo4Zk&ccb=10-5&oh=00_AQE8cyp7xmDZ_EvgBz4dNBWkdnLquHOYgu3gepBHIZntMA&oe=6AB1725E&_nc_sid=201bca",
-      "lien": "https://www.mapillary.com/map/im/1043160304739979"
-    }
-  }
-]
-</file>
-
-<file path="test_photo_map/mapillary_couverture_antwerpen.json">
-[
-  {
-    "nom": "Lode Craeybeckxtunnel",
-    "lat": 51.17832,
-    "lon": 4.4162556,
-    "photos_plates": 0
-  },
-  {
-    "nom": "Harmoniestraat",
-    "lat": 51.1997171,
-    "lon": 4.4092562,
-    "photos_plates": 20
-  },
-  {
-    "nom": "Harmoniestraat",
-    "lat": 51.1997795,
-    "lon": 4.4093319,
-    "photos_plates": 20
-  },
-  {
-    "nom": "Groenendaallaan",
-    "lat": 51.2473036,
-    "lon": 4.4215805,
-    "photos_plates": 15
-  },
-  {
-    "nom": "Tankgrachtpad",
-    "lat": 51.1618206,
-    "lon": 4.3948972,
-    "photos_plates": 21
-  },
-  {
-    "nom": "Baron D'hanislaan",
-    "lat": 51.2058354,
-    "lon": 4.3901974,
-    "photos_plates": 0
-  },
-  {
-    "nom": "Hoofdfrontweg",
-    "lat": 51.1647395,
-    "lon": 4.3475201,
-    "photos_plates": 33
-  },
-  {
-    "nom": "August Leyweg",
-    "lat": 51.1945713,
-    "lon": 4.3781455,
-    "photos_plates": 0
-  },
-  {
-    "nom": "Oortbroek",
-    "lat": 51.2515545,
-    "lon": 4.4313724,
-    "photos_plates": 27
-  },
-  {
-    "nom": "Jules Bordetstraat",
-    "lat": 51.2022226,
-    "lon": 4.4226493,
-    "photos_plates": 0
-  },
-  {
-    "nom": "Fonteinstraat",
-    "lat": 51.2117452,
-    "lon": 4.4427692,
-    "photos_plates": 22
-  },
-  {
-    "nom": "Terrain (51.21769, 4.47134)",
-    "lat": 51.2176894,
-    "lon": 4.4713402,
-    "photos_plates": 24
-  },
-  {
-    "nom": "Laar",
-    "lat": 51.2167058,
-    "lon": 4.4344799,
-    "photos_plates": 50
-  },
-  {
-    "nom": "Monnikenhofstraat",
-    "lat": 51.3475334,
-    "lon": 4.3302059,
-    "photos_plates": 42
-  },
-  {
-    "nom": "Elsblok",
-    "lat": 51.1691948,
-    "lon": 4.3793678,
-    "photos_plates": 21
-  },
-  {
-    "nom": "Boeksveldplein",
-    "lat": 51.1639745,
-    "lon": 4.3904275,
-    "photos_plates": 37
-  },
-  {
-    "nom": "Boeksveldplein",
-    "lat": 51.1639551,
-    "lon": 4.3904555,
-    "photos_plates": 35
-  },
-  {
-    "nom": "Boeksveldplein",
-    "lat": 51.1639356,
-    "lon": 4.3904844,
-    "photos_plates": 34
-  },
-  {
-    "nom": "Mertensstraat",
-    "lat": 51.196972,
-    "lon": 4.4782792,
-    "photos_plates": 40
-  },
-  {
-    "nom": "Bredestraat",
-    "lat": 51.3037521,
-    "lon": 4.413037,
-    "photos_plates": 23
-  },
-  {
-    "nom": "Hendrik Kanorastraat",
-    "lat": 51.2878736,
-    "lon": 4.4334897,
-    "photos_plates": 37
-  },
-  {
-    "nom": "Hendrik Kanorastraat",
-    "lat": 51.287845,
-    "lon": 4.4334166,
-    "photos_plates": 35
-  },
-  {
-    "nom": "Napoleonkaai",
-    "lat": 51.2299106,
-    "lon": 4.4108867,
-    "photos_plates": 0
-  },
-  {
-    "nom": "Pierenbergstraat",
-    "lat": 51.1870572,
-    "lon": 4.3801663,
-    "photos_plates": 0
-  },
-  {
-    "nom": "Henri Deckerspad",
-    "lat": 51.3483292,
-    "lon": 4.32314,
-    "photos_plates": 11
-  },
-  {
-    "nom": "Populierenlaan",
-    "lat": 51.1836562,
-    "lon": 4.3940962,
-    "photos_plates": 0
-  },
-  {
-    "nom": "Binnenvaartstraat",
-    "lat": 51.234027,
-    "lon": 4.4140762,
-    "photos_plates": 2
-  },
-  {
-    "nom": "Bombaystraat",
-    "lat": 51.234934,
-    "lon": 4.4102834,
-    "photos_plates": 22
-  },
-  {
-    "nom": "Damplein",
-    "lat": 51.2320846,
-    "lon": 4.4249525,
-    "photos_plates": 1
-  },
-  {
-    "nom": "Theo Van den Boschstraat",
-    "lat": 51.2009203,
-    "lon": 4.4678864,
-    "photos_plates": 25
-  },
-  {
-    "nom": "Geitepad",
-    "lat": 51.1584217,
-    "lon": 4.4070172,
-    "photos_plates": 22
-  },
-  {
-    "nom": "Geitepad",
-    "lat": 51.1583855,
-    "lon": 4.4069348,
-    "photos_plates": 14
-  },
-  {
-    "nom": "Berkenveldplein",
-    "lat": 51.1678343,
-    "lon": 4.3834086,
-    "photos_plates": 38
-  },
-  {
-    "nom": "Bernard De Pooterstraat",
-    "lat": 51.1684656,
-    "lon": 4.3806375,
-    "photos_plates": 24
-  },
-  {
-    "nom": "Hoge-Aardstraat",
-    "lat": 51.1753113,
-    "lon": 4.4302942,
-    "photos_plates": 2
-  },
-  {
-    "nom": "Peter Benoitlaan",
-    "lat": 51.2103563,
-    "lon": 4.4798821,
-    "photos_plates": 11
-  },
-  {
-    "nom": "Peter Benoitlaan",
-    "lat": 51.2103294,
-    "lon": 4.4800487,
-    "photos_plates": 10
-  },
-  {
-    "nom": "Vuurwerkstraat",
-    "lat": 51.2038771,
-    "lon": 4.4718764,
-    "photos_plates": 4
-  },
-  {
-    "nom": "Kastanjeboomplein",
-    "lat": 51.2579931,
-    "lon": 4.4465736,
-    "photos_plates": 27
-  },
-  {
-    "nom": "Zwanenlaan",
-    "lat": 51.1700094,
-    "lon": 4.4207369,
-    "photos_plates": 2
-  },
-  {
-    "nom": "Sint-Nicolaasplaats",
-    "lat": 51.2204799,
-    "lon": 4.4059531,
-    "photos_plates": 1
-  },
-  {
-    "nom": "Lange Bremstraat",
-    "lat": 51.2567265,
-    "lon": 4.4566355,
-    "photos_plates": 12
-  },
-  {
-    "nom": "Kroonplein",
-    "lat": 51.250974,
-    "lon": 4.4486652,
-    "photos_plates": 11
-  }
-]
-</file>
-
-<file path="test_photo_map/proposer_photos_mapillary.py">
-#!/usr/bin/env python3
-"""
-Pour chaque terrain d'une commune donnée, propose UN SEUL candidat photo Mapillary plutôt que la
-liste complète — sélectionné automatiquement parmi les photos plates (non-360°) à proximité, sur
-base de 3 critères simples et transparents (pas de boîte noire) :
-
-1. Distance au terrain (plus proche = mieux)
-2. Angle de la caméra par rapport à la direction du terrain (une photo qui "regarde vers" le
-   terrain vaut mieux qu'une qui regarde ailleurs, même si elle est plus proche)
-3. Récence (une photo récente est préférée à une ancienne, à qualité égale sur les 2 critères
-   précédents)
-
-Limite connue : c'est une heuristique basée sur les métadonnées (position + angle de la caméra),
-pas une analyse du contenu réel de la photo. Le terrain peut être masqué par un arbre, une
-clôture, ou l'angle peut être trompeur si les métadonnées sont imprécises. Le candidat proposé
-reste donc à valider visuellement un par un — l'objectif ici est de réduire "20-50 photos à
-trier par terrain" à "1 photo à valider par terrain".
-
-Usage :
-    pip install requests
-    python3 proposer_photos_mapillary.py
-"""
-
-import json
-import math
-from datetime import datetime, timezone
-
-import requests
-
-# ===================== Configuration =====================
-
-MAPILLARY_TOKEN = "MLY|28430029179916530|430abb722289aec39e460c5f2753d6d0"
-COMMUNE_CIBLE = "Antwerpen"
-RAYON_METRES = 50
-LIMITE_PAR_TERRAIN = 100
-
-# Poids du score composite (modifiables : plus un poids est élevé, plus ce critère pèse dans le
-# choix du candidat). Les 3 doivent rester entre 0 et 1 et sommer à peu près à 1, mais ce n'est
-# pas une obligation stricte, juste plus lisible.
-POIDS_DISTANCE = 0.4
-POIDS_ANGLE = 0.4
-POIDS_RECENCE = 0.2
-
-# ===================== Fonctions géométriques =====================
-
-def distance_metres(lat1, lon1, lat2, lon2):
-    """Distance approximative entre 2 points (formule haversine)."""
-    R = 6371000
-    p1, p2 = math.radians(lat1), math.radians(lat2)
-    dp = math.radians(lat2 - lat1)
-    dl = math.radians(lon2 - lon1)
-    a = math.sin(dp / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
-    return R * 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-
-
-def cap_vers(lat1, lon1, lat2, lon2):
-    """Cap (0-360°, 0=Nord) du point 1 vers le point 2."""
-    p1, p2 = math.radians(lat1), math.radians(lat2)
-    dl = math.radians(lon2 - lon1)
-    x = math.sin(dl) * math.cos(p2)
-    y = math.cos(p1) * math.sin(p2) - math.sin(p1) * math.cos(p2) * math.cos(dl)
-    return (math.degrees(math.atan2(x, y)) + 360) % 360
-
-
-def difference_angulaire(a, b):
-    """Écart entre 2 caps (0-180°, sans notion de sens)."""
-    d = abs(a - b) % 360
-    return min(d, 360 - d)
-
-
-# ===================== Mapillary =====================
-
-def images_a_proximite(lat, lon):
-    reponse = requests.get(
-        "https://graph.mapillary.com/images",
-        params={
-            "access_token": MAPILLARY_TOKEN,
-            "fields": "id,is_pano,captured_at,compass_angle,geometry,thumb_1024_url",
-            "lat": lat,
-            "lng": lon,
-            "radius": RAYON_METRES,
-            "limit": LIMITE_PAR_TERRAIN,
-        },
-        timeout=15,
-    )
-    reponse.raise_for_status()
-    return reponse.json().get("data", [])
-
-
-def meilleur_candidat(terrain_lat, terrain_lon, images):
-    """Retourne le meilleur candidat (dict) parmi une liste d'images, ou None si aucune."""
-    candidats_notes = []
-
-    for img in images:
-        if img.get("is_pano"):
-            continue
-
-        img_lon, img_lat = img["geometry"]["coordinates"]
-        dist = distance_metres(terrain_lat, terrain_lon, img_lat, img_lon)
-
-        cap_cible = cap_vers(img_lat, img_lon, terrain_lat, terrain_lon)
-        angle_cam = img.get("compass_angle")
-        ecart_angle = difference_angulaire(angle_cam, cap_cible) if angle_cam is not None else 180
-
-        # Normalisation 0-1 (0 = idéal) pour chaque critère
-        score_distance = min(dist / RAYON_METRES, 1)
-        score_angle = ecart_angle / 180
-
-        capture_ms = img.get("captured_at")
-        if capture_ms:
-            date_capture = datetime.fromtimestamp(capture_ms / 1000, tz=timezone.utc)
-            age_annees = (datetime.now(timezone.utc) - date_capture).days / 365
-            score_recence = min(max(age_annees / 5, 0), 1)  # 5 ans ou plus = score max (le pire)
-        else:
-            score_recence = 1
-
-        score = (
-            POIDS_DISTANCE * score_distance
-            + POIDS_ANGLE * score_angle
-            + POIDS_RECENCE * score_recence
-        )
-
-        candidats_notes.append({
-            "id": img["id"],
-            "score": round(score, 3),
-            "distance_m": round(dist, 1),
-            "ecart_angle_deg": round(ecart_angle, 1),
-            "captured_at": capture_ms,
-            "thumbnail": img.get("thumb_1024_url"),
-            "lien": f"https://www.mapillary.com/map/im/{img['id']}",
-        })
-
-    if not candidats_notes:
-        return None
-
-    return min(candidats_notes, key=lambda c: c["score"])
-
-
-# ===================== Script principal =====================
-
-def main():
-    print("Récupération des terrains depuis mapetanque.be...")
-    reponse = requests.get("https://mapetanque.be/data/terrains.geojson", timeout=30)
-    reponse.raise_for_status()
-    geojson = reponse.json()
-
-    terrains_commune = [
-        f for f in geojson["features"]
-        if f["properties"].get("commune") == COMMUNE_CIBLE
-    ]
-
-    print(f"{len(terrains_commune)} terrain(s) trouvé(s) pour '{COMMUNE_CIBLE}'.\n")
-
-    resultats = []
-    for feature in terrains_commune:
-        lon, lat = feature["geometry"]["coordinates"]
-        nom = feature["properties"].get("nearest_street") or f"Terrain ({lat:.5f}, {lon:.5f})"
-
-        try:
-            images = images_a_proximite(lat, lon)
-            candidat = meilleur_candidat(lat, lon, images)
-        except Exception as e:
-            print(f"  {nom} → erreur : {e}")
-            resultats.append({"nom": nom, "lat": lat, "lon": lon, "candidat": None})
-            continue
-
-        if candidat:
-            print(f"  {nom} → candidat trouvé (score {candidat['score']}, "
-                  f"{candidat['distance_m']} m, écart angle {candidat['ecart_angle_deg']}°)")
-            print(f"      {candidat['lien']}")
-        else:
-            print(f"  {nom} → aucune photo plate à proximité")
-
-        resultats.append({"nom": nom, "lat": lat, "lon": lon, "candidat": candidat})
-
-    fichier_sortie = f"mapillary_candidats_{COMMUNE_CIBLE.lower()}.json"
-    with open(fichier_sortie, "w", encoding="utf-8") as f:
-        json.dump(resultats, f, ensure_ascii=False, indent=2)
-
-    print(f"\nRésultat écrit dans {fichier_sortie}")
-    avec_candidat = sum(1 for r in resultats if r["candidat"])
-    print(f"{avec_candidat}/{len(resultats)} terrain(s) avec un candidat proposé.")
-
-
-if __name__ == "__main__":
-    main()
-</file>
-
-<file path="test_photo_map/rapport.json">
-[
-  {
-    "terrain_id": 1,
-    "rue": "Steensedijk",
-    "lat": 51.2015525,
-    "lon": 2.9178635,
-    "nb_images_trouvees": 8,
-    "nb_candidats_geometrie_ok": 1,
-    "resultat": "plate_bien_orientee",
-    "distance_m": 22.0,
-    "ecart_cap_deg": 3.8,
-    "luminosite": 163.2,
-    "mapillary_image_id": "1526510745885907",
-    "fichier": "terrain_001.jpg"
-  },
-  {
-    "terrain_id": 2,
-    "rue": "Graaf de Smet de Naeyerlaan",
-    "lat": 51.2250674,
-    "lon": 2.9245386,
-    "nb_images_trouvees": 14,
-    "nb_candidats_geometrie_ok": 0,
-    "resultat": "aucun_candidat_geometrique"
-  },
-  {
-    "terrain_id": 3,
-    "rue": "Havenstraat",
-    "lat": 51.2349069,
-    "lon": 2.9470604,
-    "nb_images_trouvees": 0,
-    "nb_candidats_geometrie_ok": 0,
-    "resultat": "aucun_candidat_geometrique"
-  },
-  {
-    "terrain_id": 4,
-    "rue": "Mansveldstraat",
-    "lat": 51.2348842,
-    "lon": 2.947,
-    "nb_images_trouvees": 0,
-    "nb_candidats_geometrie_ok": 0,
-    "resultat": "aucun_candidat_geometrique"
-  }
-]
-</file>
-
 <file path=".repomixignore">
 node_modules/
 .git/
@@ -2683,606 +1602,6 @@ mapetanque.be
 
 <file path="google2225db80bf0760f5.html">
 google-site-verification: google2225db80bf0760f5.html
-</file>
-
-<file path="index-test-provinces.html">
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>[TEST] Mapetanque — Page d'accueil avec pages provinces</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- ==========================================================================================
-     FICHIER DE TEST — copie indépendante de la page d'accueil, PAS l'index.html du site en prod.
-     Objectif : valider le rendu de la bannière + la réduction de la carte + la grille de tuiles
-     provinces, avant d'envisager de reporter ces changements sur le vrai index.html.
-     ========================================================================================== -->
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-
-<style>
-    :root {
-        --green: #74C15A;
-        --green-dark: #56A03D;
-        --green-soft: rgba(116, 193, 90, 0.1);
-        --text-dark: #333;
-        --border: #e2e6de;
-    }
-
-    html, body {
-        margin: 0;
-        overflow-x: hidden;
-    }
-
-    body {
-        font-family: Arial, sans-serif;
-        color: var(--text-dark);
-    }
-
-    a { color: inherit; }
-
-    /* ===================== Bloc supérieur avec bannière photo ===================== */
-    /* Reprend .map-view / .header / .hero-headline / .controls du site, avec une image de
-       fond + un voile sombre pour que le texte blanc reste lisible par-dessus. */
-
-    .map-view {
-        position: relative;
-        height: 300px;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        box-sizing: border-box;
-        padding: 0 30px 51px;
-        background-image: url('images/banniere-accueil.jpg');
-        background-size: cover;
-        background-position: center 55%;
-    }
-
-    .header-top-row {
-        position: absolute;
-        top: 18px;
-        left: 30px;
-        right: 30px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 16px;
-        z-index: 2;
-    }
-
-    .brand-link {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        text-decoration: none;
-        flex-shrink: 0;
-    }
-
-    .brand-link .logo {
-        height: 2.07em;
-        width: auto;
-        display: block;
-        filter: drop-shadow(0 1px 3px rgba(0,0,0,0.5));
-    }
-
-    .brand {
-        font-family: 'Quicksand', Arial, sans-serif;
-        font-weight: 700;
-        font-size: 27.6px;
-        color: #fff;
-        text-shadow: 0 1px 4px rgba(0,0,0,0.5);
-    }
-
-    .brand-map {
-        font-weight: 700;
-        color: var(--green);
-    }
-
-    .brand-tld {
-        color: rgba(255,255,255,0.75);
-        font-weight: 400;
-    }
-
-    #desktop-nav {
-        display: flex;
-        align-items: center;
-        gap: 2px;
-    }
-
-    .info-nav-trigger {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        border: none;
-        background: none;
-        text-decoration: none;
-        padding: 8px 14px;
-        font-size: 14px;
-        font-weight: bold;
-        color: #fff;
-        text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-        cursor: pointer;
-        border-radius: 20px;
-        white-space: nowrap;
-        transition: background-color 0.15s ease;
-    }
-
-    .info-nav-trigger:hover {
-        background: rgba(255,255,255,0.18);
-    }
-
-    #lang-switcher-inline {
-        display: flex;
-        align-items: center;
-        gap: 2px;
-        margin-left: 6px;
-        padding-left: 10px;
-        border-left: 1px solid rgba(255,255,255,0.35);
-    }
-
-    .lang-link {
-        border: none;
-        background: none;
-        padding: 6px 8px;
-        font-size: 12px;
-        font-weight: bold;
-        color: rgba(255,255,255,0.75);
-        cursor: pointer;
-        border-radius: 12px;
-        text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-    }
-
-    .lang-link.active { color: #fff; }
-
-    .banner-credit {
-        position: absolute;
-        bottom: 8px;
-        right: 14px;
-        font-size: 10.5px;
-        color: rgba(255,255,255,0.75);
-        text-shadow: 0 1px 2px rgba(0,0,0,0.6);
-        z-index: 2;
-    }
-
-    /* Grand titre au-dessus des contrôles de recherche */
-    .hero-headline {
-        text-align: center;
-        font-weight: 700;
-        font-size: 32px;
-        color: #fff;
-        margin: 0 0 4px;
-        line-height: 1.25;
-        text-shadow: 0 2px 8px rgba(0,0,0,0.55);
-        position: relative;
-        z-index: 2;
-    }
-
-    .controls {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        margin: 14px auto 22px;
-        padding: 0 15px;
-        position: relative;
-        z-index: 2;
-    }
-
-    #locateBtn {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 20px;
-        background-color: var(--green);
-        color: white;
-        font-size: 16px;
-        cursor: pointer;
-    }
-
-    #locateBtn:hover { background-color: var(--green-dark); }
-
-    #locateBtn .btn-icon { width: 18px; height: 18px; flex-shrink: 0; }
-
-    .search-form {
-        position: relative;
-        display: flex;
-        align-items: center;
-    }
-
-    .search-form input {
-        padding: 12px 16px 12px 42px;
-        border: 1px solid rgba(255,255,255,0.6);
-        border-radius: 24px;
-        font-size: 15px;
-        width: 240px;
-        max-width: 60vw;
-        box-sizing: border-box;
-        background: rgba(255,255,255,0.95);
-    }
-
-    .search-form input:focus {
-        outline: none;
-        border-color: var(--green);
-    }
-
-    .search-form button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-        left: 14px;
-        top: 50%;
-        transform: translateY(-50%);
-        border: none;
-        background: none;
-        padding: 0;
-        color: #888;
-        cursor: pointer;
-    }
-
-    .search-form button svg { width: 18px; height: 18px; }
-
-    /* ===================== Carte réduite ===================== */
-    /* Volontairement plus basse que l'ancienne version plein écran, pour laisser voir le haut
-       de la grille de tuiles provinces sans avoir à scroller trop loin. */
-    /* Effet "fiche" sur la carte : coins arrondis + ombre légère, cohérent avec le reste du site.
-       Léger espace au-dessus (repris pour moitié sur celui qui existait entre la carte et le
-       titre "Parcourir par province" ci-dessous). */
-    .map-wrapper {
-        margin: 25px 0 0;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 6px 24px rgba(30, 50, 20, 0.10);
-    }
-
-    #map {
-        width: 100%;
-        height: 470px;
-    }
-
-    /* ===================== Section Provinces ===================== */
-
-    #provinces-section {
-        background-color: #f7f9f6;
-        padding: 25px 20px 30px;
-    }
-
-    .provinces-container {
-        max-width: 1100px;
-        margin: 0 auto;
-    }
-
-    .provinces-container h2 {
-        margin: 0 0 6px;
-        font-size: 26px;
-        color: #333;
-        text-align: center;
-    }
-
-    .provinces-subtitle {
-        text-align: center;
-        color: #666;
-        font-size: 14.5px;
-        margin: 0 0 30px;
-    }
-
-    .province-tiles-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 16px;
-    }
-
-    .province-tile {
-        position: relative;
-        display: block;
-        text-decoration: none;
-        border-radius: 14px;
-        overflow: hidden;
-        padding-top: 75%; /* ratio 4:3, en technique padding-bottom pour compat. large */
-        background-size: cover;
-        background-position: center;
-        background-color: #dfe8da; /* fond de secours si l'image tarde à charger */
-        transition: transform 0.15s ease, box-shadow 0.15s ease;
-        box-shadow: 0 2px 10px rgba(30, 50, 20, 0.06);
-    }
-
-    .province-tile:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 20px rgba(30, 50, 20, 0.14);
-    }
-
-    .province-tile-name {
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        padding: 10px 12px;
-        color: #fff;
-        font-weight: 700;
-        font-size: 14.5px;
-        text-shadow: 0 1px 4px rgba(0,0,0,0.6);
-    }
-
-    /* Tuiles "photo à venir" : dégradé vert de marque, en attendant le choix des bannières */
-    .province-tile.placeholder {
-        background-image: linear-gradient(160deg, #8fc977 0%, #4f9a3b 100%);
-    }
-
-    .province-tile.placeholder .province-tile-caption {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        font-size: 9.5px;
-        font-weight: 600;
-        color: rgba(255,255,255,0.85);
-        background: rgba(0,0,0,0.18);
-        padding: 3px 8px;
-        border-radius: 20px;
-        text-transform: uppercase;
-        letter-spacing: 0.03em;
-    }
-
-    @media (max-width: 900px) {
-        .province-tiles-grid { grid-template-columns: repeat(3, 1fr); }
-    }
-
-    @media (max-width: 640px) {
-        .province-tiles-grid { grid-template-columns: repeat(2, 1fr); }
-        .header { padding: 14px 15px 8px; }
-        .brand { font-size: 21px; }
-        .hero-headline { font-size: 23px; margin: 20px 0 4px; }
-        #map { height: 300px; }
-    }
-    /* ===================== Footer ===================== */
-    /* Repris tel quel du site (mêmes classes/styles), sauf position: static au lieu de fixed —
-       ici il suit le flux normal de page, en bas, plutôt que rester collé à l'écran en permanence. */
-    footer {
-        position: static;
-        height: 44px;
-        box-sizing: border-box;
-        display: flex;
-        align-items: center;
-        padding: 0 30px;
-        background: #f5f5f5;
-        color: #444;
-        font-size: 14px;
-        line-height: 1.6;
-        border-top: 1px solid #ddd;
-    }
-
-    .footer-content {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: nowrap;
-        flex: 1;
-        min-width: 0;
-        gap: 12px;
-    }
-
-    .footer-small {
-        font-size: 13px;
-        color: #777;
-        margin: 0;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 100%;
-    }
-
-    .footer-share {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        flex: 0 0 auto;
-    }
-
-    .footer-share-icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 26px;
-        height: 26px;
-        border-radius: 50%;
-        color: #999;
-        border: none;
-        background: none;
-        cursor: pointer;
-        transition: color 0.15s ease, background-color 0.15s ease;
-    }
-
-    .footer-share-icon svg { width: 14px; height: 14px; }
-
-    .footer-share-icon:hover {
-        color: #74C15A;
-        background: rgba(116, 193, 90, 0.1);
-    }
-
-    @media (max-width: 600px) {
-        footer { padding: 0 15px; font-size: 13px; }
-        .footer-content { justify-content: center; }
-    }
-</style>
-</head>
-<body>
-
-<div class="map-view">
-
-    <div class="header">
-        <div class="header-top-row">
-            <a href="#" class="brand-link">
-                <svg class="logo" viewBox="0 0 878 884" aria-hidden="true">
-                    <path d="M424.499,112.128C439.588,112.168 439.514,111.999 454.535,113.252C459.282,113.647 464.985,126.287 468.428,132.54C493.822,178.652 509.506,246.447 512.842,263.422C526.266,331.73 534.962,392.68 530.995,497.518C530.73,504.523 532.222,510.697 526.548,510.074C486.775,505.708 418.691,489.158 409.409,486.902C341.188,470.318 196.794,419.279 126.375,344.613C116.876,334.541 108.935,326.226 110.547,322.519C166.783,193.217 295.634,112.983 424.499,112.128Z" style="fill:rgb(0,197,47);"/>
-                    <path d="M323.995,777.029C323.912,775.739 324.142,775.825 325.23,775.274C355.62,759.894 400.469,704.642 369.737,638.388C334.216,561.808 212.168,551.036 166.882,640.677C157.245,659.752 159.137,674.474 155.349,669.692C132.912,641.373 125.231,625.974 121.202,618.662C62.664,512.423 85.368,404.962 87.77,395.633C89.088,390.514 107.272,419.126 187.29,462.882C284.724,516.16 395.602,541.393 414.463,545.686C514.476,568.446 526.353,560.436 525.158,567.446C522.169,584.997 521.573,607.623 506.699,664.563C498.834,694.669 495.492,701.689 492.174,711.382C482.494,739.658 459.679,782.477 454.579,783.706C453.65,783.93 439.298,785.77 437.531,785.88C388.91,788.907 370.416,787.255 323.995,777.029Z" style="fill:rgb(0,197,47);"/>
-                    <path d="M751.947,414.476C752.392,421.598 755.056,464.245 746.578,503.518C746.139,505.555 746.093,507.227 715.57,511.981C663.956,520.02 589.643,517.532 587.708,515.292C585.652,512.911 590.985,470.859 585.771,398.481C576.52,270.067 553.298,197.303 523.767,131.39C523.228,130.188 519.23,124.88 523.526,126.209C645.086,163.82 740.976,269.929 751.947,414.476Z" style="fill:rgb(0,197,47);"/>
-                    <path d="M720.315,584.413C662.254,708.15 561.132,749.553 541.613,758.921C537.914,760.696 538.18,758.744 538.254,758.484C538.377,758.05 549.128,738.3 564.299,678.456C576.691,629.572 580.983,585.687 581.781,577.532C582.508,570.096 583.875,569.77 584.527,569.615C593.043,567.585 613.097,574.573 695.536,565.78C719.879,563.183 729.606,559.289 729.92,561.317C730.132,562.689 721.139,582.59 720.315,584.413Z" style="fill:rgb(0,197,47);"/>
-                </svg>
-                <span class="brand"><span class="brand-map">Map</span>etanque<span class="brand-tld">.be</span></span>
-            </a>
-
-            <nav id="desktop-nav">
-                <button type="button" class="info-nav-trigger">À propos</button>
-                <button type="button" class="info-nav-trigger">FAQ</button>
-                <button type="button" class="info-nav-trigger">Nous contacter</button>
-                <span id="lang-switcher-inline">
-                    <button type="button" class="lang-link active">FR</button>
-                    <button type="button" class="lang-link">NL</button>
-                    <button type="button" class="lang-link">DE</button>
-                </span>
-            </nav>
-        </div>
-
-        <p class="hero-headline">Trouvez un terrain de pétanque public</p>
-    </div>
-
-    <div class="banner-credit">
-        Photo : Jean-Claude Parayre, <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener" style="color: rgba(255,255,255,0.85); text-decoration: underline;">CC BY-SA 4.0</a>, via Wikimedia Commons
-    </div>
-
-    <div class="controls">
-        <button id="locateBtn">
-            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-            <span>Me localiser</span>
-        </button>
-
-        <form id="searchForm" class="search-form">
-            <input type="text" id="searchInput" placeholder="Rechercher une ville…" autocomplete="off">
-            <button type="submit" id="searchBtn" aria-label="Rechercher">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            </button>
-        </form>
-
-        <!-- ============================================================================
-             "Parcourir la liste" retiré de la page avec l'arrivée des pages provinces
-             (qui remplissent ce rôle). Code conservé ici au cas où, non affiché.
-        <a href="#stats-section" id="browseListBtn">
-            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
-            <span>Parcourir la liste</span>
-        </a>
-        ============================================================================= -->
-    </div>
-
-    <!-- ================================================================================
-         "Ajouter un terrain de pétanque" retiré de la page d'accueil. Code conservé ici
-         au cas où, non affiché.
-    <p class="add-terrain-link-wrapper">
-        <a href="#" id="add-terrain-link">Ajouter un terrain de pétanque</a>
-    </p>
-    ================================================================================= -->
-
-</div><!-- /.map-view -->
-
-<div class="map-wrapper">
-    <div id="map"></div>
-</div>
-
-
-<section id="provinces-section">
-    <div class="provinces-container">
-        <h2>Parcourir par province</h2>
-
-        <div class="province-tiles-grid">
-            <a href="province-anvers.html" class="province-tile" style="background-image: url('images/tuile-anvers.jpg');">
-                <span class="province-tile-name">Anvers</span>
-            </a>
-
-            <a href="#" class="province-tile placeholder">
-                <span class="province-tile-caption">Photo à venir</span>
-                <span class="province-tile-name">Brabant flamand</span>
-            </a>
-
-            <a href="#" class="province-tile placeholder">
-                <span class="province-tile-caption">Photo à venir</span>
-                <span class="province-tile-name">Flandre orientale</span>
-            </a>
-
-            <a href="#" class="province-tile placeholder">
-                <span class="province-tile-caption">Photo à venir</span>
-                <span class="province-tile-name">Flandre occidentale</span>
-            </a>
-
-            <a href="#" class="province-tile placeholder">
-                <span class="province-tile-caption">Photo à venir</span>
-                <span class="province-tile-name">Limbourg</span>
-            </a>
-
-            <a href="#" class="province-tile placeholder">
-                <span class="province-tile-caption">Photo à venir</span>
-                <span class="province-tile-name">Brabant wallon</span>
-            </a>
-
-            <a href="#" class="province-tile placeholder">
-                <span class="province-tile-caption">Photo à venir</span>
-                <span class="province-tile-name">Hainaut</span>
-            </a>
-
-            <a href="#" class="province-tile placeholder">
-                <span class="province-tile-caption">Photo à venir</span>
-                <span class="province-tile-name">Liège</span>
-            </a>
-
-            <a href="#" class="province-tile placeholder">
-                <span class="province-tile-caption">Photo à venir</span>
-                <span class="province-tile-name">Luxembourg</span>
-            </a>
-
-            <a href="#" class="province-tile placeholder">
-                <span class="province-tile-caption">Photo à venir</span>
-                <span class="province-tile-name">Namur</span>
-            </a>
-
-            <a href="#" class="province-tile placeholder">
-                <span class="province-tile-caption">Photo à venir</span>
-                <span class="province-tile-name">Bruxelles</span>
-            </a>
-        </div>
-    </div>
-</section>
-
-<footer>
-    <div class="footer-content">
-        <p class="footer-small">1 791 terrains de pétanque recensés en Belgique</p>
-
-        <div class="footer-share">
-            <a href="#" class="footer-share-icon" target="_blank" rel="noopener" aria-label="WhatsApp">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-            </a>
-            <a href="#" class="footer-share-icon" target="_blank" rel="noopener" aria-label="Facebook">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
-            </a>
-            <a href="#" class="footer-share-icon" target="_blank" rel="noopener" aria-label="X (Twitter)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </a>
-            <a href="#" class="footer-share-icon" aria-label="E-mail">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-            </a>
-            <button type="button" class="footer-share-icon" aria-label="Copier le lien">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-            </button>
-        </div>
-    </div>
-</footer>
-
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script>
-    const map = L.map('map').setView([50.64, 4.66], 8);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors',
-        maxZoom: 18
-    }).addTo(map);
-</script>
-
-</body>
-</html>
 </file>
 
 <file path="NOTES_terrains_insolites.md">
@@ -3405,356 +1724,6 @@ Six terrains repérés, avec un itinéraire en boucle depuis le **Château de Fa
 - Angle "brasserie + patrimoine" combiné pour un article dédié ("les terrains les plus insolites de Liège")
 - Élargir les 6 requêtes retenues à toute la Belgique (juste changer la zone de référence)
 - Pour les catégories "plus grands" / "plus/moins isolés" : passer par un export Overpass + tri dans un tableur, ou script Python avec `shapely` pour les calculs de distance/surface
-</file>
-
-<file path="robots.txt">
-User-agent: *
-Allow: /
-
-Sitemap: https://mapetanque.github.io/sitemap.xml
-</file>
-
-<file path="test_photos_liege.py">
-#!/usr/bin/env python3
-"""
-Test de rattachement automatique de photos Mapillary aux terrains — commune de Liège.
-
-Script AUTONOME, volontairement séparé de update_terrains.py tant que le résultat n'a pas été
-validé visuellement. Ne modifie rien à data/terrains.geojson : produit un dossier de sortie
-avec les photos traitées + un rapport JSON détaillant ce qui a été trouvé/choisi/ignoré pour
-chaque terrain, à relire avant toute décision d'intégration dans le pipeline hebdomadaire.
-
-Principe :
-  1. Charge data/terrains.geojson, filtre sur la commune de Liège.
-  2. Pour chaque terrain, interroge l'API Mapillary (recherche par zone) dans un rayon donné.
-  3. Parmi les images trouvées, calcule pour chacune la distance et le cap (bearing) vers le
-     terrain, puis choisit la "meilleure" selon la règle définie dans choisir_meilleure_image().
-  4. Télécharge l'image choisie et, si c'est une 360° (équirectangulaire), en extrait un crop
-     plat orienté pile vers le terrain (projection équirectangulaire -> perspective, sans
-     dépendance externe, juste numpy/PIL).
-  5. Sauvegarde l'image finale + une entrée de rapport par terrain.
-
-Prérequis :
-  - Un token d'API Mapillary gratuit (inscription sur https://www.mapillary.com/developer),
-    à renseigner ci-dessous ou via la variable d'environnement MAPILLARY_TOKEN.
-  - pip install requests pillow numpy
-
-Usage :
-    python3 test_photos_liege.py
-"""
-
-import json
-import math
-import os
-import time
-from pathlib import Path
-
-import numpy as np
-import requests
-from PIL import Image
-
-# ===================== Configuration =====================
-
-MAPILLARY_TOKEN = os.environ.get("MAPILLARY_TOKEN", "MLY|28430029179916530|430abb722289aec39e460c5f2753d6d0")
-
-TERRAINS_GEOJSON_PATH = Path("data/terrains.geojson")
-OUTPUT_DIR = Path("test_photos_liege_output")
-
-# Nom de commune tel qu'il apparaît dans terrains.geojson (properties.commune). Adapter si le
-# format réel diffère (ex. "Liège" vs autre chose) — le script affiche les valeurs uniques
-# rencontrées si aucun terrain ne matche, pour débugger facilement.
-COMMUNE_FILTRE = "Oostende"
-
-# Rayon de recherche autour de chaque terrain, en mètres. Mapillary plafonne à 50m sur son
-# endpoint de recherche par rayon ; on reste sous ce plafond même avec l'approche bbox utilisée
-# ici (par souci de cohérence, et parce qu'au-delà la photo a de toute façon peu de chances de
-# bien montrer le terrain).
-RAYON_RECHERCHE_M = 25
-
-# Écart de cap (degrés) en-dessous duquel une photo plate est considérée "bien orientée". Seuil
-# volontairement strict (premier essai à 35° -> trop de photos qui regardaient à côté du
-# terrain plutôt que dessus).
-ECART_CAP_ACCEPTABLE = 15
-
-# Distance max (m) acceptée pour une 360° recadrée. Plus stricte que pour une photo plate bien
-# orientée : sans certitude sur l'orientation exacte de l'objectif d'origine dans l'image, plus
-# la distance grandit, plus le risque de recadrer sur autre chose (bâtiment, haie) augmente.
-DISTANCE_MAX_PANO_M = 15
-
-# Luminosité moyenne (0-255, niveaux de gris) en-dessous de laquelle une image est jugée trop
-# sombre pour être exploitable (nuit, forte pluie, contre-jour extrême) et rejetée d'office,
-# avant même de regarder sa géométrie.
-LUMINOSITE_MIN = 70
-
-# Champ de vision (degrés) du crop extrait d'une image 360°.
-CROP_FOV_DEG = 90
-CROP_LARGEUR_PX = 1024
-CROP_HAUTEUR_PX = 768
-
-
-# ===================== Géométrie =====================
-
-def distance_metres(lat1, lon1, lat2, lon2):
-    """Distance en mètres entre deux points (formule de Haversine)."""
-    R = 6371000
-    phi1, phi2 = math.radians(lat1), math.radians(lat2)
-    dphi = math.radians(lat2 - lat1)
-    dlambda = math.radians(lon2 - lon1)
-    a = math.sin(dphi / 2) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2) ** 2
-    return R * 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-
-
-def cap_vers(lat1, lon1, lat2, lon2):
-    """Cap (bearing) en degrés [0, 360) du point 1 vers le point 2, 0° = nord, sens horaire."""
-    phi1, phi2 = math.radians(lat1), math.radians(lat2)
-    dlambda = math.radians(lon2 - lon1)
-    x = math.sin(dlambda) * math.cos(phi2)
-    y = math.cos(phi1) * math.sin(phi2) - math.sin(phi1) * math.cos(phi2) * math.cos(dlambda)
-    return (math.degrees(math.atan2(x, y)) + 360) % 360
-
-
-def ecart_angulaire(a, b):
-    """Plus petit écart entre deux angles en degrés, résultat dans [0, 180]."""
-    d = abs(a - b) % 360
-    return d if d <= 180 else 360 - d
-
-
-def bbox_autour(lat, lon, rayon_m):
-    """Boîte englobante (west, south, east, north) approximative autour d'un point."""
-    delta_lat = rayon_m / 111320
-    delta_lon = rayon_m / (111320 * math.cos(math.radians(lat)))
-    return (lon - delta_lon, lat - delta_lat, lon + delta_lon, lat + delta_lat)
-
-
-# ===================== Mapillary =====================
-
-def rechercher_images_mapillary(lat, lon, rayon_m):
-    """Interroge l'API Mapillary (recherche par bbox) autour d'un point. Retourne la liste
-    brute des images trouvées (peut être vide)."""
-    west, south, east, north = bbox_autour(lat, lon, rayon_m)
-    url = "https://graph.mapillary.com/images"
-    params = {
-        "access_token": MAPILLARY_TOKEN,
-        "bbox": f"{west},{south},{east},{north}",
-        "fields": "id,geometry,compass_angle,is_pano,captured_at,thumb_2048_url",
-        "limit": 20,
-    }
-    try:
-        r = requests.get(url, params=params, timeout=15)
-        r.raise_for_status()
-        return r.json().get("data", [])
-    except requests.RequestException as e:
-        print(f"    [erreur API Mapillary] {e}")
-        return []
-
-
-def classer_candidats(images, lat_terrain, lon_terrain):
-    """Parmi les images candidates, retourne une liste CLASSÉE (meilleure en premier) des
-    candidats jugés géométriquement valables :
-       1. photos plates bien orientées (écart de cap <= ECART_CAP_ACCEPTABLE), triées par
-          distance croissante,
-       2. puis 360° proches (<= DISTANCE_MAX_PANO_M), triées par distance croissante.
-       Liste vide si rien de convenable — on ne retombe plus sur une photo mal orientée "à
-       défaut", vu ce que ça donnait en pratique sur le premier essai. Retourne une liste (pas
-       un seul choix) pour permettre de passer au candidat suivant si le premier échoue ensuite
-       au test de luminosité (voir main())."""
-    candidats = []
-    for img in images:
-        lon_img, lat_img = img["geometry"]["coordinates"]
-        dist = distance_metres(lat_img, lon_img, lat_terrain, lon_terrain)
-        # bbox_autour() délimite un carré, pas un cercle : Mapillary peut donc renvoyer des
-        # images jusqu'à ~1.4x RAYON_RECHERCHE_M dans les coins. Retenu ici uniquement pour ne
-        # pas fausser cap_vers()/ecart_angulaire() sur des points hors du vrai rayon voulu.
-        if dist > RAYON_RECHERCHE_M:
-            continue
-        cap = cap_vers(lat_img, lon_img, lat_terrain, lon_terrain)
-        compass = img.get("compass_angle")
-        ecart = ecart_angulaire(compass, cap) if compass is not None else 180
-        candidats.append({
-            "image": img,
-            "distance": dist,
-            "cap_vers_terrain": cap,
-            "ecart_cap": ecart,
-            "est_pano": img.get("is_pano", False),
-        })
-
-    plates_bien_orientees = sorted(
-        (c for c in candidats if not c["est_pano"] and c["ecart_cap"] <= ECART_CAP_ACCEPTABLE),
-        key=lambda c: c["distance"]
-    )
-    panos_proches = sorted(
-        (c for c in candidats if c["est_pano"] and c["distance"] <= DISTANCE_MAX_PANO_M),
-        key=lambda c: c["distance"]
-    )
-
-    return plates_bien_orientees + panos_proches
-
-
-def luminosite_moyenne(image):
-    """Luminosité moyenne (0-255) d'une image PIL, calculée en niveaux de gris. Sert à rejeter
-    d'office les captures nocturnes/sous forte pluie, illisibles quelle que soit leur
-    géométrie."""
-    gris = np.asarray(image.convert("L"), dtype=np.float32)
-    return float(gris.mean())
-
-
-# ===================== Recadrage équirectangulaire -> perspective =====================
-
-def extraire_vue_perspective(image_equirect, cap_cible_deg, image_compass_deg, fov_deg, largeur_px, hauteur_px):
-    """Extrait, depuis une image 360° équirectangulaire, un crop plat centré sur la direction
-    cap_cible_deg (cap absolu, 0°=nord) — l'image elle-même étant orientée selon
-    image_compass_deg au moment de la capture. Projection perspective classique, sans
-    dépendance externe (numpy/PIL uniquement)."""
-    src = np.asarray(image_equirect.convert("RGB"), dtype=np.float32)
-    src_h, src_w = src.shape[:2]
-
-    # Différence entre le cap absolu voulu et le cap de référence (avant) de la caméra 360°.
-    yaw = math.radians(cap_cible_deg - image_compass_deg)
-    fov = math.radians(fov_deg)
-
-    # Grille de rayons 3D pour chaque pixel de sortie (caméra perspective standard, pitch=0).
-    x = np.linspace(-math.tan(fov / 2), math.tan(fov / 2), largeur_px)
-    y = np.linspace(math.tan(fov / 2) * hauteur_px / largeur_px, -math.tan(fov / 2) * hauteur_px / largeur_px, hauteur_px)
-    xx, yy = np.meshgrid(x, y)
-    zz = np.ones_like(xx)
-
-    norme = np.sqrt(xx**2 + yy**2 + zz**2)
-    xx, yy, zz = xx / norme, yy / norme, zz / norme
-
-    # Rotation autour de l'axe vertical selon le yaw calculé.
-    xx_rot = xx * math.cos(yaw) + zz * math.sin(yaw)
-    zz_rot = -xx * math.sin(yaw) + zz * math.cos(yaw)
-
-    theta = np.arctan2(xx_rot, zz_rot)          # longitude, -pi..pi
-    phi = np.arcsin(np.clip(yy, -1, 1))          # latitude, -pi/2..pi/2
-
-    src_x = ((theta / (2 * math.pi)) + 0.5) * src_w
-    src_y = (0.5 - (phi / math.pi)) * src_h
-
-    src_x = np.clip(src_x, 0, src_w - 1).astype(np.int32)
-    src_y = np.clip(src_y, 0, src_h - 1).astype(np.int32)
-
-    resultat = src[src_y, src_x]
-    return Image.fromarray(resultat.astype(np.uint8))
-
-
-# ===================== Programme principal =====================
-
-def main():
-    if MAPILLARY_TOKEN == "COLLE_TON_TOKEN_ICI":
-        print("Renseigne d'abord ton token Mapillary (variable MAPILLARY_TOKEN en haut du "
-              "script, ou variable d'environnement du même nom).")
-        return
-
-    if not TERRAINS_GEOJSON_PATH.exists():
-        print(f"Introuvable : {TERRAINS_GEOJSON_PATH} (lance ce script depuis la racine du repo)")
-        return
-
-    data = json.loads(TERRAINS_GEOJSON_PATH.read_text(encoding="utf-8"))
-    toutes_communes = sorted(set(f["properties"].get("commune") for f in data["features"]))
-
-    terrains = [f for f in data["features"] if f["properties"].get("commune") == COMMUNE_FILTRE]
-
-    if not terrains:
-        print(f"Aucun terrain trouvé pour commune == '{COMMUNE_FILTRE}'.")
-        print("Valeurs de commune réellement présentes dans les données (échantillon) :")
-        for c in toutes_communes[:20]:
-            print(f"  - {c}")
-        return
-
-    print(f"{len(terrains)} terrain(s) trouvé(s) pour '{COMMUNE_FILTRE}'.\n")
-
-    OUTPUT_DIR.mkdir(exist_ok=True)
-    rapport = []
-
-    for i, terrain in enumerate(terrains, 1):
-        lon_t, lat_t = terrain["geometry"]["coordinates"]
-        rue = terrain["properties"].get("nearest_street") or "(sans rue connue)"
-        print(f"[{i}/{len(terrains)}] Terrain près de {rue} ({lat_t:.5f}, {lon_t:.5f})")
-
-        images = rechercher_images_mapillary(lat_t, lon_t, RAYON_RECHERCHE_M)
-        print(f"    {len(images)} image(s) Mapillary dans un rayon de {RAYON_RECHERCHE_M}m")
-
-        candidats = classer_candidats(images, lat_t, lon_t)
-
-        entree_rapport = {
-            "terrain_id": terrain["properties"].get("id") or i,
-            "rue": rue,
-            "lat": lat_t,
-            "lon": lon_t,
-            "nb_images_trouvees": len(images),
-            "nb_candidats_geometrie_ok": len(candidats),
-        }
-
-        if not candidats:
-            print("    -> Aucun candidat ne passe les critères géométriques, ignoré.\n")
-            entree_rapport["resultat"] = "aucun_candidat_geometrique"
-            rapport.append(entree_rapport)
-            continue
-
-        nom_fichier = f"terrain_{i:03d}.jpg"
-        image_retenue = None
-
-        for rang, c in enumerate(candidats, 1):
-            try:
-                reponse = requests.get(c["image"]["thumb_2048_url"], timeout=20)
-                reponse.raise_for_status()
-                image_brute = Image.open(__import__("io").BytesIO(reponse.content))
-            except Exception as e:
-                print(f"    [candidat {rang}] erreur de téléchargement ({e}), suivant...")
-                continue
-
-            if c["est_pano"]:
-                compass = c["image"].get("compass_angle", 0)
-                image_test = extraire_vue_perspective(
-                    image_brute, c["cap_vers_terrain"], compass, CROP_FOV_DEG, CROP_LARGEUR_PX, CROP_HAUTEUR_PX
-                )
-            else:
-                image_test = image_brute
-
-            luminosite = luminosite_moyenne(image_test)
-            if luminosite < LUMINOSITE_MIN:
-                print(f"    [candidat {rang}] trop sombre (luminosité {luminosite:.0f} < {LUMINOSITE_MIN}), suivant...")
-                continue
-
-            image_retenue = image_test
-            candidat_retenu = c
-            break
-
-        if image_retenue is None:
-            print("    -> Tous les candidats rejetés (téléchargement ou luminosité), ignoré.\n")
-            entree_rapport["resultat"] = "tous_candidats_rejetes"
-            rapport.append(entree_rapport)
-            continue
-
-        type_resultat = "pano_recadree" if candidat_retenu["est_pano"] else "plate_bien_orientee"
-        print(f"    -> {type_resultat} (distance {candidat_retenu['distance']:.0f}m, "
-              f"écart de cap {candidat_retenu['ecart_cap']:.0f}°, luminosité {luminosite:.0f}) -> {nom_fichier}\n")
-
-        image_retenue.save(OUTPUT_DIR / nom_fichier, quality=88)
-        entree_rapport.update({
-            "resultat": type_resultat,
-            "distance_m": round(candidat_retenu["distance"], 1),
-            "ecart_cap_deg": round(candidat_retenu["ecart_cap"], 1),
-            "luminosite": round(luminosite, 1),
-            "mapillary_image_id": candidat_retenu["image"]["id"],
-            "fichier": nom_fichier,
-        })
-        rapport.append(entree_rapport)
-
-        time.sleep(0.2)  # marge de confort, largement sous la limite de l'API
-
-    (OUTPUT_DIR / "rapport.json").write_text(
-        json.dumps(rapport, ensure_ascii=False, indent=2), encoding="utf-8"
-    )
-
-    reussis = sum(1 for r in rapport if r.get("resultat") in ("pano_recadree", "plate_bien_orientee"))
-    print(f"\nTerminé : {reussis}/{len(terrains)} terrain(s) avec une photo, "
-          f"détail dans {OUTPUT_DIR}/rapport.json")
-
-
-if __name__ == "__main__":
-    main()
 </file>
 
 <file path=".github/workflows/update-osm.yml">
@@ -27744,6 +25713,13 @@ jobs:
 }
 </file>
 
+<file path="robots.txt">
+User-agent: *
+Allow: /
+
+Sitemap: https://mapetanque.be/sitemap.xml
+</file>
+
 <file path="scripts/generer_revue_photos.py">
 #!/usr/bin/env python3
 """
@@ -30167,7 +28143,29 @@ print(f"✓ {len(features)} terrains mis à jour")
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -30927,7 +28925,29 @@ print(f"✓ {len(features)} terrains mis à jour")
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -31577,7 +29597,29 @@ print(f"✓ {len(features)} terrains mis à jour")
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -32337,7 +30379,29 @@ print(f"✓ {len(features)} terrains mis à jour")
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -32987,7 +31051,29 @@ print(f"✓ {len(features)} terrains mis à jour")
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -33747,7 +31833,29 @@ print(f"✓ {len(features)} terrains mis à jour")
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -35327,7 +33435,29 @@ body {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -36347,7 +34477,29 @@ body {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -36865,7 +35017,29 @@ body {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -37383,7 +35557,29 @@ body {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -37901,7 +36097,29 @@ body {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -38593,7 +36811,29 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -39111,7 +37351,29 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -39624,7 +37886,29 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -40055,7 +38339,29 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -40647,7 +38953,29 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -41302,7 +39630,29 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -41957,7 +40307,29 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -42607,7 +40979,29 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -43262,7 +41656,29 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -43917,7 +42333,29 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -44572,7 +43010,29 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -45227,7 +43687,29 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -45882,7 +44364,29 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -46537,7 +45041,29 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -47192,7 +45718,29 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -47847,7 +46395,29 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -48502,7 +47072,29 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -49152,7 +47744,29 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -49807,7 +48421,29 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -50462,7 +49098,29 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -51117,7 +49775,29 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -51772,7 +50452,29 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -52427,7 +51129,29 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -53082,7 +51806,29 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -53734,7 +52480,29 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -54912,7 +53680,29 @@ if __name__ == "__main__":
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -55567,7 +54357,29 @@ if __name__ == "__main__":
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -56222,7 +55034,29 @@ if __name__ == "__main__":
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -56877,7 +55711,29 @@ if __name__ == "__main__":
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -57532,7 +56388,29 @@ if __name__ == "__main__":
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -58187,7 +57065,29 @@ if __name__ == "__main__":
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -58837,7 +57737,29 @@ if __name__ == "__main__":
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -59492,7 +58414,29 @@ if __name__ == "__main__":
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -60147,7 +59091,29 @@ if __name__ == "__main__":
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -60802,7 +59768,29 @@ if __name__ == "__main__":
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -61457,7 +60445,29 @@ if __name__ == "__main__":
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -62112,7 +61122,29 @@ if __name__ == "__main__":
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -62767,7 +61799,29 @@ if __name__ == "__main__":
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -65010,6 +64064,80 @@ footer a:hover {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
 }
+/* ===================== Formulaire "Ajouter une photo" (Forminit) ===================== */
+.add-photo-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.add-photo-field-label {
+    font-size: 12.5px;
+    font-weight: bold;
+    color: #444;
+    margin-bottom: -4px;
+}
+
+.add-photo-file-input,
+.add-photo-text-input {
+    font-size: 13px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.add-photo-checkbox-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 12px;
+    color: #555;
+    line-height: 1.4;
+    cursor: pointer;
+}
+
+.add-photo-checkbox-row input[type="checkbox"] {
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.add-photo-submit-btn {
+    background: #74C15A;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 4px;
+}
+
+.add-photo-submit-btn:hover {
+    background: #63a84c;
+}
+
+.add-photo-submit-btn:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+}
+
+.add-photo-status {
+    font-size: 12.5px;
+    text-align: center;
+    margin: 4px 0 0;
+    min-height: 16px;
+}
+
+.add-photo-status.success { color: #2e7d32; font-weight: bold; }
+.add-photo-status.error { color: #c62828; font-weight: bold; }
+.add-photo-file-hint {
+    font-size: 11px;
+    color: #999;
+    margin-top: -6px;
+}
 </file>
 
 <file path="index.html">
@@ -65277,7 +64405,29 @@ footer a:hover {
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
-        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
     </div>
 </div>
 
@@ -65593,7 +64743,15 @@ const translations = {
         add_photo_modal_title: "Ajouter une photo",
         add_photo_modal_intro: "Vous avez une photo de ce terrain à partager ? Proposez-la, elle sera vérifiée avant publication.",
         add_photo_modal_osm_savvy: "Vous êtes déjà familier avec l'édition OpenStreetMap ? Ajoutez le tag mapillary= (ou wikimedia_commons=) sur le nœud de ce terrain, pointant vers une photo déjà présente sur Mapillary ou Wikimedia Commons — elle sera reprise automatiquement lors de notre prochaine mise à jour, sans passer par ce formulaire.",
-        add_photo_modal_form_placeholder: "Formulaire d'envoi à venir prochainement.",
+        add_photo_field_photo_label: "Votre photo",
+        add_photo_file_hint: "5 Mo maximum",
+        add_photo_field_email_label: "Votre e-mail (facultatif, pour vous recontacter si besoin)",
+        add_photo_checkbox_label: "J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).",
+        add_photo_submit_btn: "Envoyer la photo",
+        add_photo_sending: "Envoi en cours…",
+        add_photo_success: "Merci ! Votre photo a bien été reçue, elle sera vérifiée avant publication.",
+        add_photo_error: "Une erreur est survenue, réessayez ou écrivez-nous à mapetanque@outlook.be.",
+        add_photo_error_too_large: "Cette photo est trop volumineuse (5 Mo maximum), choisissez une photo plus légère.",
         popup_itinerary: "Afficher l'itinéraire",
         popup_here: "Vous êtes ici",
         nearest_terrain_label: "Terrain le plus proche",
@@ -65762,7 +64920,15 @@ const translations = {
         add_photo_modal_title: "Foto toevoegen",
         add_photo_modal_intro: "Heb je een foto van dit terrein om te delen? Stuur ze door, ze wordt gecontroleerd voor publicatie.",
         add_photo_modal_osm_savvy: "Al vertrouwd met OpenStreetMap bewerken? Voeg de tag mapillary= (of wikimedia_commons=) toe aan het punt van dit terrein, verwijzend naar een foto die al op Mapillary of Wikimedia Commons staat — ze wordt automatisch overgenomen bij onze volgende update, zonder dit formulier te gebruiken.",
-        add_photo_modal_form_placeholder: "Verzendformulier komt binnenkort.",
+        add_photo_field_photo_label: "Uw foto",
+        add_photo_file_hint: "Maximaal 5 MB",
+        add_photo_field_email_label: "Uw e-mail (optioneel, om u eventueel opnieuw te contacteren)",
+        add_photo_checkbox_label: "Ik geef Mapetanque.be toestemming om deze foto op Mapillary te publiceren onder de CC BY-SA-licentie (met vermelding van mijn voornaam/gebruikersnaam indien hierboven ingevuld).",
+        add_photo_submit_btn: "Foto versturen",
+        add_photo_sending: "Versturen…",
+        add_photo_success: "Bedankt! Uw foto is goed ontvangen en wordt gecontroleerd voor publicatie.",
+        add_photo_error: "Er is een fout opgetreden, probeer opnieuw of schrijf ons op mapetanque@outlook.be.",
+        add_photo_error_too_large: "Deze foto is te groot (maximaal 5 MB), kies een lichtere foto.",
         popup_itinerary: "Route weergeven",
         popup_here: "Je bent hier",
         nearest_terrain_label: "Dichtstbijzijnde terrein",
@@ -65932,7 +65098,15 @@ const translations = {
         add_photo_modal_title: "Foto hinzufügen",
         add_photo_modal_intro: "Haben Sie ein Foto von diesem Platz, das Sie teilen möchten? Schicken Sie es uns, es wird vor der Veröffentlichung geprüft.",
         add_photo_modal_osm_savvy: "Sie kennen sich bereits mit dem Bearbeiten von OpenStreetMap aus? Fügen Sie dem Knotenpunkt dieses Platzes das Tag mapillary= (oder wikimedia_commons=) hinzu, das auf ein bereits vorhandenes Foto bei Mapillary oder Wikimedia Commons verweist — es wird bei unserer nächsten Aktualisierung automatisch übernommen, ohne dieses Formular zu nutzen.",
-        add_photo_modal_form_placeholder: "Absendeformular folgt in Kürze.",
+        add_photo_field_photo_label: "Ihr Foto",
+        add_photo_file_hint: "Maximal 5 MB",
+        add_photo_field_email_label: "Ihre E-Mail (optional, falls wir Sie kontaktieren müssen)",
+        add_photo_checkbox_label: "Ich erlaube Mapetanque.be, dieses Foto unter der CC-BY-SA-Lizenz auf Mapillary zu veröffentlichen (mit Nennung meines Vornamens/Benutzernamens, falls oben angegeben).",
+        add_photo_submit_btn: "Foto senden",
+        add_photo_sending: "Wird gesendet…",
+        add_photo_success: "Danke! Ihr Foto wurde empfangen und wird vor der Veröffentlichung geprüft.",
+        add_photo_error: "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut oder schreiben Sie uns an mapetanque@outlook.be.",
+        add_photo_error_too_large: "Dieses Foto ist zu groß (maximal 5 MB), bitte wählen Sie ein kleineres Foto.",
         popup_itinerary: "Route anzeigen",
         popup_here: "Sie sind hier",
         nearest_terrain_label: "Nächstgelegener Platz",
@@ -66700,12 +65874,154 @@ const addPhotoOverlay = document.getElementById('add-photo-overlay');
 const addPhotoModal = document.getElementById('add-photo-modal');
 const addPhotoTerrainName = document.getElementById('add-photo-terrain-name');
 
+// ID du formulaire Forminit (dashboard Forminit > ton formulaire > endpoint https://forminit.com/f/XXXXXXXX
+// → colle juste la partie XXXXXXXX ci-dessous, pas l'URL complète).
+const FORMINIT_FORM_ID = "a0s7wffxoty";
+
+// Site Key Turnstile (dashboard Cloudflare > Turnstile > ton widget). C'est la clé PUBLIQUE,
+// normal qu'elle soit visible ici — la Secret Key, elle, ne doit jamais quitter le dashboard
+// Forminit (Form Settings > CAPTCHA), voir Étape 0.
+const TURNSTILE_SITE_KEY = "0x4AAAAAAEbv-Uuo4-7HWvQg96Vsxr6PibQ";
+
+// Taille maximale acceptée pour la photo envoyée (5 Mo) — vérifiée côté client avant l'envoi,
+// pour un retour immédiat à l'usager plutôt qu'un rejet côté serveur Forminit.
+const TAILLE_MAX_PHOTO = 5 * 1024 * 1024;
+
+// Rendu "explicite" (?render=explicit) : le widget ne s'affiche pas tout seul au chargement de
+// la page, on l'affiche nous-mêmes à l'ouverture de la modale — la modale démarre en
+// display:none, un rendu automatique s'y comporterait mal.
+const scriptTurnstile = document.createElement('script');
+scriptTurnstile.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+scriptTurnstile.async = true;
+scriptTurnstile.defer = true;
+document.head.appendChild(scriptTurnstile);
+
+let widgetTurnstileId = null;
+
+function rendreWidgetTurnstile() {
+    const conteneur = document.getElementById('cf-turnstile-widget');
+    if (!conteneur || !window.turnstile) return;
+
+    // Retire un éventuel widget précédent (ouverture pour un autre terrain) avant d'en rendre
+    // un nouveau, sinon Turnstile en empile plusieurs dans le même conteneur.
+    if (widgetTurnstileId !== null) {
+        turnstile.remove(widgetTurnstileId);
+    }
+    widgetTurnstileId = turnstile.render(conteneur, { sitekey: TURNSTILE_SITE_KEY });
+}
+
+const addPhotoForm = document.getElementById('add-photo-form');
+const addPhotoStatus = document.getElementById('add-photo-status');
+const addPhotoSubmitBtn = addPhotoForm ? addPhotoForm.querySelector('.add-photo-submit-btn') : null;
+
 window.ouvrirModaleAjoutPhoto = function (osmId, terrainTitre) {
     addPhotoTerrainName.textContent = terrainTitre || '';
     addPhotoModal.dataset.osmId = osmId || '';
     addPhotoModal.classList.add('open');
     addPhotoOverlay.classList.add('visible');
+
+    // Réinitialise le formulaire à chaque ouverture (sinon une soumission précédente, pour un
+    // autre terrain, pourrait laisser la modale dans un état "envoyé" ou "erreur").
+    if (addPhotoForm) {
+        addPhotoForm.reset();
+        addPhotoForm.style.display = '';
+        addPhotoForm.querySelector('[name="fi-text-terrain-osm-id"]').value = osmId || '';
+        addPhotoForm.querySelector('[name="fi-text-terrain-nom"]').value = terrainTitre || '';
+        addPhotoForm.querySelector('[name="fi-text-terrain-lien-osm"]').value = osmId
+            ? `https://www.openstreetmap.org/${osmId}`
+            : '';
+        if (addPhotoStatus) {
+            addPhotoStatus.textContent = '';
+            addPhotoStatus.className = 'add-photo-status';
+        }
+        if (addPhotoSubmitBtn) addPhotoSubmitBtn.disabled = false;
+
+        // Le script Turnstile peut ne pas encore être chargé lors de la toute première
+        // ouverture (très rapide après le chargement de la page) : dans ce cas on attend son
+        // chargement puis on rend le widget ; sinon on le rend tout de suite.
+        if (window.turnstile) {
+            rendreWidgetTurnstile();
+        } else {
+            scriptTurnstile.addEventListener('load', rendreWidgetTurnstile, { once: true });
+        }
+    }
 };
+
+if (addPhotoForm) {
+    addPhotoForm.addEventListener('submit', function (evt) {
+        evt.preventDefault();
+
+        // Vérification de la taille du fichier AVANT l'envoi : évite un aller-retour réseau
+        // inutile (et un rejet côté serveur moins clair pour l'usager) si la photo dépasse la
+        // limite autorisée.
+        const fichierChoisi = addPhotoForm.querySelector('[name="fi-file-photo"]').files[0];
+        if (fichierChoisi && fichierChoisi.size > TAILLE_MAX_PHOTO) {
+            if (addPhotoStatus) {
+                addPhotoStatus.textContent = t('add_photo_error_too_large');
+                addPhotoStatus.className = 'add-photo-status error';
+            }
+            return;
+        }
+
+        if (addPhotoSubmitBtn) addPhotoSubmitBtn.disabled = true;
+        if (addPhotoStatus) {
+            addPhotoStatus.textContent = t('add_photo_sending');
+            addPhotoStatus.className = 'add-photo-status';
+        }
+
+        const donnees = new FormData(addPhotoForm);
+
+        // Renomme le fichier envoyé pour qu'il porte l'identification du terrain directement
+        // dans son nom (ex. way-1546238442_rue-de-la-siroperie.jpg) : un moyen de repérage
+        // fiable et immédiat en plus des champs texte fi-text-terrain-*, utile notamment quand
+        // on parcourt les pièces jointes reçues (voir club/ajouter_photo_manuelle.py).
+        const fichierPhoto = donnees.get('fi-file-photo');
+        if (fichierPhoto instanceof File) {
+            const osmIdPropre = (addPhotoForm.querySelector('[name="fi-text-terrain-osm-id"]').value || 'terrain')
+                .replace(/\//g, '-');
+            const nomPropre = (addPhotoForm.querySelector('[name="fi-text-terrain-nom"]').value || '')
+                .normalize('NFKD').replace(/[\u0300-\u036f]/g, '')  // retire les accents
+                .replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+            const extension = fichierPhoto.name.split('.').pop();
+            const nouveauNom = `${osmIdPropre}${nomPropre ? '_' + nomPropre : ''}.${extension}`;
+
+            donnees.set('fi-file-photo', new File([fichierPhoto], nouveauNom, { type: fichierPhoto.type }));
+        }
+
+        fetch(`https://forminit.com/f/${FORMINIT_FORM_ID}`, {
+            method: 'POST',
+            body: donnees,
+            headers: { 'Accept': 'application/json' }
+        })
+            .then(function (reponse) {
+                // Lit le corps de la réponse AVANT de décider si c'est une erreur : Forminit
+                // répond parfois avec un statut HTTP non-ok (400...) accompagné d'un JSON
+                // décrivant précisément la cause (ex. FI_DATA_VALIDATION) — utile dans la
+                // console pour diagnostiquer, plutôt qu'un simple "Réponse HTTP 400" muet.
+                return reponse.text().then(function (texte) {
+                    if (!reponse.ok) {
+                        throw new Error('Réponse HTTP ' + reponse.status + ' : ' + texte);
+                    }
+                    return texte;
+                });
+            })
+            .then(function () {
+                if (addPhotoStatus) {
+                    addPhotoStatus.textContent = t('add_photo_success');
+                    addPhotoStatus.className = 'add-photo-status success';
+                }
+                addPhotoForm.style.display = 'none';
+            })
+            .catch(function (erreur) {
+                console.error('Échec envoi formulaire photo :', erreur);
+                if (addPhotoStatus) {
+                    addPhotoStatus.textContent = t('add_photo_error');
+                    addPhotoStatus.className = 'add-photo-status error';
+                }
+                if (addPhotoSubmitBtn) addPhotoSubmitBtn.disabled = false;
+            });
+    });
+}
 
 function fermerModaleAjoutPhoto() {
     addPhotoModal.classList.remove('open');

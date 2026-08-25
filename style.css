@@ -1857,3 +1857,99 @@ footer a:hover {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
 }
+/* ===================== Formulaire "Ajouter une photo" (Forminit) ===================== */
+.add-photo-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.add-photo-field-label {
+    font-size: 12.5px;
+    font-weight: bold;
+    color: #444;
+    margin-bottom: -4px;
+}
+
+.add-photo-file-input,
+.add-photo-text-input {
+    font-size: 13px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.add-photo-checkbox-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 12px;
+    color: #555;
+    line-height: 1.4;
+    cursor: pointer;
+}
+
+.add-photo-checkbox-row input[type="checkbox"] {
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.add-photo-submit-btn {
+    background: #74C15A;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 4px;
+}
+
+.add-photo-submit-btn:hover {
+    background: #63a84c;
+}
+
+.add-photo-submit-btn:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+}
+
+.add-photo-status {
+    font-size: 12.5px;
+    text-align: center;
+    margin: 4px 0 0;
+    min-height: 16px;
+}
+
+.add-photo-status.success { color: #2e7d32; font-weight: bold; }
+.add-photo-status.error { color: #c62828; font-weight: bold; }
+.add-photo-file-hint {
+    font-size: 11px;
+    color: #999;
+    margin-top: -6px;
+}
+
+.add-photo-status.sending {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    color: #555;
+}
+
+.add-photo-status.sending::before {
+    content: "";
+    width: 13px;
+    height: 13px;
+    border: 2px solid #ddd;
+    border-top-color: #74C15A;
+    border-radius: 50%;
+    animation: add-photo-spin 0.7s linear infinite;
+}
+
+@keyframes add-photo-spin {
+    to { transform: rotate(360deg); }
+}

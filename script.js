@@ -743,12 +743,122 @@ const addPhotoOverlay = document.getElementById('add-photo-overlay');
 const addPhotoModal = document.getElementById('add-photo-modal');
 const addPhotoTerrainName = document.getElementById('add-photo-terrain-name');
 
+// ID du formulaire Forminit (dashboard Forminit > ton formulaire > endpoint https://forminit.com/f/XXXXXXXX
+// → colle juste la partie XXXXXXXX ci-dessous, pas l'URL complète).
+const FORMINIT_FORM_ID = "a0s7wffxoty";
+
+// Site Key Turnstile : Turnstile a été retiré (bug côté Cloudflare — erreur 400020 reproductible
+// même sur un widget flambant neuf, en dehors de tout contrôle côté site, voir historique). La
+// protection anti-spam repose maintenant sur le honeypot ci-dessous (champ _gotcha dans le HTML
+// du formulaire) + le filtrage intégré de Forminit.
+
+// Taille maximale acceptée pour la photo envoyée (5 Mo) — vérifiée côté client avant l'envoi,
+// pour un retour immédiat à l'usager plutôt qu'un rejet côté serveur Forminit.
+const TAILLE_MAX_PHOTO = 5 * 1024 * 1024;
+
+const addPhotoForm = document.getElementById('add-photo-form');
+const addPhotoStatus = document.getElementById('add-photo-status');
+const addPhotoSubmitBtn = addPhotoForm ? addPhotoForm.querySelector('.add-photo-submit-btn') : null;
+
 window.ouvrirModaleAjoutPhoto = function (osmId, terrainTitre) {
     addPhotoTerrainName.textContent = terrainTitre || '';
     addPhotoModal.dataset.osmId = osmId || '';
     addPhotoModal.classList.add('open');
     addPhotoOverlay.classList.add('visible');
+
+    // Réinitialise le formulaire à chaque ouverture (sinon une soumission précédente, pour un
+    // autre terrain, pourrait laisser la modale dans un état "envoyé" ou "erreur").
+    if (addPhotoForm) {
+        addPhotoForm.reset();
+        addPhotoForm.style.display = '';
+        addPhotoForm.querySelector('[name="fi-text-terrain-osm-id"]').value = osmId || '';
+        addPhotoForm.querySelector('[name="fi-text-terrain-nom"]').value = terrainTitre || '';
+        addPhotoForm.querySelector('[name="fi-text-terrain-lien-osm"]').value = osmId
+            ? `https://www.openstreetmap.org/${osmId}`
+            : '';
+        if (addPhotoStatus) {
+            addPhotoStatus.textContent = '';
+            addPhotoStatus.className = 'add-photo-status';
+        }
+        if (addPhotoSubmitBtn) addPhotoSubmitBtn.disabled = false;
+    }
 };
+
+if (addPhotoForm) {
+    addPhotoForm.addEventListener('submit', function (evt) {
+        evt.preventDefault();
+
+        // Vérification de la taille du fichier AVANT l'envoi : évite un aller-retour réseau
+        // inutile (et un rejet côté serveur moins clair pour l'usager) si la photo dépasse la
+        // limite autorisée.
+        const fichierChoisi = addPhotoForm.querySelector('[name="fi-file-photo"]').files[0];
+        if (fichierChoisi && fichierChoisi.size > TAILLE_MAX_PHOTO) {
+            if (addPhotoStatus) {
+                addPhotoStatus.textContent = t('add_photo_error_too_large');
+                addPhotoStatus.className = 'add-photo-status error';
+            }
+            return;
+        }
+
+        if (addPhotoSubmitBtn) addPhotoSubmitBtn.disabled = true;
+        if (addPhotoStatus) {
+            addPhotoStatus.textContent = t('add_photo_sending');
+            addPhotoStatus.className = 'add-photo-status sending';
+        }
+
+        const donnees = new FormData(addPhotoForm);
+
+        // Renomme le fichier envoyé pour qu'il porte l'identification du terrain directement
+        // dans son nom (ex. way-1546238442_rue-de-la-siroperie.jpg) : un moyen de repérage
+        // fiable et immédiat en plus des champs texte fi-text-terrain-*, utile notamment quand
+        // on parcourt les pièces jointes reçues (voir club/ajouter_photo_manuelle.py).
+        const fichierPhoto = donnees.get('fi-file-photo');
+        if (fichierPhoto instanceof File) {
+            const osmIdPropre = (addPhotoForm.querySelector('[name="fi-text-terrain-osm-id"]').value || 'terrain')
+                .replace(/\//g, '-');
+            const nomPropre = (addPhotoForm.querySelector('[name="fi-text-terrain-nom"]').value || '')
+                .normalize('NFKD').replace(/[\u0300-\u036f]/g, '')  // retire les accents
+                .replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+            const extension = fichierPhoto.name.split('.').pop();
+            const nouveauNom = `${osmIdPropre}${nomPropre ? '_' + nomPropre : ''}.${extension}`;
+
+            donnees.set('fi-file-photo', new File([fichierPhoto], nouveauNom, { type: fichierPhoto.type }));
+        }
+
+        fetch(`https://forminit.com/f/${FORMINIT_FORM_ID}`, {
+            method: 'POST',
+            body: donnees,
+            headers: { 'Accept': 'application/json' }
+        })
+            .then(function (reponse) {
+                // Lit le corps de la réponse AVANT de décider si c'est une erreur : Forminit
+                // répond parfois avec un statut HTTP non-ok (400...) accompagné d'un JSON
+                // décrivant précisément la cause (ex. FI_DATA_VALIDATION) — utile dans la
+                // console pour diagnostiquer, plutôt qu'un simple "Réponse HTTP 400" muet.
+                return reponse.text().then(function (texte) {
+                    if (!reponse.ok) {
+                        throw new Error('Réponse HTTP ' + reponse.status + ' : ' + texte);
+                    }
+                    return texte;
+                });
+            })
+            .then(function () {
+                if (addPhotoStatus) {
+                    addPhotoStatus.textContent = t('add_photo_success');
+                    addPhotoStatus.className = 'add-photo-status success';
+                }
+                addPhotoForm.style.display = 'none';
+            })
+            .catch(function (erreur) {
+                console.error('Échec envoi formulaire photo :', erreur);
+                if (addPhotoStatus) {
+                    addPhotoStatus.textContent = t('add_photo_error');
+                    addPhotoStatus.className = 'add-photo-status error';
+                }
+                if (addPhotoSubmitBtn) addPhotoSubmitBtn.disabled = false;
+            });
+    });
+}
 
 function fermerModaleAjoutPhoto() {
     addPhotoModal.classList.remove('open');
