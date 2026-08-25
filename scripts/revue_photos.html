@@ -331,10 +331,14 @@ document.getElementById('telechargerPhotosMapillary').addEventListener('click', 
             ? extraireIdMapillary(decision.alternative)
             : terrain.candidat.id;
 
-        photosMapillary[cle] = {
+        // Liste (pas un objet unique) : ce fichier n'est aujourd'hui alimenté que par cet outil
+        // (donc toujours 1 seule photo par terrain à ce stade), mais garde le même format que
+        // celui utilisé par club/ajouter_photo_manuelle.py pour les ajouts ponctuels ultérieurs
+        // (plusieurs photos possibles par terrain avec le temps, via le futur formulaire).
+        photosMapillary[cle] = [{
             mapillary_id: idMapillary,
             credit_url: `https://www.mapillary.com/map/im/${idMapillary}`,
-        };
+        }];
     }));
 
     const nombre = Object.keys(photosMapillary).length;
