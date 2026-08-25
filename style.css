@@ -791,6 +791,19 @@ body.fullscreen-lock {
     }
 }
 
+/* Photo un peu moins haute sur mobile — allège le contenu total du popup, pour réduire le
+   besoin de défiler à l'intérieur (voir maxHeight du popup dans script.js) sur les petits
+   écrans, là où l'espace vertical disponible est le plus contraint. */
+@media (max-width: 600px) {
+    .popup-photo {
+        max-height: 100px;
+    }
+
+    .popup-photo-iframe {
+        height: 100px;
+    }
+}
+
 /* Panneau de partage (modal centré) */
 #share-overlay {
     display: none;
@@ -887,6 +900,94 @@ body.fullscreen-lock {
     text-decoration: none;
 }
 
+/* Barre de défilement plus fine et arrondie sur les fiches terrain (le plafond de 320px, voir
+   bindPopup dans script.js, rend le contenu défilable dès qu'il dépasse) — la barre par défaut
+   du navigateur est large et carrée, peu en phase avec le reste du design du site. */
+.leaflet-popup-content {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #c2c2c2 transparent;
+}
+
+.leaflet-popup-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.leaflet-popup-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.leaflet-popup-content::-webkit-scrollbar-thumb {
+    background: #c2c2c2;
+    border-radius: 999px;
+}
+
+.leaflet-popup-content::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Fiche terrain en plein écran sur mobile — le petit popup Leaflet reste inchangé (utile pour
+   desktop), mais sur mobile son CONTENU est déplacé (pas copié : mêmes nœuds DOM, écouteurs
+   d'événements déjà branchés conservés intacts) dans ce panneau séparé, en dehors de toute la
+   hiérarchie de calques transformés de Leaflet. Nécessaire car .leaflet-map-pane porte son
+   propre transform (translate3d), qui piège position:fixed sur tout descendant — impossible à
+   contourner en CSS pur depuis l'intérieur de cette hiérarchie (vérifié). Voir
+   ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. */
+@media (max-width: 600px) {
+    #mobile-sheet-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.35);
+        z-index: 1400;
+    }
+
+    #mobile-sheet-overlay.visible {
+        display: block;
+    }
+
+    #mobile-sheet {
+        display: none;
+        position: fixed;
+        inset: 0;
+        /* "inset:0" seul peut ne pas couvrir toute la hauteur réellement visible sur mobile
+           (barre d'adresse qui apparaît/disparaît en cours d'interaction) — hauteur explicite
+           en plus, avec repli sur dvh (tient compte des barres d'interface) quand le navigateur
+           le supporte, même principe déjà utilisé ailleurs sur le site (.map-view). */
+        height: 100vh;
+        height: 100dvh;
+        z-index: 1450;
+        background: white;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    #mobile-sheet.open {
+        display: block;
+    }
+
+    #mobile-sheet-close {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        width: 36px;
+        height: 36px;
+        border: none;
+        border-radius: 50%;
+        background: #f2f2f2;
+        font-size: 24px;
+        line-height: 36px;
+        text-align: center;
+        color: #333;
+        z-index: 1;
+    }
+
+    #mobile-sheet-content {
+        width: 100%;
+        padding: 60px 16px 24px;
+        box-sizing: border-box;
+    }
+}
+
 .popup-link-text {
     text-decoration: underline;
 }
@@ -924,6 +1025,203 @@ body.fullscreen-lock {
 .popup-photo-credit {
     font-size: 11px;
     color: #999;
+}
+
+/* Iframe d'embed Mapillary (voir construireContenuPopupTerrain) : même gabarit que .popup-photo,
+   mais nécessite une hauteur explicite (une iframe n'a pas de ratio intrinsèque comme une image). */
+.popup-photo-iframe {
+    height: 140px;
+    border: none;
+    /* Laisse remonter le geste de défilement vertical au panneau parent plutôt que de le
+       laisser capturé par l'iframe (contenu interactif d'un autre domaine) — sans ça, un
+       glissé démarré sur la photo peut bloquer le défilement du reste de la fiche sur mobile. */
+    touch-action: pan-y;
+}
+
+/* Bouton "agrandir" superposé à chaque photo (voir avecBoutonAgrandir dans script.js) — même
+   traitement pour une <img> classique ou l'iframe Mapillary, cette dernière ne pouvant pas être
+   rendue cliquable directement (contenu d'un autre domaine). */
+.popup-photo-wrap {
+    position: relative;
+}
+
+/* Zone cliquable couvrant toute la photo, sans indice visuel superposé (juste le curseur qui
+   change au survol) — sert aussi pour l'embed Mapillary, où on ne peut pas rendre l'iframe
+   elle-même cliquable (contenu d'un autre domaine). */
+.popup-photo-expand-zone {
+    position: absolute;
+    inset: 0;
+    display: block;
+    cursor: pointer;
+}
+
+/* Illustration de substitution quand un terrain n'a aucune photo, + bouton d'invitation à en
+   proposer une (ouvre #add-photo-modal, voir script.js). */
+.popup-photo-placeholder {
+    opacity: 0.85;
+    /* L'illustration doit se voir en entier (contrairement à une vraie photo, où recadrer les
+       bords passe inaperçu) — "cover" la déforme/coupe fortement une fois étirée sur toute la
+       largeur d'un écran mobile avec une hauteur fixe. */
+    object-fit: contain;
+    background: #f7f7f5;
+}
+
+.popup-photo-add-btn {
+    display: block;
+    width: 100%;
+    background: none;
+    border: 1px dashed #74C15A;
+    border-radius: 4px;
+    color: #74C15A;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 6px;
+    margin-bottom: 4px;
+    cursor: pointer;
+}
+
+.popup-photo-add-btn:hover {
+    background: rgba(116, 193, 90, 0.08);
+}
+
+/* Carrousel (2 photos ou plus) — voir brancherPhotosPopup dans script.js pour la logique de
+   navigation. Boutons précédent/suivant superposés sur la photo, discrets au repos. */
+.popup-photo-carousel {
+    position: relative;
+    margin-bottom: 4px;
+}
+
+.popup-photo-slide .popup-photo-credit {
+    display: block;
+    margin-top: 2px;
+}
+
+.popup-photo-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.45);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.popup-photo-nav.prev { left: 4px; }
+.popup-photo-nav.next { right: 4px; }
+
+.popup-photo-dots {
+    position: absolute;
+    bottom: 6px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+}
+
+.popup-photo-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.6);
+}
+
+.popup-photo-dot.active {
+    background: white;
+}
+
+/* ===================== Modale "Ajouter une photo" ===================== */
+/* Même schéma que #share-panel/#share-overlay, juste au-dessus. */
+#add-photo-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 1400;
+}
+
+#add-photo-overlay.visible {
+    display: block;
+}
+
+#add-photo-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1450;
+
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    padding: 25px;
+    width: 380px;
+    max-width: 88vw;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+#add-photo-modal.open {
+    display: block;
+}
+
+#add-photo-close {
+    float: right;
+    border: none;
+    background: none;
+    font-size: 22px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.add-photo-title {
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0 0 4px;
+    clear: both;
+}
+
+.add-photo-terrain-name {
+    font-size: 13px;
+    color: #74C15A;
+    font-weight: bold;
+    margin: 0 0 16px;
+}
+
+.add-photo-intro {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.5;
+    margin: 0 0 14px;
+}
+
+.add-photo-osm-savvy {
+    font-size: 12.5px;
+    color: #777;
+    line-height: 1.5;
+    background: #f7f7f7;
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin: 0 0 16px;
+}
+
+#add-photo-form-zone {
+    border-top: 1px solid #eee;
+    padding-top: 16px;
+}
+
+.add-photo-form-placeholder {
+    font-size: 13px;
+    color: #999;
+    font-style: italic;
+    text-align: center;
+    margin: 0;
 }
 
 /* Marqueur de position utilisateur */

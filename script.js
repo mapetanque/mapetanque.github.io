@@ -735,6 +735,30 @@ shareCopyBtn.addEventListener('click', function () {
     });
 });
 
+
+// ===================== Modale "Ajouter une photo" =====================
+// Même schéma que le panneau de partage ci-dessus (#share-panel/#share-overlay). Ouverte depuis
+// le bouton "Ajouter une photo" d'une popup de terrain sans photo — voir brancherPhotosPopup.
+const addPhotoOverlay = document.getElementById('add-photo-overlay');
+const addPhotoModal = document.getElementById('add-photo-modal');
+const addPhotoTerrainName = document.getElementById('add-photo-terrain-name');
+
+window.ouvrirModaleAjoutPhoto = function (osmId, terrainTitre) {
+    addPhotoTerrainName.textContent = terrainTitre || '';
+    addPhotoModal.dataset.osmId = osmId || '';
+    addPhotoModal.classList.add('open');
+    addPhotoOverlay.classList.add('visible');
+};
+
+function fermerModaleAjoutPhoto() {
+    addPhotoModal.classList.remove('open');
+    addPhotoOverlay.classList.remove('visible');
+}
+
+document.getElementById('add-photo-close').addEventListener('click', fermerModaleAjoutPhoto);
+addPhotoOverlay.addEventListener('click', fermerModaleAjoutPhoto);
+
+
 // Fonction globale appelée depuis le lien "Partager" de chaque popup de terrain
 window.partagerTerrain = function (lat, lon, titre) {
     const url = window.location.origin + window.location.pathname
@@ -862,19 +886,106 @@ function construireContenuPopupTerrain(feature, layer) {
         filAriane = `<div class="popup-breadcrumb"><a href="/province-bruxelles.html">${t('geo_region_bruxelles')}</a>${communeNom}</div>`;
     }
 
-    // Photo du terrain (issue d'un tag OSM image=/wikimedia_commons=/mapillary=
-    // renseigné manuellement par un mappeur — voir resoudre_photo() dans
-    // update_terrains.py). Absente pour la grande majorité des terrains pour
-    // l'instant, purement additive quand elle existe.
-    let photo = "";
+    // Photo(s) du terrain — deux sources possibles, combinées :
+    // 1) Un tag OSM image=/wikimedia_commons=/mapillary= renseigné par un mappeur (résolu par
+    //    resoudre_photo() dans update_terrains.py) — affichée en <img> classique.
+    // 2) Une entrée dans data/photos_mapillary.json (validée manuellement via l'outil de revue,
+    //    voir generer_revue_photos.py) — affichée via l'embed officiel Mapillary
+    //    (mapillary.com/embed?image_key=...), plutôt qu'une URL d'image directe : les URLs de
+    //    vignettes Mapillary expirent au bout d'un moment, l'embed évite ce problème et ne
+    //    nécessite aucun token côté client.
+    // Remarque : pas de détection de doublon entre les deux sources pour l'instant (cas rare vu
+    // qu'aucun terrain n'a aujourd'hui de tag mapillary= OSM ET une entrée validée à la fois) —
+    // à revoir si ça devient un cas fréquent.
+    const diapositives = [];
+    const terrainLat = layer.getLatLng().lat;
+    const terrainLon = layer.getLatLng().lng;
+
     if (tags.photo_url) {
         let credit = "";
         if (tags.photo_source === 'wikimedia_commons') {
-            credit = `<br><a href="${tags.photo_credit_url}" target="_blank" rel="noopener" class="popup-photo-credit">${t('popup_photo_credit_wikimedia')}</a>`;
+            credit = t('popup_photo_credit_wikimedia');
         } else if (tags.photo_source === 'mapillary') {
-            credit = `<br><a href="${tags.photo_credit_url}" target="_blank" rel="noopener" class="popup-photo-credit">${t('popup_photo_credit_mapillary')}</a>`;
+            credit = t('popup_photo_credit_mapillary');
         }
-        photo = `<img src="${tags.photo_url}" alt="" class="popup-photo" loading="lazy">${credit}<br>`;
+        diapositives.push({
+            type: 'img',
+            html: `<img src="${tags.photo_url}" alt="" class="popup-photo" loading="lazy">`,
+            creditUrl: tags.photo_credit_url,
+            creditLabel: credit,
+        });
+    }
+
+    // Photos validées manuellement (une ou plusieurs — voir data/photos_mapillary.json, qui
+    // stocke désormais une LISTE par terrain plutôt qu'une entrée unique, pour accueillir aussi
+    // bien les photos retenues via l'outil de revue que celles ajoutées au coup par coup plus
+    // tard via club/ajouter_photo_manuelle.py, sans limite de nombre).
+    const photosValidees = tags.osm_id && window.photosMapillaryParOsmId
+        ? (window.photosMapillaryParOsmId[tags.osm_id] || [])
+        : [];
+    photosValidees.forEach(function (entree) {
+        diapositives.push({
+            type: 'iframe',
+            html: `<iframe src="https://www.mapillary.com/embed?image_key=${entree.mapillary_id}&style=photo" class="popup-photo popup-photo-iframe" loading="lazy" frameborder="0" scrolling="no"></iframe>`,
+            // Construit ici plutôt que réutiliser entree.credit_url tel quel : ce dernier
+            // (mapillary.com/map/im/ID) ouvre la vue carte avec la photo en vignette, pas la
+            // photo en plein cadre — focus=photo donne directement la bonne vue.
+            creditUrl: `https://www.mapillary.com/app/?pKey=${entree.mapillary_id}&lat=${terrainLat}&lng=${terrainLon}&z=17&focus=photo`,
+            creditLabel: t('popup_photo_credit_mapillary'),
+        });
+    });
+
+    // Zone "agrandir" couvrant toute la photo (pas juste un petit bouton dans un coin), ouvrant
+    // la source d'origine dans un nouvel onglet — sert aussi pour l'embed Mapillary, où on ne
+    // peut pas rendre l'iframe elle-même cliquable (contenu d'un autre domaine, le navigateur
+    // bloque toute interaction depuis notre page — voir la discussion sur le same-origin plus
+    // haut dans nos échanges). La petite icône ⤢ dans le coin reste comme indice visuel, mais
+    // toute la zone .popup-photo-expand-zone est cliquable, pas seulement l'icône elle-même.
+    function avecBoutonAgrandir(d) {
+        return `<div class="popup-photo-wrap">${d.html}<a href="${d.creditUrl}" target="_blank" rel="noopener" class="popup-photo-expand-zone" aria-label="${t('popup_photo_expand')}"></a></div>`;
+    }
+
+    // Sous chaque photo : crédit classique pour une <img> (Wikimedia, ou Mapillary résolu via
+    // tag OSM — aucun des deux n'affiche d'habillage propre, contrairement à l'iframe ci-dessous,
+    // donc le crédit y reste nécessaire). Pour l'embed Mapillary (type 'iframe'), l'habillage
+    // affiché par Mapillary lui-même (auteur, date...) rend ce crédit redondant — remplacé par
+    // une invitation à ajouter une photo supplémentaire à la place.
+    function sousLaPhoto(d) {
+        if (d.type === 'iframe') {
+            return `<button type="button" class="popup-photo-add-btn" data-osm-id="${tags.osm_id || ''}" data-terrain-titre="${titre.replace(/"/g, '&quot;')}">${t('popup_photo_add')}</button>`;
+        }
+        return d.creditLabel
+            ? `<a href="${d.creditUrl}" target="_blank" rel="noopener" class="popup-photo-credit">${d.creditLabel}</a>`
+            : "";
+    }
+
+    let photo = "";
+    if (diapositives.length === 0) {
+        // Aucune photo : illustration de substitution + invitation à en proposer une (ouvre la
+        // modale #add-photo-modal, voir plus bas dans ce fichier pour son câblage).
+        photo = `
+        <img src="/images/pas-de-photo.webp" alt="" class="popup-photo popup-photo-placeholder" loading="lazy">
+        <button type="button" class="popup-photo-add-btn" data-osm-id="${tags.osm_id || ''}" data-terrain-titre="${titre.replace(/"/g, '&quot;')}">${t('popup_photo_add')}</button>
+        <br>`;
+    } else if (diapositives.length === 1) {
+        const d = diapositives[0];
+        photo = `${avecBoutonAgrandir(d)}${sousLaPhoto(d)}<br>`;
+    } else {
+        // Plusieurs photos : petit carrousel (flèches précédent/suivant), en JS natif — voir
+        // brancherCarrouselPhotos(), appelée juste après l'ouverture de la popup plus bas.
+        const diapositivesHtml = diapositives.map((d, i) => `
+            <div class="popup-photo-slide" data-index="${i}" style="${i === 0 ? '' : 'display:none;'}">
+                ${avecBoutonAgrandir(d)}
+                ${sousLaPhoto(d)}
+            </div>`).join('');
+        photo = `
+        <div class="popup-photo-carousel" data-total="${diapositives.length}">
+            ${diapositivesHtml}
+            <button type="button" class="popup-photo-nav prev" aria-label="${t('popup_photo_prev')}">‹</button>
+            <button type="button" class="popup-photo-nav next" aria-label="${t('popup_photo_next')}">›</button>
+            <div class="popup-photo-dots">${diapositives.map((_, i) => `<span class="popup-photo-dot${i === 0 ? ' active' : ''}"></span>`).join('')}</div>
+        </div>
+        <br>`;
     }
 
     let distance = "";
@@ -902,9 +1013,6 @@ function construireContenuPopupTerrain(feature, layer) {
         distance = `<br><span class="popup-icon">${ICON_PIN}</span> ${t('popup_distance_hint')}`;
 
     }
-
-    let terrainLat = layer.getLatLng().lat;
-    let terrainLon = layer.getLatLng().lng;
 
     let itineraire = `
     <br><br>
@@ -955,6 +1063,104 @@ function brancherPartagePopup(e, feature, layer) {
     };
 }
 window.brancherPartagePopup = brancherPartagePopup;
+
+
+// Branche le carrousel (si plusieurs photos) et le bouton "Ajouter une photo" (si aucune) d'une
+// popup de terrain — voir la construction du HTML correspondant dans construireContenuPopupTerrain.
+function brancherPhotosPopup(e) {
+    const conteneur = e.popup.getElement();
+
+    // Carrousel (2 photos ou plus)
+    const carrousel = conteneur.querySelector('.popup-photo-carousel');
+    if (carrousel) {
+        const diapositives = carrousel.querySelectorAll('.popup-photo-slide');
+        const points = carrousel.querySelectorAll('.popup-photo-dot');
+        let indexActuel = 0;
+
+        function afficherDiapositive(index) {
+            diapositives.forEach((d, i) => { d.style.display = i === index ? '' : 'none'; });
+            points.forEach((p, i) => p.classList.toggle('active', i === index));
+            indexActuel = index;
+        }
+
+        const total = diapositives.length;
+        carrousel.querySelector('.popup-photo-nav.prev').addEventListener('click', function (evt) {
+            evt.preventDefault();
+            afficherDiapositive((indexActuel - 1 + total) % total);
+        });
+        carrousel.querySelector('.popup-photo-nav.next').addEventListener('click', function (evt) {
+            evt.preventDefault();
+            afficherDiapositive((indexActuel + 1) % total);
+        });
+    }
+
+    // Bouton(s) "Ajouter une photo" — soit celui de l'illustration de substitution (aucune photo),
+    // soit un par diapositive Mapillary dans un carrousel (voir sousLaPhoto dans
+    // construireContenuPopupTerrain) : peut donc y en avoir plusieurs à la fois, tous branchés.
+    conteneur.querySelectorAll('.popup-photo-add-btn').forEach(function (boutonAjouter) {
+        boutonAjouter.addEventListener('click', function (evt) {
+            evt.preventDefault();
+            window.ouvrirModaleAjoutPhoto(boutonAjouter.dataset.osmId, boutonAjouter.dataset.terrainTitre);
+        });
+    });
+}
+window.brancherPhotosPopup = brancherPhotosPopup;
+
+
+// ===================== Fiche terrain plein écran (mobile) =====================
+// Sur mobile, .leaflet-map-pane porte son propre transform (translate3d) — ça piège
+// position:fixed sur tout élément qui en descend, impossible à contourner en CSS pur (vérifié).
+// Solution : le contenu du popup Leaflet est DÉPLACÉ (pas copié — mêmes nœuds DOM, donc les
+// écouteurs d'événements déjà branchés par brancherPartagePopup/brancherPhotosPopup restent
+// valides) dans ce panneau séparé, en dehors de toute la hiérarchie de calques de Leaflet.
+const mobileSheet = document.getElementById('mobile-sheet');
+const mobileSheetOverlay = document.getElementById('mobile-sheet-overlay');
+const mobileSheetContent = document.getElementById('mobile-sheet-content');
+const mobileSheetClose = document.getElementById('mobile-sheet-close');
+
+const SEUIL_MOBILE = 600; // même valeur que le point de bascule CSS @media (max-width: 600px)
+
+function estMobile() {
+    return window.innerWidth <= SEUIL_MOBILE;
+}
+
+function ouvrirFicheMobileTerrain(noeudContenuPopup) {
+    if (!mobileSheet || !mobileSheetContent) return;
+    // Efface TOUS les styles inline que Leaflet a posés sur ce nœud pour le petit popup ancré
+    // desktop (largeur figée, plafond de hauteur, overflow...) — plutôt que d'en neutraliser un
+    // par un au fil des bugs trouvés, on repart d'une page blanche : ce nœud n'a plus besoin
+    // d'aucun de ces réglages une fois accueilli dans le panneau plein écran, qui gère lui-même
+    // sa propre largeur/hauteur/défilement.
+    noeudContenuPopup.removeAttribute('style');
+    mobileSheetContent.innerHTML = '';
+    mobileSheetContent.appendChild(noeudContenuPopup);
+    mobileSheet.classList.add('open');
+    mobileSheetOverlay.classList.add('visible');
+}
+
+function fermerFicheMobileTerrain() {
+    if (!mobileSheet) return;
+    mobileSheet.classList.remove('open');
+    mobileSheetOverlay.classList.remove('visible');
+    mobileSheetContent.innerHTML = '';
+}
+
+if (mobileSheetClose) {
+    mobileSheetClose.addEventListener('click', function () {
+        fermerFicheMobileTerrain();
+        map.closePopup();
+    });
+}
+if (mobileSheetOverlay) {
+    mobileSheetOverlay.addEventListener('click', function () {
+        fermerFicheMobileTerrain();
+        map.closePopup();
+    });
+}
+
+window.estMobile = estMobile;
+window.ouvrirFicheMobileTerrain = ouvrirFicheMobileTerrain;
+window.fermerFicheMobileTerrain = fermerFicheMobileTerrain;
 
 
 // ===================== Contenu des popups de club affilié =====================
@@ -1122,10 +1328,37 @@ fetch('/data/terrains.geojson')
 
                 layer.bindPopup(function () {
                     return construireContenuPopupTerrain(feature, layer);
+                }, {
+                    // Empêche le popup de grandir indéfiniment (desktop) — sans effet sur
+                    // mobile, où le contenu est de toute façon déplacé dans le panneau plein
+                    // écran (voir ouvrirFicheMobileTerrain plus bas).
+                    maxHeight: 320,
+                    // Sur mobile, le popup Leaflet original reste minuscule et invisible (son
+                    // contenu est déplacé ailleurs) — inutile donc que Leaflet déplace la carte
+                    // pour le faire apparaître à l'écran. Ce recentrage automatique semble être
+                    // la cause du bug "s'ouvre et se ferme aussitôt" observé sur mobile.
+                    autoPan: !estMobile(),
                 });
 
                 layer.on('popupopen', function (e) {
                     brancherPartagePopup(e, feature, layer);
+                    brancherPhotosPopup(e);
+
+                    // Doit venir APRÈS le câblage ci-dessus : on déplace les mêmes nœuds DOM
+                    // (pas une copie), donc les écouteurs déjà attachés restent valides une fois
+                    // le contenu basculé dans le panneau plein écran mobile.
+                    if (estMobile()) {
+                        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
+                        if (noeudContenu) {
+                            ouvrirFicheMobileTerrain(noeudContenu);
+                        }
+                    }
+                });
+
+                layer.on('popupclose', function () {
+                    if (estMobile()) {
+                        fermerFicheMobileTerrain();
+                    }
                 });
 
             }
@@ -1148,6 +1381,22 @@ fetch('/data/terrains.geojson')
     });
 
 } // fin du if (!window.MAPETANQUE_SKIP_DEFAULT_MARKERS)
+
+
+// ===================== Chargement des photos Mapillary validées manuellement =====================
+// Association simple osm_id -> {mapillary_id, credit_url}, produite par l'outil de revue
+// (voir club/generer_revue_photos.py côté scripts). Fichier optionnel : son absence (site tout
+// juste mis à jour, avant le premier dépôt de ce fichier) ne doit rien casser.
+window.photosMapillaryParOsmId = {};
+fetch('/data/photos_mapillary.json')
+    .then(response => response.json())
+    .then(data => {
+        window.photosMapillaryParOsmId = data;
+    })
+    .catch(() => {
+        // Fichier absent ou invalide : les popups fonctionnent normalement, juste sans photo
+        // supplémentaire en plus de celle éventuellement déjà présente via un tag OSM.
+    });
 
 
 // ===================== Chargement des clubs affiliés =====================

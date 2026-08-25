@@ -512,6 +512,27 @@
     </div>
 </div>
 
+<!-- Modale "Ajouter une photo", ouverte depuis le bouton correspondant dans une popup de
+     terrain sans photo (voir brancherPhotosPopup dans script.js). Structure calquée sur
+     #share-panel/#share-overlay ci-dessus. -->
+<div id="add-photo-overlay"></div>
+<div id="add-photo-modal">
+    <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
+    <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
+    <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
+
+    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
+
+    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
+
+    <div id="add-photo-form-zone">
+        <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
+        <p class="add-photo-form-placeholder" data-i18n="add_photo_modal_form_placeholder">Formulaire d'envoi à venir prochainement.</p>
+    </div>
+</div>
+
+
+
 <div class="rules-content compteur-page-content">
 
 <div class="compteur-widget" id="compteurWidget">
