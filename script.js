@@ -1228,7 +1228,7 @@ const mobileSheetOverlay = document.getElementById('mobile-sheet-overlay');
 const mobileSheetContent = document.getElementById('mobile-sheet-content');
 const mobileSheetClose = document.getElementById('mobile-sheet-close');
 
-const SEUIL_MOBILE = 600; // même valeur que le point de bascule CSS @media (max-width: 600px)
+const SEUIL_MOBILE = 1024; // même point de bascule que le menu burger — voir @media (max-width: 1024px) dans style.css
 
 function estMobile() {
     return window.innerWidth <= SEUIL_MOBILE;

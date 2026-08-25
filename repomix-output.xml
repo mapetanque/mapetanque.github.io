@@ -28137,10 +28137,6 @@ print(f"✓ {len(features)} terrains mis à jour")
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -28919,10 +28915,6 @@ print(f"✓ {len(features)} terrains mis à jour")
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -29590,10 +29582,6 @@ print(f"✓ {len(features)} terrains mis à jour")
     <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
-
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
@@ -30373,10 +30361,6 @@ print(f"✓ {len(features)} terrains mis à jour")
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -31044,10 +31028,6 @@ print(f"✓ {len(features)} terrains mis à jour")
     <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
-
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
@@ -31826,10 +31806,6 @@ print(f"✓ {len(features)} terrains mis à jour")
     <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
-
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
@@ -33429,10 +33405,6 @@ body {
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -34471,10 +34443,6 @@ body {
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -35010,10 +34978,6 @@ body {
     <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
-
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
@@ -35551,10 +35515,6 @@ body {
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -36090,10 +36050,6 @@ body {
     <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
-
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
@@ -36805,10 +36761,6 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -37345,10 +37297,6 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -37880,10 +37828,6 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -38332,10 +38276,6 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
-
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
@@ -38946,10 +38886,6 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
-
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
@@ -39624,10 +39560,6 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -40301,10 +40233,6 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -40972,10 +40900,6 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
-
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
@@ -41650,10 +41574,6 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -42326,10 +42246,6 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
-
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
@@ -43004,10 +42920,6 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -43680,10 +43592,6 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
-
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
@@ -44358,10 +44266,6 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -45034,10 +44938,6 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
-
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
@@ -45712,10 +45612,6 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -46388,10 +46284,6 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
-
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
@@ -47066,10 +46958,6 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -47737,10 +47625,6 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
-
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
@@ -48415,10 +48299,6 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -49091,10 +48971,6 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
-
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
@@ -49769,10 +49645,6 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -50445,10 +50317,6 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
-
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
@@ -51123,10 +50991,6 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -51800,10 +51664,6 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -52473,10 +52333,6 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
-
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
@@ -53674,10 +53530,6 @@ if __name__ == "__main__":
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -54350,10 +54202,6 @@ if __name__ == "__main__":
     <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
-
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
@@ -55028,10 +54876,6 @@ if __name__ == "__main__":
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -55704,10 +55548,6 @@ if __name__ == "__main__":
     <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
-
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
@@ -56382,10 +56222,6 @@ if __name__ == "__main__":
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -57059,10 +56895,6 @@ if __name__ == "__main__":
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -57730,10 +57562,6 @@ if __name__ == "__main__":
     <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
-
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
@@ -58408,10 +58236,6 @@ if __name__ == "__main__":
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -59084,10 +58908,6 @@ if __name__ == "__main__":
     <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
-
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
@@ -59762,10 +59582,6 @@ if __name__ == "__main__":
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -60438,10 +60254,6 @@ if __name__ == "__main__":
     <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
-
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
@@ -61116,10 +60928,6 @@ if __name__ == "__main__":
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
 
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
-
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
         <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
@@ -61792,10 +61600,6 @@ if __name__ == "__main__":
     <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
-
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
@@ -64398,10 +64202,6 @@ footer a:hover {
     <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
     <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
     <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
-
-    <p class="add-photo-intro" data-i18n="add_photo_modal_intro">Ce terrain n'a pas encore de photo. Vous en avez une ? Proposez-la, elle sera vérifiée avant publication.</p>
-
-    <p class="add-photo-osm-savvy" data-i18n="add_photo_modal_osm_savvy">Vous êtes déjà familier avec OpenStreetMap ou Mapillary ? N'hésitez pas à ajouter directement votre photo sur l'un de ces deux sites plutôt que de passer par ce formulaire — elle sera automatiquement reprise sur Mapetanque.be.</p>
 
     <div id="add-photo-form-zone">
         <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->

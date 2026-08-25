@@ -932,7 +932,7 @@ body.fullscreen-lock {
    propre transform (translate3d), qui piège position:fixed sur tout descendant — impossible à
    contourner en CSS pur depuis l'intérieur de cette hiérarchie (vérifié). Voir
    ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. */
-@media (max-width: 600px) {
+@media (max-width: 1024px) {
     #mobile-sheet-overlay {
         display: none;
         position: fixed;
@@ -1191,23 +1191,6 @@ body.fullscreen-lock {
     font-size: 13px;
     color: #74C15A;
     font-weight: bold;
-    margin: 0 0 16px;
-}
-
-.add-photo-intro {
-    font-size: 14px;
-    color: #444;
-    line-height: 1.5;
-    margin: 0 0 14px;
-}
-
-.add-photo-osm-savvy {
-    font-size: 12.5px;
-    color: #777;
-    line-height: 1.5;
-    background: #f7f7f7;
-    border-radius: 6px;
-    padding: 10px 12px;
     margin: 0 0 16px;
 }
 

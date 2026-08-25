@@ -18,8 +18,8 @@ QUERY = """
 area["ISO3166-1"="BE"]["admin_level"="2"]->.belgique;
 
 (
-  nwr["leisure"="pitch"]["sport"="boules"](area.belgique);
-  nwr["leisure"="pitch"]["sport"="petanque"](area.belgique);
+  nwr["leisure"="pitch"]["sport"="boules"]["access"!~"^(private|customers|no)$"](area.belgique);
+  nwr["leisure"="pitch"]["sport"="petanque"]["access"!~"^(private|customers|no)$"](area.belgique);
 );
 
 out center tags;
@@ -446,3 +446,4 @@ if sans_region > 0:
 
 
 print(f"✓ {len(features)} terrains mis à jour")
+</file>
