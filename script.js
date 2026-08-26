@@ -1426,6 +1426,66 @@ fetch('/data/terrains.geojson')
         // comptages (data/stats_geo.json) sont eux aussi déjà arrivés
         construireStatsGeo();
 
+
+// Branche (ou rebranche) la popup Leaflet d'un terrain : construit son contenu, câble le partage
+// et les photos, et sur mobile bascule ce contenu dans la fiche plein écran.
+//
+// Piège corrigé ici : Leaflet réutilise en interne la MÊME instance de popup d'une ouverture à
+// l'autre (il ne reconstruit sa structure interne — .leaflet-popup-content, etc. — que si aucun
+// conteneur n'existe déjà pour cette popup). Sur mobile, ouvrirFicheMobileTerrain() déplace le
+// contenu (pas une copie) vers la fiche plein écran, ce qui vide l'enveloppe interne de Leaflet.
+// Sans le unbindPopup()/rebind ci-dessous, une deuxième ouverture du même terrain réaffichait donc
+// cette enveloppe désormais vide (juste la pointe et la croix, sans contenu). On repart ici d'une
+// popup neuve à chaque fermeture, pour repartir d'un contenu frais à chaque ouverture — d'où
+// layer.once() plutôt que layer.on() : chaque rebind ré-arme des écouteurs à usage unique, sans
+// jamais les empiler.
+function brancherPopupTerrain(layer, feature) {
+    layer.bindPopup(function () {
+        return construireContenuPopupTerrain(feature, layer);
+    }, {
+        // Empêche le popup de grandir indéfiniment (desktop) — sans effet sur mobile, où le
+        // contenu est de toute façon déplacé dans le panneau plein écran (voir
+        // ouvrirFicheMobileTerrain plus bas).
+        maxHeight: 320,
+        // Sur mobile, le popup Leaflet original reste minuscule et invisible (son contenu est
+        // déplacé ailleurs) — inutile donc que Leaflet déplace la carte pour le faire apparaître
+        // à l'écran. Ce recentrage automatique semble être la cause du bug "s'ouvre et se ferme
+        // aussitôt" observé sur mobile.
+        autoPan: !estMobile(),
+    });
+
+    layer.once('popupopen', function (e) {
+        brancherPartagePopup(e, feature, layer);
+        brancherPhotosPopup(e);
+
+        // Doit venir APRÈS le câblage ci-dessus : on déplace les mêmes nœuds DOM (pas une
+        // copie), donc les écouteurs déjà attachés restent valides une fois le contenu basculé
+        // dans le panneau plein écran mobile.
+        if (estMobile()) {
+            const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
+            if (noeudContenu) {
+                ouvrirFicheMobileTerrain(noeudContenu);
+            }
+        }
+    });
+
+    layer.once('popupclose', function () {
+        if (estMobile()) {
+            fermerFicheMobileTerrain();
+        }
+        // setTimeout(…, 0) plutôt qu'un appel immédiat : rebinder à chaud, pendant que Leaflet
+        // est encore en train de finaliser la fermeture de l'ancienne popup, provoquait une
+        // popup fantôme (juste la croix, coincée en haut à gauche de la carte, jamais
+        // positionnée sur son terrain). On laisse Leaflet terminer son propre cycle de fermeture
+        // avant de reconstruire.
+        setTimeout(function () {
+            layer.unbindPopup();
+            brancherPopupTerrain(layer, feature);
+        }, 0);
+    });
+}
+window.brancherPopupTerrain = brancherPopupTerrain;
+
         L.geoJSON(data, {
 
             pointToLayer: function(feature, latlng) {
@@ -1435,43 +1495,9 @@ fetch('/data/terrains.geojson')
             },
 
             onEachFeature: function(feature, layer) {
-
-                layer.bindPopup(function () {
-                    return construireContenuPopupTerrain(feature, layer);
-                }, {
-                    // Empêche le popup de grandir indéfiniment (desktop) — sans effet sur
-                    // mobile, où le contenu est de toute façon déplacé dans le panneau plein
-                    // écran (voir ouvrirFicheMobileTerrain plus bas).
-                    maxHeight: 320,
-                    // Sur mobile, le popup Leaflet original reste minuscule et invisible (son
-                    // contenu est déplacé ailleurs) — inutile donc que Leaflet déplace la carte
-                    // pour le faire apparaître à l'écran. Ce recentrage automatique semble être
-                    // la cause du bug "s'ouvre et se ferme aussitôt" observé sur mobile.
-                    autoPan: !estMobile(),
-                });
-
-                layer.on('popupopen', function (e) {
-                    brancherPartagePopup(e, feature, layer);
-                    brancherPhotosPopup(e);
-
-                    // Doit venir APRÈS le câblage ci-dessus : on déplace les mêmes nœuds DOM
-                    // (pas une copie), donc les écouteurs déjà attachés restent valides une fois
-                    // le contenu basculé dans le panneau plein écran mobile.
-                    if (estMobile()) {
-                        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
-                        if (noeudContenu) {
-                            ouvrirFicheMobileTerrain(noeudContenu);
-                        }
-                    }
-                });
-
-                layer.on('popupclose', function () {
-                    if (estMobile()) {
-                        fermerFicheMobileTerrain();
-                    }
-                });
-
+                brancherPopupTerrain(layer, feature);
             }
+
 
         }).addTo(markers);
 

@@ -804,6 +804,22 @@ body.fullscreen-lock {
     }
 }
 
+/* Dans la fiche plein écran (mobile/tablette), une hauteur figée en pixels (comme ci-dessus,
+   pensée pour le petit popup desktop) donne une photo de plus en plus "écrasée" à mesure que
+   l'écran s'élargit — flagrant sur tablette, où la fiche plein écran est bien plus large qu'un
+   téléphone mais la photo reste plafonnée à la même hauteur. Un ratio fixe résout ça : la photo
+   garde une proportion cohérente quelle que soit la largeur, tout en occupant toute la largeur
+   disponible comme avant. Remplace les règles au-dessus (spécificité de l'id #mobile-sheet-content
+   suffit à l'emporter, pas besoin de !important). */
+@media (max-width: 1024px) {
+    #mobile-sheet-content .popup-photo,
+    #mobile-sheet-content .popup-photo-iframe {
+        max-height: none;
+        height: auto;
+        aspect-ratio: 16 / 9;
+    }
+}
+
 /* Panneau de partage (modal centré) */
 #share-overlay {
     display: none;
@@ -900,16 +916,32 @@ body.fullscreen-lock {
     text-decoration: none;
 }
 
+/* Position de la croix de fermeture fixée explicitement (plutôt que de laisser le positionnement
+   par défaut de Leaflet, dont on ne maîtrise pas la géométrie interne exacte) — la barre de
+   défilement ci-dessous est calée sur cette même valeur de 12px, pour que les deux soient enfin
+   ancrées au même repère plutôt que de deviner chacune de son côté. */
+.leaflet-popup-close-button {
+    top: 10px !important;
+    right: 12px !important;
+}
+
 /* Barre de défilement plus fine et arrondie sur les fiches terrain (le plafond de 320px, voir
    bindPopup dans script.js, rend le contenu défilable dès qu'il dépasse) — la barre par défaut
-   du navigateur est large et carrée, peu en phase avec le reste du design du site. */
+   du navigateur est large et carrée, peu en phase avec le reste du design du site.
+   Marge droite calée sur le right:12px de la croix ci-dessus (voir commentaire), et padding-right
+   ajouté pour redonner de l'air entre le texte et la barre — sans ce padding, le texte touchait
+   quasiment le curseur.
+   Marge du haut légèrement augmentée pour que la barre démarre un peu plus bas que la croix de
+   fermeture plutôt que juste en dessous. */
 .leaflet-popup-content {
+    margin: 40px 12px 13px 20px;
+    padding-right: 8px;
     scrollbar-width: thin; /* Firefox */
-    scrollbar-color: #c2c2c2 transparent;
+    scrollbar-color: #d6d6d6 transparent;
 }
 
 .leaflet-popup-content::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
 }
 
 .leaflet-popup-content::-webkit-scrollbar-track {
@@ -917,12 +949,30 @@ body.fullscreen-lock {
 }
 
 .leaflet-popup-content::-webkit-scrollbar-thumb {
-    background: #c2c2c2;
+    background: #d6d6d6;
     border-radius: 999px;
 }
 
 .leaflet-popup-content::-webkit-scrollbar-thumb:hover {
-    background: #a8a8a8;
+    background: #b8b8b8;
+}
+
+/* Certains navigateurs (Edge/Chrome sous Windows notamment) affichent encore les petites flèches
+   natives en haut/bas de la barre — jamais alignées avec la croix de fermeture ni avec le reste
+   du design personnalisé ci-dessus, donc autant les retirer complètement plutôt que d'essayer de
+   les repositionner. */
+.leaflet-popup-content::-webkit-scrollbar-button {
+    display: none;
+}
+
+/* display:none posé ici, HORS media query, pour ces deux éléments : sans ça, au-delà de 1024px de
+   large, aucune règle ne s'applique du tout à eux (tout leur style vit dans le
+   @media (max-width: 1024px) ci-dessous) — #mobile-sheet-close, un <button> bien réel, se
+   retrouvait alors affiché tel quel dans le flux normal de la page (petite croix visible en haut
+   à gauche), puisque rien ne le cachait par défaut en desktop. */
+#mobile-sheet-overlay,
+#mobile-sheet {
+    display: none;
 }
 
 /* Fiche terrain en plein écran sur mobile — le petit popup Leaflet reste inchangé (utile pour
@@ -934,7 +984,6 @@ body.fullscreen-lock {
    ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. */
 @media (max-width: 1024px) {
     #mobile-sheet-overlay {
-        display: none;
         position: fixed;
         inset: 0;
         background: rgba(0,0,0,0.35);
@@ -946,7 +995,6 @@ body.fullscreen-lock {
     }
 
     #mobile-sheet {
-        display: none;
         position: fixed;
         inset: 0;
         /* "inset:0" seul peut ne pas couvrir toute la hauteur réellement visible sur mobile
