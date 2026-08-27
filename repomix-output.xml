@@ -28146,7 +28146,7 @@ print(f"✓ {len(features)} terrains mis à jour")
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -28924,7 +28924,7 @@ print(f"✓ {len(features)} terrains mis à jour")
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -29592,7 +29592,7 @@ print(f"✓ {len(features)} terrains mis à jour")
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -30370,7 +30370,7 @@ print(f"✓ {len(features)} terrains mis à jour")
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -31038,7 +31038,7 @@ print(f"✓ {len(features)} terrains mis à jour")
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -31816,7 +31816,7 @@ print(f"✓ {len(features)} terrains mis à jour")
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -33414,7 +33414,7 @@ body {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -34452,7 +34452,7 @@ body {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -34988,7 +34988,7 @@ body {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -35524,7 +35524,7 @@ body {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -36060,7 +36060,7 @@ body {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -36770,7 +36770,7 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -37306,7 +37306,7 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -37837,7 +37837,7 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -38286,7 +38286,7 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -38896,7 +38896,7 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -39569,7 +39569,7 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -40242,7 +40242,7 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -40910,7 +40910,7 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -41583,7 +41583,7 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -42256,7 +42256,7 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -42929,7 +42929,7 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -43602,7 +43602,7 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -44275,7 +44275,7 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -44948,7 +44948,7 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -45621,7 +45621,7 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -46294,7 +46294,7 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -46967,7 +46967,7 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -47635,7 +47635,7 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -48308,7 +48308,7 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -48981,7 +48981,7 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -49654,7 +49654,7 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -50327,7 +50327,7 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -51000,7 +51000,7 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -51673,7 +51673,7 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -52343,7 +52343,7 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -53539,7 +53539,7 @@ if __name__ == "__main__":
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -54212,7 +54212,7 @@ if __name__ == "__main__":
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -54885,7 +54885,7 @@ if __name__ == "__main__":
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -55558,7 +55558,7 @@ if __name__ == "__main__":
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -56231,7 +56231,7 @@ if __name__ == "__main__":
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -56904,7 +56904,7 @@ if __name__ == "__main__":
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -57572,7 +57572,7 @@ if __name__ == "__main__":
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -58245,7 +58245,7 @@ if __name__ == "__main__":
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -58918,7 +58918,7 @@ if __name__ == "__main__":
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -59591,7 +59591,7 @@ if __name__ == "__main__":
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -60264,7 +60264,7 @@ if __name__ == "__main__":
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -60937,7 +60937,7 @@ if __name__ == "__main__":
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -61610,7 +61610,7 @@ if __name__ == "__main__":
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -64212,7 +64212,7 @@ footer a:hover {
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
             <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
-            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">5 Mo maximum</span>
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
             <input type="email" name="fi-sender-email" class="add-photo-text-input">
@@ -64544,14 +64544,14 @@ const translations = {
         add_photo_modal_intro: "Vous avez une photo de ce terrain à partager ? Proposez-la, elle sera vérifiée avant publication.",
         add_photo_modal_osm_savvy: "Vous êtes déjà familier avec l'édition OpenStreetMap ? Ajoutez le tag mapillary= (ou wikimedia_commons=) sur le nœud de ce terrain, pointant vers une photo déjà présente sur Mapillary ou Wikimedia Commons — elle sera reprise automatiquement lors de notre prochaine mise à jour, sans passer par ce formulaire.",
         add_photo_field_photo_label: "Votre photo",
-        add_photo_file_hint: "5 Mo maximum",
+        add_photo_file_hint: "20 Mo maximum",
         add_photo_field_email_label: "Votre e-mail (facultatif, pour vous recontacter si besoin)",
         add_photo_checkbox_label: "J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).",
         add_photo_submit_btn: "Envoyer la photo",
         add_photo_sending: "Envoi en cours…",
         add_photo_success: "Merci ! Votre photo a bien été reçue, elle sera vérifiée avant publication.",
         add_photo_error: "Une erreur est survenue, réessayez ou écrivez-nous à mapetanque@outlook.be.",
-        add_photo_error_too_large: "Cette photo est trop volumineuse (5 Mo maximum), choisissez une photo plus légère.",
+        add_photo_error_too_large: "Cette photo est trop volumineuse (20 Mo maximum), choisissez une photo plus légère.",
         popup_itinerary: "Afficher l'itinéraire",
         popup_here: "Vous êtes ici",
         nearest_terrain_label: "Terrain le plus proche",

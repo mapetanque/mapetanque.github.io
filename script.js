@@ -752,9 +752,10 @@ const FORMINIT_FORM_ID = "a0s7wffxoty";
 // protection anti-spam repose maintenant sur le honeypot ci-dessous (champ _gotcha dans le HTML
 // du formulaire) + le filtrage intégré de Forminit.
 
-// Taille maximale acceptée pour la photo envoyée (5 Mo) — vérifiée côté client avant l'envoi,
-// pour un retour immédiat à l'usager plutôt qu'un rejet côté serveur Forminit.
-const TAILLE_MAX_PHOTO = 5 * 1024 * 1024;
+// Taille maximale acceptée pour la photo envoyée (20 Mo) — vérifiée côté client avant l'envoi,
+// pour un retour immédiat à l'usager plutôt qu'un rejet côté serveur Forminit. Marge confortable
+// sous le plafond de 25 Mo par soumission de Forminit (tous plans, y compris gratuit).
+const TAILLE_MAX_PHOTO = 20 * 1024 * 1024;
 
 const addPhotoForm = document.getElementById('add-photo-form');
 const addPhotoStatus = document.getElementById('add-photo-status');
