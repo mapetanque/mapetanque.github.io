@@ -106,8 +106,12 @@ const translations = {
                    "terrains proches de vous."
             },
             {
-                q: "Puis-je ajouter une photo, un avis ou des informations pratiques ?",
-                a: "Cette fonctionnalité est envisagée pour une prochaine évolution de Mapetanque.be."
+                q: "Pourquoi tous les terrains n'ont pas de photo et comment en ajouter une ?",
+                a: "Les photos des terrains proviennent principalement de Mapillary (une plateforme " +
+                   "collaborative de photos de rue). Si vous avez une photo d'un terrain, n'hésitez pas " +
+                   "à me l'envoyer via le lien \"Ajouter une photo ?\" disponible sur chaque fiche de " +
+                   "terrain ! Elle sera d'abord déposée sur Mapillary afin qu'elle puisse servir à tous, " +
+                   "puis un lien sera créé vers le site."
             },
             {
                 q: "Comment ajouter un terrain manquant ?",
@@ -169,6 +173,7 @@ const translations = {
         stats_loading: "Chargement des statistiques…",
         stats_unavailable: "Statistiques indisponibles",
         stats_count: (n) => `${n} terrain${n > 1 ? "s" : ""} recensé${n > 1 ? "s" : ""}`,
+        stats_photo_count: (n) => `${n} terrain${n > 1 ? "s" : ""} avec photo`,
         stats_last_update: "Mise à jour",
     },
 
@@ -279,8 +284,12 @@ const translations = {
                    "buurt te bekijken."
             },
             {
-                q: "Kan ik een foto, beoordeling of praktische informatie toevoegen?",
-                a: "Deze functie is gepland voor een toekomstige update van Mapetanque.be."
+                q: "Waarom hebben niet alle terreinen een foto en hoe voeg ik er een toe?",
+                a: "De foto's van de terreinen komen voornamelijk van Mapillary (een collaboratief " +
+                   "platform voor straatfoto's). Heeft u een foto van een terrein? Aarzel niet om ze " +
+                   "me te sturen via de link \"Foto toevoegen?\" die op elke terreinfiche beschikbaar " +
+                   "is! Ze wordt eerst op Mapillary geplaatst zodat ze voor iedereen bruikbaar is, en " +
+                   "er wordt vervolgens een link naar de site aangemaakt."
             },
             {
                 q: "Hoe voeg ik een ontbrekend terrein toe?",
@@ -344,6 +353,7 @@ const translations = {
         stats_loading: "Statistieken laden…",
         stats_unavailable: "Statistieken niet beschikbaar",
         stats_count: (n) => `${n} terrein${n > 1 ? "en" : ""} geregistreerd`,
+        stats_photo_count: (n) => `${n} terrein${n > 1 ? "en" : ""} met foto`,
         stats_last_update: "Update",
     },
 
@@ -455,8 +465,12 @@ const translations = {
                    "anzuzeigen und die Plätze in Ihrer Nähe zu sehen."
             },
             {
-                q: "Kann ich ein Foto, eine Bewertung oder praktische Informationen hinzufügen?",
-                a: "Diese Funktion ist für eine zukünftige Aktualisierung von Mapetanque.be geplant."
+                q: "Warum haben nicht alle Plätze ein Foto und wie kann ich eines hinzufügen?",
+                a: "Die Fotos der Plätze stammen hauptsächlich von Mapillary (einer kollaborativen " +
+                   "Plattform für Straßenfotos). Falls Sie ein Foto von einem Platz haben, senden Sie " +
+                   "es mir gerne über den Link \"Foto hinzufügen?\", der auf jeder Platzkarte verfügbar " +
+                   "ist! Es wird zunächst auf Mapillary hochgeladen, damit es allen zugutekommt, und " +
+                   "anschließend wird ein Link zur Seite erstellt."
             },
             {
                 q: "Wie füge ich einen fehlenden Platz hinzu?",
@@ -520,6 +534,7 @@ const translations = {
         stats_loading: "Statistiken werden geladen…",
         stats_unavailable: "Statistiken nicht verfügbar",
         stats_count: (n) => `${n} ${n > 1 ? "Plätze" : "Platz"} erfasst`,
+        stats_photo_count: (n) => `${n} ${n > 1 ? "Plätze" : "Platz"} mit Foto`,
         stats_last_update: "Aktualisiert",
     }
 

@@ -6,6 +6,9 @@ const ICON_SHARE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" s
 const ICON_UNLOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg>';
 const ICON_MAP_PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>';
 const ICON_CLOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>';
+// Icône appareil photo (même famille Feather que les deux ci-dessus — coins arrondis,
+// stroke-width 2, currentColor) pour le compteur "terrains avec photo" du footer.
+const ICON_PHOTO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>';
 const ICON_MAIL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>';
 const ICON_MAXIMIZE = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>';
 const ICON_MINIMIZE = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path></svg>';
@@ -1393,6 +1396,11 @@ fetch('/data/terrains.geojson')
         // Nombre de terrains recensés (pour le footer)
         afficherNombreTerrains(data.features.length);
 
+        // Terrains avec photo (pour le footer) — voir calculerTerrainsAvecPhoto() plus haut,
+        // qui attend aussi le chargement de data/photos_mapillary.json avant de compter.
+        terrainsFeaturesPourPhotos = data.features;
+        calculerTerrainsAvecPhoto();
+
         // Liste plate de tous les terrains, pour le calcul du plus proche (flèche hors écran)
         listeTousLesTerrains = data.features.map(function (feature) {
             return {
@@ -1529,10 +1537,15 @@ fetch('/data/photos_mapillary.json')
     .then(response => response.json())
     .then(data => {
         window.photosMapillaryParOsmId = data;
+        photosMapillaryChargees = true;
+        calculerTerrainsAvecPhoto();
     })
     .catch(() => {
         // Fichier absent ou invalide : les popups fonctionnent normalement, juste sans photo
-        // supplémentaire en plus de celle éventuellement déjà présente via un tag OSM.
+        // supplémentaire en plus de celle éventuellement déjà présente via un tag OSM. Le
+        // compteur "terrains avec photo" du footer se base alors uniquement sur les tags OSM.
+        photosMapillaryChargees = true;
+        calculerTerrainsAvecPhoto();
     });
 
 
@@ -2233,6 +2246,27 @@ let lastUpdateRaw = null; // objet Date brut, reformaté selon la langue active
 let comptageTermine = false;
 let dateTermine = false;
 
+// Nombre de terrains avec au moins une photo (footer) — dépend de deux chargements distincts
+// (terrains.geojson ET data/photos_mapillary.json, voir plus bas dans ce fichier), qui peuvent
+// se terminer dans n'importe quel ordre : on ne calcule qu'une fois les deux disponibles.
+let terrainsAvecPhotoCount = null;
+let terrainsFeaturesPourPhotos = null;
+let photosMapillaryChargees = false;
+
+function calculerTerrainsAvecPhoto() {
+    if (!terrainsFeaturesPourPhotos || !photosMapillaryChargees) return;
+
+    // Même critère "a une photo" que dans construireContenuPopupTerrain (deux sources
+    // combinées) : tag OSM déjà résolu en photo_url, ou entrée dans photos_mapillary.json.
+    terrainsAvecPhotoCount = terrainsFeaturesPourPhotos.filter(function (feature) {
+        const tags = feature.properties;
+        const photosValidees = tags.osm_id ? (window.photosMapillaryParOsmId[tags.osm_id] || []) : [];
+        return !!tags.photo_url || photosValidees.length > 0;
+    }).length;
+
+    mettreAJourStats();
+}
+
 function mettreAJourStats() {
     const statsEl = document.getElementById('site-stats');
     if (!statsEl) return;
@@ -2241,6 +2275,10 @@ function mettreAJourStats() {
 
     if (terrainsCount !== null) {
         parts.push(`<span class="footer-stats-icon">${ICON_MAP_PIN}</span> ${t('stats_count')(terrainsCount)}`);
+    }
+
+    if (terrainsAvecPhotoCount !== null) {
+        parts.push(`<span class="footer-stats-icon">${ICON_PHOTO}</span> ${t('stats_photo_count')(terrainsAvecPhotoCount)}`);
     }
 
     if (lastUpdateRaw !== null) {
