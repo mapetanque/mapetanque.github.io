@@ -305,15 +305,15 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">51</span>
+            <span class="province-stat-tile-number">44</span>
             <span class="province-stat-tile-label">geregistreerde terreinen</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">28</span>
+            <span class="province-stat-tile-number">24</span>
             <span class="province-stat-tile-label">gemeenten met terreinen</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">1,1</span>
+            <span class="province-stat-tile-number">1,0</span>
             <span class="province-stat-tile-label">terreinen per 100 km²</span>
         </div>
     </div>
@@ -324,7 +324,7 @@
     </div>
 
     <p class="province-intro">
-        De provincie Luxemburg telt <strong>51 petanquebanen</strong> op Mapetanque.be, verspreid over <strong>28 gemeenten</strong>. Aarlen, de hoofdplaats, staat op kop met 7 terreinen, voor Vielsalm met 6. Ze kan prat gaan op de geboorte van Claudy Weibel, tweevoudig wereldkampioen petanque, gekroond in triples in 2000 en in tête-à-tête in 2015. Historisch weetje: in 1961 werd aan de voet van de elektriciteitscentrale van Saint-Hubert een petanqueterrein van 3.000 m² aangelegd. Het gebouw werd in '82 volledig verwoest door brand, voordat het werd heropgebouwd.
+        De provincie Luxemburg telt <strong>44 petanquebanen</strong> op Mapetanque.be, verspreid over <strong>24 gemeenten</strong>. Aarlen, de hoofdplaats, staat op kop met 7 terreinen, voor Vielsalm met 6. Ze kan prat gaan op de geboorte van Claudy Weibel, tweevoudig wereldkampioen petanque, gekroond in triples in 2000 en in tête-à-tête in 2015. Historisch weetje: in 1961 werd aan de voet van de elektriciteitscentrale van Saint-Hubert een petanqueterrein van 3.000 m² aangelegd. Het gebouw werd in '82 volledig verwoest door brand, voordat het werd heropgebouwd.
     </p>
 
     <div class="province-communes-section">
@@ -515,32 +515,7 @@
                 const latlng = [coords[1], coords[0]];
                 const layer = L.marker(latlng, { icon: terrainMarkerIcon });
 
-                layer.bindPopup(function () {
-                    return window.construireContenuPopupTerrain(feature, layer);
-                }, {
-                    maxHeight: 320,
-                    // Voir le commentaire équivalent dans script.js : évite le recentrage
-                    // automatique de la carte sur mobile, probable cause du popup qui se
-                    // fermait aussitôt ouvert.
-                    autoPan: !window.estMobile(),
-                });
-                layer.on('popupopen', function (e) {
-                    window.brancherPartagePopup(e, feature, layer);
-                    window.brancherPhotosPopup(e);
-
-                    if (window.estMobile()) {
-                        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
-                        if (noeudContenu) {
-                            window.ouvrirFicheMobileTerrain(noeudContenu);
-                        }
-                    }
-                });
-
-                layer.on('popupclose', function () {
-                    if (window.estMobile()) {
-                        window.fermerFicheMobileTerrain();
-                    }
-                });
+                window.brancherPopupTerrain(layer, feature);
 
                 layer.addTo(groupe);
 

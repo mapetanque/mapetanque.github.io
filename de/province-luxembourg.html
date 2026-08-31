@@ -305,15 +305,15 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">51</span>
+            <span class="province-stat-tile-number">44</span>
             <span class="province-stat-tile-label">erfasste Plätze</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">28</span>
+            <span class="province-stat-tile-number">24</span>
             <span class="province-stat-tile-label">Gemeinden mit Plätzen</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">1,1</span>
+            <span class="province-stat-tile-number">1,0</span>
             <span class="province-stat-tile-label">Plätze pro 100 km²</span>
         </div>
     </div>
@@ -324,7 +324,7 @@
     </div>
 
     <p class="province-intro">
-        Die Provinz Luxemburg zählt <strong>51 Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>28 Gemeinden</strong>. Arlon, die Provinzhauptstadt, führt mit 7 Plätzen, vor Vielsalm mit 6. Sie kann sich rühmen, die Geburtsstadt von Claudy Weibel zu sein, zweifacher Pétanque-Weltmeister, Titelgewinn in der Dreiermannschaft 2000 und im Tête-à-tête 2015. Historische Anekdote: 1961 wurde am Fuß des Kraftwerks von Saint-Hubert ein 3.000 m² großer Bouleplatz angelegt. Das Gebäude wurde '82 durch einen Brand vollständig zerstört, bevor es wieder aufgebaut wurde.
+        Die Provinz Luxemburg zählt <strong>44 Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>24 Gemeinden</strong>. Arlon, die Provinzhauptstadt, führt mit 7 Plätzen, vor Vielsalm mit 6. Sie kann sich rühmen, die Geburtsstadt von Claudy Weibel zu sein, zweifacher Pétanque-Weltmeister, Titelgewinn in der Dreiermannschaft 2000 und im Tête-à-tête 2015. Historische Anekdote: 1961 wurde am Fuß des Kraftwerks von Saint-Hubert ein 3.000 m² großer Bouleplatz angelegt. Das Gebäude wurde '82 durch einen Brand vollständig zerstört, bevor es wieder aufgebaut wurde.
     </p>
 
     <div class="province-communes-section">
@@ -515,32 +515,7 @@
                 const latlng = [coords[1], coords[0]];
                 const layer = L.marker(latlng, { icon: terrainMarkerIcon });
 
-                layer.bindPopup(function () {
-                    return window.construireContenuPopupTerrain(feature, layer);
-                }, {
-                    maxHeight: 320,
-                    // Voir le commentaire équivalent dans script.js : évite le recentrage
-                    // automatique de la carte sur mobile, probable cause du popup qui se
-                    // fermait aussitôt ouvert.
-                    autoPan: !window.estMobile(),
-                });
-                layer.on('popupopen', function (e) {
-                    window.brancherPartagePopup(e, feature, layer);
-                    window.brancherPhotosPopup(e);
-
-                    if (window.estMobile()) {
-                        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
-                        if (noeudContenu) {
-                            window.ouvrirFicheMobileTerrain(noeudContenu);
-                        }
-                    }
-                });
-
-                layer.on('popupclose', function () {
-                    if (window.estMobile()) {
-                        window.fermerFicheMobileTerrain();
-                    }
-                });
+                window.brancherPopupTerrain(layer, feature);
 
                 layer.addTo(groupe);
 

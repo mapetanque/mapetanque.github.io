@@ -1425,6 +1425,64 @@ fetch('/data/terrains.geojson')
         calculerTerrainsAvecPhoto();
     });
 
+// Branche (ou rebranche) la popup Leaflet d'un terrain : construit son contenu, câble le partage
+// et les photos, et sur mobile bascule ce contenu dans la fiche plein écran.
+//
+// Piège corrigé ici : Leaflet réutilise en interne la MÊME instance de popup d'une ouverture à
+// l'autre (il ne reconstruit sa structure interne — .leaflet-popup-content, etc. — que si aucun
+// conteneur n'existe déjà pour cette popup). Sur mobile, ouvrirFicheMobileTerrain() déplace le
+// contenu (pas une copie) vers la fiche plein écran, ce qui vide l'enveloppe interne de Leaflet.
+// Sans le unbindPopup()/rebind ci-dessous, une deuxième ouverture du même terrain réaffichait donc
+// cette enveloppe désormais vide (juste la pointe et la croix, sans contenu). On repart ici d'une
+// popup neuve à chaque fermeture, pour repartir d'un contenu frais à chaque ouverture — d'où
+// layer.once() plutôt que layer.on() : chaque rebind ré-arme des écouteurs à usage unique, sans
+// jamais les empiler.
+//
+// IMPORTANT : définie ici, tout en haut, en dehors du bloc "if (!MAPETANQUE_SKIP_DEFAULT_MARKERS)"
+// juste en dessous — cette fonction est aussi appelée par les pages province/région (voir leurs
+// templates), qui définissent justement ce flag à true pour éviter le double-affichage des
+// marqueurs par défaut de la page d'accueil. Si elle était définie À L'INTÉRIEUR de ce bloc
+// conditionnel (bug corrigé ici), elle n'existerait tout simplement jamais sur ces pages-là,
+// pourtant celles qui en ont le plus besoin.
+function brancherPopupTerrain(layer, feature) {
+    layer.bindPopup(function () {
+        return construireContenuPopupTerrain(feature, layer);
+    }, {
+        // Le popup Leaflet original reste minuscule et invisible dans tous les cas (son contenu
+        // est toujours déplacé ailleurs, voir ouvrirFicheMobileTerrain plus haut) — inutile donc
+        // que Leaflet déplace la carte pour le faire apparaître à l'écran.
+        maxHeight: 320,
+        autoPan: false,
+    });
+
+    layer.once('popupopen', function (e) {
+        brancherPartagePopup(e, feature, layer);
+        brancherPhotosPopup(e);
+
+        // Doit venir APRÈS le câblage ci-dessus : on déplace les mêmes nœuds DOM (pas une
+        // copie), donc les écouteurs déjà attachés restent valides une fois le contenu basculé
+        // dans son panneau (plein écran mobile, ou fenêtre flottante desktop).
+        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
+        if (noeudContenu) {
+            ouvrirFicheMobileTerrain(noeudContenu);
+        }
+    });
+
+    layer.once('popupclose', function () {
+        fermerFicheMobileTerrain();
+        // setTimeout(…, 0) plutôt qu'un appel immédiat : rebinder à chaud, pendant que Leaflet
+        // est encore en train de finaliser la fermeture de l'ancienne popup, provoquait une
+        // popup fantôme (juste la croix, coincée en haut à gauche de la carte, jamais
+        // positionnée sur son terrain). On laisse Leaflet terminer son propre cycle de fermeture
+        // avant de reconstruire.
+        setTimeout(function () {
+            layer.unbindPopup();
+            brancherPopupTerrain(layer, feature);
+        }, 0);
+    });
+}
+window.brancherPopupTerrain = brancherPopupTerrain;
+
 if (!window.MAPETANQUE_SKIP_DEFAULT_MARKERS) {
 
 markers = L.markerClusterGroup({
@@ -1468,58 +1526,6 @@ fetch('/data/terrains.geojson')
         // Les données croisées commune/terrain sont prêtes : (re)construit l'entonnoir si les
         // comptages (data/stats_geo.json) sont eux aussi déjà arrivés
         construireStatsGeo();
-
-
-// Branche (ou rebranche) la popup Leaflet d'un terrain : construit son contenu, câble le partage
-// et les photos, et sur mobile bascule ce contenu dans la fiche plein écran.
-//
-// Piège corrigé ici : Leaflet réutilise en interne la MÊME instance de popup d'une ouverture à
-// l'autre (il ne reconstruit sa structure interne — .leaflet-popup-content, etc. — que si aucun
-// conteneur n'existe déjà pour cette popup). Sur mobile, ouvrirFicheMobileTerrain() déplace le
-// contenu (pas une copie) vers la fiche plein écran, ce qui vide l'enveloppe interne de Leaflet.
-// Sans le unbindPopup()/rebind ci-dessous, une deuxième ouverture du même terrain réaffichait donc
-// cette enveloppe désormais vide (juste la pointe et la croix, sans contenu). On repart ici d'une
-// popup neuve à chaque fermeture, pour repartir d'un contenu frais à chaque ouverture — d'où
-// layer.once() plutôt que layer.on() : chaque rebind ré-arme des écouteurs à usage unique, sans
-// jamais les empiler.
-function brancherPopupTerrain(layer, feature) {
-    layer.bindPopup(function () {
-        return construireContenuPopupTerrain(feature, layer);
-    }, {
-        // Le popup Leaflet original reste minuscule et invisible dans tous les cas (son contenu
-        // est toujours déplacé ailleurs, voir ouvrirFicheMobileTerrain plus haut) — inutile donc
-        // que Leaflet déplace la carte pour le faire apparaître à l'écran.
-        maxHeight: 320,
-        autoPan: false,
-    });
-
-    layer.once('popupopen', function (e) {
-        brancherPartagePopup(e, feature, layer);
-        brancherPhotosPopup(e);
-
-        // Doit venir APRÈS le câblage ci-dessus : on déplace les mêmes nœuds DOM (pas une
-        // copie), donc les écouteurs déjà attachés restent valides une fois le contenu basculé
-        // dans son panneau (plein écran mobile, ou fenêtre flottante desktop).
-        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
-        if (noeudContenu) {
-            ouvrirFicheMobileTerrain(noeudContenu);
-        }
-    });
-
-    layer.once('popupclose', function () {
-        fermerFicheMobileTerrain();
-        // setTimeout(…, 0) plutôt qu'un appel immédiat : rebinder à chaud, pendant que Leaflet
-        // est encore en train de finaliser la fermeture de l'ancienne popup, provoquait une
-        // popup fantôme (juste la croix, coincée en haut à gauche de la carte, jamais
-        // positionnée sur son terrain). On laisse Leaflet terminer son propre cycle de fermeture
-        // avant de reconstruire.
-        setTimeout(function () {
-            layer.unbindPopup();
-            brancherPopupTerrain(layer, feature);
-        }, 0);
-    });
-}
-window.brancherPopupTerrain = brancherPopupTerrain;
 
         L.geoJSON(data, {
 

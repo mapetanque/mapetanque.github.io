@@ -305,15 +305,15 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">159</span>
+            <span class="province-stat-tile-number">151</span>
             <span class="province-stat-tile-label">erfasste Plätze</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">69</span>
+            <span class="province-stat-tile-number">68</span>
             <span class="province-stat-tile-label">Gemeinden mit Plätzen</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">4,1</span>
+            <span class="province-stat-tile-number">3,9</span>
             <span class="province-stat-tile-label">Plätze pro 100 km²</span>
         </div>
     </div>
@@ -324,7 +324,7 @@
     </div>
 
     <p class="province-intro">
-        Die Provinz Lüttich zählt <strong>159 Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>69 Gemeinden</strong>. Die Stadt Lüttich kommt auf 25 Plätze, gefolgt von Eupen mit 8. Der frankophone belgische Pétanque-Verband (FBFP) hat seinen Sitz in der Rue Haute Marexhe in Herstal. In Herve entwickelte ein Enthusiast das „Boogle House“, eine Eventversion von Pétanque mit einer abbaubaren Kunststoffmatte und weichen Kugeln.
+        Die Provinz Lüttich zählt <strong>151 Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>68 Gemeinden</strong>. Die Stadt Lüttich kommt auf 25 Plätze, gefolgt von Eupen mit 8. Der frankophone belgische Pétanque-Verband (FBFP) hat seinen Sitz in der Rue Haute Marexhe in Herstal. In Herve entwickelte ein Enthusiast das „Boogle House“, eine Eventversion von Pétanque mit einer abbaubaren Kunststoffmatte und weichen Kugeln.
     </p>
 
     <div class="province-communes-section">
@@ -515,32 +515,7 @@
                 const latlng = [coords[1], coords[0]];
                 const layer = L.marker(latlng, { icon: terrainMarkerIcon });
 
-                layer.bindPopup(function () {
-                    return window.construireContenuPopupTerrain(feature, layer);
-                }, {
-                    maxHeight: 320,
-                    // Voir le commentaire équivalent dans script.js : évite le recentrage
-                    // automatique de la carte sur mobile, probable cause du popup qui se
-                    // fermait aussitôt ouvert.
-                    autoPan: !window.estMobile(),
-                });
-                layer.on('popupopen', function (e) {
-                    window.brancherPartagePopup(e, feature, layer);
-                    window.brancherPhotosPopup(e);
-
-                    if (window.estMobile()) {
-                        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
-                        if (noeudContenu) {
-                            window.ouvrirFicheMobileTerrain(noeudContenu);
-                        }
-                    }
-                });
-
-                layer.on('popupclose', function () {
-                    if (window.estMobile()) {
-                        window.fermerFicheMobileTerrain();
-                    }
-                });
+                window.brancherPopupTerrain(layer, feature);
 
                 layer.addTo(groupe);
 

@@ -305,7 +305,7 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">225</span>
+            <span class="province-stat-tile-number">218</span>
             <span class="province-stat-tile-label">erfasste Plätze</span>
         </div>
         <div class="province-stat-tile">
@@ -313,7 +313,7 @@
             <span class="province-stat-tile-label">Gemeinden mit Plätzen</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">7,2</span>
+            <span class="province-stat-tile-number">6,9</span>
             <span class="province-stat-tile-label">Plätze pro 100 km²</span>
         </div>
     </div>
@@ -324,7 +324,7 @@
     </div>
 
     <p class="province-intro">
-        Westflandern zählt <strong>225 Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>54 Gemeinden</strong>. Brügge veranstaltet jedes Jahr seinen „Grand Prix von Brügge“, ein internationales Pétanque-Turnier, das unter anderem Ende August stattfindet und große Mannschaftsfelder versammelt, mit einem Hauptturnier, das auf 128 Dreierteams begrenzt ist.
+        Westflandern zählt <strong>218 Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>54 Gemeinden</strong>. Brügge veranstaltet jedes Jahr seinen „Grand Prix von Brügge“, ein internationales Pétanque-Turnier, das unter anderem Ende August stattfindet und große Mannschaftsfelder versammelt, mit einem Hauptturnier, das auf 128 Dreierteams begrenzt ist.
     </p>
 
     <div class="province-communes-section">
@@ -515,32 +515,7 @@
                 const latlng = [coords[1], coords[0]];
                 const layer = L.marker(latlng, { icon: terrainMarkerIcon });
 
-                layer.bindPopup(function () {
-                    return window.construireContenuPopupTerrain(feature, layer);
-                }, {
-                    maxHeight: 320,
-                    // Voir le commentaire équivalent dans script.js : évite le recentrage
-                    // automatique de la carte sur mobile, probable cause du popup qui se
-                    // fermait aussitôt ouvert.
-                    autoPan: !window.estMobile(),
-                });
-                layer.on('popupopen', function (e) {
-                    window.brancherPartagePopup(e, feature, layer);
-                    window.brancherPhotosPopup(e);
-
-                    if (window.estMobile()) {
-                        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
-                        if (noeudContenu) {
-                            window.ouvrirFicheMobileTerrain(noeudContenu);
-                        }
-                    }
-                });
-
-                layer.on('popupclose', function () {
-                    if (window.estMobile()) {
-                        window.fermerFicheMobileTerrain();
-                    }
-                });
+                window.brancherPopupTerrain(layer, feature);
 
                 layer.addTo(groupe);
 

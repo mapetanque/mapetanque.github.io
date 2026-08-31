@@ -305,7 +305,7 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">195</span>
+            <span class="province-stat-tile-number">192</span>
             <span class="province-stat-tile-label">geregistreerde terreinen</span>
         </div>
         <div class="province-stat-tile">
@@ -313,7 +313,7 @@
             <span class="province-stat-tile-label">gemeenten met terreinen</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">9,3</span>
+            <span class="province-stat-tile-number">9,1</span>
             <span class="province-stat-tile-label">terreinen per 100 km²</span>
         </div>
     </div>
@@ -324,7 +324,7 @@
     </div>
 
     <p class="province-intro">
-        Vlaams-Brabant telt <strong>195 petanquebanen</strong> op Mapetanque.be, verspreid over <strong>54 gemeenten</strong>. Leuven staat op kop met 29 terreinen, gevolgd door Halle met 21. Petanqueclub PC Kerkom uit Boutersem werd in 2023 kampioen van Vlaams-Brabant in de hoogste provinciale afdeling.
+        Vlaams-Brabant telt <strong>192 petanquebanen</strong> op Mapetanque.be, verspreid over <strong>54 gemeenten</strong>. Leuven staat op kop met 29 terreinen, gevolgd door Halle met 21. Petanqueclub PC Kerkom uit Boutersem werd in 2023 kampioen van Vlaams-Brabant in de hoogste provinciale afdeling.
     </p>
 
     <div class="province-communes-section">
@@ -515,32 +515,7 @@
                 const latlng = [coords[1], coords[0]];
                 const layer = L.marker(latlng, { icon: terrainMarkerIcon });
 
-                layer.bindPopup(function () {
-                    return window.construireContenuPopupTerrain(feature, layer);
-                }, {
-                    maxHeight: 320,
-                    // Voir le commentaire équivalent dans script.js : évite le recentrage
-                    // automatique de la carte sur mobile, probable cause du popup qui se
-                    // fermait aussitôt ouvert.
-                    autoPan: !window.estMobile(),
-                });
-                layer.on('popupopen', function (e) {
-                    window.brancherPartagePopup(e, feature, layer);
-                    window.brancherPhotosPopup(e);
-
-                    if (window.estMobile()) {
-                        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
-                        if (noeudContenu) {
-                            window.ouvrirFicheMobileTerrain(noeudContenu);
-                        }
-                    }
-                });
-
-                layer.on('popupclose', function () {
-                    if (window.estMobile()) {
-                        window.fermerFicheMobileTerrain();
-                    }
-                });
+                window.brancherPopupTerrain(layer, feature);
 
                 layer.addTo(groupe);
 

@@ -305,15 +305,15 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">317</span>
+            <span class="province-stat-tile-number">299</span>
             <span class="province-stat-tile-label">geregistreerde terreinen</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">70</span>
+            <span class="province-stat-tile-number">67</span>
             <span class="province-stat-tile-label">gemeenten met terreinen</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">10,6</span>
+            <span class="province-stat-tile-number">10,0</span>
             <span class="province-stat-tile-label">terreinen per 100 km²</span>
         </div>
     </div>
@@ -324,7 +324,7 @@
     </div>
 
     <p class="province-intro">
-        Oost-Vlaanderen telt <strong>317 petanquebanen</strong> op Mapetanque.be, verspreid over <strong>70 gemeenten</strong>. Gent telt alleen al 114 terreinen, ver voor Lokeren met 14. De PFV organiseert elk jaar in Gent een Beach Petanquetoernooi op het Sint-Pietersplein. De editie van 2026 vond plaats op 22 mei, waarbij het bekende Gentse plein werd omgetoverd tot een petanqueterrein op zand. De teams spelen in triples en het toernooi staat open voor zowel aangesloten als niet-aangesloten spelers.
+        Oost-Vlaanderen telt <strong>299 petanquebanen</strong> op Mapetanque.be, verspreid over <strong>67 gemeenten</strong>. Gent telt alleen al 114 terreinen, ver voor Lokeren met 14. De PFV organiseert elk jaar in Gent een Beach Petanquetoernooi op het Sint-Pietersplein. De editie van 2026 vond plaats op 22 mei, waarbij het bekende Gentse plein werd omgetoverd tot een petanqueterrein op zand. De teams spelen in triples en het toernooi staat open voor zowel aangesloten als niet-aangesloten spelers.
     </p>
 
     <div class="province-communes-section">
@@ -515,32 +515,7 @@
                 const latlng = [coords[1], coords[0]];
                 const layer = L.marker(latlng, { icon: terrainMarkerIcon });
 
-                layer.bindPopup(function () {
-                    return window.construireContenuPopupTerrain(feature, layer);
-                }, {
-                    maxHeight: 320,
-                    // Voir le commentaire équivalent dans script.js : évite le recentrage
-                    // automatique de la carte sur mobile, probable cause du popup qui se
-                    // fermait aussitôt ouvert.
-                    autoPan: !window.estMobile(),
-                });
-                layer.on('popupopen', function (e) {
-                    window.brancherPartagePopup(e, feature, layer);
-                    window.brancherPhotosPopup(e);
-
-                    if (window.estMobile()) {
-                        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
-                        if (noeudContenu) {
-                            window.ouvrirFicheMobileTerrain(noeudContenu);
-                        }
-                    }
-                });
-
-                layer.on('popupclose', function () {
-                    if (window.estMobile()) {
-                        window.fermerFicheMobileTerrain();
-                    }
-                });
+                window.brancherPopupTerrain(layer, feature);
 
                 layer.addTo(groupe);
 

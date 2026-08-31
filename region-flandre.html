@@ -303,7 +303,7 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">1222</span>
+            <span class="province-stat-tile-number">1191</span>
             <span class="province-stat-tile-label">terrains recensés</span>
         </div>
         <div class="province-stat-tile">
@@ -311,7 +311,7 @@
             <span class="province-stat-tile-label">provinces couvertes</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">291</span>
+            <span class="province-stat-tile-number">288</span>
             <span class="province-stat-tile-label">communes couvertes</span>
         </div>
     </div>
@@ -322,7 +322,7 @@
     </div>
 
     <p class="province-intro">
-        La Flandre compte <strong>1222 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans ses <strong>5 provinces</strong> et <strong>291 communes</strong>. La Flandre orientale arrive en tête avec 316 terrains, suivie de la province d'Anvers avec 286, puis de la Flandre occidentale avec 226. Que vous soyez de Flandre orientale, d'Anvers ou de Flandre occidentale, retrouvez ci-dessous toutes les provinces flamandes pour affiner votre recherche.
+        La Flandre compte <strong>1191 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans ses <strong>5 provinces</strong> et <strong>288 communes</strong>. La Flandre orientale arrive en tête avec 316 terrains, suivie de la province d'Anvers avec 286, puis de la Flandre occidentale avec 226. Que vous soyez de Flandre orientale, d'Anvers ou de Flandre occidentale, retrouvez ci-dessous toutes les provinces flamandes pour affiner votre recherche.
     </p>
 
     <div class="other-provinces-section">
@@ -474,32 +474,7 @@
                 const latlng = [coords[1], coords[0]];
                 const layer = L.marker(latlng, { icon: terrainMarkerIcon });
 
-                layer.bindPopup(function () {
-                    return window.construireContenuPopupTerrain(feature, layer);
-                }, {
-                    maxHeight: 320,
-                    // Voir le commentaire équivalent dans script.js : évite le recentrage
-                    // automatique de la carte sur mobile, probable cause du popup qui se
-                    // fermait aussitôt ouvert.
-                    autoPan: !window.estMobile(),
-                });
-                layer.on('popupopen', function (e) {
-                    window.brancherPartagePopup(e, feature, layer);
-                    window.brancherPhotosPopup(e);
-
-                    if (window.estMobile()) {
-                        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
-                        if (noeudContenu) {
-                            window.ouvrirFicheMobileTerrain(noeudContenu);
-                        }
-                    }
-                });
-
-                layer.on('popupclose', function () {
-                    if (window.estMobile()) {
-                        window.fermerFicheMobileTerrain();
-                    }
-                });
+                window.brancherPopupTerrain(layer, feature);
 
                 layer.addTo(groupe);
             });

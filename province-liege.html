@@ -305,15 +305,15 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">159</span>
+            <span class="province-stat-tile-number">151</span>
             <span class="province-stat-tile-label">terrains recensés</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">69</span>
+            <span class="province-stat-tile-number">68</span>
             <span class="province-stat-tile-label">communes couvertes</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">4,1</span>
+            <span class="province-stat-tile-number">3,9</span>
             <span class="province-stat-tile-label">terrains pour 100 km²</span>
         </div>
     </div>
@@ -324,7 +324,7 @@
     </div>
 
     <p class="province-intro">
-        La province de Liège compte <strong>159 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>69 communes</strong>. La ville de Liège concentre 25 terrains, suivie d'Eupen avec 8. La Fédération belge francophone de pétanque (FBFP) y a élu domicile à Herstal, rue Haute Marexhe. À Herve, un passionné a développé la « Boogle House », une version événementielle de la pétanque avec tapis synthétique démontable et boules souples.
+        La province de Liège compte <strong>151 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>68 communes</strong>. La ville de Liège concentre 25 terrains, suivie d'Eupen avec 8. La Fédération belge francophone de pétanque (FBFP) y a élu domicile à Herstal, rue Haute Marexhe. À Herve, un passionné a développé la « Boogle House », une version événementielle de la pétanque avec tapis synthétique démontable et boules souples.
     </p>
 
     <div class="province-communes-section">
@@ -515,32 +515,7 @@
                 const latlng = [coords[1], coords[0]];
                 const layer = L.marker(latlng, { icon: terrainMarkerIcon });
 
-                layer.bindPopup(function () {
-                    return window.construireContenuPopupTerrain(feature, layer);
-                }, {
-                    maxHeight: 320,
-                    // Voir le commentaire équivalent dans script.js : évite le recentrage
-                    // automatique de la carte sur mobile, probable cause du popup qui se
-                    // fermait aussitôt ouvert.
-                    autoPan: !window.estMobile(),
-                });
-                layer.on('popupopen', function (e) {
-                    window.brancherPartagePopup(e, feature, layer);
-                    window.brancherPhotosPopup(e);
-
-                    if (window.estMobile()) {
-                        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
-                        if (noeudContenu) {
-                            window.ouvrirFicheMobileTerrain(noeudContenu);
-                        }
-                    }
-                });
-
-                layer.on('popupclose', function () {
-                    if (window.estMobile()) {
-                        window.fermerFicheMobileTerrain();
-                    }
-                });
+                window.brancherPopupTerrain(layer, feature);
 
                 layer.addTo(groupe);
 

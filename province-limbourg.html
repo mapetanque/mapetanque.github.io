@@ -305,7 +305,7 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">198</span>
+            <span class="province-stat-tile-number">197</span>
             <span class="province-stat-tile-label">terrains recensés</span>
         </div>
         <div class="province-stat-tile">
@@ -313,7 +313,7 @@
             <span class="province-stat-tile-label">communes couvertes</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">8,2</span>
+            <span class="province-stat-tile-number">8,1</span>
             <span class="province-stat-tile-label">terrains pour 100 km²</span>
         </div>
     </div>
@@ -324,7 +324,7 @@
     </div>
 
     <p class="province-intro">
-        Le Limbourg compte <strong>198 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>51 communes</strong>. Genk domine largement avec 32 terrains, devant Hasselt qui en compte 20. La PFV Limburg recense 23 clubs, dont 21 clubs compétitifs et 2 récréatifs, pour près de 1 300 membres. Elle indique elle-même que le Limbourg est actuellement la plus petite province flamande en nombre de membres.
+        Le Limbourg compte <strong>197 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>51 communes</strong>. Genk domine largement avec 32 terrains, devant Hasselt qui en compte 20. La PFV Limburg recense 23 clubs, dont 21 clubs compétitifs et 2 récréatifs, pour près de 1 300 membres. Elle indique elle-même que le Limbourg est actuellement la plus petite province flamande en nombre de membres.
     </p>
 
     <div class="province-communes-section">
@@ -515,32 +515,7 @@
                 const latlng = [coords[1], coords[0]];
                 const layer = L.marker(latlng, { icon: terrainMarkerIcon });
 
-                layer.bindPopup(function () {
-                    return window.construireContenuPopupTerrain(feature, layer);
-                }, {
-                    maxHeight: 320,
-                    // Voir le commentaire équivalent dans script.js : évite le recentrage
-                    // automatique de la carte sur mobile, probable cause du popup qui se
-                    // fermait aussitôt ouvert.
-                    autoPan: !window.estMobile(),
-                });
-                layer.on('popupopen', function (e) {
-                    window.brancherPartagePopup(e, feature, layer);
-                    window.brancherPhotosPopup(e);
-
-                    if (window.estMobile()) {
-                        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
-                        if (noeudContenu) {
-                            window.ouvrirFicheMobileTerrain(noeudContenu);
-                        }
-                    }
-                });
-
-                layer.on('popupclose', function () {
-                    if (window.estMobile()) {
-                        window.fermerFicheMobileTerrain();
-                    }
-                });
+                window.brancherPopupTerrain(layer, feature);
 
                 layer.addTo(groupe);
 

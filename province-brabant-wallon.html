@@ -305,7 +305,7 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">49</span>
+            <span class="province-stat-tile-number">48</span>
             <span class="province-stat-tile-label">terrains recensés</span>
         </div>
         <div class="province-stat-tile">
@@ -313,7 +313,7 @@
             <span class="province-stat-tile-label">communes couvertes</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">4,5</span>
+            <span class="province-stat-tile-number">4,4</span>
             <span class="province-stat-tile-label">terrains pour 100 km²</span>
         </div>
     </div>
@@ -324,7 +324,7 @@
     </div>
 
     <p class="province-intro">
-        Le Brabant wallon compte <strong>49 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>21 communes</strong>. Tubize mène le classement avec 8 terrains, suivie d'Ottignies-Louvain-la-Neuve avec 5. Originaire d'Ottignies, William Van der Biest est devenu champion du monde junior à seulement 13 ans, puis a remporté un deuxième titre mondial junior à 15 ans.
+        Le Brabant wallon compte <strong>48 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>21 communes</strong>. Tubize mène le classement avec 8 terrains, suivie d'Ottignies-Louvain-la-Neuve avec 5. Originaire d'Ottignies, William Van der Biest est devenu champion du monde junior à seulement 13 ans, puis a remporté un deuxième titre mondial junior à 15 ans.
     </p>
 
     <div class="province-communes-section">
@@ -515,32 +515,7 @@
                 const latlng = [coords[1], coords[0]];
                 const layer = L.marker(latlng, { icon: terrainMarkerIcon });
 
-                layer.bindPopup(function () {
-                    return window.construireContenuPopupTerrain(feature, layer);
-                }, {
-                    maxHeight: 320,
-                    // Voir le commentaire équivalent dans script.js : évite le recentrage
-                    // automatique de la carte sur mobile, probable cause du popup qui se
-                    // fermait aussitôt ouvert.
-                    autoPan: !window.estMobile(),
-                });
-                layer.on('popupopen', function (e) {
-                    window.brancherPartagePopup(e, feature, layer);
-                    window.brancherPhotosPopup(e);
-
-                    if (window.estMobile()) {
-                        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
-                        if (noeudContenu) {
-                            window.ouvrirFicheMobileTerrain(noeudContenu);
-                        }
-                    }
-                });
-
-                layer.on('popupclose', function () {
-                    if (window.estMobile()) {
-                        window.fermerFicheMobileTerrain();
-                    }
-                });
+                window.brancherPopupTerrain(layer, feature);
 
                 layer.addTo(groupe);
 

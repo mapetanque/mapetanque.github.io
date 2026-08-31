@@ -305,15 +305,15 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">317</span>
+            <span class="province-stat-tile-number">299</span>
             <span class="province-stat-tile-label">terrains recensés</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">70</span>
+            <span class="province-stat-tile-number">67</span>
             <span class="province-stat-tile-label">communes couvertes</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">10,6</span>
+            <span class="province-stat-tile-number">10,0</span>
             <span class="province-stat-tile-label">terrains pour 100 km²</span>
         </div>
     </div>
@@ -324,7 +324,7 @@
     </div>
 
     <p class="province-intro">
-        La Flandre orientale compte <strong>317 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>70 communes</strong>. Gand concentre à elle seule 114 terrains, loin devant Lokeren avec 14. La PFV organise chaque année à Gand un tournoi de Beach Pétanque sur le Sint-Pietersplein. Pour l'édition 2026, le tournoi a eu lieu le 22 mai, avec le célèbre grand square gantois transformé en terrain de pétanque sur sable. Les équipes jouent en triplettes et le tournoi est ouvert aussi bien aux licenciés qu'aux non-licenciés.
+        La Flandre orientale compte <strong>299 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>67 communes</strong>. Gand concentre à elle seule 114 terrains, loin devant Lokeren avec 14. La PFV organise chaque année à Gand un tournoi de Beach Pétanque sur le Sint-Pietersplein. Pour l'édition 2026, le tournoi a eu lieu le 22 mai, avec le célèbre grand square gantois transformé en terrain de pétanque sur sable. Les équipes jouent en triplettes et le tournoi est ouvert aussi bien aux licenciés qu'aux non-licenciés.
     </p>
 
     <div class="province-communes-section">
@@ -515,32 +515,7 @@
                 const latlng = [coords[1], coords[0]];
                 const layer = L.marker(latlng, { icon: terrainMarkerIcon });
 
-                layer.bindPopup(function () {
-                    return window.construireContenuPopupTerrain(feature, layer);
-                }, {
-                    maxHeight: 320,
-                    // Voir le commentaire équivalent dans script.js : évite le recentrage
-                    // automatique de la carte sur mobile, probable cause du popup qui se
-                    // fermait aussitôt ouvert.
-                    autoPan: !window.estMobile(),
-                });
-                layer.on('popupopen', function (e) {
-                    window.brancherPartagePopup(e, feature, layer);
-                    window.brancherPhotosPopup(e);
-
-                    if (window.estMobile()) {
-                        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
-                        if (noeudContenu) {
-                            window.ouvrirFicheMobileTerrain(noeudContenu);
-                        }
-                    }
-                });
-
-                layer.on('popupclose', function () {
-                    if (window.estMobile()) {
-                        window.fermerFicheMobileTerrain();
-                    }
-                });
+                window.brancherPopupTerrain(layer, feature);
 
                 layer.addTo(groupe);
 

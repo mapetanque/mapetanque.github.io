@@ -303,7 +303,7 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">452</span>
+            <span class="province-stat-tile-number">429</span>
             <span class="province-stat-tile-label">terrains recensés</span>
         </div>
         <div class="province-stat-tile">
@@ -311,7 +311,7 @@
             <span class="province-stat-tile-label">provinces couvertes</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">207</span>
+            <span class="province-stat-tile-number">200</span>
             <span class="province-stat-tile-label">communes couvertes</span>
         </div>
     </div>
@@ -322,7 +322,7 @@
     </div>
 
     <p class="province-intro">
-        La Wallonie compte <strong>452 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans ses <strong>5 provinces</strong> et <strong>207 communes</strong>. La province de Liège arrive en tête avec 159 terrains, devant le Hainaut avec 100 et Namur avec 91. Que vous soyez de Liège, du Hainaut ou de Namur, retrouvez ci-dessous toutes les provinces wallonnes pour affiner votre recherche.
+        La Wallonie compte <strong>429 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans ses <strong>5 provinces</strong> et <strong>200 communes</strong>. La province de Liège arrive en tête avec 159 terrains, devant le Hainaut avec 100 et Namur avec 91. Que vous soyez de Liège, du Hainaut ou de Namur, retrouvez ci-dessous toutes les provinces wallonnes pour affiner votre recherche.
     </p>
 
     <div class="other-provinces-section">
@@ -331,8 +331,8 @@
             <a href="/province-liege.html">Liège</a>
             <a href="/province-hainaut.html">Hainaut</a>
             <a href="/province-namur.html">Namur</a>
-            <a href="/province-luxembourg.html">Luxembourg</a>
             <a href="/province-brabant-wallon.html">Brabant wallon</a>
+            <a href="/province-luxembourg.html">Luxembourg</a>
         </div>
     </div>
 
@@ -474,32 +474,7 @@
                 const latlng = [coords[1], coords[0]];
                 const layer = L.marker(latlng, { icon: terrainMarkerIcon });
 
-                layer.bindPopup(function () {
-                    return window.construireContenuPopupTerrain(feature, layer);
-                }, {
-                    maxHeight: 320,
-                    // Voir le commentaire équivalent dans script.js : évite le recentrage
-                    // automatique de la carte sur mobile, probable cause du popup qui se
-                    // fermait aussitôt ouvert.
-                    autoPan: !window.estMobile(),
-                });
-                layer.on('popupopen', function (e) {
-                    window.brancherPartagePopup(e, feature, layer);
-                    window.brancherPhotosPopup(e);
-
-                    if (window.estMobile()) {
-                        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
-                        if (noeudContenu) {
-                            window.ouvrirFicheMobileTerrain(noeudContenu);
-                        }
-                    }
-                });
-
-                layer.on('popupclose', function () {
-                    if (window.estMobile()) {
-                        window.fermerFicheMobileTerrain();
-                    }
-                });
+                window.brancherPopupTerrain(layer, feature);
 
                 layer.addTo(groupe);
             });

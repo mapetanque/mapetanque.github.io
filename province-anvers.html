@@ -305,7 +305,7 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">287</span>
+            <span class="province-stat-tile-number">285</span>
             <span class="province-stat-tile-label">terrains recensés</span>
         </div>
         <div class="province-stat-tile">
@@ -313,7 +313,7 @@
             <span class="province-stat-tile-label">communes couvertes</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">10,0</span>
+            <span class="province-stat-tile-number">9,9</span>
             <span class="province-stat-tile-label">terrains pour 100 km²</span>
         </div>
     </div>
@@ -324,7 +324,7 @@
     </div>
 
     <p class="province-intro">
-        La province d'Anvers compte <strong>287 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>62 communes</strong>. Anvers-ville concentre à elle seule 43 terrains, suivie de Geel avec 27. Avec près de 1,93 million d'habitants, c'est la province la plus peuplée de Belgique. Pour l'anecdote : à Hoboken, le club PC Mercurius joue depuis 1977 dans les casemates voûtées du Fort VIII, une fortification militaire du 19ᵉ siècle reconvertie en boulodrome insolite.
+        La province d'Anvers compte <strong>285 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>62 communes</strong>. Anvers-ville concentre à elle seule 43 terrains, suivie de Geel avec 27. Avec près de 1,93 million d'habitants, c'est la province la plus peuplée de Belgique. Pour l'anecdote : à Hoboken, le club PC Mercurius joue depuis 1977 dans les casemates voûtées du Fort VIII, une fortification militaire du 19ᵉ siècle reconvertie en boulodrome insolite.
     </p>
 
     <div class="province-communes-section">
@@ -515,32 +515,7 @@
                 const latlng = [coords[1], coords[0]];
                 const layer = L.marker(latlng, { icon: terrainMarkerIcon });
 
-                layer.bindPopup(function () {
-                    return window.construireContenuPopupTerrain(feature, layer);
-                }, {
-                    maxHeight: 320,
-                    // Voir le commentaire équivalent dans script.js : évite le recentrage
-                    // automatique de la carte sur mobile, probable cause du popup qui se
-                    // fermait aussitôt ouvert.
-                    autoPan: !window.estMobile(),
-                });
-                layer.on('popupopen', function (e) {
-                    window.brancherPartagePopup(e, feature, layer);
-                    window.brancherPhotosPopup(e);
-
-                    if (window.estMobile()) {
-                        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
-                        if (noeudContenu) {
-                            window.ouvrirFicheMobileTerrain(noeudContenu);
-                        }
-                    }
-                });
-
-                layer.on('popupclose', function () {
-                    if (window.estMobile()) {
-                        window.fermerFicheMobileTerrain();
-                    }
-                });
+                window.brancherPopupTerrain(layer, feature);
 
                 layer.addTo(groupe);
 

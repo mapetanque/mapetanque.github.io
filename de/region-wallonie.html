@@ -303,7 +303,7 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">452</span>
+            <span class="province-stat-tile-number">429</span>
             <span class="province-stat-tile-label">erfasste Plätze</span>
         </div>
         <div class="province-stat-tile">
@@ -311,7 +311,7 @@
             <span class="province-stat-tile-label">Provinzen</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">207</span>
+            <span class="province-stat-tile-number">200</span>
             <span class="province-stat-tile-label">Gemeinden mit Plätzen</span>
         </div>
     </div>
@@ -322,7 +322,7 @@
     </div>
 
     <p class="province-intro">
-        Wallonien zählt <strong>452 Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>5 Provinzen</strong> und <strong>207 Gemeinden</strong>. Die Provinz Lüttich führt mit 159 Plätzen, vor Hennegau mit 100 und Namur mit 91. Ob aus Lüttich, Hennegau oder Namur – hier finden Sie alle wallonischen Provinzen, um Ihre Suche zu verfeinern.
+        Wallonien zählt <strong>429 Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>5 Provinzen</strong> und <strong>200 Gemeinden</strong>. Die Provinz Lüttich führt mit 159 Plätzen, vor Hennegau mit 100 und Namur mit 91. Ob aus Lüttich, Hennegau oder Namur – hier finden Sie alle wallonischen Provinzen, um Ihre Suche zu verfeinern.
     </p>
 
     <div class="other-provinces-section">
@@ -331,8 +331,8 @@
             <a href="/de/province-liege.html">Lüttich</a>
             <a href="/de/province-hainaut.html">Hennegau</a>
             <a href="/de/province-namur.html">Namur</a>
-            <a href="/de/province-luxembourg.html">Luxemburg</a>
             <a href="/de/province-brabant-wallon.html">Wallonisch-Brabant</a>
+            <a href="/de/province-luxembourg.html">Luxemburg</a>
         </div>
     </div>
 
@@ -474,32 +474,7 @@
                 const latlng = [coords[1], coords[0]];
                 const layer = L.marker(latlng, { icon: terrainMarkerIcon });
 
-                layer.bindPopup(function () {
-                    return window.construireContenuPopupTerrain(feature, layer);
-                }, {
-                    maxHeight: 320,
-                    // Voir le commentaire équivalent dans script.js : évite le recentrage
-                    // automatique de la carte sur mobile, probable cause du popup qui se
-                    // fermait aussitôt ouvert.
-                    autoPan: !window.estMobile(),
-                });
-                layer.on('popupopen', function (e) {
-                    window.brancherPartagePopup(e, feature, layer);
-                    window.brancherPhotosPopup(e);
-
-                    if (window.estMobile()) {
-                        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
-                        if (noeudContenu) {
-                            window.ouvrirFicheMobileTerrain(noeudContenu);
-                        }
-                    }
-                });
-
-                layer.on('popupclose', function () {
-                    if (window.estMobile()) {
-                        window.fermerFicheMobileTerrain();
-                    }
-                });
+                window.brancherPopupTerrain(layer, feature);
 
                 layer.addTo(groupe);
             });

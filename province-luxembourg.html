@@ -305,15 +305,15 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">51</span>
+            <span class="province-stat-tile-number">44</span>
             <span class="province-stat-tile-label">terrains recensés</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">28</span>
+            <span class="province-stat-tile-number">24</span>
             <span class="province-stat-tile-label">communes couvertes</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">1,1</span>
+            <span class="province-stat-tile-number">1,0</span>
             <span class="province-stat-tile-label">terrains pour 100 km²</span>
         </div>
     </div>
@@ -324,7 +324,7 @@
     </div>
 
     <p class="province-intro">
-        La province de Luxembourg compte <strong>51 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>28 communes</strong>. Arlon, son chef-lieu, arrive en tête avec 7 terrains, devant Vielsalm avec 6. Elle peut se targuer d'avoir vu naître Claudy Weibel, double champion du monde de pétanque, sacré en triplette en 2000 puis en tête-à-tête en 2015. Anecdote historique : en 1961, un boulodrome de 3 000 m² a été aménagé au pied de la centrale électrique de Saint-Hubert. Le bâtiment a été entièrement ravagé par un incendie en 82 avant d'être reconstruit.
+        La province de Luxembourg compte <strong>44 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>24 communes</strong>. Arlon, son chef-lieu, arrive en tête avec 7 terrains, devant Vielsalm avec 6. Elle peut se targuer d'avoir vu naître Claudy Weibel, double champion du monde de pétanque, sacré en triplette en 2000 puis en tête-à-tête en 2015. Anecdote historique : en 1961, un boulodrome de 3 000 m² a été aménagé au pied de la centrale électrique de Saint-Hubert. Le bâtiment a été entièrement ravagé par un incendie en 82 avant d'être reconstruit.
     </p>
 
     <div class="province-communes-section">
@@ -515,32 +515,7 @@
                 const latlng = [coords[1], coords[0]];
                 const layer = L.marker(latlng, { icon: terrainMarkerIcon });
 
-                layer.bindPopup(function () {
-                    return window.construireContenuPopupTerrain(feature, layer);
-                }, {
-                    maxHeight: 320,
-                    // Voir le commentaire équivalent dans script.js : évite le recentrage
-                    // automatique de la carte sur mobile, probable cause du popup qui se
-                    // fermait aussitôt ouvert.
-                    autoPan: !window.estMobile(),
-                });
-                layer.on('popupopen', function (e) {
-                    window.brancherPartagePopup(e, feature, layer);
-                    window.brancherPhotosPopup(e);
-
-                    if (window.estMobile()) {
-                        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
-                        if (noeudContenu) {
-                            window.ouvrirFicheMobileTerrain(noeudContenu);
-                        }
-                    }
-                });
-
-                layer.on('popupclose', function () {
-                    if (window.estMobile()) {
-                        window.fermerFicheMobileTerrain();
-                    }
-                });
+                window.brancherPopupTerrain(layer, feature);
 
                 layer.addTo(groupe);
 

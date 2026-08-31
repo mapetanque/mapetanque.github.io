@@ -305,7 +305,7 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">125</span>
+            <span class="province-stat-tile-number">122</span>
             <span class="province-stat-tile-label">geregistreerde terreinen</span>
         </div>
         <div class="province-stat-tile">
@@ -313,7 +313,7 @@
             <span class="province-stat-tile-label">gemeenten met terreinen</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">77,6</span>
+            <span class="province-stat-tile-number">75,8</span>
             <span class="province-stat-tile-label">terreinen per 100 km²</span>
         </div>
     </div>
@@ -324,7 +324,7 @@
     </div>
 
     <p class="province-intro">
-        Brussel telt <strong>125 petanquebanen</strong> op Mapetanque.be, verspreid over <strong>16 van de 19 gemeenten</strong> van het Gewest. Anderlecht staat op kop met 34 terreinen, gevolgd door de Stad Brussel met 30. In Sint-Gillis is het petanquecentrum Charles Picqué al zo'n 40 jaar gevestigd in het Pierre Paulus-park. Het onderging een grote renovatie die in 2023 werd afgerond: het gebouw werd door een grote glaspartij meer opengesteld naar het park, en er kwamen drie buitenterreinen en een groot terras bij.
+        Brussel telt <strong>122 petanquebanen</strong> op Mapetanque.be, verspreid over <strong>16 van de 19 gemeenten</strong> van het Gewest. Anderlecht staat op kop met 34 terreinen, gevolgd door de Stad Brussel met 30. In Sint-Gillis is het petanquecentrum Charles Picqué al zo'n 40 jaar gevestigd in het Pierre Paulus-park. Het onderging een grote renovatie die in 2023 werd afgerond: het gebouw werd door een grote glaspartij meer opengesteld naar het park, en er kwamen drie buitenterreinen en een groot terras bij.
     </p>
 
     <div class="province-communes-section">
@@ -510,32 +510,7 @@
                 const latlng = [coords[1], coords[0]];
                 const layer = L.marker(latlng, { icon: terrainMarkerIcon });
 
-                layer.bindPopup(function () {
-                    return window.construireContenuPopupTerrain(feature, layer);
-                }, {
-                    maxHeight: 320,
-                    // Voir le commentaire équivalent dans script.js : évite le recentrage
-                    // automatique de la carte sur mobile, probable cause du popup qui se
-                    // fermait aussitôt ouvert.
-                    autoPan: !window.estMobile(),
-                });
-                layer.on('popupopen', function (e) {
-                    window.brancherPartagePopup(e, feature, layer);
-                    window.brancherPhotosPopup(e);
-
-                    if (window.estMobile()) {
-                        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
-                        if (noeudContenu) {
-                            window.ouvrirFicheMobileTerrain(noeudContenu);
-                        }
-                    }
-                });
-
-                layer.on('popupclose', function () {
-                    if (window.estMobile()) {
-                        window.fermerFicheMobileTerrain();
-                    }
-                });
+                window.brancherPopupTerrain(layer, feature);
 
                 layer.addTo(groupe);
 

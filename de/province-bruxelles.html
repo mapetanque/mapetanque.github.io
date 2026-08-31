@@ -305,7 +305,7 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">125</span>
+            <span class="province-stat-tile-number">122</span>
             <span class="province-stat-tile-label">erfasste Plätze</span>
         </div>
         <div class="province-stat-tile">
@@ -313,7 +313,7 @@
             <span class="province-stat-tile-label">Gemeinden mit Plätzen</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">77,6</span>
+            <span class="province-stat-tile-number">75,8</span>
             <span class="province-stat-tile-label">Plätze pro 100 km²</span>
         </div>
     </div>
@@ -324,7 +324,7 @@
     </div>
 
     <p class="province-intro">
-        Brüssel zählt <strong>125 Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>16 der 19 Gemeinden</strong> der Region. Anderlecht führt mit 34 Plätzen, gefolgt von der Stadt Brüssel mit 30. In Saint-Gilles befindet sich die Pétanque-Anlage Charles Picqué seit rund 40 Jahren im Pierre-Paulus-Park. Sie wurde 2023 umfassend renoviert: Das Gebäude wurde durch eine große Glasfront stärker zum Park hin geöffnet, und drei Außenplätze sowie eine große Terrasse kamen hinzu.
+        Brüssel zählt <strong>122 Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>16 der 19 Gemeinden</strong> der Region. Anderlecht führt mit 34 Plätzen, gefolgt von der Stadt Brüssel mit 30. In Saint-Gilles befindet sich die Pétanque-Anlage Charles Picqué seit rund 40 Jahren im Pierre-Paulus-Park. Sie wurde 2023 umfassend renoviert: Das Gebäude wurde durch eine große Glasfront stärker zum Park hin geöffnet, und drei Außenplätze sowie eine große Terrasse kamen hinzu.
     </p>
 
     <div class="province-communes-section">
@@ -510,32 +510,7 @@
                 const latlng = [coords[1], coords[0]];
                 const layer = L.marker(latlng, { icon: terrainMarkerIcon });
 
-                layer.bindPopup(function () {
-                    return window.construireContenuPopupTerrain(feature, layer);
-                }, {
-                    maxHeight: 320,
-                    // Voir le commentaire équivalent dans script.js : évite le recentrage
-                    // automatique de la carte sur mobile, probable cause du popup qui se
-                    // fermait aussitôt ouvert.
-                    autoPan: !window.estMobile(),
-                });
-                layer.on('popupopen', function (e) {
-                    window.brancherPartagePopup(e, feature, layer);
-                    window.brancherPhotosPopup(e);
-
-                    if (window.estMobile()) {
-                        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
-                        if (noeudContenu) {
-                            window.ouvrirFicheMobileTerrain(noeudContenu);
-                        }
-                    }
-                });
-
-                layer.on('popupclose', function () {
-                    if (window.estMobile()) {
-                        window.fermerFicheMobileTerrain();
-                    }
-                });
+                window.brancherPopupTerrain(layer, feature);
 
                 layer.addTo(groupe);
 

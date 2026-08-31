@@ -305,11 +305,11 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">100</span>
+            <span class="province-stat-tile-number">98</span>
             <span class="province-stat-tile-label">terrains recensés</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">41</span>
+            <span class="province-stat-tile-number">40</span>
             <span class="province-stat-tile-label">communes couvertes</span>
         </div>
         <div class="province-stat-tile">
@@ -324,7 +324,7 @@
     </div>
 
     <p class="province-intro">
-        Le Hainaut compte <strong>100 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>41 communes</strong>. À Farciennes, le Pétanque Club Le Pays Noir disposait, en 2023, de 7 terrains intérieurs et 20 terrains extérieurs, soit 27 pistes au total. Il pourrait ainsi être le plus grand complexe de pétanque de Belgique.
+        Le Hainaut compte <strong>98 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>40 communes</strong>. À Farciennes, le Pétanque Club Le Pays Noir disposait, en 2023, de 7 terrains intérieurs et 20 terrains extérieurs, soit 27 pistes au total. Il pourrait ainsi être le plus grand complexe de pétanque de Belgique.
     </p>
 
     <div class="province-communes-section">
@@ -515,32 +515,7 @@
                 const latlng = [coords[1], coords[0]];
                 const layer = L.marker(latlng, { icon: terrainMarkerIcon });
 
-                layer.bindPopup(function () {
-                    return window.construireContenuPopupTerrain(feature, layer);
-                }, {
-                    maxHeight: 320,
-                    // Voir le commentaire équivalent dans script.js : évite le recentrage
-                    // automatique de la carte sur mobile, probable cause du popup qui se
-                    // fermait aussitôt ouvert.
-                    autoPan: !window.estMobile(),
-                });
-                layer.on('popupopen', function (e) {
-                    window.brancherPartagePopup(e, feature, layer);
-                    window.brancherPhotosPopup(e);
-
-                    if (window.estMobile()) {
-                        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
-                        if (noeudContenu) {
-                            window.ouvrirFicheMobileTerrain(noeudContenu);
-                        }
-                    }
-                });
-
-                layer.on('popupclose', function () {
-                    if (window.estMobile()) {
-                        window.fermerFicheMobileTerrain();
-                    }
-                });
+                window.brancherPopupTerrain(layer, feature);
 
                 layer.addTo(groupe);
 

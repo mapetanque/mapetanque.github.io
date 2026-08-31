@@ -303,7 +303,7 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">1222</span>
+            <span class="province-stat-tile-number">1191</span>
             <span class="province-stat-tile-label">geregistreerde terreinen</span>
         </div>
         <div class="province-stat-tile">
@@ -311,7 +311,7 @@
             <span class="province-stat-tile-label">provincies</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">291</span>
+            <span class="province-stat-tile-number">288</span>
             <span class="province-stat-tile-label">gemeenten met terreinen</span>
         </div>
     </div>
@@ -322,7 +322,7 @@
     </div>
 
     <p class="province-intro">
-        Vlaanderen telt <strong>1222 petanquebanen</strong> op Mapetanque.be, verspreid over <strong>5 provincies</strong> en <strong>291 gemeenten</strong>. Oost-Vlaanderen staat op kop met 316 terreinen, gevolgd door de provincie Antwerpen met 286 en West-Vlaanderen met 226. Of u nu in Oost-Vlaanderen, Antwerpen of West-Vlaanderen speelt, hieronder vindt u alle Vlaamse provincies om uw zoekopdracht te verfijnen.
+        Vlaanderen telt <strong>1191 petanquebanen</strong> op Mapetanque.be, verspreid over <strong>5 provincies</strong> en <strong>288 gemeenten</strong>. Oost-Vlaanderen staat op kop met 316 terreinen, gevolgd door de provincie Antwerpen met 286 en West-Vlaanderen met 226. Of u nu in Oost-Vlaanderen, Antwerpen of West-Vlaanderen speelt, hieronder vindt u alle Vlaamse provincies om uw zoekopdracht te verfijnen.
     </p>
 
     <div class="other-provinces-section">
@@ -474,32 +474,7 @@
                 const latlng = [coords[1], coords[0]];
                 const layer = L.marker(latlng, { icon: terrainMarkerIcon });
 
-                layer.bindPopup(function () {
-                    return window.construireContenuPopupTerrain(feature, layer);
-                }, {
-                    maxHeight: 320,
-                    // Voir le commentaire équivalent dans script.js : évite le recentrage
-                    // automatique de la carte sur mobile, probable cause du popup qui se
-                    // fermait aussitôt ouvert.
-                    autoPan: !window.estMobile(),
-                });
-                layer.on('popupopen', function (e) {
-                    window.brancherPartagePopup(e, feature, layer);
-                    window.brancherPhotosPopup(e);
-
-                    if (window.estMobile()) {
-                        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
-                        if (noeudContenu) {
-                            window.ouvrirFicheMobileTerrain(noeudContenu);
-                        }
-                    }
-                });
-
-                layer.on('popupclose', function () {
-                    if (window.estMobile()) {
-                        window.fermerFicheMobileTerrain();
-                    }
-                });
+                window.brancherPopupTerrain(layer, feature);
 
                 layer.addTo(groupe);
             });

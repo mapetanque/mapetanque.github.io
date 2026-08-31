@@ -305,7 +305,7 @@
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">125</span>
+            <span class="province-stat-tile-number">122</span>
             <span class="province-stat-tile-label">terrains recensés</span>
         </div>
         <div class="province-stat-tile">
@@ -313,7 +313,7 @@
             <span class="province-stat-tile-label">communes couvertes</span>
         </div>
         <div class="province-stat-tile">
-            <span class="province-stat-tile-number">77,6</span>
+            <span class="province-stat-tile-number">75,8</span>
             <span class="province-stat-tile-label">terrains pour 100 km²</span>
         </div>
     </div>
@@ -324,7 +324,7 @@
     </div>
 
     <p class="province-intro">
-        Bruxelles compte <strong>125 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>16 des 19 communes</strong> de la Région. Anderlecht arrive en tête avec 34 terrains, suivie de la Ville de Bruxelles avec 30. À Saint-Gilles, le boulodrome Charles Picqué est installé dans le parc Pierre Paulus depuis environ 40 ans. Il a fait l'objet d'une importante rénovation achevée en 2023 : le bâtiment a été davantage ouvert sur le parc grâce à une grande baie vitrée, et trois terrains extérieurs ainsi qu'une grande terrasse ont été ajoutés.
+        Bruxelles compte <strong>122 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>16 des 19 communes</strong> de la Région. Anderlecht arrive en tête avec 34 terrains, suivie de la Ville de Bruxelles avec 30. À Saint-Gilles, le boulodrome Charles Picqué est installé dans le parc Pierre Paulus depuis environ 40 ans. Il a fait l'objet d'une importante rénovation achevée en 2023 : le bâtiment a été davantage ouvert sur le parc grâce à une grande baie vitrée, et trois terrains extérieurs ainsi qu'une grande terrasse ont été ajoutés.
     </p>
 
     <div class="province-communes-section">
@@ -510,32 +510,7 @@
                 const latlng = [coords[1], coords[0]];
                 const layer = L.marker(latlng, { icon: terrainMarkerIcon });
 
-                layer.bindPopup(function () {
-                    return window.construireContenuPopupTerrain(feature, layer);
-                }, {
-                    maxHeight: 320,
-                    // Voir le commentaire équivalent dans script.js : évite le recentrage
-                    // automatique de la carte sur mobile, probable cause du popup qui se
-                    // fermait aussitôt ouvert.
-                    autoPan: !window.estMobile(),
-                });
-                layer.on('popupopen', function (e) {
-                    window.brancherPartagePopup(e, feature, layer);
-                    window.brancherPhotosPopup(e);
-
-                    if (window.estMobile()) {
-                        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
-                        if (noeudContenu) {
-                            window.ouvrirFicheMobileTerrain(noeudContenu);
-                        }
-                    }
-                });
-
-                layer.on('popupclose', function () {
-                    if (window.estMobile()) {
-                        window.fermerFicheMobileTerrain();
-                    }
-                });
+                window.brancherPopupTerrain(layer, feature);
 
                 layer.addTo(groupe);
 
