@@ -804,6 +804,19 @@ body.fullscreen-lock {
     }
 }
 
+/* Même correctif que ci-dessous pour mobile/tablette, mais pour la fenêtre flottante desktop :
+   elle n'existait pas encore quand ce fix a été fait la première fois, donc sa photo était
+   restée plafonnée à 140px (l'ancien petit popup) dans une carte bien plus large — ratio fixe
+   plutôt qu'une hauteur figée, même principe. */
+@media (min-width: 1025px) {
+    #desktop-modal-content .popup-photo,
+    #desktop-modal-content .popup-photo-iframe {
+        max-height: none;
+        height: auto;
+        aspect-ratio: 16 / 9;
+    }
+}
+
 /* Dans la fiche plein écran (mobile/tablette), une hauteur figée en pixels (comme ci-dessus,
    pensée pour le petit popup desktop) donne une photo de plus en plus "écrasée" à mesure que
    l'écran s'élargit — flagrant sur tablette, où la fiche plein écran est bien plus large qu'un
@@ -975,6 +988,14 @@ body.fullscreen-lock {
     display: none;
 }
 
+/* display:none posé ici, HORS media query, même raison que ci-dessus mais pour la fenêtre
+   flottante desktop cette fois : son CSS vit entièrement dans le @media (min-width: 1025px)
+   plus bas, donc sans ce garde-fou elle resterait affichée par défaut sur mobile. */
+#desktop-modal-overlay,
+#desktop-modal {
+    display: none;
+}
+
 /* Fiche terrain en plein écran sur mobile — le petit popup Leaflet reste inchangé (utile pour
    desktop), mais sur mobile son CONTENU est déplacé (pas copié : mêmes nœuds DOM, écouteurs
    d'événements déjà branchés conservés intacts) dans ce panneau séparé, en dehors de toute la
@@ -1033,6 +1054,82 @@ body.fullscreen-lock {
         width: 100%;
         padding: 60px 16px 24px;
         box-sizing: border-box;
+    }
+
+    /* Le nœud déplacé ici (.leaflet-popup-content) garde sa marge propre au petit popup ancré
+       desktop (réglée pour espacer SA barre de défilement de SA croix, voir plus haut) — sans
+       ce reset, elle s'additionne au padding ci-dessus et crée un grand vide en haut. Le padding
+       du conteneur suffit, seule source de marge une fois le contenu relocalisé ici. */
+    #mobile-sheet-content .leaflet-popup-content {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+}
+
+/* Fiche terrain en fenêtre flottante centrée sur desktop — même principe/même mécanisme que le
+   panneau plein écran mobile ci-dessus (contenu déplacé, pas copié), juste habillé en petite
+   fenêtre modale plutôt qu'en plein écran, plus adapté à un grand viewport. Remplace le popup
+   Leaflet classique, qui se retrouvait coincé/rogné dans les limites de la carte. */
+@media (min-width: 1025px) {
+    #desktop-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.35);
+        z-index: 1400;
+    }
+
+    #desktop-modal-overlay.visible {
+        display: block;
+    }
+
+    #desktop-modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 483px; /* 420px + 15% */
+        max-width: calc(100vw - 48px);
+        max-height: 98vh; /* 85vh + 15% */
+        z-index: 1450;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+        overflow-y: auto;
+    }
+
+    #desktop-modal.open {
+        display: block;
+    }
+
+    #desktop-modal-close {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        width: 32px;
+        height: 32px;
+        border: none;
+        border-radius: 50%;
+        background: #f2f2f2;
+        font-size: 20px;
+        line-height: 32px;
+        text-align: center;
+        color: #333;
+        z-index: 1;
+        cursor: pointer;
+    }
+
+    #desktop-modal-content {
+        width: 100%;
+        padding: 48px 20px 24px;
+        box-sizing: border-box;
+    }
+
+    /* Même correctif que pour #mobile-sheet-content ci-dessus : neutralise la marge propre au
+       petit popup ancré desktop, héritée par le nœud déplacé ici, qui créait un grand vide en
+       haut de la fenêtre en s'additionnant au padding ci-dessus. */
+    #desktop-modal-content .leaflet-popup-content {
+        margin: 0 !important;
+        padding: 0 !important;
     }
 }
 
@@ -1152,15 +1249,15 @@ body.fullscreen-lock {
     color: white;
     border: none;
     border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    font-size: 16px;
+    width: 48px;
+    height: 48px;
+    font-size: 32px;
     line-height: 1;
     cursor: pointer;
 }
 
-.popup-photo-nav.prev { left: 4px; }
-.popup-photo-nav.next { right: 4px; }
+.popup-photo-nav.prev { left: 8px; }
+.popup-photo-nav.next { right: 8px; }
 
 .popup-photo-dots {
     position: absolute;

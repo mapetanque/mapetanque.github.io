@@ -33373,6 +33373,13 @@ body {
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
 </div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -34411,6 +34418,13 @@ body {
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
 </div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -34946,6 +34960,13 @@ body {
 <div id="mobile-sheet">
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
+</div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
 </div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
@@ -35483,6 +35504,13 @@ body {
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
 </div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -36018,6 +36046,13 @@ body {
 <div id="mobile-sheet">
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
+</div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
 </div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
@@ -36729,6 +36764,13 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
 </div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -37265,6 +37307,13 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
 </div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -37796,6 +37845,13 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
 </div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -38244,6 +38300,13 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 <div id="mobile-sheet">
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
+</div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
 </div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
@@ -38854,6 +38917,13 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 <div id="mobile-sheet">
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
+</div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
 </div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
@@ -39528,6 +39598,13 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
 </div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -40201,6 +40278,13 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
 </div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -40868,6 +40952,13 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 <div id="mobile-sheet">
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
+</div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
 </div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
@@ -41542,6 +41633,13 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
 </div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -42214,6 +42312,13 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 <div id="mobile-sheet">
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
+</div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
 </div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
@@ -42888,6 +42993,13 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
 </div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -43560,6 +43672,13 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 <div id="mobile-sheet">
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
+</div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
 </div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
@@ -44234,6 +44353,13 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
 </div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -44906,6 +45032,13 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 <div id="mobile-sheet">
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
+</div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
 </div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
@@ -45580,6 +45713,13 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
 </div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -46252,6 +46392,13 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 <div id="mobile-sheet">
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
+</div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
 </div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
@@ -46926,6 +47073,13 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
 </div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -47593,6 +47747,13 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 <div id="mobile-sheet">
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
+</div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
 </div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
@@ -48267,6 +48428,13 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
 </div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -48939,6 +49107,13 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 <div id="mobile-sheet">
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
+</div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
 </div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
@@ -49613,6 +49788,13 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
 </div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -50285,6 +50467,13 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 <div id="mobile-sheet">
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
+</div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
 </div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
@@ -50959,6 +51148,13 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
 </div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -51632,6 +51828,13 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
 </div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -52301,6 +52504,13 @@ document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
 <div id="mobile-sheet">
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
+</div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
 </div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
@@ -53498,6 +53708,13 @@ if __name__ == "__main__":
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
 </div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -54170,6 +54387,13 @@ if __name__ == "__main__":
 <div id="mobile-sheet">
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
+</div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
 </div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
@@ -54844,6 +55068,13 @@ if __name__ == "__main__":
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
 </div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -55516,6 +55747,13 @@ if __name__ == "__main__":
 <div id="mobile-sheet">
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
+</div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
 </div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
@@ -56190,6 +56428,13 @@ if __name__ == "__main__":
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
 </div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -56863,6 +57108,13 @@ if __name__ == "__main__":
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
 </div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -57530,6 +57782,13 @@ if __name__ == "__main__":
 <div id="mobile-sheet">
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
+</div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
 </div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
@@ -58204,6 +58463,13 @@ if __name__ == "__main__":
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
 </div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -58876,6 +59142,13 @@ if __name__ == "__main__":
 <div id="mobile-sheet">
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
+</div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
 </div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
@@ -59550,6 +59823,13 @@ if __name__ == "__main__":
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
 </div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -60222,6 +60502,13 @@ if __name__ == "__main__":
 <div id="mobile-sheet">
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
+</div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
 </div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
@@ -60896,6 +61183,13 @@ if __name__ == "__main__":
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
 </div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -61568,6 +61862,13 @@ if __name__ == "__main__":
 <div id="mobile-sheet">
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
+</div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
 </div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
@@ -64170,6 +64471,13 @@ footer a:hover {
 <div id="mobile-sheet">
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
+</div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
 </div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>

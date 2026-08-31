@@ -231,6 +231,13 @@
     <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
     <div id="mobile-sheet-content"></div>
 </div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -482,12 +489,6 @@
     fetch('/data/terrains.geojson')
         .then(function (r) { return r.json(); })
         .then(function (data) {
-
-            // Compteur du footer : total Belgique (comme sur la page d'accueil), pas seulement
-            // cette province — script.js ne le fait plus lui-même vu MAPETANQUE_SKIP_DEFAULT_MARKERS.
-            if (typeof afficherNombreTerrains === 'function') {
-                afficherNombreTerrains(data.features.length);
-            }
 
             const featuresProvince = data.features.filter(function (f) {
                 return appartientALaProvince(f.properties);

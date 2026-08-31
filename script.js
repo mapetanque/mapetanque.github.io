@@ -1224,13 +1224,22 @@ window.brancherPhotosPopup = brancherPhotosPopup;
 // ===================== Fiche terrain plein écran (mobile) =====================
 // Sur mobile, .leaflet-map-pane porte son propre transform (translate3d) — ça piège
 // position:fixed sur tout élément qui en descend, impossible à contourner en CSS pur (vérifié).
-// Solution : le contenu du popup Leaflet est DÉPLACÉ (pas copié — mêmes nœuds DOM, donc les
+// Solution, désormais appliquée aussi bien sur desktop que mobile (voir ouvrirFicheMobileTerrain
+// ci-dessous) : le contenu du popup Leaflet est DÉPLACÉ (pas copié — mêmes nœuds DOM, donc les
 // écouteurs d'événements déjà branchés par brancherPartagePopup/brancherPhotosPopup restent
-// valides) dans ce panneau séparé, en dehors de toute la hiérarchie de calques de Leaflet.
+// valides) dans un panneau séparé, en dehors de toute la hiérarchie de calques de Leaflet — le
+// panneau plein écran (#mobile-sheet) sur petit écran, une fenêtre flottante centrée
+// (#desktop-modal) sur grand écran. Les noms de fonctions/variables ont gardé leur préfixe
+// "mobile" historique pour limiter l'ampleur du changement, mais servent maintenant aux deux.
 const mobileSheet = document.getElementById('mobile-sheet');
 const mobileSheetOverlay = document.getElementById('mobile-sheet-overlay');
 const mobileSheetContent = document.getElementById('mobile-sheet-content');
 const mobileSheetClose = document.getElementById('mobile-sheet-close');
+
+const desktopModal = document.getElementById('desktop-modal');
+const desktopModalOverlay = document.getElementById('desktop-modal-overlay');
+const desktopModalContent = document.getElementById('desktop-modal-content');
+const desktopModalClose = document.getElementById('desktop-modal-close');
 
 const SEUIL_MOBILE = 1024; // même point de bascule que le menu burger — voir @media (max-width: 1024px) dans style.css
 
@@ -1239,24 +1248,31 @@ function estMobile() {
 }
 
 function ouvrirFicheMobileTerrain(noeudContenuPopup) {
-    if (!mobileSheet || !mobileSheetContent) return;
+    const panneau = estMobile() ? mobileSheet : desktopModal;
+    const conteneur = estMobile() ? mobileSheetContent : desktopModalContent;
+    const overlay = estMobile() ? mobileSheetOverlay : desktopModalOverlay;
+    if (!panneau || !conteneur) return;
+
     // Efface TOUS les styles inline que Leaflet a posés sur ce nœud pour le petit popup ancré
-    // desktop (largeur figée, plafond de hauteur, overflow...) — plutôt que d'en neutraliser un
-    // par un au fil des bugs trouvés, on repart d'une page blanche : ce nœud n'a plus besoin
-    // d'aucun de ces réglages une fois accueilli dans le panneau plein écran, qui gère lui-même
-    // sa propre largeur/hauteur/défilement.
+    // (largeur figée, plafond de hauteur, overflow...) — plutôt que d'en neutraliser un par un au
+    // fil des bugs trouvés, on repart d'une page blanche : ce nœud n'a plus besoin d'aucun de ces
+    // réglages une fois accueilli dans son nouveau panneau, qui gère lui-même sa propre
+    // largeur/hauteur/défilement.
     noeudContenuPopup.removeAttribute('style');
-    mobileSheetContent.innerHTML = '';
-    mobileSheetContent.appendChild(noeudContenuPopup);
-    mobileSheet.classList.add('open');
-    mobileSheetOverlay.classList.add('visible');
+    conteneur.innerHTML = '';
+    conteneur.appendChild(noeudContenuPopup);
+    panneau.classList.add('open');
+    if (overlay) overlay.classList.add('visible');
 }
 
 function fermerFicheMobileTerrain() {
-    if (!mobileSheet) return;
-    mobileSheet.classList.remove('open');
-    mobileSheetOverlay.classList.remove('visible');
-    mobileSheetContent.innerHTML = '';
+    if (mobileSheet) mobileSheet.classList.remove('open');
+    if (mobileSheetOverlay) mobileSheetOverlay.classList.remove('visible');
+    if (mobileSheetContent) mobileSheetContent.innerHTML = '';
+
+    if (desktopModal) desktopModal.classList.remove('open');
+    if (desktopModalOverlay) desktopModalOverlay.classList.remove('visible');
+    if (desktopModalContent) desktopModalContent.innerHTML = '';
 }
 
 if (mobileSheetClose) {
@@ -1267,6 +1283,18 @@ if (mobileSheetClose) {
 }
 if (mobileSheetOverlay) {
     mobileSheetOverlay.addEventListener('click', function () {
+        fermerFicheMobileTerrain();
+        map.closePopup();
+    });
+}
+if (desktopModalClose) {
+    desktopModalClose.addEventListener('click', function () {
+        fermerFicheMobileTerrain();
+        map.closePopup();
+    });
+}
+if (desktopModalOverlay) {
+    desktopModalOverlay.addEventListener('click', function () {
         fermerFicheMobileTerrain();
         map.closePopup();
     });
@@ -1383,6 +1411,20 @@ window.partagerClub = function (lat, lon, titre) {
 // depuis allerVersTerrain() plus loin dans ce fichier, y compris quand ce bloc ne s'exécute pas.
 let markers;
 
+// Stats du footer (nombre total de terrains, terrains avec photo) — toujours calculées sur
+// l'ensemble de la Belgique et TOUJOURS exécutées, même sur les pages qui définissent
+// MAPETANQUE_SKIP_DEFAULT_MARKERS (province/région/comment-jouer/compteur) : le footer doit
+// afficher le même total partout, pas un sous-ensemble propre à la page courante. Fetch séparé du
+// bloc juste en dessous (qui, lui, construit les marqueurs de la carte et reste conditionné par
+// MAPETANQUE_SKIP_DEFAULT_MARKERS) pour ne pas avoir à toucher à sa logique, déjà conséquente.
+fetch('/data/terrains.geojson')
+    .then(response => response.json())
+    .then(data => {
+        afficherNombreTerrains(data.features.length);
+        terrainsFeaturesPourPhotos = data.features;
+        calculerTerrainsAvecPhoto();
+    });
+
 if (!window.MAPETANQUE_SKIP_DEFAULT_MARKERS) {
 
 markers = L.markerClusterGroup({
@@ -1392,14 +1434,6 @@ markers = L.markerClusterGroup({
 fetch('/data/terrains.geojson')
     .then(response => response.json())
     .then(data => {
-
-        // Nombre de terrains recensés (pour le footer)
-        afficherNombreTerrains(data.features.length);
-
-        // Terrains avec photo (pour le footer) — voir calculerTerrainsAvecPhoto() plus haut,
-        // qui attend aussi le chargement de data/photos_mapillary.json avant de compter.
-        terrainsFeaturesPourPhotos = data.features;
-        calculerTerrainsAvecPhoto();
 
         // Liste plate de tous les terrains, pour le calcul du plus proche (flèche hors écran)
         listeTousLesTerrains = data.features.map(function (feature) {
@@ -1452,15 +1486,11 @@ function brancherPopupTerrain(layer, feature) {
     layer.bindPopup(function () {
         return construireContenuPopupTerrain(feature, layer);
     }, {
-        // Empêche le popup de grandir indéfiniment (desktop) — sans effet sur mobile, où le
-        // contenu est de toute façon déplacé dans le panneau plein écran (voir
-        // ouvrirFicheMobileTerrain plus bas).
+        // Le popup Leaflet original reste minuscule et invisible dans tous les cas (son contenu
+        // est toujours déplacé ailleurs, voir ouvrirFicheMobileTerrain plus haut) — inutile donc
+        // que Leaflet déplace la carte pour le faire apparaître à l'écran.
         maxHeight: 320,
-        // Sur mobile, le popup Leaflet original reste minuscule et invisible (son contenu est
-        // déplacé ailleurs) — inutile donc que Leaflet déplace la carte pour le faire apparaître
-        // à l'écran. Ce recentrage automatique semble être la cause du bug "s'ouvre et se ferme
-        // aussitôt" observé sur mobile.
-        autoPan: !estMobile(),
+        autoPan: false,
     });
 
     layer.once('popupopen', function (e) {
@@ -1469,19 +1499,15 @@ function brancherPopupTerrain(layer, feature) {
 
         // Doit venir APRÈS le câblage ci-dessus : on déplace les mêmes nœuds DOM (pas une
         // copie), donc les écouteurs déjà attachés restent valides une fois le contenu basculé
-        // dans le panneau plein écran mobile.
-        if (estMobile()) {
-            const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
-            if (noeudContenu) {
-                ouvrirFicheMobileTerrain(noeudContenu);
-            }
+        // dans son panneau (plein écran mobile, ou fenêtre flottante desktop).
+        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
+        if (noeudContenu) {
+            ouvrirFicheMobileTerrain(noeudContenu);
         }
     });
 
     layer.once('popupclose', function () {
-        if (estMobile()) {
-            fermerFicheMobileTerrain();
-        }
+        fermerFicheMobileTerrain();
         // setTimeout(…, 0) plutôt qu'un appel immédiat : rebinder à chaud, pendant que Leaflet
         // est encore en train de finaliser la fermeture de l'ancienne popup, provoquait une
         // popup fantôme (juste la croix, coincée en haut à gauche de la carte, jamais
