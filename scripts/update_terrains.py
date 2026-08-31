@@ -34,7 +34,9 @@ NOMINATIM_HEADERS = {
 # Seuil d'alerte : si le nombre de terrains chute de plus de X% par rapport à la
 # version précédente, on considère que les données sont probablement incomplètes
 # (ex. mirror Overpass en retard de réplication) et on refuse d'écraser le fichier.
-SEUIL_BAISSE_MAX = 0.05  # 5%
+SEUIL_BAISSE_MAX = 0.5  # 50% — TEMPORAIRE, le temps de ce run qui exclut d'un coup tout ce qui
+                         # est access=private/customers/no (baisse volontaire, pas un signe de
+                         # données incomplètes). À remettre à 0.05 juste après, voir plus bas.
 
 CHEMIN_GEOJSON = "data/terrains.geojson"
 CHEMIN_STATS_GEO = "data/stats_geo.json"
@@ -446,4 +448,3 @@ if sans_region > 0:
 
 
 print(f"✓ {len(features)} terrains mis à jour")
-</file>
