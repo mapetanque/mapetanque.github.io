@@ -1062,15 +1062,20 @@ function construireContenuPopupTerrain(feature, layer) {
     // Sous chaque photo : crédit classique pour une <img> (Wikimedia, ou Mapillary résolu via
     // tag OSM — aucun des deux n'affiche d'habillage propre, contrairement à l'iframe ci-dessous,
     // donc le crédit y reste nécessaire). Pour l'embed Mapillary (type 'iframe'), l'habillage
-    // affiché par Mapillary lui-même (auteur, date...) rend ce crédit redondant — remplacé par
-    // une invitation à ajouter une photo supplémentaire à la place.
+    // affiché par Mapillary lui-même (auteur, date...) rend ce crédit redondant — rien n'est
+    // affiché ici pour ce cas, le bouton "Ajouter une photo ?" prend le relais séparément (voir
+    // boutonAjouterPhoto() plus bas, rendu une seule fois sous le carrousel, pas par diapositive
+    // — sinon il apparaissait autant de fois qu'il y a de photos Mapillary, en plus de gonfler
+    // la hauteur du carrousel et de désaligner les points de pagination posés par-dessus).
     function sousLaPhoto(d) {
-        if (d.type === 'iframe') {
-            return `<button type="button" class="popup-photo-add-btn" data-osm-id="${tags.osm_id || ''}" data-terrain-titre="${titre.replace(/"/g, '&quot;')}">${t('popup_photo_add')}</button>`;
-        }
+        if (d.type === 'iframe') return "";
         return d.creditLabel
             ? `<a href="${d.creditUrl}" target="_blank" rel="noopener" class="popup-photo-credit">${d.creditLabel}</a>`
             : "";
+    }
+
+    function boutonAjouterPhoto() {
+        return `<button type="button" class="popup-photo-add-btn" data-osm-id="${tags.osm_id || ''}" data-terrain-titre="${titre.replace(/"/g, '&quot;')}">${t('popup_photo_add')}</button>`;
     }
 
     let photo = "";
@@ -1079,11 +1084,11 @@ function construireContenuPopupTerrain(feature, layer) {
         // modale #add-photo-modal, voir plus bas dans ce fichier pour son câblage).
         photo = `
         <img src="/images/pas-de-photo.webp" alt="" class="popup-photo popup-photo-placeholder" loading="lazy">
-        <button type="button" class="popup-photo-add-btn" data-osm-id="${tags.osm_id || ''}" data-terrain-titre="${titre.replace(/"/g, '&quot;')}">${t('popup_photo_add')}</button>
+        ${boutonAjouterPhoto()}
         <br>`;
     } else if (diapositives.length === 1) {
         const d = diapositives[0];
-        photo = `${avecBoutonAgrandir(d)}${sousLaPhoto(d)}<br>`;
+        photo = `${avecBoutonAgrandir(d)}${d.type === 'iframe' ? boutonAjouterPhoto() : sousLaPhoto(d)}<br>`;
     } else {
         // Plusieurs photos : petit carrousel (flèches précédent/suivant), en JS natif — voir
         // brancherCarrouselPhotos(), appelée juste après l'ouverture de la popup plus bas.
@@ -1092,6 +1097,7 @@ function construireContenuPopupTerrain(feature, layer) {
                 ${avecBoutonAgrandir(d)}
                 ${sousLaPhoto(d)}
             </div>`).join('');
+        const auMoinsUneIframe = diapositives.some(d => d.type === 'iframe');
         photo = `
         <div class="popup-photo-carousel" data-total="${diapositives.length}">
             ${diapositivesHtml}
@@ -1099,6 +1105,7 @@ function construireContenuPopupTerrain(feature, layer) {
             <button type="button" class="popup-photo-nav next" aria-label="${t('popup_photo_next')}">›</button>
             <div class="popup-photo-dots">${diapositives.map((_, i) => `<span class="popup-photo-dot${i === 0 ? ' active' : ''}"></span>`).join('')}</div>
         </div>
+        ${auMoinsUneIframe ? boutonAjouterPhoto() : ""}
         <br>`;
     }
 

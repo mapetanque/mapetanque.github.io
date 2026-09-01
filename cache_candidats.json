@@ -1,0 +1,1290 @@
+{
+  "way/89718131": {
+    "osm_id": "way/89718131",
+    "nom": "Terrain (51.04157, 3.69125)",
+    "commune": "Gent",
+    "lat": 51.0415745,
+    "lon": 3.6912481,
+    "candidat": null
+  },
+  "way/89718137": {
+    "osm_id": "way/89718137",
+    "nom": "Terrain (51.04164, 3.69143)",
+    "commune": "Gent",
+    "lat": 51.041641,
+    "lon": 3.6914301,
+    "candidat": null
+  },
+  "way/717715134": {
+    "osm_id": "way/717715134",
+    "nom": "Absdalestraat",
+    "commune": "Gent",
+    "lat": 51.0997217,
+    "lon": 3.7808477,
+    "candidat": null
+  },
+  "way/1021764493": {
+    "osm_id": "way/1021764493",
+    "nom": "Acaciastraat",
+    "commune": "Gent",
+    "lat": 51.0609925,
+    "lon": 3.6993684,
+    "candidat": null
+  },
+  "way/846209451": {
+    "osm_id": "way/846209451",
+    "nom": "Adolf Lootensstraat",
+    "commune": "Gent",
+    "lat": 51.0528647,
+    "lon": 3.6146467,
+    "candidat": null
+  },
+  "way/536740351": {
+    "osm_id": "way/536740351",
+    "nom": "Afsneedorp",
+    "commune": "Gent",
+    "lat": 51.0311811,
+    "lon": 3.6682746,
+    "candidat": null
+  },
+  "way/536740356": {
+    "osm_id": "way/536740356",
+    "nom": "Afsneedorp",
+    "commune": "Gent",
+    "lat": 51.0313345,
+    "lon": 3.6685187,
+    "candidat": null
+  },
+  "way/702795060": {
+    "osm_id": "way/702795060",
+    "nom": "Antwerpsesteenweg",
+    "commune": "Gent",
+    "lat": 51.0753016,
+    "lon": 3.7786042,
+    "candidat": null
+  },
+  "way/702795061": {
+    "osm_id": "way/702795061",
+    "nom": "Antwerpsesteenweg",
+    "commune": "Gent",
+    "lat": 51.075348,
+    "lon": 3.7786801,
+    "candidat": null
+  },
+  "way/1126348778": {
+    "osm_id": "way/1126348778",
+    "nom": "Antwerpsesteenweg",
+    "commune": "Gent",
+    "lat": 51.0676086,
+    "lon": 3.762352,
+    "candidat": null
+  },
+  "way/980852884": {
+    "osm_id": "way/980852884",
+    "nom": "Appelterrepad",
+    "commune": "Gent",
+    "lat": 51.0830173,
+    "lon": 3.7138297,
+    "candidat": null
+  },
+  "way/431948595": {
+    "osm_id": "way/431948595",
+    "nom": "Augusta De Taeyepad",
+    "commune": "Gent",
+    "lat": 51.0517339,
+    "lon": 3.7439743,
+    "candidat": null
+  },
+  "way/690006171": {
+    "osm_id": "way/690006171",
+    "nom": "Bassijnstraat",
+    "commune": "Gent",
+    "lat": 51.0455315,
+    "lon": 3.747946,
+    "candidat": null
+  },
+  "way/1126345731": {
+    "osm_id": "way/1126345731",
+    "nom": "Bassijnstraat",
+    "commune": "Gent",
+    "lat": 51.0452707,
+    "lon": 3.7481064,
+    "candidat": null
+  },
+  "way/682073021": {
+    "osm_id": "way/682073021",
+    "nom": "Biest",
+    "commune": "Gent",
+    "lat": 51.0685997,
+    "lon": 3.7543364,
+    "candidat": null
+  },
+  "way/682073022": {
+    "osm_id": "way/682073022",
+    "nom": "Biest",
+    "commune": "Gent",
+    "lat": 51.0686379,
+    "lon": 3.7543482,
+    "candidat": null
+  },
+  "way/682073023": {
+    "osm_id": "way/682073023",
+    "nom": "Biest",
+    "commune": "Gent",
+    "lat": 51.0686749,
+    "lon": 3.7543558,
+    "candidat": null
+  },
+  "way/371300519": {
+    "osm_id": "way/371300519",
+    "nom": "Bisschopstraat",
+    "commune": "Gent",
+    "lat": 51.0376452,
+    "lon": 3.7390697,
+    "candidat": null
+  },
+  "way/982874102": {
+    "osm_id": "way/982874102",
+    "nom": "Boswachterstraat",
+    "commune": "Gent",
+    "lat": 51.0387914,
+    "lon": 3.7746283,
+    "candidat": null
+  },
+  "way/1251780800": {
+    "osm_id": "way/1251780800",
+    "nom": "Brandstraat",
+    "commune": "Gent",
+    "lat": 51.0512599,
+    "lon": 3.7151756,
+    "candidat": null
+  },
+  "way/981219790": {
+    "osm_id": "way/981219790",
+    "nom": "Brugsevaart",
+    "commune": "Gent",
+    "lat": 51.0707666,
+    "lon": 3.6927253,
+    "candidat": null
+  },
+  "way/1044426625": {
+    "osm_id": "way/1044426625",
+    "nom": "Chantal Claeysdreef",
+    "commune": "Gent",
+    "lat": 51.0393122,
+    "lon": 3.7026384,
+    "candidat": null
+  },
+  "way/1126340402": {
+    "osm_id": "way/1126340402",
+    "nom": "Charles Van Lerbergheplein",
+    "commune": "Gent",
+    "lat": 51.0487898,
+    "lon": 3.7462712,
+    "candidat": null
+  },
+  "way/973951851": {
+    "osm_id": "way/973951851",
+    "nom": "Cretonnepad",
+    "commune": "Gent",
+    "lat": 51.0266808,
+    "lon": 3.7641207,
+    "candidat": null
+  },
+  "way/1320337511": {
+    "osm_id": "way/1320337511",
+    "nom": "De Naeyerdreef",
+    "commune": "Gent",
+    "lat": 51.0343356,
+    "lon": 3.7481237,
+    "candidat": null
+  },
+  "way/1145124572": {
+    "osm_id": "way/1145124572",
+    "nom": "Domien Ingelsstraat",
+    "commune": "Gent",
+    "lat": 51.0513311,
+    "lon": 3.664404,
+    "candidat": null
+  },
+  "way/1046184644": {
+    "osm_id": "way/1046184644",
+    "nom": "Dosweg",
+    "commune": "Gent",
+    "lat": 51.0427482,
+    "lon": 3.6473113,
+    "candidat": null
+  },
+  "way/1126345290": {
+    "osm_id": "way/1126345290",
+    "nom": "Drongenhof",
+    "commune": "Gent",
+    "lat": 51.0591789,
+    "lon": 3.7235475,
+    "candidat": null
+  },
+  "way/1126348500": {
+    "osm_id": "way/1126348500",
+    "nom": "Edmond Ronsestraat",
+    "commune": "Gent",
+    "lat": 51.0972469,
+    "lon": 3.7679512,
+    "candidat": null
+  },
+  "way/753984507": {
+    "osm_id": "way/753984507",
+    "nom": "Elsakker",
+    "commune": "Gent",
+    "lat": 51.0362148,
+    "lon": 3.6138984,
+    "candidat": null
+  },
+  "way/982874101": {
+    "osm_id": "way/982874101",
+    "nom": "Fernand Van Bellepad",
+    "commune": "Gent",
+    "lat": 51.0388443,
+    "lon": 3.7746003,
+    "candidat": null
+  },
+  "way/1324605667": {
+    "osm_id": "way/1324605667",
+    "nom": "Firapeelpad",
+    "commune": "Gent",
+    "lat": 51.064997,
+    "lon": 3.6897954,
+    "candidat": null
+  },
+  "way/838916094": {
+    "osm_id": "way/838916094",
+    "nom": "Flamingostraat",
+    "commune": "Gent",
+    "lat": 51.0296276,
+    "lon": 3.7071998,
+    "candidat": null
+  },
+  "way/1126347595": {
+    "osm_id": "way/1126347595",
+    "nom": "Fluweelstraat",
+    "commune": "Gent",
+    "lat": 51.06795,
+    "lon": 3.6901253,
+    "candidat": null
+  },
+  "way/980857797": {
+    "osm_id": "way/980857797",
+    "nom": "Gebroeders De Smetstraat",
+    "commune": "Gent",
+    "lat": 51.0631386,
+    "lon": 3.7059147,
+    "candidat": null
+  },
+  "way/1126345105": {
+    "osm_id": "way/1126345105",
+    "nom": "Groot-Brittanniëhof",
+    "commune": "Gent",
+    "lat": 51.0434899,
+    "lon": 3.7112166,
+    "candidat": null
+  },
+  "way/845000036": {
+    "osm_id": "way/845000036",
+    "nom": "Handbalstraat",
+    "commune": "Gent",
+    "lat": 51.0406841,
+    "lon": 3.7087063,
+    "candidat": null
+  },
+  "way/1126345636": {
+    "osm_id": "way/1126345636",
+    "nom": "Heirnis",
+    "commune": "Gent",
+    "lat": 51.0463577,
+    "lon": 3.7405852,
+    "candidat": null
+  },
+  "way/1149361007": {
+    "osm_id": "way/1149361007",
+    "nom": "Hemingplein",
+    "commune": "Gent",
+    "lat": 51.0272549,
+    "lon": 3.6800201,
+    "candidat": null
+  },
+  "way/825783809": {
+    "osm_id": "way/825783809",
+    "nom": "Hondelee",
+    "commune": "Gent",
+    "lat": 50.9970991,
+    "lon": 3.7161348,
+    "candidat": null
+  },
+  "way/820947155": {
+    "osm_id": "way/820947155",
+    "nom": "Hoogoeverstraat",
+    "commune": "Gent",
+    "lat": 51.0414437,
+    "lon": 3.7750866,
+    "candidat": null
+  },
+  "way/818493918": {
+    "osm_id": "way/818493918",
+    "nom": "Hugo Van der Goesstraat",
+    "commune": "Gent",
+    "lat": 51.0668827,
+    "lon": 3.7276196,
+    "candidat": null
+  },
+  "way/1126344954": {
+    "osm_id": "way/1126344954",
+    "nom": "Hundelgemsesteenweg",
+    "commune": "Gent",
+    "lat": 51.0331084,
+    "lon": 3.7404725,
+    "candidat": null
+  },
+  "way/1126352050": {
+    "osm_id": "way/1126352050",
+    "nom": "Hyacintstraat",
+    "commune": "Gent",
+    "lat": 51.0706724,
+    "lon": 3.7034316,
+    "candidat": null
+  },
+  "way/349213611": {
+    "osm_id": "way/349213611",
+    "nom": "Inslagpad",
+    "commune": "Gent",
+    "lat": 51.0275265,
+    "lon": 3.7582208,
+    "candidat": null
+  },
+  "way/659553261": {
+    "osm_id": "way/659553261",
+    "nom": "Invalidenstraat",
+    "commune": "Gent",
+    "lat": 51.076738,
+    "lon": 3.7615001,
+    "candidat": null
+  },
+  "way/1024645555": {
+    "osm_id": "way/1024645555",
+    "nom": "Joannes Schinckdreef",
+    "commune": "Gent",
+    "lat": 51.0669635,
+    "lon": 3.6206894,
+    "candidat": null
+  },
+  "way/1508373573": {
+    "osm_id": "way/1508373573",
+    "nom": "Jozef Guislainstraat",
+    "commune": "Gent",
+    "lat": 51.0671176,
+    "lon": 3.7041481,
+    "candidat": null
+  },
+  "way/727116509": {
+    "osm_id": "way/727116509",
+    "nom": "Jubileumlaan",
+    "commune": "Gent",
+    "lat": 51.0443341,
+    "lon": 3.7081275,
+    "candidat": null
+  },
+  "way/843435502": {
+    "osm_id": "way/843435502",
+    "nom": "Kasteeldreef",
+    "commune": "Gent",
+    "lat": 51.0752928,
+    "lon": 3.6740755,
+    "candidat": null
+  },
+  "way/1030362052": {
+    "osm_id": "way/1030362052",
+    "nom": "Klaverdries",
+    "commune": "Gent",
+    "lat": 51.0522465,
+    "lon": 3.6592979,
+    "candidat": null
+  },
+  "way/1455939609": {
+    "osm_id": "way/1455939609",
+    "nom": "Kortrijksesteenweg",
+    "commune": "Gent",
+    "lat": 51.0252967,
+    "lon": 3.7113268,
+    "candidat": null
+  },
+  "way/857866020": {
+    "osm_id": "way/857866020",
+    "nom": "Kriekerijstraat",
+    "commune": "Gent",
+    "lat": 51.0578745,
+    "lon": 3.7562673,
+    "candidat": null
+  },
+  "way/1126340401": {
+    "osm_id": "way/1126340401",
+    "nom": "Leon Sarteelplein",
+    "commune": "Gent",
+    "lat": 51.0486655,
+    "lon": 3.7461676,
+    "candidat": null
+  },
+  "way/889543528": {
+    "osm_id": "way/889543528",
+    "nom": "Leon Sarteelstraat",
+    "commune": "Gent",
+    "lat": 51.0690012,
+    "lon": 3.792676,
+    "candidat": null
+  },
+  "node/6876274132": {
+    "osm_id": "node/6876274132",
+    "nom": "Lucas de Heerestraat",
+    "commune": "Gent",
+    "lat": 51.0334694,
+    "lon": 3.7228753,
+    "candidat": null
+  },
+  "node/6876288342": {
+    "osm_id": "node/6876288342",
+    "nom": "Marseillestraat",
+    "commune": "Gent",
+    "lat": 51.0859197,
+    "lon": 3.7277951,
+    "candidat": null
+  },
+  "way/732308231": {
+    "osm_id": "way/732308231",
+    "nom": "Meersemdries",
+    "commune": "Gent",
+    "lat": 51.0409758,
+    "lon": 3.7622243,
+    "candidat": null
+  },
+  "way/732448462": {
+    "osm_id": "way/732448462",
+    "nom": "Meersemdries",
+    "commune": "Gent",
+    "lat": 51.0408393,
+    "lon": 3.7622912,
+    "candidat": null
+  },
+  "node/6780029059": {
+    "osm_id": "node/6780029059",
+    "nom": "Mercuriusstraat",
+    "commune": "Gent",
+    "lat": 51.0809275,
+    "lon": 3.6659145,
+    "candidat": null
+  },
+  "way/722993771": {
+    "osm_id": "way/722993771",
+    "nom": "Mercuriusstraat",
+    "commune": "Gent",
+    "lat": 51.0801448,
+    "lon": 3.6657083,
+    "candidat": null
+  },
+  "way/642978866": {
+    "osm_id": "way/642978866",
+    "nom": "Metselaarsstraat",
+    "commune": "Gent",
+    "lat": 51.059173,
+    "lon": 3.7356514,
+    "candidat": null
+  },
+  "way/836162333": {
+    "osm_id": "way/836162333",
+    "nom": "Muilaardstraat",
+    "commune": "Gent",
+    "lat": 51.0183049,
+    "lon": 3.7255486,
+    "candidat": null
+  },
+  "way/1093597901": {
+    "osm_id": "way/1093597901",
+    "nom": "New-Yorkstraat",
+    "commune": "Gent",
+    "lat": 51.077348,
+    "lon": 3.7286877,
+    "candidat": null
+  },
+  "way/727116510": {
+    "osm_id": "way/727116510",
+    "nom": "Offerlaan",
+    "commune": "Gent",
+    "lat": 51.0443205,
+    "lon": 3.7082702,
+    "candidat": null
+  },
+  "way/1126348868": {
+    "osm_id": "way/1126348868",
+    "nom": "Ooievaarsnest",
+    "commune": "Gent",
+    "lat": 51.035118,
+    "lon": 3.7724471,
+    "candidat": null
+  },
+  "way/768651529": {
+    "osm_id": "way/768651529",
+    "nom": "Ottergemse Dries",
+    "commune": "Gent",
+    "lat": 51.0300818,
+    "lon": 3.7299421,
+    "candidat": null
+  },
+  "way/1525812299": {
+    "osm_id": "way/1525812299",
+    "nom": "Overwale",
+    "commune": "Gent",
+    "lat": 51.032635,
+    "lon": 3.7031072,
+    "candidat": null
+  },
+  "way/974001648": {
+    "osm_id": "way/974001648",
+    "nom": "Palinghuizen",
+    "commune": "Gent",
+    "lat": 51.069368,
+    "lon": 3.6954915,
+    "candidat": null
+  },
+  "way/738044205": {
+    "osm_id": "way/738044205",
+    "nom": "Pastorijdreef",
+    "commune": "Gent",
+    "lat": 51.0214847,
+    "lon": 3.6694736,
+    "candidat": null
+  },
+  "way/1306853288": {
+    "osm_id": "way/1306853288",
+    "nom": "Peerstraat",
+    "commune": "Gent",
+    "lat": 51.0634694,
+    "lon": 3.6919384,
+    "candidat": null
+  },
+  "way/1126345316": {
+    "osm_id": "way/1126345316",
+    "nom": "Puinstraat",
+    "commune": "Gent",
+    "lat": 51.0517373,
+    "lon": 3.7375852,
+    "candidat": null
+  },
+  "way/1126341012": {
+    "osm_id": "way/1126341012",
+    "nom": "Rabotstraat",
+    "commune": "Gent",
+    "lat": 51.057457,
+    "lon": 3.7139125,
+    "candidat": null
+  },
+  "way/1444049880": {
+    "osm_id": "way/1444049880",
+    "nom": "Robiniahof",
+    "commune": "Gent",
+    "lat": 51.0441976,
+    "lon": 3.7675048,
+    "candidat": null
+  },
+  "way/755842263": {
+    "osm_id": "way/755842263",
+    "nom": "Roerstraat",
+    "commune": "Gent",
+    "lat": 51.0726242,
+    "lon": 3.7316337,
+    "candidat": null
+  },
+  "way/727117970": {
+    "osm_id": "way/727117970",
+    "nom": "Rommelwaterpark",
+    "commune": "Gent",
+    "lat": 51.0511393,
+    "lon": 3.7400258,
+    "candidat": null
+  },
+  "way/727117971": {
+    "osm_id": "way/727117971",
+    "nom": "Rommelwaterpark",
+    "commune": "Gent",
+    "lat": 51.052104,
+    "lon": 3.7398124,
+    "candidat": null
+  },
+  "way/768651078": {
+    "osm_id": "way/768651078",
+    "nom": "Ruststraat",
+    "commune": "Gent",
+    "lat": 51.0297266,
+    "lon": 3.7293347,
+    "candidat": null
+  },
+  "way/1126352167": {
+    "osm_id": "way/1126352167",
+    "nom": "Scandinaviëstraat",
+    "commune": "Gent",
+    "lat": 51.070084,
+    "lon": 3.7402518,
+    "candidat": null
+  },
+  "way/1126347998": {
+    "osm_id": "way/1126347998",
+    "nom": "Schoonakker",
+    "commune": "Gent",
+    "lat": 51.1016315,
+    "lon": 3.774448,
+    "candidat": null
+  },
+  "way/1203881766": {
+    "osm_id": "way/1203881766",
+    "nom": "Schoubroek",
+    "commune": "Gent",
+    "lat": 51.080406,
+    "lon": 3.676715,
+    "candidat": null
+  },
+  "way/1203881767": {
+    "osm_id": "way/1203881767",
+    "nom": "Schoubroek",
+    "commune": "Gent",
+    "lat": 51.0804228,
+    "lon": 3.676743,
+    "candidat": null
+  },
+  "way/980847142": {
+    "osm_id": "way/980847142",
+    "nom": "Sloepstraat",
+    "commune": "Gent",
+    "lat": 51.0877507,
+    "lon": 3.7207446,
+    "candidat": null
+  },
+  "way/852041245": {
+    "osm_id": "way/852041245",
+    "nom": "Spanjaardstraat",
+    "commune": "Gent",
+    "lat": 51.0541122,
+    "lon": 3.7374859,
+    "candidat": null
+  },
+  "way/840452636": {
+    "osm_id": "way/840452636",
+    "nom": "Stormvogelstraat",
+    "commune": "Gent",
+    "lat": 51.0369318,
+    "lon": 3.6930227,
+    "candidat": null
+  },
+  "way/1299532256": {
+    "osm_id": "way/1299532256",
+    "nom": "Ten Hulle",
+    "commune": "Gent",
+    "lat": 50.9975186,
+    "lon": 3.7114316,
+    "candidat": null
+  },
+  "way/1093596185": {
+    "osm_id": "way/1093596185",
+    "nom": "Terneuzenlaan",
+    "commune": "Gent",
+    "lat": 51.0708607,
+    "lon": 3.7291305,
+    "candidat": null
+  },
+  "way/979373865": {
+    "osm_id": "way/979373865",
+    "nom": "Tolhuislaan",
+    "commune": "Gent",
+    "lat": 51.0635059,
+    "lon": 3.7253187,
+    "candidat": null
+  },
+  "way/718171885": {
+    "osm_id": "way/718171885",
+    "nom": "Trimlaan",
+    "commune": "Gent",
+    "lat": 51.0466715,
+    "lon": 3.6823838,
+    "candidat": null
+  },
+  "way/1126352014": {
+    "osm_id": "way/1126352014",
+    "nom": "Veenakkerpad",
+    "commune": "Gent",
+    "lat": 51.0717666,
+    "lon": 3.7459211,
+    "candidat": null
+  },
+  "way/1126352015": {
+    "osm_id": "way/1126352015",
+    "nom": "Veenakkerpad",
+    "commune": "Gent",
+    "lat": 51.0717853,
+    "lon": 3.7459477,
+    "candidat": null
+  },
+  "way/1126352016": {
+    "osm_id": "way/1126352016",
+    "nom": "Veenakkerpad",
+    "commune": "Gent",
+    "lat": 51.0717996,
+    "lon": 3.7459969,
+    "candidat": null
+  },
+  "way/1126352017": {
+    "osm_id": "way/1126352017",
+    "nom": "Veenakkerpad",
+    "commune": "Gent",
+    "lat": 51.0718173,
+    "lon": 3.7460214,
+    "candidat": null
+  },
+  "way/1126352018": {
+    "osm_id": "way/1126352018",
+    "nom": "Veenakkerpad",
+    "commune": "Gent",
+    "lat": 51.0718349,
+    "lon": 3.7460458,
+    "candidat": null
+  },
+  "way/1126345134": {
+    "osm_id": "way/1126345134",
+    "nom": "Vissersdijk",
+    "commune": "Gent",
+    "lat": 51.0476731,
+    "lon": 3.6945822,
+    "candidat": null
+  },
+  "way/1204820408": {
+    "osm_id": "way/1204820408",
+    "nom": "Watergraafstraat",
+    "commune": "Gent",
+    "lat": 51.0537477,
+    "lon": 3.7176406,
+    "candidat": null
+  },
+  "way/1005607760": {
+    "osm_id": "way/1005607760",
+    "nom": "Watersportlaan",
+    "commune": "Gent",
+    "lat": 51.0473274,
+    "lon": 3.7045597,
+    "candidat": null
+  },
+  "way/981169737": {
+    "osm_id": "way/981169737",
+    "nom": "Wijkpark De Porre",
+    "commune": "Gent",
+    "lat": 51.0277921,
+    "lon": 3.757646,
+    "candidat": null
+  },
+  "node/6783657078": {
+    "osm_id": "node/6783657078",
+    "nom": "Willem de Beersteeg",
+    "commune": "Gent",
+    "lat": 51.0602198,
+    "lon": 3.726631,
+    "candidat": null
+  },
+  "way/846888591": {
+    "osm_id": "way/846888591",
+    "nom": "Yachtdreef",
+    "commune": "Gent",
+    "lat": 51.0461782,
+    "lon": 3.7030723,
+    "candidat": null
+  },
+  "way/846888592": {
+    "osm_id": "way/846888592",
+    "nom": "Yachtdreef",
+    "commune": "Gent",
+    "lat": 51.0462335,
+    "lon": 3.7031788,
+    "candidat": null
+  },
+  "way/783621047": {
+    "osm_id": "way/783621047",
+    "nom": "Terrain (51.21769, 4.47134)",
+    "commune": "Antwerpen",
+    "lat": 51.2176894,
+    "lon": 4.4713402,
+    "candidat": null
+  },
+  "way/634588158": {
+    "osm_id": "way/634588158",
+    "nom": "August Leyweg",
+    "commune": "Antwerpen",
+    "lat": 51.1945713,
+    "lon": 4.3781455,
+    "candidat": null
+  },
+  "way/535257139": {
+    "osm_id": "way/535257139",
+    "nom": "Baron D'hanislaan",
+    "commune": "Antwerpen",
+    "lat": 51.2058354,
+    "lon": 4.3901974,
+    "candidat": null
+  },
+  "way/1469819808": {
+    "osm_id": "way/1469819808",
+    "nom": "Berkenveldplein",
+    "commune": "Antwerpen",
+    "lat": 51.1678343,
+    "lon": 4.3834086,
+    "candidat": null
+  },
+  "way/1469819814": {
+    "osm_id": "way/1469819814",
+    "nom": "Bernard De Pooterstraat",
+    "commune": "Antwerpen",
+    "lat": 51.1684656,
+    "lon": 4.3806375,
+    "candidat": null
+  },
+  "way/1348218298": {
+    "osm_id": "way/1348218298",
+    "nom": "Binnenvaartstraat",
+    "commune": "Antwerpen",
+    "lat": 51.234027,
+    "lon": 4.4140762,
+    "candidat": null
+  },
+  "way/899891448": {
+    "osm_id": "way/899891448",
+    "nom": "Boeksveldplein",
+    "commune": "Antwerpen",
+    "lat": 51.1639745,
+    "lon": 4.3904275,
+    "candidat": null
+  },
+  "way/899891449": {
+    "osm_id": "way/899891449",
+    "nom": "Boeksveldplein",
+    "commune": "Antwerpen",
+    "lat": 51.1639551,
+    "lon": 4.3904555,
+    "candidat": null
+  },
+  "way/899891450": {
+    "osm_id": "way/899891450",
+    "nom": "Boeksveldplein",
+    "commune": "Antwerpen",
+    "lat": 51.1639356,
+    "lon": 4.3904844,
+    "candidat": null
+  },
+  "way/1348218299": {
+    "osm_id": "way/1348218299",
+    "nom": "Bombaystraat",
+    "commune": "Antwerpen",
+    "lat": 51.234934,
+    "lon": 4.4102834,
+    "candidat": null
+  },
+  "way/935261307": {
+    "osm_id": "way/935261307",
+    "nom": "Bredestraat",
+    "commune": "Antwerpen",
+    "lat": 51.3037521,
+    "lon": 4.413037,
+    "candidat": null
+  },
+  "way/1348218300": {
+    "osm_id": "way/1348218300",
+    "nom": "Damplein",
+    "commune": "Antwerpen",
+    "lat": 51.2320846,
+    "lon": 4.4249525,
+    "candidat": null
+  },
+  "way/783555231": {
+    "osm_id": "way/783555231",
+    "nom": "Fonteinstraat",
+    "commune": "Antwerpen",
+    "lat": 51.2117452,
+    "lon": 4.4427692,
+    "candidat": null
+  },
+  "way/1458516047": {
+    "osm_id": "way/1458516047",
+    "nom": "Geitepad",
+    "commune": "Antwerpen",
+    "lat": 51.1584217,
+    "lon": 4.4070172,
+    "candidat": null
+  },
+  "way/1458516048": {
+    "osm_id": "way/1458516048",
+    "nom": "Geitepad",
+    "commune": "Antwerpen",
+    "lat": 51.1583855,
+    "lon": 4.4069348,
+    "candidat": null
+  },
+  "node/13457859888": {
+    "osm_id": "node/13457859888",
+    "nom": "Groenendaallaan",
+    "commune": "Antwerpen",
+    "lat": 51.2473036,
+    "lon": 4.4215805,
+    "candidat": null
+  },
+  "node/12966168600": {
+    "osm_id": "node/12966168600",
+    "nom": "Harmoniestraat",
+    "commune": "Antwerpen",
+    "lat": 51.1997171,
+    "lon": 4.4092562,
+    "candidat": null
+  },
+  "node/12966192501": {
+    "osm_id": "node/12966192501",
+    "nom": "Harmoniestraat",
+    "commune": "Antwerpen",
+    "lat": 51.1997795,
+    "lon": 4.4093319,
+    "candidat": null
+  },
+  "way/946893965": {
+    "osm_id": "way/946893965",
+    "nom": "Hendrik Kanorastraat",
+    "commune": "Antwerpen",
+    "lat": 51.2878736,
+    "lon": 4.4334897,
+    "candidat": null
+  },
+  "way/947237041": {
+    "osm_id": "way/947237041",
+    "nom": "Hendrik Kanorastraat",
+    "commune": "Antwerpen",
+    "lat": 51.287845,
+    "lon": 4.4334166,
+    "candidat": null
+  },
+  "way/1472892610": {
+    "osm_id": "way/1472892610",
+    "nom": "Hoge-Aardstraat",
+    "commune": "Antwerpen",
+    "lat": 51.1753113,
+    "lon": 4.4302942,
+    "candidat": null
+  },
+  "way/619851733": {
+    "osm_id": "way/619851733",
+    "nom": "Hoofdfrontweg",
+    "commune": "Antwerpen",
+    "lat": 51.1647395,
+    "lon": 4.3475201,
+    "candidat": null
+  },
+  "way/776278514": {
+    "osm_id": "way/776278514",
+    "nom": "Jules Bordetstraat",
+    "commune": "Antwerpen",
+    "lat": 51.2022226,
+    "lon": 4.4226493,
+    "candidat": null
+  },
+  "way/1500648407": {
+    "osm_id": "way/1500648407",
+    "nom": "Kastanjeboomplein",
+    "commune": "Antwerpen",
+    "lat": 51.2579931,
+    "lon": 4.4465736,
+    "candidat": null
+  },
+  "way/1537707376": {
+    "osm_id": "way/1537707376",
+    "nom": "Kroonplein",
+    "commune": "Antwerpen",
+    "lat": 51.250974,
+    "lon": 4.4486652,
+    "candidat": null
+  },
+  "way/846325127": {
+    "osm_id": "way/846325127",
+    "nom": "Laar",
+    "commune": "Antwerpen",
+    "lat": 51.2167058,
+    "lon": 4.4344799,
+    "candidat": null
+  },
+  "way/1535189933": {
+    "osm_id": "way/1535189933",
+    "nom": "Lange Bremstraat",
+    "commune": "Antwerpen",
+    "lat": 51.2567265,
+    "lon": 4.4566355,
+    "candidat": null
+  },
+  "node/9217381512": {
+    "osm_id": "node/9217381512",
+    "nom": "Lode Craeybeckxtunnel",
+    "commune": "Antwerpen",
+    "lat": 51.17832,
+    "lon": 4.4162556,
+    "candidat": null
+  },
+  "way/909120360": {
+    "osm_id": "way/909120360",
+    "nom": "Mertensstraat",
+    "commune": "Antwerpen",
+    "lat": 51.196972,
+    "lon": 4.4782792,
+    "candidat": null
+  },
+  "way/858836777": {
+    "osm_id": "way/858836777",
+    "nom": "Monnikenhofstraat",
+    "commune": "Antwerpen",
+    "lat": 51.3475334,
+    "lon": 4.3302059,
+    "candidat": null
+  },
+  "way/963432157": {
+    "osm_id": "way/963432157",
+    "nom": "Napoleonkaai",
+    "commune": "Antwerpen",
+    "lat": 51.2299106,
+    "lon": 4.4108867,
+    "candidat": null
+  },
+  "way/667918461": {
+    "osm_id": "way/667918461",
+    "nom": "Oortbroek",
+    "commune": "Antwerpen",
+    "lat": 51.2515545,
+    "lon": 4.4313724,
+    "candidat": null
+  },
+  "way/1488079310": {
+    "osm_id": "way/1488079310",
+    "nom": "Peter Benoitlaan",
+    "commune": "Antwerpen",
+    "lat": 51.2103563,
+    "lon": 4.4798821,
+    "candidat": null
+  },
+  "way/1488079311": {
+    "osm_id": "way/1488079311",
+    "nom": "Peter Benoitlaan",
+    "commune": "Antwerpen",
+    "lat": 51.2103294,
+    "lon": 4.4800487,
+    "candidat": null
+  },
+  "way/999706930": {
+    "osm_id": "way/999706930",
+    "nom": "Pierenbergstraat",
+    "commune": "Antwerpen",
+    "lat": 51.1870572,
+    "lon": 4.3801663,
+    "candidat": null
+  },
+  "way/1336360876": {
+    "osm_id": "way/1336360876",
+    "nom": "Populierenlaan",
+    "commune": "Antwerpen",
+    "lat": 51.1836562,
+    "lon": 4.3940962,
+    "candidat": null
+  },
+  "way/1534036530": {
+    "osm_id": "way/1534036530",
+    "nom": "Sint-Nicolaasplaats",
+    "commune": "Antwerpen",
+    "lat": 51.2204799,
+    "lon": 4.4059531,
+    "candidat": null
+  },
+  "way/424726728": {
+    "osm_id": "way/424726728",
+    "nom": "Tankgrachtpad",
+    "commune": "Antwerpen",
+    "lat": 51.1618206,
+    "lon": 4.3948972,
+    "candidat": null
+  },
+  "way/1409271131": {
+    "osm_id": "way/1409271131",
+    "nom": "Theo Van den Boschstraat",
+    "commune": "Antwerpen",
+    "lat": 51.2009203,
+    "lon": 4.4678864,
+    "candidat": null
+  },
+  "way/1496236162": {
+    "osm_id": "way/1496236162",
+    "nom": "Vuurwerkstraat",
+    "commune": "Antwerpen",
+    "lat": 51.2038771,
+    "lon": 4.4718764,
+    "candidat": null
+  },
+  "way/1520556310": {
+    "osm_id": "way/1520556310",
+    "nom": "Zwanenlaan",
+    "commune": "Antwerpen",
+    "lat": 51.1700094,
+    "lon": 4.4207369,
+    "candidat": null
+  },
+  "way/1358974194": {
+    "osm_id": "way/1358974194",
+    "nom": "Terrain (50.83300, 4.29579)",
+    "commune": "Anderlecht",
+    "lat": 50.8330026,
+    "lon": 4.2957921,
+    "candidat": null
+  },
+  "way/1358974195": {
+    "osm_id": "way/1358974195",
+    "nom": "Terrain (50.83303, 4.29556)",
+    "commune": "Anderlecht",
+    "lat": 50.8330294,
+    "lon": 4.2955596,
+    "candidat": null
+  },
+  "way/1358974196": {
+    "osm_id": "way/1358974196",
+    "nom": "Terrain (50.83295, 4.29575)",
+    "commune": "Anderlecht",
+    "lat": 50.8329483,
+    "lon": 4.2957506,
+    "candidat": null
+  },
+  "way/1358974197": {
+    "osm_id": "way/1358974197",
+    "nom": "Terrain (50.83296, 4.29552)",
+    "commune": "Anderlecht",
+    "lat": 50.8329645,
+    "lon": 4.2955165,
+    "candidat": null
+  },
+  "way/1257086107": {
+    "osm_id": "way/1257086107",
+    "nom": "Avenue Marius Renard - Marius Renardlaan",
+    "commune": "Anderlecht",
+    "lat": 50.8254401,
+    "lon": 4.2854569,
+    "candidat": null
+  },
+  "way/1257086108": {
+    "osm_id": "way/1257086108",
+    "nom": "Avenue Marius Renard - Marius Renardlaan",
+    "commune": "Anderlecht",
+    "lat": 50.8254237,
+    "lon": 4.285398,
+    "candidat": null
+  },
+  "way/1257086109": {
+    "osm_id": "way/1257086109",
+    "nom": "Avenue Marius Renard - Marius Renardlaan",
+    "commune": "Anderlecht",
+    "lat": 50.8254098,
+    "lon": 4.285334,
+    "candidat": null
+  },
+  "way/1257086110": {
+    "osm_id": "way/1257086110",
+    "nom": "Avenue Marius Renard - Marius Renardlaan",
+    "commune": "Anderlecht",
+    "lat": 50.8253969,
+    "lon": 4.2852667,
+    "candidat": null
+  },
+  "way/1458938177": {
+    "osm_id": "way/1458938177",
+    "nom": "Avenue d'Itterbeek - Itterbeekse Laan",
+    "commune": "Anderlecht",
+    "lat": 50.8358829,
+    "lon": 4.2845871,
+    "candidat": null
+  },
+  "way/1458938178": {
+    "osm_id": "way/1458938178",
+    "nom": "Avenue d'Itterbeek - Itterbeekse Laan",
+    "commune": "Anderlecht",
+    "lat": 50.8358609,
+    "lon": 4.2845768,
+    "candidat": null
+  },
+  "way/1394109079": {
+    "osm_id": "way/1394109079",
+    "nom": "Drève Olympique - Olympische dreef",
+    "commune": "Anderlecht",
+    "lat": 50.8213313,
+    "lon": 4.2727363,
+    "candidat": null
+  },
+  "way/1394109080": {
+    "osm_id": "way/1394109080",
+    "nom": "Drève Olympique - Olympische dreef",
+    "commune": "Anderlecht",
+    "lat": 50.8212824,
+    "lon": 4.2729395,
+    "candidat": null
+  },
+  "way/1012396136": {
+    "osm_id": "way/1012396136",
+    "nom": "Place Alphonse Lemmens - Alphonse Lemmensplein",
+    "commune": "Anderlecht",
+    "lat": 50.8456486,
+    "lon": 4.3354201,
+    "candidat": null
+  },
+  "way/1012396137": {
+    "osm_id": "way/1012396137",
+    "nom": "Place Alphonse Lemmens - Alphonse Lemmensplein",
+    "commune": "Anderlecht",
+    "lat": 50.8457502,
+    "lon": 4.3352765,
+    "candidat": null
+  },
+  "way/1149403696": {
+    "osm_id": "way/1149403696",
+    "nom": "Place Alphonse Lemmens - Alphonse Lemmensplein",
+    "commune": "Anderlecht",
+    "lat": 50.8454498,
+    "lon": 4.3361703,
+    "candidat": null
+  },
+  "way/988863838": {
+    "osm_id": "way/988863838",
+    "nom": "Place De Linde - De Lindeplein",
+    "commune": "Anderlecht",
+    "lat": 50.8357958,
+    "lon": 4.2996981,
+    "candidat": null
+  },
+  "way/988863839": {
+    "osm_id": "way/988863839",
+    "nom": "Place De Linde - De Lindeplein",
+    "commune": "Anderlecht",
+    "lat": 50.8358018,
+    "lon": 4.2995004,
+    "candidat": null
+  },
+  "way/769598550": {
+    "osm_id": "way/769598550",
+    "nom": "Place Ministre Wauters - Minister Wautersplein",
+    "commune": "Anderlecht",
+    "lat": 50.818707,
+    "lon": 4.2951067,
+    "candidat": null
+  },
+  "way/1088011275": {
+    "osm_id": "way/1088011275",
+    "nom": "Route de Lennik - Lennikse Baan",
+    "commune": "Anderlecht",
+    "lat": 50.8187577,
+    "lon": 4.2878891,
+    "candidat": null
+  }
+}
