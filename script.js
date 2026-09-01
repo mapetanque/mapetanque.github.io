@@ -1038,6 +1038,27 @@ function construireContenuPopupTerrain(feature, layer) {
         ? (window.photosMapillaryParOsmId[tags.osm_id] || [])
         : [];
     photosValidees.forEach(function (entree) {
+        if (entree.miniature_locale) {
+            // Photo 360° reprojetée en image plate statique par generer_miniature_360.py /
+            // generer_miniatures_360_batch.py (voir data/photos_mapillary.json) — contrairement
+            // à l'embed Mapillary classique ci-dessous (qui ignore le cadrage x/y/zoom qu'on
+            // avait repéré à la main), cette image est déjà pré-recadrée dans le bon angle une
+            // fois pour toutes, donc une <img> classique suffit, pas besoin d'iframe.
+            diapositives.push({
+                type: 'img',
+                panoStatique: true,
+                html: `<img src="${entree.miniature_locale}" alt="" class="popup-photo" loading="lazy">`,
+                // entree.credit_url (généré avec x/y/zoom par generer_miniatures_360_batch.py)
+                // amène directement au bon cadrage repéré dans l'outil de revue. Repli sur un
+                // lien générique (sans orientation) uniquement pour d'anciennes entrées produites
+                // avant l'ajout de x/y/zoom au batch — mieux qu'un lien cassé, mais atterrit alors
+                // sur le cadrage par défaut de Mapillary, pas le bon angle.
+                creditUrl: entree.credit_url
+                    || `https://www.mapillary.com/app/?pKey=${entree.mapillary_id}&lat=${terrainLat}&lng=${terrainLon}&z=17&focus=photo`,
+                creditLabel: t('popup_photo_credit_mapillary'),
+            });
+            return;
+        }
         diapositives.push({
             type: 'iframe',
             html: `<iframe src="https://www.mapillary.com/embed?image_key=${entree.mapillary_id}&style=photo" class="popup-photo popup-photo-iframe" loading="lazy" frameborder="0" scrolling="no"></iframe>`,
@@ -1061,14 +1082,20 @@ function construireContenuPopupTerrain(feature, layer) {
 
     // Sous chaque photo : crédit classique pour une <img> (Wikimedia, ou Mapillary résolu via
     // tag OSM — aucun des deux n'affiche d'habillage propre, contrairement à l'iframe ci-dessous,
-    // donc le crédit y reste nécessaire). Pour l'embed Mapillary (type 'iframe'), l'habillage
-    // affiché par Mapillary lui-même (auteur, date...) rend ce crédit redondant — rien n'est
-    // affiché ici pour ce cas, le bouton "Ajouter une photo ?" prend le relais séparément (voir
-    // boutonAjouterPhoto() plus bas, rendu une seule fois sous le carrousel, pas par diapositive
-    // — sinon il apparaissait autant de fois qu'il y a de photos Mapillary, en plus de gonfler
-    // la hauteur du carrousel et de désaligner les points de pagination posés par-dessus).
+    // donc le crédit y reste nécessaire). Pour l'embed Mapillary (type 'iframe') ET pour une
+    // miniature 360° statique (panoStatique) : l'habillage Mapillary (pour l'iframe) ou le fait
+    // que la photo soit déjà de notre propre pipeline (pour la 360°) rendent ce crédit redondant
+    // — rien n'est affiché ici pour ces deux cas, le bouton "Ajouter une photo ?" prend le relais
+    // séparément (voir boutonAjouterPhoto() plus bas, rendu une seule fois sous le carrousel, pas
+    // par diapositive — sinon il apparaissait autant de fois qu'il y a de photos de ce type, en
+    // plus de gonfler la hauteur du carrousel et de désaligner les points de pagination posés
+    // par-dessus).
+    function proposeAjouterPhoto(d) {
+        return d.type === 'iframe' || d.panoStatique;
+    }
+
     function sousLaPhoto(d) {
-        if (d.type === 'iframe') return "";
+        if (proposeAjouterPhoto(d)) return "";
         return d.creditLabel
             ? `<a href="${d.creditUrl}" target="_blank" rel="noopener" class="popup-photo-credit">${d.creditLabel}</a>`
             : "";
@@ -1088,7 +1115,7 @@ function construireContenuPopupTerrain(feature, layer) {
         <br>`;
     } else if (diapositives.length === 1) {
         const d = diapositives[0];
-        photo = `${avecBoutonAgrandir(d)}${d.type === 'iframe' ? boutonAjouterPhoto() : sousLaPhoto(d)}<br>`;
+        photo = `${avecBoutonAgrandir(d)}${proposeAjouterPhoto(d) ? boutonAjouterPhoto() : sousLaPhoto(d)}<br>`;
     } else {
         // Plusieurs photos : petit carrousel (flèches précédent/suivant), en JS natif — voir
         // brancherCarrouselPhotos(), appelée juste après l'ouverture de la popup plus bas.
@@ -1097,7 +1124,7 @@ function construireContenuPopupTerrain(feature, layer) {
                 ${avecBoutonAgrandir(d)}
                 ${sousLaPhoto(d)}
             </div>`).join('');
-        const auMoinsUneIframe = diapositives.some(d => d.type === 'iframe');
+        const auMoinsUneAvecBouton = diapositives.some(proposeAjouterPhoto);
         photo = `
         <div class="popup-photo-carousel" data-total="${diapositives.length}">
             ${diapositivesHtml}
@@ -1105,7 +1132,7 @@ function construireContenuPopupTerrain(feature, layer) {
             <button type="button" class="popup-photo-nav next" aria-label="${t('popup_photo_next')}">›</button>
             <div class="popup-photo-dots">${diapositives.map((_, i) => `<span class="popup-photo-dot${i === 0 ? ' active' : ''}"></span>`).join('')}</div>
         </div>
-        ${auMoinsUneIframe ? boutonAjouterPhoto() : ""}
+        ${auMoinsUneAvecBouton ? boutonAjouterPhoto() : ""}
         <br>`;
     }
 

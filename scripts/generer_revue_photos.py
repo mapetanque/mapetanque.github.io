@@ -46,7 +46,13 @@ urllib3_cn.create_connection = _creer_connexion_ipv4
 
 # ===================== Configuration =====================
 
-MAPILLARY_TOKEN = "MLY|28430029179916530|430abb722289aec39e460c5f2753d6d0"
+import os
+
+MAPILLARY_TOKEN = os.environ.get("MAPILLARY_TOKEN")
+if not MAPILLARY_TOKEN:
+    print("Erreur : variable d'environnement MAPILLARY_TOKEN manquante.")
+    print('Définis-la avant de relancer : $env:MAPILLARY_TOKEN="ton_token_ici" (PowerShell)')
+    exit(1)
 RAYON_METRES = 50
 LIMITE_PAR_TERRAIN = 100
 DELAI_ENTRE_REQUETES = 0.3  # secondes, pour rester raisonnable vis-à-vis de l'API

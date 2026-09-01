@@ -807,8 +807,9 @@
   ],
   "way/262846147": [
     {
-      "mapillary_id": "1231963223888995",
-      "credit_url": "https://www.mapillary.com/map/im/1231963223888995"
+      "mapillary_id": "1123286869379397",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1123286869379397&focus=photo&x=0.5415464458548821&y=0.47442850728218866&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1123286869379397.webp"
     }
   ],
   "way/1246017364": [
@@ -3257,6 +3258,741 @@
     {
       "mapillary_id": "764909415856441",
       "credit_url": "https://www.mapillary.com/map/im/764909415856441"
+    }
+  ],
+  "way/702795060": [
+    {
+      "mapillary_id": "730962899327609",
+      "credit_url": "https://www.mapillary.com/app/?pKey=730962899327609&focus=photo&x=0.0247468286665381&y=0.6212737744468343&zoom=0",
+      "miniature_locale": "/images/mapillary-360/730962899327609.webp"
+    }
+  ],
+  "way/702795061": [
+    {
+      "mapillary_id": "730962899327609",
+      "credit_url": "https://www.mapillary.com/app/?pKey=730962899327609&focus=photo&x=0.0247468286665381&y=0.6212737744468343&zoom=0",
+      "miniature_locale": "/images/mapillary-360/730962899327609.webp"
+    }
+  ],
+  "way/1126345230": [
+    {
+      "mapillary_id": "1819383915487944",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1819383915487944&focus=photo&x=0.5371194548381109&y=0.6653188642167057&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1819383915487944.webp"
+    }
+  ],
+  "way/1324605667": [
+    {
+      "mapillary_id": "672133761948946",
+      "credit_url": "https://www.mapillary.com/app/?pKey=672133761948946&focus=photo&x=0.5254874883103531&y=0.36065548470767966&zoom=0",
+      "miniature_locale": "/images/mapillary-360/672133761948946.webp"
+    }
+  ],
+  "way/1126345636": [
+    {
+      "mapillary_id": "998948174925783",
+      "credit_url": "https://www.mapillary.com/app/?pKey=998948174925783&focus=photo&x=0.8873801865614448&y=0.533029836850806&zoom=0",
+      "miniature_locale": "/images/mapillary-360/998948174925783.webp"
+    }
+  ],
+  "way/857866020": [
+    {
+      "mapillary_id": "2994211587418883",
+      "credit_url": "https://www.mapillary.com/app/?pKey=2994211587418883&focus=photo&x=0.5528710026596012&y=0.5873291250484444&zoom=0",
+      "miniature_locale": "/images/mapillary-360/2994211587418883.webp"
+    }
+  ],
+  "way/852041245": [
+    {
+      "mapillary_id": "1149304216734436",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1149304216734436&focus=photo&x=0.2738741637139921&y=0.5525083809236956&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1149304216734436.webp"
+    }
+  ],
+  "way/1126352014": [
+    {
+      "mapillary_id": "1309304283609895",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1309304283609895&focus=photo&x=0.1542199108134466&y=0.477461621680358&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1309304283609895.webp"
+    }
+  ],
+  "way/1126352015": [
+    {
+      "mapillary_id": "1309304283609895",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1309304283609895&focus=photo&x=0.1542199108134466&y=0.477461621680358&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1309304283609895.webp"
+    }
+  ],
+  "way/1126352016": [
+    {
+      "mapillary_id": "1309304283609895",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1309304283609895&focus=photo&x=0.1542199108134466&y=0.477461621680358&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1309304283609895.webp"
+    }
+  ],
+  "way/1126352017": [
+    {
+      "mapillary_id": "1309304283609895",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1309304283609895&focus=photo&x=0.1542199108134466&y=0.477461621680358&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1309304283609895.webp"
+    }
+  ],
+  "way/1126352018": [
+    {
+      "mapillary_id": "1309304283609895",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1309304283609895&focus=photo&x=0.1542199108134466&y=0.477461621680358&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1309304283609895.webp"
+    }
+  ],
+  "way/1488079310": [
+    {
+      "mapillary_id": "769619245642458",
+      "credit_url": "https://www.mapillary.com/app/?pKey=769619245642458&focus=photo&x=0.06121012019919525&y=0.47078224310379657&zoom=0",
+      "miniature_locale": "/images/mapillary-360/769619245642458.webp"
+    }
+  ],
+  "way/1488079311": [
+    {
+      "mapillary_id": "769619245642458",
+      "credit_url": "https://www.mapillary.com/app/?pKey=769619245642458&focus=photo&x=0.06121012019919525&y=0.47078224310379657&zoom=0",
+      "miniature_locale": "/images/mapillary-360/769619245642458.webp"
+    }
+  ],
+  "way/1088011275": [
+    {
+      "mapillary_id": "329672556153237",
+      "credit_url": "https://www.mapillary.com/app/?pKey=329672556153237&focus=photo&x=0.7527054227422749&y=0.5234547499086174&zoom=0",
+      "miniature_locale": "/images/mapillary-360/329672556153237.webp"
+    }
+  ],
+  "way/1458939790": [
+    {
+      "mapillary_id": "591505079668348",
+      "credit_url": "https://www.mapillary.com/app/?pKey=591505079668348&focus=photo&x=0.7077319804705144&y=0.5026773300687033&zoom=0",
+      "miniature_locale": "/images/mapillary-360/591505079668348.webp"
+    }
+  ],
+  "way/1458939791": [
+    {
+      "mapillary_id": "591505079668348",
+      "credit_url": "https://www.mapillary.com/app/?pKey=591505079668348&focus=photo&x=0.7077319804705144&y=0.5026773300687033&zoom=0",
+      "miniature_locale": "/images/mapillary-360/591505079668348.webp"
+    }
+  ],
+  "way/1458939792": [
+    {
+      "mapillary_id": "591505079668348",
+      "credit_url": "https://www.mapillary.com/app/?pKey=591505079668348&focus=photo&x=0.7077319804705144&y=0.5026773300687033&zoom=0",
+      "miniature_locale": "/images/mapillary-360/591505079668348.webp"
+    }
+  ],
+  "way/910513617": [
+    {
+      "mapillary_id": "1274844563559261",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1274844563559261&focus=photo&x=0.3548665368614842&y=0.6495556644913423&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1274844563559261.webp"
+    }
+  ],
+  "way/1344545710": [
+    {
+      "mapillary_id": "1274844563559261",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1274844563559261&focus=photo&x=0.3548665368614842&y=0.6495556644913423&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1274844563559261.webp"
+    }
+  ],
+  "way/825270931": [
+    {
+      "mapillary_id": "1144707776580375",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1144707776580375&focus=photo&x=0.25042638083871394&y=0.4867571794849683&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1144707776580375.webp"
+    }
+  ],
+  "way/921364165": [
+    {
+      "mapillary_id": "592236522707214",
+      "credit_url": "https://www.mapillary.com/app/?pKey=592236522707214&focus=photo&x=0.22735599535364165&y=0.58922121993584&zoom=0",
+      "miniature_locale": "/images/mapillary-360/592236522707214.webp"
+    }
+  ],
+  "way/1304303522": [
+    {
+      "mapillary_id": "1022804586026750",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1022804586026750&focus=photo&x=0.22117880472556292&y=0.5203871481010799&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1022804586026750.webp"
+    }
+  ],
+  "way/283762707": [
+    {
+      "mapillary_id": "788787513736703",
+      "credit_url": "https://www.mapillary.com/app/?pKey=788787513736703&focus=photo&x=0.7221468958056588&y=0.4783540611109886&zoom=0",
+      "miniature_locale": "/images/mapillary-360/788787513736703.webp"
+    }
+  ],
+  "way/1360188571": [
+    {
+      "mapillary_id": "505743425505625",
+      "credit_url": "https://www.mapillary.com/app/?pKey=505743425505625&focus=photo&x=0.6076332835684933&y=0.5319726156026868&zoom=0",
+      "miniature_locale": "/images/mapillary-360/505743425505625.webp"
+    }
+  ],
+  "way/1425657602": [
+    {
+      "mapillary_id": "6871497282885286",
+      "credit_url": "https://www.mapillary.com/app/?pKey=6871497282885286&focus=photo&x=0.874531918201581&y=0.528442739647449&zoom=0",
+      "miniature_locale": "/images/mapillary-360/6871497282885286.webp"
+    }
+  ],
+  "way/963599281": [
+    {
+      "mapillary_id": "1029279908176526",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1029279908176526&focus=photo&x=0.612153775668356&y=0.5004238347019033&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1029279908176526.webp"
+    }
+  ],
+  "way/963599282": [
+    {
+      "mapillary_id": "1029279908176526",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1029279908176526&focus=photo&x=0.612153775668356&y=0.5004238347019033&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1029279908176526.webp"
+    }
+  ],
+  "way/1311206797": [
+    {
+      "mapillary_id": "1668681043700519",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1668681043700519&focus=photo&x=0.32494057365729234&y=0.414556916966368&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1668681043700519.webp"
+    }
+  ],
+  "way/924533381": [
+    {
+      "mapillary_id": "1531870074291168",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1531870074291168&focus=photo&x=0.7782973313972269&y=0.49113702244644386&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1531870074291168.webp"
+    }
+  ],
+  "way/924532660": [
+    {
+      "mapillary_id": "1008405767175710",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1008405767175710&focus=photo&x=0.32448412138802707&y=0.4932781970676005&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1008405767175710.webp"
+    }
+  ],
+  "way/1330397974": [
+    {
+      "mapillary_id": "608789391470723",
+      "credit_url": "https://www.mapillary.com/app/?pKey=608789391470723&focus=photo&x=0.7646253441045205&y=0.6614542766100613&zoom=0",
+      "miniature_locale": "/images/mapillary-360/608789391470723.webp"
+    }
+  ],
+  "way/1330397975": [
+    {
+      "mapillary_id": "608789391470723",
+      "credit_url": "https://www.mapillary.com/app/?pKey=608789391470723&focus=photo&x=0.7646253441045205&y=0.6614542766100613&zoom=0",
+      "miniature_locale": "/images/mapillary-360/608789391470723.webp"
+    }
+  ],
+  "way/1162931835": [
+    {
+      "mapillary_id": "620874416913246",
+      "credit_url": "https://www.mapillary.com/app/?pKey=620874416913246&focus=photo&x=0.8821045280748913&y=0.5321146840880766&zoom=0",
+      "miniature_locale": "/images/mapillary-360/620874416913246.webp"
+    }
+  ],
+  "way/1187495178": [
+    {
+      "mapillary_id": "837913747927377",
+      "credit_url": "https://www.mapillary.com/app/?pKey=837913747927377&focus=photo&x=0.5128421269310394&y=0.5209548920728605&zoom=0",
+      "miniature_locale": "/images/mapillary-360/837913747927377.webp"
+    }
+  ],
+  "way/1204195279": [
+    {
+      "mapillary_id": "1944253602613057",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1944253602613057&focus=photo&x=0.45866055295807695&y=0.5957781071687479&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1944253602613057.webp"
+    }
+  ],
+  "way/1303240732": [
+    {
+      "mapillary_id": "874680191168671",
+      "credit_url": "https://www.mapillary.com/app/?pKey=874680191168671&focus=photo&x=0.3585604137598477&y=0.4841578235115786&zoom=0",
+      "miniature_locale": "/images/mapillary-360/874680191168671.webp"
+    }
+  ],
+  "way/1303240733": [
+    {
+      "mapillary_id": "874680191168671",
+      "credit_url": "https://www.mapillary.com/app/?pKey=874680191168671&focus=photo&x=0.3585604137598477&y=0.4841578235115786&zoom=0",
+      "miniature_locale": "/images/mapillary-360/874680191168671.webp"
+    }
+  ],
+  "way/1303240734": [
+    {
+      "mapillary_id": "874680191168671",
+      "credit_url": "https://www.mapillary.com/app/?pKey=874680191168671&focus=photo&x=0.3585604137598477&y=0.4841578235115786&zoom=0",
+      "miniature_locale": "/images/mapillary-360/874680191168671.webp"
+    }
+  ],
+  "way/1053083424": [
+    {
+      "mapillary_id": "339683118533231",
+      "credit_url": "https://www.mapillary.com/app/?pKey=339683118533231&focus=photo&x=0.7221518147349182&y=0.5083790897705454&zoom=0",
+      "miniature_locale": "/images/mapillary-360/339683118533231.webp"
+    }
+  ],
+  "way/1053672485": [
+    {
+      "mapillary_id": "1003271840322354",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1003271840322354&focus=photo&x=0.16764159740350015&y=0.6140979582605391&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1003271840322354.webp"
+    }
+  ],
+  "way/1053672486": [
+    {
+      "mapillary_id": "1003271840322354",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1003271840322354&focus=photo&x=0.16764159740350015&y=0.6140979582605391&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1003271840322354.webp"
+    }
+  ],
+  "way/1090793391": [
+    {
+      "mapillary_id": "461033622579460",
+      "credit_url": "https://www.mapillary.com/app/?pKey=461033622579460&focus=photo&x=0.7530899132174191&y=0.5103061107855391&zoom=0",
+      "miniature_locale": "/images/mapillary-360/461033622579460.webp"
+    }
+  ],
+  "way/1053083425": [
+    {
+      "mapillary_id": "293090496913495",
+      "credit_url": "https://www.mapillary.com/app/?pKey=293090496913495&focus=photo&x=0.8523845438873723&y=0.4427573593373084&zoom=0",
+      "miniature_locale": "/images/mapillary-360/293090496913495.webp"
+    }
+  ],
+  "way/1092686884": [
+    {
+      "mapillary_id": "492718646021052",
+      "credit_url": "https://www.mapillary.com/app/?pKey=492718646021052&focus=photo&x=0.3801929319556683&y=0.47606939272483173&zoom=0",
+      "miniature_locale": "/images/mapillary-360/492718646021052.webp"
+    }
+  ],
+  "way/1090789087": [
+    {
+      "mapillary_id": "746812339751113",
+      "credit_url": "https://www.mapillary.com/app/?pKey=746812339751113&focus=photo&x=0.615708810337251&y=0.5925392918793402&zoom=0",
+      "miniature_locale": "/images/mapillary-360/746812339751113.webp"
+    }
+  ],
+  "way/980721466": [
+    {
+      "mapillary_id": "132302213275517",
+      "credit_url": "https://www.mapillary.com/app/?pKey=132302213275517&focus=photo&x=0.8387248208463284&y=0.5741084536184635&zoom=0",
+      "miniature_locale": "/images/mapillary-360/132302213275517.webp"
+    }
+  ],
+  "way/961088766": [
+    {
+      "mapillary_id": "1077549329839317",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1077549329839317&focus=photo&x=0.35287771828054176&y=0.5651136819155804&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1077549329839317.webp"
+    }
+  ],
+  "way/1113124166": [
+    {
+      "mapillary_id": "391784276420438",
+      "credit_url": "https://www.mapillary.com/app/?pKey=391784276420438&focus=photo&x=0.6298529117041003&y=0.523973927861863&zoom=0",
+      "miniature_locale": "/images/mapillary-360/391784276420438.webp"
+    }
+  ],
+  "way/1113124167": [
+    {
+      "mapillary_id": "391784276420438",
+      "credit_url": "https://www.mapillary.com/app/?pKey=391784276420438&focus=photo&x=0.6298529117041003&y=0.523973927861863&zoom=0",
+      "miniature_locale": "/images/mapillary-360/391784276420438.webp"
+    }
+  ],
+  "way/1392053081": [
+    {
+      "mapillary_id": "391784276420438",
+      "credit_url": "https://www.mapillary.com/app/?pKey=391784276420438&focus=photo&x=0.6298529117041003&y=0.523973927861863&zoom=0",
+      "miniature_locale": "/images/mapillary-360/391784276420438.webp"
+    }
+  ],
+  "way/1392053082": [
+    {
+      "mapillary_id": "391784276420438",
+      "credit_url": "https://www.mapillary.com/app/?pKey=391784276420438&focus=photo&x=0.6298529117041003&y=0.523973927861863&zoom=0",
+      "miniature_locale": "/images/mapillary-360/391784276420438.webp"
+    }
+  ],
+  "node/7876621829": [
+    {
+      "mapillary_id": "1969226250311857",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1969226250311857&focus=photo&x=0.6075954016474219&y=0.5646831409640326&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1969226250311857.webp"
+    }
+  ],
+  "way/133020483": [
+    {
+      "mapillary_id": "1632595224220091",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1632595224220091&focus=photo&x=0.33765392500655295&y=0.4384277525142365&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1632595224220091.webp"
+    }
+  ],
+  "way/1251164964": [
+    {
+      "mapillary_id": "2635061006692709",
+      "credit_url": "https://www.mapillary.com/app/?pKey=2635061006692709&focus=photo&x=0.8448430910995139&y=0.5998936974012292&zoom=0",
+      "miniature_locale": "/images/mapillary-360/2635061006692709.webp"
+    }
+  ],
+  "way/1067584245": [
+    {
+      "mapillary_id": "1595184281374432",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1595184281374432&focus=photo&x=0.2871224123912097&y=0.48329647162081524&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1595184281374432.webp"
+    }
+  ],
+  "way/1234333780": [
+    {
+      "mapillary_id": "1049109046461544",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1049109046461544&focus=photo&x=0.7560347061988323&y=0.532909848888105&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1049109046461544.webp"
+    }
+  ],
+  "way/1187932766": [
+    {
+      "mapillary_id": "288607803967045",
+      "credit_url": "https://www.mapillary.com/app/?pKey=288607803967045&focus=photo&x=0.7820780912123431&y=0.44313653199933306&zoom=0",
+      "miniature_locale": "/images/mapillary-360/288607803967045.webp"
+    }
+  ],
+  "way/673101979": [
+    {
+      "mapillary_id": "1368634114346433",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1368634114346433&focus=photo&x=0.35035918271820365&y=0.5293238528712737&zoom=0.6256517205422315",
+      "miniature_locale": "/images/mapillary-360/1368634114346433.webp"
+    }
+  ],
+  "way/738053203": [
+    {
+      "mapillary_id": "960855035804105",
+      "credit_url": "https://www.mapillary.com/app/?pKey=960855035804105&focus=photo&x=0.6622331636496916&y=0.5760058639095499&zoom=0",
+      "miniature_locale": "/images/mapillary-360/960855035804105.webp"
+    }
+  ],
+  "way/1189821130": [
+    {
+      "mapillary_id": "960855035804105",
+      "credit_url": "https://www.mapillary.com/app/?pKey=960855035804105&focus=photo&x=0.6622331636496916&y=0.5760058639095499&zoom=0",
+      "miniature_locale": "/images/mapillary-360/960855035804105.webp"
+    }
+  ],
+  "way/1210846775": [
+    {
+      "mapillary_id": "1988782968661593",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1988782968661593&focus=photo&x=0.11732241466600385&y=0.5467899446449778&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1988782968661593.webp"
+    }
+  ],
+  "way/685108028": [
+    {
+      "mapillary_id": "602495481642161",
+      "credit_url": "https://www.mapillary.com/app/?pKey=602495481642161&focus=photo&x=0.5927430566488859&y=0.5044660365928824&zoom=0",
+      "miniature_locale": "/images/mapillary-360/602495481642161.webp"
+    }
+  ],
+  "way/1317569107": [
+    {
+      "mapillary_id": "3083382258518568",
+      "credit_url": "https://www.mapillary.com/app/?pKey=3083382258518568&focus=photo&x=0.4350964911682305&y=0.635033368327121&zoom=0",
+      "miniature_locale": "/images/mapillary-360/3083382258518568.webp"
+    }
+  ],
+  "node/8795036102": [
+    {
+      "mapillary_id": "1441644067070653",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1441644067070653&focus=photo&x=0.6138683549391359&y=0.5031298754315748&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1441644067070653.webp"
+    }
+  ],
+  "way/1491021986": [
+    {
+      "mapillary_id": "637309082510125",
+      "credit_url": "https://www.mapillary.com/app/?pKey=637309082510125&focus=photo&x=0.27211889198843364&y=0.5662962204866072&zoom=0",
+      "miniature_locale": "/images/mapillary-360/637309082510125.webp"
+    }
+  ],
+  "way/730217462": [
+    {
+      "mapillary_id": "1631335754426201",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1631335754426201&focus=photo&x=0.8331317207107601&y=0.5449080171075207&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1631335754426201.webp"
+    }
+  ],
+  "way/619703776": [
+    {
+      "mapillary_id": "817785880320453",
+      "credit_url": "https://www.mapillary.com/app/?pKey=817785880320453&focus=photo&x=0.5521875801867341&y=0.6274052342902742&zoom=0",
+      "miniature_locale": "/images/mapillary-360/817785880320453.webp"
+    }
+  ],
+  "way/1337726121": [
+    {
+      "mapillary_id": "1314071883148000",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1314071883148000&focus=photo&x=0.7557783012237465&y=0.41737482944442256&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1314071883148000.webp"
+    }
+  ],
+  "way/713431834": [
+    {
+      "mapillary_id": "6946943645329215",
+      "credit_url": "https://www.mapillary.com/app/?pKey=6946943645329215&focus=photo&x=0.9310484570163569&y=0.6197676787839059&zoom=0",
+      "miniature_locale": "/images/mapillary-360/6946943645329215.webp"
+    }
+  ],
+  "way/1110488530": [
+    {
+      "mapillary_id": "3219577438355859",
+      "credit_url": "https://www.mapillary.com/app/?pKey=3219577438355859&focus=photo&x=0.5079901790373367&y=0.570223044670506&zoom=0",
+      "miniature_locale": "/images/mapillary-360/3219577438355859.webp"
+    }
+  ],
+  "way/1110488531": [
+    {
+      "mapillary_id": "3219577438355859",
+      "credit_url": "https://www.mapillary.com/app/?pKey=3219577438355859&focus=photo&x=0.5079901790373367&y=0.570223044670506&zoom=0",
+      "miniature_locale": "/images/mapillary-360/3219577438355859.webp"
+    }
+  ],
+  "way/1110488532": [
+    {
+      "mapillary_id": "3219577438355859",
+      "credit_url": "https://www.mapillary.com/app/?pKey=3219577438355859&focus=photo&x=0.5079901790373367&y=0.570223044670506&zoom=0",
+      "miniature_locale": "/images/mapillary-360/3219577438355859.webp"
+    }
+  ],
+  "way/1110488533": [
+    {
+      "mapillary_id": "3219577438355859",
+      "credit_url": "https://www.mapillary.com/app/?pKey=3219577438355859&focus=photo&x=0.5079901790373367&y=0.570223044670506&zoom=0",
+      "miniature_locale": "/images/mapillary-360/3219577438355859.webp"
+    }
+  ],
+  "way/1357578358": [
+    {
+      "mapillary_id": "592965190310486",
+      "credit_url": "https://www.mapillary.com/app/?pKey=592965190310486&focus=photo&x=0.7360309898215122&y=0.5404725548888452&zoom=0",
+      "miniature_locale": "/images/mapillary-360/592965190310486.webp"
+    }
+  ],
+  "way/412209853": [
+    {
+      "mapillary_id": "1304833070635252",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1304833070635252&focus=photo&x=0.4720356869942824&y=0.5600024623375672&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1304833070635252.webp"
+    }
+  ],
+  "way/40639663": [
+    {
+      "mapillary_id": "7455853807774703",
+      "credit_url": "https://www.mapillary.com/app/?pKey=7455853807774703&focus=photo&x=0.8325109313438115&y=0.6061749523690758&zoom=0",
+      "miniature_locale": "/images/mapillary-360/7455853807774703.webp"
+    }
+  ],
+  "way/1410618156": [
+    {
+      "mapillary_id": "8859325117493172",
+      "credit_url": "https://www.mapillary.com/app/?pKey=8859325117493172&focus=photo&x=0.6524951014136624&y=0.4758858970979137&zoom=0",
+      "miniature_locale": "/images/mapillary-360/8859325117493172.webp"
+    }
+  ],
+  "way/1209385519": [
+    {
+      "mapillary_id": "1559557331570628",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1559557331570628&focus=photo&x=0.7179724565831407&y=0.5546137991007316&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1559557331570628.webp"
+    }
+  ],
+  "way/1390885262": [
+    {
+      "mapillary_id": "1343393146123306",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1343393146123306&focus=photo&x=0.9377099805003076&y=0.4387271088582829&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1343393146123306.webp"
+    }
+  ],
+  "way/1345205506": [
+    {
+      "mapillary_id": "454424044222270",
+      "credit_url": "https://www.mapillary.com/app/?pKey=454424044222270&focus=photo&x=0.2676619261040424&y=0.48084294991118304&zoom=0",
+      "miniature_locale": "/images/mapillary-360/454424044222270.webp"
+    }
+  ],
+  "way/1184325176": [
+    {
+      "mapillary_id": "1964999707300279",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1964999707300279&focus=photo&x=0.42676315886729477&y=0.5447737069557824&zoom=0.6256517205422312",
+      "miniature_locale": "/images/mapillary-360/1964999707300279.webp"
+    }
+  ],
+  "way/1353914005": [
+    {
+      "mapillary_id": "821098343940336",
+      "credit_url": "https://www.mapillary.com/app/?pKey=821098343940336&focus=photo&x=0.6407866119452761&y=0.6717494448808029&zoom=0",
+      "miniature_locale": "/images/mapillary-360/821098343940336.webp"
+    }
+  ],
+  "way/1353914002": [
+    {
+      "mapillary_id": "821098343940336",
+      "credit_url": "https://www.mapillary.com/app/?pKey=821098343940336&focus=photo&x=0.6407866119452761&y=0.6717494448808029&zoom=0",
+      "miniature_locale": "/images/mapillary-360/821098343940336.webp"
+    }
+  ],
+  "way/664476758": [
+    {
+      "mapillary_id": "127845120013384",
+      "credit_url": "https://www.mapillary.com/app/?pKey=127845120013384&focus=photo&x=0.08784426215942348&y=0.6312224123782781&zoom=0",
+      "miniature_locale": "/images/mapillary-360/127845120013384.webp"
+    }
+  ],
+  "way/909264869": [
+    {
+      "mapillary_id": "1228195301474365",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1228195301474365&focus=photo&x=0.9047152010260722&y=0.44110917400204647&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1228195301474365.webp"
+    }
+  ],
+  "way/1143947467": [
+    {
+      "mapillary_id": "478794001425470",
+      "credit_url": "https://www.mapillary.com/app/?pKey=478794001425470&focus=photo&x=0.7420957645868181&y=0.5232988272431006&zoom=0",
+      "miniature_locale": "/images/mapillary-360/478794001425470.webp"
+    }
+  ],
+  "way/1143947468": [
+    {
+      "mapillary_id": "478794001425470",
+      "credit_url": "https://www.mapillary.com/app/?pKey=478794001425470&focus=photo&x=0.7272896518223522&y=0.5163672312979042&zoom=0",
+      "miniature_locale": "/images/mapillary-360/478794001425470.webp"
+    }
+  ],
+  "way/912450824": [
+    {
+      "mapillary_id": "428287969564389",
+      "credit_url": "https://www.mapillary.com/app/?pKey=428287969564389&focus=photo&x=0.24719245375864785&y=0.5199699209782456&zoom=0",
+      "miniature_locale": "/images/mapillary-360/428287969564389.webp"
+    }
+  ],
+  "way/430218794": [
+    {
+      "mapillary_id": "468977514174453",
+      "credit_url": "https://www.mapillary.com/app/?pKey=468977514174453&focus=photo&x=0.22148619731386818&y=0.5293309607294471&zoom=0",
+      "miniature_locale": "/images/mapillary-360/468977514174453.webp"
+    }
+  ],
+  "way/430218793": [
+    {
+      "mapillary_id": "468977514174453",
+      "credit_url": "https://www.mapillary.com/app/?pKey=468977514174453&focus=photo&x=0.22148619731386818&y=0.5293309607294471&zoom=0",
+      "miniature_locale": "/images/mapillary-360/468977514174453.webp"
+    }
+  ],
+  "way/874333265": [
+    {
+      "mapillary_id": "1666918284667461",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1666918284667461&focus=photo&x=0.7660224989266771&y=0.5212209901226614&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1666918284667461.webp"
+    }
+  ],
+  "way/1346947045": [
+    {
+      "mapillary_id": "1666918284667461",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1666918284667461&focus=photo&x=0.7660224989266771&y=0.5212209901226614&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1666918284667461.webp"
+    }
+  ],
+  "way/544239548": [
+    {
+      "mapillary_id": "1074702516388454",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1074702516388454&focus=photo&x=0.46331605990205094&y=0.5051418077976516&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1074702516388454.webp"
+    }
+  ],
+  "way/878889372": [
+    {
+      "mapillary_id": "289582487131183",
+      "credit_url": "https://www.mapillary.com/app/?pKey=289582487131183&focus=photo&x=0.33424419690814755&y=0.6210830300804033&zoom=0",
+      "miniature_locale": "/images/mapillary-360/289582487131183.webp"
+    }
+  ],
+  "way/1388102394": [
+    {
+      "mapillary_id": "1951143932362185",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1951143932362185&focus=photo&x=0.4438150114146855&y=0.5016010760391433&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1951143932362185.webp"
+    }
+  ],
+  "way/698000087": [
+    {
+      "mapillary_id": "955922879835837",
+      "credit_url": "https://www.mapillary.com/app/?pKey=955922879835837&focus=photo&x=0.2387346286214001&y=0.469973214191602&zoom=0",
+      "miniature_locale": "/images/mapillary-360/955922879835837.webp"
+    }
+  ],
+  "way/191103004": [
+    {
+      "mapillary_id": "976882637368898",
+      "credit_url": "https://www.mapillary.com/app/?pKey=976882637368898&focus=photo&x=0.1759337776124499&y=0.4979909112072876&zoom=0",
+      "miniature_locale": "/images/mapillary-360/976882637368898.webp"
+    }
+  ],
+  "way/1066518821": [
+    {
+      "mapillary_id": "439707695447656",
+      "credit_url": "https://www.mapillary.com/app/?pKey=439707695447656&focus=photo&x=0.43323498501791613&y=0.6618001885938709&zoom=0",
+      "miniature_locale": "/images/mapillary-360/439707695447656.webp"
+    }
+  ],
+  "way/525650861": [
+    {
+      "mapillary_id": "638156688660461",
+      "credit_url": "https://www.mapillary.com/app/?pKey=638156688660461&focus=photo&x=0.2747876479225624&y=0.6181594295651457&zoom=0",
+      "miniature_locale": "/images/mapillary-360/638156688660461.webp"
+    }
+  ],
+  "way/1185362291": [
+    {
+      "mapillary_id": "1406541441068559",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1406541441068559&focus=photo&x=0.3411521478460419&y=0.5923003828676735&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1406541441068559.webp"
+    }
+  ],
+  "way/1128422780": [
+    {
+      "mapillary_id": "1129918517757925",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1129918517757925&focus=photo&x=0.7199101571219344&y=0.5684301013312132&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1129918517757925.webp"
+    }
+  ],
+  "way/301775003": [
+    {
+      "mapillary_id": "1836889203560109",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1836889203560109&focus=photo&x=0.9996512519631906&y=0.4125938601806157&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1836889203560109.webp"
+    }
+  ],
+  "way/646362614": [
+    {
+      "mapillary_id": "111273082068113",
+      "credit_url": "https://www.mapillary.com/app/?pKey=111273082068113&focus=photo&x=0.6222516442204299&y=0.4951882699412229&zoom=0",
+      "miniature_locale": "/images/mapillary-360/111273082068113.webp"
+    }
+  ],
+  "way/1221877382": [
+    {
+      "mapillary_id": "186996103750660",
+      "credit_url": "https://www.mapillary.com/app/?pKey=186996103750660&focus=photo&x=0.1384186496336856&y=0.5221244919391361&zoom=0",
+      "miniature_locale": "/images/mapillary-360/186996103750660.webp"
     }
   ]
 }
