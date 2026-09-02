@@ -1,0 +1,95 @@
+/* =============================================================================================
+   Chargeur animé des photos de terrain — habillage.
+   Fichier additif : style.css n'est pas modifié. Le comportement est dans chargeur-photo.js.
+   .popup-photo-wrap est déjà en position:relative dans style.css, le voile peut donc s'y caler.
+============================================================================================= */
+
+.chargeur-photo {
+    position: absolute;
+    /* Volontairement calé sur la photo seule, pas sur toute l'enveloppe : .popup-photo porte
+       un margin-bottom de 4px dans style.css, qu'on ne veut pas recouvrir. */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #eceee9;
+    border-radius: 4px;
+    /* Au-dessus de la photo, mais sous .popup-photo-expand-zone : inutile de bloquer le clic
+       "agrandir" pendant le chargement, d'autant que le voile disparaît juste après. */
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 260ms ease;
+    pointer-events: none;
+}
+
+/* Révélé seulement après le délai d'attente (voir DELAI_AVANT_AFFICHAGE) : une image servie
+   depuis le cache ne doit provoquer aucun clignotement. */
+.chargeur-photo.visible {
+    opacity: 1;
+}
+
+.chargeur-photo.parti {
+    opacity: 0;
+}
+
+.chargeur-photo-boule {
+    display: block;
+    /* Le canvas fait 132 px en interne (taille d'une case de la planche) mais s'affiche plus
+       petit : le surplus de définition garde la boule nette sur écran à forte densité. */
+    width: 62px;
+    height: 62px;
+}
+
+.chargeur-photo-texte {
+    font-size: 12px;
+    color: #7b8a76;
+    letter-spacing: 0.2px;
+    text-align: center;
+    padding: 0 8px;
+    transition: opacity 220ms ease;
+}
+
+/* Pendant l'animation de sortie, le texte s'efface : la boule qui se pose sur le cochonnet se
+   suffit à elle-même, et l'annonce d'un chargement en cours n'a plus lieu d'être. */
+.chargeur-photo.sortie .chargeur-photo-texte {
+    opacity: 0;
+}
+
+/* Le média reste transparent tant qu'il n'est pas prêt, puis apparaît en fondu sous le voile
+   qui s'efface. Sans ceci, on verrait l'iframe blanche de Mapillary derrière la boule. */
+.popup-photo.chargeur-photo-media {
+    opacity: 0;
+    transition: opacity 420ms ease;
+}
+
+.popup-photo.chargeur-photo-media-visible {
+    opacity: 1;
+}
+
+/* Sur une hauteur de photo réduite (petit popup desktop, cf. .popup-photo-iframe { height:100px }
+   dans style.css), une boule de 62 px mangerait presque tout l'espace. */
+@media (max-width: 1024px) {
+    .chargeur-photo-boule {
+        width: 52px;
+        height: 52px;
+    }
+
+    .chargeur-photo-texte {
+        font-size: 11.5px;
+    }
+}
+
+/* Respecte le réglage système "réduire les animations" : le voile reste, mais figé sur une
+   seule image, sans rotation ni fondu. */
+@media (prefers-reduced-motion: reduce) {
+    .chargeur-photo,
+    .chargeur-photo-texte,
+    .popup-photo.chargeur-photo-media {
+        transition: none;
+    }
+}
