@@ -39,46 +39,79 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding-top: 4px;
     background-image: url('/images/banniere-accueil.webp');
     background-size: cover;
     background-position: center 55%;
 }
 
+/* Voile sombre en dégradé sur le haut de la bannière : remplace les ombres portées
+   individuelles (retirées ci-dessous) pour assurer la lisibilité du texte blanc sur les zones
+   claires de la photo (ciel, trouées entre les arbres). Rendu plus net que le text-shadow, qui
+   entourait chaque lettre d'un halo. Plus marqué en haut (marque + menu), s'estompe vers le
+   bas de la photo. */
+.hero-banner::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.42) 0%,
+        rgba(0, 0, 0, 0.22) 45%,
+        rgba(0, 0, 0, 0) 100%
+    );
+    pointer-events: none;
+    /* z-index négatif : le voile se glisse entre l'image de fond de .hero-banner et son
+       contenu, sans qu'aucun enfant n'ait besoin d'être positionné (même technique que
+       style-province.css / style-comment-jouer.css). */
+    z-index: -1;
+}
+
+/* Aligne le logo/nav du haut sur le même repère vertical que les pages province/région/
+   comment-jouer/compteur (top:18px sur leur .header-top-row en position absolute) : ici
+   .header-top-row reste dans le flux normal (contrairement aux autres pages), donc on ajuste
+   directement le padding-top de .header pour obtenir le même résultat visuel — 18px, au lieu
+   des 20px hérités de style.css + 4px auparavant portés par .hero-banner (24px au total). */
+.hero-banner .header {
+    padding-top: 18px;
+}
+
 /* .header et .controls gardent leurs propres règles de style.css (padding, flex, etc.) ;
-   on ne fait ici que recolorer le texte en blanc pour qu'il reste lisible sur la photo. */
+   on ne fait ici que recolorer le texte en blanc pour qu'il reste lisible sur la photo.
+   TEST EN COURS : les ombres portées individuelles (text-shadow sur la marque, le titre et les
+   liens de menu ; drop-shadow sur les icônes SVG du menu) ont été retirées au profit du voile
+   en dégradé défini plus haut (.hero-banner::before).
+   Les pages province/région/comment-jouer/compteur conservent les ombres pour l'instant. */
 
 .hero-banner .brand,
 .hero-banner .hero-headline {
     color: #fff;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
-}
-
-.hero-banner .hero-headline {
-    text-shadow: 0 2px 8px rgba(0,0,0,0.55);
 }
 
 .hero-banner .brand-tld {
     color: rgba(255,255,255,0.75);
+    /* font-weight explicite : style.css demande 400 pour le ".be", mais aucune page ne charge
+       la graisse 400 de Quicksand. Le navigateur retombe donc sur la graisse chargée la plus
+       proche, qui diffère d'une page à l'autre — 700 sur l'accueil/provinces/régions (seule
+       graisse chargée), 600 sur "Comment jouer", 500 sur "Compteur de points" (dont le widget
+       charge en plus 500;600;700). D'où un ".be" d'épaisseur variable selon les pages. On fixe
+       ici la graisse sur 700, la seule chargée partout : rendu identique sur tout le site,
+       sans téléchargement de police supplémentaire. */
+    font-weight: 700;
 }
 
 .hero-banner .info-nav-trigger,
 .hero-banner .lang-link,
 .hero-banner .game-nav-link {
     color: #fff;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
 
 .hero-banner .info-nav-trigger:hover,
 .hero-banner .game-nav-link:hover {
     background: rgba(255,255,255,0.18);
     color: #fff;
-}
-
-/* text-shadow (utilisé ci-dessus pour le texte) ne s'applique pas aux tracés SVG — sans ceci,
-   les icônes blanches se fondent dans les zones claires de la photo. */
-.hero-banner .game-nav-link svg {
-    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.5));
 }
 
 .hero-banner #game-nav-inline {
@@ -145,6 +178,12 @@
     height: auto;
     background-image: none;
     padding: 10px 15px;
+}
+
+/* La photo disparaît en plein écran : le voile n'a plus de raison d'être et assombrirait
+   inutilement la barre de contrôles. */
+.map-view.fullscreen-active .hero-banner::before {
+    display: none;
 }
 
 .map-view.fullscreen-active .hero-banner-credit {
@@ -227,6 +266,47 @@
 }
 
 
+/* ===================== Ajustements de la barre de navigation ===================== */
+
+/* Icônes retirées à gauche de "Comment jouer" / "Compteur de points" : masquées plutôt que
+   supprimées du HTML (12 fichiers à travers les 3 langues), dans le même esprit que le reste du
+   projet. Ne concerne que la nav de la bannière : le menu burger mobile (.side-menu-game-link)
+   garde ses icônes. */
+.hero-banner .game-nav-link svg {
+    display: none;
+}
+
+/* Espacement horizontal resserré de 15 % entre les libellés de la nav. La distance entre deux
+   libellés voisins vaut : padding droit (14px) + gap (2px) + padding gauche (14px) = 30px dans
+   style.css. On la ramène à 25,5px (-15 %) en réduisant les deux composantes d'autant. */
+.hero-banner .game-nav-link,
+.hero-banner .info-nav-trigger {
+    padding-left: 11.9px;
+    padding-right: 11.9px;
+}
+
+.hero-banner #game-nav-inline,
+.hero-banner #desktop-nav {
+    gap: 1.7px;
+}
+
+/* Distance logo <-> marque réduite de 30 % (5px -> 3.5px dans .brand-link de style.css). */
+.hero-banner .brand-link {
+    gap: 3.5px;
+}
+
+/* Barres de séparation de même hauteur de part et d'autre de la nav. Sans ceci, chaque
+   conteneur prend la hauteur de son propre contenu : ~32px pour #game-nav-inline (texte 14px +
+   8px de padding vertical) contre ~26px pour #lang-switcher-inline (texte 12px + 6px), d'où
+   deux traits d'inégale longueur. On fixe la même hauteur sur les deux, calée sur celle du
+   sélecteur de langue. Les deux conteneurs sont déjà en align-items:center dans style.css :
+   leur contenu reste centré et n'est pas rogné (aucun overflow:hidden). */
+.hero-banner #game-nav-inline,
+.hero-banner #lang-switcher-inline {
+    height: 26px;
+}
+
+
 /* ===================== Footer : plus fixe, suit le flux normal de page ===================== */
 
 footer {
@@ -248,6 +328,12 @@ body {
            jamais superposée au titre/boutons quand leur pile de contenu remplit toute la
            hauteur réduite de la bannière en mobile. */
         padding-bottom: 26px;
+    }
+
+    /* Même repère que .hero-banner .header-top-row { top: 14px } sur les autres pages en
+       mobile (voir style-province.css) — remplace le 18px desktop ci-dessus. */
+    .hero-banner .header {
+        padding-top: 14px;
     }
 
     #map {

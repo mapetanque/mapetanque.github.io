@@ -41,10 +41,38 @@
     background-position: center 55%;
 }
 
+/* Voile sombre en dégradé sur la bannière : remplace les ombres portées individuelles
+   (retirées ci-dessous) pour assurer la lisibilité du texte blanc sur les zones claires de la
+   photo. Rendu plus net que le text-shadow, qui entourait chaque lettre d'un halo.
+   Contrairement à la page d'accueil (voile décroissant du haut vers le bas), le dégradé est ici
+   marqué aux DEUX extrémités : le logo/nav est ancré en haut, tandis que le fil d'Ariane et le
+   titre restent en bas (justify-content: flex-end). Le milieu de la photo reste quasi net. */
+.hero-banner::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.42) 0%,
+        rgba(0, 0, 0, 0.10) 32%,
+        rgba(0, 0, 0, 0.10) 50%,
+        rgba(0, 0, 0, 0.55) 100%
+    );
+    pointer-events: none;
+    /* z-index négatif : le voile se glisse entre l'image de fond de .hero-banner et son
+       contenu, sans qu'aucun enfant n'ait besoin d'être positionné. Indispensable ici :
+       rendre .header positionné en ferait le nouveau référent de .header-top-row
+       (position:absolute), qui décrocherait du haut de la bannière pour suivre .header,
+       lui-même aligné en bas (justify-content: flex-end). */
+    z-index: -1;
+}
+
 .hero-banner .brand,
 .hero-banner .hero-headline {
     color: #fff;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
 }
 
 /* Logo + nav du haut détachés du flux, toujours ancrés en haut de la bannière, indépendamment
@@ -58,7 +86,6 @@
 }
 
 .hero-banner .hero-headline {
-    text-shadow: 0 2px 8px rgba(0,0,0,0.55);
     text-align: left;
     font-size: 42px;
     max-width: 700px;
@@ -67,25 +94,26 @@
 
 .hero-banner .brand-tld {
     color: rgba(255,255,255,0.75);
+    /* font-weight explicite : style.css demande 400 pour le ".be", mais aucune page ne charge
+       la graisse 400 de Quicksand. Le navigateur retombe donc sur la graisse chargée la plus
+       proche, qui diffère d'une page à l'autre — 700 sur l'accueil/provinces/régions (seule
+       graisse chargée), 600 sur "Comment jouer", 500 sur "Compteur de points" (dont le widget
+       charge en plus 500;600;700). D'où un ".be" d'épaisseur variable selon les pages. On fixe
+       ici la graisse sur 700, la seule chargée partout : rendu identique sur tout le site,
+       sans téléchargement de police supplémentaire. */
+    font-weight: 700;
 }
 
 .hero-banner .info-nav-trigger,
 .hero-banner .lang-link,
 .hero-banner .game-nav-link {
     color: #fff;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
 
 .hero-banner .info-nav-trigger:hover,
 .hero-banner .game-nav-link:hover {
     background: rgba(255,255,255,0.18);
     color: #fff;
-}
-
-/* text-shadow (utilisé ci-dessus pour le texte) ne s'applique pas aux tracés SVG — sans ceci,
-   les icônes blanches se fondent dans les zones claires de la photo. */
-.hero-banner .game-nav-link svg {
-    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.5));
 }
 
 .hero-banner #game-nav-inline {
@@ -130,7 +158,6 @@
     gap: 6px;
     align-items: center;
     color: #fff;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
 }
 
 .province-breadcrumb a {
@@ -204,6 +231,12 @@
 
 .map-view.fullscreen-active .hero-banner-credit,
 .map-view.fullscreen-active .province-breadcrumb {
+    display: none;
+}
+
+/* La photo disparaît en plein écran : le voile n'a plus de raison d'être et assombrirait
+   inutilement la barre de contrôles. */
+.map-view.fullscreen-active .hero-banner::before {
     display: none;
 }
 
@@ -421,6 +454,47 @@
     background: #74C15A;
     border-color: #74C15A;
     color: #fff;
+}
+
+
+/* ===================== Ajustements de la barre de navigation ===================== */
+
+/* Icônes retirées à gauche de "Comment jouer" / "Compteur de points" : masquées plutôt que
+   supprimées du HTML (12 fichiers à travers les 3 langues), dans le même esprit que le reste du
+   projet. Ne concerne que la nav de la bannière : le menu burger mobile (.side-menu-game-link)
+   garde ses icônes. */
+.hero-banner .game-nav-link svg {
+    display: none;
+}
+
+/* Espacement horizontal resserré de 15 % entre les libellés de la nav. La distance entre deux
+   libellés voisins vaut : padding droit (14px) + gap (2px) + padding gauche (14px) = 30px dans
+   style.css. On la ramène à 25,5px (-15 %) en réduisant les deux composantes d'autant. */
+.hero-banner .game-nav-link,
+.hero-banner .info-nav-trigger {
+    padding-left: 11.9px;
+    padding-right: 11.9px;
+}
+
+.hero-banner #game-nav-inline,
+.hero-banner #desktop-nav {
+    gap: 1.7px;
+}
+
+/* Distance logo <-> marque réduite de 30 % (5px -> 3.5px dans .brand-link de style.css). */
+.hero-banner .brand-link {
+    gap: 3.5px;
+}
+
+/* Barres de séparation de même hauteur de part et d'autre de la nav. Sans ceci, chaque
+   conteneur prend la hauteur de son propre contenu : ~32px pour #game-nav-inline (texte 14px +
+   8px de padding vertical) contre ~26px pour #lang-switcher-inline (texte 12px + 6px), d'où
+   deux traits d'inégale longueur. On fixe la même hauteur sur les deux, calée sur celle du
+   sélecteur de langue. Les deux conteneurs sont déjà en align-items:center dans style.css :
+   leur contenu reste centré et n'est pas rogné (aucun overflow:hidden). */
+.hero-banner #game-nav-inline,
+.hero-banner #lang-switcher-inline {
+    height: 26px;
 }
 
 

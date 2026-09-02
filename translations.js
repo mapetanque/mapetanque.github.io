@@ -32,7 +32,7 @@ const translations = {
         popup_share: "Partager ce terrain",
 
         menu_about: "À propos",
-        menu_contact: "Me contacter",
+        menu_contact: "Contact",
         menu_faq: "FAQ",
         menu_comment_jouer: "Comment jouer",
         menu_compteur: "Compteur de points",
@@ -209,7 +209,7 @@ const translations = {
         popup_share: "Dit terrein delen",
 
         menu_about: "Over ons",
-        menu_contact: "Contacteer ons",
+        menu_contact: "Contact",
         menu_faq: "FAQ",
         menu_comment_jouer: "Hoe spelen",
         menu_compteur: "Scoreteller",
