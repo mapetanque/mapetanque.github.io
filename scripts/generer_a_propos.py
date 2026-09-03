@@ -67,9 +67,9 @@ CONTENU = {
                 "Mapetanque.be est né d'un constat : aucun site ne permettait de trouver "
                 "simplement les terrains de pétanque librement accessibles en Belgique. Il y en "
                 "a pourtant plus de mille sept cents.",
-                "En quelques secondes, vous pouvez repérer un terrain près de chez vous ou d'une "
-                "adresse donnée, voir à quoi il ressemble, afficher l'itinéraire et le partager "
-                "avec vos amis.",
+                "Désormais, vous pouvez repérer un terrain près de chez vous ou près d'une "
+                "adresse donnée en quelques secondes, voir à quoi il ressemble, afficher "
+                "l'itinéraire et le partager avec vos amis.",
             ],
         },
         {
@@ -110,8 +110,9 @@ CONTENU = {
                 "Mapetanque.be is ontstaan uit een vaststelling: geen enkele website liet toe om "
                 "op een eenvoudige manier de vrij toegankelijke petanqueterreinen in België te "
                 "vinden. Toch zijn er meer dan zeventienhonderd.",
-                "In enkele seconden vind je een terrein in je buurt of bij een bepaald adres, "
-                "zie je hoe het eruitziet, toon je de route en deel je het met je vrienden.",
+                "Voortaan vind je in enkele seconden een terrein in je buurt of bij een "
+                "bepaald adres, zie je hoe het eruitziet, toon je de route en deel je het met "
+                "je vrienden.",
             ],
         },
         {
@@ -151,9 +152,9 @@ CONTENU = {
                 "Mapetanque.be entstand aus einer Feststellung: Es gab keine Website, auf der "
                 "sich die frei zugänglichen Pétanque-Plätze in Belgien einfach finden ließen. "
                 "Dabei gibt es davon mehr als 1.700.",
-                "In wenigen Sekunden finden Sie einen Platz in Ihrer Nähe oder bei einer "
-                "bestimmten Adresse, sehen, wie er aussieht, lassen sich die Route anzeigen und "
-                "teilen ihn mit Ihren Freunden.",
+                "Jetzt finden Sie in wenigen Sekunden einen Platz in Ihrer Nähe oder bei "
+                "einer bestimmten Adresse, sehen, wie er aussieht, lassen sich die Route "
+                "anzeigen und teilen ihn mit Ihren Freunden.",
             ],
         },
         {

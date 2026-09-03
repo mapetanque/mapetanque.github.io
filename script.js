@@ -970,6 +970,50 @@ window.nomCommuneAffiche = function (nomBrut, langue) {
     return langue === 'fr' ? parties[0] : parties[1];
 };
 
+// Fil d'Ariane région › province › commune des fiches terrain et club.
+//
+// Défini au niveau racine, hors de tout bloc conditionnel : c'est la même précaution que pour
+// brancherPopupTerrain, sans quoi les pages province/région ne le verraient pas.
+//
+// La région est cliquable au même titre que la province — les pages region-flandre.html et
+// region-wallonie.html existent, il n'y avait pas de raison de les laisser en texte mort.
+// Bruxelles fait exception : c'est une région sans page dédiée, on pointe donc sa page
+// « province », qui joue ce rôle.
+//
+// Les liens tiennent compte de la langue affichée : toutes les pages province et région
+// existent désormais dans les trois langues, alors qu'auparavant le lien renvoyait toujours
+// vers la version française.
+window.construireFilAriane = function (source) {
+    const prefixe = currentLang === 'fr' ? '/' : '/' + currentLang + '/';
+    const commune = source.commune
+        ? ' › ' + window.nomCommuneAffiche(source.commune, currentLang)
+        : '';
+
+    if (source.province) {
+        const provinceSlug = source.province.replace(/_/g, '-');
+        const province = `<a href="${prefixe}province-${provinceSlug}.html">`
+            + t('geo_province_' + source.province) + '</a>';
+
+        let region = '';
+        if (source.region) {
+            const nom = t('geo_region_' + source.region);
+            region = (source.region === 'wallonie' || source.region === 'flandre')
+                ? `<a href="${prefixe}region-${source.region}.html">${nom}</a> › `
+                : nom + ' › ';
+        }
+        return `<div class="popup-breadcrumb">${region}${province}${commune}</div>`;
+    }
+
+    if (source.region === 'bruxelles') {
+        return `<div class="popup-breadcrumb">`
+            + `<a href="${prefixe}province-bruxelles.html">${t('geo_region_bruxelles')}</a>`
+            + `${commune}</div>`;
+    }
+
+    return "";
+};
+
+
 // ===================== Contenu des popups de terrain =====================
 // Extrait en fonction autonome (au lieu d'être imbriquée dans onEachFeature) pour pouvoir être
 // réutilisée telle quelle par les pages provinces, qui affichent leur propre sous-ensemble de
@@ -986,25 +1030,8 @@ function construireContenuPopupTerrain(feature, layer) {
         ? t('popup_terrain_prefix') + " " + tags.nearest_street
         : t('popup_terrain_default');
 
-    // Fil d'Ariane région > province > commune (province cliquable vers sa page
-    // dédiée, région et commune en texte simple). Réutilise les clés
-    // geo_region_*/geo_province_* déjà traduites dans les 3 langues du site ;
-    // le nom de commune vient tel quel des données OSM (pas de clé de traduction
-    // dédiée pour ça). Absent si le terrain n'a aucune de ces informations.
-    // Remarque : le lien pointe toujours vers la version française de la page
-    // province pour l'instant (seules certaines provinces ont une traduction
-    // NL/DE à ce jour) ; à revoir une fois toutes les provinces traduites.
-    let filAriane = "";
-    if (tags.province) {
-        const regionNom = tags.region ? t('geo_region_' + tags.region) : null;
-        const provinceNom = t('geo_province_' + tags.province);
-        const provinceSlug = tags.province.replace(/_/g, '-');
-        const communeNom = tags.commune ? ' › ' + window.nomCommuneAffiche(tags.commune, currentLang) : '';
-        filAriane = `<div class="popup-breadcrumb">${regionNom ? regionNom + ' › ' : ''}<a href="/province-${provinceSlug}.html">${provinceNom}</a>${communeNom}</div>`;
-    } else if (tags.region === 'bruxelles') {
-        const communeNom = tags.commune ? ' › ' + window.nomCommuneAffiche(tags.commune, currentLang) : '';
-        filAriane = `<div class="popup-breadcrumb"><a href="/province-bruxelles.html">${t('geo_region_bruxelles')}</a>${communeNom}</div>`;
-    }
+    // Fil d'Ariane région › province › commune — voir construireFilAriane plus haut.
+    const filAriane = window.construireFilAriane(tags);
 
     // Photo(s) du terrain — deux sources possibles, combinées :
     // 1) Un tag OSM image=/wikimedia_commons=/mapillary= renseigné par un mappeur (résolu par
@@ -1353,17 +1380,7 @@ window.fermerFicheMobileTerrain = fermerFicheMobileTerrain;
 // d'aide (i) cliquable — voir brancherBullesAideClubs plus bas pour la logique de la bulle).
 function construireContenuPopupClub(club) {
 
-    let filAriane = "";
-    if (club.province) {
-        const regionNom = club.region ? t('geo_region_' + club.region) : null;
-        const provinceNom = t('geo_province_' + club.province);
-        const provinceSlug = club.province.replace(/_/g, '-');
-        const communeNom = club.commune ? ' › ' + window.nomCommuneAffiche(club.commune, currentLang) : '';
-        filAriane = `<div class="popup-breadcrumb">${regionNom ? regionNom + ' › ' : ''}<a href="/province-${provinceSlug}.html">${provinceNom}</a>${communeNom}</div>`;
-    } else if (club.region === 'bruxelles') {
-        const communeNom = club.commune ? ' › ' + window.nomCommuneAffiche(club.commune, currentLang) : '';
-        filAriane = `<div class="popup-breadcrumb"><a href="/province-bruxelles.html">${t('geo_region_bruxelles')}</a>${communeNom}</div>`;
-    }
+    const filAriane = window.construireFilAriane(club);
 
     const federationTexte = club.federation === 'PFV'
         ? t('federation_flamande')
