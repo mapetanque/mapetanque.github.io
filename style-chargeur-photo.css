@@ -45,19 +45,15 @@
     height: 62px;
 }
 
+/* Le texte reste affiché du début à la fin, animation de sortie comprise, et sans transition
+   d'opacité : il disparaît d'un coup avec le voile entier. Une version antérieure l'effaçait
+   au moment du raccord, ce qui produisait un clignotement au milieu de l'attente. */
 .chargeur-photo-texte {
     font-size: 12px;
     color: #7b8a76;
     letter-spacing: 0.2px;
     text-align: center;
     padding: 0 8px;
-    transition: opacity 220ms ease;
-}
-
-/* Pendant l'animation de sortie, le texte s'efface : la boule qui se pose sur le cochonnet se
-   suffit à elle-même, et l'annonce d'un chargement en cours n'a plus lieu d'être. */
-.chargeur-photo.sortie .chargeur-photo-texte {
-    opacity: 0;
 }
 
 /* Le média reste transparent tant qu'il n'est pas prêt, puis apparaît en fondu sous le voile
@@ -88,7 +84,6 @@
    seule image, sans rotation ni fondu. */
 @media (prefers-reduced-motion: reduce) {
     .chargeur-photo,
-    .chargeur-photo-texte,
     .popup-photo.chargeur-photo-media {
         transition: none;
     }

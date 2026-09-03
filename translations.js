@@ -32,7 +32,6 @@ const translations = {
         popup_share: "Partager ce terrain",
 
         menu_about: "À propos",
-        menu_contact: "Contact",
         menu_faq: "FAQ",
         menu_comment_jouer: "Comment jouer",
         menu_compteur: "Compteur de points",
@@ -78,62 +77,6 @@ const translations = {
         geo_province_limbourg: "Limbourg",
         geo_province_flandre_orientale: "Flandre orientale",
         geo_province_flandre_occidentale: "Flandre occidentale",
-
-        about_title: "À propos",
-        about_text: "Mapetanque.be est né de la constatation qu'il n'existait aucun site permettant de trouver " +
-            "de façon pratique et rapide des terrains de pétanque librement accessibles en Belgique. Le projet " +
-            "est toujours en développement. Le site est gratuit, sans publicité et son code est open-source.",
-
-        contact_title: "Me contacter",
-        contact_text: "Vous avez une suggestion, vous souhaitez signaler une erreur ou participer au projet ? " +
-            "N'hésitez pas à me contacter.",
-        contact_email: "mapetanque@outlook.be",
-
-        faq_title: "FAQ",
-        faq_items: [
-            {
-                q: "D'où viennent les informations affichées sur la carte ?",
-                a: "Les terrains affichés proviennent des données libres d'OpenStreetMap. Mapetanque.be récupère " +
-                   "chaque lundi ces informations afin de proposer une carte actualisée des terrains de pétanque " +
-                   "en Belgique. Les clubs affiliés, quant à eux, proviennent des informations publiées sur les " +
-                   "pages des fédérations wallonne et flamande, ainsi que de leurs provinces respectives. Ces " +
-                   "informations peuvent parfois ne plus être à jour : n'hésitez pas à me contacter par e-mail " +
-                   "📧 mapetanque@outlook.be pour signaler une erreur."
-            },
-            {
-                q: "Comment trouver un terrain près de moi ?",
-                a: "Cliquez sur le bouton \"📍 Me localiser\" pour afficher votre position et consulter les " +
-                   "terrains proches de vous."
-            },
-            {
-                q: "Pourquoi tous les terrains n'ont pas de photo et comment en ajouter une ?",
-                a: "Les photos des terrains proviennent principalement de Mapillary (une plateforme " +
-                   "collaborative de photos de rue). Si vous avez une photo d'un terrain, n'hésitez pas " +
-                   "à me l'envoyer via le lien \"Ajouter une photo ?\" disponible sur chaque fiche de " +
-                   "terrain ! Elle sera d'abord déposée sur Mapillary afin qu'elle puisse servir à tous, " +
-                   "puis un lien sera créé vers le site."
-            },
-            {
-                q: "Comment ajouter un terrain manquant ?",
-                a: "Les terrains affichés sur Mapetanque.be proviennent des données libres d'OpenStreetMap (OSM). " +
-                   "Si vous connaissez un terrain de pétanque accessible au public qui n'apparaît pas sur la " +
-                   "carte, vous pouvez : l'ajouter directement dans OSM grâce à leur outil d'édition ; " +
-                   "ou m'envoyer les informations nécessaires par e-mail 📧 mapetanque@outlook.be " +
-                   "(localisation précise, nombre de pistes si connu, etc.). Après mise à jour des données " +
-                   "OSM, le terrain apparaîtra automatiquement sur Mapetanque.be lors de la prochaine " +
-                   "synchronisation."
-            },
-            {
-                q: "Comment retirer un terrain qui n'existe plus ou n'est plus praticable ?",
-                a: "Les terrains affichés sur Mapetanque.be proviennent des données libres d'OpenStreetMap (OSM). " +
-                   "Si un terrain n'existe plus ou n'est plus accessible au public, vous pouvez : " +
-                   "modifier directement l'information dans OSM via leur outil d'édition ; ou me " +
-                   "signaler l'erreur par e-mail 📧 mapetanque@outlook.be en précisant l'emplacement du terrain " +
-                   "et les informations utiles. Si le terrain existe toujours mais est simplement mal entretenu " +
-                   "ou dégradé, le mieux est de contacter la commune concernée (service des sports, travaux ou " +
-                   "espaces verts), qui est généralement responsable de l'entretien des équipements publics."
-            }
-        ],
 
         popup_terrain_default: "Terrain de pétanque",
         popup_terrain_prefix: "Terrain",
@@ -211,7 +154,6 @@ const translations = {
         popup_share: "Dit terrein delen",
 
         menu_about: "Over ons",
-        menu_contact: "Contact",
         menu_faq: "FAQ",
         menu_comment_jouer: "Hoe spelen",
         menu_compteur: "Scoreteller",
@@ -257,65 +199,6 @@ const translations = {
         geo_province_limbourg: "Limburg",
         geo_province_flandre_orientale: "Oost-Vlaanderen",
         geo_province_flandre_occidentale: "West-Vlaanderen",
-
-        about_title: "Over ons",
-        about_text: "Mapetanque.be is ontstaan uit de vaststelling dat er geen enkele website bestond waarmee " +
-            "je op een praktische en snelle manier vrij toegankelijke petanquebanen in België kon vinden. Het " +
-            "project is nog steeds in ontwikkeling. De site is gratis, zonder advertenties, en de broncode is " +
-            "open-source.",
-
-        contact_title: "Contacteer ons",
-        contact_text: "Heb je een suggestie, wil je een fout melden of wil je meewerken aan het project? " +
-            "Aarzel niet om contact met mij op te nemen.",
-        contact_email: "mapetanque@outlook.be",
-
-        faq_title: "FAQ",
-        faq_items: [
-            {
-                q: "Waar komt de informatie op de kaart vandaan?",
-                a: "De weergegeven terreinen zijn afkomstig van de vrije gegevens van OpenStreetMap. Mapetanque.be " +
-                   "haalt deze informatie elke maandag op om een bijgewerkte kaart van de petanquebanen in " +
-                   "België aan te bieden. De aangesloten clubs zijn op hun beurt afkomstig van de informatie " +
-                   "gepubliceerd op de pagina's van de Waalse en Vlaamse federatie, evenals van hun " +
-                   "respectieve provincies. Deze informatie kan soms verouderd zijn: aarzel niet om ons te " +
-                   "contacteren per e-mail 📧 mapetanque@outlook.be om een fout te melden."
-            },
-            {
-                q: "Hoe vind ik een terrein in mijn buurt?",
-                a: "Klik op de knop \"📍 Localiseer mij\" om je positie weer te geven en de terreinen in jouw " +
-                   "buurt te bekijken."
-            },
-            {
-                q: "Waarom hebben niet alle terreinen een foto en hoe voeg ik er een toe?",
-                a: "De foto's van de terreinen komen voornamelijk van Mapillary (een collaboratief " +
-                   "platform voor straatfoto's). Heeft u een foto van een terrein? Aarzel niet om ze " +
-                   "me te sturen via de link \"Foto toevoegen?\" die op elke terreinfiche beschikbaar " +
-                   "is! Ze wordt eerst op Mapillary geplaatst zodat ze voor iedereen bruikbaar is, en " +
-                   "er wordt vervolgens een link naar de site aangemaakt."
-            },
-            {
-                q: "Hoe voeg ik een ontbrekend terrein toe?",
-                a: "De terreinen die op Mapetanque.be worden weergegeven, zijn afkomstig van de vrije gegevens van " +
-                   "OpenStreetMap. Als je een openbaar toegankelijke petanquebaan kent die niet op de " +
-                   "kaart verschijnt, kun je: het rechtstreeks toevoegen aan OpenStreetMap via hun " +
-                   "bewerkingstool; of ons de nodige informatie per e-mail bezorgen 📧 mapetanque@outlook.be " +
-                   "(precieze locatie, aantal banen indien bekend, enz.). Na bijwerking van de " +
-                   "OpenStreetMap-gegevens verschijnt het terrein automatisch op Mapetanque.be bij de volgende " +
-                   "synchronisatie."
-            },
-            {
-                q: "Een terrein op de kaart bestaat niet meer of is niet meer bruikbaar, wat kan ik doen?",
-                a: "De terreinen die op Mapetanque.be worden weergegeven, zijn afkomstig van de vrije gegevens van " +
-                   "OpenStreetMap. Aangezien deze database collaboratief is, kan sommige informatie onvolledig " +
-                   "of verouderd zijn. Als een terrein niet meer bestaat of niet meer openbaar toegankelijk is, " +
-                   "kun je: de informatie rechtstreeks aanpassen in OpenStreetMap via hun bewerkingstool; of de " +
-                   "fout aan ons melden per e-mail 📧 mapetanque@outlook.be met vermelding van de locatie van " +
-                   "het terrein en nuttige informatie. Als het terrein nog wel bestaat maar gewoon slecht " +
-                   "onderhouden of beschadigd is, neem je best contact op met de betrokken gemeente (dienst " +
-                   "sport, werken of groenvoorziening), die doorgaans verantwoordelijk is voor het onderhoud " +
-                   "van openbare voorzieningen."
-            }
-        ],
 
         popup_terrain_default: "Petanquebaan",
         popup_terrain_prefix: "Baan",
@@ -393,7 +276,6 @@ const translations = {
         popup_share: "Diesen Platz teilen",
 
         menu_about: "Über uns",
-        menu_contact: "Kontakt",
         menu_faq: "FAQ",
         menu_comment_jouer: "Spielregeln",
         menu_compteur: "Punktezähler",
@@ -439,66 +321,6 @@ const translations = {
         geo_province_limbourg: "Limburg",
         geo_province_flandre_orientale: "Ostflandern",
         geo_province_flandre_occidentale: "Westflandern",
-
-        about_title: "Über uns",
-        about_text: "Mapetanque.be entstand aus der Feststellung, dass es keine Website gab, mit der man " +
-            "schnell und unkompliziert öffentlich zugängliche Pétanque-Plätze in Belgien finden konnte. Das " +
-            "Projekt befindet sich weiterhin in der Entwicklung. Die Seite ist kostenlos, werbefrei, und der " +
-            "Quellcode ist Open Source.",
-
-        contact_title: "Kontakt",
-        contact_text: "Haben Sie einen Vorschlag, einen Fehler entdeckt oder möchten Sie am Projekt " +
-            "mitwirken? Zögern Sie nicht, mich zu kontaktieren.",
-        contact_email: "mapetanque@outlook.be",
-
-        faq_title: "FAQ",
-        faq_items: [
-            {
-                q: "Woher stammen die auf der Karte angezeigten Informationen?",
-                a: "Die angezeigten Plätze stammen aus den freien Daten von OpenStreetMap. Mapetanque.be ruft " +
-                   "diese Informationen jeden Montag ab, um eine aktualisierte Karte der Pétanque-Plätze in " +
-                   "Belgien anzubieten. Die angeschlossenen Vereine wiederum stammen aus den Informationen, " +
-                   "die auf den Seiten des wallonischen und des flämischen Verbands sowie ihrer jeweiligen " +
-                   "Provinzen veröffentlicht wurden. Diese Informationen sind möglicherweise nicht mehr " +
-                   "aktuell: Zögern Sie nicht, uns per E-Mail zu kontaktieren 📧 mapetanque@outlook.be, um " +
-                   "einen Fehler zu melden."
-            },
-            {
-                q: "Wie finde ich einen Platz in meiner Nähe?",
-                a: "Klicken Sie auf die Schaltfläche \"📍 Meinen Standort finden\", um Ihre Position " +
-                   "anzuzeigen und die Plätze in Ihrer Nähe zu sehen."
-            },
-            {
-                q: "Warum haben nicht alle Plätze ein Foto und wie kann ich eines hinzufügen?",
-                a: "Die Fotos der Plätze stammen hauptsächlich von Mapillary (einer kollaborativen " +
-                   "Plattform für Straßenfotos). Falls Sie ein Foto von einem Platz haben, senden Sie " +
-                   "es mir gerne über den Link \"Foto hinzufügen?\", der auf jeder Platzkarte verfügbar " +
-                   "ist! Es wird zunächst auf Mapillary hochgeladen, damit es allen zugutekommt, und " +
-                   "anschließend wird ein Link zur Seite erstellt."
-            },
-            {
-                q: "Wie füge ich einen fehlenden Platz hinzu?",
-                a: "Die auf Mapetanque.be angezeigten Plätze stammen aus den freien Daten von OpenStreetMap. " +
-                   "Wenn Sie einen öffentlich zugänglichen Pétanque-Platz kennen, der nicht auf der Karte " +
-                   "erscheint, können Sie: ihn direkt über das Bearbeitungswerkzeug zu OpenStreetMap " +
-                   "hinzufügen; oder uns die notwendigen Informationen per E-Mail zusenden " +
-                   "📧 mapetanque@outlook.be (genauer Standort, Anzahl der Bahnen, falls bekannt, usw.). " +
-                   "Nach der Aktualisierung der OpenStreetMap-Daten erscheint der Platz bei der nächsten " +
-                   "Synchronisierung automatisch auf Mapetanque.be."
-            },
-            {
-                q: "Ein auf der Karte angezeigter Platz existiert nicht mehr oder ist nicht mehr nutzbar, was kann ich tun?",
-                a: "Die auf Mapetanque.be angezeigten Plätze stammen aus den freien Daten von OpenStreetMap. Da " +
-                   "diese Datenbank kollaborativ ist, können manche Informationen unvollständig oder veraltet " +
-                   "sein. Wenn ein Platz nicht mehr existiert oder nicht mehr öffentlich zugänglich ist, " +
-                   "können Sie: die Information direkt über das Bearbeitungswerkzeug in OpenStreetMap ändern; " +
-                   "oder uns den Fehler per E-Mail melden 📧 mapetanque@outlook.be, mit Angabe des Standorts " +
-                   "des Platzes und nützlicher Informationen. Wenn der Platz noch existiert, aber lediglich " +
-                   "schlecht gepflegt oder beschädigt ist, wenden Sie sich am besten an die zuständige " +
-                   "Gemeinde (Sport-, Bau- oder Grünflächenamt), die in der Regel für die Instandhaltung " +
-                   "öffentlicher Einrichtungen zuständig ist."
-            }
-        ],
 
         popup_terrain_default: "Pétanque-Platz",
         popup_terrain_prefix: "Platz",

@@ -2,51 +2,93 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Pétanque-Plätze in Flandern — Mapetanque.be</title>
-    <meta name="description" id="meta-description" content="Öffentliche Pétanque-Plätze in Flandern: interaktive Karte, Liste nach Provinz, Suche nach Stadt auf Mapetanque.be.">
+    <title>FAQ — Mapetanque.be</title>
+    <meta name="description" content="Antworten auf häufige Fragen zu Mapetanque.be: Herkunft der Daten, einen Platz finden, Fotos, einen Pétanque-Platz hinzufügen oder entfernen.">
     <link rel="icon" type="image/svg+xml" href="/images/logomap.svg?v=2">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Open Graph : aperçu affiché lors du partage du lien (WhatsApp, Facebook, etc.) -->
-    <meta property="og:title" content="Pétanque-Plätze in Flandern — Mapetanque.be">
-    <meta property="og:description" content="Öffentliche Pétanque-Plätze in Flandern: interaktive Karte, Liste nach Provinz, Suche nach Stadt auf Mapetanque.be.">
+    <meta property="og:title" content="FAQ — Mapetanque.be">
+    <meta property="og:description" content="Antworten auf häufige Fragen zu Mapetanque.be: Herkunft der Daten, einen Platz finden, Fotos, einen Pétanque-Platz hinzufügen oder entfernen.">
     <meta property="og:image" content="https://mapetanque.be/images/logomap.png">
-    <meta property="og:url" content="https://mapetanque.be/de/region-flandre.html">
+    <meta property="og:url" content="https://mapetanque.be/de/faq.html">
     <meta property="og:type" content="website">
 
-    <link rel="canonical" href="https://mapetanque.be/de/region-flandre.html">
-    <!-- Versions par langue de cette même page province, uniquement quand elles existent
-         réellement (le générateur ne les inclut que si la traduction correspondante est prête). -->
-    <link rel="alternate" hreflang="fr" href="https://mapetanque.be/region-flandre.html">
-    <link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/region-flandre.html">
-    <link rel="alternate" hreflang="de" href="https://mapetanque.be/de/region-flandre.html">
-    <link rel="alternate" hreflang="x-default" href="https://mapetanque.be/region-flandre.html">
+    <link rel="canonical" href="https://mapetanque.be/de/faq.html">
+    <link rel="alternate" hreflang="fr" href="https://mapetanque.be/faq.html">
+    <link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/faq.html">
+    <link rel="alternate" hreflang="de" href="https://mapetanque.be/de/faq.html">
+    <link rel="alternate" hreflang="x-default" href="https://mapetanque.be/faq.html">
 
-    <!-- Police des titres (Quicksand, un seul poids chargé pour rester léger) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
 
-    <!-- Bibliothèque Leaflet -->
+    <!-- Bibliothèque Leaflet : script.js instancie une carte inconditionnellement (voir plus
+         bas, #map masqué) — non utilisée visuellement sur cette page, mais nécessaire pour que
+         le reste du script (nav, menu, panneaux info) s'exécute sans erreur. -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
 
-    <!-- Feuille de style du site (chemin absolu : cette page est aussi servie depuis /nl/ et
-         /de/, un chemin relatif irait chercher un mauvais dossier et casserait tout) -->
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/style-chargeur-photo.css">
-
-    <!-- Bannière photo + contenu province : ajouts additifs uniquement, aucune règle de
-         /style.css n'est modifiée par ce fichier. -->
-    <link rel="stylesheet" href="/style-province.css">
+    <!-- Réutilise la bannière et le traitement visuel de la page d'accueil (même photo, mêmes
+         couleurs) plutôt qu'une identité graphique à part — pour le moment, en attendant une
+         éventuelle bannière dédiée à cette page plus tard. -->
+    <link rel="stylesheet" href="/style-comment-jouer.css">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Woher stammen die auf der Karte angezeigten Informationen?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Die angezeigten Plätze stammen aus den freien Daten von OpenStreetMap. Mapetanque.be ruft diese Informationen jeden Montag ab, um eine aktualisierte Karte der Pétanque-Plätze in Belgien anzubieten. Die angeschlossenen Vereine wiederum stammen aus den Informationen, die auf den Seiten des wallonischen und des flämischen Verbands sowie ihrer jeweiligen Provinzen veröffentlicht wurden. Diese Informationen sind möglicherweise nicht mehr aktuell: Zögern Sie nicht, uns per E-Mail zu kontaktieren mapetanque@outlook.be, um einen Fehler zu melden."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Wie finde ich einen Platz in meiner Nähe?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Klicken Sie auf die Schaltfläche \"Meinen Standort finden\", um Ihre Position anzuzeigen und die Plätze in Ihrer Nähe zu sehen."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Warum haben nicht alle Plätze ein Foto und wie kann ich eines hinzufügen?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Die Fotos der Plätze stammen hauptsächlich von Mapillary (einer kollaborativen Plattform für Straßenfotos). Falls Sie ein Foto von einem Platz haben, senden Sie es mir gerne über den Link \"Foto hinzufügen?\", der auf jeder Platzkarte verfügbar ist! Es wird zunächst auf Mapillary hochgeladen, damit es allen zugutekommt, und anschließend wird ein Link zur Seite erstellt."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Wie füge ich einen fehlenden Platz hinzu?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Die auf Mapetanque.be angezeigten Plätze stammen aus den freien Daten von OpenStreetMap. Wenn Sie einen öffentlich zugänglichen Pétanque-Platz kennen, der nicht auf der Karte erscheint, können Sie: ihn direkt über das Bearbeitungswerkzeug zu OpenStreetMap hinzufügen; oder uns die notwendigen Informationen per E-Mail zusenden mapetanque@outlook.be (genauer Standort, Anzahl der Bahnen, falls bekannt, usw.). Nach der Aktualisierung der OpenStreetMap-Daten erscheint der Platz bei der nächsten Synchronisierung automatisch auf Mapetanque.be."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Ein auf der Karte angezeigter Platz existiert nicht mehr oder ist nicht mehr nutzbar, was kann ich tun?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Die auf Mapetanque.be angezeigten Plätze stammen aus den freien Daten von OpenStreetMap. Da diese Datenbank kollaborativ ist, können manche Informationen unvollständig oder veraltet sein. Wenn ein Platz nicht mehr existiert oder nicht mehr öffentlich zugänglich ist, können Sie: die Information direkt über das Bearbeitungswerkzeug in OpenStreetMap ändern; oder uns den Fehler per E-Mail melden mapetanque@outlook.be, mit Angabe des Standorts des Platzes und nützlicher Informationen. Wenn der Platz noch existiert, aber lediglich schlecht gepflegt oder beschädigt ist, wenden Sie sich am besten an die zuständige Gemeinde (Sport-, Bau- oder Grünflächenamt), die in der Regel für die Instandhaltung öffentlicher Einrichtungen zuständig ist."
+      }
+    }
+  ]
+}
+</script>
 </head>
 
 <body>
 
-<div class="map-view" id="top">
+<div id="top">
 
-<div class="hero-banner" style="background-image: url('/images/provinces/banniere-flandre.webp');">
+<div class="hero-banner" style="background-image: url('/images/banniere-faq.webp');">
 
 <div class="header">
 
@@ -56,7 +98,6 @@
             <span class="brand"><span class="brand-map">Map</span>etanque<span class="brand-tld">.be</span></span>
         </a>
 
-        <!-- Navigation desktop : liens directs vers le panneau d'info + sélecteur de langue discret -->
         <div class="header-nav-group">
         <span id="game-nav-inline">
             <a href="/de/comment-jouer.html" class="game-nav-link jouer"><svg viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;stroke-width:1.91px;}</style></defs><polyline class="cls-1" points="13.91 10.09 14.86 11.04 16.77 9.14"/><polyline class="cls-1" points="13.91 13.91 14.86 14.86 16.77 12.96"/><line class="cls-1" x1="7.23" y1="11.05" x2="11.05" y2="11.05"/><line class="cls-1" x1="7.23" y1="14.86" x2="11.05" y2="14.86"/><polyline class="cls-1" points="13.91 17.73 14.86 18.68 16.77 16.77"/><line class="cls-1" x1="7.23" y1="18.68" x2="11.05" y2="18.68"/><polygon class="cls-1" points="20.59 6.27 20.59 22.5 3.41 22.5 3.41 1.5 15.82 1.5 20.59 6.27"/><polygon class="cls-1" points="20.59 6.27 20.59 7.23 14.86 7.23 14.86 1.5 15.82 1.5 20.59 6.27"/></svg><span data-i18n="menu_comment_jouer">Comment jouer</span></a>
@@ -98,17 +139,13 @@
             <a href="/de/faq.html" class="info-nav-trigger" data-i18n="menu_faq">FAQ</a>
 
             <span id="lang-switcher-inline">
-                <button type="button" class="lang-link" data-lang="fr" data-lang-url="/region-flandre.html">FR</button>
-                <button type="button" class="lang-link" data-lang="nl" data-lang-url="/nl/region-flandre.html">NL</button>
-                <button type="button" class="lang-link" data-lang="de" data-lang-url="/de/region-flandre.html">DE</button>
+                <button type="button" class="lang-link" data-lang="fr" data-lang-url="/faq.html">FR</button>
+                <button type="button" class="lang-link" data-lang="nl" data-lang-url="/nl/faq.html">NL</button>
+                <button type="button" class="lang-link" data-lang="de" data-lang-url="/de/faq.html">DE</button>
             </span>
         </nav>
         </div>
 
-        <!-- Menu burger (mobile uniquement) : la fenêtre elle-même (#side-menu) et son voile
-             (#menu-overlay) vivent hors de .hero-banner (voir plus bas), pour ne jamais être
-             tronqués ou empilés sous d'autres éléments à cause de l'overflow/position de la
-             bannière — le bouton qui l'ouvre, lui, reste ici avec le reste de la nav. -->
         <button id="menu-button" data-i18n-aria="open_menu">
             ☰
         </button>
@@ -117,44 +154,18 @@
     <div class="province-breadcrumb">
         <a href="/de/">Startseite</a>
         <span class="sep">›</span>
-        <span class="current">Flandern</span>
+        <span class="current">Häufige Fragen</span>
     </div>
-    <h1 class="hero-headline">Pétanque-Plätze in Flandern</h1>
+    <h1 class="hero-headline">Häufige Fragen</h1>
 
-</div>
+</div><!-- /.header -->
 
-<div class="controls">
-    <button id="locateBtn">
-        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-        <span data-i18n="locate_btn">Me localiser</span>
-    </button>
-
-    <form id="searchForm" class="search-form">
-        <input
-            type="text"
-            id="searchInput"
-            data-i18n-placeholder="search_placeholder"
-            autocomplete="off"
-        >
-        <button type="submit" id="searchBtn" aria-label="Rechercher">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        </button>
-    </form>
-
-    <a href="#stats-section" id="browseListBtn">
-        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
-        <span data-i18n="browse_list_btn">Parcourir la liste</span>
-    </a>
-</div>
-
-<!-- Crédit photo bannière -->
 <div class="hero-banner-credit">
-    Photo : Missvain, d'après une image de Klaus with K, <a href="https://commons.wikimedia.org/w/index.php?curid=35827473" target="_blank" rel="noopener">CC BY-SA 3.0</a>
+    « Les Joueurs de pétanque, Marseille » par Émile Loubon
 </div>
 
 </div><!-- /.hero-banner -->
 
-<!-- Fenêtre du menu burger + voile, hors de .hero-banner (voir commentaire plus haut) -->
 <nav id="side-menu">
     <button id="close-menu" data-i18n-aria="close_menu">
         ✕
@@ -200,38 +211,17 @@
     </ul>
 
     <div id="side-menu-lang">
-        <button type="button" class="lang-link" data-lang="fr" data-lang-url="/region-flandre.html">FR</button>
-        <button type="button" class="lang-link" data-lang="nl" data-lang-url="/nl/region-flandre.html">NL</button>
-        <button type="button" class="lang-link" data-lang="de" data-lang-url="/de/region-flandre.html">DE</button>
+        <button type="button" class="lang-link" data-lang="fr" data-lang-url="/faq.html">FR</button>
+        <button type="button" class="lang-link" data-lang="nl" data-lang-url="/nl/faq.html">NL</button>
+        <button type="button" class="lang-link" data-lang="de" data-lang-url="/de/faq.html">DE</button>
     </div>
 </nav>
 
 <div id="menu-overlay"></div>
 
-<p class="add-terrain-link-wrapper">
-    <a href="/de/faq.html#terrain-manquant" id="add-terrain-link" data-i18n="add_terrain_link">Ajouter un terrain de pétanque</a>
-</p>
+<p id="searchError" class="search-error" style="display:none;"></p>
 
-<p id="searchError" class="search-error"></p>
-
-<!-- Panneau de partage réutilisable (site ou terrain précis) -->
 <div id="share-overlay"></div>
-
-<!-- Fiche terrain plein écran sur mobile — voir le commentaire dans style.css et
-     ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. Vide par défaut, son
-     contenu est déplacé ici (pas copié) depuis le popup Leaflet correspondant à l'ouverture. -->
-<div id="mobile-sheet-overlay"></div>
-<div id="mobile-sheet">
-    <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
-    <div id="mobile-sheet-content"></div>
-</div>
-
-<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
-<div id="desktop-modal-overlay"></div>
-<div id="desktop-modal">
-    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
-    <div id="desktop-modal-content"></div>
-</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -293,51 +283,63 @@
 </div>
 
 
-<!-- Tuiles + carte + description + liste des communes : une seule fiche, toujours à l'intérieur
-     de .map-view (nécessaire pour que le mode plein écran continue de fonctionner sur #map). -->
-<div class="province-content">
 
-    <div class="province-stats-tiles">
-        <div class="province-stat-tile">
-            <span class="province-stat-tile-number">1191</span>
-            <span class="province-stat-tile-label">erfasste Plätze</span>
-        </div>
-        <div class="province-stat-tile">
-            <span class="province-stat-tile-number">5</span>
-            <span class="province-stat-tile-label">Provinzen</span>
-        </div>
-        <div class="province-stat-tile">
-            <span class="province-stat-tile-number">288</span>
-            <span class="province-stat-tile-label">Gemeinden mit Plätzen</span>
-        </div>
-    </div>
+<div class="rules-content">
 
-    <div class="province-map-inline-wrapper" style="position: relative;">
-        <div id="map"></div>
-        <div class="map-toast" id="mapToast"></div>
-    </div>
+            <details class="rule-accordion">
+                <summary>
+                    <span class="rule-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></span>
+                    <span class="rule-title">Woher stammen die auf der Karte angezeigten Informationen?</span>
+                </summary>
+                <div class="rule-body">
+                    <p>Die angezeigten Plätze stammen aus den freien Daten von OpenStreetMap. Mapetanque.be ruft diese Informationen jeden Montag ab, um eine aktualisierte Karte der Pétanque-Plätze in Belgien anzubieten. Die angeschlossenen Vereine wiederum stammen aus den Informationen, die auf den Seiten des wallonischen und des flämischen Verbands sowie ihrer jeweiligen Provinzen veröffentlicht wurden. Diese Informationen sind möglicherweise nicht mehr aktuell: Zögern Sie nicht, uns per E-Mail zu kontaktieren <a href="mailto:mapetanque@outlook.be">mapetanque@outlook.be</a>, um einen Fehler zu melden.</p>
+                </div>
+            </details>
 
-    <p class="province-intro">
-        Flandern zählt <strong>1191 Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>5 Provinzen</strong> und <strong>288 Gemeinden</strong>. Ostflandern führt mit 316 Plätzen, gefolgt von der Provinz Antwerpen mit 286 und Westflandern mit 226. Ob in Ostflandern, Antwerpen oder Westflandern – hier finden Sie alle flämischen Provinzen, um Ihre Suche zu verfeinern.
-    </p>
+            <details class="rule-accordion">
+                <summary>
+                    <span class="rule-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></span>
+                    <span class="rule-title">Wie finde ich einen Platz in meiner Nähe?</span>
+                </summary>
+                <div class="rule-body">
+                    <p>Klicken Sie auf die Schaltfläche "Meinen Standort finden", um Ihre Position anzuzeigen und die Plätze in Ihrer Nähe zu sehen.</p>
+                </div>
+            </details>
 
-    <div class="other-provinces-section">
-        <h2>Provinzen in Flandern</h2>
-        <div class="other-provinces-links">
-            <a href="/de/province-flandre-orientale.html">Ostflandern</a>
-            <a href="/de/province-anvers.html">Antwerpen</a>
-            <a href="/de/province-flandre-occidentale.html">Westflandern</a>
-            <a href="/de/province-limbourg.html">Limburg</a>
-            <a href="/de/province-brabant-flamand.html">Flämisch-Brabant</a>
-        </div>
-    </div>
+            <details class="rule-accordion">
+                <summary>
+                    <span class="rule-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></span>
+                    <span class="rule-title">Warum haben nicht alle Plätze ein Foto und wie kann ich eines hinzufügen?</span>
+                </summary>
+                <div class="rule-body">
+                    <p>Die Fotos der Plätze stammen hauptsächlich von Mapillary (einer kollaborativen Plattform für Straßenfotos). Falls Sie ein Foto von einem Platz haben, senden Sie es mir gerne über den Link "Foto hinzufügen?", der auf jeder Platzkarte verfügbar ist! Es wird zunächst auf Mapillary hochgeladen, damit es allen zugutekommt, und anschließend wird ein Link zur Seite erstellt.</p>
+                </div>
+            </details>
 
-</div>
+            <details class="rule-accordion" id="terrain-manquant">
+                <summary>
+                    <span class="rule-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></span>
+                    <span class="rule-title">Wie füge ich einen fehlenden Platz hinzu?</span>
+                </summary>
+                <div class="rule-body">
+                    <p>Die auf Mapetanque.be angezeigten Plätze stammen aus den freien Daten von OpenStreetMap. Wenn Sie einen öffentlich zugänglichen Pétanque-Platz kennen, der nicht auf der Karte erscheint, können Sie: ihn direkt über das Bearbeitungswerkzeug zu OpenStreetMap hinzufügen; oder uns die notwendigen Informationen per E-Mail zusenden <a href="mailto:mapetanque@outlook.be">mapetanque@outlook.be</a> (genauer Standort, Anzahl der Bahnen, falls bekannt, usw.). Nach der Aktualisierung der OpenStreetMap-Daten erscheint der Platz bei der nächsten Synchronisierung automatisch auf Mapetanque.be.</p>
+                </div>
+            </details>
 
-</div><!-- /.map-view -->
+            <details class="rule-accordion">
+                <summary>
+                    <span class="rule-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></span>
+                    <span class="rule-title">Ein auf der Karte angezeigter Platz existiert nicht mehr oder ist nicht mehr nutzbar, was kann ich tun?</span>
+                </summary>
+                <div class="rule-body">
+                    <p>Die auf Mapetanque.be angezeigten Plätze stammen aus den freien Daten von OpenStreetMap. Da diese Datenbank kollaborativ ist, können manche Informationen unvollständig oder veraltet sein. Wenn ein Platz nicht mehr existiert oder nicht mehr öffentlich zugänglich ist, können Sie: die Information direkt über das Bearbeitungswerkzeug in OpenStreetMap ändern; oder uns den Fehler per E-Mail melden <a href="mailto:mapetanque@outlook.be">mapetanque@outlook.be</a>, mit Angabe des Standorts des Platzes und nützlicher Informationen. Wenn der Platz noch existiert, aber lediglich schlecht gepflegt oder beschädigt ist, wenden Sie sich am besten an die zuständige Gemeinde (Sport-, Bau- oder Grünflächenamt), die in der Regel für die Instandhaltung öffentlicher Einrichtungen zuständig ist.</p>
+                </div>
+            </details>
 
-<!-- Section statistiques : conservée intacte, JS toujours actif, seulement masquée visuellement
-     (voir /style-accueil-provinces.css). Rien n'est supprimé ici. -->
+</div><!-- /.rules-content -->
+
+</div><!-- /#top -->
+
 <section id="stats-section">
     <div class="stats-container">
 
@@ -357,7 +359,6 @@
     </div>
 </section>
 
-<!-- Panneau d'info coulissant -->
 
 <footer>
     <div class="footer-content">
@@ -388,91 +389,23 @@
     </div>
 </footer>
 
-<!-- Bibliothèque Leaflet -->
+<!-- #map masqué : script.js appelle L.map('map', ...) sans condition, cet élément doit exister
+     même si aucune carte n'est réellement affichée sur cette page. -->
+<div id="map" style="display:none;"></div>
+
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
 
-<!-- Traductions -->
 <script src="/translations.js"></script>
-
-<!-- Empêche script.js de charger/afficher son jeu de marqueurs par défaut (tous les terrains de
-     Belgique, avec clustering) : cette page construit son propre sous-ensemble juste après. -->
 <script>window.MAPETANQUE_SKIP_DEFAULT_MARKERS = true;</script>
-
-<!-- Restreint la couche clubs (chargée par script.js, voir plus bas) à cette région — même clé
-     que celle utilisée juste après pour filtrer les terrains. -->
-<script>window.MAPETANQUE_STATS_GEO_KEY = 'flandre';</script>
-
-<!-- Script du site -->
 <script src="/chargeur-photo.js"></script>
     <script src="/script.js"></script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
 
-<!-- ===================== Comportement propre à la page région ===================== -->
-<!-- Réutilise les briques de script.js (icône des terrains, contenu des popups, calcul de
-     distance, etc. — voir window.MAPETANQUE_SKIP_DEFAULT_MARKERS plus haut) mais charge et
-     affiche uniquement les terrains de cette région. Avec regroupement (clustering) cette
-     fois, contrairement aux pages province : une région comme la Flandre approche les 1 200
-     terrains, bien trop pour rester lisible sans regroupement. -->
 <script>
-(function () {
-
-    // Sécurité : force Leaflet à recalculer la taille de son conteneur avant tout calcul de
-    // cadrage, pour que fitBounds() s'appuie sur une carte déjà correctement dimensionnée.
-    if (typeof map !== 'undefined') {
-        map.invalidateSize();
-    }
-
-    let toastTimeout = null;
-    function afficherToast(texte) {
-        const toast = document.getElementById('mapToast');
-        if (!toast) return;
-        toast.textContent = texte;
-        toast.classList.add('visible');
-        clearTimeout(toastTimeout);
-        toastTimeout = setTimeout(function () { toast.classList.remove('visible'); }, 2800);
-    }
-
-    const groupe = L.markerClusterGroup({ disableClusteringAtZoom: 16 });
-
-    fetch('/data/terrains.geojson')
-        .then(function (r) { return r.json(); })
-        .then(function (data) {
-
-            const featuresRegion = data.features.filter(function (f) {
-                return f.properties.region === 'flandre';
-            });
-
-            if (featuresRegion.length === 0) {
-                afficherToast('Aucun terrain chargé pour cette région');
-                return;
-            }
-
-            featuresRegion.forEach(function (feature) {
-                const coords = feature.geometry.coordinates; // [lon, lat]
-                const latlng = [coords[1], coords[0]];
-                const layer = L.marker(latlng, { icon: terrainMarkerIcon });
-
-                window.brancherPopupTerrain(layer, feature);
-
-                layer.addTo(groupe);
-            });
-
-            map.addLayer(groupe);
-
-            const bounds = L.latLngBounds(featuresRegion.map(function (f) {
-                return [f.geometry.coordinates[1], f.geometry.coordinates[0]];
-            }));
-            map.fitBounds(bounds, { padding: [30, 30] });
-        })
-        .catch(function () {
-            afficherToast('Impossible de charger les terrains pour le moment');
-        });
-
     // Sélecteur de langue : script.js (non modifié) renvoie toujours vers la racine de la
-    // langue choisie (/nl/, /de/) et ne traduit que les menus/boutons partagés, pas le contenu
-    // spécifique à cette page. On surcharge la navigation pour aller vers la vraie page région
-    // équivalente quand elle existe (repli sur la racine de la langue sinon, comme avant).
+    // langue choisie et ne traduit que les menus/boutons partagés, pas cette page elle-même
+    // (chaque langue est un fichier statique séparé). On surcharge la navigation pour aller
+    // vers la vraie URL équivalente — même correctif que templates/province_template.html.
     document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
         btn.addEventListener('click', function () {
             const cible = btn.dataset.langUrl;
@@ -481,8 +414,8 @@
             }
         });
     });
-})();
 </script>
 
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>

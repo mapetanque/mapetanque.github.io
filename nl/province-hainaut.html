@@ -94,9 +94,9 @@
 </svg><span data-i18n="menu_compteur">Compteur de points</span></a>
         </span>
         <nav id="desktop-nav">
-            <button type="button" class="info-nav-trigger" data-target="about" data-i18n="menu_about">À propos</button>
-            <button type="button" class="info-nav-trigger" data-target="faq" data-i18n="menu_faq">FAQ</button>
-            <button type="button" class="info-nav-trigger" data-target="contact" data-i18n="menu_contact">Nous contacter</button>
+            <a href="/nl/a-propos.html" class="info-nav-trigger" data-i18n="menu_about">À propos</a>
+            <a href="/nl/faq.html" class="info-nav-trigger" data-i18n="menu_faq">FAQ</a>
+
             <span id="lang-switcher-inline">
                 <button type="button" class="lang-link" data-lang="fr" data-lang-url="/province-hainaut.html">FR</button>
                 <button type="button" class="lang-link" data-lang="nl" data-lang-url="/nl/province-hainaut.html">NL</button>
@@ -196,9 +196,9 @@
 	</g>
 </g>
 </svg><span data-i18n="menu_compteur">Compteur de points</span></a></li>
-                <li><a href="#about" data-i18n="menu_about">À propos</a></li>
-        <li><a href="#faq" data-i18n="menu_faq">FAQ</a></li>
-        <li><a href="#contact" data-i18n="menu_contact">Nous contacter</a></li>
+                <li><a href="/nl/a-propos.html" data-i18n="menu_about">À propos</a></li>
+        <li><a href="/nl/faq.html" data-i18n="menu_faq">FAQ</a></li>
+
     </ul>
 
     <div id="side-menu-lang">
@@ -211,7 +211,7 @@
 <div id="menu-overlay"></div>
 
 <p class="add-terrain-link-wrapper">
-    <a href="#" id="add-terrain-link" data-i18n="add_terrain_link">Ajouter un terrain de pétanque</a>
+    <a href="/nl/faq.html#terrain-manquant" id="add-terrain-link" data-i18n="add_terrain_link">Ajouter un terrain de pétanque</a>
 </p>
 
 <p id="searchError" class="search-error"></p>
@@ -385,24 +385,6 @@
 </section>
 
 <!-- Panneau d'info coulissant -->
-<aside id="info-panel">
-    <button id="close-info" data-i18n-aria="close_panel">✕</button>
-
-    <nav id="info-nav">
-        <button type="button" class="info-nav-link" data-target="about" data-i18n="menu_about">À propos</button>
-        <button type="button" class="info-nav-link" data-target="faq" data-i18n="menu_faq">FAQ</button>
-        <button type="button" class="info-nav-link" data-target="contact" data-i18n="menu_contact">Contact</button>
-    </nav>
-
-    <!-- Contenu construit une seule fois au chargement (et à chaque changement de langue),
-         puis simplement affiché/masqué au clic : reste dans le DOM, donc indexable par Google. -->
-    <div id="info-content">
-        <div class="info-page" id="info-page-about"></div>
-        <div class="info-page" id="info-page-faq"></div>
-        <div class="info-page" id="info-page-contact"></div>
-    </div>
-</aside>
-<div id="info-overlay"></div>
 
 <footer>
     <div class="footer-content">

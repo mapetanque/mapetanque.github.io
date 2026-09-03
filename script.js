@@ -9,7 +9,6 @@ const ICON_CLOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" s
 // Icône appareil photo (même famille Feather que les deux ci-dessus — coins arrondis,
 // stroke-width 2, currentColor) pour le compteur "terrains avec photo" du footer.
 const ICON_PHOTO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>';
-const ICON_MAIL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>';
 const ICON_MAXIMIZE = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>';
 const ICON_MINIMIZE = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path></svg>';
 const ICON_BADGE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.39 4.84 5.34.78-3.87 3.77.91 5.32L12 14.27l-4.77 2.44.91-5.32-3.87-3.77 5.34-.78L12 2z"></path></svg>';
@@ -629,6 +628,12 @@ if (searchForm) {
 
     if (!query) return;
 
+    // Referme le clavier virtuel : sans ceci, il masque la moitié de la carte au moment même
+    // où l'utilisateur veut voir le résultat de sa recherche.
+    // Fait ici, de façon synchrone, et non dans le .then() : iOS n'honore le blur() de manière
+    // fiable que dans le contexte du geste utilisateur, pas depuis une callback asynchrone.
+    input.blur();
+
     // Recherche biaisée vers la Belgique (sans l'exclure strictement, utile pour les communes frontalières)
     const url = 'https://nominatim.openstreetmap.org/search'
         + '?format=jsonv2'
@@ -673,7 +678,11 @@ if (searchForm) {
 
             searchMarker = L.marker([lat, lon], { icon: positionIcon })
                 .addTo(map)
-                .bindPopup(resultat.display_name)
+                // className : cette bulle ne contient qu'une ligne d'adresse, alors que le
+                // style par défaut des popups (.leaflet-popup-content) réserve 40px en haut
+                // pour la croix de fermeture des fiches terrain. Sans classe distincte, elle
+                // hériterait de cette marge et paraîtrait inutilement haute.
+                .bindPopup(resultat.display_name, { className: 'popup-adresse' })
                 .openPopup();
 
             searchMarker._displayName = resultat.display_name;
@@ -1710,169 +1719,6 @@ menuOverlay.addEventListener("click", function () {
 });
 
 
-// ===================== Panneau d'info (À propos / Contact / FAQ) =====================
-
-const infoPanel = document.getElementById("info-panel");
-const infoOverlay = document.getElementById("info-overlay");
-const closeInfo = document.getElementById("close-info");
-const infoNavLinks = document.querySelectorAll('.info-nav-link');
-
-function construireContenuAbout(dict) {
-    const p = document.createElement('p');
-    p.textContent = dict.about_text;
-
-    const fragment = document.createDocumentFragment();
-    fragment.appendChild(p);
-    return fragment;
-}
-
-function construireContenuContact(dict) {
-    const p = document.createElement('p');
-    p.textContent = dict.contact_text + " ";
-
-    const icone = document.createElement('span');
-    icone.className = 'popup-icon';
-    icone.innerHTML = ICON_MAIL;
-    p.appendChild(icone);
-    p.appendChild(document.createTextNode(' '));
-
-    const lien = document.createElement('a');
-    lien.href = "mailto:" + dict.contact_email;
-    lien.textContent = dict.contact_email;
-    p.appendChild(lien);
-
-    const fragment = document.createDocumentFragment();
-    fragment.appendChild(p);
-    return fragment;
-}
-
-function construireContenuFaq(dict) {
-    const fragment = document.createDocumentFragment();
-
-    dict.faq_items.forEach(function (item, index) {
-        const details = document.createElement('details');
-        details.className = 'faq-item';
-        details.id = 'faq-item-' + index;
-
-        const summary = document.createElement('summary');
-        summary.textContent = item.q;
-
-        const p = document.createElement('p');
-        // Remplace les emoji par les icônes SVG cohérentes avec le reste du site
-        p.innerHTML = item.a
-            .split('📧').join('<span class="popup-icon">' + ICON_MAIL + '</span>')
-            .split('📍').join('<span class="popup-icon">' + ICON_PIN + '</span>');
-
-        details.appendChild(summary);
-        details.appendChild(p);
-        fragment.appendChild(details);
-    });
-
-    return fragment;
-}
-
-// Construit le contenu des 3 pages du panneau et les injecte dans le DOM.
-// Appelée au chargement de la page ET à chaque changement de langue (jamais au clic) :
-// le contenu existe donc dans le HTML dès le rendu initial, indépendamment de toute interaction.
-function construireContenuPanneaux() {
-    const dict = translations[currentLang];
-
-    const pageAbout = document.getElementById('info-page-about');
-    pageAbout.innerHTML = "";
-    pageAbout.appendChild(construireContenuAbout(dict));
-
-    const pageFaq = document.getElementById('info-page-faq');
-    pageFaq.innerHTML = "";
-    pageFaq.appendChild(construireContenuFaq(dict));
-
-    const pageContact = document.getElementById('info-page-contact');
-    pageContact.innerHTML = "";
-    pageContact.appendChild(construireContenuContact(dict));
-}
-
-// Le clic ne fait plus que basculer quelle page est visible (le contenu existe déjà)
-function ouvrirPanneauInfo(targetId) {
-
-    document.querySelectorAll('.info-page').forEach(function (page) {
-        page.classList.toggle('active', page.id === 'info-page-' + targetId);
-    });
-
-    panneauOuvertActuel = targetId;
-
-    // Mettre en évidence l'onglet correspondant dans la mini-navigation
-    infoNavLinks.forEach(function (btn) {
-        btn.classList.toggle('active', btn.dataset.target === targetId);
-    });
-
-    infoPanel.classList.add("open");
-    infoOverlay.classList.add("visible");
-}
-
-function fermerPanneauInfo() {
-    infoPanel.classList.remove("open");
-    infoOverlay.classList.remove("visible");
-    panneauOuvertActuel = null;
-}
-
-// Lien "Ajouter un terrain de pétanque" (sous les contrôles de recherche) : ouvre directement le
-// panneau FAQ à la question sur les terrains manquants (index 3 de faq_items dans translations.js —
-// "Un terrain accessible au public près de chez moi n'apparaît pas sur la carte, que faire ?").
-const INDEX_FAQ_TERRAIN_MANQUANT = 3;
-
-const addTerrainLink = document.getElementById('add-terrain-link');
-if (addTerrainLink) {
-    addTerrainLink.addEventListener('click', function (e) {
-        e.preventDefault();
-        ouvrirPanneauInfo('faq');
-
-        const item = document.getElementById('faq-item-' + INDEX_FAQ_TERRAIN_MANQUANT);
-        if (item) {
-            item.open = true;
-            // Laisse le panneau finir son animation d'ouverture avant de scroller vers la question
-            setTimeout(function () {
-                item.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 300);
-        }
-    });
-}
-
-// Les liens vers de vraies pages (ex. "Comment jouer"/"Compteur de points", .side-menu-game-link)
-// sont exclus : contrairement à À propos/FAQ/Contact, ce ne sont pas des ancres vers un panneau
-// d'info mais de vraies URLs, qui doivent naviguer normalement plutôt qu'être interceptées.
-document.querySelectorAll('#side-menu a:not(.side-menu-game-link)').forEach(function (link) {
-    link.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        // Fermer le menu burger
-        sideMenu.classList.remove('open');
-        menuOverlay.classList.remove('visible');
-
-        // Ouvrir le panneau avec le contenu correspondant
-        const targetId = this.getAttribute('href').replace('#', '');
-        ouvrirPanneauInfo(targetId);
-    });
-});
-
-// Navigation desktop (barre du header) : ouvre directement le panneau d'info
-// (le sélecteur [data-target] exclut le lien "Statistiques", qui partage la même classe
-// visuelle .info-nav-trigger mais pointe vers une vraie ancre de page, pas vers le panneau)
-document.querySelectorAll('.info-nav-trigger[data-target]').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-        ouvrirPanneauInfo(btn.dataset.target);
-    });
-});
-
-// Mini-navigation en haut du panneau : change de contenu sans le fermer
-infoNavLinks.forEach(function (btn) {
-    btn.addEventListener('click', function () {
-        ouvrirPanneauInfo(btn.dataset.target);
-    });
-});
-
-closeInfo.addEventListener('click', fermerPanneauInfo);
-infoOverlay.addEventListener('click', fermerPanneauInfo);
-
-
 // ===================== Section statistiques =====================
 
 // Le lien au-dessus de la carte est une vraie ancre HTML (href="#stats-section") :
@@ -2453,7 +2299,6 @@ function revenirAccueil() {
     const searchError = document.getElementById('searchError');
     if (searchError) searchError.textContent = '';
 
-    fermerPanneauInfo();
     fermerPartage();
     sideMenu.classList.remove('open');
     menuOverlay.classList.remove('visible');

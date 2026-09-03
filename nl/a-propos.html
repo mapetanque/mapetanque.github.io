@@ -2,62 +2,55 @@
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <title>Mapetanque.be</title>
-    <meta name="description" id="meta-description" content="Carte interactive des terrains de pétanque accessibles au public en Belgique : recherche par ville, géolocalisation et liste par région sur Mapetanque.be.">
+    <title>Over ons — Mapetanque.be</title>
+    <meta name="description" content="Waarom Mapetanque.be bestaat, op welke vrije gegevens de site steunt (OpenStreetMap, Mapillary), en hoe je me kan bereiken.">
     <link rel="icon" type="image/svg+xml" href="/images/logomap.svg?v=2">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Open Graph : aperçu affiché lors du partage du lien (WhatsApp, Facebook, etc.) -->
-    <meta property="og:title" content="Mapetanque.be">
-    <meta property="og:description" content="Carte interactive des terrains de pétanque accessibles au public en Belgique : recherche par ville, géolocalisation et liste par région sur Mapetanque.be.">
+    <meta property="og:title" content="Over ons — Mapetanque.be">
+    <meta property="og:description" content="Waarom Mapetanque.be bestaat, op welke vrije gegevens de site steunt (OpenStreetMap, Mapillary), en hoe je me kan bereiken.">
     <meta property="og:image" content="https://mapetanque.be/images/logomap.png">
-    <meta property="og:url" content="https://mapetanque.be/nl/">
+    <meta property="og:url" content="https://mapetanque.be/nl/a-propos.html">
     <meta property="og:type" content="website">
 
-    <!-- Versions par langue : indique à Google que /, /nl/ et /de/ sont la même page en 3
-         langues, et non 3 pages de contenu dupliqué. Ce bloc doit être identique (mêmes 4
-         lignes) dans les <head> de /index.html, /nl/index.html et /de/index.html. -->
-    <link rel="canonical" href="https://mapetanque.be/nl/">
-    <link rel="alternate" hreflang="fr" href="https://mapetanque.be/">
-    <link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/">
-    <link rel="alternate" hreflang="de" href="https://mapetanque.be/de/">
-    <link rel="alternate" hreflang="x-default" href="https://mapetanque.be/">
+    <link rel="canonical" href="https://mapetanque.be/nl/a-propos.html">
+    <link rel="alternate" hreflang="fr" href="https://mapetanque.be/a-propos.html">
+    <link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/a-propos.html">
+    <link rel="alternate" hreflang="de" href="https://mapetanque.be/de/a-propos.html">
+    <link rel="alternate" hreflang="x-default" href="https://mapetanque.be/a-propos.html">
 
-    <!-- Police des titres (Quicksand, un seul poids chargé pour rester léger) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
 
-    <!-- Bibliothèque Leaflet -->
+    <!-- Bibliothèque Leaflet : script.js instancie une carte inconditionnellement (voir plus
+         bas, #map masqué) — non utilisée visuellement sur cette page, mais nécessaire pour que
+         le reste du script (nav, menu, panneaux info) s'exécute sans erreur. -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
 
-    <!-- Feuille de style du site (chemin absolu : ce même fichier index.html est aussi servi
-         depuis /nl/ et /de/, un chemin relatif irait chercher /nl/style.css et casserait tout) -->
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/style-chargeur-photo.css">
-
-    <!-- Bannière photo + grille "Parcourir par province" : ajouts additifs uniquement, aucune
-         règle de /style.css n'est modifiée par ce fichier. -->
-    <link rel="stylesheet" href="/style-accueil-provinces.css">
+    <!-- Réutilise la bannière et le traitement visuel de la page d'accueil (même photo, mêmes
+         couleurs) plutôt qu'une identité graphique à part — pour le moment, en attendant une
+         éventuelle bannière dédiée à cette page plus tard. -->
+    <link rel="stylesheet" href="/style-comment-jouer.css">
+    <link rel="stylesheet" href="/style-a-propos.css">
 </head>
 
 <body>
 
-<div class="map-view" id="top">
+<div id="top">
 
-<div class="hero-banner">
+<div class="hero-banner" style="background-image: url('/images/banniere-faq.webp');">
 
 <div class="header">
 
     <div class="header-top-row">
-        <a href="#top" class="brand-link">
+        <a href="/nl/" class="brand-link">
             <img src="/images/logo.svg" class="logo" alt="" aria-hidden="true">
             <span class="brand"><span class="brand-map">Map</span>etanque<span class="brand-tld">.be</span></span>
         </a>
 
-        <!-- Navigation desktop : liens directs vers le panneau d'info + sélecteur de langue discret -->
         <div class="header-nav-group">
         <span id="game-nav-inline">
             <a href="/nl/comment-jouer.html" class="game-nav-link jouer"><svg viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;stroke-width:1.91px;}</style></defs><polyline class="cls-1" points="13.91 10.09 14.86 11.04 16.77 9.14"/><polyline class="cls-1" points="13.91 13.91 14.86 14.86 16.77 12.96"/><line class="cls-1" x1="7.23" y1="11.05" x2="11.05" y2="11.05"/><line class="cls-1" x1="7.23" y1="14.86" x2="11.05" y2="14.86"/><polyline class="cls-1" points="13.91 17.73 14.86 18.68 16.77 16.77"/><line class="cls-1" x1="7.23" y1="18.68" x2="11.05" y2="18.68"/><polygon class="cls-1" points="20.59 6.27 20.59 22.5 3.41 22.5 3.41 1.5 15.82 1.5 20.59 6.27"/><polygon class="cls-1" points="20.59 6.27 20.59 7.23 14.86 7.23 14.86 1.5 15.82 1.5 20.59 6.27"/></svg><span data-i18n="menu_comment_jouer">Comment jouer</span></a>
@@ -99,25 +92,40 @@
             <a href="/nl/faq.html" class="info-nav-trigger" data-i18n="menu_faq">FAQ</a>
 
             <span id="lang-switcher-inline">
-                <button type="button" class="lang-link" data-lang="fr" data-lang-url="/">FR</button>
-                <button type="button" class="lang-link" data-lang="nl" data-lang-url="/nl/">NL</button>
-                <button type="button" class="lang-link" data-lang="de" data-lang-url="/de/">DE</button>
+                <button type="button" class="lang-link" data-lang="fr" data-lang-url="/a-propos.html">FR</button>
+                <button type="button" class="lang-link" data-lang="nl" data-lang-url="/nl/a-propos.html">NL</button>
+                <button type="button" class="lang-link" data-lang="de" data-lang-url="/de/a-propos.html">DE</button>
             </span>
         </nav>
         </div>
 
-        <!-- Menu burger (mobile uniquement) -->
         <button id="menu-button" data-i18n-aria="open_menu">
             ☰
         </button>
+    </div>
 
-        <nav id="side-menu">
-            <button id="close-menu" data-i18n-aria="close_menu">
-                ✕
-            </button>
+    <div class="province-breadcrumb">
+        <a href="/nl/">Home</a>
+        <span class="sep">›</span>
+        <span class="current">Over ons</span>
+    </div>
+    <h1 class="hero-headline">Over ons</h1>
 
-            <ul>
-                <li><a href="/nl/comment-jouer.html" class="side-menu-game-link jouer"><svg viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;stroke-width:1.91px;}</style></defs><polyline class="cls-1" points="13.91 10.09 14.86 11.04 16.77 9.14"/><polyline class="cls-1" points="13.91 13.91 14.86 14.86 16.77 12.96"/><line class="cls-1" x1="7.23" y1="11.05" x2="11.05" y2="11.05"/><line class="cls-1" x1="7.23" y1="14.86" x2="11.05" y2="14.86"/><polyline class="cls-1" points="13.91 17.73 14.86 18.68 16.77 16.77"/><line class="cls-1" x1="7.23" y1="18.68" x2="11.05" y2="18.68"/><polygon class="cls-1" points="20.59 6.27 20.59 22.5 3.41 22.5 3.41 1.5 15.82 1.5 20.59 6.27"/><polygon class="cls-1" points="20.59 6.27 20.59 7.23 14.86 7.23 14.86 1.5 15.82 1.5 20.59 6.27"/></svg><span data-i18n="menu_comment_jouer">Comment jouer</span></a></li>
+</div><!-- /.header -->
+
+<div class="hero-banner-credit">
+    « Les Joueurs de pétanque, Marseille » par Émile Loubon
+</div>
+
+</div><!-- /.hero-banner -->
+
+<nav id="side-menu">
+    <button id="close-menu" data-i18n-aria="close_menu">
+        ✕
+    </button>
+
+    <ul>
+        <li><a href="/nl/comment-jouer.html" class="side-menu-game-link jouer"><svg viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;stroke-width:1.91px;}</style></defs><polyline class="cls-1" points="13.91 10.09 14.86 11.04 16.77 9.14"/><polyline class="cls-1" points="13.91 13.91 14.86 14.86 16.77 12.96"/><line class="cls-1" x1="7.23" y1="11.05" x2="11.05" y2="11.05"/><line class="cls-1" x1="7.23" y1="14.86" x2="11.05" y2="14.86"/><polyline class="cls-1" points="13.91 17.73 14.86 18.68 16.77 16.77"/><line class="cls-1" x1="7.23" y1="18.68" x2="11.05" y2="18.68"/><polygon class="cls-1" points="20.59 6.27 20.59 22.5 3.41 22.5 3.41 1.5 15.82 1.5 20.59 6.27"/><polygon class="cls-1" points="20.59 6.27 20.59 7.23 14.86 7.23 14.86 1.5 15.82 1.5 20.59 6.27"/></svg><span data-i18n="menu_comment_jouer">Comment jouer</span></a></li>
                 <li><a href="/nl/compteur.html" class="side-menu-game-link compteur"><svg fill="currentColor" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
 	 viewBox="0 0 512 512" xml:space="preserve">
 <g>
@@ -151,82 +159,22 @@
 </g>
 </svg><span data-i18n="menu_compteur">Compteur de points</span></a></li>
                 <li><a href="/nl/a-propos.html" data-i18n="menu_about">À propos</a></li>
-                <li><a href="/nl/faq.html" data-i18n="menu_faq">FAQ</a></li>
-        
-            </ul>
+        <li><a href="/nl/faq.html" data-i18n="menu_faq">FAQ</a></li>
 
-            <!-- Sélecteur de langue discret, plus de bouton en évidence : la détection automatique
-                 (navigateur + mémorisation locale) suffit dans l'immense majorité des cas, ceci reste
-                 disponible en repli pour corriger manuellement si besoin. -->
-            <div id="side-menu-lang">
-                <button type="button" class="lang-link" data-lang="fr" data-lang-url="/">FR</button>
-                <button type="button" class="lang-link" data-lang="nl" data-lang-url="/nl/">NL</button>
-                <button type="button" class="lang-link" data-lang="de" data-lang-url="/de/">DE</button>
-            </div>
-        </nav>
+    </ul>
 
-        <div id="menu-overlay"></div>
+    <div id="side-menu-lang">
+        <button type="button" class="lang-link" data-lang="fr" data-lang-url="/a-propos.html">FR</button>
+        <button type="button" class="lang-link" data-lang="nl" data-lang-url="/nl/a-propos.html">NL</button>
+        <button type="button" class="lang-link" data-lang="de" data-lang-url="/de/a-propos.html">DE</button>
     </div>
+</nav>
 
-    <p class="hero-headline" data-i18n="hero_headline">Trouvez un terrain de pétanque public</p>
+<div id="menu-overlay"></div>
 
-</div>
+<p id="searchError" class="search-error" style="display:none;"></p>
 
-<div class="controls">
-    <button id="locateBtn">
-        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-        <span data-i18n="locate_btn">Me localiser</span>
-    </button>
-
-    <form id="searchForm" class="search-form">
-        <input
-            type="text"
-            id="searchInput"
-            data-i18n-placeholder="search_placeholder"
-            autocomplete="off"
-        >
-        <button type="submit" id="searchBtn" aria-label="Rechercher">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        </button>
-    </form>
-
-    <a href="#stats-section" id="browseListBtn">
-        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
-        <span data-i18n="browse_list_btn">Parcourir la liste</span>
-    </a>
-</div>
-
-<!-- Crédit photo bannière -->
-<div class="hero-banner-credit">
-    Photo : Jean-Claude Parayre, <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a>
-</div>
-
-</div><!-- /.hero-banner -->
-
-<p class="add-terrain-link-wrapper">
-    <a href="/nl/faq.html#terrain-manquant" id="add-terrain-link" data-i18n="add_terrain_link">Ajouter un terrain de pétanque</a>
-</p>
-
-<p id="searchError" class="search-error"></p>
-
-<!-- Panneau de partage réutilisable (site ou terrain précis) -->
 <div id="share-overlay"></div>
-
-<!-- Fiche terrain plein écran sur mobile — voir le commentaire dans style.css et
-     ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. Vide par défaut, son
-     contenu est déplacé ici (pas copié) depuis le popup Leaflet correspondant à l'ouverture. -->
-<div id="mobile-sheet-overlay"></div>
-<div id="mobile-sheet">
-    <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
-    <div id="mobile-sheet-content"></div>
-</div>
-
-<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
-<div id="desktop-modal-overlay"></div>
-<div id="desktop-modal">
-    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
-    <div id="desktop-modal-content"></div>
-</div>
 <div id="share-panel">
     <button id="share-close" data-i18n-aria="close_panel">✕</button>
     <p id="share-title" class="share-title"></p>
@@ -288,79 +236,48 @@
 </div>
 
 
-<div class="map-wrapper">
-    <div id="map"></div>
-</div>
 
-</div><!-- /.map-view -->
+<div class="rules-content">
 
-<!-- Section "Parcourir par province" : remplace visuellement l'ancienne section statistiques
-     (#stats-section juste en dessous, désormais masquée en CSS mais conservée intacte dans le DOM
-     — tout son JS continue de tourner normalement, rien n'a été retiré). -->
-<section id="provinces-section">
-    <div class="provinces-container">
-        <h2 data-i18n="provinces_section_title">Parcourir par province</h2>
+            <section class="apropos-section">
+                <h2>Waarom Mapetanque.be?</h2>
+                <p>Mapetanque.be is ontstaan uit een vaststelling: geen enkele website liet toe om op een eenvoudige manier de vrij toegankelijke petanqueterreinen in België te vinden. Toch zijn er meer dan zeventienhonderd.</p>
+                <p>In enkele seconden vind je een terrein in je buurt of bij een bepaald adres, zie je hoe het eruitziet, toon je de route en deel je het met je vrienden.</p>
+            </section>
 
-        <div class="province-tiles-grid">
-            <a href="/nl/province-anvers.html" class="province-tile" style="background-image: url('/images/provinces/tuile-anvers.jpg');">
-                <span class="province-tile-name">Antwerpen</span>
-            </a>
-            <a href="/nl/province-brabant-flamand.html" class="province-tile" style="background-image: url('/images/provinces/tuile-brabant-flamand.jpg');">
-                <span class="province-tile-name">Vlaams-Brabant</span>
-            </a>
-            <a href="/nl/province-flandre-orientale.html" class="province-tile" style="background-image: url('/images/provinces/tuile-flandre-orientale.jpg');">
-                <span class="province-tile-name">Oost-Vlaanderen</span>
-            </a>
-            <a href="/nl/province-flandre-occidentale.html" class="province-tile" style="background-image: url('/images/provinces/tuile-flandre-occidentale.jpg');">
-                <span class="province-tile-name">West-Vlaanderen</span>
-            </a>
-            <a href="/nl/province-limbourg.html" class="province-tile" style="background-image: url('/images/provinces/tuile-limbourg.jpg');">
-                <span class="province-tile-name">Limburg</span>
-            </a>
-            <a href="/nl/province-brabant-wallon.html" class="province-tile" style="background-image: url('/images/provinces/tuile-brabant-wallon.jpg');">
-                <span class="province-tile-name">Waals-Brabant</span>
-            </a>
-            <a href="/nl/province-hainaut.html" class="province-tile" style="background-image: url('/images/provinces/tuile-hainaut.jpg');">
-                <span class="province-tile-name">Henegouwen</span>
-            </a>
-            <a href="/nl/province-liege.html" class="province-tile" style="background-image: url('/images/provinces/tuile-liege.jpg');">
-                <span class="province-tile-name">Luik</span>
-            </a>
-            <a href="/nl/province-luxembourg.html" class="province-tile" style="background-image: url('/images/provinces/tuile-luxembourg.jpg');">
-                <span class="province-tile-name">Luxemburg</span>
-            </a>
-            <a href="/nl/province-namur.html" class="province-tile" style="background-image: url('/images/provinces/tuile-namur.jpg');">
-                <span class="province-tile-name">Namen</span>
-            </a>
-        </div>
-    </div>
-</section>
+            <section class="apropos-section">
+                <h2>Een opensourceproject, vrije gegevens</h2>
+                <p>De code van Mapetanque.be is open, en ook de gegevens die de site gebruikt zijn vrij:</p>
+                <ul class="apropos-sources">
+                    <li class="apropos-source">
+                        <img src="/images/logo-openstreetmap.webp" alt="OpenStreetMap" width="40" height="40" loading="lazy">
+                        <span class="apropos-source-texte"><a href="https://www.openstreetmap.org" target="_blank" rel="noopener">OpenStreetMap</a> voor de terreinen en hun locatie</span>
+                    </li>
+                    <li class="apropos-source">
+                        <img src="/images/logo-mapillary.webp" alt="Mapillary" width="40" height="40" loading="lazy">
+                        <span class="apropos-source-texte"><a href="https://www.mapillary.com" target="_blank" rel="noopener">Mapillary</a> voor de foto's van de terreinen</span>
+                    </li>
+                </ul>
+                <p>Maar Mapetanque.be put niet alleen uit die bronnen: de site voedt ze ook. Elk terrein dat mij gemeld wordt, voeg ik toe aan OpenStreetMap, en elke foto die ik ontvang wordt op Mapillary gepubliceerd voordat ze hier verschijnt. Wat voor deze site verzameld wordt, komt dus iedereen ten goede.</p>
+                <p>De site is gratis, zonder reclame, en wordt in mijn vrije tijd ontwikkeld.</p>
+            </section>
 
-<!-- Section "Parcourir par région" : niveau plus général, sous les provinces. Bruxelles y
-     figure à sa vraie place (ce n'est pas une province) et renvoie directement vers sa page
-     dédiée existante (pas de page région séparée pour Bruxelles, qui n'a pas de sous-provinces). -->
-<section id="regions-section">
-    <div class="provinces-container">
-        <h2 data-i18n="regions_section_title">Blader per regio</h2>
+            <section class="apropos-section">
+                <h2>Wie ben ik?</h2>
+                <p>Geboren in Luik en er nog altijd woonachtig, speel ik al van kleins af aan petanque: eerst tijdens vakanties in Zuid-Frankrijk, daarna korte tijd in een club in Vottem. Vandaag speel ik vooral met vrienden, op openbare terreinen, en die zoektocht naar het ideale terrein heeft tot deze site geleid.</p>
+                <div class="apropos-contact" id="contact">
+                    <p>Heb je een suggestie, wil je een fout melden of meewerken aan het project? Laat het me gerust weten.</p>
+                    <a class="apropos-mail" href="mailto:mapetanque@outlook.be"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>mapetanque@outlook.be</a>
+                </div>
+            </section>
 
-        <div class="province-tiles-grid regions-tiles-grid">
-            <a href="/nl/region-flandre.html" class="province-tile" style="background-image: url('/images/provinces/tuile-flandre.jpg');">
-                <span class="province-tile-name">Vlaanderen</span>
-            </a>
-            <a href="/nl/region-wallonie.html" class="province-tile" style="background-image: url('/images/provinces/tuile-wallonie.jpg');">
-                <span class="province-tile-name">Wallonië</span>
-            </a>
-            <a href="/nl/province-bruxelles.html" class="province-tile" style="background-image: url('/images/provinces/tuile-bruxelles.jpg');">
-                <span class="province-tile-name">Brussel</span>
-            </a>
-        </div>
-    </div>
-</section>
+</div><!-- /.rules-content -->
 
-<!-- Section statistiques : conservée intacte, JS toujours actif, seulement masquée visuellement
-     (voir /style-accueil-provinces.css). Rien n'est supprimé ici. -->
+</div><!-- /#top -->
+
 <section id="stats-section">
     <div class="stats-container">
+
         <h2 data-i18n="stats_page_title">Statistiques</h2>
 
         <div class="stats-headline">
@@ -377,7 +294,6 @@
     </div>
 </section>
 
-<!-- Panneau d'info coulissant -->
 
 <footer>
     <div class="footer-content">
@@ -408,25 +324,33 @@
     </div>
 </footer>
 
-<!-- Bibliothèque Leaflet -->
+<!-- #map masqué : script.js appelle L.map('map', ...) sans condition, cet élément doit exister
+     même si aucune carte n'est réellement affichée sur cette page. -->
+<div id="map" style="display:none;"></div>
+
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
 
-<!-- Traductions -->
 <script src="/translations.js"></script>
-
-<!-- Script du site -->
+<script>window.MAPETANQUE_SKIP_DEFAULT_MARKERS = true;</script>
 <script src="/chargeur-photo.js"></script>
     <script src="/script.js"></script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
-
 
 <script>
-document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-        window.location.href = btn.dataset.langUrl;
+    // Sélecteur de langue : script.js (non modifié) renvoie toujours vers la racine de la
+    // langue choisie et ne traduit que les menus/boutons partagés, pas cette page elle-même
+    // (chaque langue est un fichier statique séparé). On surcharge la navigation pour aller
+    // vers la vraie URL équivalente — même correctif que templates/province_template.html.
+    document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const cible = btn.dataset.langUrl;
+            if (cible) {
+                window.location.href = cible;
+            }
+        });
     });
-});
 </script>
+
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>

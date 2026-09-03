@@ -227,8 +227,6 @@
             // de plus reviendrait à ralentir l'affichage au nom de l'animation.
             if (!estIframe) { reveler(); return; }
 
-            parties.voile.classList.add('sortie');
-
             function lancerOutro() {
                 arretCourant = jouer(ctx, OUTRO, 0, OUTRO.images - 1, reveler);
             }

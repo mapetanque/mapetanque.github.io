@@ -1,0 +1,128 @@
+/* =============================================================================================
+   Page « À propos ».
+   Fichier additif : ni style.css ni style-comment-jouer.css ne sont modifiés. La page charge
+   style-comment-jouer.css pour la bannière, l'en-tête et le conteneur .rules-content, puis
+   cette feuille pour ce qui lui est propre — sections de texte, sources, bloc de contact.
+============================================================================================= */
+
+.apropos-section {
+    margin-bottom: 42px;
+}
+
+.apropos-section:last-child {
+    margin-bottom: 10px;
+}
+
+.apropos-section h2 {
+    font-family: 'Quicksand', Arial, sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #333;
+    margin: 0 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #eceee9;
+}
+
+.apropos-section p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: #444;
+    margin: 0 0 14px;
+}
+
+.apropos-section p:last-child {
+    margin-bottom: 0;
+}
+
+/* --- Les deux sources de données, avec leur logo --- */
+
+.apropos-sources {
+    list-style: none;
+    margin: 18px 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.apropos-source {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #fafbf9;
+    border: 1px solid #eceee9;
+    border-radius: 10px;
+    padding: 12px 16px;
+}
+
+.apropos-source img {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    display: block;
+}
+
+.apropos-source-texte {
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: #444;
+}
+
+.apropos-source-texte a {
+    color: #74C15A;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.apropos-source-texte a:hover {
+    text-decoration: underline;
+}
+
+/* --- Bloc de contact, en fin de page --- */
+
+.apropos-contact {
+    background: #f7f9f6;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-top: 6px;
+}
+
+.apropos-contact p {
+    margin-bottom: 10px;
+}
+
+.apropos-mail {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #74C15A;
+    text-decoration: none;
+    word-break: break-word;
+}
+
+.apropos-mail:hover {
+    text-decoration: underline;
+}
+
+.apropos-mail svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 1024px) {
+    .apropos-section {
+        margin-bottom: 34px;
+    }
+
+    .apropos-section h2 {
+        font-size: 19px;
+    }
+
+    .apropos-section p,
+    .apropos-source-texte {
+        font-size: 14.5px;
+    }
+}
