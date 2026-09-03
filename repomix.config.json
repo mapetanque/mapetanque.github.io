@@ -1,0 +1,27 @@
+{
+  "output": {
+    "filePath": "repomix-output.xml",
+    "style": "xml",
+    "removeComments": false
+  },
+  "ignore": {
+    "customPatterns": [
+      "data/**",
+      "images/**",
+      "province-*.html",
+      "region-*.html",
+      "nl/province-*.html",
+      "nl/region-*.html",
+      "de/province-*.html",
+      "de/region-*.html",
+      "!province-liege.html",
+      "!region-wallonie.html",
+      "repomix-output.xml",
+      "photos_a_corriger.md",
+      "**/*.json",
+      "scripts/revue_photos.html",
+      ".claude/**",
+      "*.md"
+    ]
+  }
+}

@@ -1,34 +1,26 @@
 """
 Génère faq.html, nl/faq.html et de/faq.html à partir des pages « Comment jouer » du dépôt.
 
-Ces dernières servent de squelette : en-tête, logo, menu, feuilles de style, scripts et pied de
-page sont donc automatiquement ceux de la version courante du site. C'est le point important —
-générer depuis une copie figée produirait une page en retard d'un ou deux correctifs.
+La mécanique commune (métadonnées, bannière, fil d'Ariane, sélecteur de langue) vit dans
+_squelette.py, partagée avec generer_a_propos.py.
 
 À lancer depuis la racine du dépôt :
     python scripts/generer_faq.py
 
-Les pages existantes sont écrasées : toute retouche faite directement dans faq.html serait
-perdue. Modifier le contenu ici, puis relancer.
+Les pages existantes sont écrasées : modifier le contenu ci-dessous, puis relancer.
 """
 
-import html
 import json
-import re
 from pathlib import Path
 
+from _squelette import construire_page, echap, lier_urls_et_emails
+
 RACINE = Path(__file__).resolve().parent.parent
-
-BASE = "https://mapetanque.be"
-
-# Ancre stable sur la question des terrains manquants : script.js ouvrait le panneau sur cet
-# élément, le lien profond devient une ancre HTML.
-ANCRES = {3: "terrain-manquant"}
 
 META = {
     "fr": {
         "prefixe": "",
-        "titre_page": "FAQ — Mapetanque.be",
+        "titre": "FAQ — Mapetanque.be",
         "h1": "Questions fréquentes",
         "fil": ("Accueil", "Questions fréquentes"),
         "description": (
@@ -38,7 +30,7 @@ META = {
     },
     "nl": {
         "prefixe": "nl/",
-        "titre_page": "FAQ — Mapetanque.be",
+        "titre": "FAQ — Mapetanque.be",
         "h1": "Veelgestelde vragen",
         "fil": ("Home", "Veelgestelde vragen"),
         "description": (
@@ -48,7 +40,7 @@ META = {
     },
     "de": {
         "prefixe": "de/",
-        "titre_page": "FAQ — Mapetanque.be",
+        "titre": "FAQ — Mapetanque.be",
         "h1": "Häufige Fragen",
         "fil": ("Startseite", "Häufige Fragen"),
         "description": (
@@ -58,7 +50,10 @@ META = {
     },
 }
 
-# Icône au même gabarit que celles de « Comment jouer », pour que l'accordéon reste homogène.
+# Ancre stable sur la question des terrains manquants : le lien « Ajouter un terrain » de la
+# carte pointe dessus, il ne faut donc pas la renommer sans mettre ce lien à jour.
+ANCRES = {3: "terrain-manquant"}
+
 ICONE = (
     '<span class="rule-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" '
     'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
@@ -137,26 +132,6 @@ CONTENU = {
 }
 
 
-def texte_en_html(texte):
-    """
-    Échappe le HTML, puis rend cliquables les URL et les adresses e-mail écrites en clair.
-    Dans le panneau latéral elles restaient en texte brut ; sur une vraie page, laisser une
-    adresse non cliquable serait un recul.
-    """
-    echappe = html.escape(texte, quote=False)
-    echappe = re.sub(
-        r'(https?://[^\s<>"\)]+)',
-        r'<a href="\1" target="_blank" rel="noopener">\1</a>',
-        echappe,
-    )
-    # La ponctuation finale (virgule, point) est exclue de l'adresse par le [^\s,;.] final.
-    return re.sub(
-        r'\b([\w.+-]+@[\w-]+\.[\w.]*[\w])',
-        r'<a href="mailto:\1">\1</a>',
-        echappe,
-    )
-
-
 def bloc_accordeon(items):
     morceaux = []
     for index, item in enumerate(items):
@@ -166,10 +141,10 @@ def bloc_accordeon(items):
             f'            <details class="rule-accordion"{attr_id}>\n'
             f"                <summary>\n"
             f"                    {ICONE}\n"
-            f'                    <span class="rule-title">{html.escape(item["q"], quote=False)}</span>\n'
+            f'                    <span class="rule-title">{echap(item["q"])}</span>\n'
             f"                </summary>\n"
             f'                <div class="rule-body">\n'
-            f"                    <p>{texte_en_html(item['a'])}</p>\n"
+            f"                    <p>{lier_urls_et_emails(item['a'])}</p>\n"
             f"                </div>\n"
             f"            </details>\n"
         )
@@ -197,95 +172,20 @@ def donnees_structurees(items):
     )
 
 
-def construire(langue):
-    meta = META[langue]
-    squelette = RACINE / meta["prefixe"] / "comment-jouer.html"
-    if not squelette.exists():
-        raise SystemExit(f"Squelette introuvable : {squelette}")
-    src = squelette.read_text(encoding="utf-8")
+for langue, meta in META.items():
     items = CONTENU[langue]
-
-    # --- En-tête ------------------------------------------------------------------------
-    src = re.sub(r"<title>.*?</title>", f'<title>{meta["titre_page"]}</title>', src, count=1)
-    for prop, valeur in (
-        ('<meta name="description" content="', meta["description"]),
-        ('<meta property="og:title" content="', meta["titre_page"]),
-        ('<meta property="og:description" content="', meta["description"]),
-        ('<meta property="og:url" content="', f'{BASE}/{meta["prefixe"]}faq.html'),
-    ):
-        src = re.sub(
-            re.escape(prop) + r'[^"]*">',
-            prop + html.escape(valeur, quote=True) + '">',
-            src, count=1,
-        )
-    src = re.sub(
-        r'<link rel="canonical" href="[^"]*">',
-        f'<link rel="canonical" href="{BASE}/{meta["prefixe"]}faq.html">',
-        src, count=1,
+    taille = construire_page(
+        RACINE / meta["prefixe"] / "comment-jouer.html",
+        RACINE / meta["prefixe"] / "faq.html",
+        page="faq.html",
+        prefixe=meta["prefixe"],
+        titre=meta["titre"],
+        description=meta["description"],
+        h1=meta["h1"],
+        fil=meta["fil"],
+        contenu=bloc_accordeon(items),
+        tete_sup=donnees_structurees(items),
+        banniere="/images/banniere-faq.webp",
+        credit="« Les Joueurs de pétanque, Marseille » par Émile Loubon",
     )
-    for code, prefixe in (("fr", ""), ("nl", "nl/"), ("de", "de/")):
-        src = re.sub(
-            rf'<link rel="alternate" hreflang="{code}" href="[^"]*">',
-            f'<link rel="alternate" hreflang="{code}" href="{BASE}/{prefixe}faq.html">',
-            src, count=1,
-        )
-    src = re.sub(
-        r'<link rel="alternate" hreflang="x-default" href="[^"]*">',
-        f'<link rel="alternate" hreflang="x-default" href="{BASE}/faq.html">',
-        src, count=1,
-    )
-    src = src.replace("</head>", "    " + donnees_structurees(items) + "\n</head>", 1)
-
-    # --- Bannière -----------------------------------------------------------------------
-    src = src.replace(
-        "url('/images/banniere-comment-jouer.webp')",
-        "url('/images/banniere-faq.webp')",
-        1,
-    )
-    src = re.sub(
-        r'<div class="hero-banner-credit">.*?</div>',
-        '<div class="hero-banner-credit">\n'
-        "    « Les Joueurs de pétanque, Marseille » par Émile Loubon\n"
-        "</div>",
-        src, count=1, flags=re.S,
-    )
-
-    # --- Fil d'Ariane et titre ------------------------------------------------------------
-    accueil, courant = meta["fil"]
-    src = re.sub(
-        r'<div class="province-breadcrumb">.*?</div>',
-        '<div class="province-breadcrumb">\n'
-        f'        <a href="/{meta["prefixe"]}">{accueil}</a>\n'
-        '        <span class="sep">›</span>\n'
-        f'        <span class="current">{courant}</span>\n'
-        "    </div>",
-        src, count=1, flags=re.S,
-    )
-    src = re.sub(
-        r'<h1 class="hero-headline">.*?</h1>',
-        f'<h1 class="hero-headline">{meta["h1"]}</h1>',
-        src, count=1, flags=re.S,
-    )
-
-    # --- Contenu ------------------------------------------------------------------------
-    debut = src.find('<div class="rules-content">')
-    fin = src.find("</div><!-- /.rules-content -->")
-    if debut == -1 or fin == -1:
-        raise SystemExit(f"{langue} : bornes de .rules-content introuvables dans le squelette")
-    src = src[:debut] + '<div class="rules-content">\n\n' + bloc_accordeon(items) + "\n" + src[fin:]
-
-    # --- Sélecteur de langue --------------------------------------------------------------
-    for code, prefixe in (("fr", ""), ("nl", "nl/"), ("de", "de/")):
-        src = re.sub(
-            rf'(<button type="button" class="lang-link" data-lang="{code}" data-lang-url=")[^"]*(")',
-            rf"\g<1>/{prefixe}faq.html\g<2>",
-            src,
-        )
-
-    cible = RACINE / meta["prefixe"] / "faq.html"
-    cible.write_text(src, encoding="utf-8")
-    print(f"{meta['prefixe']}faq.html : {len(src)} octets, {len(items)} questions")
-
-
-for langue in ("fr", "nl", "de"):
-    construire(langue)
+    print(f"{meta['prefixe']}faq.html : {taille} octets, {len(items)} questions")

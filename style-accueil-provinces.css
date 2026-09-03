@@ -13,7 +13,6 @@
      (ajouté uniquement en HTML, aucun de leurs attributs/ID internes n'a changé).
    ========================================================================================== */
 
-
 /* ===================== Masquage des éléments remplacés (jamais supprimés) ===================== */
 
 #stats-section,
@@ -21,7 +20,6 @@
 .add-terrain-link-wrapper {
     display: none;
 }
-
 
 /* ===================== Bannière photo (.hero-banner) ===================== */
 
@@ -78,63 +76,6 @@
     padding-top: 18px;
 }
 
-/* .header et .controls gardent leurs propres règles de style.css (padding, flex, etc.) ;
-   on ne fait ici que recolorer le texte en blanc pour qu'il reste lisible sur la photo.
-   TEST EN COURS : les ombres portées individuelles (text-shadow sur la marque, le titre et les
-   liens de menu ; drop-shadow sur les icônes SVG du menu) ont été retirées au profit du voile
-   en dégradé défini plus haut (.hero-banner::before).
-   Les pages province/région/comment-jouer/compteur conservent les ombres pour l'instant. */
-
-.hero-banner .brand,
-.hero-banner .hero-headline {
-    color: #fff;
-}
-
-.hero-banner .brand-tld {
-    color: rgba(255,255,255,0.75);
-    /* font-weight explicite : style.css demande 400 pour le ".be", mais aucune page ne charge
-       la graisse 400 de Quicksand. Le navigateur retombe donc sur la graisse chargée la plus
-       proche, qui diffère d'une page à l'autre — 700 sur l'accueil/provinces/régions (seule
-       graisse chargée), 600 sur "Comment jouer", 500 sur "Compteur de points" (dont le widget
-       charge en plus 500;600;700). D'où un ".be" d'épaisseur variable selon les pages. On fixe
-       ici la graisse sur 700, la seule chargée partout : rendu identique sur tout le site,
-       sans téléchargement de police supplémentaire. */
-    font-weight: 700;
-}
-
-.hero-banner .info-nav-trigger,
-.hero-banner .lang-link,
-.hero-banner .game-nav-link {
-    color: #fff;
-}
-
-.hero-banner .info-nav-trigger:hover,
-.hero-banner .game-nav-link:hover {
-    background: rgba(255,255,255,0.18);
-    color: #fff;
-}
-
-.hero-banner #game-nav-inline {
-    border-right: 1px solid rgba(255,255,255,0.35);
-}
-
-.hero-banner .lang-link {
-    color: rgba(255,255,255,0.75);
-}
-
-.hero-banner .lang-link:hover {
-    color: #fff;
-}
-
-.hero-banner .lang-link.active {
-    color: #fff;
-    background: rgba(255,255,255,0.18);
-}
-
-.hero-banner #lang-switcher-inline {
-    border-left: 1px solid rgba(255,255,255,0.35);
-}
-
 .hero-banner-credit {
     position: absolute;
     bottom: 8px;
@@ -144,11 +85,6 @@
     text-shadow: 0 1px 2px rgba(0,0,0,0.6);
     z-index: 2;
 }
-
-.hero-banner-credit a {
-    color: rgba(255,255,255,0.85);
-}
-
 
 /* ===================== Carte "fiche" (.map-wrapper) ===================== */
 
@@ -167,7 +103,6 @@
     min-height: 0;
 }
 
-
 /* ===================== Compatibilité mode plein écran ===================== */
 /* Le plein écran (script.js + règles .map-view.fullscreen-active de style.css) continue de
    fonctionner : #map reste un descendant de .map-view, donc "​.map-view.fullscreen-active #map
@@ -180,12 +115,6 @@
     padding: 10px 15px;
 }
 
-/* La photo disparaît en plein écran : le voile n'a plus de raison d'être et assombrirait
-   inutilement la barre de contrôles. */
-.map-view.fullscreen-active .hero-banner::before {
-    display: none;
-}
-
 .map-view.fullscreen-active .hero-banner-credit {
     display: none;
 }
@@ -196,7 +125,6 @@
     box-shadow: none;
     height: 100%;
 }
-
 
 /* ===================== Section "Parcourir par province" ===================== */
 
@@ -265,7 +193,6 @@
     text-shadow: 0 1px 4px rgba(0,0,0,0.6);
 }
 
-
 /* ===================== Ajustements de la barre de navigation ===================== */
 
 /* Icônes retirées à gauche de "Comment jouer" / "Compteur de points" : masquées plutôt que
@@ -276,45 +203,6 @@
     display: none;
 }
 
-/* Espacement horizontal resserré de 15 % entre les libellés de la nav. La distance entre deux
-   libellés voisins vaut : padding droit (14px) + gap (2px) + padding gauche (14px) = 30px dans
-   style.css. On la ramène à 25,5px (-15 %) en réduisant les deux composantes d'autant. */
-.hero-banner .game-nav-link,
-.hero-banner .info-nav-trigger {
-    padding-left: 11.9px;
-    padding-right: 11.9px;
-}
-
-.hero-banner #game-nav-inline,
-.hero-banner #desktop-nav {
-    gap: 1.7px;
-}
-
-/* Distance logo <-> marque réduite de 30 % (5px -> 3.5px dans .brand-link de style.css). */
-.hero-banner .brand-link {
-    gap: 3.5px;
-}
-
-/* Trait de séparation retiré entre les liens de jeu et la nav d'information : depuis que
-   « À propos » et « FAQ » mènent à de vraies pages comme « Comment jouer » et « Compteur de
-   points », les deux groupes sont de même nature et la séparation n'a plus lieu d'être. Le
-   trait avant le sélecteur de langue est conservé, lui distingue bien deux choses différentes.
-   Les marges et le retrait interne partent avec la bordure, sans quoi l'espace resterait
-   asymétrique autour d'un trait devenu invisible. */
-.hero-banner #game-nav-inline {
-    border-right: none;
-    margin-right: 0;
-    padding-right: 0;
-}
-
-/* Hauteur du seul trait restant. Sans ceci, #lang-switcher-inline prendrait la hauteur de son
-   contenu (~26px pour un texte de 12px avec 6px de padding), ce qui convient — la règle fige
-   simplement cette valeur pour qu'elle ne dépende pas du rendu de la police. */
-.hero-banner #lang-switcher-inline {
-    height: 26px;
-}
-
-
 /* ===================== Menu burger : même simplification que l'en-tête ===================== */
 
 /* Icônes retirées à gauche de « Comment jouer » et « Compteur de points », comme dans la nav de
@@ -322,21 +210,6 @@
 #side-menu .side-menu-game-link svg {
     display: none;
 }
-
-/* Le gap de 10px ne sert plus à rien une fois l'icône masquée : sans cela, chaque libellé
-   resterait décalé de 10px vers la droite par rapport aux autres entrées du menu. */
-#side-menu .side-menu-game-link {
-    gap: 0;
-}
-
-/* Trait de séparation retiré sous « Compteur de points » : les quatre entrées mènent désormais
-   toutes à de vraies pages, il n'y a plus deux natures de liens à distinguer. Le padding part
-   avec, sinon l'espacement resterait plus large à cet endroit qu'entre les autres entrées. */
-#side-menu li:has(.side-menu-game-link.compteur) {
-    padding-bottom: 0;
-    border-bottom: none;
-}
-
 
 /* ===================== Bulle du résultat de recherche ===================== */
 
@@ -357,7 +230,6 @@
     top: 6px !important;
 }
 
-
 /* ===================== Footer : plus fixe, suit le flux normal de page ===================== */
 
 footer {
@@ -368,7 +240,6 @@ body {
     /* Plus besoin de réserver la place du footer fixe (voir --footer-height dans style.css) */
     padding-bottom: 0;
 }
-
 
 /* ===================== Responsive (même palier que style.css : 1024px) ===================== */
 
@@ -401,7 +272,6 @@ body {
         grid-template-columns: repeat(2, 1fr);
     }
 }
-
 
 /* ===================== Fil d'Ariane région > province dans les popups de terrain ===================== */
 

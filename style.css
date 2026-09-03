@@ -657,10 +657,6 @@ body.fullscreen-lock {
     }
 }
 
-.subtitle {
-    text-align: center;
-}
-
 /* Jeu de mots Map + (p)étanque dans le titre */
 .brand-map {
     font-weight: 700;
@@ -1349,14 +1345,6 @@ body.fullscreen-lock {
     padding-top: 16px;
 }
 
-.add-photo-form-placeholder {
-    font-size: 13px;
-    color: #999;
-    font-style: italic;
-    text-align: center;
-    margin: 0;
-}
-
 /* Marqueur de position utilisateur */
 /* Marqueur de terrain (pin vert) : ombre portée pour se détacher de tous les fonds de carte */
 .terrain-marker-icon {
@@ -1637,11 +1625,6 @@ body.fullscreen-lock {
     color: #999;
 }
 
-#side-menu li:has(.side-menu-game-link.compteur) {
-    padding-bottom: 20px;
-    border-bottom: 1px solid #eee;
-}
-
 /* Sélecteur de langue discret en bas du menu burger */
 #side-menu-lang {
     display: flex;
@@ -1684,151 +1667,6 @@ body.fullscreen-lock {
 
 #menu-overlay.visible {
     display: block;
-}
-
-/* Panneau d'info coulissant */
-#info-panel {
-    position: fixed;
-    top: 0;
-    right: -500px;
-    width: 475px;
-    max-width: 85vw;
-    height: 100%;
-
-    background-color: white;
-    z-index: 1300;
-
-    padding: 30px 25px;
-    box-sizing: border-box;
-    overflow-y: auto;
-
-    transition: right 0.3s ease;
-    box-shadow: -3px 0 10px rgba(0,0,0,0.2);
-}
-
-#info-panel.open {
-    right: 0;
-}
-
-#info-content {
-    margin-top: 18px;
-}
-
-/* Chaque page (À propos / FAQ / Contact) est construite une seule fois au chargement ;
-   seule celle correspondant à l'onglet actif est affichée. */
-.info-page {
-    display: none;
-}
-
-.info-page.active {
-    display: block;
-}
-
-/* Mini-navigation en haut du panneau (À propos / Contact / FAQ) */
-#info-nav {
-    display: flex;
-    gap: 6px;
-    clear: both;
-    padding-top: 15px;
-    border-bottom: 1px solid #e0e0e0;
-}
-
-.info-nav-link {
-    flex: 1;
-    border: none;
-    background: none;
-    padding: 10px 4px;
-    font-size: 14px;
-    font-weight: bold;
-    color: #777;
-    cursor: pointer;
-    border-bottom: 3px solid transparent;
-    transition: color 0.15s ease, border-color 0.15s ease;
-}
-
-.info-nav-link:hover {
-    color: #74C15A;
-}
-
-.info-nav-link.active {
-    color: #74C15A;
-    border-bottom-color: #74C15A;
-}
-
-#info-panel p {
-    line-height: 1.6;
-    color: #333;
-}
-
-/* FAQ en accordéon */
-.faq-item {
-    border-bottom: 1px solid #e0e0e0;
-    padding: 12px 0;
-}
-
-.faq-item summary {
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 15px;
-    color: #1a1a1a;
-    list-style: none;
-    position: relative;
-    padding-right: 24px;
-    line-height: 1.4;
-}
-
-.faq-item summary::-webkit-details-marker {
-    display: none;
-}
-
-.faq-item summary::after {
-    content: "+";
-    position: absolute;
-    right: 0;
-    top: 0;
-    font-size: 20px;
-    color: #74C15A;
-    transition: transform 0.2s ease;
-}
-
-.faq-item[open] summary::after {
-    content: "+";
-    transform: rotate(45deg);
-}
-
-.faq-item p {
-    margin: 10px 0 0;
-    color: #555;
-    font-size: 14px;
-}
-
-#close-info {
-    float: right;
-    border: none;
-    background: none;
-    font-size: 25px;
-    cursor: pointer;
-}
-
-#info-overlay {
-    display: none;
-
-    position: fixed;
-    inset: 0;
-
-    background: rgba(0,0,0,0.3);
-    z-index: 1250;
-}
-
-#info-overlay.visible {
-    display: block;
-}
-
-@media (max-width: 600px) {
-    #info-panel {
-        width: 100%;
-        max-width: 100vw;
-    }
 }
 
 /* Pied de page */
@@ -2085,4 +1923,122 @@ footer a:hover {
 
 @keyframes add-photo-spin {
     to { transform: rotate(360deg); }
+}
+
+/* =============================================================================================
+   En-tête posé sur une bannière photo
+   =============================================================================================
+   Ces règles étaient dupliquées à l'identique dans style-accueil-provinces.css,
+   style-province.css et style-comment-jouer.css : toutes les pages du site ont le même en-tête
+   sur une bannière, seule l'image change. Les regrouper ici, dans la feuille chargée partout,
+   supprime la triple maintenance — une correction sur la nav se faisait jusqu'ici en trois
+   exemplaires, avec le risque d'en oublier un.
+
+   Les feuilles spécifiques restent chargées APRÈS celle-ci et peuvent donc toujours surcharger
+   ce qui suit : c'est le cas du dégradé .hero-banner::before, différent selon que le titre est
+   en haut (accueil) ou en bas (province, comment-jouer).
+============================================================================================= */
+
+.hero-banner .brand,
+.hero-banner .hero-headline {
+    color: #fff;
+}
+
+.hero-banner .brand-tld {
+    color: rgba(255,255,255,0.75);
+    /* font-weight explicite : style.css demande 400 pour le ".be", mais aucune page ne charge
+       la graisse 400 de Quicksand. Le navigateur retombe donc sur la graisse chargée la plus
+       proche, qui diffère d'une page à l'autre — 700 sur l'accueil/provinces/régions (seule
+       graisse chargée), 600 sur "Comment jouer", 500 sur "Compteur de points" (dont le widget
+       charge en plus 500;600;700). D'où un ".be" d'épaisseur variable selon les pages. On fixe
+       ici la graisse sur 700, la seule chargée partout : rendu identique sur tout le site,
+       sans téléchargement de police supplémentaire. */
+    font-weight: 700;
+}
+
+.hero-banner .info-nav-trigger,
+.hero-banner .lang-link,
+.hero-banner .game-nav-link {
+    color: #fff;
+}
+
+.hero-banner .info-nav-trigger:hover,
+.hero-banner .game-nav-link:hover {
+    background: rgba(255,255,255,0.18);
+    color: #fff;
+}
+
+.hero-banner #game-nav-inline {
+    border-right: 1px solid rgba(255,255,255,0.35);
+}
+
+.hero-banner .lang-link {
+    color: rgba(255,255,255,0.75);
+}
+
+.hero-banner .lang-link:hover {
+    color: #fff;
+}
+
+.hero-banner .lang-link.active {
+    color: #fff;
+    background: rgba(255,255,255,0.18);
+}
+
+.hero-banner #lang-switcher-inline {
+    border-left: 1px solid rgba(255,255,255,0.35);
+}
+
+.hero-banner-credit a {
+    color: rgba(255,255,255,0.85);
+}
+
+/* La photo disparaît en plein écran : le voile n'a plus de raison d'être et assombrirait
+   inutilement la barre de contrôles. */
+.map-view.fullscreen-active .hero-banner::before {
+    display: none;
+}
+
+/* Espacement horizontal resserré de 15 % entre les libellés de la nav. La distance entre deux
+   libellés voisins vaut : padding droit (14px) + gap (2px) + padding gauche (14px) = 30px dans
+   style.css. On la ramène à 25,5px (-15 %) en réduisant les deux composantes d'autant. */
+.hero-banner .game-nav-link,
+.hero-banner .info-nav-trigger {
+    padding-left: 11.9px;
+    padding-right: 11.9px;
+}
+
+.hero-banner #game-nav-inline,
+.hero-banner #desktop-nav {
+    gap: 1.7px;
+}
+
+/* Distance logo <-> marque réduite de 30 % (5px -> 3.5px dans .brand-link de style.css). */
+.hero-banner .brand-link {
+    gap: 3.5px;
+}
+
+/* Trait de séparation retiré entre les liens de jeu et la nav d'information : depuis que
+   « À propos » et « FAQ » mènent à de vraies pages comme « Comment jouer » et « Compteur de
+   points », les deux groupes sont de même nature et la séparation n'a plus lieu d'être. Le
+   trait avant le sélecteur de langue est conservé, lui distingue bien deux choses différentes.
+   Les marges et le retrait interne partent avec la bordure, sans quoi l'espace resterait
+   asymétrique autour d'un trait devenu invisible. */
+.hero-banner #game-nav-inline {
+    border-right: none;
+    margin-right: 0;
+    padding-right: 0;
+}
+
+/* Hauteur du seul trait restant. Sans ceci, #lang-switcher-inline prendrait la hauteur de son
+   contenu (~26px pour un texte de 12px avec 6px de padding), ce qui convient — la règle fige
+   simplement cette valeur pour qu'elle ne dépende pas du rendu de la police. */
+.hero-banner #lang-switcher-inline {
+    height: 26px;
+}
+
+/* Le gap de 10px ne sert plus à rien une fois l'icône masquée : sans cela, chaque libellé
+   resterait décalé de 10px vers la droite par rapport aux autres entrées du menu. */
+#side-menu .side-menu-game-link {
+    gap: 0;
 }

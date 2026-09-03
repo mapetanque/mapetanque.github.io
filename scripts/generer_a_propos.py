@@ -2,9 +2,8 @@
 Génère a-propos.html, nl/a-propos.html et de/a-propos.html à partir des pages
 « Comment jouer » du dépôt.
 
-Ces dernières servent de squelette : en-tête, logo, menu, feuilles de style, scripts et pied de
-page sont donc ceux de la version courante du site. Générer depuis une copie figée produirait
-une page en retard d'un correctif.
+La mécanique commune (métadonnées, bannière, fil d'Ariane, sélecteur de langue) vit dans
+_squelette.py, partagée avec generer_faq.py.
 
 À lancer depuis la racine du dépôt :
     python scripts/generer_a_propos.py
@@ -12,15 +11,14 @@ une page en retard d'un correctif.
 Les pages existantes sont écrasées : modifier le contenu ci-dessous, puis relancer.
 """
 
-import html
-import re
 from pathlib import Path
 
-RACINE = Path(__file__).resolve().parent.parent
-BASE = "https://mapetanque.be"
+from _squelette import construire_page, echap
 
-# Les titres reprennent les libellés du menu (menu_about dans translations.js), pour que la page
-# annonce la même chose que le lien qui y mène.
+RACINE = Path(__file__).resolve().parent.parent
+
+# Les titres reprennent les libellés du menu, pour que la page annonce la même chose que le
+# lien qui y mène.
 META = {
     "fr": {
         "prefixe": "",
@@ -55,8 +53,8 @@ META = {
 }
 
 # --- Contenu -------------------------------------------------------------------------------
-# Le texte vit ici plutôt que dans translations.js : les pages de contenu du site (comment
-# jouer, compteur) suivent déjà ce principe, et le dupliquer créerait deux sources de vérité.
+# Le texte vit ici plutôt que dans translations.js : les pages de contenu du site suivent déjà
+# ce principe, et le dupliquer créerait deux sources de vérité.
 #
 # Registre : le néerlandais tutoie (« je »), l'allemand vouvoie (« Sie »), conformément aux
 # textes déjà en place dans translations.js.
@@ -192,7 +190,7 @@ CONTENU = {
     ],
 }
 
-# Les deux sources sont les mêmes partout : seul leur rôle, défini ci-dessus, est traduit.
+# Les deux sources sont les mêmes partout : seul leur rôle, traduit ci-dessus, change.
 SOURCES = {
     "osm": {
         "logo": "/images/logo-openstreetmap.webp",
@@ -214,10 +212,6 @@ ICONE_MAIL = (
     '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>'
     '<polyline points="22,6 12,13 2,6"></polyline></svg>'
 )
-
-
-def echap(texte):
-    return html.escape(texte, quote=False)
 
 
 def bloc_contenu(langue):
@@ -260,101 +254,19 @@ def bloc_contenu(langue):
     return "\n".join(morceaux)
 
 
-def construire(langue):
-    meta = META[langue]
-    squelette = RACINE / meta["prefixe"] / "comment-jouer.html"
-    if not squelette.exists():
-        raise SystemExit(f"Squelette introuvable : {squelette}")
-    src = squelette.read_text(encoding="utf-8")
-
-    # --- En-tête ------------------------------------------------------------------------
-    src = re.sub(r"<title>.*?</title>", f'<title>{meta["titre_page"]}</title>', src, count=1)
-    for prop, valeur in (
-        ('<meta name="description" content="', meta["description"]),
-        ('<meta property="og:title" content="', meta["titre_page"]),
-        ('<meta property="og:description" content="', meta["description"]),
-        ('<meta property="og:url" content="', f'{BASE}/{meta["prefixe"]}a-propos.html'),
-    ):
-        src = re.sub(
-            re.escape(prop) + r'[^"]*">',
-            prop + html.escape(valeur, quote=True) + '">',
-            src, count=1,
-        )
-    src = re.sub(
-        r'<link rel="canonical" href="[^"]*">',
-        f'<link rel="canonical" href="{BASE}/{meta["prefixe"]}a-propos.html">',
-        src, count=1,
+for langue, meta in META.items():
+    taille = construire_page(
+        RACINE / meta["prefixe"] / "comment-jouer.html",
+        RACINE / meta["prefixe"] / "a-propos.html",
+        page="a-propos.html",
+        prefixe=meta["prefixe"],
+        titre=meta["titre_page"],
+        description=meta["description"],
+        h1=meta["h1"],
+        fil=meta["fil"],
+        contenu=bloc_contenu(langue),
+        feuilles_sup=("/style-a-propos.css",),
+        banniere="/images/banniere-faq.webp",
+        credit="« Les Joueurs de pétanque, Marseille » par Émile Loubon",
     )
-    for code, prefixe in (("fr", ""), ("nl", "nl/"), ("de", "de/")):
-        src = re.sub(
-            rf'<link rel="alternate" hreflang="{code}" href="[^"]*">',
-            f'<link rel="alternate" hreflang="{code}" href="{BASE}/{prefixe}a-propos.html">',
-            src, count=1,
-        )
-    src = re.sub(
-        r'<link rel="alternate" hreflang="x-default" href="[^"]*">',
-        f'<link rel="alternate" hreflang="x-default" href="{BASE}/a-propos.html">',
-        src, count=1,
-    )
-
-    # Feuille propre à la page, après style-comment-jouer.css pour pouvoir la compléter.
-    src = src.replace(
-        '<link rel="stylesheet" href="/style-comment-jouer.css">',
-        '<link rel="stylesheet" href="/style-comment-jouer.css">\n'
-        '    <link rel="stylesheet" href="/style-a-propos.css">',
-        1,
-    )
-
-    # --- Bannière (la même que la FAQ) ----------------------------------------------------
-    src = src.replace(
-        "url('/images/banniere-comment-jouer.webp')",
-        "url('/images/banniere-faq.webp')",
-        1,
-    )
-    src = re.sub(
-        r'<div class="hero-banner-credit">.*?</div>',
-        '<div class="hero-banner-credit">\n'
-        "    « Les Joueurs de pétanque, Marseille » par Émile Loubon\n"
-        "</div>",
-        src, count=1, flags=re.S,
-    )
-
-    # --- Fil d'Ariane et titre ------------------------------------------------------------
-    accueil, courant = meta["fil"]
-    src = re.sub(
-        r'<div class="province-breadcrumb">.*?</div>',
-        '<div class="province-breadcrumb">\n'
-        f'        <a href="/{meta["prefixe"]}">{accueil}</a>\n'
-        '        <span class="sep">›</span>\n'
-        f'        <span class="current">{courant}</span>\n'
-        "    </div>",
-        src, count=1, flags=re.S,
-    )
-    src = re.sub(
-        r'<h1 class="hero-headline">.*?</h1>',
-        f'<h1 class="hero-headline">{meta["h1"]}</h1>',
-        src, count=1, flags=re.S,
-    )
-
-    # --- Contenu ------------------------------------------------------------------------
-    debut = src.find('<div class="rules-content">')
-    fin = src.find("</div><!-- /.rules-content -->")
-    if debut == -1 or fin == -1:
-        raise SystemExit(f"{langue} : bornes de .rules-content introuvables dans le squelette")
-    src = src[:debut] + '<div class="rules-content">\n\n' + bloc_contenu(langue) + "\n" + src[fin:]
-
-    # --- Sélecteur de langue --------------------------------------------------------------
-    for code, prefixe in (("fr", ""), ("nl", "nl/"), ("de", "de/")):
-        src = re.sub(
-            rf'(<button type="button" class="lang-link" data-lang="{code}" data-lang-url=")[^"]*(")',
-            rf"\g<1>/{prefixe}a-propos.html\g<2>",
-            src,
-        )
-
-    cible = RACINE / meta["prefixe"] / "a-propos.html"
-    cible.write_text(src, encoding="utf-8")
-    print(f"{meta['prefixe']}a-propos.html : {len(src)} octets, {len(CONTENU[langue])} sections")
-
-
-for langue in ("fr", "nl", "de"):
-    construire(langue)
+    print(f"{meta['prefixe']}a-propos.html : {taille} octets, {len(CONTENU[langue])} sections")

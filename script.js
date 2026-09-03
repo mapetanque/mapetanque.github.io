@@ -144,9 +144,6 @@ function appliquerTraductions() {
         btn.classList.toggle('active', btn.dataset.lang === currentLang);
     });
 
-    // Reconstruire le contenu (statique) des panneaux À propos/FAQ/Contact dans la nouvelle langue
-    construireContenuPanneaux();
-
     // Régénérer les statistiques du footer
     mettreAJourStats();
 

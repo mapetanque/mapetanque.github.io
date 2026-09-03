@@ -20,9 +20,7 @@ const translations = {
         fullscreen_exit: "Quitter le plein écran",
         close_panel: "Fermer",
 
-        share_site_btn: "📤 Partager",
         share_site_title: "Partager Mapetanque.be",
-        share_terrain_title: "Partager ce terrain",
         share_whatsapp: "WhatsApp",
         share_facebook: "Facebook",
         share_twitter: "X (Twitter)",
@@ -142,9 +140,7 @@ const translations = {
         fullscreen_exit: "Volledig scherm afsluiten",
         close_panel: "Sluiten",
 
-        share_site_btn: "📤 Delen",
         share_site_title: "Mapetanque.be delen",
-        share_terrain_title: "Dit terrein delen",
         share_whatsapp: "WhatsApp",
         share_facebook: "Facebook",
         share_twitter: "X (Twitter)",
@@ -264,9 +260,7 @@ const translations = {
         fullscreen_exit: "Vollbild beenden",
         close_panel: "Schließen",
 
-        share_site_btn: "📤 Teilen",
         share_site_title: "Mapetanque.be teilen",
-        share_terrain_title: "Diesen Platz teilen",
         share_whatsapp: "WhatsApp",
         share_facebook: "Facebook",
         share_twitter: "X (Twitter)",

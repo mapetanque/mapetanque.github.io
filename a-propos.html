@@ -26,7 +26,7 @@
     <!-- Bibliothèque Leaflet : script.js instancie une carte inconditionnellement (voir plus
          bas, #map masqué) — non utilisée visuellement sur cette page, mais nécessaire pour que
          le reste du script (nav, menu, panneaux info) s'exécute sans erreur. -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/style-chargeur-photo.css">
@@ -47,7 +47,7 @@
 
     <div class="header-top-row">
         <a href="/" class="brand-link">
-            <img src="/images/logo.svg" class="logo" alt="" aria-hidden="true">
+            <img src="/images/logo.svg" class="logo" width="32" height="32" alt="" aria-hidden="true">
             <span class="brand"><span class="brand-map">Map</span>etanque<span class="brand-tld">.be</span></span>
         </a>
 
@@ -328,8 +328,8 @@
      même si aucune carte n'est réellement affichée sur cette page. -->
 <div id="map" style="display:none;"></div>
 
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
 <script src="/translations.js"></script>
 <script>window.MAPETANQUE_SKIP_DEFAULT_MARKERS = true;</script>
