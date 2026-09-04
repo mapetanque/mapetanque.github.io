@@ -1,10 +1,40 @@
+# Dépendances / configuration
 node_modules/
 .git/
 venv/
 .vscode/
-data/terrains.geojson
-data/stats.geojson
+
+# Données
+data/**
+images/**
+**/*.json
+
+# Pages générées / variantes linguistiques
+province-*.html
+region-*.html
+
+nl/province-*.html
+nl/region-*.html
+nl/index-*.html
+
+de/province-*.html
+de/region-*.html
+de/index-*.html
+
+province-liege.html
+region-wallonie.html
+
+# Fichiers Repomix
 repomix-output.xml
-LICENSE
+
+# Fichiers spécifiques
+photos_a_corriger.md
+scripts/revue_photos.html
 google22d25b80f0760f5.html
-images/
+LICENSE
+
+# Claude
+.claude/**
+
+# Markdown
+*.md

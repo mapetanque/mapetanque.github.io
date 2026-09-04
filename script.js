@@ -195,9 +195,6 @@ document.querySelectorAll('.lang-link').forEach(function (btn) {
 
 // ===================== Carte =====================
 
-// Vue par défaut au premier chargement, réutilisée pour le retour à l'accueil (clic sur le logo)
-const VUE_CARTE_INITIALE = { center: [50.8503, 4.3517], zoom: 8 };
-
 // Création de la carte centrée sur la Belgique
 // scrollWheelZoom désactivé par défaut : sans ça, la molette de la souris zoome la carte au lieu
 // de faire défiler la page dès qu'on scrolle en passant dessus. Un premier clic sur la carte
@@ -212,7 +209,27 @@ const map = L.map('map', {
     // plusieurs niveaux d'un coup pour un seul cran de molette, contrairement aux boutons +/-
     // qui avancent toujours d'exactement un niveau). 320 = valeur testée et validée par l'utilisateur.
     wheelPxPerZoomLevel: 320
-}).setView(VUE_CARTE_INITIALE.center, VUE_CARTE_INITIALE.zoom);
+});
+
+// Emprise de la Belgique [sud-ouest, nord-est] (légère marge incluse : Arlon au sud, pointe du
+// Limbourg à l'est). Utilisée pour cadrer la carte au premier chargement et au retour à l'accueil
+// (clic sur le logo) via fitBounds plutôt qu'un center/zoom fixes : #map fait toute la largeur de
+// l'écran pour une hauteur fixe (455px), donc un center/zoom codé en dur donnait un cadrage vertical
+// différent selon la largeur de fenêtre (ex. Pays-Bas visibles en haut, sud du pays coupé en bas).
+// fitBounds recalcule le zoom optimal à chaque chargement, quelle que soit la taille de la fenêtre.
+const BELGIQUE_BOUNDS = [[49.50, 2.54], [51.51, 6.41]];
+
+function cadrerSurBelgique() {
+    const emprise = L.latLngBounds(BELGIQUE_BOUNDS);
+    // Zoom calculé directement (indépendamment du zoom courant de la carte), plutôt que
+    // fitBounds() + setZoom(getZoom()+1) : ce dernier lisait le zoom courant juste après avoir
+    // lancé une animation, qui n'est pas toujours terminée à ce moment-là — au clic suivant sur
+    // le logo, getZoom() pouvait donc retourner une valeur intermédiaire et le "+1" s'accumulait
+    // à chaque clic au lieu de repartir de la même base.
+    const zoomCible = map.getBoundsZoom(emprise, false, L.point(20, 20)) + 1;
+    map.setView(emprise.getCenter(), zoomCible);
+}
+cadrerSurBelgique();
 
 // Active la molette de la carte au tout premier clic, où qu'il ait lieu sur la carte, y compris
 // directement sur un marqueur/terrain. Volontairement un event listener natif en 'pointerdown'
@@ -1197,17 +1214,18 @@ function construireContenuPopupTerrain(feature, layer) {
 
     let itineraire = `
     <br><br>
-    <a href="https://www.google.com/maps/dir/?api=1&destination=${terrainLat},${terrainLon}" target="_blank">
+    <a href="https://www.google.com/maps/dir/?api=1&destination=${terrainLat},${terrainLon}" target="_blank" class="popup-action-link">
     <span class="popup-link-icon">${ICON_ROUTE}</span> <span class="popup-link-text">${t('popup_itinerary')}</span>
     </a>
     `;
 
     let partager = `
     <br>
-    <a href="#" class="popup-share-btn">
+    <a href="#" class="popup-share-btn popup-action-link">
     <span class="popup-link-icon">${ICON_SHARE}</span> <span class="popup-link-text">${t('popup_share')}</span>
     </a>
     `;
+
 
     return `
     ${filAriane}
@@ -1411,14 +1429,14 @@ function construireContenuPopupClub(club) {
 
     let itineraire = `
     <br><br>
-    <a href="https://www.google.com/maps/dir/?api=1&destination=${club.lat},${club.lon}" target="_blank">
+    <a href="https://www.google.com/maps/dir/?api=1&destination=${club.lat},${club.lon}" target="_blank" class="popup-action-link">
     <span class="popup-link-icon">${ICON_ROUTE}</span> <span class="popup-link-text">${t('popup_itinerary')}</span>
     </a>
     `;
 
     let partager = `
     <br>
-    <a href="#" class="popup-share-btn-club">
+    <a href="#" class="popup-share-btn-club popup-action-link">
     <span class="popup-link-icon">${ICON_SHARE}</span> <span class="popup-link-text">${t('popup_share_club')}</span>
     </a>
     `;
@@ -2291,7 +2309,7 @@ if (footerEl) {
 // reconstruit ce bloc de zéro, donc ce reset est automatique).
 function revenirAccueil() {
 
-    map.setView(VUE_CARTE_INITIALE.center, VUE_CARTE_INITIALE.zoom);
+    cadrerSurBelgique();
 
     if (searchMarker) {
         map.removeLayer(searchMarker);

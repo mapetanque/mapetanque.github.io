@@ -1946,14 +1946,13 @@ footer a:hover {
 
 .hero-banner .brand-tld {
     color: rgba(255,255,255,0.75);
-    /* font-weight explicite : style.css demande 400 pour le ".be", mais aucune page ne charge
-       la graisse 400 de Quicksand. Le navigateur retombe donc sur la graisse chargée la plus
-       proche, qui diffère d'une page à l'autre — 700 sur l'accueil/provinces/régions (seule
-       graisse chargée), 600 sur "Comment jouer", 500 sur "Compteur de points" (dont le widget
-       charge en plus 500;600;700). D'où un ".be" d'épaisseur variable selon les pages. On fixe
-       ici la graisse sur 700, la seule chargée partout : rendu identique sur tout le site,
-       sans téléchargement de police supplémentaire. */
-    font-weight: 700;
+    /* La graisse 400 de Quicksand est désormais chargée sur toutes les pages (ajoutée aux liens
+       Google Fonts existants) spécifiquement pour ce ".be" plus fin — auparavant elle n'était
+       chargée nulle part, donc le navigateur retombait sur la graisse chargée la plus proche, qui
+       différait d'une page à l'autre (700 sur l'accueil/provinces/régions, 600 sur "Comment jouer",
+       500 sur "Compteur de points"). Rendu identique sur tout le site, léger surcoût : une graisse
+       Quicksand supplémentaire téléchargée (rendue nécessaire par ce choix visuel). */
+    font-weight: 400;
 }
 
 .hero-banner .info-nav-trigger,
