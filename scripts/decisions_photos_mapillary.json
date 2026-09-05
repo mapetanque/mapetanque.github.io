@@ -1,0 +1,5114 @@
+{
+  "way/1058333811": {
+    "statut": "rejete"
+  },
+  "way/536740351": {
+    "statut": "rejete"
+  },
+  "way/536740356": {
+    "statut": "rejete"
+  },
+  "way/702795060": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "730962899327609",
+        "x": 0.0247468286665381,
+        "y": 0.6212737744468343,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=730962899327609&lat=51.07515910000001&lng=3.7784948999999415&z=18.44101237513831&x=0.0247468286665381&y=0.6212737744468343&zoom=0&focus=photo"
+      }
+    ]
+  },
+  "way/702795061": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "730962899327609",
+        "x": 0.0247468286665381,
+        "y": 0.6212737744468343,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=730962899327609&lat=51.07515910000001&lng=3.7784948999999415&z=18.44101237513831&x=0.0247468286665381&y=0.6212737744468343&zoom=0&focus=photo"
+      }
+    ]
+  },
+  "way/690006171": {
+    "statut": "rejete"
+  },
+  "way/1126345731": {
+    "statut": "rejete"
+  },
+  "way/371300519": {
+    "statut": "rejete",
+    "alternatives": [
+      "1414852815730471"
+    ]
+  },
+  "way/982874102": {
+    "statut": "rejete",
+    "alternatives": [
+      "142005437948420"
+    ]
+  },
+  "way/981219790": {
+    "statut": "rejete"
+  },
+  "way/1044426625": {
+    "statut": "rejete",
+    "alternatives": [
+      "2166156523893094"
+    ]
+  },
+  "way/1126345230": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1819383915487944",
+        "x": 0.5371194548381109,
+        "y": 0.6653188642167057,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1819383915487944&lat=51.056698599999976&lng=3.7007109999999557&z=19.03046176371959&x=0.5371194548381109&y=0.6653188642167057&zoom=0&focus=photo"
+      }
+    ]
+  },
+  "way/1320337511": {
+    "statut": "rejete"
+  },
+  "way/718177886": {
+    "statut": "rejete"
+  },
+  "way/723000069": {
+    "statut": "rejete"
+  },
+  "way/1145124572": {
+    "statut": "rejete"
+  },
+  "way/1126345290": {
+    "statut": "rejete"
+  },
+  "way/753984507": {
+    "statut": "rejete"
+  },
+  "way/982874101": {
+    "statut": "rejete",
+    "alternatives": [
+      "142005437948420"
+    ]
+  },
+  "way/1324605667": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "672133761948946",
+        "x": 0.5254874883103531,
+        "y": 0.36065548470767966,
+        "zoom": 0,
+        "app_url": "mapillary.com/app/?pKey=672133761948946&lat=51.06504720000001&lng=3.6897255999999743&z=18.703125973114062&x=0.5254874883103531&y=0.36065548470767966&zoom=0&focus=photo"
+      }
+    ]
+  },
+  "way/1126347595": {
+    "statut": "rejete",
+    "alternatives": [
+      "1153540573209713"
+    ]
+  },
+  "way/980857797": {
+    "statut": "rejete"
+  },
+  "way/1126345105": {
+    "statut": "rejete"
+  },
+  "way/845000036": {
+    "statut": "rejete"
+  },
+  "way/1126345636": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "998948174925783",
+        "x": 0.8873801865614448,
+        "y": 0.533029836850806,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=998948174925783&lat=51.046387815713075&lng=3.7407387037890203&z=18.17889877716256&focus=photo&x=0.8873801865614448&y=0.533029836850806&zoom=0"
+      }
+    ]
+  },
+  "way/825783809": {
+    "statut": "rejete"
+  },
+  "way/818493918": {
+    "statut": "rejete"
+  },
+  "way/1126344954": {
+    "statut": "rejete"
+  },
+  "way/349213611": {
+    "statut": "rejete",
+    "alternatives": [
+      "483730036107098"
+    ]
+  },
+  "way/727116509": {
+    "statut": "rejete",
+    "alternatives": [
+      "609124875125576"
+    ]
+  },
+  "way/843435502": {
+    "statut": "rejete",
+    "alternatives": [
+      "792056481498230"
+    ]
+  },
+  "way/843435503": {
+    "statut": "rejete",
+    "alternatives": [
+      "792056481498230"
+    ]
+  },
+  "way/843435504": {
+    "statut": "rejete",
+    "alternatives": [
+      "792056481498230"
+    ]
+  },
+  "way/857866020": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "2994211587418883",
+        "x": 0.5528710026596012,
+        "y": 0.5873291250484444,
+        "zoom": 0,
+        "app_url": "mapillary.com/app/?pKey=2994211587418883&lat=51.05801360000001&lng=3.756227699999954&z=19.03046176371959&x=0.5528710026596012&y=0.5873291250484444&zoom=0&focus=photo"
+      }
+    ]
+  },
+  "node/6876274132": {
+    "statut": "rejete"
+  },
+  "way/732308231": {
+    "statut": "rejete"
+  },
+  "way/732448462": {
+    "statut": "rejete"
+  },
+  "way/836162333": {
+    "statut": "accepte"
+  },
+  "way/727116510": {
+    "statut": "rejete",
+    "alternatives": [
+      "609124875125576"
+    ]
+  },
+  "way/768651529": {
+    "statut": "rejete"
+  },
+  "way/974001648": {
+    "statut": "rejete"
+  },
+  "way/1126341012": {
+    "statut": "rejete"
+  },
+  "way/755842263": {
+    "statut": "rejete"
+  },
+  "way/727117970": {
+    "statut": "accepte"
+  },
+  "way/768651078": {
+    "statut": "rejete",
+    "alternatives": [
+      "311503863919786"
+    ]
+  },
+  "way/1203881766": {
+    "statut": "rejete"
+  },
+  "way/1203881767": {
+    "statut": "rejete"
+  },
+  "node/6779243204": {
+    "statut": "rejete"
+  },
+  "way/840452636": {
+    "statut": "accepte"
+  },
+  "way/1093596185": {
+    "statut": "rejete",
+    "alternatives": [
+      "1718431258329225"
+    ]
+  },
+  "way/979373865": {
+    "statut": "rejete"
+  },
+  "way/1126352014": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1309304283609895",
+        "x": 0.1542199108134466,
+        "y": 0.477461621680358,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1309304283609895&lat=51.0715165&lng=3.745593500000041&z=19.554688959671097&x=0.1542199108134466&y=0.477461621680358&zoom=0&focus=photo"
+      }
+    ]
+  },
+  "way/1126352015": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1309304283609895",
+        "x": 0.1542199108134466,
+        "y": 0.477461621680358,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1309304283609895&lat=51.0715165&lng=3.745593500000041&z=19.554688959671097&x=0.1542199108134466&y=0.477461621680358&zoom=0&focus=photo"
+      }
+    ]
+  },
+  "way/1126352016": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1309304283609895",
+        "x": 0.1542199108134466,
+        "y": 0.477461621680358,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1309304283609895&lat=51.0715165&lng=3.745593500000041&z=19.554688959671097&x=0.1542199108134466&y=0.477461621680358&zoom=0&focus=photo"
+      }
+    ]
+  },
+  "way/1126352017": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1309304283609895",
+        "x": 0.1542199108134466,
+        "y": 0.477461621680358,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1309304283609895&lat=51.0715165&lng=3.745593500000041&z=19.554688959671097&x=0.1542199108134466&y=0.477461621680358&zoom=0&focus=photo"
+      }
+    ]
+  },
+  "way/1126352018": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1309304283609895",
+        "x": 0.1542199108134466,
+        "y": 0.477461621680358,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1309304283609895&lat=51.0715165&lng=3.745593500000041&z=19.554688959671097&x=0.1542199108134466&y=0.477461621680358&zoom=0&focus=photo"
+      }
+    ]
+  },
+  "way/1126345134": {
+    "statut": "rejete",
+    "alternatives": [
+      "1419098012728075"
+    ]
+  },
+  "way/1204820408": {
+    "statut": "rejete"
+  },
+  "way/1005607760": {
+    "statut": "rejete"
+  },
+  "way/981169737": {
+    "statut": "accepte"
+  },
+  "way/846888591": {
+    "statut": "rejete"
+  },
+  "way/846888592": {
+    "statut": "rejete"
+  },
+  "way/783621047": {
+    "statut": "rejete",
+    "alternatives": [
+      "560719222044579"
+    ]
+  },
+  "way/1469819808": {
+    "statut": "accepte"
+  },
+  "way/1469819814": {
+    "statut": "accepte"
+  },
+  "way/1348218298": {
+    "statut": "rejete",
+    "alternatives": [
+      "1129465458899488"
+    ]
+  },
+  "way/899891448": {
+    "statut": "rejete",
+    "alternatives": [
+      "833979601662587"
+    ]
+  },
+  "way/899891449": {
+    "statut": "rejete",
+    "alternatives": [
+      "833979601662587"
+    ]
+  },
+  "way/899891450": {
+    "statut": "rejete",
+    "alternatives": [
+      "833979601662587"
+    ]
+  },
+  "way/1348218299": {
+    "statut": "rejete"
+  },
+  "way/935261307": {
+    "statut": "rejete",
+    "alternatives": [
+      "246660763979211"
+    ]
+  },
+  "way/1348218300": {
+    "statut": "rejete",
+    "alternatives": [
+      "1645007266025126"
+    ]
+  },
+  "way/863895859": {
+    "statut": "accepte"
+  },
+  "way/783555231": {
+    "statut": "accepte"
+  },
+  "way/1458516047": {
+    "statut": "accepte"
+  },
+  "way/1458516048": {
+    "statut": "accepte"
+  },
+  "node/13457859888": {
+    "statut": "rejete",
+    "alternatives": [
+      "948107693529170"
+    ]
+  },
+  "way/852041245": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1149304216734436",
+        "x": 0.2738741637139921,
+        "y": 0.5525083809236956,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1149304216734436&lat=51.05400470000001&lng=3.7374333000000206&z=18.721101222837444&x=0.2738741637139921&y=0.5525083809236956&zoom=0&focus=photo"
+      }
+    ]
+  },
+  "node/12966168600": {
+    "statut": "accepte"
+  },
+  "node/12966192501": {
+    "statut": "accepte"
+  },
+  "way/946893965": {
+    "statut": "rejete",
+    "alternatives": [
+      "186693306649706"
+    ]
+  },
+  "way/947237041": {
+    "statut": "accepte"
+  },
+  "way/1078586877": {
+    "statut": "rejete"
+  },
+  "way/619851733": {
+    "statut": "rejete"
+  },
+  "way/1500648407": {
+    "statut": "rejete",
+    "alternatives": [
+      "837059470253522"
+    ]
+  },
+  "way/1537707376": {
+    "statut": "rejete",
+    "alternatives": [
+      "138350055788178"
+    ]
+  },
+  "way/846325127": {
+    "statut": "rejete",
+    "alternatives": [
+      "166500715388078"
+    ]
+  },
+  "way/1535189933": {
+    "statut": "rejete"
+  },
+  "way/909120360": {
+    "statut": "rejete",
+    "alternatives": [
+      "1104338797496052"
+    ]
+  },
+  "way/858836777": {
+    "statut": "rejete"
+  },
+  "way/667918461": {
+    "statut": "rejete"
+  },
+  "way/1488079310": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "769619245642458",
+        "x": 0.06121012019919525,
+        "y": 0.47078224310379657,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=769619245642458&lat=51.21046390000001&lng=4.480145200000038&z=19.29257536169534&focus=photo&x=0.06121012019919525&y=0.47078224310379657&zoom=0"
+      }
+    ]
+  },
+  "way/1488079311": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "769619245642458",
+        "x": 0.06121012019919525,
+        "y": 0.47078224310379657,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=769619245642458&lat=51.21046390000001&lng=4.480145200000038&z=19.29257536169534&focus=photo&x=0.06121012019919525&y=0.47078224310379657&zoom=0"
+      }
+    ]
+  },
+  "way/1336360876": {
+    "statut": "accepte"
+  },
+  "way/1534036530": {
+    "statut": "rejete"
+  },
+  "way/424726728": {
+    "statut": "rejete",
+    "alternatives": [
+      "1471679510452367"
+    ]
+  },
+  "way/1409271131": {
+    "statut": "accepte"
+  },
+  "way/1496236162": {
+    "statut": "accepte"
+  },
+  "way/1358974194": {
+    "statut": "accepte"
+  },
+  "way/1358974195": {
+    "statut": "accepte"
+  },
+  "way/1358974196": {
+    "statut": "accepte"
+  },
+  "way/1358974197": {
+    "statut": "accepte"
+  },
+  "way/1257086107": {
+    "statut": "accepte"
+  },
+  "way/1257086108": {
+    "statut": "rejete",
+    "alternatives": [
+      "1875917989597011"
+    ]
+  },
+  "way/1257086109": {
+    "statut": "rejete",
+    "alternatives": [
+      "1875917989597011"
+    ]
+  },
+  "way/1257086110": {
+    "statut": "rejete",
+    "alternatives": [
+      "1875917989597011"
+    ]
+  },
+  "way/1458938177": {
+    "statut": "rejete",
+    "alternatives": [
+      "586100080250542"
+    ]
+  },
+  "way/1458938178": {
+    "statut": "rejete",
+    "alternatives": [
+      "586100080250542"
+    ]
+  },
+  "way/1088011275": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "329672556153237",
+        "x": 0.7527054227422749,
+        "y": 0.5234547499086174,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=329672556153237&lat=50.8186699&lng=4.287758499999995&z=18.72110122283744&focus=photo&x=0.7527054227422749&y=0.5234547499086174&zoom=0"
+      }
+    ]
+  },
+  "way/1391506349": {
+    "statut": "accepte"
+  },
+  "way/1391506350": {
+    "statut": "rejete",
+    "alternatives": [
+      "731571958708972"
+    ]
+  },
+  "way/1458939790": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "591505079668348",
+        "x": 0.7077319804705144,
+        "y": 0.5026773300687033,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=591505079668348&lat=50.842138199999994&lng=4.311204699999962&z=18.965239571089825&focus=photo&x=0.7077319804705144&y=0.5026773300687033&zoom=0"
+      }
+    ]
+  },
+  "way/1458939791": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "591505079668348",
+        "x": 0.7077319804705144,
+        "y": 0.5026773300687033,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=591505079668348&lat=50.842138199999994&lng=4.311204699999962&z=18.965239571089825&focus=photo&x=0.7077319804705144&y=0.5026773300687033&zoom=0"
+      }
+    ]
+  },
+  "way/1458939792": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "591505079668348",
+        "x": 0.7077319804705144,
+        "y": 0.5026773300687033,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=591505079668348&lat=50.842138199999994&lng=4.311204699999962&z=18.965239571089825&focus=photo&x=0.7077319804705144&y=0.5026773300687033&zoom=0"
+      }
+    ]
+  },
+  "way/1264100207": {
+    "statut": "rejete"
+  },
+  "way/985532111": {
+    "statut": "rejete"
+  },
+  "way/1185278540": {
+    "statut": "accepte"
+  },
+  "way/1185278541": {
+    "statut": "accepte"
+  },
+  "way/1286708719": {
+    "statut": "rejete",
+    "alternatives": [
+      "233618576135913"
+    ]
+  },
+  "way/1111237690": {
+    "statut": "rejete",
+    "alternatives": [
+      "567061625547846"
+    ]
+  },
+  "way/949088315": {
+    "statut": "rejete",
+    "alternatives": [
+      "1102018483636654"
+    ]
+  },
+  "way/910513617": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1274844563559261",
+        "x": 0.3548665368614842,
+        "y": 0.6495556644913423,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1274844563559261&lat=50.99945815516148&lng=5.530383235713771&z=18.44101237513831&focus=photo&x=0.3548665368614842&y=0.6495556644913423&zoom=0"
+      }
+    ]
+  },
+  "way/1344545710": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1274844563559261",
+        "x": 0.3548665368614842,
+        "y": 0.6495556644913423,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1274844563559261&lat=50.99945815516148&lng=5.530383235713771&z=18.44101237513831&focus=photo&x=0.3548665368614842&y=0.6495556644913423&zoom=0"
+      }
+    ]
+  },
+  "way/894201783": {
+    "statut": "rejete"
+  },
+  "way/815365220": {
+    "statut": "rejete",
+    "alternatives": [
+      "2093461781049422"
+    ]
+  },
+  "way/825270931": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1144707776580375",
+        "x": 0.25042638083871394,
+        "y": 0.4867571794849683,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1144707776580375&lat=50.89956810000001&lng=4.359391500000015&z=19.88202475027662&focus=photo&x=0.25042638083871394&y=0.4867571794849683&zoom=0"
+      }
+    ]
+  },
+  "way/921364165": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "592236522707214",
+        "x": 0.22735599535364165,
+        "y": 0.58922121993584,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=592236522707214&lat=50.89355087831524&lng=4.327915336997876&z=18.17889877716256&focus=photo&x=0.22735599535364165&y=0.58922121993584&zoom=0"
+      }
+    ]
+  },
+  "way/857869041": {
+    "statut": "accepte"
+  },
+  "way/986765756": {
+    "statut": "rejete"
+  },
+  "way/986765757": {
+    "statut": "rejete"
+  },
+  "way/1177311766": {
+    "statut": "rejete"
+  },
+  "way/1433566931": {
+    "statut": "rejete",
+    "alternatives": [
+      "646985300529424"
+    ]
+  },
+  "way/294193057": {
+    "statut": "rejete",
+    "alternatives": [
+      "183375016991167"
+    ]
+  },
+  "way/300510231": {
+    "statut": "rejete",
+    "alternatives": [
+      "320276429772874"
+    ]
+  },
+  "way/300510232": {
+    "statut": "rejete",
+    "alternatives": [
+      "847048412834379"
+    ]
+  },
+  "way/1425093637": {
+    "statut": "rejete",
+    "alternatives": [
+      "1580637835477812"
+    ]
+  },
+  "way/894381908": {
+    "statut": "rejete",
+    "alternatives": [
+      "275056694299356"
+    ]
+  },
+  "way/300855890": {
+    "statut": "rejete",
+    "alternatives": [
+      "274707944365381"
+    ]
+  },
+  "way/296177640": {
+    "statut": "rejete"
+  },
+  "way/1471931077": {
+    "statut": "rejete",
+    "alternatives": [
+      "1886243071534429"
+    ]
+  },
+  "way/866603645": {
+    "statut": "rejete"
+  },
+  "way/887667828": {
+    "statut": "rejete"
+  },
+  "node/13633333601": {
+    "statut": "rejete"
+  },
+  "way/887667829": {
+    "statut": "rejete"
+  },
+  "way/923496815": {
+    "statut": "rejete"
+  },
+  "way/1546240055": {
+    "statut": "rejete"
+  },
+  "way/866603646": {
+    "statut": "rejete"
+  },
+  "way/111037921": {
+    "statut": "rejete",
+    "alternatives": [
+      "2646014642359348"
+    ]
+  },
+  "way/1304303522": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1022804586026750",
+        "x": 0.22117880472556292,
+        "y": 0.5203871481010799,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1022804586026750&lat=50.89057170000001&lng=4.729474200000027&z=19.29257536169534&focus=photo&x=0.22117880472556292&y=0.5203871481010799&zoom=0"
+      }
+    ]
+  },
+  "way/283762707": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "788787513736703",
+        "x": 0.7221468958056588,
+        "y": 0.4783540611109886,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=788787513736703&lat=50.883249500000005&lng=4.738836300000003&z=19.9&focus=photo&x=0.7221468958056588&y=0.4783540611109886&zoom=0"
+      }
+    ]
+  },
+  "way/276237592": {
+    "statut": "rejete"
+  },
+  "way/1360188571": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "505743425505625",
+        "x": 0.6076332835684933,
+        "y": 0.5319726156026868,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=505743425505625&lat=50.87573160000002&lng=4.762368199999969&z=19.03046176371959&focus=photo&x=0.6076332835684933&y=0.5319726156026868&zoom=0"
+      }
+    ]
+  },
+  "way/1379663258": {
+    "statut": "accepte"
+  },
+  "way/1379663259": {
+    "statut": "accepte"
+  },
+  "way/1379663260": {
+    "statut": "accepte"
+  },
+  "way/1379663261": {
+    "statut": "accepte"
+  },
+  "way/1442209374": {
+    "statut": "accepte"
+  },
+  "way/1423685528": {
+    "statut": "rejete",
+    "alternatives": [
+      "2891590921115677"
+    ]
+  },
+  "way/1425657602": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "6871497282885286",
+        "x": 0.874531918201581,
+        "y": 0.528442739647449,
+        "zoom": 0,
+        "app_url": "mapillary.com/app/?pKey=6871497282885286&lat=50.873999199999986&lng=4.692917899999998&z=19.9&focus=photo&x=0.874531918201581&y=0.528442739647449&zoom=0"
+      }
+    ]
+  },
+  "way/963599281": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1029279908176526",
+        "x": 0.612153775668356,
+        "y": 0.5004238347019033,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1029279908176526&lat=50.877169500000036&lng=4.6934047999722&z=19.88202475027662&focus=photo&x=0.612153775668356&y=0.5004238347019033&zoom=0"
+      }
+    ]
+  },
+  "way/963599282": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1029279908176526",
+        "x": 0.612153775668356,
+        "y": 0.5004238347019033,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1029279908176526&lat=50.877169500000036&lng=4.6934047999722&z=19.88202475027662&focus=photo&x=0.612153775668356&y=0.5004238347019033&zoom=0"
+      }
+    ]
+  },
+  "way/111037925": {
+    "statut": "rejete",
+    "alternatives": [
+      "2646014642359348"
+    ]
+  },
+  "way/111037926": {
+    "statut": "rejete",
+    "alternatives": [
+      "2646014642359348"
+    ]
+  },
+  "way/1088366465": {
+    "statut": "rejete",
+    "alternatives": [
+      "931126487661688"
+    ]
+  },
+  "way/1038991215": {
+    "statut": "rejete"
+  },
+  "way/1441722945": {
+    "statut": "rejete"
+  },
+  "way/423098194": {
+    "statut": "rejete"
+  },
+  "way/547274893": {
+    "statut": "accepte"
+  },
+  "way/656609686": {
+    "statut": "rejete",
+    "alternatives": [
+      "1821308454709734"
+    ]
+  },
+  "way/656609687": {
+    "statut": "rejete",
+    "alternatives": [
+      "1821308454709734"
+    ]
+  },
+  "way/1436992606": {
+    "statut": "rejete",
+    "alternatives": [
+      "841980993161959"
+    ]
+  },
+  "way/1436992607": {
+    "statut": "rejete",
+    "alternatives": [
+      "841980993161959"
+    ]
+  },
+  "way/1086418181": {
+    "statut": "rejete",
+    "alternatives": [
+      "289091509530190"
+    ]
+  },
+  "way/672025368": {
+    "statut": "rejete",
+    "alternatives": [
+      "811374123118769"
+    ]
+  },
+  "way/963588948": {
+    "statut": "rejete"
+  },
+  "way/795645990": {
+    "statut": "rejete",
+    "alternatives": [
+      "762684647613296"
+    ]
+  },
+  "way/1420189437": {
+    "statut": "rejete"
+  },
+  "way/1311206797": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1668681043700519",
+        "x": 0.32494057365729234,
+        "y": 0.414556916966368,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1668681043700519&lat=50.955189669697006&lng=3.1359182072726526&z=19.148662139977738&focus=photo&x=0.32494057365729234&y=0.414556916966368&zoom=0"
+      }
+    ]
+  },
+  "way/583506513": {
+    "statut": "rejete",
+    "alternatives": [
+      "887477735141290"
+    ]
+  },
+  "way/583506514": {
+    "statut": "rejete",
+    "alternatives": [
+      "887477735141290"
+    ]
+  },
+  "way/583506516": {
+    "statut": "rejete",
+    "alternatives": [
+      "887477735141290"
+    ]
+  },
+  "way/1011885006": {
+    "statut": "rejete"
+  },
+  "way/1058198483": {
+    "statut": "rejete"
+  },
+  "way/1058198484": {
+    "statut": "rejete"
+  },
+  "way/924533381": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1531870074291168",
+        "x": 0.7782973313972269,
+        "y": 0.49113702244644386,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1531870074291168&lat=50.957550999999995&lng=3.1183214000000135&z=19.29320716522533&focus=photo&x=0.7782973313972269&y=0.49113702244644386&zoom=0"
+      }
+    ]
+  },
+  "way/924532660": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1008405767175710",
+        "x": 0.32448412138802707,
+        "y": 0.4932781970676005,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1008405767175710&lat=50.948121799999996&lng=3.135450100000071&z=19.9&focus=photo&x=0.32448412138802707&y=0.4932781970676005&zoom=0"
+      }
+    ]
+  },
+  "way/988561960": {
+    "statut": "rejete"
+  },
+  "way/1420189438": {
+    "statut": "rejete"
+  },
+  "way/547274892": {
+    "statut": "rejete",
+    "alternatives": [
+      "154789503218087"
+    ]
+  },
+  "way/793903950": {
+    "statut": "rejete",
+    "alternatives": [
+      "3889936467750138"
+    ]
+  },
+  "way/785058959": {
+    "statut": "rejete",
+    "alternatives": [
+      "330777651827519"
+    ]
+  },
+  "way/229877419": {
+    "statut": "rejete",
+    "alternatives": [
+      "369975624348417"
+    ]
+  },
+  "way/1460570971": {
+    "statut": "rejete",
+    "alternatives": [
+      "1556576198994218"
+    ]
+  },
+  "way/1181186506": {
+    "statut": "rejete"
+  },
+  "way/542126985": {
+    "statut": "rejete"
+  },
+  "way/1339138855": {
+    "statut": "rejete",
+    "alternatives": [
+      "1337779313987802"
+    ]
+  },
+  "way/257613041": {
+    "statut": "rejete",
+    "alternatives": [
+      "168858398448495"
+    ]
+  },
+  "way/1197674012": {
+    "statut": "rejete",
+    "alternatives": [
+      "904930900075238"
+    ]
+  },
+  "way/539023056": {
+    "statut": "rejete"
+  },
+  "way/1330397974": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "608789391470723",
+        "x": 0.7646253441045205,
+        "y": 0.6614542766100613,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=608789391470723&lat=51.19911410000003&lng=3.224411299999929&z=19.9&focus=photo&x=0.7646253441045205&y=0.6614542766100613&zoom=0"
+      }
+    ]
+  },
+  "way/1330397975": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "608789391470723",
+        "x": 0.7646253441045205,
+        "y": 0.6614542766100613,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=608789391470723&lat=51.19911410000003&lng=3.224411299999929&z=19.9&focus=photo&x=0.7646253441045205&y=0.6614542766100613&zoom=0"
+      }
+    ]
+  },
+  "way/174144412": {
+    "statut": "rejete",
+    "alternatives": [
+      "994649252531538"
+    ]
+  },
+  "way/174144414": {
+    "statut": "rejete",
+    "alternatives": [
+      "994649252531538"
+    ]
+  },
+  "node/11094243820": {
+    "statut": "rejete",
+    "alternatives": [
+      "154986207195082"
+    ]
+  },
+  "way/829878444": {
+    "statut": "rejete",
+    "alternatives": [
+      "852631621992119"
+    ]
+  },
+  "way/272353476": {
+    "statut": "rejete"
+  },
+  "way/541788813": {
+    "statut": "rejete",
+    "alternatives": [
+      "813763785915198"
+    ]
+  },
+  "way/421621381": {
+    "statut": "rejete",
+    "alternatives": [
+      "1805479760008476"
+    ]
+  },
+  "way/542124831": {
+    "statut": "rejete"
+  },
+  "way/1347418003": {
+    "statut": "accepte"
+  },
+  "way/683710245": {
+    "statut": "rejete"
+  },
+  "way/674318627": {
+    "statut": "rejete",
+    "alternatives": [
+      "742266737653244"
+    ]
+  },
+  "way/1161004308": {
+    "statut": "rejete",
+    "alternatives": [
+      "742266737653244"
+    ]
+  },
+  "way/1161004309": {
+    "statut": "rejete",
+    "alternatives": [
+      "742266737653244"
+    ]
+  },
+  "way/1161004310": {
+    "statut": "rejete",
+    "alternatives": [
+      "742266737653244"
+    ]
+  },
+  "way/1134828594": {
+    "statut": "rejete",
+    "alternatives": [
+      "963223788356658"
+    ]
+  },
+  "way/1134828595": {
+    "statut": "rejete",
+    "alternatives": [
+      "963223788356658"
+    ]
+  },
+  "way/1134828596": {
+    "statut": "rejete",
+    "alternatives": [
+      "963223788356658"
+    ]
+  },
+  "way/1134828597": {
+    "statut": "rejete",
+    "alternatives": [
+      "963223788356658"
+    ]
+  },
+  "way/1134828598": {
+    "statut": "rejete",
+    "alternatives": [
+      "963223788356658"
+    ]
+  },
+  "way/1162931835": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "620874416913246",
+        "x": 0.8821045280748913,
+        "y": 0.5321146840880766,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=620874416913246&lat=51.207495742099695&lng=4.985654866589016&z=18.241340829549713&focus=photo&x=0.8821045280748913&y=0.5321146840880766&zoom=0"
+      }
+    ]
+  },
+  "way/1187495178": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "837913747927377",
+        "x": 0.5128421269310394,
+        "y": 0.5209548920728605,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=837913747927377&lat=51.16189990000001&lng=4.99762510000005&z=19.24339938691478&x=0.5128421269310394&y=0.5209548920728605&zoom=0&focus=photo"
+      }
+    ]
+  },
+  "way/1204195279": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1944253602613057",
+        "x": 0.45866055295807695,
+        "y": 0.5957781071687479,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1944253602613057&lat=51.155085000000014&lng=4.984673799999996&z=18.241340829549713&focus=photo&x=0.45866055295807695&y=0.5957781071687479&zoom=0"
+      }
+    ]
+  },
+  "way/1303240732": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "874680191168671",
+        "x": 0.3585604137598477,
+        "y": 0.4841578235115786,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=874680191168671&lat=51.1623415&lng=4.960008300000027&z=18.146603582612663&focus=photo&x=0.3585604137598477&y=0.4841578235115786&zoom=0"
+      }
+    ]
+  },
+  "way/1303240733": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "874680191168671",
+        "x": 0.3585604137598477,
+        "y": 0.4841578235115786,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=874680191168671&lat=51.1623415&lng=4.960008300000027&z=18.146603582612663&focus=photo&x=0.3585604137598477&y=0.4841578235115786&zoom=0"
+      }
+    ]
+  },
+  "way/1303240734": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "874680191168671",
+        "x": 0.3585604137598477,
+        "y": 0.4841578235115786,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=874680191168671&lat=51.1623415&lng=4.960008300000027&z=18.146603582612663&focus=photo&x=0.3585604137598477&y=0.4841578235115786&zoom=0"
+      }
+    ]
+  },
+  "way/866981265": {
+    "statut": "accepte"
+  },
+  "way/866981266": {
+    "statut": "accepte"
+  },
+  "way/1053083424": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "339683118533231",
+        "x": 0.7221518147349182,
+        "y": 0.5083790897705454,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=339683118533231&lat=50.71811930000001&lng=4.213199199999963&z=19.148662139977738&focus=photo&x=0.7221518147349182&y=0.5083790897705454&zoom=0"
+      }
+    ]
+  },
+  "way/977495492": {
+    "statut": "rejete",
+    "alternatives": [
+      "486382509081212"
+    ]
+  },
+  "way/977495493": {
+    "statut": "rejete",
+    "alternatives": [
+      "486382509081212"
+    ]
+  },
+  "way/430723300": {
+    "statut": "rejete",
+    "alternatives": [
+      "489432145708993"
+    ]
+  },
+  "way/1053672485": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1003271840322354",
+        "x": 0.16764159740350015,
+        "y": 0.6140979582605391,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1003271840322354&focus=photo&lat=50.74096800000001&lng=4.237173799972197&z=17&x=0.16764159740350015&y=0.6140979582605391&zoom=0"
+      }
+    ]
+  },
+  "way/1053672486": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1003271840322354",
+        "x": 0.16764159740350015,
+        "y": 0.6140979582605391,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1003271840322354&focus=photo&lat=50.74096800000001&lng=4.237173799972197&z=17&x=0.16764159740350015&y=0.6140979582605391&zoom=0"
+      }
+    ]
+  },
+  "way/1090793391": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "461033622579460",
+        "x": 0.7530899132174191,
+        "y": 0.5103061107855391,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=461033622579460&lat=50.72544320000003&lng=4.242214599972158&z=18.241340829549713&focus=photo&x=0.7530899132174191&y=0.5103061107855391&zoom=0"
+      }
+    ]
+  },
+  "way/1053083425": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "293090496913495",
+        "x": 0.8523845438873723,
+        "y": 0.4427573593373084,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=293090496913495&lat=50.71811930000001&lng=4.213199199999963&z=19.9&focus=photo&x=0.8523845438873723&y=0.4427573593373084&zoom=0"
+      }
+    ]
+  },
+  "way/1092686884": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "492718646021052",
+        "x": 0.3801929319556683,
+        "y": 0.47606939272483173,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=492718646021052&lat=50.7274036&lng=4.237373999972192&z=19.9&focus=photo&x=0.3801929319556683&y=0.47606939272483173&zoom=0"
+      }
+    ]
+  },
+  "way/720291775": {
+    "statut": "rejete",
+    "alternatives": [
+      "562287215239609"
+    ]
+  },
+  "way/720291776": {
+    "statut": "accepte"
+  },
+  "way/720291777": {
+    "statut": "rejete",
+    "alternatives": [
+      "524379448567341"
+    ]
+  },
+  "way/1060245824": {
+    "statut": "rejete",
+    "alternatives": [
+      "1229740161350098"
+    ]
+  },
+  "way/1060245825": {
+    "statut": "rejete",
+    "alternatives": [
+      "1229740161350098"
+    ]
+  },
+  "way/1092793924": {
+    "statut": "rejete",
+    "alternatives": [
+      "764537387569952"
+    ]
+  },
+  "way/1092793925": {
+    "statut": "rejete",
+    "alternatives": [
+      "764537387569952"
+    ]
+  },
+  "way/1090789087": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "746812339751113",
+        "x": 0.615708810337251,
+        "y": 0.5925392918793402,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=746812339751113&lat=50.72478089804346&lng=4.2447696332563964&z=19.00411711473014&focus=photo&x=0.615708810337251&y=0.5925392918793402&zoom=0"
+      }
+    ]
+  },
+  "way/1055879282": {
+    "statut": "rejete",
+    "alternatives": [
+      "6731660973621837"
+    ]
+  },
+  "way/790676030": {
+    "statut": "rejete",
+    "alternatives": [
+      "323617945821283"
+    ]
+  },
+  "way/262846147": {
+    "statut": "accepte",
+    "panos": [
+      {
+        "mapillary_id": "1123286869379397",
+        "x": 0.5415464458548821,
+        "y": 0.47442850728218866,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1123286869379397&lat=50.915336800000006&lng=5.2482449000000315&z=18.176181112850273&focus=photo&x=0.5415464458548821&y=0.47442850728218866&zoom=0"
+      }
+    ]
+  },
+  "way/1537439722": {
+    "statut": "rejete"
+  },
+  "way/1246017364": {
+    "statut": "accepte"
+  },
+  "way/1112235166": {
+    "statut": "rejete",
+    "alternatives": [
+      "1422768511722555"
+    ]
+  },
+  "way/1112235167": {
+    "statut": "rejete",
+    "alternatives": [
+      "1422768511722555"
+    ]
+  },
+  "way/1535548148": {
+    "statut": "rejete"
+  },
+  "way/956031510": {
+    "statut": "rejete"
+  },
+  "way/1094612143": {
+    "statut": "rejete",
+    "alternatives": [
+      "5614917305198194"
+    ]
+  },
+  "way/1094612144": {
+    "statut": "rejete",
+    "alternatives": [
+      "5614917305198194"
+    ]
+  },
+  "way/1094612145": {
+    "statut": "rejete",
+    "alternatives": [
+      "5614917305198194"
+    ]
+  },
+  "way/308079848": {
+    "statut": "rejete",
+    "alternatives": [
+      "2959798837674570"
+    ]
+  },
+  "way/1031663261": {
+    "statut": "rejete"
+  },
+  "way/1031663262": {
+    "statut": "rejete"
+  },
+  "way/791005082": {
+    "statut": "rejete",
+    "alternatives": [
+      "542532977128239"
+    ]
+  },
+  "way/791005083": {
+    "statut": "rejete",
+    "alternatives": [
+      "542532977128239"
+    ]
+  },
+  "way/765249645": {
+    "statut": "rejete"
+  },
+  "way/747408603": {
+    "statut": "rejete"
+  },
+  "way/747408604": {
+    "statut": "rejete"
+  },
+  "way/452540510": {
+    "statut": "rejete",
+    "alternatives": [
+      "741608750355028"
+    ]
+  },
+  "way/744293989": {
+    "statut": "rejete"
+  },
+  "way/744293990": {
+    "statut": "rejete"
+  },
+  "way/744293991": {
+    "statut": "rejete"
+  },
+  "way/324266108": {
+    "statut": "rejete"
+  },
+  "way/324266109": {
+    "statut": "rejete"
+  },
+  "way/1500725460": {
+    "statut": "rejete"
+  },
+  "way/1088371755": {
+    "statut": "rejete"
+  },
+  "way/1111893999": {
+    "statut": "rejete"
+  },
+  "way/908215108": {
+    "statut": "accepte"
+  },
+  "way/908215109": {
+    "statut": "accepte"
+  },
+  "way/980721466": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "132302213275517",
+        "x": 0.8387248208463284,
+        "y": 0.5741084536184635,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=132302213275517&lat=50.841896399999996&lng=4.436069699999962&z=19.841715181599962&focus=photo&x=0.8387248208463284&y=0.5741084536184635&zoom=0"
+      }
+    ]
+  },
+  "way/961088766": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1077549329839317",
+        "x": 0.35287771828054176,
+        "y": 0.5651136819155804,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1077549329839317&lat=50.851956100000024&lng=4.459701999999993&z=18.93324205319104&focus=photo&x=0.35287771828054176&y=0.5651136819155804&zoom=0"
+      }
+    ]
+  },
+  "way/1480702240": {
+    "statut": "accepte"
+  },
+  "way/1480702241": {
+    "statut": "accepte"
+  },
+  "way/126796169": {
+    "statut": "rejete",
+    "alternatives": [
+      "5227000240656412"
+    ]
+  },
+  "way/1110810922": {
+    "statut": "rejete"
+  },
+  "node/8865341231": {
+    "statut": "rejete",
+    "alternatives": [
+      "779486559593520"
+    ]
+  },
+  "way/632788386": {
+    "statut": "rejete",
+    "alternatives": [
+      "466347551788108"
+    ]
+  },
+  "way/1300537343": {
+    "statut": "rejete",
+    "alternatives": [
+      "1594540007721559"
+    ]
+  },
+  "way/538048363": {
+    "statut": "rejete",
+    "alternatives": [
+      "1450371239646458"
+    ]
+  },
+  "way/538048364": {
+    "statut": "rejete",
+    "alternatives": [
+      "1450371239646458"
+    ]
+  },
+  "way/538048365": {
+    "statut": "rejete",
+    "alternatives": [
+      "1450371239646458"
+    ]
+  },
+  "way/538051287": {
+    "statut": "rejete",
+    "alternatives": [
+      "294407435652601"
+    ]
+  },
+  "way/1113124166": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "391784276420438",
+        "x": 0.6298529117041003,
+        "y": 0.523973927861863,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=391784276420438&lat=51.077968200000015&lng=3.447938999972166&z=18.95080024903852&focus=photo&x=0.6298529117041003&y=0.523973927861863&zoom=0"
+      }
+    ]
+  },
+  "way/1113124167": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "391784276420438",
+        "x": 0.6298529117041003,
+        "y": 0.523973927861863,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=391784276420438&lat=51.077968200000015&lng=3.447938999972166&z=18.95080024903852&focus=photo&x=0.6298529117041003&y=0.523973927861863&zoom=0"
+      }
+    ]
+  },
+  "way/1392053081": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "391784276420438",
+        "x": 0.6298529117041003,
+        "y": 0.523973927861863,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=391784276420438&lat=51.077968200000015&lng=3.447938999972166&z=18.95080024903852&focus=photo&x=0.6298529117041003&y=0.523973927861863&zoom=0"
+      }
+    ]
+  },
+  "way/1392053082": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "391784276420438",
+        "x": 0.6298529117041003,
+        "y": 0.523973927861863,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=391784276420438&lat=51.077968200000015&lng=3.447938999972166&z=18.95080024903852&focus=photo&x=0.6298529117041003&y=0.523973927861863&zoom=0"
+      }
+    ]
+  },
+  "way/562310007": {
+    "statut": "rejete"
+  },
+  "way/758389872": {
+    "statut": "rejete",
+    "alternatives": [
+      "910313606198195"
+    ]
+  },
+  "way/558969328": {
+    "statut": "rejete",
+    "alternatives": [
+      "336505761238216"
+    ]
+  },
+  "way/1415398460": {
+    "statut": "rejete",
+    "alternatives": [
+      "130351452522561"
+    ]
+  },
+  "way/1415398199": {
+    "statut": "rejete",
+    "alternatives": [
+      "125602579563089"
+    ]
+  },
+  "way/1452320185": {
+    "statut": "rejete",
+    "alternatives": [
+      "987797003373375"
+    ]
+  },
+  "way/1452320186": {
+    "statut": "rejete",
+    "alternatives": [
+      "987797003373375"
+    ]
+  },
+  "way/1452320187": {
+    "statut": "rejete",
+    "alternatives": [
+      "987797003373375"
+    ]
+  },
+  "way/1452320188": {
+    "statut": "rejete",
+    "alternatives": [
+      "987797003373375"
+    ]
+  },
+  "way/1452320189": {
+    "statut": "rejete",
+    "alternatives": [
+      "987797003373375"
+    ]
+  },
+  "way/1191258048": {
+    "statut": "rejete",
+    "alternatives": [
+      "1256814332753075"
+    ]
+  },
+  "way/1443196376": {
+    "statut": "rejete",
+    "alternatives": [
+      "1033581263715861"
+    ]
+  },
+  "way/1415398198": {
+    "statut": "rejete",
+    "alternatives": [
+      "1068201320671469"
+    ]
+  },
+  "way/1150939659": {
+    "statut": "accepte"
+  },
+  "way/903125595": {
+    "statut": "rejete"
+  },
+  "way/903125597": {
+    "statut": "rejete"
+  },
+  "way/903125596": {
+    "statut": "rejete"
+  },
+  "way/903125598": {
+    "statut": "rejete"
+  },
+  "way/903125607": {
+    "statut": "rejete"
+  },
+  "way/903125608": {
+    "statut": "rejete"
+  },
+  "way/889640063": {
+    "statut": "rejete",
+    "alternatives": [
+      "874420397060170"
+    ]
+  },
+  "way/1330148408": {
+    "statut": "accepte"
+  },
+  "way/1330148409": {
+    "statut": "accepte"
+  },
+  "way/547208289": {
+    "statut": "rejete",
+    "alternatives": [
+      "817084969181687"
+    ]
+  },
+  "way/547208290": {
+    "statut": "rejete",
+    "alternatives": [
+      "817084969181687"
+    ]
+  },
+  "way/547208291": {
+    "statut": "rejete",
+    "alternatives": [
+      "817084969181687"
+    ]
+  },
+  "way/790192839": {
+    "statut": "rejete"
+  },
+  "way/1303096422": {
+    "statut": "rejete"
+  },
+  "way/1303096423": {
+    "statut": "rejete"
+  },
+  "way/1187622517": {
+    "statut": "rejete",
+    "alternatives": [
+      "4022766524480528"
+    ]
+  },
+  "node/12895158860": {
+    "statut": "rejete"
+  },
+  "way/792324714": {
+    "statut": "rejete",
+    "alternatives": [
+      "258238689021742"
+    ]
+  },
+  "way/792693158": {
+    "statut": "rejete"
+  },
+  "way/1326503204": {
+    "statut": "rejete",
+    "alternatives": [
+      "566703969089032"
+    ]
+  },
+  "way/309631290": {
+    "statut": "rejete",
+    "alternatives": [
+      "1326447039395039"
+    ]
+  },
+  "way/823893113": {
+    "statut": "rejete",
+    "alternatives": [
+      "253819703096383"
+    ]
+  },
+  "way/759673830": {
+    "statut": "rejete"
+  },
+  "way/170265012": {
+    "statut": "rejete",
+    "alternatives": [
+      "1636188000786402"
+    ]
+  },
+  "way/833248474": {
+    "statut": "rejete"
+  },
+  "way/272656692": {
+    "statut": "rejete",
+    "alternatives": [
+      "1265174628615743"
+    ]
+  },
+  "way/395400418": {
+    "statut": "rejete",
+    "alternatives": [
+      "253819703096383"
+    ]
+  },
+  "way/272656695": {
+    "statut": "rejete",
+    "alternatives": [
+      "966113862822307"
+    ]
+  },
+  "way/272656696": {
+    "statut": "rejete",
+    "alternatives": [
+      "966113862822307"
+    ]
+  },
+  "way/319842580": {
+    "statut": "rejete"
+  },
+  "way/1328344788": {
+    "statut": "rejete"
+  },
+  "way/909304044": {
+    "statut": "rejete"
+  },
+  "node/5731975885": {
+    "statut": "rejete",
+    "alternatives": [
+      "186862150700823"
+    ]
+  },
+  "way/1051317447": {
+    "statut": "rejete",
+    "alternatives": [
+      "780019478018358"
+    ]
+  },
+  "way/437611759": {
+    "statut": "rejete",
+    "alternatives": [
+      "818992494613988"
+    ]
+  },
+  "way/908960288": {
+    "statut": "rejete",
+    "alternatives": [
+      "748991395706077"
+    ]
+  },
+  "way/908964589": {
+    "statut": "rejete",
+    "alternatives": [
+      "748991395706077"
+    ]
+  },
+  "way/491157199": {
+    "statut": "rejete"
+  },
+  "way/909182518": {
+    "statut": "rejete"
+  },
+  "way/515784538": {
+    "statut": "rejete",
+    "alternatives": [
+      "983635803135631"
+    ]
+  },
+  "way/1060240162": {
+    "statut": "rejete",
+    "alternatives": [
+      "784649903104569"
+    ]
+  },
+  "way/1060240163": {
+    "statut": "rejete",
+    "alternatives": [
+      "784649903104569"
+    ]
+  },
+  "way/1060240164": {
+    "statut": "rejete",
+    "alternatives": [
+      "784649903104569"
+    ]
+  },
+  "way/556342176": {
+    "statut": "rejete"
+  },
+  "way/556342177": {
+    "statut": "rejete"
+  },
+  "way/556342179": {
+    "statut": "rejete"
+  },
+  "way/556342180": {
+    "statut": "rejete"
+  },
+  "way/556342178": {
+    "statut": "rejete"
+  },
+  "way/1524428837": {
+    "statut": "rejete",
+    "alternatives": [
+      "396322029733542"
+    ]
+  },
+  "way/1022507979": {
+    "statut": "rejete",
+    "alternatives": [
+      "913998905839776"
+    ]
+  },
+  "way/1111013733": {
+    "statut": "rejete",
+    "alternatives": [
+      "374142840629002"
+    ]
+  },
+  "way/1081408519": {
+    "statut": "rejete",
+    "alternatives": [
+      "479411169976811"
+    ]
+  },
+  "way/408650885": {
+    "statut": "rejete",
+    "alternatives": [
+      "511882343571735"
+    ]
+  },
+  "way/408650886": {
+    "statut": "rejete",
+    "alternatives": [
+      "511882343571735"
+    ]
+  },
+  "way/931561526": {
+    "statut": "rejete",
+    "alternatives": [
+      "469430357460540"
+    ]
+  },
+  "way/931561527": {
+    "statut": "rejete",
+    "alternatives": [
+      "465603281209630"
+    ]
+  },
+  "way/423106101": {
+    "statut": "accepte"
+  },
+  "way/852143367": {
+    "statut": "rejete"
+  },
+  "way/1483495703": {
+    "statut": "accepte"
+  },
+  "way/874576311": {
+    "statut": "rejete"
+  },
+  "way/874802406": {
+    "statut": "accepte"
+  },
+  "way/1456260399": {
+    "statut": "accepte"
+  },
+  "way/1456260400": {
+    "statut": "rejete",
+    "alternatives": [
+      "1330777882018286"
+    ]
+  },
+  "way/1456260401": {
+    "statut": "rejete",
+    "alternatives": [
+      "1330777882018286"
+    ]
+  },
+  "way/1456260402": {
+    "statut": "rejete",
+    "alternatives": [
+      "1330777882018286"
+    ]
+  },
+  "node/7876621829": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1969226250311857",
+        "x": 0.6075954016474219,
+        "y": 0.5646831409640326,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1969226250311857&lat=50.832100656061726&lng=3.205505714110018&z=18.17889877716256&focus=photo&x=0.6075954016474219&y=0.5646831409640326&zoom=0"
+      }
+    ]
+  },
+  "way/1200959215": {
+    "statut": "rejete",
+    "alternatives": [
+      "219852519639406"
+    ]
+  },
+  "way/943023613": {
+    "statut": "rejete",
+    "alternatives": [
+      "323701835848375"
+    ]
+  },
+  "way/133020483": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1632595224220091",
+        "x": 0.33765392500655295,
+        "y": 0.4384277525142365,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1632595224220091&lat=50.4267782&lng=3.925320000000056&z=19.29257536169534&focus=photo&x=0.33765392500655295&y=0.4384277525142365&zoom=0"
+      }
+    ]
+  },
+  "way/1251164964": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "2635061006692709",
+        "x": 0.8448430910995139,
+        "y": 0.5998936974012292,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=2635061006692709&lat=50.408553600000005&lng=4.1632304999999405&z=19.88202475027662&focus=photo&x=0.8448430910995139&y=0.5998936974012292&zoom=0"
+      }
+    ]
+  },
+  "way/1067584245": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1595184281374432",
+        "x": 0.2871224123912097,
+        "y": 0.48329647162081524,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1595184281374432&lat=50.41308649999999&lng=4.1682591&z=18.703125973114062&focus=photo&x=0.2871224123912097&y=0.48329647162081524&zoom=0"
+      }
+    ]
+  },
+  "way/1234333780": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1049109046461544",
+        "x": 0.7560347061988323,
+        "y": 0.532909848888105,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1049109046461544&focus=photo&lat=50.41911250000001&lng=4.165652499999965&z=19.642402403656426&x=0.7560347061988323&y=0.532909848888105&zoom=0"
+      }
+    ]
+  },
+  "way/1365079802": {
+    "statut": "rejete"
+  },
+  "way/1305622006": {
+    "statut": "accepte"
+  },
+  "way/1187932766": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "288607803967045",
+        "x": 0.7820780912123431,
+        "y": 0.44313653199933306,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=288607803967045&lat=50.99095349999999&lng=3.6426288000000113&z=17.85156298655703&x=0.7820780912123431&y=0.44313653199933306&zoom=0&focus=photo"
+      }
+    ]
+  },
+  "way/739826377": {
+    "statut": "rejete"
+  },
+  "way/584115068": {
+    "statut": "rejete",
+    "alternatives": [
+      "725852069234956"
+    ]
+  },
+  "way/591242429": {
+    "statut": "rejete"
+  },
+  "way/838557255": {
+    "statut": "rejete"
+  },
+  "node/9929146093": {
+    "statut": "rejete"
+  },
+  "way/1083462802": {
+    "statut": "rejete"
+  },
+  "way/1095138967": {
+    "statut": "rejete",
+    "alternatives": [
+      "417464630309077"
+    ]
+  },
+  "node/13361112238": {
+    "statut": "rejete"
+  },
+  "way/278115188": {
+    "statut": "rejete"
+  },
+  "way/926524907": {
+    "statut": "accepte"
+  },
+  "way/1340300346": {
+    "statut": "rejete",
+    "alternatives": [
+      "1521095084951992"
+    ]
+  },
+  "way/219221962": {
+    "statut": "accepte"
+  },
+  "way/1429830497": {
+    "statut": "accepte"
+  },
+  "way/893941348": {
+    "statut": "accepte"
+  },
+  "way/1429826161": {
+    "statut": "rejete",
+    "alternatives": [
+      "1190963671382017"
+    ]
+  },
+  "way/1429826162": {
+    "statut": "rejete",
+    "alternatives": [
+      "1190963671382017"
+    ]
+  },
+  "way/878890240": {
+    "statut": "rejete",
+    "alternatives": [
+      "4070678856322171"
+    ]
+  },
+  "way/1546238442": {
+    "statut": "rejete",
+    "alternatives": [
+      "1808804196790439"
+    ]
+  },
+  "way/1546238443": {
+    "statut": "rejete",
+    "alternatives": [
+      "1808804196790439"
+    ]
+  },
+  "way/1352909294": {
+    "statut": "rejete"
+  },
+  "way/1009146834": {
+    "statut": "rejete",
+    "alternatives": [
+      "299375801667615"
+    ]
+  },
+  "way/1315046250": {
+    "statut": "rejete"
+  },
+  "way/1306332118": {
+    "statut": "rejete"
+  },
+  "way/1447661762": {
+    "statut": "rejete"
+  },
+  "way/1246043746": {
+    "statut": "rejete"
+  },
+  "way/1019671717": {
+    "statut": "rejete",
+    "alternatives": [
+      "496233081505250"
+    ]
+  },
+  "way/1019671716": {
+    "statut": "rejete",
+    "alternatives": [
+      "496233081505250"
+    ]
+  },
+  "way/762437035": {
+    "statut": "rejete",
+    "alternatives": [
+      "596715204633550"
+    ]
+  },
+  "way/1110310411": {
+    "statut": "accepte"
+  },
+  "way/1411795796": {
+    "statut": "rejete",
+    "alternatives": [
+      "1938473669939889"
+    ]
+  },
+  "way/1411795797": {
+    "statut": "rejete",
+    "alternatives": [
+      "905745326658488"
+    ]
+  },
+  "way/332205654": {
+    "statut": "rejete",
+    "alternatives": [
+      "560290276854122"
+    ]
+  },
+  "way/1504088997": {
+    "statut": "rejete",
+    "alternatives": [
+      "442003251816834"
+    ]
+  },
+  "way/773132850": {
+    "statut": "rejete",
+    "alternatives": [
+      "798571351035220"
+    ]
+  },
+  "way/892395767": {
+    "statut": "rejete",
+    "alternatives": [
+      "742650613068489"
+    ]
+  },
+  "way/892395768": {
+    "statut": "rejete",
+    "alternatives": [
+      "323609426009201"
+    ]
+  },
+  "way/131755216": {
+    "statut": "rejete",
+    "alternatives": [
+      "1911659472332627"
+    ]
+  },
+  "way/1529638563": {
+    "statut": "rejete",
+    "alternatives": [
+      "1207712037338574"
+    ]
+  },
+  "way/806535225": {
+    "statut": "accepte"
+  },
+  "way/1345128189": {
+    "statut": "rejete",
+    "alternatives": [
+      "494185411891008"
+    ]
+  },
+  "way/446101746": {
+    "statut": "rejete",
+    "alternatives": [
+      "174451058018547"
+    ]
+  },
+  "way/802015415": {
+    "statut": "rejete",
+    "alternatives": [
+      "174451058018547"
+    ]
+  },
+  "way/802015416": {
+    "statut": "rejete",
+    "alternatives": [
+      "174451058018547"
+    ]
+  },
+  "way/1345124408": {
+    "statut": "rejete",
+    "alternatives": [
+      "79078669997199"
+    ]
+  },
+  "way/1196006335": {
+    "statut": "rejete"
+  },
+  "way/311451308": {
+    "statut": "accepte"
+  },
+  "way/283722245": {
+    "statut": "rejete",
+    "alternatives": [
+      "552665829568594"
+    ]
+  },
+  "way/283722246": {
+    "statut": "rejete",
+    "alternatives": [
+      "552665829568594"
+    ]
+  },
+  "way/1111188971": {
+    "statut": "rejete",
+    "alternatives": [
+      "151024266969675"
+    ]
+  },
+  "node/2389399769": {
+    "statut": "rejete",
+    "alternatives": [
+      "946101239564304"
+    ]
+  },
+  "way/883739059": {
+    "statut": "rejete",
+    "alternatives": [
+      "946101239564304"
+    ]
+  },
+  "way/399085046": {
+    "statut": "rejete",
+    "alternatives": [
+      "552185499656124"
+    ]
+  },
+  "way/291540827": {
+    "statut": "rejete",
+    "alternatives": [
+      "4192133014164065"
+    ]
+  },
+  "way/422980770": {
+    "statut": "accepte"
+  },
+  "way/42556648": {
+    "statut": "rejete",
+    "alternatives": [
+      "919268379912523"
+    ]
+  },
+  "way/119747757": {
+    "statut": "rejete"
+  },
+  "way/1349085557": {
+    "statut": "rejete",
+    "alternatives": [
+      "1867777193994322"
+    ]
+  },
+  "way/1349085558": {
+    "statut": "rejete",
+    "alternatives": [
+      "v"
+    ]
+  },
+  "way/1349232947": {
+    "statut": "rejete"
+  },
+  "way/1349232948": {
+    "statut": "rejete"
+  },
+  "way/1387599113": {
+    "statut": "rejete"
+  },
+  "way/1340247124": {
+    "statut": "rejete",
+    "alternatives": [
+      "3028358227403156"
+    ]
+  },
+  "way/1340247125": {
+    "statut": "rejete",
+    "alternatives": [
+      "3028358227403156"
+    ]
+  },
+  "way/1340247126": {
+    "statut": "rejete",
+    "alternatives": [
+      "3028358227403156"
+    ]
+  },
+  "way/673101979": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1368634114346433",
+        "x": 0.35035918271820365,
+        "y": 0.5293238528712737,
+        "zoom": 0.6256517205422315,
+        "app_url": "mapillary.com/app/?lat=51.2015854&lng=5.099411599999939&z=18.345151496765904&pKey=1368634114346433&x=0.35035918271820365&y=0.5293238528712737&zoom=0.6256517205422315&focus=photo"
+      }
+    ]
+  },
+  "way/1161621214": {
+    "statut": "rejete",
+    "alternatives": [
+      "873404373587065"
+    ]
+  },
+  "way/1189596904": {
+    "statut": "accepte"
+  },
+  "way/1044563376": {
+    "statut": "rejete",
+    "alternatives": [
+      "524358186566759"
+    ]
+  },
+  "way/738053203": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "960855035804105",
+        "x": 0.6622331636496916,
+        "y": 0.5760058639095499,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=960855035804105&lat=51.166927000000015&lng=4.903279699999985&z=18.042327120629597&focus=photo&x=0.6622331636496916&y=0.5760058639095499&zoom=0"
+      }
+    ]
+  },
+  "way/1189821130": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "960855035804105",
+        "x": 0.6622331636496916,
+        "y": 0.5760058639095499,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=960855035804105&lat=51.166927000000015&lng=4.903279699999985&z=18.042327120629597&focus=photo&x=0.6622331636496916&y=0.5760058639095499&zoom=0"
+      }
+    ]
+  },
+  "way/1044563375": {
+    "statut": "rejete",
+    "alternatives": [
+      "609413071077926"
+    ]
+  },
+  "way/620483060": {
+    "statut": "accepte"
+  },
+  "way/1079935891": {
+    "statut": "rejete",
+    "alternatives": [
+      "6394931000582725"
+    ]
+  },
+  "way/1461911445": {
+    "statut": "rejete",
+    "alternatives": [
+      "381859220024007"
+    ]
+  },
+  "way/1210846775": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1988782968661593",
+        "x": 0.11732241466600385,
+        "y": 0.5467899446449778,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1988782968661593&lat=50.77846299999999&lng=5.130905299999995&z=18.781829865122887&focus=photo&x=0.11732241466600385&y=0.5467899446449778&zoom=0"
+      }
+    ]
+  },
+  "way/649139130": {
+    "statut": "rejete",
+    "alternatives": [
+      "1054626399897079"
+    ]
+  },
+  "way/1475360589": {
+    "statut": "rejete",
+    "alternatives": [
+      "910176338048328"
+    ]
+  },
+  "way/1292743145": {
+    "statut": "rejete"
+  },
+  "way/837990270": {
+    "statut": "accepte"
+  },
+  "way/387720134": {
+    "statut": "rejete",
+    "alternatives": [
+      "390727533152667"
+    ]
+  },
+  "way/549987379": {
+    "statut": "rejete",
+    "alternatives": [
+      "390727533152667"
+    ]
+  },
+  "way/549987381": {
+    "statut": "rejete",
+    "alternatives": [
+      "390727533152667"
+    ]
+  },
+  "way/1040896371": {
+    "statut": "rejete",
+    "alternatives": [
+      "98871220000004"
+    ]
+  },
+  "way/1086903564": {
+    "statut": "rejete",
+    "alternatives": [
+      "2900037026990613"
+    ]
+  },
+  "way/1341351593": {
+    "statut": "rejete"
+  },
+  "way/1122758082": {
+    "statut": "rejete",
+    "alternatives": [
+      "8347034362024846"
+    ]
+  },
+  "way/424743464": {
+    "statut": "rejete"
+  },
+  "way/1065949426": {
+    "statut": "rejete",
+    "alternatives": [
+      "1260666255092182"
+    ]
+  },
+  "way/1362616043": {
+    "statut": "rejete"
+  },
+  "way/1362885535": {
+    "statut": "rejete",
+    "alternatives": [
+      "1261850671552702"
+    ]
+  },
+  "way/330552790": {
+    "statut": "rejete",
+    "alternatives": [
+      "800398921095088"
+    ]
+  },
+  "way/330552792": {
+    "statut": "rejete",
+    "alternatives": [
+      "800398921095088"
+    ]
+  },
+  "way/330552794": {
+    "statut": "rejete",
+    "alternatives": [
+      "800398921095088"
+    ]
+  },
+  "way/330552796": {
+    "statut": "rejete",
+    "alternatives": [
+      "800398921095088"
+    ]
+  },
+  "node/11815171616": {
+    "statut": "rejete",
+    "alternatives": [
+      "464947884809907"
+    ]
+  },
+  "node/11799804791": {
+    "statut": "rejete",
+    "alternatives": [
+      "596237518484691"
+    ]
+  },
+  "way/745977902": {
+    "statut": "rejete"
+  },
+  "way/1173012698": {
+    "statut": "rejete"
+  },
+  "way/930392644": {
+    "statut": "rejete",
+    "alternatives": [
+      "804254923556927"
+    ]
+  },
+  "way/930392645": {
+    "statut": "rejete",
+    "alternatives": [
+      "804254923556927"
+    ]
+  },
+  "way/293539900": {
+    "statut": "rejete",
+    "alternatives": [
+      "1560191965225609"
+    ]
+  },
+  "way/930613918": {
+    "statut": "rejete",
+    "alternatives": [
+      "538475313814585"
+    ]
+  },
+  "way/1124237957": {
+    "statut": "rejete",
+    "alternatives": [
+      "618280005957300"
+    ]
+  },
+  "way/685108029": {
+    "statut": "rejete",
+    "alternatives": [
+      "269580385654476"
+    ]
+  },
+  "way/685108028": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "602495481642161",
+        "x": 0.5927430566488859,
+        "y": 0.5044660365928824,
+        "zoom": 0,
+        "app_url": "mapillary.com/app/?pKey=602495481642161&lat=50.880579400000016&lng=4.339864000000034&z=19.084654241259194&focus=photo&x=0.5927430566488859&y=0.5044660365928824&zoom=0"
+      }
+    ]
+  },
+  "way/616371936": {
+    "statut": "rejete",
+    "alternatives": [
+      "256626134029050"
+    ]
+  },
+  "way/435710450": {
+    "statut": "rejete",
+    "alternatives": [
+      "207072324361354"
+    ]
+  },
+  "way/435710613": {
+    "statut": "rejete",
+    "alternatives": [
+      "207072324361354"
+    ]
+  },
+  "way/435711094": {
+    "statut": "rejete",
+    "alternatives": [
+      "207072324361354"
+    ]
+  },
+  "way/390655714": {
+    "statut": "rejete"
+  },
+  "way/29754362": {
+    "statut": "rejete",
+    "alternatives": [
+      "3057049124444966"
+    ]
+  },
+  "way/1337183503": {
+    "statut": "rejete"
+  },
+  "way/1117823858": {
+    "statut": "rejete"
+  },
+  "way/1117823857": {
+    "statut": "rejete"
+  },
+  "way/410965629": {
+    "statut": "rejete"
+  },
+  "way/1317569107": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "3083382258518568",
+        "x": 0.4350964911682305,
+        "y": 0.635033368327121,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=3083382258518568&lat=50.80836379999997&lng=5.575501099999997&z=19.236066429327348&focus=photo&x=0.4350964911682305&y=0.635033368327121&zoom=0"
+      }
+    ]
+  },
+  "way/379757244": {
+    "statut": "rejete",
+    "alternatives": [
+      "283507670140180"
+    ]
+  },
+  "way/1099914957": {
+    "statut": "rejete",
+    "alternatives": [
+      "143035351179053"
+    ]
+  },
+  "way/574984619": {
+    "statut": "rejete",
+    "alternatives": [
+      "1026510069410282"
+    ]
+  },
+  "way/929792001": {
+    "statut": "rejete"
+  },
+  "way/1374947835": {
+    "statut": "rejete",
+    "alternatives": [
+      "1391179592051780"
+    ]
+  },
+  "way/1374947836": {
+    "statut": "rejete",
+    "alternatives": [
+      "1391179592051780"
+    ]
+  },
+  "way/929792002": {
+    "statut": "rejete"
+  },
+  "way/189379268": {
+    "statut": "rejete",
+    "alternatives": [
+      "1843000246340564"
+    ]
+  },
+  "way/833199776": {
+    "statut": "rejete",
+    "alternatives": [
+      "1444293922576035"
+    ]
+  },
+  "way/833199777": {
+    "statut": "rejete",
+    "alternatives": [
+      "1444293922576035"
+    ]
+  },
+  "way/684764624": {
+    "statut": "rejete"
+  },
+  "way/684764627": {
+    "statut": "rejete",
+    "alternatives": [
+      "891157481517349"
+    ]
+  },
+  "way/653449267": {
+    "statut": "rejete",
+    "alternatives": [
+      "1033193623874909"
+    ]
+  },
+  "way/455229254": {
+    "statut": "accepte"
+  },
+  "way/843023093": {
+    "statut": "rejete",
+    "alternatives": [
+      "141636587982550"
+    ]
+  },
+  "way/910614646": {
+    "statut": "rejete",
+    "alternatives": [
+      "669905269442114"
+    ]
+  },
+  "way/910614647": {
+    "statut": "rejete",
+    "alternatives": [
+      "669905269442114"
+    ]
+  },
+  "way/910615571": {
+    "statut": "accepte"
+  },
+  "way/1347954181": {
+    "statut": "rejete"
+  },
+  "way/777212819": {
+    "statut": "rejete"
+  },
+  "way/127665215": {
+    "statut": "rejete",
+    "alternatives": [
+      "721135663013002"
+    ]
+  },
+  "way/1125174058": {
+    "statut": "rejete"
+  },
+  "way/875521261": {
+    "statut": "rejete",
+    "alternatives": [
+      "1482077175629692"
+    ]
+  },
+  "way/742007364": {
+    "statut": "rejete",
+    "alternatives": [
+      "473799510367109"
+    ]
+  },
+  "node/11522524738": {
+    "statut": "rejete"
+  },
+  "way/1266187014": {
+    "statut": "rejete",
+    "alternatives": [
+      "779371690405886"
+    ]
+  },
+  "way/721024150": {
+    "statut": "rejete",
+    "alternatives": [
+      "1194732628950757"
+    ]
+  },
+  "way/1213050185": {
+    "statut": "rejete"
+  },
+  "way/392015273": {
+    "statut": "rejete"
+  },
+  "way/190724367": {
+    "statut": "rejete",
+    "alternatives": [
+      "1072714788746577"
+    ]
+  },
+  "way/190724368": {
+    "statut": "rejete",
+    "alternatives": [
+      "1072714788746577"
+    ]
+  },
+  "node/8795036102": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1441644067070653",
+        "x": 0.6138683549391359,
+        "y": 0.5031298754315748,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1441644067070653&lat=51.12720899999999&lng=4.509601999999973&z=18.630417677054734&focus=photo&x=0.6138683549391359&y=0.5031298754315748&zoom=0"
+      }
+    ]
+  },
+  "way/972926808": {
+    "statut": "rejete"
+  },
+  "way/1549146342": {
+    "statut": "rejete"
+  },
+  "way/1549146343": {
+    "statut": "rejete"
+  },
+  "way/1549146344": {
+    "statut": "rejete"
+  },
+  "way/1065939362": {
+    "statut": "accepte"
+  },
+  "way/423101686": {
+    "statut": "rejete"
+  },
+  "way/830271594": {
+    "statut": "rejete",
+    "alternatives": [
+      "801741360779573"
+    ]
+  },
+  "way/1316974983": {
+    "statut": "rejete"
+  },
+  "way/334087969": {
+    "statut": "rejete",
+    "alternatives": [
+      "481625063056983"
+    ]
+  },
+  "way/334087970": {
+    "statut": "rejete",
+    "alternatives": [
+      "481625063056983"
+    ]
+  },
+  "way/334087972": {
+    "statut": "rejete",
+    "alternatives": [
+      "481625063056983"
+    ]
+  },
+  "way/263101452": {
+    "statut": "rejete"
+  },
+  "way/717302452": {
+    "statut": "rejete"
+  },
+  "way/785310287": {
+    "statut": "rejete",
+    "alternatives": [
+      "179374840739046"
+    ]
+  },
+  "way/1009244470": {
+    "statut": "rejete",
+    "alternatives": [
+      "8091331407592275"
+    ]
+  },
+  "way/381085480": {
+    "statut": "rejete",
+    "alternatives": [
+      "447859827680689"
+    ]
+  },
+  "way/314302292": {
+    "statut": "rejete"
+  },
+  "way/734259637": {
+    "statut": "rejete"
+  },
+  "way/553236186": {
+    "statut": "rejete"
+  },
+  "way/729314695": {
+    "statut": "rejete",
+    "alternatives": [
+      "510311400008688"
+    ]
+  },
+  "way/729314696": {
+    "statut": "rejete",
+    "alternatives": [
+      "510311400008688"
+    ]
+  },
+  "way/689462422": {
+    "statut": "rejete",
+    "alternatives": [
+      "326773028794342"
+    ]
+  },
+  "way/689462423": {
+    "statut": "rejete",
+    "alternatives": [
+      "326773028794342"
+    ]
+  },
+  "way/689462424": {
+    "statut": "rejete",
+    "alternatives": [
+      "326773028794342"
+    ]
+  },
+  "way/962754241": {
+    "statut": "rejete"
+  },
+  "way/436001088": {
+    "statut": "rejete",
+    "alternatives": [
+      "01584529997217"
+    ]
+  },
+  "way/1494977371": {
+    "statut": "rejete"
+  },
+  "way/1345282154": {
+    "statut": "rejete",
+    "alternatives": [
+      "1600696441662734"
+    ]
+  },
+  "way/1491021986": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "637309082510125",
+        "x": 0.27211889198843364,
+        "y": 0.5662962204866072,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=637309082510125&lat=50.8506634&lng=4.396815199999992&z=19.538890805463655&focus=photo&x=0.27211889198843364&y=0.5662962204866072&zoom=0"
+      }
+    ]
+  },
+  "way/1348180353": {
+    "statut": "rejete",
+    "alternatives": [
+      "2067385657103666"
+    ]
+  },
+  "way/1182333749": {
+    "statut": "rejete",
+    "alternatives": [
+      "1416043903031962"
+    ]
+  },
+  "way/1053935769": {
+    "statut": "rejete",
+    "alternatives": [
+      "4000134083636348"
+    ]
+  },
+  "way/1053935770": {
+    "statut": "rejete",
+    "alternatives": [
+      "2123946691402745"
+    ]
+  },
+  "way/1053935771": {
+    "statut": "accepte"
+  },
+  "way/977518063": {
+    "statut": "rejete"
+  },
+  "way/977518064": {
+    "statut": "rejete"
+  },
+  "way/977518065": {
+    "statut": "rejete"
+  },
+  "way/977518066": {
+    "statut": "rejete"
+  },
+  "way/977518067": {
+    "statut": "rejete"
+  },
+  "way/1162054411": {
+    "statut": "rejete"
+  },
+  "node/12242090585": {
+    "statut": "rejete"
+  },
+  "way/1073273579": {
+    "statut": "rejete",
+    "alternatives": [
+      "434892658974076"
+    ]
+  },
+  "way/1162054409": {
+    "statut": "rejete"
+  },
+  "way/1162054410": {
+    "statut": "rejete"
+  },
+  "way/1126349521": {
+    "statut": "rejete"
+  },
+  "way/730108491": {
+    "statut": "rejete"
+  },
+  "way/1126349346": {
+    "statut": "rejete"
+  },
+  "way/1126349347": {
+    "statut": "rejete"
+  },
+  "way/730217462": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1631335754426201",
+        "x": 0.8331317207107601,
+        "y": 0.5449080171075207,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1631335754426201&lat=50.77607509999996&lng=5.451234399999976&z=17.926031324256414&focus=photo&x=0.8331317207107601&y=0.5449080171075207&zoom=0"
+      }
+    ]
+  },
+  "way/619703776": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "817785880320453",
+        "x": 0.5521875801867341,
+        "y": 0.6274052342902742,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=817785880320453&focus=photo&lat=51.07970549999999&lng=5.0590466999999535&z=19.102212437106672&x=0.5521875801867341&y=0.6274052342902742&zoom=0"
+      }
+    ]
+  },
+  "way/595901669": {
+    "statut": "rejete",
+    "alternatives": [
+      "1033586054257035"
+    ]
+  },
+  "way/892699435": {
+    "statut": "rejete",
+    "alternatives": [
+      "1033586054257035"
+    ]
+  },
+  "way/521105042": {
+    "statut": "accepte"
+  },
+  "way/177714754": {
+    "statut": "rejete",
+    "alternatives": [
+      "467044104529595"
+    ]
+  },
+  "way/358713487": {
+    "statut": "rejete",
+    "alternatives": [
+      "298063982406113"
+    ]
+  },
+  "way/1308402435": {
+    "statut": "accepte"
+  },
+  "way/963015044": {
+    "statut": "rejete",
+    "alternatives": [
+      "1675332547244649"
+    ]
+  },
+  "way/993998201": {
+    "statut": "accepte"
+  },
+  "node/9556827845": {
+    "statut": "rejete",
+    "alternatives": [
+      "852929772240243"
+    ]
+  },
+  "way/1417746136": {
+    "statut": "rejete"
+  },
+  "way/488426172": {
+    "statut": "rejete",
+    "alternatives": [
+      "5"
+    ]
+  },
+  "way/205618548": {
+    "statut": "rejete",
+    "alternatives": [
+      "762935511045545"
+    ]
+  },
+  "way/817212368": {
+    "statut": "rejete"
+  },
+  "way/1337726121": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1314071883148000",
+        "x": 0.7557783012237465,
+        "y": 0.41737482944442256,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1314071883148000&lat=50.905556099999984&lng=4.2044786999999815&z=18.630417677054734&focus=photo&x=0.7557783012237465&y=0.41737482944442256&zoom=0"
+      }
+    ]
+  },
+  "way/713431834": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "6946943645329215",
+        "x": 0.9310484570163569,
+        "y": 0.6197676787839059,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?lat=50.47812669999999&lng=5.689274899999987&z=19.102212437106672&x=0.9310484570163569&y=0.6197676787839059&zoom=0&pKey=6946943645329215&focus=photo"
+      }
+    ]
+  },
+  "way/1069986238": {
+    "statut": "accepte"
+  },
+  "way/981249352": {
+    "statut": "accepte"
+  },
+  "way/1307428545": {
+    "statut": "rejete",
+    "alternatives": [
+      "415944301426948"
+    ]
+  },
+  "way/1235200694": {
+    "statut": "rejete"
+  },
+  "way/102346300": {
+    "statut": "rejete",
+    "alternatives": [
+      "949590153018803"
+    ]
+  },
+  "way/102346378": {
+    "statut": "rejete",
+    "alternatives": [
+      "949590153018803"
+    ]
+  },
+  "way/685686767": {
+    "statut": "rejete",
+    "alternatives": [
+      "819057929037957"
+    ]
+  },
+  "way/399085043": {
+    "statut": "rejete",
+    "alternatives": [
+      "283988963431148"
+    ]
+  },
+  "way/833353456": {
+    "statut": "accepte"
+  },
+  "way/197668203": {
+    "statut": "rejete",
+    "alternatives": [
+      "301697481506109"
+    ]
+  },
+  "way/200500914": {
+    "statut": "rejete",
+    "alternatives": [
+      "42210190000003"
+    ]
+  },
+  "way/913952896": {
+    "statut": "rejete",
+    "alternatives": [
+      "762237931101485"
+    ]
+  },
+  "node/3127499128": {
+    "statut": "rejete"
+  },
+  "way/1113185239": {
+    "statut": "rejete",
+    "alternatives": [
+      "1090995389077946"
+    ]
+  },
+  "way/1347456990": {
+    "statut": "rejete",
+    "alternatives": [
+      "1796907494173791"
+    ]
+  },
+  "way/1347456991": {
+    "statut": "rejete",
+    "alternatives": [
+      "1796907494173791"
+    ]
+  },
+  "way/1347456992": {
+    "statut": "rejete",
+    "alternatives": [
+      "1796907494173791"
+    ]
+  },
+  "way/1347456993": {
+    "statut": "rejete",
+    "alternatives": [
+      "1796907494173791"
+    ]
+  },
+  "way/547111807": {
+    "statut": "rejete",
+    "alternatives": [
+      "429658961739402"
+    ]
+  },
+  "way/547753979": {
+    "statut": "rejete",
+    "alternatives": [
+      "135360379487845"
+    ]
+  },
+  "node/6824063889": {
+    "statut": "rejete",
+    "alternatives": [
+      "129299539189999"
+    ]
+  },
+  "node/6824063890": {
+    "statut": "rejete",
+    "alternatives": [
+      "971878217567880"
+    ]
+  },
+  "way/1110488530": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "3219577438355859",
+        "x": 0.5079901790373367,
+        "y": 0.570223044670506,
+        "zoom": 0,
+        "app_url": "mapillary.com/app/?lat=50.74617719997204&lng=4.27786059999994&z=19.9&pKey=3219577438355859&x=0.5079901790373367&y=0.570223044670506&zoom=0&focus=photo"
+      }
+    ]
+  },
+  "way/1110488531": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "3219577438355859",
+        "x": 0.5079901790373367,
+        "y": 0.570223044670506,
+        "zoom": 0,
+        "app_url": "mapillary.com/app/?lat=50.74617719997204&lng=4.27786059999994&z=19.9&pKey=3219577438355859&x=0.5079901790373367&y=0.570223044670506&zoom=0&focus=photo"
+      }
+    ]
+  },
+  "way/1110488532": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "3219577438355859",
+        "x": 0.5079901790373367,
+        "y": 0.570223044670506,
+        "zoom": 0,
+        "app_url": "mapillary.com/app/?lat=50.74617719997204&lng=4.27786059999994&z=19.9&pKey=3219577438355859&x=0.5079901790373367&y=0.570223044670506&zoom=0&focus=photo"
+      }
+    ]
+  },
+  "way/1110488533": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "3219577438355859",
+        "x": 0.5079901790373367,
+        "y": 0.570223044670506,
+        "zoom": 0,
+        "app_url": "mapillary.com/app/?lat=50.74617719997204&lng=4.27786059999994&z=19.9&pKey=3219577438355859&x=0.5079901790373367&y=0.570223044670506&zoom=0&focus=photo"
+      }
+    ]
+  },
+  "way/396321674": {
+    "statut": "accepte"
+  },
+  "way/362501685": {
+    "statut": "rejete"
+  },
+  "way/1304929923": {
+    "statut": "rejete",
+    "alternatives": [
+      "664413852950398"
+    ]
+  },
+  "way/1111902687": {
+    "statut": "rejete"
+  },
+  "way/1111902688": {
+    "statut": "rejete"
+  },
+  "way/1111578286": {
+    "statut": "rejete",
+    "alternatives": [
+      "1269033151125398"
+    ]
+  },
+  "way/1111578287": {
+    "statut": "rejete",
+    "alternatives": [
+      "1269033151125398"
+    ]
+  },
+  "way/1458120962": {
+    "statut": "rejete",
+    "alternatives": [
+      "282093153699334"
+    ]
+  },
+  "way/1357578358": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "592965190310486",
+        "x": 0.7360309898215122,
+        "y": 0.5404725548888452,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=592965190310486&lat=51.00916900000004&lng=5.229765999999927&z=18.514121880681547&focus=photo&x=0.7360309898215122&y=0.5404725548888452&zoom=0"
+      }
+    ]
+  },
+  "way/412209853": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1304833070635252",
+        "x": 0.4720356869942824,
+        "y": 0.5600024623375672,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1304833070635252&lat=50.99712870000002&lng=5.144827599999985&z=17&x=0.4720356869942824&y=0.5600024623375672&zoom=0&focus=photo"
+      }
+    ]
+  },
+  "way/1321386311": {
+    "statut": "rejete",
+    "alternatives": [
+      "133541018793410"
+    ]
+  },
+  "way/1306736269": {
+    "statut": "rejete",
+    "alternatives": [
+      "4887180587997119"
+    ]
+  },
+  "node/7997948794": {
+    "statut": "rejete"
+  },
+  "way/884817575": {
+    "statut": "rejete"
+  },
+  "way/884817576": {
+    "statut": "rejete"
+  },
+  "way/884817577": {
+    "statut": "rejete"
+  },
+  "node/7201633609": {
+    "statut": "rejete"
+  },
+  "way/770672443": {
+    "statut": "rejete",
+    "alternatives": [
+      "334102438069287"
+    ]
+  },
+  "way/770672444": {
+    "statut": "rejete",
+    "alternatives": [
+      "334102438069287"
+    ]
+  },
+  "way/742892131": {
+    "statut": "rejete"
+  },
+  "way/1308519496": {
+    "statut": "rejete",
+    "alternatives": [
+      "1004398083426234"
+    ]
+  },
+  "way/1308519497": {
+    "statut": "rejete",
+    "alternatives": [
+      "1004398083426234"
+    ]
+  },
+  "way/1308519498": {
+    "statut": "rejete",
+    "alternatives": [
+      "1004398083426234"
+    ]
+  },
+  "way/1308519499": {
+    "statut": "rejete",
+    "alternatives": [
+      "1004398083426234"
+    ]
+  },
+  "way/410947697": {
+    "statut": "rejete",
+    "alternatives": [
+      "1357666541383330"
+    ]
+  },
+  "way/979353802": {
+    "statut": "rejete",
+    "alternatives": [
+      "943663919509407"
+    ]
+  },
+  "way/379806228": {
+    "statut": "accepte"
+  },
+  "way/499327888": {
+    "statut": "rejete",
+    "alternatives": [
+      "855610359750933"
+    ]
+  },
+  "way/499327889": {
+    "statut": "rejete",
+    "alternatives": [
+      "855610359750933"
+    ]
+  },
+  "way/499327890": {
+    "statut": "rejete",
+    "alternatives": [
+      "855610359750933"
+    ]
+  },
+  "way/499327891": {
+    "statut": "rejete",
+    "alternatives": [
+      "855610359750933"
+    ]
+  },
+  "way/284404328": {
+    "statut": "rejete",
+    "alternatives": [
+      "3947897831958560"
+    ]
+  },
+  "way/662424988": {
+    "statut": "rejete",
+    "alternatives": [
+      "3947897831958560"
+    ]
+  },
+  "way/396071869": {
+    "statut": "rejete",
+    "alternatives": [
+      "2173860539820614"
+    ]
+  },
+  "way/1219675545": {
+    "statut": "accepte"
+  },
+  "way/40639663": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "7455853807774703",
+        "x": 0.8325109313438115,
+        "y": 0.6061749523690758,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=7455853807774703&lat=50.79927330000001&lng=4.285817799999904&z=17&focus=photo&x=0.8325109313438115&y=0.6061749523690758&zoom=0"
+      }
+    ]
+  },
+  "way/688825836": {
+    "statut": "rejete",
+    "alternatives": [
+      "1088438475015890"
+    ]
+  },
+  "way/1474271499": {
+    "statut": "accepte"
+  },
+  "way/259443835": {
+    "statut": "rejete",
+    "alternatives": [
+      "459102222977604"
+    ]
+  },
+  "way/943634428": {
+    "statut": "rejete",
+    "alternatives": [
+      "727160042070246"
+    ]
+  },
+  "way/1395425552": {
+    "statut": "accepte"
+  },
+  "way/455630301": {
+    "statut": "rejete",
+    "alternatives": [
+      "477938274101148"
+    ]
+  },
+  "way/455630304": {
+    "statut": "rejete",
+    "alternatives": [
+      "477938274101148"
+    ]
+  },
+  "way/225232271": {
+    "statut": "accepte"
+  },
+  "way/909425653": {
+    "statut": "rejete",
+    "alternatives": [
+      "1460019004761809"
+    ]
+  },
+  "way/1032970931": {
+    "statut": "rejete",
+    "alternatives": [
+      "496421485422292"
+    ]
+  },
+  "way/1032970932": {
+    "statut": "rejete",
+    "alternatives": [
+      "496421485422292"
+    ]
+  },
+  "way/1064633271": {
+    "statut": "rejete",
+    "alternatives": [
+      "1997164637116086"
+    ]
+  },
+  "way/1064633272": {
+    "statut": "rejete",
+    "alternatives": [
+      "1997164637116086"
+    ]
+  },
+  "way/1064633273": {
+    "statut": "rejete",
+    "alternatives": [
+      "1997164637116086"
+    ]
+  },
+  "way/135994244": {
+    "statut": "rejete"
+  },
+  "way/308740824": {
+    "statut": "rejete",
+    "alternatives": [
+      "1191265297996091"
+    ]
+  },
+  "node/6794677815": {
+    "statut": "rejete"
+  },
+  "way/554819437": {
+    "statut": "rejete",
+    "alternatives": [
+      "834753658299794"
+    ]
+  },
+  "way/917320131": {
+    "statut": "rejete",
+    "alternatives": [
+      "1674977706046647"
+    ]
+  },
+  "way/602917068": {
+    "statut": "rejete",
+    "alternatives": [
+      "835332277066336"
+    ]
+  },
+  "way/602917066": {
+    "statut": "rejete",
+    "alternatives": [
+      "835332277066336"
+    ]
+  },
+  "way/602917067": {
+    "statut": "rejete",
+    "alternatives": [
+      "835332277066336"
+    ]
+  },
+  "way/203890059": {
+    "statut": "rejete",
+    "alternatives": [
+      "1525592911298479"
+    ]
+  },
+  "way/203890060": {
+    "statut": "rejete",
+    "alternatives": [
+      "1525592911298479"
+    ]
+  },
+  "way/524896714": {
+    "statut": "accepte"
+  },
+  "way/524896715": {
+    "statut": "accepte"
+  },
+  "way/524896716": {
+    "statut": "accepte"
+  },
+  "way/926232358": {
+    "statut": "rejete"
+  },
+  "way/926232359": {
+    "statut": "rejete"
+  },
+  "way/578377953": {
+    "statut": "rejete"
+  },
+  "way/859071468": {
+    "statut": "rejete"
+  },
+  "way/1356512132": {
+    "statut": "accepte"
+  },
+  "way/364177764": {
+    "statut": "rejete",
+    "alternatives": [
+      "753684623556879"
+    ]
+  },
+  "way/1063507777": {
+    "statut": "rejete",
+    "alternatives": [
+      "1484982115384472"
+    ]
+  },
+  "way/1063507778": {
+    "statut": "rejete",
+    "alternatives": [
+      "340622062341956"
+    ]
+  },
+  "way/1340302604": {
+    "statut": "rejete"
+  },
+  "way/1340302605": {
+    "statut": "rejete"
+  },
+  "way/918874515": {
+    "statut": "rejete",
+    "alternatives": [
+      "1599662874628605"
+    ]
+  },
+  "way/918874516": {
+    "statut": "rejete",
+    "alternatives": [
+      "1599662874628605"
+    ]
+  },
+  "way/918874517": {
+    "statut": "rejete",
+    "alternatives": [
+      "1599662874628605"
+    ]
+  },
+  "way/694784046": {
+    "statut": "rejete"
+  },
+  "way/835537889": {
+    "statut": "rejete",
+    "alternatives": [
+      "650611034469960"
+    ]
+  },
+  "way/94237549": {
+    "statut": "rejete"
+  },
+  "way/495963777": {
+    "statut": "rejete",
+    "alternatives": [
+      "1442137853648505"
+    ]
+  },
+  "way/1105314519": {
+    "statut": "rejete",
+    "alternatives": [
+      "1532187950285230"
+    ]
+  },
+  "way/1544882500": {
+    "statut": "rejete"
+  },
+  "way/970653220": {
+    "statut": "rejete",
+    "alternatives": [
+      "3796659697123317"
+    ]
+  },
+  "way/1348487513": {
+    "statut": "accepte"
+  },
+  "way/930113159": {
+    "statut": "rejete",
+    "alternatives": [
+      "2108987282982954"
+    ]
+  },
+  "way/930113160": {
+    "statut": "rejete",
+    "alternatives": [
+      "2108987282982954"
+    ]
+  },
+  "way/549410966": {
+    "statut": "rejete"
+  },
+  "way/720585231": {
+    "statut": "rejete"
+  },
+  "way/213484144": {
+    "statut": "rejete"
+  },
+  "way/950001918": {
+    "statut": "rejete",
+    "alternatives": [
+      "1739223837204050"
+    ]
+  },
+  "way/501698758": {
+    "statut": "rejete"
+  },
+  "way/564395954": {
+    "statut": "rejete"
+  },
+  "way/1206804050": {
+    "statut": "rejete",
+    "alternatives": [
+      "220692909857963"
+    ]
+  },
+  "way/1108014216": {
+    "statut": "rejete",
+    "alternatives": [
+      "472772957347622"
+    ]
+  },
+  "way/364882272": {
+    "statut": "rejete",
+    "alternatives": [
+      "189000540208215"
+    ]
+  },
+  "way/398931258": {
+    "statut": "rejete",
+    "alternatives": [
+      "465216261406650"
+    ]
+  },
+  "way/1108377822": {
+    "statut": "rejete",
+    "alternatives": [
+      "932995441806491"
+    ]
+  },
+  "way/1302601692": {
+    "statut": "rejete"
+  },
+  "way/1302601693": {
+    "statut": "rejete"
+  },
+  "way/115738432": {
+    "statut": "rejete",
+    "alternatives": [
+      "1021896166058924"
+    ]
+  },
+  "way/682366607": {
+    "statut": "rejete",
+    "alternatives": [
+      "2884948758390107"
+    ]
+  },
+  "way/1116272244": {
+    "statut": "rejete",
+    "alternatives": [
+      "807184133565387"
+    ]
+  },
+  "way/1116272245": {
+    "statut": "rejete",
+    "alternatives": [
+      "807184133565387"
+    ]
+  },
+  "way/1113148704": {
+    "statut": "accepte"
+  },
+  "node/6782734723": {
+    "statut": "rejete"
+  },
+  "way/1410618156": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "8859325117493172",
+        "x": 0.6524951014136624,
+        "y": 0.4758858970979137,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=8859325117493172&lat=51.304659800000024&lng=4.404019100000028&z=19.9&focus=photo&x=0.6524951014136624&y=0.4758858970979137&zoom=0"
+      }
+    ]
+  },
+  "way/1410618161": {
+    "statut": "rejete"
+  },
+  "way/676496198": {
+    "statut": "rejete",
+    "alternatives": [
+      "609477100463134"
+    ]
+  },
+  "way/1471737229": {
+    "statut": "rejete"
+  },
+  "way/729711647": {
+    "statut": "rejete",
+    "alternatives": [
+      "1470214929991770"
+    ]
+  },
+  "node/1804015671": {
+    "statut": "rejete",
+    "alternatives": [
+      "3958144960950359"
+    ]
+  },
+  "way/796869981": {
+    "statut": "rejete",
+    "alternatives": [
+      "163403362388651"
+    ]
+  },
+  "way/796869982": {
+    "statut": "rejete",
+    "alternatives": [
+      "163403362388651"
+    ]
+  },
+  "way/1209385519": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1559557331570628",
+        "x": 0.7179724565831407,
+        "y": 0.5546137991007316,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1559557331570628&focus=photo&lat=51.06513319999999&lng=4.983592600000065&z=19.40503681324298&x=0.7179724565831407&y=0.5546137991007316&zoom=0"
+      }
+    ]
+  },
+  "way/1273348730": {
+    "statut": "rejete"
+  },
+  "way/1513725469": {
+    "statut": "rejete",
+    "alternatives": [
+      "654602840964307"
+    ]
+  },
+  "way/614066771": {
+    "statut": "rejete",
+    "alternatives": [
+      "1037642223919347"
+    ]
+  },
+  "node/5754469728": {
+    "statut": "rejete"
+  },
+  "way/510716046": {
+    "statut": "rejete"
+  },
+  "way/872197510": {
+    "statut": "rejete"
+  },
+  "way/679221030": {
+    "statut": "accepte"
+  },
+  "way/1353958280": {
+    "statut": "rejete",
+    "alternatives": [
+      "1234256431464871"
+    ]
+  },
+  "way/1353942077": {
+    "statut": "rejete",
+    "alternatives": [
+      "3082071451959698"
+    ]
+  },
+  "way/1390885262": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1343393146123306",
+        "x": 0.9377099805003076,
+        "y": 0.4387271088582829,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1343393146123306&lat=50.8225089&lng=4.461811699999998&z=19.841715181599962&focus=photo&x=0.9377099805003076&y=0.4387271088582829&zoom=0"
+      }
+    ]
+  },
+  "way/661339335": {
+    "statut": "rejete",
+    "alternatives": [
+      "773335873350307"
+    ]
+  },
+  "way/1345205506": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "454424044222270",
+        "x": 0.2676619261040424,
+        "y": 0.48084294991118304,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=454424044222270&lat=50.961233599999986&lng=4.454629000000068&z=19.9&focus=photo&x=0.2676619261040424&y=0.48084294991118304&zoom=0"
+      }
+    ]
+  },
+  "way/192797089": {
+    "statut": "rejete"
+  },
+  "way/963700943": {
+    "statut": "rejete",
+    "alternatives": [
+      "3723240987959220"
+    ]
+  },
+  "way/993692237": {
+    "statut": "rejete"
+  },
+  "way/1334008869": {
+    "statut": "rejete"
+  },
+  "node/8742051555": {
+    "statut": "rejete"
+  },
+  "way/658557207": {
+    "statut": "rejete"
+  },
+  "way/658557208": {
+    "statut": "rejete"
+  },
+  "way/844788589": {
+    "statut": "rejete",
+    "alternatives": [
+      "4231673953550208"
+    ]
+  },
+  "way/844821978": {
+    "statut": "rejete",
+    "alternatives": [
+      "3729800667300520"
+    ]
+  },
+  "way/1546244470": {
+    "statut": "accepte"
+  },
+  "way/1422665988": {
+    "statut": "rejete",
+    "alternatives": [
+      "99636633861104"
+    ]
+  },
+  "way/1507520770": {
+    "statut": "rejete",
+    "alternatives": [
+      "1760575417624825"
+    ]
+  },
+  "way/1526385262": {
+    "statut": "rejete"
+  },
+  "way/297908898": {
+    "statut": "rejete",
+    "alternatives": [
+      "1089418218927504"
+    ]
+  },
+  "way/1184325176": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1964999707300279",
+        "x": 0.42676315886729477,
+        "y": 0.5447737069557824,
+        "zoom": 0.6256517205422312,
+        "app_url": "https://www.mapillary.com/app/?pKey=1964999707300279&lat=51.154373600000014&lng=5.6025701999999455&z=18.64797587290221&focus=photo&x=0.42676315886729477&y=0.5447737069557824&zoom=0.6256517205422312"
+      }
+    ]
+  },
+  "way/729876252": {
+    "statut": "rejete",
+    "alternatives": [
+      "1064457488066412"
+    ]
+  },
+  "way/342817177": {
+    "statut": "rejete"
+  },
+  "way/1353914005": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "821098343940336",
+        "x": 0.6407866119452761,
+        "y": 0.6717494448808029,
+        "zoom": 0,
+        "app_url": "mapillary.com/app/?pKey=821098343940336&lat=50.7530816&lng=5.177515099999937&z=18.799388060970365&focus=photo&x=0.6407866119452761&y=0.6717494448808029&zoom=0"
+      }
+    ]
+  },
+  "way/1353914002": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "821098343940336",
+        "x": 0.6407866119452761,
+        "y": 0.6717494448808029,
+        "zoom": 0,
+        "app_url": "mapillary.com/app/?pKey=821098343940336&lat=50.7530816&lng=5.177515099999937&z=18.799388060970365&focus=photo&x=0.6407866119452761&y=0.6717494448808029&zoom=0"
+      }
+    ]
+  },
+  "way/287828724": {
+    "statut": "accepte"
+  },
+  "way/498553354": {
+    "statut": "rejete"
+  },
+  "way/498553355": {
+    "statut": "rejete"
+  },
+  "way/908465506": {
+    "statut": "rejete",
+    "alternatives": [
+      "546541229875054"
+    ]
+  },
+  "way/908465507": {
+    "statut": "rejete",
+    "alternatives": [
+      "546541229875054"
+    ]
+  },
+  "way/1267978547": {
+    "statut": "rejete",
+    "alternatives": [
+      "2574944972807943"
+    ]
+  },
+  "way/664476758": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "127845120013384",
+        "x": 0.08784426215942348,
+        "y": 0.6312224123782781,
+        "zoom": 0,
+        "app_url": "mapillary.com/app/?pKey=127845120013384&lat=50.856947399999996&lng=4.417805300000055&z=19.80659878990501&focus=photo&x=0.08784426215942348&y=0.6312224123782781&zoom=0"
+      }
+    ]
+  },
+  "way/1110287885": {
+    "statut": "rejete"
+  },
+  "way/697230024": {
+    "statut": "rejete"
+  },
+  "way/557629270": {
+    "statut": "rejete"
+  },
+  "way/1396810233": {
+    "statut": "rejete",
+    "alternatives": [
+      "1349096269983085"
+    ]
+  },
+  "way/1396810234": {
+    "statut": "rejete",
+    "alternatives": [
+      "1349096269983085"
+    ]
+  },
+  "way/1091405025": {
+    "statut": "rejete",
+    "alternatives": [
+      "574085202441110"
+    ]
+  },
+  "way/906074493": {
+    "statut": "rejete"
+  },
+  "way/30350373": {
+    "statut": "rejete",
+    "alternatives": [
+      "1460907767583727"
+    ]
+  },
+  "way/629859590": {
+    "statut": "rejete",
+    "alternatives": [
+      "128675192618084"
+    ]
+  },
+  "way/525162386": {
+    "alternatives": [
+      "956714217448719",
+      "1909915133315362"
+    ]
+  },
+  "way/525162387": {
+    "alternatives": [
+      "956714217448719",
+      "1909915133315362"
+    ]
+  },
+  "way/1086521413": {
+    "alternatives": [
+      "621833899999984",
+      "621833899999984"
+    ]
+  },
+  "way/1212377309": {
+    "alternatives": [
+      "207488698139775"
+    ],
+    "statut": "rejete"
+  },
+  "way/1075143725": {
+    "alternatives": [
+      "465119341263260"
+    ],
+    "statut": "rejete"
+  },
+  "way/1377307263": {
+    "alternatives": [
+      "1712103239688829"
+    ],
+    "statut": "rejete"
+  },
+  "way/1307084945": {
+    "statut": "rejete",
+    "alternatives": [
+      "1267156330345298"
+    ]
+  },
+  "way/560976977": {
+    "statut": "rejete"
+  },
+  "way/909264869": {
+    "statut": "rejete",
+    "panos": [
+      {
+        "mapillary_id": "1228195301474365",
+        "x": 0.9047152010260722,
+        "y": 0.44110917400204647,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1228195301474365&lat=51.349925335482&lng=4.398487877077059&z=19.102212437106672&focus=photo&x=0.9047152010260722&y=0.44110917400204647&zoom=0"
+      }
+    ]
+  },
+  "way/1108564426": {
+    "statut": "rejete",
+    "alternatives": [
+      "806202513731318"
+    ]
+  },
+  "way/1143947467": {
+    "panos": [
+      {
+        "mapillary_id": "478794001425470",
+        "x": 0.7420957645868181,
+        "y": 0.5232988272431006,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=478794001425470&lat=50.81467309999999&lng=5.365385599999968&z=18.95080024903852&focus=photo&x=0.7420957645868181&y=0.5232988272431006&zoom=0"
+      }
+    ],
+    "statut": "rejete"
+  },
+  "way/1143947468": {
+    "panos": [
+      {
+        "mapillary_id": "478794001425470",
+        "x": 0.7272896518223522,
+        "y": 0.5163672312979042,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=478794001425470&lat=50.81467309999999&lng=5.365385599999968&z=18.042327120629597&focus=photo&x=0.7272896518223522&y=0.5163672312979042&zoom=0"
+      }
+    ],
+    "statut": "rejete"
+  },
+  "way/1006155633": {
+    "statut": "rejete"
+  },
+  "way/1006155632": {
+    "statut": "rejete"
+  },
+  "way/902811115": {
+    "alternatives": [
+      "1042069764106772"
+    ],
+    "statut": "rejete"
+  },
+  "way/902811114": {
+    "alternatives": [
+      "490414927269673"
+    ],
+    "statut": "rejete"
+  },
+  "way/1026350002": {
+    "statut": "accepte"
+  },
+  "way/973999073": {
+    "statut": "rejete"
+  },
+  "way/87308502": {
+    "alternatives": [
+      "1397601587522606"
+    ],
+    "statut": "rejete"
+  },
+  "way/1084909088": {
+    "statut": "rejete"
+  },
+  "way/1331109346": {
+    "statut": "rejete"
+  },
+  "way/912450824": {
+    "panos": [
+      {
+        "mapillary_id": "428287969564389",
+        "x": 0.24719245375864785,
+        "y": 0.5199699209782456,
+        "zoom": 0,
+        "app_url": "mapillary.com/app/?pKey=428287969564389&lat=51.17068091883584&lng=4.467045303548275&z=19.521332609616177&focus=photo&x=0.24719245375864785&y=0.5199699209782456&zoom=0"
+      }
+    ],
+    "statut": "rejete"
+  },
+  "way/929375747": {
+    "alternatives": [
+      "612500584420967"
+    ],
+    "statut": "rejete"
+  },
+  "way/767756794": {
+    "alternatives": [
+      "455578233859463"
+    ],
+    "statut": "rejete"
+  },
+  "way/767756795": {
+    "alternatives": [
+      "455578233859463"
+    ],
+    "statut": "rejete"
+  },
+  "way/430218794": {
+    "panos": [
+      {
+        "mapillary_id": "468977514174453",
+        "x": 0.22148619731386818,
+        "y": 0.5293309607294471,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=468977514174453&focus=photo&lat=50.922266666666985&lng=3.332771944444403&z=17&x=0.22148619731386818&y=0.5293309607294471&zoom=0"
+      }
+    ],
+    "statut": "rejete"
+  },
+  "way/430218793": {
+    "panos": [
+      {
+        "mapillary_id": "468977514174453",
+        "x": 0.22148619731386818,
+        "y": 0.5293309607294471,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=468977514174453&focus=photo&lat=50.922266666666985&lng=3.332771944444403&z=17&x=0.22148619731386818&y=0.5293309607294471&zoom=0"
+      }
+    ],
+    "statut": "rejete"
+  },
+  "way/98723685": {
+    "alternatives": [
+      "342722157975126"
+    ],
+    "statut": "rejete"
+  },
+  "way/548167638": {
+    "alternatives": [
+      "254833743145500"
+    ],
+    "statut": "rejete"
+  },
+  "way/1085628742": {
+    "statut": "rejete"
+  },
+  "way/1085628743": {
+    "statut": "rejete"
+  },
+  "way/1105458898": {
+    "alternatives": [
+      "747692749249789"
+    ],
+    "statut": "rejete"
+  },
+  "way/1105458899": {
+    "alternatives": [
+      "747692749249789"
+    ],
+    "statut": "rejete"
+  },
+  "way/1551510767": {
+    "alternatives": [
+      "1133446348805741"
+    ],
+    "statut": "rejete"
+  },
+  "way/1551510778": {
+    "alternatives": [
+      "534244551270842"
+    ],
+    "statut": "rejete"
+  },
+  "way/1254179811": {
+    "alternatives": [
+      "1701075683722732"
+    ],
+    "statut": "rejete"
+  },
+  "way/1254179812": {
+    "alternatives": [
+      "1701075683722732"
+    ],
+    "statut": "rejete"
+  },
+  "way/874333265": {
+    "panos": [
+      {
+        "mapillary_id": "1666918284667461",
+        "x": 0.7660224989266771,
+        "y": 0.5212209901226614,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1666918284667461&lat=50.8062448&lng=5.466190500000039&z=18.042327120629597&focus=photo&x=0.7660224989266771&y=0.5212209901226614&zoom=0"
+      }
+    ],
+    "statut": "rejete"
+  },
+  "way/1346947045": {
+    "panos": [
+      {
+        "mapillary_id": "1666918284667461",
+        "x": 0.7660224989266771,
+        "y": 0.5212209901226614,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1666918284667461&lat=50.8062448&lng=5.466190500000039&z=18.042327120629597&focus=photo&x=0.7660224989266771&y=0.5212209901226614&zoom=0"
+      }
+    ],
+    "statut": "rejete"
+  },
+  "way/787570642": {
+    "statut": "accepte"
+  },
+  "way/1491633991": {
+    "statut": "accepte"
+  },
+  "way/1016999532": {
+    "statut": "rejete"
+  },
+  "way/1016999531": {
+    "statut": "rejete"
+  },
+  "way/1458565220": {
+    "alternatives": [
+      "569575388947268"
+    ],
+    "statut": "rejete"
+  },
+  "way/364896975": {
+    "statut": "rejete"
+  },
+  "way/365098047": {
+    "statut": "rejete"
+  },
+  "way/658383783": {
+    "alternatives": [
+      "301701021426751"
+    ],
+    "statut": "rejete"
+  },
+  "way/279530899": {
+    "alternatives": [
+      "759530984922847"
+    ],
+    "statut": "rejete"
+  },
+  "way/1544794185": {
+    "statut": "rejete"
+  },
+  "way/101825634": {
+    "statut": "rejete"
+  },
+  "way/101825667": {
+    "statut": "rejete"
+  },
+  "way/820374185": {
+    "statut": "rejete"
+  },
+  "way/625576522": {
+    "statut": "accepte"
+  },
+  "way/625576523": {
+    "alternatives": [
+      "486006702714336"
+    ],
+    "statut": "rejete"
+  },
+  "way/1389247471": {
+    "statut": "rejete"
+  },
+  "way/1389247472": {
+    "statut": "rejete"
+  },
+  "way/519334808": {
+    "alternatives": [
+      "379116428544306"
+    ],
+    "statut": "rejete"
+  },
+  "way/461969510": {
+    "statut": "rejete"
+  },
+  "way/1296098094": {
+    "alternatives": [
+      "214908590152754"
+    ],
+    "statut": "rejete"
+  },
+  "way/1296098095": {
+    "alternatives": [
+      "214908590152754"
+    ],
+    "statut": "rejete"
+  },
+  "way/1049553857": {
+    "statut": "rejete"
+  },
+  "node/12078361157": {
+    "statut": "accepte"
+  },
+  "way/1333313704": {
+    "alternatives": [
+      "301514364752434"
+    ],
+    "statut": "rejete"
+  },
+  "way/1096131439": {
+    "alternatives": [
+      "844122007922164"
+    ],
+    "statut": "rejete"
+  },
+  "way/544239548": {
+    "panos": [
+      {
+        "mapillary_id": "1074702516388454",
+        "x": 0.46331605990205094,
+        "y": 0.5051418077976516,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1074702516388454&lat=50.111490833332994&lng=5.133474999999976&z=18.781829865122887&focus=photo&x=0.46331605990205094&y=0.5051418077976516&zoom=0"
+      }
+    ],
+    "statut": "rejete"
+  },
+  "way/878889372": {
+    "panos": [
+      {
+        "mapillary_id": "289582487131183",
+        "x": 0.33424419690814755,
+        "y": 0.6210830300804033,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=289582487131183&lat=50.98743809997205&lng=4.785166899999922&z=18.19373930869775&x=0.33424419690814755&y=0.6210830300804033&zoom=0&focus=photo"
+      }
+    ],
+    "statut": "rejete"
+  },
+  "way/1388102394": {
+    "panos": [
+      {
+        "mapillary_id": "1951143932362185",
+        "x": 0.4438150114146855,
+        "y": 0.5016010760391433,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1951143932362185&lat=50.94318430000001&lng=4.9507174000000305&z=17&x=0.4438150114146855&y=0.5016010760391433&zoom=0&focus=photo"
+      }
+    ],
+    "statut": "rejete"
+  },
+  "way/1148180590": {
+    "alternatives": [
+      "1600065670404622"
+    ],
+    "statut": "rejete"
+  },
+  "way/1088790264": {
+    "statut": "rejete"
+  },
+  "way/1091599905": {
+    "alternatives": [
+      "1272546170014179"
+    ],
+    "statut": "rejete"
+  },
+  "way/203500649": {
+    "statut": "rejete"
+  },
+  "way/698000087": {
+    "panos": [
+      {
+        "mapillary_id": "955922879835837",
+        "x": 0.2387346286214001,
+        "y": 0.469973214191602,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=955922879835837&lat=50.59112240000002&lng=3.858307800000034&z=18.19373930869775&focus=photo&x=0.2387346286214001&y=0.469973214191602&zoom=0"
+      }
+    ],
+    "statut": "rejete"
+  },
+  "node/12927855270": {
+    "statut": "rejete"
+  },
+  "way/982936768": {
+    "alternatives": [
+      "553142649079295"
+    ],
+    "statut": "rejete"
+  },
+  "way/1226577314": {
+    "alternatives": [
+      "833700017246537"
+    ],
+    "statut": "rejete"
+  },
+  "way/466891724": {
+    "statut": "rejete"
+  },
+  "way/591317597": {
+    "statut": "rejete"
+  },
+  "way/362062248": {
+    "alternatives": [
+      "862339497742748"
+    ],
+    "statut": "rejete"
+  },
+  "way/998704925": {
+    "alternatives": [
+      "493676271830993"
+    ],
+    "statut": "rejete"
+  },
+  "way/350661947": {
+    "statut": "rejete"
+  },
+  "way/1333516872": {
+    "statut": "rejete"
+  },
+  "way/353816488": {
+    "alternatives": [
+      "285299064168142"
+    ],
+    "statut": "rejete"
+  },
+  "way/371392946": {
+    "statut": "rejete"
+  },
+  "way/1508537728": {
+    "statut": "rejete"
+  },
+  "way/296654258": {
+    "statut": "rejete"
+  },
+  "way/1192501419": {
+    "alternatives": [
+      "1280880083302301"
+    ],
+    "statut": "rejete"
+  },
+  "way/191103004": {
+    "panos": [
+      {
+        "mapillary_id": "976882637368898",
+        "x": 0.1759337776124499,
+        "y": 0.4979909112072876,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=976882637368898&focus=photo&lat=50.77140239999997&lng=3.644683500000042&z=17.588090556425136&x=0.1759337776124499&y=0.4979909112072876&zoom=0"
+      }
+    ],
+    "statut": "rejete"
+  },
+  "way/1066518821": {
+    "panos": [
+      {
+        "mapillary_id": "439707695447656",
+        "x": 0.43323498501791613,
+        "y": 0.6618001885938709,
+        "zoom": 0,
+        "app_url": "mapillary.com/app/?pKey=439707695447656&lat=50.8340029&lng=4.39574570000002&z=19.084654241259194&focus=photo&x=0.43323498501791613&y=0.6618001885938709&zoom=0"
+      }
+    ],
+    "statut": "rejete"
+  },
+  "way/1416042818": {
+    "statut": "rejete"
+  },
+  "node/12823754746": {
+    "statut": "rejete"
+  },
+  "way/709674698": {
+    "alternatives": [
+      "2884631621759931"
+    ],
+    "statut": "rejete"
+  },
+  "way/688316701": {
+    "statut": "rejete"
+  },
+  "way/1274500296": {
+    "statut": "rejete"
+  },
+  "way/525650861": {
+    "panos": [
+      {
+        "mapillary_id": "638156688660461",
+        "x": 0.2747876479225624,
+        "y": 0.6181594295651457,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=638156688660461&lat=50.872189899999995&lng=5.125372799999923&z=19.253624625174826&focus=photo&x=0.2747876479225624&y=0.6181594295651457&zoom=0"
+      }
+    ],
+    "statut": "rejete"
+  },
+  "way/229439425": {
+    "alternatives": [
+      "1282877213334923"
+    ],
+    "statut": "rejete"
+  },
+  "way/1431528408": {
+    "alternatives": [
+      "323588015949935"
+    ],
+    "statut": "rejete"
+  },
+  "node/5796719255": {
+    "statut": "rejete"
+  },
+  "way/725461513": {
+    "alternatives": [
+      "905708273306747"
+    ],
+    "statut": "rejete"
+  },
+  "way/731884568": {
+    "statut": "accepte"
+  },
+  "way/946511404": {
+    "statut": "rejete"
+  },
+  "way/659797170": {
+    "statut": "rejete"
+  },
+  "way/1135175193": {
+    "statut": "rejete"
+  },
+  "way/1420158035": {
+    "alternatives": [
+      "280861693702728"
+    ],
+    "statut": "rejete"
+  },
+  "way/889600745": {
+    "statut": "rejete"
+  },
+  "way/689485498": {
+    "alternatives": [
+      "1559075509183363"
+    ],
+    "statut": "rejete"
+  },
+  "way/567561637": {
+    "alternatives": [
+      "394499236946696"
+    ],
+    "statut": "rejete"
+  },
+  "way/967638274": {
+    "alternatives": [
+      "236009365045405"
+    ],
+    "statut": "rejete"
+  },
+  "way/846454283": {
+    "statut": "rejete"
+  },
+  "way/1185362291": {
+    "panos": [
+      {
+        "mapillary_id": "1406541441068559",
+        "x": 0.3411521478460419,
+        "y": 0.5923003828676735,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1406541441068559&lat=50.806427799999994&lng=5.3907411999999795&z=19.253624625174826&x=0.3411521478460419&y=0.5923003828676735&zoom=0&focus=photo"
+      }
+    ],
+    "statut": "rejete"
+  },
+  "way/339727429": {
+    "statut": "rejete"
+  },
+  "way/1309281041": {
+    "statut": "rejete"
+  },
+  "way/591223203": {
+    "statut": "rejete"
+  },
+  "way/1551547104": {
+    "alternatives": [
+      "784425849284622"
+    ],
+    "statut": "rejete"
+  },
+  "way/410012078": {
+    "statut": "accepte"
+  },
+  "way/1522086502": {
+    "statut": "rejete"
+  },
+  "way/984365864": {
+    "statut": "rejete"
+  },
+  "way/1128422780": {
+    "panos": [
+      {
+        "mapillary_id": "1129918517757925",
+        "x": 0.7199101571219344,
+        "y": 0.5684301013312132,
+        "zoom": 0,
+        "app_url": "mapillary.com/app/?pKey=1129918517757925&lat=50.81176459997201&lng=3.8247664999721565&z=18.176181112850273&focus=photo&x=0.7199101571219344&y=0.5684301013312132&zoom=0"
+      }
+    ],
+    "statut": "rejete"
+  },
+  "way/855472760": {
+    "alternatives": [
+      "993009345195526"
+    ],
+    "statut": "rejete"
+  },
+  "way/925823829": {
+    "statut": "rejete"
+  },
+  "way/968847118": {
+    "statut": "rejete"
+  },
+  "way/891062796": {
+    "alternatives": [
+      "1682894788583892"
+    ],
+    "statut": "rejete"
+  },
+  "way/478586348": {
+    "alternatives": [
+      "309558317213380"
+    ],
+    "statut": "rejete"
+  },
+  "way/1299536195": {
+    "alternatives": [
+      "1793403650830727"
+    ],
+    "statut": "rejete"
+  },
+  "way/696283994": {
+    "alternatives": [
+      "566179531013341"
+    ],
+    "statut": "rejete"
+  },
+  "way/364813856": {
+    "alternatives": [
+      "330097245713440"
+    ],
+    "statut": "rejete"
+  },
+  "way/984450812": {
+    "statut": "rejete"
+  },
+  "way/1391118301": {
+    "statut": "rejete"
+  },
+  "way/1354237529": {
+    "alternatives": [
+      "379081241076900"
+    ],
+    "statut": "rejete"
+  },
+  "way/1007790352": {
+    "alternatives": [
+      "2631433847158356"
+    ],
+    "statut": "rejete"
+  },
+  "way/1378125495": {
+    "statut": "rejete"
+  },
+  "way/908356148": {
+    "statut": "rejete"
+  },
+  "node/9373875771": {
+    "alternatives": [
+      "3022377008088139"
+    ],
+    "statut": "rejete"
+  },
+  "way/1426211280": {
+    "statut": "rejete"
+  },
+  "way/1172938577": {
+    "alternatives": [
+      "811477840253700"
+    ],
+    "statut": "rejete"
+  },
+  "way/301775003": {
+    "panos": [
+      {
+        "mapillary_id": "1836889203560109",
+        "x": 0.9996512519631906,
+        "y": 0.4125938601806157,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=1836889203560109&lat=51.12320580000002&lng=4.333015700000033&z=19.9&focus=photo&x=0.9996512519631906&y=0.4125938601806157&zoom=0"
+      }
+    ],
+    "statut": "rejete"
+  },
+  "way/1219085364": {
+    "statut": "rejete"
+  },
+  "way/1054339089": {
+    "alternatives": [
+      "516984589319771"
+    ],
+    "statut": "rejete"
+  },
+  "way/1370810105": {
+    "alternatives": [
+      "504709164961270"
+    ],
+    "statut": "rejete"
+  },
+  "way/646362614": {
+    "panos": [
+      {
+        "mapillary_id": "111273082068113",
+        "x": 0.6222516442204299,
+        "y": 0.4951882699412229,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=111273082068113&lat=50.94294599999998&lng=3.064929099999972&z=19.236066429327348&focus=photo&x=0.6222516442204299&y=0.4951882699412229&zoom=0"
+      }
+    ],
+    "statut": "rejete"
+  },
+  "way/729711648": {
+    "alternatives": [
+      "181275263874933"
+    ],
+    "statut": "rejete"
+  },
+  "way/1412215072": {
+    "statut": "rejete"
+  },
+  "way/1221877382": {
+    "panos": [
+      {
+        "mapillary_id": "186996103750660",
+        "x": 0.1384186496336856,
+        "y": 0.5221244919391361,
+        "zoom": 0,
+        "app_url": "https://www.mapillary.com/app/?pKey=186996103750660&lat=50.44438209997199&lng=5.348176899999999&z=18.496563684834058&focus=photo&x=0.1384186496336856&y=0.5221244919391361&zoom=0"
+      }
+    ],
+    "statut": "rejete"
+  },
+  "way/1221261769": {
+    "statut": "rejete"
+  },
+  "way/1126781709": {
+    "alternatives": [
+      "207662634533610"
+    ],
+    "statut": "rejete"
+  },
+  "node/5780239231": {
+    "statut": "rejete"
+  },
+  "way/588422577": {
+    "alternatives": [
+      "4243728795638395"
+    ],
+    "statut": "rejete"
+  },
+  "way/405891194": {
+    "alternatives": [
+      "769974474208359"
+    ],
+    "statut": "rejete"
+  },
+  "way/607718229": {
+    "statut": "rejete"
+  },
+  "way/741837244": {
+    "statut": "rejete"
+  },
+  "node/2336244713": {
+    "statut": "accepte"
+  },
+  "way/1373675844": {
+    "alternatives": [
+      "175405524853738"
+    ],
+    "statut": "rejete"
+  },
+  "way/382864877": {
+    "statut": "rejete"
+  },
+  "way/386811589": {
+    "alternatives": [
+      "2193583374549226"
+    ],
+    "statut": "rejete"
+  },
+  "way/1055545855": {
+    "statut": "accepte"
+  },
+  "way/833196730": {
+    "statut": "rejete"
+  },
+  "way/673202944": {
+    "statut": "rejete"
+  }
+}

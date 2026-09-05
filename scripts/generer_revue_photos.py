@@ -336,6 +336,26 @@ def generer_html(cache):
     }
     .sans-candidat { color: #999; font-style: italic; padding: 10px 16px; font-size: 13px; }
     .cachee { display: none !important; }
+    .terrain-carte.decide-aucune { background: #f0f0f0; opacity: 0.6; }
+    .sans-candidat-info { flex: 1; font-size: 14px; }
+    .sans-candidat-info b { display: block; margin-bottom: 4px; }
+    .terrain-extra { flex: 1; margin-top: 6px; }
+    .terrain-deja-en-ligne {
+        font-size: 12px; color: #2e7d32; font-weight: bold; margin-bottom: 4px;
+    }
+    .terrain-alternatives, .terrain-panos { margin-top: 6px; }
+    .liste-alternatives, .liste-panos { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 4px; }
+    .chip {
+        display: inline-flex; align-items: center; gap: 4px;
+        background: #eef; border-radius: 999px; padding: 2px 4px 2px 10px; font-size: 11px;
+    }
+    .chip.chip-pano { background: #faf5fc; }
+    .chip-remove {
+        border: none; background: #ccc; color: white; border-radius: 50%;
+        width: 16px; height: 16px; line-height: 16px; text-align: center; padding: 0;
+        cursor: pointer; font-size: 11px;
+    }
+    .chip-remove:hover { background: #999; }
 </style>
 </head>
 <body>
@@ -344,44 +364,153 @@ def generer_html(cache):
     <h1>Revue des photos Mapillary</h1>
     <div id="progression" class="stats-resume"></div>
     <input type="text" id="recherche" placeholder="Filtrer par commune ou terrain...">
+    <select id="filtreCandidat">
+        <option value="tous">Avec + sans candidat</option>
+        <option value="avec_candidat">Avec candidat seulement</option>
+        <option value="sans_candidat">Sans candidat seulement</option>
+    </select>
     <select id="filtreDecision">
         <option value="tous">Tout afficher</option>
         <option value="a_decider">À décider seulement</option>
         <option value="acceptes">Acceptés seulement</option>
         <option value="rejetes">Rejetés seulement</option>
-        <option value="avec_alternative">Avec alternative notée</option>
+        <option value="aucune">Marqués "rien trouvé"</option>
+        <option value="avec_alternative">Avec plusieurs photos</option>
         <option value="avec_pano">Avec 360° repérée</option>
     </select>
     <button id="exporter">Exporter mes décisions (JSON)</button>
     <button id="importer">Importer des décisions (JSON)</button>
+    <button id="importerBaseline">Importer photos_mapillary.json actuel</button>
     <button id="telechargerPhotosMapillary">Télécharger photos_mapillary.json</button>
+    <button id="telechargerPanos">Télécharger la liste des 360° à traiter</button>
     <input type="file" id="fichierImport" accept=".json" style="display:none">
+    <input type="file" id="fichierImportBaseline" accept=".json" style="display:none">
 </header>
+
 
 <div id="conteneur"></div>
 
 <script>
 const DONNEES = """ + donnees_js + """;
 const CLE_STOCKAGE = "mapetanque_revue_photos_decisions";
+const CLE_STOCKAGE_BASELINE = "mapetanque_revue_photos_baseline";
+
+// Fichiers récupérés automatiquement au chargement (voir chargerFichiersDistants tout en bas),
+// pour ne plus avoir à cliquer "Importer…" à chaque session. Les boutons d'import manuel restent
+// disponibles (autre machine, fichier local expérimental, hors ligne…).
+//  - DECISIONS : mes décisions déjà exportées/publiées. Fusionnées SOUS le localStorage (le local
+//    reste prioritaire : une revue en cours n'est jamais écrasée par le distant).
+//  - PHOTOS_EN_LIGNE : le data/photos_mapillary.json réellement en ligne. Rafraîchit le baseline
+//    à CHAQUE chargement (le site fait foi), exactement comme le bouton "Importer
+//    photos_mapillary.json actuel" — même clé de stockage, même format.
+const URL_DECISIONS_DISTANTES = "https://mapetanque.be/scripts/decisions_photos_mapillary.json";
+const URL_PHOTOS_EN_LIGNE = "https://mapetanque.be/data/photos_mapillary.json";
 
 function chargerDecisions() {
+    let decisions;
     try {
-        return JSON.parse(localStorage.getItem(CLE_STOCKAGE)) || {};
+        decisions = JSON.parse(localStorage.getItem(CLE_STOCKAGE)) || {};
     } catch (e) {
         return {};
     }
+
+    // Migration depuis l'ancien format (une ancienne version de l'outil stockait UNE alternative
+    // et UN pano comme simples chaînes de caractères, sans compter la 360° comme une liste). Sans
+    // ça, ces anciennes décisions restaient dans le fichier mais devenaient invisibles dans le
+    // nouvel outil (rien à afficher dans les listes à puces, qui ne lisent que les tableaux) —
+    // c'est ce qui donnait l'impression que la décision et l'URL de la photo avaient disparu.
+    let migrationEffectuee = false;
+    Object.keys(decisions).forEach(cle => {
+        const d = decisions[cle];
+        if (d.alternative) {
+            // extraireIdMapillary() nettoie ici pour la même raison qu'à la saisie normale
+            // (champAlternative plus bas) : l'ancien outil stockait parfois l'URL complète
+            // collée telle quelle dans ce champ, sans en extraire l'identifiant numérique —
+            // sans ce nettoyage à la migration, ces URLs brutes se retrouvaient telles quelles
+            // dans data/photos_mapillary.json au téléchargement (miniatures noires, liens 404).
+            const idPropre = extraireIdMapillary(d.alternative);
+            if (!d.alternatives || !d.alternatives.includes(idPropre)) {
+                d.alternatives = [...(d.alternatives || []), idPropre];
+            }
+            delete d.alternative;
+            migrationEffectuee = true;
+        }
+        if (d.alternatives && d.alternatives.length) {
+            // Même nettoyage pour les tableaux déjà migrés lors d'une session précédente (avant
+            // ce correctif) — sinon une fois migrées, ces valeurs brutes n'étaient plus jamais
+            // repassées par extraireIdMapillary lors des chargements suivants.
+            const nettoyees = d.alternatives.map(extraireIdMapillary);
+            if (JSON.stringify(nettoyees) !== JSON.stringify(d.alternatives)) {
+                d.alternatives = [...new Set(nettoyees)];
+                migrationEffectuee = true;
+            }
+        }
+        if (d.pano && typeof d.pano === 'string') {
+            const parse = analyserUrl360(d.pano);
+            if (parse) {
+                if (!d.panos || !d.panos.some(p => p.mapillary_id === parse.mapillary_id)) {
+                    d.panos = [...(d.panos || []), parse];
+                }
+                delete d.pano;
+                migrationEffectuee = true;
+            }
+            // Si le texte n'a pas pu être compris comme une URL/ID Mapillary (c'était un simple
+            // pense-bête texte libre dans l'ancien outil), on NE LE SUPPRIME PAS — il reste tel
+            // quel dans les données (juste ignoré à l'affichage) plutôt que d'être perdu.
+        }
+
+        // Correction rétroactive pour les décisions prises AVANT la règle "ajouter une photo
+        // manuelle rejette automatiquement le candidat" (voir champAlternative plus bas) — sans
+        // ça, un terrain comme Plaats (candidat accepté + alternative ajoutée sous l'ancien
+        // comportement) restait affiché avec les deux actifs à la fois.
+        if (d.statut === 'accepte' && d.alternatives && d.alternatives.length > 0) {
+            d.statut = 'rejete';
+            migrationEffectuee = true;
+        }
+    });
+
+    if (migrationEffectuee) {
+        localStorage.setItem(CLE_STOCKAGE, JSON.stringify(decisions));
+    }
+
+    return decisions;
 }
 
-// Chaque décision est un objet { statut: 'accepte'|'rejete'|undefined, alternative: '...' }
-// plutôt qu'une simple chaîne, pour pouvoir noter une photo alternative indépendamment du
-// statut accepté/rejeté (ex. rejeter la proposition ET indiquer ce qui serait mieux).
+// Le "baseline" est une copie de data/photos_mapillary.json tel qu'il est actuellement en ligne
+// (importée à la main via le bouton "Importer photos_mapillary.json actuel" — voir plus bas), pas
+// régénérée automatiquement. Sert de point de départ pour la fusion au téléchargement final, afin
+// de ne jamais écraser une entrée déjà en ligne (photo ajoutée par un usager comprise) et pour
+// afficher "déjà en ligne" sur les terrains concernés pendant la revue.
+function chargerBaseline() {
+    try {
+        return JSON.parse(localStorage.getItem(CLE_STOCKAGE_BASELINE)) || null;
+    } catch (e) {
+        return null;
+    }
+}
+
+// Chaque décision est un objet :
+//   statut: 'accepte' | 'rejete' | 'aucune' | undefined
+//     — porte sur le CANDIDAT PAR DÉFAUT proposé automatiquement (accepté/rejeté), ou 'aucune'
+//       pour un terrain SANS candidat qu'on a vérifié à la main et où on n'a rien trouvé (sert
+//       juste au suivi de progression, pas de conséquence sur le fichier téléchargé).
+//   alternatives: ['id_ou_lien', ...]
+//     — photos plates (non-360°) trouvées à la main, en PLUS du candidat par défaut. Un terrain
+//       sans candidat automatique peut aussi avoir des alternatives (c'est même le seul moyen de
+//       lui donner une photo).
+//   panos: [{ mapillary_id, x, y, zoom, app_url }, ...]
+//     — candidats 360° repérés (URL app.mapillary.com collée), à traiter plus tard via
+//       generer_miniature_360.py — jamais inclus dans photos_mapillary.json directement.
 function mettreAJourDecision(cleTerrain, correctifs) {
     const decisions = chargerDecisions();
     const actuel = decisions[cleTerrain] || {};
     const nouveau = { ...actuel, ...correctifs };
 
-    // Nettoie l'entrée entièrement si elle ne contient plus rien d'utile
-    if (!nouveau.statut && !nouveau.alternative && !nouveau.pano) {
+    const vide = !nouveau.statut &&
+        (!nouveau.alternatives || nouveau.alternatives.length === 0) &&
+        (!nouveau.panos || nouveau.panos.length === 0);
+
+    if (vide) {
         delete decisions[cleTerrain];
     } else {
         decisions[cleTerrain] = nouveau;
@@ -401,126 +530,275 @@ function cleDe(terrain) {
     return terrain.osm_id;
 }
 
+// Nombre total de photos qui seront effectivement associées à ce terrain une fois téléchargées
+// (candidat par défaut, s'il est encore accepté, + toutes les alternatives). Sert de définition
+// unique à "Acceptés"/"Rejetés"/"Avec plusieurs photos" ci-dessous, pour que compteurs, filtres et
+// téléchargement final soient toujours d'accord entre eux.
+function compterPhotos(decision) {
+    const candidatCompte = decision.statut === 'accepte' ? 1 : 0;
+    return candidatCompte + (decision.alternatives ? decision.alternatives.length : 0);
+}
+
 function mettreAJourProgression() {
     const decisions = chargerDecisions();
+    const baseline = chargerBaseline();
+
+    // Le compteur ne porte que sur le sous-ensemble actuellement sélectionné via le filtre
+    // "Avec/sans candidat" — sinon "à décider" reste toujours calculé sur TOUS les terrains,
+    // même quand on a volontairement isolé "avec candidat" pour s'y concentrer.
+    const selectFiltreCandidat = document.getElementById('filtreCandidat');
+    const filtreCandidat = selectFiltreCandidat ? selectFiltreCandidat.value : 'tous';
 
     let totalTerrains = 0, avecCandidat = 0, sansCandidat = 0;
-    let acceptes = 0, rejetes = 0, avecAlternative = 0, avecPano = 0;
+    let acceptes = 0, rejetes = 0, aucune = 0, avecAlternative = 0, avecPano = 0, dejaEnLigne = 0;
 
     DONNEES.forEach(groupe => groupe.terrains.forEach(t => {
+        const aUnCandidat = !!t.candidat;
+        if (filtreCandidat === 'avec_candidat' && !aUnCandidat) return;
+        if (filtreCandidat === 'sans_candidat' && aUnCandidat) return;
+
         totalTerrains++;
-        if (!t.candidat) {
-            sansCandidat++;
-            return;
-        }
-        avecCandidat++;
+        if (aUnCandidat) avecCandidat++; else sansCandidat++;
+
         const d = decisions[cleDe(t)] || {};
-        if (d.statut === 'accepte') acceptes++;
-        if (d.statut === 'rejete') rejetes++;
-        if (d.alternative) avecAlternative++;
-        if (d.pano) avecPano++;
+        const nbPhotos = compterPhotos(d);
+        if (nbPhotos >= 1) acceptes++;
+        if (d.statut === 'rejete' && nbPhotos === 0) rejetes++;
+        if (d.statut === 'aucune') aucune++;
+        if (nbPhotos >= 2) avecAlternative++;
+        if (d.panos && d.panos.length) avecPano++;
+        if (baseline && baseline[cleDe(t)] && baseline[cleDe(t)].length) dejaEnLigne++;
     }));
 
-    const aDecider = avecCandidat - acceptes - rejetes;
+    const aDecider = totalTerrains - acceptes - rejetes - aucune;
 
     document.getElementById('progression').innerHTML = `
         <span class="stat-chip">Terrains : <b>${totalTerrains}</b></span>
-        <span class="stat-chip">Avec photo candidate : <b>${avecCandidat}</b></span>
-        <span class="stat-chip">Sans photo à proximité : <b>${sansCandidat}</b></span>
+        <span class="stat-chip">Avec candidat : <b>${avecCandidat}</b></span>
+        <span class="stat-chip">Sans candidat : <b>${sansCandidat}</b></span>
         <span class="stat-chip">À décider : <b>${aDecider}</b></span>
-        <span class="stat-chip accepte">Acceptés : <b>${acceptes}</b></span>
-        <span class="stat-chip rejete">Rejetés : <b>${rejetes}</b></span>
-        <span class="stat-chip">Avec alternative : <b>${avecAlternative}</b></span>
+        <span class="stat-chip accepte">Acceptés (≥1 photo) : <b>${acceptes}</b></span>
+        <span class="stat-chip rejete">Rejetés (0 photo) : <b>${rejetes}</b></span>
+        <span class="stat-chip">Rien trouvé : <b>${aucune}</b></span>
+        <span class="stat-chip">Avec plusieurs photos : <b>${avecAlternative}</b></span>
         <span class="stat-chip">Avec 360° repérée : <b>${avecPano}</b></span>
+        ${baseline
+            ? `<span class="stat-chip accepte">Déjà en ligne : <b>${dejaEnLigne}</b></span>`
+            : `<span class="stat-chip rejete">photos_mapillary.json actuel non importé</span>`}
     `;
 }
 
+// Extrait un ID Mapillary (suite de chiffres) depuis un texte libre — accepte aussi bien un ID
+// brut collé tel quel qu'un lien complet (mapillary.com/map/im/ID) copié depuis la barre d'adresse.
+function extraireIdMapillary(texte) {
+    const correspondance = texte.match(/(\d{10,})/);
+    return correspondance ? correspondance[1] : texte.trim();
+}
+
+// Extrait mapillary_id + x/y/zoom depuis une URL app.mapillary.com collée (voir
+// generer_miniature_360.py pour la suite du traitement de ces candidats 360°).
+function analyserUrl360(texte) {
+    const idMatch = texte.match(/pKey=(\d+)/) || texte.match(/(\d{10,})/);
+    if (!idMatch) return null;
+    const xMatch = texte.match(/[?&]x=([0-9.]+)/);
+    const yMatch = texte.match(/[?&]y=([0-9.]+)/);
+    const zoomMatch = texte.match(/[?&]zoom=([0-9.]+)/);
+    return {
+        mapillary_id: idMatch[1],
+        x: xMatch ? parseFloat(xMatch[1]) : null,
+        y: yMatch ? parseFloat(yMatch[1]) : null,
+        zoom: zoomMatch ? parseFloat(zoomMatch[1]) : null,
+        app_url: texte.trim(),
+    };
+}
+
+function rendreChip(texte, onRemove, classeSupp) {
+    const chip = document.createElement('span');
+    chip.className = 'chip' + (classeSupp ? ' ' + classeSupp : '');
+    const span = document.createElement('span');
+    span.textContent = texte;
+    chip.appendChild(span);
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'chip-remove';
+    btn.textContent = '×';
+    btn.title = 'Retirer';
+    btn.addEventListener('click', onRemove);
+    chip.appendChild(btn);
+    return chip;
+}
+
 function construireCarte(terrain) {
-    const decisions = chargerDecisions();
+    const baseline = chargerBaseline();
     const cle = cleDe(terrain);
-    const decision = decisions[cle] || {};
-
-    if (!terrain.candidat) {
-        const div = document.createElement('div');
-        div.className = 'sans-candidat';
-        div.textContent = terrain.nom + " — aucun candidat trouvé";
-        return div;
-    }
-
     const c = terrain.candidat;
+
     const div = document.createElement('div');
-    div.className = 'terrain-carte' + (decision.statut === 'accepte' ? ' decide-accepte' : decision.statut === 'rejete' ? ' decide-rejete' : '');
     div.dataset.cle = cle;
     div.dataset.recherche = (terrain.commune + ' ' + terrain.nom).toLowerCase();
+    div.dataset.avecCandidat = c ? '1' : '0';
 
-    div.innerHTML = `
+    const blocCandidat = c ? `
         <a href="${c.lien}" target="_blank"><img src="${c.thumbnail}" loading="lazy"></a>
         <div class="terrain-info">
             <b>${terrain.nom}</b>
             <div class="terrain-meta">${terrain.commune} — score ${c.score} — ${c.distance_m} m — écart angle ${c.ecart_angle_deg}° — ${formaterDate(c.captured_at)}</div>
             <div class="terrain-actions">
-                <button class="btn-accepter">Accepter</button>
-                <button class="btn-rejeter">Rejeter</button>
+                <button class="btn-accepter">Accepter le candidat</button>
+                <button class="btn-rejeter">Rejeter le candidat</button>
                 <a href="${c.lien}" target="_blank"><button type="button">Voir sur Mapillary</button></a>
                 <a href="https://www.openstreetmap.org/edit#map=20/${terrain.lat}/${terrain.lon}" target="_blank"><button type="button">Localiser sur OSM</button></a>
             </div>
-            <div class="terrain-alternative">
-                <input type="text" class="champ-alternative" autocomplete="off" placeholder="Meilleure photo trouvée sur Mapillary ? Colle son lien ou son ID ici" value="${decision.alternative || ''}">
+            <div class="terrain-extra"></div>
+        </div>
+    ` : `
+        <div class="sans-candidat-info">
+            <b>${terrain.nom}</b>
+            <div class="terrain-meta">${terrain.commune} — aucun candidat automatique trouvé à proximité</div>
+            <div class="terrain-actions">
+                <button class="btn-aucune">Marquer "rien trouvé"</button>
+                <a href="https://www.mapillary.com/app/?lat=${terrain.lat}&lng=${terrain.lon}&z=19" target="_blank"><button type="button">Explorer sur Mapillary</button></a>
+                <a href="https://www.openstreetmap.org/edit#map=20/${terrain.lat}/${terrain.lon}" target="_blank"><button type="button">Localiser sur OSM</button></a>
             </div>
-            <div class="terrain-pano">
-                <input type="text" class="champ-pano" autocomplete="off" placeholder="Une 360° qui conviendrait bien ? Note-la ici pour plus tard (pas encore affichable sur le site)" value="${decision.pano || ''}">
-            </div>
+            <div class="terrain-extra"></div>
         </div>
     `;
 
-    const btnAccepter = div.querySelector('.btn-accepter');
-    const btnRejeter = div.querySelector('.btn-rejeter');
-    const champAlternative = div.querySelector('.champ-alternative');
-    const champPano = div.querySelector('.champ-pano');
+    div.innerHTML = blocCandidat;
 
-    function rafraichirBoutons() {
-        const d = chargerDecisions()[cle] || {};
-        btnAccepter.className = 'btn-accepter' + (d.statut === 'accepte' ? ' actif-accepte' : '');
-        btnRejeter.className = 'btn-rejeter' + (d.statut === 'rejete' ? ' actif-rejete' : '');
-        div.className = 'terrain-carte' + (d.statut === 'accepte' ? ' decide-accepte' : d.statut === 'rejete' ? ' decide-rejete' : '');
+    const zoneExtra = div.querySelector('.terrain-extra');
+    zoneExtra.innerHTML = `
+        <div class="terrain-deja-en-ligne" style="display:none"></div>
+        <div class="terrain-alternatives">
+            <div class="liste-alternatives"></div>
+            <input type="text" class="champ-alternative" autocomplete="off"
+                   placeholder="+ Photo trouvée à la main (lien ou ID Mapillary), Entrée pour valider">
+        </div>
+        <div class="terrain-panos">
+            <div class="liste-panos"></div>
+            <input type="text" class="champ-pano" autocomplete="off"
+                   placeholder="+ 360° repérée (colle l'URL complète de l'app Mapillary), Entrée pour valider">
+        </div>
+    `;
+
+    const zoneDejaEnLigne = zoneExtra.querySelector('.terrain-deja-en-ligne');
+    if (baseline && baseline[cle] && baseline[cle].length) {
+        zoneDejaEnLigne.style.display = '';
+        zoneDejaEnLigne.textContent = '✓ ' + baseline[cle].length + ' photo(s) déjà en ligne pour ce terrain';
     }
 
-    btnAccepter.addEventListener('click', () => {
-        const actuel = chargerDecisions()[cle] || {};
-        mettreAJourDecision(cle, { statut: actuel.statut === 'accepte' ? undefined : 'accepte' });
-        rafraichirBoutons();
-        appliquerFiltres();
-    });
-    btnRejeter.addEventListener('click', () => {
-        const actuel = chargerDecisions()[cle] || {};
-        mettreAJourDecision(cle, { statut: actuel.statut === 'rejete' ? undefined : 'rejete' });
-        rafraichirBoutons();
-        appliquerFiltres();
-    });
-    // Noter une alternative vaut décision : pas besoin de cliquer Accepter en plus. Si le
-    // terrain avait été explicitement rejeté, on ne force pas le passage à "accepté" (le rejet
-    // explicite reste prioritaire) — mais taper une alternative sur un terrain pas encore décidé,
-    // ou déjà accepté, le marque/maintient comme accepté.
-    champAlternative.addEventListener('input', () => {
-        const actuel = chargerDecisions()[cle] || {};
-        const alternative = champAlternative.value.trim() || undefined;
-        const correctifs = { alternative };
-        if (alternative && actuel.statut !== 'rejete') {
-            correctifs.statut = 'accepte';
+    const listeAlternatives = zoneExtra.querySelector('.liste-alternatives');
+    const champAlternative = zoneExtra.querySelector('.champ-alternative');
+    const listePanos = zoneExtra.querySelector('.liste-panos');
+    const champPano = zoneExtra.querySelector('.champ-pano');
+
+    let btnAccepter = null, btnRejeter = null, btnAucune = null;
+    if (c) {
+        btnAccepter = div.querySelector('.btn-accepter');
+        btnRejeter = div.querySelector('.btn-rejeter');
+    } else {
+        btnAucune = div.querySelector('.btn-aucune');
+    }
+
+    function rafraichir() {
+        const d = chargerDecisions()[cle] || {};
+
+        if (btnAccepter) {
+            btnAccepter.className = 'btn-accepter' + (d.statut === 'accepte' ? ' actif-accepte' : '');
+            btnRejeter.className = 'btn-rejeter' + (d.statut === 'rejete' ? ' actif-rejete' : '');
         }
+        if (btnAucune) {
+            btnAucune.className = 'btn-aucune' + (d.statut === 'aucune' ? ' actif-rejete' : '');
+        }
+        div.className = 'terrain-carte' +
+            (d.statut === 'accepte' ? ' decide-accepte' :
+             d.statut === 'rejete' ? ' decide-rejete' :
+             d.statut === 'aucune' ? ' decide-aucune' : '');
+
+        listeAlternatives.innerHTML = '';
+        (d.alternatives || []).forEach((alt, index) => {
+            listeAlternatives.appendChild(rendreChip(alt, () => {
+                const actuel = chargerDecisions()[cle] || {};
+                const alternatives = (actuel.alternatives || []).filter((_, i) => i !== index);
+                mettreAJourDecision(cle, { alternatives });
+                rafraichir();
+                appliquerFiltres();
+            }));
+        });
+
+        listePanos.innerHTML = '';
+        (d.panos || []).forEach((pano, index) => {
+            listePanos.appendChild(rendreChip('360° : ' + pano.mapillary_id, () => {
+                const actuel = chargerDecisions()[cle] || {};
+                const panos = (actuel.panos || []).filter((_, i) => i !== index);
+                mettreAJourDecision(cle, { panos });
+                rafraichir();
+                appliquerFiltres();
+            }, 'chip-pano'));
+        });
+    }
+
+    if (btnAccepter) {
+        btnAccepter.addEventListener('click', () => {
+            const actuel = chargerDecisions()[cle] || {};
+            mettreAJourDecision(cle, { statut: actuel.statut === 'accepte' ? undefined : 'accepte' });
+            rafraichir();
+            appliquerFiltres();
+        });
+        btnRejeter.addEventListener('click', () => {
+            const actuel = chargerDecisions()[cle] || {};
+            mettreAJourDecision(cle, { statut: actuel.statut === 'rejete' ? undefined : 'rejete' });
+            rafraichir();
+            appliquerFiltres();
+        });
+    }
+    if (btnAucune) {
+        btnAucune.addEventListener('click', () => {
+            const actuel = chargerDecisions()[cle] || {};
+            mettreAJourDecision(cle, { statut: actuel.statut === 'aucune' ? undefined : 'aucune' });
+            rafraichir();
+            appliquerFiltres();
+        });
+    }
+
+    champAlternative.addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter') return;
+        const valeur = champAlternative.value.trim();
+        if (!valeur) return;
+        const id = extraireIdMapillary(valeur);
+        const actuel = chargerDecisions()[cle] || {};
+        const alternatives = [...(actuel.alternatives || []), id];
+        // Réflexe "je propose autre chose à la place" : ajouter une photo manuelle rejette
+        // systématiquement le candidat par défaut (peu importe s'il était déjà accepté, encore
+        // à décider, ou déjà rejeté) — sinon le bouton restait dans un état ambigu (ni vert ni
+        // rouge) sur les terrains jamais explicitement traités avant. Si tu veux vraiment garder
+        // les deux, reclique sur "Accepter le candidat" après coup — ça n'affecte pas les
+        // alternatives déjà ajoutées.
+        const correctifs = { alternatives, statut: 'rejete' };
         mettreAJourDecision(cle, correctifs);
-        rafraichirBoutons();
-        appliquerFiltres();
-    });
-    // Simple pense-bête, sans incidence sur le statut accepté/rejeté ni sur l'export
-    // photos_mapillary.json (pas encore affichable sur le site — voir CSS .terrain-pano) :
-    // juste conservé pour retrouver facilement ces terrains le jour où les 360° seront gérées.
-    champPano.addEventListener('input', () => {
-        mettreAJourDecision(cle, { pano: champPano.value.trim() || undefined });
+        champAlternative.value = '';
+        rafraichir();
         appliquerFiltres();
     });
 
-    rafraichirBoutons();
+    champPano.addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter') return;
+        const valeur = champPano.value.trim();
+        if (!valeur) return;
+        const parse = analyserUrl360(valeur);
+        if (!parse) {
+            alert("Impossible d'y trouver un identifiant Mapillary (ID à 10 chiffres ou plus, ou paramètre pKey= dans l'URL).");
+            return;
+        }
+        const actuel = chargerDecisions()[cle] || {};
+        const panos = [...(actuel.panos || []), parse];
+        mettreAJourDecision(cle, { panos });
+        champPano.value = '';
+        rafraichir();
+        appliquerFiltres();
+    });
+
+    rafraichir();
     return div;
 }
 
@@ -554,24 +832,36 @@ function construirePage() {
 function appliquerFiltres() {
     const recherche = document.getElementById('recherche').value.toLowerCase();
     const filtreDecision = document.getElementById('filtreDecision').value;
+    const filtreCandidat = document.getElementById('filtreCandidat').value;
     const decisions = chargerDecisions();
 
     document.querySelectorAll('.terrain-carte').forEach(carte => {
         const correspondRecherche = !recherche || carte.dataset.recherche.includes(recherche);
         const decision = decisions[carte.dataset.cle] || {};
-        let correspondDecision = true;
-        if (filtreDecision === 'a_decider') correspondDecision = !decision.statut;
-        if (filtreDecision === 'acceptes') correspondDecision = decision.statut === 'accepte';
-        if (filtreDecision === 'rejetes') correspondDecision = decision.statut === 'rejete';
-        if (filtreDecision === 'avec_alternative') correspondDecision = !!decision.alternative;
-        if (filtreDecision === 'avec_pano') correspondDecision = !!decision.pano;
 
-        carte.classList.toggle('cachee', !(correspondRecherche && correspondDecision));
+        let correspondDecision = true;
+        const nbPhotos = compterPhotos(decision);
+        if (filtreDecision === 'a_decider') correspondDecision = !decision.statut && nbPhotos === 0;
+        if (filtreDecision === 'acceptes') correspondDecision = nbPhotos >= 1;
+        if (filtreDecision === 'rejetes') correspondDecision = decision.statut === 'rejete' && nbPhotos === 0;
+        if (filtreDecision === 'aucune') correspondDecision = decision.statut === 'aucune';
+        if (filtreDecision === 'avec_alternative') correspondDecision = nbPhotos >= 2;
+        if (filtreDecision === 'avec_pano') correspondDecision = !!(decision.panos && decision.panos.length);
+
+        let correspondCandidat = true;
+        if (filtreCandidat === 'avec_candidat') correspondCandidat = carte.dataset.avecCandidat === '1';
+        if (filtreCandidat === 'sans_candidat') correspondCandidat = carte.dataset.avecCandidat === '0';
+
+        carte.classList.toggle('cachee', !(correspondRecherche && correspondDecision && correspondCandidat));
     });
 }
 
 document.getElementById('recherche').addEventListener('input', appliquerFiltres);
 document.getElementById('filtreDecision').addEventListener('change', appliquerFiltres);
+document.getElementById('filtreCandidat').addEventListener('change', () => {
+    appliquerFiltres();
+    mettreAJourProgression();
+});
 
 document.getElementById('exporter').addEventListener('click', () => {
     const decisions = chargerDecisions();
@@ -583,44 +873,58 @@ document.getElementById('exporter').addEventListener('click', () => {
     a.click();
 });
 
-// Extrait un ID Mapillary (suite de chiffres) depuis un texte libre — accepte aussi bien un ID
-// brut collé tel quel qu'un lien complet (mapillary.com/map/im/ID) copié depuis la barre d'adresse.
-function extraireIdMapillary(texte) {
-    const correspondance = texte.match(/(\\d{10,})/);
-    return correspondance ? correspondance[1] : texte;
-}
-
-// Construit et télécharge data/photos_mapillary.json directement au format attendu par le site
-// (voir scripts/update_terrains.py) : uniquement les terrains ACCEPTÉS, avec l'ID de l'alternative
-// notée si elle existe, sinon celui du candidat proposé par défaut. Prêt à déposer tel quel dans
-// data/ puis à committer — aucune étape OSM nécessaire dans ce flux.
+// Construit et télécharge data/photos_mapillary.json prêt à déposer tel quel dans data/ puis à
+// committer. Fusionne (n'écrase JAMAIS) avec le baseline importé (voir "Importer
+// photos_mapillary.json actuel" plus bas) : toute entrée déjà présente dans le baseline — photo
+// usager ajoutée à la main comprise — reste intacte, on ne fait qu'AJOUTER les candidats/
+// alternatives acceptés dans cette session, sans doublon (dédoublonnage par mapillary_id). Les
+// 360° repérées (panos) ne sont jamais incluses ici — voir le bouton séparé
+// "Télécharger la liste des 360° à traiter".
 document.getElementById('telechargerPhotosMapillary').addEventListener('click', () => {
+    const baseline = chargerBaseline();
+    if (!baseline) {
+        const continuer = confirm(
+            "Aucun photos_mapillary.json actuel n'a été importé — le fichier téléchargé ne " +
+            "contiendra QUE les décisions prises dans cette session, sans fusion avec ce qui est " +
+            "déjà en ligne (risque d'écraser des photos existantes en le déposant tel quel). " +
+            "Continuer quand même ?"
+        );
+        if (!continuer) return;
+    }
+
     const decisions = chargerDecisions();
-    const photosMapillary = {};
+    const photosMapillary = baseline ? JSON.parse(JSON.stringify(baseline)) : {};
+
+    function ajouterPhoto(cle, id) {
+        if (!photosMapillary[cle]) photosMapillary[cle] = [];
+        const dejaPresent = photosMapillary[cle].some(p => p.mapillary_id === id);
+        if (!dejaPresent) {
+            photosMapillary[cle].push({
+                mapillary_id: id,
+                credit_url: `https://www.mapillary.com/map/im/${id}`,
+            });
+        }
+    }
+
+    let nombreAjoutees = 0;
 
     DONNEES.forEach(groupe => groupe.terrains.forEach(terrain => {
-        if (!terrain.candidat) return;
         const cle = cleDe(terrain);
         const decision = decisions[cle];
-        if (!decision || decision.statut !== 'accepte') return;
+        if (!decision) return;
 
-        const idMapillary = decision.alternative
-            ? extraireIdMapillary(decision.alternative)
-            : terrain.candidat.id;
+        const avantLongueur = (photosMapillary[cle] || []).length;
 
-        // Liste (pas un objet unique) : ce fichier n'est aujourd'hui alimenté que par cet outil
-        // (donc toujours 1 seule photo par terrain à ce stade), mais garde le même format que
-        // celui utilisé par club/ajouter_photo_manuelle.py pour les ajouts ponctuels ultérieurs
-        // (plusieurs photos possibles par terrain avec le temps, via le futur formulaire).
-        photosMapillary[cle] = [{
-            mapillary_id: idMapillary,
-            credit_url: `https://www.mapillary.com/map/im/${idMapillary}`,
-        }];
+        if (decision.statut === 'accepte' && terrain.candidat) {
+            ajouterPhoto(cle, terrain.candidat.id);
+        }
+        (decision.alternatives || []).forEach(id => ajouterPhoto(cle, id));
+
+        nombreAjoutees += (photosMapillary[cle] || []).length - avantLongueur;
     }));
 
-    const nombre = Object.keys(photosMapillary).length;
-    if (nombre === 0) {
-        alert("Aucun terrain accepté pour l'instant — accepte au moins une photo avant de télécharger.");
+    if (nombreAjoutees === 0 && !baseline) {
+        alert("Aucun terrain accepté ni aucune photo supplémentaire pour l'instant — rien à télécharger.");
         return;
     }
 
@@ -631,13 +935,48 @@ document.getElementById('telechargerPhotosMapillary').addEventListener('click', 
     a.download = 'photos_mapillary.json';
     a.click();
 
-    alert(nombre + " terrain(s) accepté(s) inclus dans le fichier téléchargé.");
+    alert(nombreAjoutees + " nouvelle(s) photo(s) ajoutée(s)" +
+        (baseline ? " par-dessus le photos_mapillary.json actuel." : "."));
 });
 
-// Import : fusionne le fichier choisi avec les décisions déjà présentes sur CETTE machine
-// (les clés du fichier importé écrasent celles en commun, mais rien n'est perdu de ce qui
-// n'est présent que localement) — utile pour rapporter les décisions prises sur une autre
-// machine, vu que le stockage est propre à chaque navigateur (voir localStorage plus haut).
+// Liste séparée des candidats 360° repérés (jamais mélangés à photos_mapillary.json) — à traiter
+// ensuite un par un avec generer_miniature_360.py.
+document.getElementById('telechargerPanos').addEventListener('click', () => {
+    const decisions = chargerDecisions();
+    const liste = [];
+
+    DONNEES.forEach(groupe => groupe.terrains.forEach(terrain => {
+        const decision = decisions[cleDe(terrain)];
+        if (!decision || !decision.panos || !decision.panos.length) return;
+        decision.panos.forEach(pano => {
+            liste.push({
+                osm_id: cleDe(terrain),
+                nom: terrain.nom,
+                commune: terrain.commune,
+                ...pano,
+            });
+        });
+    }));
+
+    if (liste.length === 0) {
+        alert("Aucune 360° repérée pour l'instant.");
+        return;
+    }
+
+    const blob = new Blob([JSON.stringify(liste, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'candidats_360.json';
+    a.click();
+
+    alert(liste.length + " candidat(s) 360° dans le fichier téléchargé.");
+});
+
+// Import des décisions : fusionne le fichier choisi avec les décisions déjà présentes sur CETTE
+// machine (les clés du fichier importé écrasent celles en commun, mais rien n'est perdu de ce qui
+// n'est présent que localement) — utile pour rapporter les décisions prises sur une autre machine,
+// vu que le stockage est propre à chaque navigateur (voir localStorage plus haut).
 document.getElementById('importer').addEventListener('click', () => {
     document.getElementById('fichierImport').click();
 });
@@ -664,12 +1003,76 @@ document.getElementById('fichierImport').addEventListener('change', (evenement) 
         location.reload();
     };
     lecteur.readAsText(fichier);
-
-    // Réinitialise le champ pour pouvoir réimporter le même fichier plus tard si besoin
     evenement.target.value = '';
 });
 
-construirePage();
+// Import du photos_mapillary.json actuellement en ligne — remplace le baseline stocké localement
+// (pas une fusion : ce fichier doit refléter fidèlement l'état réel du site à un instant donné,
+// donc on part de zéro à chaque import plutôt que d'accumuler d'anciennes versions).
+document.getElementById('importerBaseline').addEventListener('click', () => {
+    document.getElementById('fichierImportBaseline').click();
+});
+
+document.getElementById('fichierImportBaseline').addEventListener('change', (evenement) => {
+    const fichier = evenement.target.files[0];
+    if (!fichier) return;
+
+    const lecteur = new FileReader();
+    lecteur.onload = () => {
+        let importe;
+        try {
+            importe = JSON.parse(lecteur.result);
+        } catch (e) {
+            alert("Fichier invalide : ce n'est pas un JSON lisible.");
+            return;
+        }
+
+        localStorage.setItem(CLE_STOCKAGE_BASELINE, JSON.stringify(importe));
+        alert(Object.keys(importe).length + " terrain(s) avec photo dans le photos_mapillary.json importé.");
+        location.reload();
+    };
+    lecteur.readAsText(fichier);
+    evenement.target.value = '';
+});
+
+// Récupère les deux fichiers du site avant de construire la page. Tolérant à l'échec : si une URL
+// est injoignable (hors ligne, ouverture en local file://, fichier pas encore publié…), l'outil se
+// rabat sur le localStorage existant et reste pleinement utilisable — les boutons Importer manuels
+// continuent de fonctionner comme avant.
+async function recupererJson(url) {
+    try {
+        const reponse = await fetch(url, { cache: "no-store" });
+        if (!reponse.ok) return null;
+        return await reponse.json();
+    } catch (e) {
+        return null;
+    }
+}
+
+async function chargerFichiersDistants() {
+    const [decisionsDistantes, photosEnLigne] = await Promise.all([
+        recupererJson(URL_DECISIONS_DISTANTES),
+        recupererJson(URL_PHOTOS_EN_LIGNE),
+    ]);
+
+    // Baseline : rafraîchi systématiquement depuis le site (remplacement, pas fusion — comme le
+    // bouton d'import manuel). Reflète toujours l'état réel en ligne à ce chargement.
+    if (photosEnLigne && typeof photosEnLigne === "object") {
+        localStorage.setItem(CLE_STOCKAGE_BASELINE, JSON.stringify(photosEnLigne));
+    }
+
+    // Décisions distantes : fusionnées SOUS le localStorage (le local, donc une revue en cours,
+    // reste prioritaire — le distant ne comble que les terrains sans décision locale). Même
+    // logique que l'import manuel, mais dans l'ordre inverse pour ne jamais écraser le local.
+    if (decisionsDistantes && typeof decisionsDistantes === "object") {
+        const locales = chargerDecisions();
+        const fusionnees = { ...decisionsDistantes, ...locales };
+        localStorage.setItem(CLE_STOCKAGE, JSON.stringify(fusionnees));
+    }
+}
+
+// Point d'entrée : on tente le chargement distant, puis on construit la page dans tous les cas.
+chargerFichiersDistants().finally(construirePage);
 </script>
 
 </body>

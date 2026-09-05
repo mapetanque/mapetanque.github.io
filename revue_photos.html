@@ -87,6 +87,21 @@
 const DONNEES = [{"commune": "Gent", "terrains": [{"osm_id": "way/89718131", "nom": "Terrain (51.04157, 3.69125)", "commune": "Gent", "lat": 51.0415745, "lon": 3.6912481, "candidat": null}, {"osm_id": "way/89718137", "nom": "Terrain (51.04164, 3.69143)", "commune": "Gent", "lat": 51.041641, "lon": 3.6914301, "candidat": null}, {"osm_id": "way/717715134", "nom": "Absdalestraat", "commune": "Gent", "lat": 51.0997217, "lon": 3.7808477, "candidat": null}, {"osm_id": "way/1021764493", "nom": "Acaciastraat", "commune": "Gent", "lat": 51.0609925, "lon": 3.6993684, "candidat": null}, {"osm_id": "way/846209451", "nom": "Adolf Lootensstraat", "commune": "Gent", "lat": 51.0528647, "lon": 3.6146467, "candidat": null}, {"osm_id": "way/536740351", "nom": "Afsneedorp", "commune": "Gent", "lat": 51.0311811, "lon": 3.6682746, "candidat": null}, {"osm_id": "way/536740356", "nom": "Afsneedorp", "commune": "Gent", "lat": 51.0313345, "lon": 3.6685187, "candidat": null}, {"osm_id": "way/702795060", "nom": "Antwerpsesteenweg", "commune": "Gent", "lat": 51.0753016, "lon": 3.7786042, "candidat": null}, {"osm_id": "way/702795061", "nom": "Antwerpsesteenweg", "commune": "Gent", "lat": 51.075348, "lon": 3.7786801, "candidat": null}, {"osm_id": "way/1126348778", "nom": "Antwerpsesteenweg", "commune": "Gent", "lat": 51.0676086, "lon": 3.762352, "candidat": null}]}];
 const CLE_STOCKAGE = "mapetanque_revue_photos_decisions";
 
+// Fichiers récupérés automatiquement au chargement, pour ne plus avoir à les importer à la main
+// à chaque session (voir chargerFichiersDistants plus bas) :
+//  - DECISIONS : mes décisions déjà exportées/publiées (statut accepté/rejeté, alternative, pano).
+//    Fusionnées avec le localStorage, le LOCAL restant prioritaire (le distant ne comble que les
+//    terrains sans décision locale, pour ne jamais écraser une revue en cours).
+//  - PHOTOS_EN_LIGNE : le photos_mapillary.json réellement publié. Sert de SOCLE au téléchargement
+//    final (toute photo déjà en ligne, quelle que soit son origine — y compris ajoutée hors de cet
+//    outil via le formulaire usager — est préservée) et à pré-cocher visuellement ces terrains.
+const URL_DECISIONS_DISTANTES = "https://mapetanque.be/scripts/decisions_photos_mapillary.json";
+const URL_PHOTOS_EN_LIGNE = "https://mapetanque.be/data/photos_mapillary.json";
+
+// Socle des photos déjà en ligne, rempli par chargerFichiersDistants(). Point de départ du
+// téléchargement final : on repart TOUJOURS de lui, puis on superpose les décisions de l'outil.
+let PHOTOS_EN_LIGNE = {};
+
 function chargerDecisions() {
     try {
         return JSON.parse(localStorage.getItem(CLE_STOCKAGE)) || {};
@@ -314,27 +329,43 @@ function extraireIdMapillary(texte) {
 }
 
 // Construit et télécharge data/photos_mapillary.json directement au format attendu par le site
-// (voir scripts/update_terrains.py) : uniquement les terrains ACCEPTÉS, avec l'ID de l'alternative
-// notée si elle existe, sinon celui du candidat proposé par défaut. Prêt à déposer tel quel dans
-// data/ puis à committer — aucune étape OSM nécessaire dans ce flux.
+// (voir scripts/update_terrains.py). Prêt à déposer tel quel dans data/ puis à committer.
+//
+// Le fichier repart TOUJOURS du socle des photos déjà en ligne (PHOTOS_EN_LIGNE, récupéré au
+// chargement) : toute photo déjà publiée est préservée telle quelle, y compris celles ajoutées
+// hors de cet outil (formulaire usager, fusion manuelle) qu'aucune décision ne couvre. On y
+// superpose ensuite les décisions de l'outil : les terrains ACCEPTÉS sont ajoutés/mis à jour
+// (avec l'ID de l'alternative notée si elle existe, sinon celui du candidat proposé), et les
+// terrains explicitement REJETÉS sont retirés du fichier final (le rejet est une action
+// volontaire de suppression, prioritaire sur le socle).
 document.getElementById('telechargerPhotosMapillary').addEventListener('click', () => {
     const decisions = chargerDecisions();
-    const photosMapillary = {};
+
+    // Copie profonde du socle (chaque terrain a une liste de photos) pour ne pas altérer la
+    // référence conservée en mémoire.
+    const photosMapillary = JSON.parse(JSON.stringify(PHOTOS_EN_LIGNE || {}));
 
     DONNEES.forEach(groupe => groupe.terrains.forEach(terrain => {
-        if (!terrain.candidat) return;
         const cle = cleDe(terrain);
         const decision = decisions[cle];
-        if (!decision || decision.statut !== 'accepte') return;
+        if (!decision) return;
+
+        // Rejet explicite : on retire la photo du fichier final, même si elle venait du socle.
+        if (decision.statut === 'rejete') {
+            delete photosMapillary[cle];
+            return;
+        }
+
+        if (decision.statut !== 'accepte') return;
+        if (!terrain.candidat && !decision.alternative) return; // rien à écrire sans source d'ID
 
         const idMapillary = decision.alternative
             ? extraireIdMapillary(decision.alternative)
             : terrain.candidat.id;
 
-        // Liste (pas un objet unique) : ce fichier n'est aujourd'hui alimenté que par cet outil
-        // (donc toujours 1 seule photo par terrain à ce stade), mais garde le même format que
-        // celui utilisé par club/ajouter_photo_manuelle.py pour les ajouts ponctuels ultérieurs
-        // (plusieurs photos possibles par terrain avec le temps, via le futur formulaire).
+        // Liste (pas un objet unique) : même format que celui utilisé par
+        // club/ajouter_photo_manuelle.py pour les ajouts ponctuels (plusieurs photos possibles
+        // par terrain avec le temps).
         photosMapillary[cle] = [{
             mapillary_id: idMapillary,
             credit_url: `https://www.mapillary.com/map/im/${idMapillary}`,
@@ -343,7 +374,7 @@ document.getElementById('telechargerPhotosMapillary').addEventListener('click', 
 
     const nombre = Object.keys(photosMapillary).length;
     if (nombre === 0) {
-        alert("Aucun terrain accepté pour l'instant — accepte au moins une photo avant de télécharger.");
+        alert("Aucune photo dans le fichier — accepte au moins un terrain (ou charge le socle en ligne) avant de télécharger.");
         return;
     }
 
@@ -354,7 +385,7 @@ document.getElementById('telechargerPhotosMapillary').addEventListener('click', 
     a.download = 'photos_mapillary.json';
     a.click();
 
-    alert(nombre + " terrain(s) accepté(s) inclus dans le fichier téléchargé.");
+    alert(nombre + " terrain(s) avec photo dans le fichier téléchargé.");
 });
 
 // Import : fusionne le fichier choisi avec les décisions déjà présentes sur CETTE machine
@@ -392,7 +423,58 @@ document.getElementById('fichierImport').addEventListener('change', (evenement) 
     evenement.target.value = '';
 });
 
-construirePage();
+// Récupère les deux fichiers du site avant de construire la page. Tout est tolérant à l'échec :
+// si une URL est injoignable (hors ligne, ouverture en local file://, fichier pas encore publié…),
+// l'outil se rabat sur ce qu'il a (localStorage seul) et reste pleinement utilisable — les boutons
+// Importer/Exporter manuels continuent de fonctionner comme avant.
+async function recupererJson(url) {
+    try {
+        const reponse = await fetch(url, { cache: "no-store" });
+        if (!reponse.ok) return null;
+        return await reponse.json();
+    } catch (e) {
+        return null;
+    }
+}
+
+async function chargerFichiersDistants() {
+    const [decisionsDistantes, photosEnLigne] = await Promise.all([
+        recupererJson(URL_DECISIONS_DISTANTES),
+        recupererJson(URL_PHOTOS_EN_LIGNE),
+    ]);
+
+    // Socle : les photos déjà publiées. Sert de base au téléchargement final et au pré-cochage.
+    if (photosEnLigne && typeof photosEnLigne === "object") {
+        PHOTOS_EN_LIGNE = photosEnLigne;
+    }
+
+    // Décisions distantes : fusionnées SOUS le localStorage (le local, donc une revue en cours,
+    // reste prioritaire et n'est jamais écrasé — le distant ne comble que les terrains sans
+    // décision locale).
+    if (decisionsDistantes && typeof decisionsDistantes === "object") {
+        const locales = chargerDecisions();
+        const fusionnees = { ...decisionsDistantes, ...locales };
+        localStorage.setItem(CLE_STOCKAGE, JSON.stringify(fusionnees));
+    }
+
+    // Pré-cochage "accepté" des terrains dont une photo est déjà en ligne mais qu'aucune décision
+    // (locale ou distante) ne couvre encore — pour ne pas les faire réapparaître comme "à décider".
+    // On ne touche jamais à une décision existante (un rejet explicite antérieur reste un rejet).
+    const decisions = chargerDecisions();
+    let ajouts = 0;
+    Object.keys(PHOTOS_EN_LIGNE).forEach(cle => {
+        if (!decisions[cle]) {
+            decisions[cle] = { statut: 'accepte' };
+            ajouts++;
+        }
+    });
+    if (ajouts > 0) {
+        localStorage.setItem(CLE_STOCKAGE, JSON.stringify(decisions));
+    }
+}
+
+// Point d'entrée : on tente le chargement distant, puis on construit la page dans tous les cas.
+chargerFichiersDistants().finally(construirePage);
 </script>
 
 </body>
