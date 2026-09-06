@@ -38,6 +38,7 @@
     <!-- Bannière photo + contenu province : ajouts additifs uniquement, aucune règle de
          /style.css n'est modifiée par ce fichier. -->
     <link rel="stylesheet" href="/style-province.css">
+    <link rel="stylesheet" href="/style-beaux-terrains.css">
 </head>
 
 <body>
@@ -295,6 +296,25 @@
      de .map-view (nécessaire pour que le mode plein écran continue de fonctionner sur #map). -->
 <div class="province-content">
 
+    <!-- Section "Les plus beaux terrains", à la place des anciennes tuiles de statistiques
+         (redescendues sous la carte juste en dessous). Remplie par /beaux-terrains.js à partir
+         de /data/beaux_terrains.json, restreinte à cette région via data-region : la clé
+         {{STATS_GEO_KEY}} ("flandre"/"wallonie"/"bruxelles") est la même que celle utilisée plus
+         bas pour filtrer les terrains de la carte. Pas de géolocalisation ici, la page impose
+         déjà sa région. La section se masque d'elle-même si aucun terrain n'y est sélectionné. -->
+    <section id="beaux-terrains" class="beaux-terrains-region" data-region="{{STATS_GEO_KEY}}">
+        <h2>{{UI_BEAUX_TERRAINS}}</h2>
+
+        <div class="beaux-terrains-carrousel">
+            <div class="beaux-terrains-scroller"></div>
+        </div>
+    </section>
+
+    <div class="province-map-inline-wrapper" style="position: relative;">
+        <div id="map"></div>
+        <div class="map-toast" id="mapToast"></div>
+    </div>
+
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
             <span class="province-stat-tile-number">{{STAT_TERRAINS}}</span>
@@ -308,11 +328,6 @@
             <span class="province-stat-tile-number">{{STAT_COMMUNES}}</span>
             <span class="province-stat-tile-label">{{UI_COMMUNES_COUVERTES}}</span>
         </div>
-    </div>
-
-    <div class="province-map-inline-wrapper" style="position: relative;">
-        <div id="map"></div>
-        <div class="map-toast" id="mapToast"></div>
     </div>
 
     <p class="province-intro">
@@ -400,6 +415,7 @@
 <!-- Script du site -->
 <script src="/chargeur-photo.js"></script>
     <script src="/script.js"></script>
+<script src="/beaux-terrains.js"></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
 
 <!-- ===================== Comportement propre à la page région ===================== -->
@@ -453,6 +469,12 @@
             });
 
             map.addLayer(groupe);
+
+            // Exposée pour /beaux-terrains.js : lui permet d'ouvrir la popup du bon marqueur au
+            // clic sur une tuile du carrousel. Nécessaire ici car script.js ne crée pas sa couche
+            // `markers` sur ces pages (MAPETANQUE_SKIP_DEFAULT_MARKERS), donc allerVersTerrain()
+            // n'y existe pas.
+            window.beauxTerrainsGroupe = groupe;
 
             const bounds = L.latLngBounds(featuresRegion.map(function (f) {
                 return [f.geometry.coordinates[1], f.geometry.coordinates[0]];

@@ -1,0 +1,206 @@
+/* =====================================================================================
+   Les plus beaux terrains — rangée de tuiles défilantes
+   Fichier ADDITIF : style.css n'est pas modifié (même convention que style-province.css
+   et style-accueil-provinces.css).
+   ===================================================================================== */
+
+.beaux-terrains-carrousel { position: relative; }
+
+.beaux-terrains-scroller {
+    display: flex;
+    overflow-x: auto;
+    padding: 4px 0 16px;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    /* Barre de défilement masquée : sur tactile, la tuile suivante coupée au bord du cadre
+       suffit à indiquer qu'on peut faire défiler ; sur desktop, ce sont les flèches. */
+    scrollbar-width: none;
+}
+.beaux-terrains-scroller::-webkit-scrollbar { display: none; }
+
+/* Écart géré par margin-right plutôt que par `gap` : ce dernier n'est arrivé dans Safari
+   qu'en 14.1, et la marge donne exactement le même résultat partout. */
+.tuile-terrain {
+    flex: 0 0 300px;
+    width: 300px;
+    scroll-snap-align: start;
+    /* Sans ceci, un flick rapide au doigt peut franchir plusieurs points d'aimantation d'un
+       coup (comportement par défaut de scroll-snap-type: mandatory, qui aimante au point le
+       plus proche une fois l'inertie retombée, quelle que soit la distance parcourue). Impose
+       un arrêt à chaque fiche, une par une, quelle que soit la vitesse du geste. */
+    scroll-snap-stop: always;
+    margin-right: 16px;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+.tuile-terrain:last-child { margin-right: 0; }
+
+/* ---- Flèches de défilement ----
+   Réservées aux écrans larges AVEC survol réel : sur tactile (iPad, mobile), il n'y a pas de
+   survol et le doigt suffit — on y garde les tuiles partiellement coupées, qui indiquent
+   d'elles-mêmes qu'on peut faire défiler. */
+.carrousel-fleche { display: none; }
+
+@media (min-width: 1025px) and (hover: hover) {
+    /* La largeur des tuiles (4 pleines, pile dans le cadre) est posée en JS : voir
+       ajusterLargeurTuiles() dans beaux-terrains.js. Un calc() en flex-basis donne des
+       résultats variables d'un moteur à l'autre. */
+    .carrousel-fleche {
+        position: absolute;
+        /* La zone couvre la bande photo uniquement (le bas correspond au bloc de texte plus le
+           padding bas du scroller) et le bouton s'y centre : reste juste quelle que soit la
+           largeur des tuiles. */
+        top: 4px;
+        bottom: 86px;
+        width: 46px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        padding: 0;
+        margin: 0;
+        background: none;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.15s ease;
+        z-index: 3;
+    }
+    .carrousel-fleche.prev { left: -14px; }
+    .carrousel-fleche.next { right: -14px; }
+
+    .beaux-terrains-carrousel:hover .carrousel-fleche,
+    .carrousel-fleche:focus-visible { opacity: 1; }
+
+    /* Masquée quand il n'y a plus rien à faire défiler de ce côté. */
+    .carrousel-fleche[hidden] { display: none; }
+
+    .carrousel-fleche span {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #fff;
+        border: 1px solid #e2e6de;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 17px;
+        color: #444;
+    }
+    .carrousel-fleche:hover span { border-color: #74C15A; color: #4a8f36; }
+}
+.tuile-terrain:hover { transform: translateY(-2px); }
+.tuile-terrain:hover .tuile-photo { box-shadow: 0 6px 18px rgba(30, 50, 20, 0.18); }
+.tuile-terrain:focus-visible { outline: 2px solid #74C15A; outline-offset: 3px; border-radius: 12px; }
+
+/* Carré via padding-bottom:100% (compatible partout) plutôt que aspect-ratio. */
+.tuile-photo {
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #eceee9;
+    position: relative;
+}
+.tuile-photo img,
+.tuile-photo-placeholder {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+.tuile-photo img { object-fit: cover; display: block; }
+.tuile-photo-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8a9a7c;
+    font-size: 12px;
+    background: #e9efe4;
+}
+
+/* Les trois lignes de texte tiennent chacune sur une seule ligne, pour garder un bandeau
+   compact et laisser le maximum de hauteur à la photo. */
+.tuile-info { padding: 10px 2px 12px; }
+
+.tuile-nom {
+    font-size: 15px;
+    font-weight: bold;
+    color: #222;
+    margin: 0 0 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Réutilise .popup-breadcrumb de style.css, en vert pour distinguer les trois lignes. */
+.tuile-terrain .popup-breadcrumb {
+    margin-bottom: 2px;
+    font-size: 12.5px;
+    color: #4a8f36;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tuile-extrait {
+    font-size: 12.5px;
+    color: #666;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Zone de description dans la fiche terrain (sous le bouton "Ajouter une photo ?").
+   L'élément n'est créé que si le terrain a une description : pas de zone vide sinon. */
+.popup-description {
+    font-size: 13.5px;
+    color: #444;
+    line-height: 1.5;
+    margin: 4px 0 10px;
+}
+
+/* ---- Fond de section (page d'accueil uniquement) ----
+   Même gris que celui utilisé auparavant par #provinces-section (désormais blanc, voir
+   style-accueil-provinces.css) : la bande grise se déplace du bloc provinces/régions vers le
+   carrousel, pour marquer une rupture visuelle entre la carte et le reste de la page. */
+.beaux-terrains-accueil {
+    background-color: #f7f9f6;
+    padding: 40px 20px 20px;
+}
+
+/* ---- Titre : deux variantes selon la page ---- */
+/* Page d'accueil : aligné à gauche, sur le même modèle que les pages région
+   (.beaux-terrains-region h2 ci-dessous). Anciennement centré comme .provinces-container h2,
+   qui lui reste centré : seul ce titre du carrousel change. */
+.beaux-terrains-accueil h2 {
+    margin: 0 0 24px;
+    font-size: 26px;
+    color: #333;
+    text-align: left;
+}
+/* Pages région : aligné à gauche, comme .province-communes-section h2. */
+.beaux-terrains-region h2 {
+    margin: 0 0 16px;
+    font-size: 19px;
+    color: #333;
+}
+
+@media (max-width: 640px) {
+    .tuile-terrain { flex-basis: 240px; width: 240px; }
+
+    /* Réduit le padding horizontal de la section (20px -> 16px, la même distance que celle qui
+       sépare deux tuiles, voir margin-right ci-dessus) plutôt que de faire déborder le scroller
+       par une marge négative puis le repadder : cette première approche reposait sur le
+       comportement d'un élément avec overflow-x:auto ET une marge négative sur lui-même, pas
+       fiable partout en pratique. Ici, la section elle-même a simplement moins de padding sur
+       mobile : la première tuile — et le titre, resté aligné dessus — tombent à 16px du bord de
+       l'écran sans manipulation de marge sur l'élément qui défile. */
+    .beaux-terrains-accueil {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}

@@ -42,6 +42,10 @@
     <!-- Bannière photo + grille "Parcourir par province" : ajouts additifs uniquement, aucune
          règle de /style.css n'est modifiée par ce fichier. -->
     <link rel="stylesheet" href="/style-accueil-provinces.css">
+
+    <!-- Carrousel "Les plus beaux terrains" : additif également, aucune règle de /style.css
+         n'est modifiée par ce fichier. -->
+    <link rel="stylesheet" href="/style-beaux-terrains.css">
 </head>
 
 <body>
@@ -268,7 +272,7 @@
             <input type="hidden" name="fi-text-terrain-lien-osm" value="">
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
-            <input type="file" name="fi-file-photo" accept="image/*" capture="environment" required class="add-photo-file-input">
+            <input type="file" name="fi-file-photo" accept="image/*" required class="add-photo-file-input">
             <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
 
             <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
@@ -294,6 +298,42 @@
 </div>
 
 </div><!-- /.map-view -->
+
+<!-- Section "Les plus beaux terrains" : sélection curatée, affichée juste au-dessus de la
+     grille des provinces. Le titre et la liste sont remplis par /beaux-terrains.js à partir de
+     /data/beaux_terrains.json ; le titre écrit ici sert de repli si le JS ne s'exécute pas. La
+     région n'est pas imposée sur cette page : elle est devinée par géolocalisation IP (repli
+     "en Belgique"). -->
+<section id="beaux-terrains" class="beaux-terrains-accueil">
+    <div class="provinces-container">
+        <h2 data-i18n="beaux_terrains_titre_belgique">Les plus beaux terrains en Belgique</h2>
+
+        <div class="beaux-terrains-carrousel">
+            <div class="beaux-terrains-scroller"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Section "Parcourir par région" : affichée avant les provinces, Bruxelles y figure à sa
+     vraie place (ce n'est pas une province) et renvoie directement vers sa page dédiée
+     existante (pas de page région séparée pour Bruxelles, qui n'a pas de sous-provinces). -->
+<section id="regions-section">
+    <div class="provinces-container">
+        <h2 data-i18n="regions_section_title">Parcourir par région</h2>
+
+        <div class="province-tiles-grid regions-tiles-grid">
+            <a href="/region-flandre.html" class="province-tile" style="background-image: url('/images/provinces/tuile-flandre.jpg');">
+                <span class="province-tile-name">Flandre</span>
+            </a>
+            <a href="/region-wallonie.html" class="province-tile" style="background-image: url('/images/provinces/tuile-wallonie.jpg');">
+                <span class="province-tile-name">Wallonie</span>
+            </a>
+            <a href="/province-bruxelles.html" class="province-tile" style="background-image: url('/images/provinces/tuile-bruxelles.jpg');">
+                <span class="province-tile-name">Bruxelles</span>
+            </a>
+        </div>
+    </div>
+</section>
 
 <!-- Section "Parcourir par province" : remplace visuellement l'ancienne section statistiques
      (#stats-section juste en dessous, désormais masquée en CSS mais conservée intacte dans le DOM
@@ -332,27 +372,6 @@
             </a>
             <a href="/province-namur.html" class="province-tile" style="background-image: url('/images/provinces/tuile-namur.jpg');">
                 <span class="province-tile-name">Namur</span>
-            </a>
-        </div>
-    </div>
-</section>
-
-<!-- Section "Parcourir par région" : niveau plus général, sous les provinces. Bruxelles y
-     figure à sa vraie place (ce n'est pas une province) et renvoie directement vers sa page
-     dédiée existante (pas de page région séparée pour Bruxelles, qui n'a pas de sous-provinces). -->
-<section id="regions-section">
-    <div class="provinces-container">
-        <h2 data-i18n="regions_section_title">Parcourir par région</h2>
-
-        <div class="province-tiles-grid regions-tiles-grid">
-            <a href="/region-flandre.html" class="province-tile" style="background-image: url('/images/provinces/tuile-flandre.jpg');">
-                <span class="province-tile-name">Flandre</span>
-            </a>
-            <a href="/region-wallonie.html" class="province-tile" style="background-image: url('/images/provinces/tuile-wallonie.jpg');">
-                <span class="province-tile-name">Wallonie</span>
-            </a>
-            <a href="/province-bruxelles.html" class="province-tile" style="background-image: url('/images/provinces/tuile-bruxelles.jpg');">
-                <span class="province-tile-name">Bruxelles</span>
             </a>
         </div>
     </div>
@@ -419,6 +438,9 @@
 <!-- Script du site -->
 <script src="/chargeur-photo.js"></script>
     <script src="/script.js"></script>
+<!-- Carrousel "Les plus beaux terrains" : après script.js, dont il utilise allerVersTerrain()
+     pour ouvrir la fiche du bon terrain au clic sur une tuile. -->
+<script src="/beaux-terrains.js"></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
 
 

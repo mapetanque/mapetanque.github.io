@@ -93,6 +93,31 @@ def calculer_densite(total_terrains, area_km2):
     return f"{valeur:.1f}".replace(".", ",")
 
 
+def construire_bloc_beaux_terrains(config, tr):
+    """Section "Les plus beaux terrains" pour les pages province.
+
+    Rendue uniquement pour Bruxelles : cette page tient lieu de page région (il n'existe pas de
+    region-bruxelles.html, Bruxelles n'ayant pas de sous-provinces), et le carrousel n'est voulu
+    que sur l'accueil et les pages région. Les autres provinces reçoivent une chaîne vide, leur
+    page reste donc strictement inchangée."""
+    if config["region_key"] != "bruxelles":
+        return ""
+    return (
+        '\n'
+        '    <!-- Section "Les plus beaux terrains" : cette page province tient lieu de page région\n'
+        '         pour Bruxelles. Remplie par /beaux-terrains.js à partir de /data/beaux_terrains.json,\n'
+        '         restreinte à la région via data-region. Se masque d\'elle-même si aucun terrain n\'y\n'
+        '         est sélectionné. -->\n'
+        '    <section id="beaux-terrains" class="beaux-terrains-region" data-region="bruxelles">\n'
+        f'        <h2>{tr["beaux_terrains_titre_court"]}</h2>\n'
+        '\n'
+        '        <div class="beaux-terrains-carrousel">\n'
+        '            <div class="beaux-terrains-scroller"></div>\n'
+        '        </div>\n'
+        '    </section>\n'
+    )
+
+
 def construire_bloc_densite(densite, label_100km2):
     if densite is None:
         return ""
@@ -102,6 +127,43 @@ def construire_bloc_densite(densite, label_100km2):
         f'            <span class="province-stat-tile-label">{label_100km2}</span>\n'
         '        </div>\n'
     )
+
+
+def reordonner_stats_et_carte_bruxelles(template):
+    """Bruxelles tient lieu de page région (voir construire_bloc_beaux_terrains) : on y reprend
+    l'ordre carrousel/carte/statistiques des pages région (region_template.html), plutôt que
+    l'ordre stats/carte du template province, pensé pour les provinces qui n'ont pas de
+    carrousel. Opère sur une copie du texte du template (jetons {{...}} encore intacts, avant
+    substitution) : ne modifie ni le fichier partagé, ni le rendu des dix autres provinces, qui
+    continuent de recevoir le template tel quel."""
+    bloc_stats = (
+        '    <div class="province-stats-tiles">\n'
+        '        <div class="province-stat-tile">\n'
+        '            <span class="province-stat-tile-number">{{STAT_TERRAINS}}</span>\n'
+        '            <span class="province-stat-tile-label">{{UI_TERRAINS_RECENSES}}</span>\n'
+        '        </div>\n'
+        '        <div class="province-stat-tile">\n'
+        '            <span class="province-stat-tile-number">{{STAT_COMMUNES}}</span>\n'
+        '            <span class="province-stat-tile-label">{{UI_COMMUNES_COUVERTES}}</span>\n'
+        '        </div>\n'
+        '{{DENSITY_TILE_BLOCK}}    </div>'
+    )
+    bloc_carte = (
+        '    <div class="province-map-inline-wrapper" style="position: relative;">\n'
+        '        <div id="map"></div>\n'
+        '        <div class="map-toast" id="mapToast"></div>\n'
+        '    </div>'
+    )
+    ancien = f"{bloc_stats}\n\n{bloc_carte}"
+    nouveau = f"{bloc_carte}\n\n{bloc_stats}"
+    if ancien not in template:
+        # Garde-fou : si province_template.html change de forme, on veut un échec bruyant ici
+        # plutôt qu'un Bruxelles silencieusement resté dans l'ancien ordre.
+        raise ValueError(
+            "reordonner_stats_et_carte_bruxelles : bloc stats/carte introuvable dans le "
+            "template — celui-ci a dû changer, ajuster cette fonction en conséquence."
+        )
+    return template.replace(ancien, nouveau, 1)
 
 
 def url_page(slug, langue):
@@ -291,6 +353,7 @@ def generer_page(cle, config, langue, langues_disponibles, other_provinces_block
         "{{STAT_TERRAINS}}": str(total_terrains),
         "{{STAT_COMMUNES}}": str(nb_communes),
         "{{DENSITY_TILE_BLOCK}}": construire_bloc_densite(densite, tr["province_terrains_100km2"]),
+        "{{BEAUX_TERRAINS_SECTION}}": construire_bloc_beaux_terrains(config, tr),
         "{{PROVINCE_NOMINATIM_QUERY}}": nominatim_query,
         "{{STATS_GEO_KEY}}": config["stats_geo_province"] or config["stats_geo_region"],
         "{{SLUG}}": config["slug"],
@@ -320,7 +383,7 @@ def generer_page(cle, config, langue, langues_disponibles, other_provinces_block
         "{{OTHER_PROVINCES_BLOCK}}": other_provinces_block,
     }
 
-    page = template
+    page = reordonner_stats_et_carte_bruxelles(template) if config["region_key"] == "bruxelles" else template
     for jeton, valeur in remplacements.items():
         page = page.replace(jeton, valeur)
 
@@ -391,6 +454,7 @@ def generer_page_region(cle, config, langue, langues_disponibles, template, stat
         "{{UI_PROVINCES_COUVERTES}}": tr["region_provinces_couvertes"],
         "{{UI_COMMUNES_COUVERTES}}": tr["province_communes_couvertes"],
         "{{UI_PROVINCES_DE_LA_REGION}}": tr["region_provinces_de_la_region"].format(nom=nom_region),
+        "{{UI_BEAUX_TERRAINS}}": tr["beaux_terrains_titre_court"],
         "{{UI_META_DESCRIPTION}}": tr["region_meta_description"].format(nom=nom_region),
         "{{PROVINCES_LINKS}}": liens_provinces,
     }

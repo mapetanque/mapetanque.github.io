@@ -210,6 +210,10 @@ const map = L.map('map', {
     // qui avancent toujours d'exactement un niveau). 320 = valeur testée et validée par l'utilisateur.
     wheelPxPerZoomLevel: 320
 });
+// `const` ne crée pas de propriété sur window (contrairement à `var` ou aux déclarations de
+// fonction). beaux-terrains.js en a besoin (window.map) sur les pages région/Bruxelles pour
+// centrer la carte au clic sur une tuile du carrousel.
+window.map = map;
 
 // Emprise de la Belgique [sud-ouest, nord-est] (légère marge incluse : Arlon au sud, pointe du
 // Limbourg à l'est). Utilisée pour cadrer la carte au premier chargement et au retour à l'accueil

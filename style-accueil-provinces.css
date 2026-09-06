@@ -89,7 +89,10 @@
 /* ===================== Carte "fiche" (.map-wrapper) ===================== */
 
 .map-wrapper {
-    margin: 25px 0 0;
+    /* 16px sur les côtés, à tous les gabarits (pas de variante mobile séparée, contrairement au
+       modèle province 44px/18px envisagé un temps). Auparavant sans marge latérale, la carte
+       s'étendait bord à bord. */
+    margin: 25px 16px 0;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 6px 24px rgba(30, 50, 20, 0.10);
@@ -129,7 +132,7 @@
 /* ===================== Section "Parcourir par province" ===================== */
 
 #provinces-section {
-    background-color: #f7f9f6;
+    background-color: #ffffff;
     padding: 25px 20px 60px;
 }
 
@@ -153,7 +156,14 @@
 
 #regions-section {
     background-color: #ffffff;
-    padding: 50px 20px 60px;
+    /* Anciennement "50px 20px 60px" : ces valeurs supposaient region-section en dernière
+       position, suivant une section province au fond gris. Depuis l'inversion, elle est
+       intermédiaire entre le carrousel et #provinces-section (devenue la section de clôture,
+       qui garde donc son padding-bottom de 60px). Resserré pour ne plus cumuler deux paddings
+       de "fin de section" là où il n'y a plus de transition de couleur pour les justifier :
+       le padding-top de 20px, combiné aux 36px déjà sous le carrousel (16px de padding du
+       scroller + 20px de padding de .beaux-terrains-accueil), donne ~56px au-dessus du titre. */
+    padding: 20px 20px 20px;
 }
 
 .regions-tiles-grid {
@@ -168,7 +178,7 @@
     text-decoration: none;
     border-radius: 14px;
     overflow: hidden;
-    padding-top: 75%; /* ratio 4:3, technique padding-bottom pour compatibilité large */
+    padding-top: 55.56%; /* ratio ~270x150 (1.8:1), à l'essai — remplace le 75% (4:3) précédent */
     background-size: cover;
     background-position: center;
     background-color: #dfe8da;

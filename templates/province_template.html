@@ -38,6 +38,7 @@
     <!-- Bannière photo + contenu province : ajouts additifs uniquement, aucune règle de
          /style.css n'est modifiée par ce fichier. -->
     <link rel="stylesheet" href="/style-province.css">
+    <link rel="stylesheet" href="/style-beaux-terrains.css">
 </head>
 
 <body>
@@ -296,7 +297,7 @@
 <!-- Tuiles + carte + description + liste des communes : une seule fiche, toujours à l'intérieur
      de .map-view (nécessaire pour que le mode plein écran continue de fonctionner sur #map). -->
 <div class="province-content">
-
+{{BEAUX_TERRAINS_SECTION}}
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
             <span class="province-stat-tile-number">{{STAT_TERRAINS}}</span>
@@ -401,6 +402,7 @@
 <!-- Script du site -->
 <script src="/chargeur-photo.js"></script>
     <script src="/script.js"></script>
+<script src="/beaux-terrains.js"></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
 
 <!-- ===================== Comportement propre à la page province ===================== -->
@@ -473,6 +475,12 @@
             });
 
             groupe.addTo(map);
+
+            // Exposée pour /beaux-terrains.js (page Bruxelles) : lui permet d'ouvrir la popup du
+            // bon marqueur au clic sur une tuile du carrousel. Nécessaire ici car script.js ne
+            // crée pas sa couche `markers` sur ces pages (MAPETANQUE_SKIP_DEFAULT_MARKERS), donc
+            // allerVersTerrain() n'y existe pas.
+            window.beauxTerrainsGroupe = groupe;
 
             const bounds = L.latLngBounds(featuresProvince.map(function (f) {
                 return [f.geometry.coordinates[1], f.geometry.coordinates[0]];

@@ -132,6 +132,14 @@
     margin-top: 32px;
 }
 
+/* Pages région uniquement : l'ordre y est carte puis tuiles de statistiques (inverse des pages
+   province/Bruxelles, où les tuiles précèdent la carte et où la règle ci-dessus suffit déjà à
+   les espacer). Le sélecteur de frère adjacent cible donc seulement le cas où les tuiles suivent
+   directement la carte, sans affecter les pages province. Même valeur (32px) que ci-dessus. */
+.province-map-inline-wrapper + .province-stats-tiles {
+    margin-top: 32px;
+}
+
 #map {
     width: 100%;
     height: 420px;

@@ -41,6 +41,7 @@
     <!-- Bannière photo + contenu province : ajouts additifs uniquement, aucune règle de
          /style.css n'est modifiée par ce fichier. -->
     <link rel="stylesheet" href="/style-province.css">
+    <link rel="stylesheet" href="/style-beaux-terrains.css">
 </head>
 
 <body>
@@ -95,8 +96,8 @@
 </svg><span data-i18n="menu_compteur">Compteur de points</span></a>
         </span>
         <nav id="desktop-nav">
-            <a href="/de/a-propos.html" class="info-nav-trigger" data-i18n="menu_about">À propos</a>
-            <a href="/de/faq.html" class="info-nav-trigger" data-i18n="menu_faq">FAQ</a>
+            <a href="/a-propos.html" class="info-nav-trigger" data-i18n="menu_about">À propos</a>
+            <a href="/faq.html" class="info-nav-trigger" data-i18n="menu_faq">FAQ</a>
 
             <span id="lang-switcher-inline">
                 <button type="button" class="lang-link" data-lang="fr" data-lang-url="/province-bruxelles.html">FR</button>
@@ -197,8 +198,8 @@
 	</g>
 </g>
 </svg><span data-i18n="menu_compteur">Compteur de points</span></a></li>
-                <li><a href="/de/a-propos.html" data-i18n="menu_about">À propos</a></li>
-        <li><a href="/de/faq.html" data-i18n="menu_faq">FAQ</a></li>
+                <li><a href="/a-propos.html" data-i18n="menu_about">À propos</a></li>
+        <li><a href="/faq.html" data-i18n="menu_faq">FAQ</a></li>
 
     </ul>
 
@@ -212,7 +213,7 @@
 <div id="menu-overlay"></div>
 
 <p class="add-terrain-link-wrapper">
-    <a href="/de/faq.html#terrain-manquant" id="add-terrain-link" data-i18n="add_terrain_link">Ajouter un terrain de pétanque</a>
+    <a href="/faq.html#terrain-manquant" id="add-terrain-link" data-i18n="add_terrain_link">Ajouter un terrain de pétanque</a>
 </p>
 
 <p id="searchError" class="search-error"></p>
@@ -300,6 +301,23 @@
      de .map-view (nécessaire pour que le mode plein écran continue de fonctionner sur #map). -->
 <div class="province-content">
 
+    <!-- Section "Les plus beaux terrains" : cette page province tient lieu de page région
+         pour Bruxelles. Remplie par /beaux-terrains.js à partir de /data/beaux_terrains.json,
+         restreinte à la région via data-region. Se masque d'elle-même si aucun terrain n'y
+         est sélectionné. -->
+    <section id="beaux-terrains" class="beaux-terrains-region" data-region="bruxelles">
+        <h2>Les plus beaux terrains</h2>
+
+        <div class="beaux-terrains-carrousel">
+            <div class="beaux-terrains-scroller"></div>
+        </div>
+    </section>
+
+    <div class="province-map-inline-wrapper" style="position: relative;">
+        <div id="map"></div>
+        <div class="map-toast" id="mapToast"></div>
+    </div>
+
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
             <span class="province-stat-tile-number">122</span>
@@ -313,11 +331,6 @@
             <span class="province-stat-tile-number">75,8</span>
             <span class="province-stat-tile-label">Plätze pro 100 km²</span>
         </div>
-    </div>
-
-    <div class="province-map-inline-wrapper" style="position: relative;">
-        <div id="map"></div>
-        <div class="map-toast" id="mapToast"></div>
     </div>
 
     <p class="province-intro">
@@ -430,6 +443,7 @@
 <!-- Script du site -->
 <script src="/chargeur-photo.js"></script>
     <script src="/script.js"></script>
+<script src="/beaux-terrains.js"></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
 
 <!-- ===================== Comportement propre à la page province ===================== -->
@@ -502,6 +516,12 @@
             });
 
             groupe.addTo(map);
+
+            // Exposée pour /beaux-terrains.js (page Bruxelles) : lui permet d'ouvrir la popup du
+            // bon marqueur au clic sur une tuile du carrousel. Nécessaire ici car script.js ne
+            // crée pas sa couche `markers` sur ces pages (MAPETANQUE_SKIP_DEFAULT_MARKERS), donc
+            // allerVersTerrain() n'y existe pas.
+            window.beauxTerrainsGroupe = groupe;
 
             const bounds = L.latLngBounds(featuresProvince.map(function (f) {
                 return [f.geometry.coordinates[1], f.geometry.coordinates[0]];
