@@ -1,0 +1,122 @@
+{
+  "reussis": {
+    "way/1395425552": {
+      "mapillary_id": "951746303642023",
+      "miniature_locale": "/images/miniatures-carrees/951746303642023.webp"
+    },
+    "way/115738432": {
+      "mapillary_id": "1021896166058924",
+      "miniature_locale": "/images/miniatures-carrees/1021896166058924.webp"
+    },
+    "way/300510232": {
+      "mapillary_id": "320276429772874",
+      "miniature_locale": "/images/miniatures-carrees/320276429772874.webp"
+    },
+    "way/1191258048": {
+      "mapillary_id": "1043323290665299",
+      "miniature_locale": "/images/miniatures-carrees/1043323290665299.webp"
+    },
+    "way/787570642": {
+      "mapillary_id": "776679831918721",
+      "miniature_locale": "/images/miniatures-carrees/776679831918721.webp"
+    },
+    "way/386811589": {
+      "mapillary_id": "1075185208184304",
+      "miniature_locale": "/images/miniatures-carrees/1075185208184304.webp"
+    },
+    "way/174144412": {
+      "mapillary_id": "1425730918769611",
+      "miniature_locale": "/images/miniatures-carrees/1425730918769611.webp"
+    },
+    "way/1326503204": {
+      "mapillary_id": "566703969089032",
+      "miniature_locale": "/images/miniatures-carrees/566703969089032.webp"
+    },
+    "way/435710450": {
+      "mapillary_id": "1656933804516582",
+      "miniature_locale": "/images/miniatures-carrees/1656933804516582.webp"
+    },
+    "way/1469819814": {
+      "mapillary_id": "812453693979831",
+      "miniature_locale": "/images/miniatures-carrees/812453693979831.webp"
+    },
+    "way/846325127": {
+      "mapillary_id": "490955732119379",
+      "miniature_locale": "/images/miniatures-carrees/490955732119379.webp"
+    },
+    "way/1161004309": {
+      "mapillary_id": "4265665703494407",
+      "miniature_locale": "/images/miniatures-carrees/4265665703494407.webp"
+    },
+    "way/515784538": {
+      "mapillary_id": "983635803135631",
+      "miniature_locale": "/images/miniatures-carrees/983635803135631.webp"
+    },
+    "way/981249352": {
+      "mapillary_id": "751104436067463",
+      "miniature_locale": "/images/miniatures-carrees/751104436067463.webp"
+    },
+    "way/1458120962": {
+      "mapillary_id": "282093153699334",
+      "miniature_locale": "/images/miniatures-carrees/282093153699334.webp"
+    },
+    "way/1300537343": {
+      "mapillary_id": "1594540007721559",
+      "miniature_locale": "/images/miniatures-carrees/1594540007721559.webp"
+    },
+    "way/1172938577": {
+      "mapillary_id": "811477840253700",
+      "miniature_locale": "/images/miniatures-carrees/811477840253700.webp"
+    },
+    "way/1257086108": {
+      "mapillary_id": "1479246453474608",
+      "miniature_locale": "/images/miniatures-carrees/1479246453474608.webp"
+    },
+    "way/1391506349": {
+      "mapillary_id": "905095054129051",
+      "miniature_locale": "/images/miniatures-carrees/905095054129051.webp"
+    },
+    "way/396321674": {
+      "mapillary_id": "797650308632131",
+      "miniature_locale": "/images/miniatures-carrees/797650308632131.webp"
+    },
+    "way/664476758": {
+      "mapillary_id": "127845120013384",
+      "miniature_locale": "/images/miniatures-carrees/127845120013384.webp"
+    },
+    "way/729314695": {
+      "mapillary_id": "510311400008688",
+      "miniature_locale": "/images/miniatures-carrees/510311400008688.webp"
+    },
+    "way/917320131": {
+      "mapillary_id": "517579222935143",
+      "miniature_locale": "/images/miniatures-carrees/517579222935143.webp"
+    },
+    "way/203890060": {
+      "mapillary_id": "228101059601290",
+      "miniature_locale": "/images/miniatures-carrees/228101059601290.webp"
+    },
+    "way/525162386": {
+      "mapillary_id": "956714217448719",
+      "miniature_locale": "/images/miniatures-carrees/956714217448719.webp"
+    }
+  },
+  "echecs": [],
+  "ignores_360": [
+    {
+      "osm_id": "way/1185362291",
+      "nom": "Jesserenstraat",
+      "commune": "Jesseren"
+    },
+    {
+      "osm_id": "way/720291775",
+      "nom": "Louis Thibautstraat",
+      "commune": "Halle"
+    },
+    {
+      "osm_id": "way/713431834",
+      "nom": "Allée des Rénardeaux",
+      "commune": "Aywaille"
+    }
+  ]
+}

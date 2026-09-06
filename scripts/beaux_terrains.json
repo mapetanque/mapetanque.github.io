@@ -1,0 +1,184 @@
+[
+    {
+        "osm_id": "way/1395425552",
+        "mapillary_id": "951746303642023",
+        "nom": "Vossenhoek",
+        "commune": "Beringen"
+    },
+    {
+        "osm_id": "way/1185362291",
+        "mapillary_id": "360",
+        "nom": "Jesserenstraat",
+        "commune": "Jesseren"
+    },
+    {
+        "osm_id": "way/115738432",
+        "mapillary_id": "1021896166058924",
+        "nom": "Terrain (51.23339, 5.43334)",
+        "commune": "Neerpelt",
+        "focal_x": 0.0
+    },
+    {
+        "osm_id": "way/300510232",
+        "mapillary_id": "320276429772874",
+        "nom": "Alaudastraat",
+        "commune": "Leuven"
+    },
+    {
+        "osm_id": "way/720291775",
+        "mapillary_id": "360",
+        "nom": "Louis Thibautstraat",
+        "commune": "Halle"
+    },
+    {
+        "osm_id": "way/1191258048",
+        "mapillary_id": "1043323290665299",
+        "nom": "Hansbrugweg",
+        "commune": "Haacht",
+        "focal_x": 0.7
+    },
+    {
+        "osm_id": "way/787570642",
+        "mapillary_id": "776679831918721",
+        "nom": "Demerlaan",
+        "commune": "Schoonderbuken"
+    },
+    {
+        "osm_id": "way/386811589",
+        "mapillary_id": "1075185208184304",
+        "nom": "Kasteelstraat",
+        "commune": "Zwevezele"
+    },
+    {
+        "osm_id": "way/174144412",
+        "mapillary_id": "1425730918769611",
+        "nom": "Kustlaan",
+        "commune": "Brugge",
+        "focal_x": 0.0
+    },
+    {
+        "osm_id": "way/1326503204",
+        "mapillary_id": "566703969089032",
+        "nom": "Sint-Vincentiusstraat",
+        "commune": "Tielt"
+    },
+    {
+        "osm_id": "way/435710450",
+        "mapillary_id": "1656933804516582",
+        "nom": "Pieterlaan",
+        "commune": "Koksijde",
+        "focal_x": 0.2
+    },
+    {
+        "osm_id": "way/1469819814",
+        "mapillary_id": "812453693979831",
+        "nom": "Bernard De Pooterstraat",
+        "commune": "Antwerpen"
+    },
+    {
+        "osm_id": "way/846325127",
+        "mapillary_id": "490955732119379",
+        "nom": "Laar",
+        "commune": "Antwerpen"
+    },
+    {
+        "osm_id": "way/1161004309",
+        "mapillary_id": "4265665703494407",
+        "nom": "Aardseweg",
+        "commune": "Geel"
+    },
+    {
+        "osm_id": "way/515784538",
+        "mapillary_id": "983635803135631",
+        "nom": "Van Hemelrijcklei",
+        "commune": "Brasschaat",
+        "focal_x": 0.0
+    },
+    {
+        "osm_id": "way/981249352",
+        "mapillary_id": "751104436067463",
+        "nom": "Alfred Nelenpad",
+        "commune": "Berlare",
+        "focal_x": 0.2
+    },
+    {
+        "osm_id": "way/1458120962",
+        "mapillary_id": "282093153699334",
+        "nom": "Oordegemdorp",
+        "commune": "Lede",
+        "focal_x": 0.7
+    },
+    {
+        "osm_id": "way/1300537343",
+        "mapillary_id": "1594540007721559",
+        "nom": "Voormalige Zwartehoekbrug",
+        "commune": "Aalst",
+        "focal_x": 1.0
+    },
+    {
+        "osm_id": "way/1172938577",
+        "mapillary_id": "811477840253700",
+        "nom": "Chemin Beau Site",
+        "commune": "Rebecq-Rognon",
+        "focal_x": 0.3
+    },
+    {
+        "osm_id": "way/1257086108",
+        "mapillary_id": "1479246453474608",
+        "nom": "Avenue Marius Renard - Marius Renardlaan",
+        "commune": "Anderlecht",
+        "focal_x": 0.4
+    },
+    {
+        "osm_id": "way/1391506349",
+        "mapillary_id": "905095054129051",
+        "nom": "Rue Docteur Huet - Dokter Huetstraat",
+        "commune": "Anderlecht"
+    },
+    {
+        "osm_id": "way/396321674",
+        "mapillary_id": "797650308632131",
+        "nom": "Rue Paul Émile Janson - Paul Émile Jansonstraat",
+        "commune": "Ixelles"
+    },
+    {
+        "osm_id": "way/664476758",
+        "mapillary_id": "127845120013384",
+        "nom": "Clos des Compagnons Bâtisseurs - Bouwgezellenerf",
+        "commune": "Evere",
+        "focal_x": 0.7
+    },
+    {
+        "osm_id": "way/729314695",
+        "mapillary_id": "510311400008688",
+        "nom": "Rue Liénard",
+        "commune": "Quaregnon",
+        "focal_x": 0.4
+    },
+    {
+        "osm_id": "way/917320131",
+        "mapillary_id": "517579222935143",
+        "nom": "Longue Drève",
+        "commune": "Enghien",
+        "focal_x": 1.0
+    },
+    {
+        "osm_id": "way/713431834",
+        "mapillary_id": "360",
+        "nom": "Allée des Rénardeaux",
+        "commune": "Aywaille"
+    },
+    {
+        "osm_id": "way/203890060",
+        "mapillary_id": "228101059601290",
+        "nom": "Drève du Fort",
+        "commune": "Fléron",
+        "focal_x": 0.0
+    },
+    {
+        "osm_id": "way/525162386",
+        "mapillary_id": "956714217448719",
+        "nom": "Quai Sainte-Barbe",
+        "commune": "Liège"
+    }
+]
