@@ -155,12 +155,15 @@
 }
 
 /* Zone de description dans la fiche terrain (sous le bouton "Ajouter une photo ?").
-   L'élément n'est créé que si le terrain a une description : pas de zone vide sinon. */
+   L'élément n'est créé que si le terrain a une description : pas de zone vide sinon.
+   Marges symétriques : le <br> de fin du bloc photo est retiré côté JS quand une description
+   s'intercale (voir construireContenuPopupTerrain dans script.js), l'espacement au-dessus et
+   en dessous du paragraphe est donc porté uniquement par ces marges. */
 .popup-description {
     font-size: 13.5px;
     color: #444;
     line-height: 1.5;
-    margin: 4px 0 10px;
+    margin: 10px 0;
 }
 
 /* ---- Fond de section (page d'accueil uniquement) ----

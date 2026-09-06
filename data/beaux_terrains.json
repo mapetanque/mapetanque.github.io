@@ -8,7 +8,9 @@
     "lat": 51.087277,
     "lon": 5.2526137,
     "miniature": "/images/miniatures-carrees/951746303642023.webp",
-    "description": "Très joli terrain avec table, bancs et spots lumineux situé dans un environnement résidentiel et verdoyant de Beringen, à proximité de petits espaces verts et de chemins locaux."
+    "description": "Très joli terrain avec table, bancs et spots lumineux situé dans un environnement résidentiel et verdoyant de Beringen, à proximité de petits espaces verts et de chemins locaux.",
+    "description_nl": "Heel mooi terrein met tafel, banken en verlichting in een groene woonbuurt van Beringen, vlak bij kleine groenzones en lokale wegen.",
+    "description_de": "Sehr schöner Platz mit Tisch, Bänken und Strahlern in einem grünen Wohnviertel von Beringen, nahe kleinen Grünflächen und lokalen Wegen."
   },
   {
     "osm_id": "way/1185362291",
@@ -19,18 +21,22 @@
     "lat": 50.8064871,
     "lon": 5.3908217,
     "miniature": "/images/mapillary-360/1406541441068559.webp",
-    "description": "Joli terrain avec 2 bancs situé dans le village rural de Jesseren, dans un environnement calme et verdoyant, au cœur du paysage agricole de la région de Tongres."
+    "description": "Joli terrain avec 2 bancs situé dans le village rural de Jesseren, dans un environnement calme et verdoyant, au cœur du paysage agricole de la région de Tongres.",
+    "description_nl": "Mooi terrein met twee banken in het landelijke dorp Jesseren, rustig en groen gelegen midden in het agrarische landschap rond Tongeren.",
+    "description_de": "Schöner Platz mit zwei Bänken im ländlichen Dorf Jesseren, ruhig und grün gelegen inmitten der Agrarlandschaft rund um Tongeren."
   },
   {
     "osm_id": "way/115738432",
-    "nom": "Terrain (51.23339, 5.43334)",
+    "nom": "",
     "commune": "Neerpelt",
     "province": "Limbourg",
     "region": "Flandre",
     "lat": 51.2333876,
     "lon": 5.4333427,
     "miniature": "/images/miniatures-carrees/1021896166058924.webp",
-    "description": "Beau terrain situé près d'un canal et d'une aire de service pour camping-car, à proximité de plusieurs espaces verts et équipements de loisirs."
+    "description": "Beau terrain situé près d'un canal et d'une aire de service pour camping-car, à proximité de plusieurs espaces verts et équipements de loisirs.",
+    "description_nl": "Mooi terrein vlak bij een kanaal en een camperplaats, in de buurt van verschillende groenzones en recreatievoorzieningen.",
+    "description_de": "Schöner Platz nahe einem Kanal und einem Wohnmobilstellplatz, in der Nähe mehrerer Grünflächen und Freizeiteinrichtungen."
   },
   {
     "osm_id": "way/300510232",
@@ -41,7 +47,9 @@
     "lat": 50.8596019,
     "lon": 4.7058742,
     "miniature": "/images/miniatures-carrees/320276429772874.webp",
-    "description": "Deux terrains de pétanque aménagés au sein d'un espace de loisirs à Heverlee, à proximité de bancs, tables et aire de jeux."
+    "description": "Deux terrains de pétanque aménagés au sein d'un espace de loisirs à Heverlee, à proximité de bancs, tables et aire de jeux.",
+    "description_nl": "Twee petanqueterreinen in een recreatiezone in Heverlee, met banken, tafels en een speeltuin in de buurt.",
+    "description_de": "Zwei Pétanque-Plätze in einem Freizeitbereich in Heverlee, mit Bänken, Tischen und einem Spielplatz in der Nähe."
   },
   {
     "osm_id": "way/1191258048",
@@ -52,7 +60,9 @@
     "lat": 50.9865568,
     "lon": 4.6420697,
     "miniature": "/images/miniatures-carrees/1043323290665299.webp",
-    "description": "Beau terrain le long de l'eau situé dans un environnement verdoyant de Haacht, à proximité du village de Wespelaar et de plusieurs espaces de loisirs, avec un surprenant module en bois pour s'abriter de la pluie."
+    "description": "Beau terrain le long de l'eau situé dans un environnement verdoyant de Haacht, à proximité du village de Wespelaar et de plusieurs espaces de loisirs, avec un surprenant module en bois pour s'abriter de la pluie.",
+    "description_nl": "Mooi terrein aan het water in een groene omgeving van Haacht, vlak bij het dorp Wespelaar en enkele recreatiezones, met een verrassende houten constructie om bij regen te schuilen.",
+    "description_de": "Schöner Platz am Wasser in einer grünen Umgebung von Haacht, nahe dem Dorf Wespelaar und mehreren Freizeitbereichen, mit einem überraschenden Holzunterstand als Regenschutz."
   },
   {
     "osm_id": "way/787570642",
@@ -63,7 +73,9 @@
     "lat": 50.9754347,
     "lon": 4.9502567,
     "miniature": "/images/miniatures-carrees/776679831918721.webp",
-    "description": "Deux beaux terrains situés dans le village de Schoonderbuken, dans un cadre rural et verdoyant, entouré de quartiers résidentiels et de paysages agricoles."
+    "description": "Deux beaux terrains situés dans le village de Schoonderbuken, dans un cadre rural et verdoyant, entouré de quartiers résidentiels et de paysages agricoles.",
+    "description_nl": "Twee mooie terreinen in het dorp Schoonderbuken, in een landelijk en groen kader, omringd door woonbuurten en akkerlandschap.",
+    "description_de": "Zwei schöne Plätze im Dorf Schoonderbuken, in ländlicher und grüner Lage, umgeben von Wohnvierteln und Agrarlandschaft."
   },
   {
     "osm_id": "way/386811589",
@@ -74,7 +86,9 @@
     "lat": 51.034264,
     "lon": 3.2086803,
     "miniature": "/images/miniatures-carrees/1075185208184304.webp",
-    "description": "Terrain de pétanque installé dans le très joli cadre du Kasteelpark de Zwevezele. Le parc offre un environnement arboré particulièrement agréable pour jouer."
+    "description": "Terrain de pétanque installé dans le très joli cadre du Kasteelpark de Zwevezele. Le parc offre un environnement arboré particulièrement agréable pour jouer.",
+    "description_nl": "Petanqueterrein in het bijzonder mooie kader van het Kasteelpark van Zwevezele. Het park biedt een aangename, bomenrijke omgeving om te spelen.",
+    "description_de": "Pétanque-Platz im sehr schönen Rahmen des Kasteelpark von Zwevezele. Der Park bietet eine besonders angenehme, baumbestandene Umgebung zum Spielen."
   },
   {
     "osm_id": "way/174144412",
@@ -85,7 +99,9 @@
     "lat": 51.3338478,
     "lon": 3.2092164,
     "miniature": "/images/miniatures-carrees/1425730918769611.webp",
-    "description": "Deux terrains situés dans un environnement urbain de Bruges, à proximité des quartiers résidentiels et des nombreux espaces verts et équipements de loisirs de la ville."
+    "description": "Deux terrains situés dans un environnement urbain de Bruges, à proximité des quartiers résidentiels et des nombreux espaces verts et équipements de loisirs de la ville.",
+    "description_nl": "Twee terreinen in een stedelijke omgeving van Brugge, dicht bij de woonwijken en bij de vele groenzones en recreatievoorzieningen van de stad.",
+    "description_de": "Zwei Plätze in städtischer Umgebung von Brügge, nahe den Wohnvierteln und den zahlreichen Grünflächen und Freizeiteinrichtungen der Stadt."
   },
   {
     "osm_id": "way/1326503204",
@@ -96,7 +112,9 @@
     "lat": 50.9556531,
     "lon": 3.2966314,
     "miniature": "/images/miniatures-carrees/566703969089032.webp",
-    "description": "Terrain situé dans un environnement résidentiel de Tielt, à proximité du centre-ville tout en étant au calme et à l'ombre."
+    "description": "Terrain situé dans un environnement résidentiel de Tielt, à proximité du centre-ville tout en étant au calme et à l'ombre.",
+    "description_nl": "Terrein in een woonbuurt van Tielt, vlak bij het stadscentrum en toch rustig en in de schaduw gelegen.",
+    "description_de": "Platz in einem Wohnviertel von Tielt, nahe dem Stadtzentrum und dennoch ruhig und schattig gelegen."
   },
   {
     "osm_id": "way/435710450",
@@ -107,7 +125,9 @@
     "lat": 51.1106422,
     "lon": 2.6082319,
     "miniature": "/images/miniatures-carrees/1656933804516582.webp",
-    "description": "Trois terrains de pétanque situés le long de la mer. Koksijde dispose de nombreux terrains extérieurs répartis dans ses différents quartiers."
+    "description": "Trois terrains de pétanque situés le long de la mer. Koksijde dispose de nombreux terrains extérieurs répartis dans ses différents quartiers.",
+    "description_nl": "Drie petanqueterreinen vlak bij zee. Koksijde telt talrijke openluchtterreinen, verspreid over de verschillende wijken.",
+    "description_de": "Drei Pétanque-Plätze in Meeresnähe. Koksijde verfügt über zahlreiche Freiluftplätze, verteilt über seine verschiedenen Viertel."
   },
   {
     "osm_id": "way/1469819814",
@@ -118,7 +138,9 @@
     "lat": 51.1684656,
     "lon": 4.3806375,
     "miniature": "/images/miniatures-carrees/812453693979831.webp",
-    "description": "Terrain de pétanque situé dans un quartier résidentiel proche du centre-ville. Il fait partie des nombreux petits terrains publics de l'arrondissement et se trouve à proximité d'autres équipements de loisirs."
+    "description": "Terrain de pétanque situé dans un quartier résidentiel proche du centre-ville. Il fait partie des nombreux petits terrains publics de l'arrondissement et se trouve à proximité d'autres équipements de loisirs.",
+    "description_nl": "Petanqueterrein in een woonwijk vlak bij het stadscentrum. Het is een van de vele kleine openbare terreinen van het district en ligt naast andere recreatievoorzieningen.",
+    "description_de": "Pétanque-Platz in einem Wohnviertel nahe dem Stadtzentrum. Er gehört zu den vielen kleinen öffentlichen Plätzen des Bezirks und liegt in der Nähe weiterer Freizeiteinrichtungen."
   },
   {
     "osm_id": "way/846325127",
@@ -129,18 +151,22 @@
     "lat": 51.2167058,
     "lon": 4.4344799,
     "miniature": "/images/miniatures-carrees/490955732119379.webp",
-    "description": "Terrain situé dans un environnement urbain et résidentiel d'Anvers, au cœur d'un quartier animé, près de la magnifique église Notre-Dame-des-Neiges."
+    "description": "Terrain situé dans un environnement urbain et résidentiel d'Anvers, au cœur d'un quartier animé, près de la magnifique église Notre-Dame-des-Neiges.",
+    "description_nl": "Terrein in een stedelijke woonomgeving van Antwerpen, midden in een levendige buurt, vlak bij de prachtige Onze-Lieve-Vrouw-ter-Sneeuwkerk.",
+    "description_de": "Platz in einem städtischen Wohnviertel von Antwerpen, mitten in einem lebhaften Quartier, nahe der prächtigen Kirche Onze-Lieve-Vrouw-ter-Sneeuw."
   },
   {
     "osm_id": "way/1161004309",
-    "nom": "360",
+    "nom": "",
     "commune": "Geel",
     "province": "Anvers",
     "region": "Flandre",
     "lat": 51.203531,
     "lon": 4.9798836,
     "miniature": "/images/miniatures-carrees/4265665703494407.webp",
-    "description": "Terrain de pétanque situé dans un environnement résidentiel et verdoyant de Geel, dans la Campine anversoise."
+    "description": "Terrain de pétanque situé dans un environnement résidentiel et verdoyant de Geel, dans la Campine anversoise.",
+    "description_nl": "Petanqueterrein in een groene woonomgeving van Geel, in de Antwerpse Kempen.",
+    "description_de": "Pétanque-Platz in einer grünen Wohnumgebung von Geel, in der Antwerpener Kempen."
   },
   {
     "osm_id": "way/515784538",
@@ -151,7 +177,9 @@
     "lat": 51.2962111,
     "lon": 4.4919084,
     "miniature": "/images/miniatures-carrees/983635803135631.webp",
-    "description": "Deux beaux terrains situés dans une résidence pour retraités du quartier de Brasschaat, caractérisé par ses avenues arborées et ses nombreux espaces verts. Piste cyclable à proximité."
+    "description": "Deux beaux terrains situés dans une résidence pour retraités du quartier de Brasschaat, caractérisé par ses avenues arborées et ses nombreux espaces verts. Piste cyclable à proximité.",
+    "description_nl": "Twee mooie terreinen bij een seniorenresidentie in Brasschaat, een gemeente die bekendstaat om haar bomenrijke lanen en vele groenzones. Fietspad in de buurt.",
+    "description_de": "Zwei schöne Plätze bei einer Seniorenresidenz in Brasschaat, einer Gemeinde, die für ihre baumbestandenen Alleen und zahlreichen Grünflächen bekannt ist. Radweg in der Nähe."
   },
   {
     "osm_id": "way/981249352",
@@ -162,7 +190,9 @@
     "lat": 51.0430362,
     "lon": 3.9806552,
     "miniature": "/images/miniatures-carrees/751104436067463.webp",
-    "description": "Terrain de pétanque situé au bord du Donkmeer, un lieu touristique et verdoyant particulièrement agréable, à proximité du lac et de ses espaces de promenade."
+    "description": "Terrain de pétanque situé au bord du Donkmeer, un lieu touristique et verdoyant particulièrement agréable, à proximité du lac et de ses espaces de promenade.",
+    "description_nl": "Petanqueterrein aan het Donkmeer, een bijzonder aangename groene en toeristische plek, vlak bij het meer en zijn wandelzones.",
+    "description_de": "Pétanque-Platz am Donkmeer, einem besonders angenehmen grünen Ausflugsziel, direkt beim See und seinen Spazierwegen."
   },
   {
     "osm_id": "way/1458120962",
@@ -173,7 +203,9 @@
     "lat": 50.9577285,
     "lon": 3.9013903,
     "miniature": "/images/miniatures-carrees/282093153699334.webp",
-    "description": "Terrain de pétanque situé au cœur du village d'Oordegem, sur le petit centre villageois à proximité de l'église."
+    "description": "Terrain de pétanque situé au cœur du village d'Oordegem, sur le petit centre villageois à proximité de l'église.",
+    "description_nl": "Petanqueterrein in het hart van het dorp Oordegem, op het kleine dorpsplein vlak bij de kerk.",
+    "description_de": "Pétanque-Platz im Herzen des Dorfes Oordegem, am kleinen Dorfplatz nahe der Kirche."
   },
   {
     "osm_id": "way/1300537343",
@@ -184,7 +216,9 @@
     "lat": 50.9402782,
     "lon": 4.0559557,
     "miniature": "/images/miniatures-carrees/1594540007721559.webp",
-    "description": "Terrain situé à proximité de la Dendre et de l'ancienne Zwartehoekbrug, dans un secteur en transformation autour des quais et des cheminements le long de la rivière."
+    "description": "Terrain situé à proximité de la Dendre et de l'ancienne Zwartehoekbrug, dans un secteur en transformation autour des quais et des cheminements le long de la rivière.",
+    "description_nl": "Terrein vlak bij de Dender en de voormalige Zwartehoekbrug, in een gebied in volle verandering rond de kaaien en de wandelpaden langs de rivier.",
+    "description_de": "Platz nahe der Dender und der ehemaligen Zwartehoekbrug, in einem Viertel im Wandel rund um die Kaianlagen und die Wege entlang des Flusses."
   },
   {
     "osm_id": "way/1172938577",
@@ -195,7 +229,9 @@
     "lat": 50.662623,
     "lon": 4.1256561,
     "miniature": "/images/miniatures-carrees/811477840253700.webp",
-    "description": "Terrain situé dans un environnement résidentiel calme de Rebecq-Rognon, environnement rural et particulièrement verdoyant."
+    "description": "Terrain situé dans un environnement résidentiel calme de Rebecq-Rognon, environnement rural et particulièrement verdoyant.",
+    "description_nl": "Terrein in een rustige woonomgeving van Rebecq-Rognon, landelijk en bijzonder groen gelegen.",
+    "description_de": "Platz in einer ruhigen Wohnumgebung von Rebecq-Rognon, ländlich und besonders grün gelegen."
   },
   {
     "osm_id": "way/1257086108",
@@ -206,7 +242,9 @@
     "lat": 50.8254237,
     "lon": 4.285398,
     "miniature": "/images/miniatures-carrees/1479246453474608.webp",
-    "description": "Un bel ensemble de terrains de pétanque installés dans le Parc des Étangs, un espace vert agréable du sud-ouest d'Anderlecht. Le parc offre un cadre arboré avec plusieurs équipements de loisirs."
+    "description": "Un bel ensemble de terrains de pétanque installés dans le Parc des Étangs, un espace vert agréable du sud-ouest d'Anderlecht. Le parc offre un cadre arboré avec plusieurs équipements de loisirs.",
+    "description_nl": "Een mooi geheel van petanqueterreinen in het Vijverpark, een aangename groenzone in het zuidwesten van Anderlecht. Het park biedt een bomenrijk kader met verschillende recreatievoorzieningen.",
+    "description_de": "Eine schöne Gruppe von Pétanque-Plätzen im Parc des Étangs, einer angenehmen Grünanlage im Südwesten von Anderlecht. Der Park bietet einen baumbestandenen Rahmen mit mehreren Freizeiteinrichtungen."
   },
   {
     "osm_id": "way/1391506349",
@@ -217,7 +255,9 @@
     "lat": 50.8335979,
     "lon": 4.290143,
     "miniature": "/images/miniatures-carrees/905095054129051.webp",
-    "description": "Deux beaux terrains partiellement abrités, entre le Parc Astrid et le Parc de Scherdemael. Le quartier mêle espaces verts, équipements sportifs et environnement résidentiel."
+    "description": "Deux beaux terrains partiellement abrités, entre le Parc Astrid et le Parc de Scherdemael. Le quartier mêle espaces verts, équipements sportifs et environnement résidentiel.",
+    "description_nl": "Twee mooie, deels overdekte terreinen tussen het Astridpark en het Scherdemaalpark. De buurt combineert groenzones, sportvoorzieningen en woningen.",
+    "description_de": "Zwei schöne, teilweise überdachte Plätze zwischen dem Astrid-Park und dem Scherdemael-Park. Das Viertel verbindet Grünflächen, Sportanlagen und Wohnbebauung."
   },
   {
     "osm_id": "way/396321674",
@@ -228,7 +268,9 @@
     "lat": 50.8269875,
     "lon": 4.3610549,
     "miniature": "/images/miniatures-carrees/797650308632131.webp",
-    "description": "Terrain situé dans un environnement urbain dense d'Ixelles, à proximité de l'avenue Louise. La rue Paul Émile Janson relie notamment l'avenue Louise à la rue Faider et s'inscrit dans un quartier central de Bruxelles."
+    "description": "Terrain situé dans un environnement urbain dense d'Ixelles, à proximité de l'avenue Louise. La rue Paul Émile Janson relie notamment l'avenue Louise à la rue Faider et s'inscrit dans un quartier central de Bruxelles.",
+    "description_nl": "Terrein in een dichtbebouwde stadsomgeving van Elsene, vlak bij de Louizalaan. De Paul Émile Jansonstraat verbindt de Louizalaan met de Faiderstraat en ligt in een centrale Brusselse wijk.",
+    "description_de": "Platz in einer dicht bebauten städtischen Umgebung von Ixelles, nahe der Avenue Louise. Die Rue Paul Émile Janson verbindet die Avenue Louise mit der Rue Faider und liegt in einem zentralen Brüsseler Viertel."
   },
   {
     "osm_id": "way/664476758",
@@ -239,7 +281,9 @@
     "lat": 50.8569713,
     "lon": 4.4176692,
     "miniature": "/images/miniatures-carrees/127845120013384.webp",
-    "description": "Terrain situé dans un clos résidentiel calme d'Evere, dans un environnement principalement composé d'immeubles et d'habitations urbaines."
+    "description": "Terrain situé dans un clos résidentiel calme d'Evere, dans un environnement principalement composé d'immeubles et d'habitations urbaines.",
+    "description_nl": "Terrein in een rustig woonerf in Evere, in een omgeving die vooral uit appartementsgebouwen en stadswoningen bestaat.",
+    "description_de": "Platz in einer ruhigen Wohnsackgasse in Evere, in einer vor allem von Wohnblocks und städtischer Bebauung geprägten Umgebung."
   },
   {
     "osm_id": "way/729314695",
@@ -250,7 +294,9 @@
     "lat": 50.4313284,
     "lon": 3.8601459,
     "miniature": "/images/miniatures-carrees/510311400008688.webp",
-    "description": "Deux agréables terrains situés à Quaregnon, le long du RAVeL."
+    "description": "Deux agréables terrains situés à Quaregnon, le long du RAVeL.",
+    "description_nl": "Twee aangename terreinen in Quaregnon, langs de RAVeL-route.",
+    "description_de": "Zwei angenehme Plätze in Quaregnon, entlang des RAVeL-Wegs."
   },
   {
     "osm_id": "way/917320131",
@@ -261,7 +307,9 @@
     "lat": 50.6907666,
     "lon": 4.0429609,
     "miniature": "/images/miniatures-carrees/517579222935143.webp",
-    "description": "Terrain situé dans un environnement verdoyant d'Enghien, à proximité des longues drèves et des espaces arborés qui caractérisent le paysage de la ville et de son parc."
+    "description": "Terrain situé dans un environnement verdoyant d'Enghien, à proximité des longues drèves et des espaces arborés qui caractérisent le paysage de la ville et de son parc.",
+    "description_nl": "Terrein in een groene omgeving van Edingen, vlak bij de lange dreven en de bomenrijke zones die het landschap van de stad en haar park kenmerken.",
+    "description_de": "Platz in einer grünen Umgebung von Enghien, nahe den langen Alleen und baumbestandenen Flächen, die das Landschaftsbild der Stadt und ihres Parks prägen."
   },
   {
     "osm_id": "way/713431834",
@@ -272,7 +320,9 @@
     "lat": 50.4778859,
     "lon": 5.6893217,
     "miniature": "/images/mapillary-360/6946943645329215.webp",
-    "description": "Très joli terrain de pétanque situé dans un environnement résidentiel et verdoyant d'Aywaille, à proximité du château de Dieupart."
+    "description": "Très joli terrain de pétanque situé dans un environnement résidentiel et verdoyant d'Aywaille, à proximité du château de Dieupart.",
+    "description_nl": "Heel mooi petanqueterrein in een groene woonomgeving van Aywaille, vlak bij het kasteel van Dieupart.",
+    "description_de": "Sehr schöner Pétanque-Platz in einer grünen Wohnumgebung von Aywaille, nahe dem Schloss Dieupart."
   },
   {
     "osm_id": "way/203890060",
@@ -283,7 +333,9 @@
     "lat": 50.6228758,
     "lon": 5.6995635,
     "miniature": "/images/miniatures-carrees/228101059601290.webp",
-    "description": "Quatre beaux terrains de pétanque situés le long du RAVeL dans un environnement verdoyant à proximité du Fort de Fléron."
+    "description": "Quatre beaux terrains de pétanque situés le long du RAVeL dans un environnement verdoyant à proximité du Fort de Fléron.",
+    "description_nl": "Vier mooie petanqueterreinen langs de RAVeL-route, in een groene omgeving vlak bij het fort van Fléron.",
+    "description_de": "Vier schöne Pétanque-Plätze entlang des RAVeL-Wegs, in grüner Umgebung nahe dem Fort von Fléron."
   },
   {
     "osm_id": "way/525162386",
@@ -294,6 +346,8 @@
     "lat": 50.6446584,
     "lon": 5.581959,
     "miniature": "/images/miniatures-carrees/956714217448719.webp",
-    "description": "Deux terrains de pétanque situés dans le quartier d'Outremeuse, le long du quai Sainte-Barbe, à proximité de la Meuse. Le site bénéficie d'un environnement urbain mais arboré, au cœur d'un quartier historique de Liège."
+    "description": "Deux terrains de pétanque situés dans le quartier d'Outremeuse, le long du quai Sainte-Barbe, à proximité de la Meuse. Le site bénéficie d'un environnement urbain mais arboré, au cœur d'un quartier historique de Liège.",
+    "description_nl": "Twee petanqueterreinen in de wijk Outremeuse, langs de Quai Sainte-Barbe en dicht bij de Maas. De plek ligt in een stedelijke maar bomenrijke omgeving, midden in een historische wijk van Luik.",
+    "description_de": "Zwei Pétanque-Plätze im Viertel Outremeuse, entlang des Quai Sainte-Barbe und nahe der Maas. Der Ort liegt in städtischer, aber baumbestandener Umgebung, mitten in einem historischen Viertel von Lüttich."
   }
 ]

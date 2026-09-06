@@ -1231,10 +1231,33 @@ function construireContenuPopupTerrain(feature, layer) {
     `;
 
 
+    // Description rédigée à la main pour les terrains de la sélection "Les plus beaux terrains"
+    // (voir le chargement de /data/beaux_terrains.json plus bas dans ce fichier). Le carrousel
+    // n'en affiche que les premiers mots, la fiche affiche le texte entier. Le paragraphe n'est
+    // créé que si le terrain a effectivement un texte : aucun bloc vide pour les 1700 autres.
+    // description_nl / description_de sont lus s'ils existent dans le JSON, sinon repli sur le
+    // texte français — la structure est donc déjà prête si ces champs sont ajoutés un jour.
+    const beauTerrain = tags.osm_id ? (window.beauxTerrainsParOsmId || {})[tags.osm_id] : null;
+    const texteDescription = beauTerrain
+        ? (beauTerrain['description_' + currentLang] || beauTerrain.description || "")
+        : "";
+    const description = texteDescription
+        ? `<p class="popup-description">${texteDescription}</p>`
+        : "";
+
+    // Le bloc photo se termine par un <br>, prévu pour séparer la photo de la ligne « Accès ».
+    // Quand une description s'intercale entre les deux, ce blanc s'ajoute à la marge du
+    // paragraphe et creuse au-dessus un écart bien plus large que partout ailleurs dans la
+    // fiche : on le retire dans ce seul cas, l'espacement étant alors porté uniquement par les
+    // marges de .popup-description (voir style-beaux-terrains.css). Sans description, la fiche
+    // reste strictement inchangée.
+    const photoAvantDescription = description ? photo.replace(/<br>\s*$/, "") : photo;
+
     return `
     ${filAriane}
     <b>${titre}</b><br><br>
-    ${photo}
+    ${photoAvantDescription}
+    ${description}
     <span class="popup-icon">${ICON_UNLOCK}</span> ${t('popup_access_label')} : ${acces}
     ${distance}
     ${itineraire}
@@ -1658,6 +1681,25 @@ fetch('/data/photos_mapillary.json')
         photosMapillaryChargees = true;
         calculerTerrainsAvecPhoto();
     });
+
+
+// ===================== Chargement des descriptions "Les plus beaux terrains" =====================
+// Même schéma que les photos Mapillary ci-dessus : une association osm_id -> entrée, tirée du
+// même /data/beaux_terrains.json que le carrousel (voir beaux-terrains.js). Chargé ici plutôt
+// que dans beaux-terrains.js pour que la description apparaisse aussi dans les fiches ouvertes
+// depuis une page province ou depuis un lien de partage, où le carrousel n'existe pas.
+// Fichier optionnel : son absence ne casse rien, les fiches restent celles d'aujourd'hui.
+// Le contenu des popups étant construit à l'ouverture (bindPopup reçoit une fonction), ce
+// chargement asynchrone n'a pas besoin d'être terminé avant l'affichage de la carte.
+window.beauxTerrainsParOsmId = {};
+fetch('/data/beaux_terrains.json')
+    .then(response => response.json())
+    .then(data => {
+        (data || []).forEach(function (terrain) {
+            if (terrain.osm_id) window.beauxTerrainsParOsmId[terrain.osm_id] = terrain;
+        });
+    })
+    .catch(() => { /* absent ou invalide : les fiches s'affichent simplement sans description */ });
 
 
 // ===================== Chargement des clubs affiliés =====================

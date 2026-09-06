@@ -53,12 +53,30 @@
     // ---------------------------------------------------------------------------------
     // Les clés existent dans translations.js (source de vérité unique) ; on retombe sur le
     // français si la clé manque, pour ne jamais afficher une chaîne vide.
+    //
+    // ATTENTION au mode d'accès : translations.js déclare `const translations`, et script.js
+    // `let currentLang`, tous deux au niveau racine d'un script classique. const/let ne créent
+    // PAS de propriété sur window (contrairement à var) : window.translations et
+    // window.currentLang valent donc undefined, et la version précédente de cette fonction
+    // retombait systématiquement sur le repli français, quelle que soit la langue affichée.
+    // Les identifiants nus, eux, sont bien visibles depuis ce fichier (portée globale partagée
+    // entre scripts classiques), à condition que script.js/translations.js soient chargés avant
+    // — ce qui est le cas partout. typeof protège du cas contraire sans lever d'erreur.
+    function langueCourante() {
+        if (typeof currentLang !== "undefined" && currentLang) return currentLang;
+        return window.currentLang || "fr";
+    }
+
+    function dictionnaires() {
+        if (typeof translations !== "undefined" && translations) return translations;
+        return window.translations || null;
+    }
+
     function traduire(cle, repli) {
         try {
-            if (window.translations && window.currentLang) {
-                var dict = window.translations[window.currentLang];
-                if (dict && dict[cle]) return dict[cle];
-            }
+            var dicos = dictionnaires();
+            var langue = langueCourante();
+            if (dicos && dicos[langue] && dicos[langue][cle]) return dicos[langue][cle];
         } catch (e) { /* translations non chargé : on prend le repli */ }
         return repli;
     }
@@ -136,13 +154,68 @@
         return mots.slice(0, nbMots).join(" ") + "\u2026";
     }
 
+    // Le JSON stocke les provinces sous leur libellé français ("Brabant flamand"), alors que
+    // translations.js les indexe par clé canonique ("brabant_flamand" -> geo_province_*). Cette
+    // table fait le pont, sur le même principe que CLES_REGION plus haut. Sans elle, la tuile
+    // affichait le libellé brut du JSON pendant que la fiche ouverte au clic affichait, elle, la
+    // version traduite : deux fils d'Ariane différents pour le même terrain.
+    // La recherche normalise aussi les tirets en espaces : le JSON mélange les deux formes
+    // ("Flandre-Occidentale" mais "Flandre orientale"), et une entrée par variante aurait fini
+    // par en oublier une. Les clés ci-dessous sont donc toutes écrites avec des espaces, y
+    // compris les libellés néerlandais habituellement composés ("vlaams-brabant").
+    // Bruxelles n'y figure pas volontairement : sa "province" vaut sa région et n'est jamais
+    // affichée (voir la déduplication dans filAriane juste en dessous).
+    var CLES_PROVINCE = {
+        "brabant wallon": "brabant_wallon", "waals brabant": "brabant_wallon",
+        "hainaut": "hainaut", "henegouwen": "hainaut",
+        "li\u00e8ge": "liege", "liege": "liege", "luik": "liege", "l\u00fcttich": "liege",
+        "luxembourg": "luxembourg", "luxemburg": "luxembourg",
+        "namur": "namur", "namen": "namur",
+        "anvers": "anvers", "antwerpen": "anvers", "antwerp": "anvers",
+        "brabant flamand": "brabant_flamand", "vlaams brabant": "brabant_flamand",
+        "limbourg": "limbourg", "limburg": "limbourg",
+        "flandre orientale": "flandre_orientale", "oost vlaanderen": "flandre_orientale",
+        "flandre occidentale": "flandre_occidentale", "west vlaanderen": "flandre_occidentale"
+    };
+
+    function cleProvince(valeur) {
+        var normalise = (valeur || "").toString().trim().toLowerCase().replace(/-/g, " ");
+        return CLES_PROVINCE[normalise] || "";
+    }
+
     // Bruxelles est à la fois région et "province" dans les données : on n'affiche pas deux
     // fois le même niveau ("Bruxelles > Bruxelles > Anderlecht" -> "Bruxelles > Anderlecht").
+    // La déduplication compare les libellés BRUTS du JSON, avant traduction : les deux niveaux
+    // en sortent toujours identiques quand ils désignent la même chose, quelle que soit la langue.
     function filAriane(t) {
-        var niveaux = [t.region];
-        if (t.province && t.province !== t.region) niveaux.push(t.province);
-        niveaux.push(t.commune);
+        var niveaux = [];
+
+        var cleR = cleRegion(t.region);
+        if (t.region) niveaux.push(cleR ? traduire("geo_region_" + cleR, t.region) : t.region);
+
+        if (t.province && t.province !== t.region) {
+            var cleP = cleProvince(t.province);
+            niveaux.push(cleP ? traduire("geo_province_" + cleP, t.province) : t.province);
+        }
+
+        // Communes bruxelloises à nom officiel bilingue ("Woluwe-Saint-Lambert - Sint-
+        // Lambrechts-Woluwe") : même traitement que dans les fiches, via l'aide exposée par
+        // script.js. Sans effet sur les communes à nom unique.
+        if (t.commune) {
+            niveaux.push(typeof window.nomCommuneAffiche === "function"
+                ? window.nomCommuneAffiche(t.commune, langueCourante())
+                : t.commune);
+        }
+
         return niveaux.map(echapper).join(" &rsaquo; ");
+    }
+
+    // Description du terrain dans la langue affichée. description_nl / description_de sont lus
+    // s'ils existent dans le JSON, sinon repli sur le texte français — même règle que dans les
+    // fiches (voir construireContenuPopupTerrain dans script.js), pour que l'extrait de la tuile
+    // et le texte complet de la fiche soient toujours dans la même langue.
+    function descriptionAffichee(t) {
+        return t["description_" + langueCourante()] || t.description || "";
     }
 
     // ---------------------------------------------------------------------------------
@@ -228,14 +301,20 @@
             var photo = t.miniature
                 ? '<img src="' + echapper(t.miniature) + '" alt="" loading="lazy" width="500" height="500">'
                 : '<div class="tuile-photo-placeholder">' + echapper(traduire("beaux_terrains_photo_a_venir", "photo \u00e0 venir")) + '</div>';
-            var extrait = t.description
-                ? '<p class="tuile-extrait">' + echapper(premiersMots(t.description, NB_MOTS_EXTRAIT)) + '</p>'
+            var texteDescription = descriptionAffichee(t);
+            var extrait = texteDescription
+                ? '<p class="tuile-extrait">' + echapper(premiersMots(texteDescription, NB_MOTS_EXTRAIT)) + '</p>'
                 : "";
+            // Terrain sans nom de rue connu (nom vide dans le JSON) : même intitulé générique
+            // traduit que celui affiché par la fiche dans ce cas (voir popup_terrain_default
+            // dans construireContenuPopupTerrain), plutôt qu'un texte figé dans une seule langue
+            // qui divergerait de la fiche ouverte au clic.
+            var nomAffiche = t.nom || traduire("popup_terrain_default", "Terrain de p\u00e9tanque");
             html +=
                 '<div class="tuile-terrain" data-index="' + i + '" role="button" tabindex="0">' +
                 '  <div class="tuile-photo">' + photo + '</div>' +
                 '  <div class="tuile-info">' +
-                '    <p class="tuile-nom">' + echapper(t.nom) + '</p>' +
+                '    <p class="tuile-nom">' + echapper(nomAffiche) + '</p>' +
                 '    <div class="popup-breadcrumb">' + filAriane(t) + '</div>' +
                 '    ' + extrait +
                 '  </div>' +
@@ -310,6 +389,29 @@
             window.allerVersTerrain(t.lat, t.lon);
         }
     }
+
+    // ---------------------------------------------------------------------------------
+    // Changement de langue
+    // ---------------------------------------------------------------------------------
+    // Le sélecteur de langue ne recharge pas la page (changerLangue dans script.js met à jour
+    // l'URL via history.pushState puis rappelle appliquerTraductions). Or les tuiles sont
+    // construites en JS, sans attribut data-i18n : sans ce rappel, elles resteraient figées dans
+    // la langue d'arrivée sur la page. Le titre, lui, porte bien un data-i18n sur l'accueil,
+    // mais serait ramené au titre générique "en Belgique" alors qu'une région est peut-être
+    // sélectionnée — construire() repose le bon titre.
+    //
+    // setTimeout(…, 0) : nos écouteurs sont enregistrés APRÈS ceux de script.js (chargé avant ce
+    // fichier), donc currentLang est déjà à jour quand on passe, mais on laisse quand même
+    // appliquerTraductions terminer son propre parcours du DOM avant de reconstruire.
+    function reconstruireApresTraduction() {
+        setTimeout(function () { if (terrains.length) construire(); }, 0);
+    }
+
+    var boutonsLangue = document.querySelectorAll(".lang-link");
+    for (var b = 0; b < boutonsLangue.length; b++) {
+        boutonsLangue[b].addEventListener("click", reconstruireApresTraduction);
+    }
+    window.addEventListener("popstate", reconstruireApresTraduction);
 
     // ---------------------------------------------------------------------------------
     // Démarrage
