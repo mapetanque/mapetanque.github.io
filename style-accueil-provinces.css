@@ -91,8 +91,11 @@
 .map-wrapper {
     /* 16px sur les côtés, à tous les gabarits (pas de variante mobile séparée, contrairement au
        modèle province 44px/18px envisagé un temps). Auparavant sans marge latérale, la carte
-       s'étendait bord à bord. */
-    margin: 25px 16px 0;
+       s'étendait bord à bord.
+       En haut, margin-top:6px plutôt que 16px directement : .controls (juste au-dessus, dans
+       style.css) a déjà margin:10px auto, et .map-view étant en display:flex, les marges entre
+       éléments ne fusionnent pas — elles s'additionnent. 6 + 10 = 16px visibles au total. */
+    margin: 6px 16px 0;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 6px 24px rgba(30, 50, 20, 0.10);
@@ -159,11 +162,10 @@
     /* Anciennement "50px 20px 60px" : ces valeurs supposaient region-section en dernière
        position, suivant une section province au fond gris. Depuis l'inversion, elle est
        intermédiaire entre le carrousel et #provinces-section (devenue la section de clôture,
-       qui garde donc son padding-bottom de 60px). Resserré pour ne plus cumuler deux paddings
-       de "fin de section" là où il n'y a plus de transition de couleur pour les justifier :
-       le padding-top de 20px, combiné aux 36px déjà sous le carrousel (16px de padding du
-       scroller + 20px de padding de .beaux-terrains-accueil), donne ~56px au-dessus du titre. */
-    padding: 20px 20px 20px;
+       qui garde donc son padding-bottom de 60px). padding-top de 40px, combiné aux 36px déjà
+       sous le carrousel (16px de padding du scroller + 20px de padding de
+       .beaux-terrains-accueil), donne ~76px au-dessus du titre. */
+    padding: 40px 20px 20px;
 }
 
 .regions-tiles-grid {
