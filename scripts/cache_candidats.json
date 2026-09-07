@@ -21870,5 +21870,101 @@
     "lat": 50.4106426,
     "lon": 5.1750102,
     "candidat": null
+  },
+  "node/14139762366": {
+    "osm_id": "node/14139762366",
+    "nom": "Unescolaan",
+    "commune": "Antwerpen",
+    "lat": 51.1619155,
+    "lon": 4.3934519,
+    "candidat": {
+      "id": "3960225930922522",
+      "score": 0.265,
+      "distance_m": 19.7,
+      "ecart_angle_deg": 19.4,
+      "captured_at": 1738332981674,
+      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An_G7ar3vOe74q1nq5pfHYB0esxk5-KlbowJ8HuJLYCREbxYxii8j2AE8a2Wyj3oBPSppOj9o9zH56yKxMqJ6WszU4jGsA4gachhFAwA1sMC7mfXaCg1IktWQvPcxVxPB1Z1YtgpziioOXY98sXgiyQ?stp=s1024x768&edm=AOnQwmMEAAAA&_nc_gid=U99Xk3CaVMgET4rRkxonMw&_nc_oc=AdpV9FeMc3SbD1ni2I0_YvMMV6BIHCPa4DiVZA88e2TK_rBq0EG-4thI22rv5PYWXLc&ccb=10-5&oh=00_AQKir5bQUBjRuTpZE5L1Gzy9MTIL1kikAA25wnP6-9ArtA&oe=6AC69AC5&_nc_sid=201bca",
+      "lien": "https://www.mapillary.com/map/im/3960225930922522"
+    }
+  },
+  "way/1553042699": {
+    "osm_id": "way/1553042699",
+    "nom": "Dorpsstraat",
+    "commune": "Bredene",
+    "lat": 51.2351251,
+    "lon": 2.9761469,
+    "candidat": {
+      "id": "1740147910655193",
+      "score": 0.164,
+      "distance_m": 15.5,
+      "ecart_angle_deg": 16.5,
+      "captured_at": 1786274380000,
+      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An9-le2hWneG_5vpTtybyeBtWRJ_eQ9mVj4GO1pSID_YqlfuzDjiipfnbLpWYLxLiwxgKasbUQ1zKVW29bH3pMaj264DkCxT7KjKzPhUaNryMQwoC9_BkHs6yT6OrXJMudj_T9V_NUHKA4ocxgFEnbo?stp=s1024x896&edm=AOnQwmMEAAAA&_nc_gid=hyfAWqajyuffnBl5EN937w&_nc_oc=Ado8ryFS4ZcWKBDZywQ6FP57NiZky_jPVO2d5cLhGAJGDXFQxqf5sCZiR7ug2iZHRWg&ccb=10-5&oh=00_AQKyVmp35lpz9sdLN0kgQOvkKNPEHi93nCXgC73RDvNmsg&oe=6AC6A88A&_nc_sid=201bca",
+      "lien": "https://www.mapillary.com/map/im/1740147910655193"
+    }
+  },
+  "way/1554066499": {
+    "osm_id": "way/1554066499",
+    "nom": "Vloedstraat",
+    "commune": "Bredene",
+    "lat": 51.2394329,
+    "lon": 2.9698747,
+    "candidat": {
+      "id": "1432783805374834",
+      "score": 0.225,
+      "distance_m": 27.6,
+      "ecart_angle_deg": 1.2,
+      "captured_at": 1787749973000,
+      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An9M8no3VudiQi4DhsZPaODJgnjYoYm1PUn7cGbjt8vgbv6mt4rb06bPQGgw40AYZH8RjmmWtfz2fAVQDeGsClPahtr4uw5OPpaMopC5QlxXBioXkzX90WsKHiILl37X1YmDBWC7Px2TH3E4Q2yeC6M?stp=s1024x896&edm=AOnQwmMEAAAA&_nc_gid=XFvKW7rrc2Ma9IkYndbLrw&_nc_oc=Adr3rBpnUZmXp0gNi3g0iGWBx9Bh5GN4PAMISgiRbPUome3jJKeH6SyrtEe2BCPTdjU&ccb=10-5&oh=00_AQKtzQbiI5u0WMrOnN8i7_VjuQXfinD33G2Vehhequ7sUg&oe=6AC6B42C&_nc_sid=201bca",
+      "lien": "https://www.mapillary.com/map/im/1432783805374834"
+    }
+  },
+  "way/1553512607": {
+    "osm_id": "way/1553512607",
+    "nom": "Haagdoornlaan",
+    "commune": "Stabroek",
+    "lat": 51.3149167,
+    "lon": 4.4021509,
+    "candidat": {
+      "id": "1668809960741110",
+      "score": 0.305,
+      "distance_m": 15.9,
+      "ecart_angle_deg": 51.7,
+      "captured_at": 1738590636000,
+      "thumbnail": "https://scontent.flgg1-1.fna.fbcdn.net/m1/v/t6/An_lN0a9iuMgUL_N1YUW6IvnukpHeC0UR5xEutrQ7IVX65B9U99qlMVn_9UEr2ivR_gLkvkPGU9wg0SySRKg47axw3imj9ZguEmsLgDkcG4enTtrXvaTzZUXPGmQGZcf8UYOkkv4gma_EdwsIhIliks?stp=s1024x896&edm=AOnQwmMEAAAA&_nc_gid=y20mt4jiARENh1osUH2JDQ&_nc_oc=AdpIVthcFfGKlEUPr1dURQk4isy3C7rco5biFFacQdhT4bUYoV0GV9DGhRa8QqeTS4g&ccb=10-5&oh=00_AQLAfF2gEmM5n6ZQW6Ir7JvBEptNZcdvBCe_zildlackNA&oe=6AC6A349&_nc_sid=201bca",
+      "lien": "https://www.mapillary.com/map/im/1668809960741110"
+    }
+  },
+  "way/1554707872": {
+    "osm_id": "way/1554707872",
+    "nom": "Baclain",
+    "commune": "Gouvy",
+    "lat": 50.1949716,
+    "lon": 5.8657575,
+    "candidat": null
+  },
+  "way/1554707873": {
+    "osm_id": "way/1554707873",
+    "nom": "Baclain",
+    "commune": "Gouvy",
+    "lat": 50.1949791,
+    "lon": 5.8657174,
+    "candidat": null
+  },
+  "way/1554707874": {
+    "osm_id": "way/1554707874",
+    "nom": "Baclain",
+    "commune": "Gouvy",
+    "lat": 50.1949188,
+    "lon": 5.8657189,
+    "candidat": null
+  },
+  "way/1556528973": {
+    "osm_id": "way/1556528973",
+    "nom": "Kasteeldreef",
+    "commune": "Grobbendonk",
+    "lat": 51.1661512,
+    "lon": 4.7436032,
+    "candidat": null
   }
 }

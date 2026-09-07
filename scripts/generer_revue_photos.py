@@ -61,8 +61,18 @@ DELAI_ENTRE_REQUETES = 0.3  # secondes, pour rester raisonnable vis-à-vis de l'
 # mets un nombre ici (ex. 10). Remets None pour traiter tous les terrains.
 LIMITE_TERRAINS = None
 
-FICHIER_CACHE = "cache_candidats.json"
-FICHIER_HTML = "revue_photos.html"
+# Nombre d'échecs réseau CONSÉCUTIFS au-delà duquel le script s'arrête de lui-même. Un échec
+# isolé arrive (perte de paquet, hoquet serveur) ; une série continue signifie que quelque chose
+# de systémique s'est produit — quota applicatif atteint, token invalidé, coupure de connexion.
+# Continuer dans ce cas ne sert à rien : on parcourt 1700 terrains pour n'obtenir que des erreurs.
+MAX_ECHECS_CONSECUTIFS = 5
+
+# Chemins ancrés sur le dossier du script, pas sur le dossier courant : lancer le script depuis la
+# racine du dépôt (python scripts/generer_revue_photos.py) créait sinon un cache VIDE à la racine,
+# ignorant celui de scripts/ — et donc repartait pour ~1800 requêtes au lieu de reprendre.
+DOSSIER_SCRIPT = os.path.dirname(os.path.abspath(__file__))
+FICHIER_CACHE = os.path.join(DOSSIER_SCRIPT, "cache_candidats.json")
+FICHIER_HTML = os.path.join(DOSSIER_SCRIPT, "revue_photos.html")
 
 POIDS_DISTANCE = 0.4
 POIDS_ANGLE = 0.4
@@ -105,7 +115,13 @@ def images_a_proximite(lat, lon):
         },
         timeout=15,
     )
-    reponse.raise_for_status()
+
+    # raise_for_status() ne remonte que le code HTTP ("400 Client Error"), ce qui ne dit rien de
+    # la CAUSE. Or Mapillary renvoie le détail dans le corps de la réponse : message lisible, code
+    # d'erreur, et un fbtrace_id exploitable en cas de signalement. On l'inclut dans l'exception.
+    if not reponse.ok:
+        raise RuntimeError(f"HTTP {reponse.status_code} — {reponse.text[:500]}")
+
     return reponse.json().get("data", [])
 
 
@@ -202,6 +218,8 @@ def recuperer_tous_les_candidats():
     deja_fait = 0
     a_faire = 0
     sans_osm_id = 0
+    echecs = 0
+    echecs_consecutifs = 0
 
     for i, feature in enumerate(terrains, start=1):
         cle = cle_terrain(feature)
@@ -227,8 +245,26 @@ def recuperer_tous_les_candidats():
             images = images_a_proximite(lat, lon)
             candidat = meilleur_candidat(lat, lon, images)
         except Exception as e:
-            candidat = None
-            print(f"  [{i}/{len(terrains)}] {commune} — {nom} → erreur : {e}")
+            # CRUCIAL : un échec ne doit RIEN écrire dans le cache. Écrire candidat=None rendrait
+            # l'échec indistinguable d'un "aucune photo à proximité" légitime, et comme le cache
+            # n'est jamais rafraîchi, le terrain ne serait plus jamais réinterrogé — un faux
+            # négatif définitif. En le sautant, il reste absent du cache et sera retenté au
+            # prochain lancement.
+            echecs += 1
+            echecs_consecutifs += 1
+            print(f"  [{i}/{len(terrains)}] {commune} — {nom} → ÉCHEC : {e}")
+
+            if echecs_consecutifs >= MAX_ECHECS_CONSECUTIFS:
+                print(f"\n⛔ {echecs_consecutifs} échecs consécutifs — arrêt de la récupération.")
+                print("   Lis le message d'erreur ci-dessus : quota applicatif atteint, token")
+                print("   invalide ou connexion coupée. Le cache est intact, la reprise repartira")
+                print("   exactement d'ici.")
+                break
+
+            time.sleep(DELAI_ENTRE_REQUETES)
+            continue
+
+        echecs_consecutifs = 0
         duree = time.time() - debut
 
         cache[cle] = {
@@ -253,6 +289,9 @@ def recuperer_tous_les_candidats():
         time.sleep(DELAI_ENTRE_REQUETES)
 
     print(f"\nTerminé : {len(cache)} terrain(s) dans le cache ({a_faire} nouveaux cette session).")
+    if echecs:
+        print(f"\n⚠ {echecs} terrain(s) en échec, NON mis en cache — ils seront simplement")
+        print("  retentés au prochain lancement, rien n'est perdu.")
     if sans_osm_id:
         print(f"\n⚠ {sans_osm_id} terrain(s) ignoré(s) car sans osm_id : terrains.geojson n'est")
         print("  probablement pas encore régénéré avec la version à jour de update_terrains.py.")

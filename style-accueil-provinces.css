@@ -28,6 +28,13 @@
        de remplir tout le viewport au chargement, elle prend sa hauteur naturelle. Uniquement
        actif en dehors du mode plein écran (voir plus bas pour fullscreen-active). */
     height: auto;
+    /* Même gris que .beaux-terrains-accueil (#f7f9f6, voir style-beaux-terrains.css) : la bande
+       grise démarre désormais au bas de la bannière et court sous la carte puis sous le
+       carrousel, d'un seul tenant. La bannière ne change pas d'aspect, son image de fond
+       recouvre entièrement ses 300 px. Le gris ne se voit donc que dans la marge de 16px autour
+       de .map-wrapper et derrière ses coins arrondis (border-radius: 20px), ce qui pose
+       visuellement la carte sur le fond au lieu de la fondre dans le blanc. */
+    background-color: #f7f9f6;
 }
 
 .hero-banner {

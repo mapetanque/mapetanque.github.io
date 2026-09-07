@@ -1902,7 +1902,29 @@ footer a:hover {
     color: #999;
     margin-top: -6px;
 }
+/* Astuce "format paysage" en tête du formulaire d'ajout de photo. Encadré discret : fond vert
+   très pâle + filet vertical à gauche, pour se distinguer des champs sans les concurrencer. */
+.add-photo-tip {
+    font-size: 12px;
+    line-height: 1.45;
+    color: #555;
+    background: #f4f9f1;
+    border-left: 3px solid #74C15A;
+    border-radius: 4px;
+    padding: 8px 10px;
+    margin: 0;
+}
 
+.add-photo-tip a {
+    color: #74C15A;
+    font-weight: bold;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.add-photo-tip a:hover {
+    text-decoration: underline;
+}
 .add-photo-status.sending {
     display: flex;
     align-items: center;
