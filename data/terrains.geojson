@@ -1460,6 +1460,25 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          4.3934519,
+          51.1619155
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "node/14139762366",
+        "nearest_street": "Unescolaan",
+        "commune": "Antwerpen",
+        "province": "anvers",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           2.6810649,
           51.1352824
         ]
@@ -1614,7 +1633,7 @@
         "sport": "boules",
         "osm_id": "way/48863327",
         "nearest_street": "Hemelsbreedte",
-        "commune": "Sint-Niklaas",
+        "commune": "Sinaai",
         "province": "flandre_orientale",
         "region": "flandre"
       }
@@ -3093,7 +3112,7 @@
         "sport": "boules",
         "osm_id": "way/268152713",
         "nearest_street": "Place du Roi Albert",
-        "commune": "Pousset",
+        "commune": "Remicourt",
         "province": "liege",
         "region": "wallonie"
       }
@@ -5090,10 +5109,7 @@
         "nearest_street": "Koninklijke Baan",
         "commune": "Bredene",
         "province": "flandre_occidentale",
-        "region": "flandre",
-        "photo_url": "https://scontent-sjc6-1.xx.fbcdn.net/m1/v/t6/An8E1l4wAD-px3sqi8ZwbfPPb4Q4Hw3Cj0Frk0tUX4yx8viOmbXX1vK_1Xcydig3WgmY7WkA4sw312YUwoaWGEQT1t37vc6dMWnsOAZR5zox3sK49BZiq1dJ5-UTqjOb1UB4_n8_-x8PGbGUSJCp-Q?stp=s1024x576&edm=ALXxkZ8EAAAA&_nc_gid=sKJU_BzJquzPPOEGIZIxcw&_nc_oc=AdoqNf5AaWkGMUNPpez5AE9JHpEBjPoYJ30oCbJQxJXYrcxjERVLHYC2Vn2BcubTnkY&ccb=10-5&oh=00_AQJ7a1l-ZnxFS77egwTZk5AOvMKGEQxMCC_bZcSoXr3iuQ&oe=6ABD36AB&_nc_sid=201bca",
-        "photo_source": "mapillary",
-        "photo_credit_url": "https://www.mapillary.com/"
+        "region": "flandre"
       }
     },
     {
@@ -7275,10 +7291,7 @@
         "nearest_street": "Weibroekstraat",
         "commune": "Knokke-Heist",
         "province": "flandre_occidentale",
-        "region": "flandre",
-        "photo_url": "https://scontent-sjc6-1.xx.fbcdn.net/m1/v/t6/An_826nXBC4N2y38_46JfHk8TYlVeq-hNAQyzdi3RGipbSCTiu-UDyRUbVxSsn3AtQHTJC5D0XSUSCYVrkOORldTwq1jZBjhb4xAKNsDBtL7z72Ymk2r6Lm5q-lmR7rzHlQbfvo134VEeJ8nxcqte8Q?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=hHEOenT9iVOlbTU2C6iwkg&_nc_oc=AdrY2-GoGi4O8T_oDNt7HssIBX7RLvlXppWWb5RqD2_YjNrHE4fOw-7HEQcqwBCAFU8&ccb=10-5&oh=00_AQJQyX1LAGiMJlM4wRw-I758nlVNYZ4ty64Rn0rKtoYuwg&oe=6ABD3C34&_nc_sid=201bca",
-        "photo_source": "mapillary",
-        "photo_credit_url": "https://www.mapillary.com/"
+        "region": "flandre"
       }
     },
     {
@@ -8840,7 +8853,7 @@
         "surface": "gravel",
         "osm_id": "way/659291664",
         "nearest_street": "Filip de Pillecynlaan",
-        "commune": "Sint-Niklaas",
+        "commune": "Belsele",
         "province": "flandre_orientale",
         "region": "flandre"
       }
@@ -10689,7 +10702,7 @@
         "sport": "boules",
         "osm_id": "way/729711647",
         "nearest_street": "Kapelstraat",
-        "commune": "Temse",
+        "commune": "Steendorp",
         "province": "flandre_orientale",
         "region": "flandre"
       }
@@ -12624,7 +12637,7 @@
         "sport": "boules",
         "osm_id": "way/822148570",
         "nearest_street": "Goed dreef",
-        "commune": "Sinaai",
+        "commune": "Sint-Niklaas",
         "province": "flandre_orientale",
         "region": "flandre"
       }
@@ -12643,7 +12656,7 @@
         "sport": "boules",
         "osm_id": "way/822148571",
         "nearest_street": "Goed dreef",
-        "commune": "Sinaai",
+        "commune": "Sint-Niklaas",
         "province": "flandre_orientale",
         "region": "flandre"
       }
@@ -25899,7 +25912,7 @@
         "sport": "boules",
         "osm_id": "way/1229868993",
         "nearest_street": "Rue de l'École",
-        "commune": "Roux-Miroir",
+        "commune": "Incourt",
         "province": "brabant_wallon",
         "region": "wallonie"
       }
@@ -33936,10 +33949,7 @@
         "nearest_street": "Vuurwerkstraat",
         "commune": "Antwerpen",
         "province": "anvers",
-        "region": "flandre",
-        "photo_url": "https://scontent-sjc6-1.xx.fbcdn.net/m1/v/t6/An9eRdQmXCN4yubsaSpfzMly5AetIuhgH4M1EIfCu_o9OXHzHM2o7mt2bWV8R8YodldvBBeEv-Mw1TIfU24F2LquK6ClQlY0yt6zhb9sHWwZdbwWQcene-17tCznvEC2bj6_g9kqHsXJJZvcgGWADXY?stp=s1024x771&edm=ALXxkZ8EAAAA&_nc_gid=kP4iN_wjMayDAlnyoJPPrQ&_nc_oc=AdoZAF9ZE6BGNEOmg31Cx-h2OlSWsJp--Yc9q_6wZ4l_xKPBpKMb_IoBFfkfXiHUV-E&ccb=10-5&oh=00_AQKxCkdFaKQF09h60QOdqRkr6tZGNv2g6YVsIIlptHqgpA&oe=6ABD2F60&_nc_sid=201bca",
-        "photo_source": "mapillary",
-        "photo_credit_url": "https://www.mapillary.com/"
+        "region": "flandre"
       }
     },
     {
@@ -33967,8 +33977,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          5.4892775,
-          50.854271
+          5.4892404,
+          50.8542631
         ]
       },
       "properties": {
@@ -34331,8 +34341,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          5.8994592,
-          50.432847
+          5.8994086,
+          50.4328982
         ]
       },
       "properties": {
@@ -35136,6 +35146,105 @@
         "osm_id": "way/1553512607",
         "nearest_street": "Haagdoornlaan",
         "commune": "Stabroek",
+        "province": "anvers",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.9698747,
+          51.2394329
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1554066499",
+        "nearest_street": "Vloedstraat",
+        "commune": "Bredene",
+        "province": "flandre_occidentale",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8657575,
+          50.1949716
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1554707872",
+        "nearest_street": "Baclain",
+        "commune": "Gouvy",
+        "province": "luxembourg",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8657174,
+          50.1949791
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1554707873",
+        "nearest_street": "Baclain",
+        "commune": "Gouvy",
+        "province": "luxembourg",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8657189,
+          50.1949188
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1554707874",
+        "nearest_street": "Baclain",
+        "commune": "Gouvy",
+        "province": "luxembourg",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.7436032,
+          51.1661512
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "surface": "fine_gravel",
+        "osm_id": "way/1556528973",
+        "nearest_street": "Kasteeldreef",
+        "commune": "Grobbendonk",
         "province": "anvers",
         "region": "flandre"
       }
