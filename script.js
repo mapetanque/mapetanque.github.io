@@ -602,6 +602,12 @@ if (locateBtn) {
 
                 definirPositionUtilisateur(lat, lon);
 
+                // Signale la position GPS, plus fiable que la détection par IP, au carrousel des
+                // beaux terrains — n'a d'effet que sur l'accueil (voir beaux-terrains.js).
+                if (typeof window.mapetanqueMajRegionBeauxTerrains === "function") {
+                    window.mapetanqueMajRegionBeauxTerrains(lat, lon);
+                }
+
                 map.setView([lat, lon], 15);
 
                 if (locateMarker) {

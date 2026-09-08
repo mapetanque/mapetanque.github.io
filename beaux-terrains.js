@@ -1,16 +1,21 @@
 /* =====================================================================================
    Les plus beaux terrains — logique commune à la page d'accueil et aux pages région
-   Fichier ADDITIF : script.js n'est pas modifié.
+   Fichier ADDITIF : script.js n'est modifié qu'à la marge, pour deux points d'accroche
+   ponctuels que ce fichier ne peut pas obtenir autrement (voir "Dépend de" ci-dessous) — pas de
+   logique métier du carrousel déplacée là-bas.
 
    Fonctionnement :
      - la page fournit un conteneur <section id="beaux-terrains"> (voir extraits HTML fournis) ;
      - ce script charge /data/beaux_terrains.json, remplit la rangée de tuiles, et branche le
        clic sur la carte déjà présente sur la page ;
      - sur la page d'accueil (liste non filtrée), la région est devinée par IP pour restreindre
-       l'affichage ; sur une page région, la région est imposée par la page elle-même.
+       l'affichage, puis affinée par GPS si la personne clique sur "Me localiser" ; sur une page
+       région, la région est imposée par la page elle-même et n'est jamais re-détectée.
 
-   Dépend de : window.allerVersTerrain (script.js) sur la page d'accueil,
+   Dépend de : window.allerVersTerrain et window.map (script.js) sur la page d'accueil,
                window.beauxTerrainsGroupe (exposé par le template région) sur les pages région.
+   script.js appelle en retour window.mapetanqueMajRegionBeauxTerrains(lat, lon), exposée par ce
+   fichier, dès qu'il obtient une position GPS via "Me localiser".
    ===================================================================================== */
 (function () {
     "use strict";
@@ -134,6 +139,51 @@
             .then(function (d) { return d ? regionDepuisReponse(d) : ""; })
             .catch(function () { return ""; });   // échec/quota : on reste sur la Belgique
     }
+
+    // ---------------------------------------------------------------------------------
+    // Détection de région par coordonnées GPS (bouton "Me localiser", page d'accueil)
+    // ---------------------------------------------------------------------------------
+    // La détection par IP ci-dessus est peu fiable en mobile : beaucoup d'opérateurs belges
+    // routent le trafic data via des infrastructures enregistrées dans une seule région, quel
+    // que soit l'endroit réel de la personne. Le bouton "Me localiser" donne des coordonnées GPS
+    // bien plus fiables ; cette fonction les traduit en région SANS appel réseau, par une
+    // approximation géométrique volontairement simple.
+    //
+    // Limite assumée : les frontières régionales belges sont irrégulières (Bruxelles est une
+    // enclave dans le Brabant flamand, la frontière linguistique n'est pas une ligne droite —
+    // Fourons au sud de la ligne est pourtant flamand, Comines-Warneton au nord est pourtant
+    // wallon). Quelques cas limites près de ces frontières seront mal classés. Accepté en échange
+    // d'un résultat instantané, sans dépendance réseau supplémentaire.
+    function regionDepuisCoordonnees(lat, lon) {
+        // Hors de Belgique au sens large : on ne restreint pas (mêmes limites approximatives
+        // que celles couvrant tout le territoire, marge incluse).
+        if (lat < 49.4 || lat > 51.6 || lon < 2.3 || lon > 6.5) return "";
+
+        // Région de Bruxelles-Capitale : petite zone à part, testée en premier — sinon elle
+        // tomberait dans la moitié nord et serait classée à tort en Flandre.
+        if (lat >= 50.76 && lat <= 50.91 && lon >= 4.24 && lon <= 4.48) return "bruxelles";
+
+        // Partage nord/sud approximatif du reste du pays.
+        return lat >= 50.75 ? "flandre" : "wallonie";
+    }
+
+    // Applique une région détectée et reconstruit — utilisé aussi bien après la détection par IP
+    // (ci-dessus) qu'après un "Me localiser" réussi (ci-dessous).
+    function appliquerRegion(region) {
+        if (!region) return;
+        regionCourante = region;
+        construire();
+    }
+
+    // Exposée pour script.js, dont le gestionnaire de clic sur "Me localiser" l'appelle avec les
+    // coordonnées GPS dès qu'il les reçoit (voir le commentaire sur ce fichier en tête). Un test
+    // typeof y protège l'appel sur les pages sans ce carrousel.
+    // modeAuto = false sur une page région : elle impose sa région quel que soit l'endroit réel
+    // de la personne, elle ne doit jamais être re-détectée — d'où ce garde-fou.
+    window.mapetanqueMajRegionBeauxTerrains = function (lat, lon) {
+        if (!modeAuto) return;
+        appliquerRegion(regionDepuisCoordonnees(lat, lon));
+    };
 
     // ---------------------------------------------------------------------------------
     // Rendu
@@ -463,9 +513,7 @@
 
             // 2) Puis restriction à la région détectée, uniquement si la page ne l'impose pas.
             if (modeAuto) {
-                detecterRegion().then(function (region) {
-                    if (region) { regionCourante = region; construire(); }
-                });
+                detecterRegion().then(appliquerRegion);
             }
         })
         .catch(function () {
