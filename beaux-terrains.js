@@ -414,12 +414,48 @@
     window.addEventListener("popstate", reconstruireApresTraduction);
 
     // ---------------------------------------------------------------------------------
+    // Ordre d'affichage
+    // ---------------------------------------------------------------------------------
+    // Le JSON peut porter un champ "note" (0 à 5, demi-points admis) qui fait remonter les
+    // terrains les mieux évalués. Trois règles :
+    //   - note décroissante ;
+    //   - à note égale, l'ordre du fichier est conservé tel quel : Array.prototype.sort est
+    //     stable depuis ES2019, donc dans tous les navigateurs visés ici — aucun départage
+    //     artificiel à inventer, et le JSON reste le second curseur ;
+    //   - terrain sans note : rejeté en fin de liste, plutôt que placé au milieu avec une
+    //     valeur par défaut — un terrain pas encore évalué ne doit pas passer devant un
+    //     terrain explicitement noté 2.
+    //
+    // Le tri est appliqué UNE SEULE FOIS au chargement : terrainsAffiches() n'utilise que
+    // .filter(), qui préserve l'ordre, donc les pages région et Bruxelles en héritent sans
+    // une ligne de plus. Idem au changement de langue : construire() relit `terrains`, déjà
+    // trié.
+    function valeurNote(t) {
+        var n = t && t.note;
+        // Tolérance : une note saisie entre guillemets dans le JSON ("4.5") reste comprise,
+        // au lieu d'être traitée comme absente et de faire plonger le terrain en fin de liste.
+        if (typeof n === "string") n = parseFloat(n);
+        return (typeof n === "number" && isFinite(n)) ? n : null;
+    }
+
+    function trierParNote(liste) {
+        return liste.slice().sort(function (a, b) {
+            var na = valeurNote(a);
+            var nb = valeurNote(b);
+            if (na === null && nb === null) return 0;   // deux sans note : ordre du JSON
+            if (na === null) return 1;                  // a sans note : après b
+            if (nb === null) return -1;                 // b sans note : après a
+            return nb - na;                             // note décroissante
+        });
+    }
+
+    // ---------------------------------------------------------------------------------
     // Démarrage
     // ---------------------------------------------------------------------------------
     fetch(CHEMIN_DONNEES)
         .then(function (r) { return r.json(); })
         .then(function (data) {
-            terrains = data || [];
+            terrains = trierParNote(data || []);
 
             // 1) Affichage immédiat : rien n'attend le réseau de géolocalisation.
             creerFleches();

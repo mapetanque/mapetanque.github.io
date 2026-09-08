@@ -14,6 +14,7 @@
   },
   {
     "osm_id": "way/1185362291",
+    "note": 4.0,
     "nom": "Jesserenstraat",
     "commune": "Jesseren",
     "province": "Limbourg",
@@ -24,19 +25,6 @@
     "description": "Joli terrain avec 2 bancs situé dans le village rural de Jesseren, dans un environnement calme et verdoyant, au cœur du paysage agricole de la région de Tongres.",
     "description_nl": "Mooi terrein met twee banken in het landelijke dorp Jesseren, rustig en groen gelegen midden in het agrarische landschap rond Tongeren.",
     "description_de": "Schöner Platz mit zwei Bänken im ländlichen Dorf Jesseren, ruhig und grün gelegen inmitten der Agrarlandschaft rund um Tongeren."
-  },
-  {
-    "osm_id": "way/115738432",
-    "nom": "",
-    "commune": "Neerpelt",
-    "province": "Limbourg",
-    "region": "Flandre",
-    "lat": 51.2333876,
-    "lon": 5.4333427,
-    "miniature": "/images/miniatures-carrees/1021896166058924.webp",
-    "description": "Beau terrain situé près d'un canal et d'une aire de service pour camping-car, à proximité de plusieurs espaces verts et équipements de loisirs.",
-    "description_nl": "Mooi terrein vlak bij een kanaal en een camperplaats, in de buurt van verschillende groenzones en recreatievoorzieningen.",
-    "description_de": "Schöner Platz nahe einem Kanal und einem Wohnmobilstellplatz, in der Nähe mehrerer Grünflächen und Freizeiteinrichtungen."
   },
   {
     "osm_id": "way/300510232",
@@ -66,6 +54,7 @@
   },
   {
     "osm_id": "way/787570642",
+    "note": 4.0,
     "nom": "Demerlaan",
     "commune": "Schoonderbuken",
     "province": "Brabant flamand",
@@ -79,6 +68,7 @@
   },
   {
     "osm_id": "way/386811589",
+    "note": 5.0,
     "nom": "Kasteelstraat",
     "commune": "Zwevezele",
     "province": "Flandre-Occidentale",
@@ -118,6 +108,7 @@
   },
   {
     "osm_id": "way/435710450",
+    "note": 4.5,
     "nom": "Pieterlaan",
     "commune": "Koksijde",
     "province": "Flandre-Occidentale",
@@ -222,6 +213,7 @@
   },
   {
     "osm_id": "way/1172938577",
+    "note": 2.0,
     "nom": "Chemin Beau Site",
     "commune": "Rebecq-Rognon",
     "province": "Brabant wallon",
@@ -248,6 +240,7 @@
   },
   {
     "osm_id": "way/1391506349",
+    "note": 4.0,
     "nom": "Rue Docteur Huet - Dokter Huetstraat",
     "commune": "Anderlecht",
     "province": "Bruxelles",
@@ -261,6 +254,7 @@
   },
   {
     "osm_id": "way/396321674",
+    "note": 3.0,
     "nom": "Rue Paul Émile Janson - Paul Émile Jansonstraat",
     "commune": "Ixelles",
     "province": "Bruxelles",
@@ -274,6 +268,7 @@
   },
   {
     "osm_id": "way/664476758",
+    "note": 3.5,
     "nom": "Clos des Compagnons Bâtisseurs - Bouwgezellenerf",
     "commune": "Evere",
     "province": "Bruxelles",
@@ -287,6 +282,7 @@
   },
   {
     "osm_id": "way/729314695",
+    "note": 2.0,
     "nom": "Rue Liénard",
     "commune": "Quaregnon",
     "province": "Hainaut",
@@ -300,6 +296,7 @@
   },
   {
     "osm_id": "way/917320131",
+    "note": 4.5,
     "nom": "Longue Drève",
     "commune": "Enghien",
     "province": "Hainaut",
@@ -313,6 +310,7 @@
   },
   {
     "osm_id": "way/713431834",
+    "note": 4.5,
     "nom": "Allée des Rénardeaux",
     "commune": "Aywaille",
     "province": "Liège",
@@ -320,12 +318,13 @@
     "lat": 50.4778859,
     "lon": 5.6893217,
     "miniature": "/images/mapillary-360/6946943645329215.webp",
-    "description": "Très joli terrain de pétanque situé dans un environnement résidentiel et verdoyant d'Aywaille, à proximité du château de Dieupart.",
+    "description": "Bel ensemble de quatre terrains de pétanque situés dans un environnement résidentiel et verdoyant d'Aywaille, à proximité du château de Dieupart.",
     "description_nl": "Heel mooi petanqueterrein in een groene woonomgeving van Aywaille, vlak bij het kasteel van Dieupart.",
     "description_de": "Sehr schöner Pétanque-Platz in einer grünen Wohnumgebung von Aywaille, nahe dem Schloss Dieupart."
   },
   {
     "osm_id": "way/203890060",
+    "note": 3.0,
     "nom": "Drève du Fort",
     "commune": "Fléron",
     "province": "Liège",
@@ -337,8 +336,23 @@
     "description_nl": "Vier mooie petanqueterreinen langs de RAVeL-route, in een groene omgeving vlak bij het fort van Fléron.",
     "description_de": "Vier schöne Pétanque-Plätze entlang des RAVeL-Wegs, in grüner Umgebung nahe dem Fort von Fléron."
   },
+   {
+    "osm_id": "node/11134845270",
+    "note": 4.5,
+    "nom": "Voie du Sart-Tilman",
+    "commune": "Ougrée",
+    "province": "Liège",
+    "region": "Wallonie",
+    "lat": 50.287458,
+    "lon": 5.0977495,
+    "miniature": "/images/miniatures-carrees/1571108411172733.webp",
+    "description": "Tres joli terrain ombragé dans un joli coin de nature, au calme, ombragé et proche d'une très belle plaine de jeu.",
+    "description_nl": "Zeer mooi en schaduwrijk petanqueterrein, gelegen in een prachtige, rustige natuuromgeving en vlak bij een zeer mooie speeltuin.",
+    "description_de": "Sehr schöner und schattiger Bouleplatz in einer wunderschönen, ruhigen Naturlandschaft und in der Nähe eines sehr schönen Spielplatzes."
+  },
   {
     "osm_id": "way/525162386",
+    "note": 5.0,
     "nom": "Quai Sainte-Barbe",
     "commune": "Liège",
     "province": "Liège",
