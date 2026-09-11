@@ -83,6 +83,10 @@ CONTENU = {
         {
             "q": "Comment retirer un terrain qui n'existe plus ou n'est plus praticable ?",
             "a": "Les terrains affichés sur Mapetanque.be proviennent des données libres d'OpenStreetMap (OSM). Si un terrain n'existe plus ou n'est plus accessible au public, vous pouvez : modifier directement l'information dans OSM via leur outil d'édition ; ou me signaler l'erreur par e-mail mapetanque@outlook.be en précisant l'emplacement du terrain et les informations utiles. Si le terrain existe toujours mais est simplement mal entretenu ou dégradé, le mieux est de contacter la commune concernée (service des sports, travaux ou espaces verts), qui est généralement responsable de l'entretien des équipements publics."
+        },
+        {
+            "q": "Quelle est la différence entre un terrain et un club affilié ?",
+            "a": "Les terrains affichés par défaut sur la carte sont des terrains publics : librement accessibles, sans inscription ni réservation, vous pouvez y jouer quand vous le souhaitez avec vos propres boules. Les clubs affiliés, que vous pouvez faire apparaître avec l'option « Afficher les clubs », sont des associations membres de la Fédération Belge Francophone de Pétanque (FBFP) ou de la Petanque Federatie Vlaanderen (PFV) : ils disposent de leurs propres terrains, souvent abrités ou éclairés, et organisent des entraînements et des concours, avec une licence pour jouer en compétition. Les conditions d'accès varient d'un club à l'autre : beaucoup accueillent volontiers les visiteurs, mais mieux vaut les contacter avant de se déplacer."
         }
     ],
     "nl": [
@@ -105,6 +109,10 @@ CONTENU = {
         {
             "q": "Een terrein op de kaart bestaat niet meer of is niet meer bruikbaar, wat kan ik doen?",
             "a": "De terreinen die op Mapetanque.be worden weergegeven, zijn afkomstig van de vrije gegevens van OpenStreetMap. Aangezien deze database collaboratief is, kan sommige informatie onvolledig of verouderd zijn. Als een terrein niet meer bestaat of niet meer openbaar toegankelijk is, kun je: de informatie rechtstreeks aanpassen in OpenStreetMap via hun bewerkingstool; of de fout aan ons melden per e-mail mapetanque@outlook.be met vermelding van de locatie van het terrein en nuttige informatie. Als het terrein nog wel bestaat maar gewoon slecht onderhouden of beschadigd is, neem je best contact op met de betrokken gemeente (dienst sport, werken of groenvoorziening), die doorgaans verantwoordelijk is voor het onderhoud van openbare voorzieningen."
+        },
+        {
+            "q": "Wat is het verschil tussen een terrein en een aangesloten club?",
+            "a": "De terreinen die standaard op de kaart staan, zijn openbare terreinen: vrij toegankelijk, zonder inschrijving of reservatie, je kunt er spelen wanneer je wilt met je eigen ballen. De aangesloten clubs, die je zichtbaar maakt met de optie \"Clubs weergeven\", zijn verenigingen die aangesloten zijn bij de Fédération Belge Francophone de Pétanque (FBFP) of bij de Petanque Federatie Vlaanderen (PFV): zij beschikken over hun eigen terreinen, vaak overdekt of verlicht, en organiseren trainingen en tornooien, met een licentie om in competitie te spelen. De toegangsvoorwaarden verschillen van club tot club: velen ontvangen graag bezoekers, maar neem toch beter eerst contact op voor je langsgaat."
         }
     ],
     "de": [
@@ -127,6 +135,10 @@ CONTENU = {
         {
             "q": "Ein auf der Karte angezeigter Platz existiert nicht mehr oder ist nicht mehr nutzbar, was kann ich tun?",
             "a": "Die auf Mapetanque.be angezeigten Plätze stammen aus den freien Daten von OpenStreetMap. Da diese Datenbank kollaborativ ist, können manche Informationen unvollständig oder veraltet sein. Wenn ein Platz nicht mehr existiert oder nicht mehr öffentlich zugänglich ist, können Sie: die Information direkt über das Bearbeitungswerkzeug in OpenStreetMap ändern; oder uns den Fehler per E-Mail melden mapetanque@outlook.be, mit Angabe des Standorts des Platzes und nützlicher Informationen. Wenn der Platz noch existiert, aber lediglich schlecht gepflegt oder beschädigt ist, wenden Sie sich am besten an die zuständige Gemeinde (Sport-, Bau- oder Grünflächenamt), die in der Regel für die Instandhaltung öffentlicher Einrichtungen zuständig ist."
+        },
+        {
+            "q": "Was ist der Unterschied zwischen einem Platz und einem angeschlossenen Verein?",
+            "a": "Die standardmäßig auf der Karte angezeigten Plätze sind öffentliche Plätze: frei zugänglich, ohne Anmeldung oder Reservierung, Sie können dort jederzeit mit Ihren eigenen Kugeln spielen. Die angeschlossenen Vereine, die Sie mit der Option \"Vereine anzeigen\" einblenden können, sind Mitglieder der Fédération Belge Francophone de Pétanque (FBFP) oder der Petanque Federatie Vlaanderen (PFV): Sie verfügen über eigene Plätze, oft überdacht oder beleuchtet, und organisieren Training und Turniere, mit einer Lizenz für den Wettkampfbetrieb. Die Zugangsbedingungen unterscheiden sich von Verein zu Verein: Viele empfangen gerne Gäste, nehmen Sie aber besser vorher Kontakt auf."
         }
     ]
 }
