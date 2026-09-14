@@ -1,6 +1,6 @@
 {
   "wallonie": {
-    "total": 432,
+    "total": 433,
     "provinces": {
       "liege": {
         "total": 151,
@@ -128,7 +128,7 @@
         }
       },
       "luxembourg": {
-        "total": 47,
+        "total": 48,
         "communes": {
           "Haut-Fays": 1,
           "Saint-Hubert": 3,
@@ -151,10 +151,11 @@
           "Torgny": 1,
           "Journal": 1,
           "Herbeumont": 1,
-          "Hollange": 1,
+          "Fauvillers": 1,
           "Houffalize": 1,
           "Sy": 1,
-          "Gouvy": 3
+          "Gouvy": 3,
+          "Bohon": 1
         }
       },
       "brabant_wallon": {
@@ -179,7 +180,7 @@
           "Villers-la-Ville": 2,
           "Rebecq-Rognon": 1,
           "Ramillies": 1,
-          "Incourt": 1,
+          "Roux-Miroir": 1,
           "Beauvechain": 1
         }
       },
@@ -232,10 +233,10 @@
     "communes": {}
   },
   "flandre": {
-    "total": 1194,
+    "total": 1186,
     "provinces": {
       "brabant_flamand": {
-        "total": 192,
+        "total": 184,
         "communes": {
           "Tienen": 3,
           "Sint-Genesius-Rode - Rhode-Saint-Genèse": 5,
@@ -272,14 +273,14 @@
           "Linkebeek": 3,
           "Begijnendijk": 1,
           "Herent": 2,
-          "Strombeek-Bever": 12,
+          "Strombeek-Bever": 8,
           "Drogenbos": 2,
           "Lot": 1,
           "Aarschot": 2,
           "Oud-Heverlee": 3,
           "Humbeek": 2,
           "Pamel": 1,
-          "Merchtem": 5,
+          "Merchtem": 1,
           "Lubbeek": 1,
           "Bever": 1,
           "Pepingen": 2,
@@ -305,7 +306,6 @@
           "Lint": 5,
           "Antwerpen": 42,
           "Putte": 1,
-          "Wijnegem": 5,
           "Westerlo": 10,
           "Bonheiden": 6,
           "Herenthout": 2,
@@ -313,7 +313,6 @@
           "Bornem": 7,
           "Kasterlee": 3,
           "Aartselaar": 4,
-          "Kontich": 3,
           "Boom": 3,
           "Wuustwezel": 4,
           "Sint-Katelijne-Waver": 4,
@@ -324,6 +323,7 @@
           "Ravels": 5,
           "Boechout": 5,
           "Hoogstraten": 1,
+          "Wijnegem": 6,
           "Kalmthout": 3,
           "Dessel": 2,
           "Balen": 11,
@@ -335,6 +335,7 @@
           "Puurs": 2,
           "Mol": 7,
           "Geel": 27,
+          "Kontich": 2,
           "Heist-op-den-Berg": 1,
           "Hemiksem": 1,
           "Zandhoven": 1,
@@ -361,7 +362,7 @@
         }
       },
       "flandre_orientale": {
-        "total": 299,
+        "total": 300,
         "communes": {
           "Dendermonde": 5,
           "Wetteren": 3,
@@ -370,7 +371,7 @@
           "Hamme": 4,
           "Sint-Martens-Latem": 5,
           "Aalst": 13,
-          "Sinaai": 3,
+          "Sinaai": 6,
           "Mere": 2,
           "Etikhove": 1,
           "De Pinte": 8,
@@ -393,7 +394,7 @@
           "Aalter": 13,
           "Geraardsbergen": 2,
           "Huise": 1,
-          "Kieldrecht": 1,
+          "Kieldrecht": 2,
           "Lokeren": 14,
           "Belsele": 1,
           "Temse": 2,
@@ -406,7 +407,6 @@
           "Steendorp": 2,
           "Zevergem": 1,
           "Landskouter": 1,
-          "Sint-Niklaas": 12,
           "Lochristi": 1,
           "Munkzwalm": 2,
           "Sint-Lievens-Houtem": 2,
@@ -414,6 +414,7 @@
           "Oostwinkel": 1,
           "Berlare": 3,
           "Sint-Gillis-Waas": 2,
+          "Sint-Niklaas": 9,
           "Evergem": 1,
           "voormalige gemeente Ooike": 1,
           "Stekene": 1,
@@ -434,7 +435,7 @@
         }
       },
       "flandre_occidentale": {
-        "total": 219,
+        "total": 220,
         "communes": {
           "Loppem": 2,
           "Gullegem": 9,
@@ -458,7 +459,7 @@
           "Bredene": 6,
           "Werken": 1,
           "Roeselare": 29,
-          "Nieuwpoort": 5,
+          "Nieuwpoort": 6,
           "Oostrozebeke": 2,
           "Zonnebeke": 2,
           "Knokke-Heist": 3,
@@ -493,7 +494,7 @@
         }
       },
       "limbourg": {
-        "total": 197,
+        "total": 195,
         "communes": {
           "Peer": 3,
           "Koninksem": 2,
@@ -543,7 +544,7 @@
           "Lanaken": 3,
           "Borgloon": 2,
           "Meeuwen": 2,
-          "Bocholt": 4,
+          "Bocholt": 2,
           "Buvingen": 2,
           "Opglabbeek": 1
         }
@@ -552,7 +553,7 @@
     "communes": {}
   },
   "bruxelles": {
-    "total": 122,
+    "total": 121,
     "provinces": {
       "brabant_flamand": {
         "total": 1,
@@ -567,7 +568,6 @@
       "Woluwe-Saint-Lambert - Sint-Lambrechts-Woluwe": 12,
       "Forest - Vorst": 7,
       "Uccle - Ukkel": 7,
-      "Ganshoren": 4,
       "Ixelles - Elsene": 4,
       "Schaerbeek - Schaarbeek": 5,
       "Evere": 2,
@@ -576,6 +576,7 @@
       "Watermael-Boitsfort - Watermaal-Bosvoorde": 1,
       "Etterbeek": 1,
       "Molenbeek-Saint-Jean - Sint-Jans-Molenbeek": 3,
+      "Ganshoren": 3,
       "Berchem-Sainte-Agathe - Sint-Agatha-Berchem": 1,
       "Saint-Gilles - Sint-Gillis": 3
     }

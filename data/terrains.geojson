@@ -811,27 +811,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          4.5416311,
-          51.2234059
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "surface": "gravel",
-        "osm_id": "node/9556827845",
-        "nearest_street": "Kasteellei",
-        "commune": "Wijnegem",
-        "province": "anvers",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           3.1878215,
           50.9144494
         ]
@@ -2742,25 +2721,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          4.4383078,
-          51.1250322
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/213484144",
-        "nearest_street": "Keizershoek",
-        "commune": "Kontich",
-        "province": "anvers",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           4.7015113,
           50.9702253
         ]
@@ -2993,28 +2953,6 @@
         "commune": "Wuustwezel",
         "province": "anvers",
         "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2999754,
-          50.8817621
-        ]
-      },
-      "properties": {
-        "addr:housenumber": "14",
-        "addr:street": "Rue au Bois - Bosstraat",
-        "building": "yes",
-        "leisure": "pitch",
-        "sport": "petanque",
-        "osm_id": "way/261665600",
-        "nearest_street": "Rue au Bois - Bosstraat",
-        "commune": "Ganshoren",
-        "province": null,
-        "region": "bruxelles"
       }
     },
     {
@@ -6227,6 +6165,25 @@
         "nearest_street": "Poortendries",
         "commune": "Lede",
         "province": "flandre_orientale",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.5387982,
+          51.2234846
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/494994103",
+        "nearest_street": "Kasteellei",
+        "commune": "Wijnegem",
+        "province": "anvers",
         "region": "flandre"
       }
     },
@@ -12637,7 +12594,7 @@
         "sport": "boules",
         "osm_id": "way/822148570",
         "nearest_street": "Goed dreef",
-        "commune": "Sint-Niklaas",
+        "commune": "Sinaai",
         "province": "flandre_orientale",
         "region": "flandre"
       }
@@ -12656,7 +12613,7 @@
         "sport": "boules",
         "osm_id": "way/822148571",
         "nearest_street": "Goed dreef",
-        "commune": "Sint-Niklaas",
+        "commune": "Sinaai",
         "province": "flandre_orientale",
         "region": "flandre"
       }
@@ -14862,82 +14819,6 @@
         "commune": "Aywaille",
         "province": "liege",
         "region": "wallonie"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.3586681,
-          50.913179
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/890850125",
-        "nearest_street": "Ringlaan",
-        "commune": "Strombeek-Bever",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.3586133,
-          50.9132907
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/890850126",
-        "nearest_street": "Ringlaan",
-        "commune": "Strombeek-Bever",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.3584704,
-          50.9132238
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/890850127",
-        "nearest_street": "Ringlaan",
-        "commune": "Strombeek-Bever",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.3584669,
-          50.9130947
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/890850128",
-        "nearest_street": "Ringlaan",
-        "commune": "Strombeek-Bever",
-        "province": "brabant_flamand",
-        "region": "flandre"
       }
     },
     {
@@ -25912,7 +25793,7 @@
         "sport": "boules",
         "osm_id": "way/1229868993",
         "nearest_street": "Rue de l'École",
-        "commune": "Incourt",
+        "commune": "Roux-Miroir",
         "province": "brabant_wallon",
         "region": "wallonie"
       }
@@ -28883,45 +28764,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          5.5702803,
-          51.167129
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1332900198",
-        "nearest_street": "Eikenlaan",
-        "commune": "Bocholt",
-        "province": "limbourg",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.5697691,
-          51.1669369
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "name": "Petanqueclub Bocholt",
-        "sport": "boules",
-        "osm_id": "way/1332900199",
-        "nearest_street": "Eikenlaan",
-        "commune": "Bocholt",
-        "province": "limbourg",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           3.0911089,
           51.1176878
         ]
@@ -31850,7 +31692,7 @@
         "sport": "boules",
         "osm_id": "way/1416042818",
         "nearest_street": "Rue du Tilleul",
-        "commune": "Hollange",
+        "commune": "Fauvillers",
         "province": "luxembourg",
         "region": "wallonie"
       }
@@ -31966,7 +31808,7 @@
         "sport": "boules",
         "osm_id": "way/1421208969",
         "nearest_street": "Klokke Roelandlaan",
-        "commune": "Sint-Niklaas",
+        "commune": "Sinaai",
         "province": "flandre_orientale",
         "region": "flandre"
       }
@@ -32689,6 +32531,7 @@
         "access": "yes",
         "boules": "petanque",
         "leisure": "pitch",
+        "lit": "no",
         "panoramax": "715859f0-30ba-4cbb-9272-04693db004f7",
         "reservation": "no",
         "sport": "boules",
@@ -34939,86 +34782,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          4.2242726,
-          50.9859353
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1549146341",
-        "nearest_street": "Processiebaan",
-        "commune": "Merchtem",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2244278,
-          50.9858293
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1549146342",
-        "nearest_street": "Processiebaan",
-        "commune": "Merchtem",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2244719,
-          50.9856504
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1549146343",
-        "nearest_street": "Processiebaan",
-        "commune": "Merchtem",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2245754,
-          50.9855655
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1549146344",
-        "nearest_street": "Processiebaan",
-        "commune": "Merchtem",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           4.5569783,
           51.1873388
         ]
@@ -35245,6 +35008,83 @@
         "osm_id": "way/1556528973",
         "nearest_street": "Kasteeldreef",
         "commune": "Grobbendonk",
+        "province": "anvers",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.1705774,
+          51.2913547
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1557363109",
+        "nearest_street": "Tuinwijkstraat",
+        "commune": "Kieldrecht",
+        "province": "flandre_orientale",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.4765743,
+          50.3535
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1558130771",
+        "nearest_street": "Fond Sainte-Anne",
+        "commune": "Bohon",
+        "province": "luxembourg",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.7233125,
+          51.1438282
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "mapillary": "4157416557838467",
+        "sport": "boules",
+        "osm_id": "way/1558376441",
+        "nearest_street": "Georges Eekhoudlaan",
+        "commune": "Nieuwpoort",
+        "province": "flandre_occidentale",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.5416308,
+          51.2234014
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1558495054",
+        "nearest_street": "Kasteellei",
+        "commune": "Wijnegem",
         "province": "anvers",
         "region": "flandre"
       }
