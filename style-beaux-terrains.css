@@ -207,3 +207,96 @@
         padding-right: 16px;
     }
 }
+
+
+/* =====================================================================================
+   Notation publique des terrains
+   Deux usages, une seule feuille : la ligne de note des tuiles du carrousel, et le bloc de
+   notation des fiches. Tout est ici, et pas dans style.css, parce que cette feuille est chargée
+   par TOUTES les pages qui peuvent ouvrir une fiche — accueil, province, région — et par elles
+   seules ; style.css reste donc intact, conformément à l'approche additive.
+   ===================================================================================== */
+
+/* ---- Étoiles (commun aux tuiles et aux fiches) ----
+   Deux rangées superposées, la pleine rognée en largeur à la valeur de la moyenne. Les deux
+   rangées DOIVENT partager exactement la même taille et le même letter-spacing, sinon le rognage
+   ne tombe pas au bon endroit et une demi-étoile en devient un tiers. Toute surcharge de taille
+   se fait donc sur .note-etoiles, jamais sur l'une des deux rangées séparément.
+   L'information ne repose pas sur la teinte : le contraste entre étoile pleine et étoile vide est
+   d'abord un contraste de valeur (#4a8f36 contre #c4ccbd), et le chiffre est toujours écrit à
+   côté — rien ne dépend du comptage de formes ni de la perception d'une couleur. */
+.note-etoiles {
+    position: relative;
+    display: inline-block;
+    line-height: 1;
+    font-size: 19px;
+    letter-spacing: 2px;
+    white-space: nowrap;
+}
+.note-etoiles-vides { color: #c4ccbd; }
+.note-etoiles-pleines {
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+    color: #4a8f36;
+}
+
+/* ---- Bloc de notation dans la fiche ---- */
+/* Marges symétriques : le <br> de fin de bloc photo est retiré côté JS quand ce bloc s'intercale
+   (voir construireContenuPopupTerrain dans script.js), exactement comme pour .popup-description
+   avant lui. L'espacement au-dessus et en dessous est donc porté uniquement par ces marges. */
+.note-bloc { margin: 10px 0 12px; }
+
+.note-resultat,
+.note-vote {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.note-vote { margin-top: 6px; }
+
+/* Tant que personne n'a voté, la ligne de moyenne est un conteneur vide : masquée, pour ne pas
+   empiler deux rangées d'étoiles grises. Le JS la remplit après le premier vote, sans recharger
+   la fiche. :empty exige un conteneur SANS le moindre espace — construireResultatNote renvoie
+   bien une chaîne vide dans ce cas. */
+.note-resultat:empty { display: none; }
+.note-resultat:empty + .note-vote { margin-top: 0; }
+
+.note-chiffre { font-size: 13.5px; color: #333; }
+.note-aucun,
+.note-vote-label { font-size: 12.5px; color: #888; }
+.note-vote-message { font-size: 12.5px; color: #4a8f36; }
+.note-erreur { color: #b04a3a; }
+
+/* Les étoiles de vote sont de vrais <button> : accessibles au clavier, annoncés comme contrôles,
+   et visuellement distincts de la rangée de résultat au-dessus, qui n'est pas cliquable. */
+.note-vote-etoiles { display: inline-flex; }
+.note-vote-etoile {
+    background: none;
+    border: 0;
+    margin: 0;
+    padding: 0 1px;
+    font-size: 19px;
+    line-height: 1;
+    color: #c4ccbd;
+    cursor: pointer;
+}
+.note-vote-etoile.active { color: #4a8f36; }
+.note-vote-etoile:focus-visible { outline: 2px solid #74C15A; outline-offset: 2px; }
+
+/* ---- Ligne de note dans une tuile du carrousel ----
+   Occupe exactement la place de .tuile-extrait : même hauteur, même troncature sur une ligne,
+   donc aucun décalage dans la géométrie du carrousel. Aucun curseur ni état de survol ici : le
+   clic doit traverser jusqu'à la tuile, qui ouvre la fiche. */
+.tuile-note {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.tuile-note .note-etoiles { font-size: 14px; letter-spacing: 1px; }
+.tuile-note-chiffre { font-size: 12.5px; color: #666; }
+.tuile-note-vide { font-size: 12.5px; color: #999; }

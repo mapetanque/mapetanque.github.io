@@ -24,7 +24,7 @@ jobs:
 
       - name: Installation des dépendances
         run: |
-          pip install requests
+          pip install requests pillow
 
       - name: Mise à jour des terrains
         env:
@@ -32,12 +32,25 @@ jobs:
         run: |
           python scripts/update_terrains.py
 
+      # Promotion des terrains bien notés vers le carrousel : lit les votes sur le Worker
+      # Cloudflare, génère les miniatures carrées manquantes, écrit data/terrains_promus.json.
+      # continue-on-error : un souci de notation (Worker injoignable, API Mapillary en panne) ne
+      # doit JAMAIS empêcher la sauvegarde de la mise à jour OSM à l'étape suivante.
+      - name: Promotion des terrains bien notés
+        continue-on-error: true
+        env:
+          MAPILLARY_TOKEN: ${{ secrets.MAPILLARY_TOKEN }}
+        run: |
+          python scripts/promouvoir_terrains.py
+
       - name: Sauvegarde des changements
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
 
-          git add data/terrains.geojson data/stats_geo.json
+          # data/terrains_promus.json doit exister dans le dépôt AVANT le premier passage (même
+          # vide : []) : git add échoue sur un chemin inexistant, et ferait échouer tout ce commit.
+          git add data/terrains.geojson data/stats_geo.json data/terrains_promus.json images/miniatures-carrees
 
           git commit -m "Mise à jour quotidienne OSM" || exit 0
 

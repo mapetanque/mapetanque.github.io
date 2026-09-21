@@ -1,6 +1,7 @@
 [
   {
     "osm_id": "way/1395425552",
+    "note": 4.21,
     "nom": "Vossenhoek",
     "commune": "Beringen",
     "province": "Limbourg",
@@ -14,7 +15,7 @@
   },
   {
     "osm_id": "way/1185362291",
-    "note": 4.0,
+    "note": 4.36,
     "nom": "Jesserenstraat",
     "commune": "Jesseren",
     "province": "Limbourg",
@@ -28,6 +29,7 @@
   },
   {
     "osm_id": "way/300510232",
+    "note": 4.14,
     "nom": "Alaudastraat",
     "commune": "Leuven",
     "province": "Brabant flamand",
@@ -41,6 +43,7 @@
   },
   {
     "osm_id": "way/1191258048",
+    "note": 4.07,
     "nom": "Hansbrugweg",
     "commune": "Haacht",
     "province": "Brabant flamand",
@@ -54,7 +57,7 @@
   },
   {
     "osm_id": "way/787570642",
-    "note": 4.0,
+    "note": 4.29,
     "nom": "Demerlaan",
     "commune": "Schoonderbuken",
     "province": "Brabant flamand",
@@ -68,7 +71,7 @@
   },
   {
     "osm_id": "way/386811589",
-    "note": 5.0,
+    "note": 4.5,
     "nom": "Kasteelstraat",
     "commune": "Zwevezele",
     "province": "Flandre-Occidentale",
@@ -82,6 +85,7 @@
   },
   {
     "osm_id": "way/174144412",
+    "note": 4.0,
     "nom": "Kustlaan",
     "commune": "Brugge",
     "province": "Flandre-Occidentale",
@@ -94,21 +98,8 @@
     "description_de": "Zwei Plätze in städtischer Umgebung von Brügge, nahe den Wohnvierteln und den zahlreichen Grünflächen und Freizeiteinrichtungen der Stadt."
   },
   {
-    "osm_id": "way/1326503204",
-    "nom": "Sint-Vincentiusstraat",
-    "commune": "Tielt",
-    "province": "Flandre-Occidentale",
-    "region": "Flandre",
-    "lat": 50.9556531,
-    "lon": 3.2966314,
-    "miniature": "/images/miniatures-carrees/566703969089032.webp",
-    "description": "Terrain situé dans un environnement résidentiel de Tielt, à proximité du centre-ville tout en étant au calme et à l'ombre.",
-    "description_nl": "Terrein in een woonbuurt van Tielt, vlak bij het stadscentrum en toch rustig en in de schaduw gelegen.",
-    "description_de": "Platz in einem Wohnviertel von Tielt, nahe dem Stadtzentrum und dennoch ruhig und schattig gelegen."
-  },
-  {
     "osm_id": "way/435710450",
-    "note": 4.5,
+    "note": 4.43,
     "nom": "Pieterlaan",
     "commune": "Koksijde",
     "province": "Flandre-Occidentale",
@@ -121,99 +112,8 @@
     "description_de": "Drei Pétanque-Plätze in Meeresnähe. Koksijde verfügt über zahlreiche Freiluftplätze, verteilt über seine verschiedenen Viertel."
   },
   {
-    "osm_id": "way/1469819814",
-    "nom": "Bernard De Pooterstraat",
-    "commune": "Antwerpen",
-    "province": "Anvers",
-    "region": "Flandre",
-    "lat": 51.1684656,
-    "lon": 4.3806375,
-    "miniature": "/images/miniatures-carrees/812453693979831.webp",
-    "description": "Terrain de pétanque situé dans un quartier résidentiel proche du centre-ville. Il fait partie des nombreux petits terrains publics de l'arrondissement et se trouve à proximité d'autres équipements de loisirs.",
-    "description_nl": "Petanqueterrein in een woonwijk vlak bij het stadscentrum. Het is een van de vele kleine openbare terreinen van het district en ligt naast andere recreatievoorzieningen.",
-    "description_de": "Pétanque-Platz in einem Wohnviertel nahe dem Stadtzentrum. Er gehört zu den vielen kleinen öffentlichen Plätzen des Bezirks und liegt in der Nähe weiterer Freizeiteinrichtungen."
-  },
-  {
-    "osm_id": "way/846325127",
-    "nom": "Laar",
-    "commune": "Antwerpen",
-    "province": "Anvers",
-    "region": "Flandre",
-    "lat": 51.2167058,
-    "lon": 4.4344799,
-    "miniature": "/images/miniatures-carrees/490955732119379.webp",
-    "description": "Terrain situé dans un environnement urbain et résidentiel d'Anvers, au cœur d'un quartier animé, près de la magnifique église Notre-Dame-des-Neiges.",
-    "description_nl": "Terrein in een stedelijke woonomgeving van Antwerpen, midden in een levendige buurt, vlak bij de prachtige Onze-Lieve-Vrouw-ter-Sneeuwkerk.",
-    "description_de": "Platz in einem städtischen Wohnviertel von Antwerpen, mitten in einem lebhaften Quartier, nahe der prächtigen Kirche Onze-Lieve-Vrouw-ter-Sneeuw."
-  },
-  {
-    "osm_id": "way/1161004309",
-    "nom": "",
-    "commune": "Geel",
-    "province": "Anvers",
-    "region": "Flandre",
-    "lat": 51.203531,
-    "lon": 4.9798836,
-    "miniature": "/images/miniatures-carrees/4265665703494407.webp",
-    "description": "Terrain de pétanque situé dans un environnement résidentiel et verdoyant de Geel, dans la Campine anversoise.",
-    "description_nl": "Petanqueterrein in een groene woonomgeving van Geel, in de Antwerpse Kempen.",
-    "description_de": "Pétanque-Platz in einer grünen Wohnumgebung von Geel, in der Antwerpener Kempen."
-  },
-  {
-    "osm_id": "way/515784538",
-    "nom": "Van Hemelrijcklei",
-    "commune": "Brasschaat",
-    "province": "Anvers",
-    "region": "Flandre",
-    "lat": 51.2962111,
-    "lon": 4.4919084,
-    "miniature": "/images/miniatures-carrees/983635803135631.webp",
-    "description": "Deux beaux terrains situés dans une résidence pour retraités du quartier de Brasschaat, caractérisé par ses avenues arborées et ses nombreux espaces verts. Piste cyclable à proximité.",
-    "description_nl": "Twee mooie terreinen bij een seniorenresidentie in Brasschaat, een gemeente die bekendstaat om haar bomenrijke lanen en vele groenzones. Fietspad in de buurt.",
-    "description_de": "Zwei schöne Plätze bei einer Seniorenresidenz in Brasschaat, einer Gemeinde, die für ihre baumbestandenen Alleen und zahlreichen Grünflächen bekannt ist. Radweg in der Nähe."
-  },
-  {
-    "osm_id": "way/981249352",
-    "nom": "Alfred Nelenpad",
-    "commune": "Berlare",
-    "province": "Flandre orientale",
-    "region": "Flandre",
-    "lat": 51.0430362,
-    "lon": 3.9806552,
-    "miniature": "/images/miniatures-carrees/751104436067463.webp",
-    "description": "Terrain de pétanque situé au bord du Donkmeer, un lieu touristique et verdoyant particulièrement agréable, à proximité du lac et de ses espaces de promenade.",
-    "description_nl": "Petanqueterrein aan het Donkmeer, een bijzonder aangename groene en toeristische plek, vlak bij het meer en zijn wandelzones.",
-    "description_de": "Pétanque-Platz am Donkmeer, einem besonders angenehmen grünen Ausflugsziel, direkt beim See und seinen Spazierwegen."
-  },
-  {
-    "osm_id": "way/1458120962",
-    "nom": "Oordegemdorp",
-    "commune": "Lede",
-    "province": "Flandre orientale",
-    "region": "Flandre",
-    "lat": 50.9577285,
-    "lon": 3.9013903,
-    "miniature": "/images/miniatures-carrees/282093153699334.webp",
-    "description": "Terrain de pétanque situé au cœur du village d'Oordegem, sur le petit centre villageois à proximité de l'église.",
-    "description_nl": "Petanqueterrein in het hart van het dorp Oordegem, op het kleine dorpsplein vlak bij de kerk.",
-    "description_de": "Pétanque-Platz im Herzen des Dorfes Oordegem, am kleinen Dorfplatz nahe der Kirche."
-  },
-  {
-    "osm_id": "way/1300537343",
-    "nom": "Voormalige Zwartehoekbrug",
-    "commune": "Aalst",
-    "province": "Flandre orientale",
-    "region": "Flandre",
-    "lat": 50.9402782,
-    "lon": 4.0559557,
-    "miniature": "/images/miniatures-carrees/1594540007721559.webp",
-    "description": "Terrain situé à proximité de la Dendre et de l'ancienne Zwartehoekbrug, dans un secteur en transformation autour des quais et des cheminements le long de la rivière.",
-    "description_nl": "Terrein vlak bij de Dender en de voormalige Zwartehoekbrug, in een gebied in volle verandering rond de kaaien en de wandelpaden langs de rivier.",
-    "description_de": "Platz nahe der Dender und der ehemaligen Zwartehoekbrug, in einem Viertel im Wandel rund um die Kaianlagen und die Wege entlang des Flusses."
-  },
-  {
     "osm_id": "way/1172938577",
-    "note": 2.0,
+    "note": 4.08,
     "nom": "Chemin Beau Site",
     "commune": "Rebecq-Rognon",
     "province": "Brabant wallon",
@@ -227,6 +127,7 @@
   },
   {
     "osm_id": "way/1257086108",
+    "note": 4.0,
     "nom": "Avenue Marius Renard - Marius Renardlaan",
     "commune": "Anderlecht",
     "province": "Bruxelles",
@@ -240,7 +141,7 @@
   },
   {
     "osm_id": "way/1391506349",
-    "note": 4.0,
+    "note": 4.5,
     "nom": "Rue Docteur Huet - Dokter Huetstraat",
     "commune": "Anderlecht",
     "province": "Bruxelles",
@@ -254,7 +155,7 @@
   },
   {
     "osm_id": "way/396321674",
-    "note": 3.0,
+    "note": 4.17,
     "nom": "Rue Paul Émile Janson - Paul Émile Jansonstraat",
     "commune": "Ixelles",
     "province": "Bruxelles",
@@ -268,7 +169,7 @@
   },
   {
     "osm_id": "way/664476758",
-    "note": 3.5,
+    "note": 4.33,
     "nom": "Clos des Compagnons Bâtisseurs - Bouwgezellenerf",
     "commune": "Evere",
     "province": "Bruxelles",
@@ -282,7 +183,7 @@
   },
   {
     "osm_id": "way/729314695",
-    "note": 2.0,
+    "note": 4.0,
     "nom": "Rue Liénard",
     "commune": "Quaregnon",
     "province": "Hainaut",
@@ -296,7 +197,7 @@
   },
   {
     "osm_id": "way/917320131",
-    "note": 4.5,
+    "note": 4.42,
     "nom": "Longue Drève",
     "commune": "Enghien",
     "province": "Hainaut",
@@ -310,7 +211,7 @@
   },
   {
     "osm_id": "way/713431834",
-    "note": 4.5,
+    "note": 4.33,
     "nom": "Allée des Rénardeaux",
     "commune": "Aywaille",
     "province": "Liège",
@@ -324,7 +225,7 @@
   },
   {
     "osm_id": "way/203890060",
-    "note": 3.0,
+    "note": 4.17,
     "nom": "Drève du Fort",
     "commune": "Fléron",
     "province": "Liège",
@@ -336,9 +237,9 @@
     "description_nl": "Vier mooie petanqueterreinen langs de RAVeL-route, in een groene omgeving vlak bij het fort van Fléron.",
     "description_de": "Vier schöne Pétanque-Plätze entlang des RAVeL-Wegs, in grüner Umgebung nahe dem Fort von Fléron."
   },
-   {
+  {
     "osm_id": "node/11134845270",
-    "note": 4.5,
+    "note": 4.25,
     "nom": "Voie du Sart-Tilman",
     "commune": "Ougrée",
     "province": "Liège",
@@ -352,7 +253,7 @@
   },
   {
     "osm_id": "way/525162386",
-    "note": 5.0,
+    "note": 4.5,
     "nom": "Quai Sainte-Barbe",
     "commune": "Liège",
     "province": "Liège",

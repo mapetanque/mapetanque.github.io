@@ -21,8 +21,27 @@
     "use strict";
 
     var CHEMIN_DONNEES = "/data/beaux_terrains.json";
+
+    // Terrains promus par les votes des visiteurs, écrits chaque semaine par
+    // scripts/promouvoir_terrains.py. Fichier facultatif : absent ou illisible, le carrousel
+    // fonctionne comme avant avec les seuls épinglés.
+    var CHEMIN_PROMUS = "/data/terrains_promus.json";
+
+    // Règles de sélection. Mêmes valeurs que dans promouvoir_terrains.py : si l'une change,
+    // changer l'autre.
+    var PLAFOND_PAR_REGION = 18;
+    var NB_VOTES_MIN = 2;      // en dessous, les votes ne comptent pas encore
+    var MOYENNE_MIN = 4;       // au-delà de NB_VOTES_MIN votes, sous cette moyenne : exclu
+    var NOTE_A_PRIORI = 4;     // moyenne pondérée : (somme + 4 × 5) / (nombre + 5)
+    var POIDS_A_PRIORI = 5;
     var URL_GEO_IP = "https://ipapi.co/json/";
     var NB_MOTS_EXTRAIT = 8;
+
+    // Extraits de description dans les tuiles : éteints depuis que la ligne sert à la note
+    // publique. Tout le mécanisme reste en place (descriptionAffichee, premiersMots, la règle
+    // .tuile-extrait du CSS) ; repasser cette constante à true, et MAPETANQUE_AFFICHER_DESCRIPTIONS
+    // dans script.js, suffit à tout ramener sans rien réécrire.
+    var AFFICHER_EXTRAIT = false;
 
     var section = document.getElementById("beaux-terrains");
     if (!section) return;   // page sans cette section : rien à faire
@@ -188,9 +207,33 @@
     // ---------------------------------------------------------------------------------
     // Rendu
     // ---------------------------------------------------------------------------------
+    // Recalculé à chaque rendu, et non plus une fois au chargement : les scores bougent avec les
+    // votes (arrivée des notes, vote dans une fiche), et l'ordre doit suivre sans recharger.
+    //   1. filtre sur la région courante (aucune sur l'accueil tant qu'elle n'est pas détectée) ;
+    //   2. score de chaque terrain, les exclus (null) sortent ;
+    //   3. tri par score décroissant — tri stable : à score égal, épinglés d'abord dans l'ordre
+    //      de leur fichier, puis promus ;
+    //   4. plafond par région, appliqué à tous : un promu mieux classé déloge un épinglé.
     function terrainsAffiches() {
-        if (!regionCourante) return terrains;
-        return terrains.filter(function (t) { return cleRegion(t.region) === regionCourante; });
+        var candidats = regionCourante
+            ? terrains.filter(function (t) { return cleRegion(t.region) === regionCourante; })
+            : terrains;
+
+        var notes = [];
+        for (var i = 0; i < candidats.length; i++) {
+            var s = scoreTerrain(candidats[i]);
+            if (s !== null) notes.push({ terrain: candidats[i], score: s });
+        }
+        notes.sort(function (a, b) { return b.score - a.score; });
+
+        var parRegion = {};
+        var retenus = [];
+        for (var j = 0; j < notes.length; j++) {
+            var r = cleRegion(notes[j].terrain.region) || "autre";
+            parRegion[r] = (parRegion[r] || 0) + 1;
+            if (parRegion[r] <= PLAFOND_PAR_REGION) retenus.push(notes[j].terrain);
+        }
+        return retenus;
     }
 
     function echapper(texte) {
@@ -266,6 +309,24 @@
     // et le texte complet de la fiche soient toujours dans la même langue.
     function descriptionAffichee(t) {
         return t["description_" + langueCourante()] || t.description || "";
+    }
+
+    // Note publique de la tuile : affichage seul, AUCUN écouteur. Le clic traverse ces <span> et
+    // remonte jusqu'à la tuile, qui ouvre la vraie fiche du terrain sur la carte — c'est là, et
+    // uniquement là, qu'on vote. Ne jamais brancher de bouton ici : ce serait un second chemin de
+    // vote, dans une zone où le visiteur s'attend à ouvrir la fiche.
+    // Les aides viennent de script.js, chargé avant ce fichier partout ; le typeof protège malgré
+    // tout, comme pour window.nomCommuneAffiche plus haut.
+    function ligneNoteTuile(osmId) {
+        var resume = osmId && typeof window.mapetanqueResumeNote === "function"
+            ? window.mapetanqueResumeNote(osmId) : null;
+        var etoiles = typeof window.mapetanqueEtoilesHtml === "function"
+            ? window.mapetanqueEtoilesHtml(resume ? resume.moyenne : 0) : "";
+        var texte = resume
+            ? '<span class="tuile-note-chiffre">' + echapper(resume.texte) + '</span>'
+            : '<span class="tuile-note-vide">'
+              + echapper(traduire("notation_aucun_vote", "Pas encore not\u00e9")) + '</span>';
+        return '<div class="tuile-note">' + etoiles + texte + '</div>';
     }
 
     // ---------------------------------------------------------------------------------
@@ -351,10 +412,14 @@
             var photo = t.miniature
                 ? '<img src="' + echapper(t.miniature) + '" alt="" loading="lazy" width="500" height="500">'
                 : '<div class="tuile-photo-placeholder">' + echapper(traduire("beaux_terrains_photo_a_venir", "photo \u00e0 venir")) + '</div>';
-            var texteDescription = descriptionAffichee(t);
-            var extrait = texteDescription
-                ? '<p class="tuile-extrait">' + echapper(premiersMots(texteDescription, NB_MOTS_EXTRAIT)) + '</p>'
-                : "";
+            var extrait = "";
+            if (AFFICHER_EXTRAIT) {
+                var texteDescription = descriptionAffichee(t);
+                if (texteDescription) {
+                    extrait = '<p class="tuile-extrait">'
+                        + echapper(premiersMots(texteDescription, NB_MOTS_EXTRAIT)) + '</p>';
+                }
+            }
             // Terrain sans nom de rue connu (nom vide dans le JSON) : même intitulé générique
             // traduit que celui affiché par la fiche dans ce cas (voir popup_terrain_default
             // dans construireContenuPopupTerrain), plutôt qu'un texte figé dans une seule langue
@@ -366,6 +431,7 @@
                 '  <div class="tuile-info">' +
                 '    <p class="tuile-nom">' + echapper(nomAffiche) + '</p>' +
                 '    <div class="popup-breadcrumb">' + filAriane(t) + '</div>' +
+                '    ' + ligneNoteTuile(t.osm_id) +
                 '    ' + extrait +
                 '  </div>' +
                 '</div>';
@@ -463,49 +529,73 @@
     }
     window.addEventListener("popstate", reconstruireApresTraduction);
 
+    // Les notes arrivent après le premier rendu (un seul GET dans script.js, voir
+    // MAPETANQUE_URL_NOTES) : on redessine les tuiles à leur arrivée plutôt que de faire attendre
+    // le réseau avant le premier affichage — même principe que la détection de région par IP.
+    window.addEventListener("mapetanque:notes", function () {
+        if (terrains.length) construire();
+    });
+
     // ---------------------------------------------------------------------------------
     // Ordre d'affichage
     // ---------------------------------------------------------------------------------
-    // Le JSON peut porter un champ "note" (0 à 5, demi-points admis) qui fait remonter les
-    // terrains les mieux évalués. Trois règles :
-    //   - note décroissante ;
-    //   - à note égale, l'ordre du fichier est conservé tel quel : Array.prototype.sort est
-    //     stable depuis ES2019, donc dans tous les navigateurs visés ici — aucun départage
-    //     artificiel à inventer, et le JSON reste le second curseur ;
-    //   - terrain sans note : rejeté en fin de liste, plutôt que placé au milieu avec une
-    //     valeur par défaut — un terrain pas encore évalué ne doit pas passer devant un
-    //     terrain explicitement noté 2.
-    //
-    // Le tri est appliqué UNE SEULE FOIS au chargement : terrainsAffiches() n'utilise que
-    // .filter(), qui préserve l'ordre, donc les pages région et Bruxelles en héritent sans
-    // une ligne de plus. Idem au changement de langue : construire() relit `terrains`, déjà
-    // trié.
+    // Un seul classement pour tous, épinglés et promus :
+    //   - 2 votes ou plus : moyenne sous 4 → exclu, épinglé ou non ; sinon score = moyenne
+    //     pondérée, tirée vers 4 tant qu'il y a peu de votes (3 × 5/5 donne 4,38, pas 5) ;
+    //   - moins de 2 votes : un épinglé garde ta note éditoriale (4,0 à 4,5), c'est son ticket
+    //     d'entrée ; un promu est exclu (cas rare : votes supprimés depuis le passage du job).
+    // Votes lus en direct (window.mapetanqueNotes, chargé par script.js) ; pour un promu, tant
+    // qu'ils ne sont pas arrivés, l'instantané écrit par le job dans son champ "votes".
     function valeurNote(t) {
         var n = t && t.note;
         // Tolérance : une note saisie entre guillemets dans le JSON ("4.5") reste comprise,
-        // au lieu d'être traitée comme absente et de faire plonger le terrain en fin de liste.
+        // au lieu d'être traitée comme absente.
         if (typeof n === "string") n = parseFloat(n);
         return (typeof n === "number" && isFinite(n)) ? n : null;
     }
 
-    function trierParNote(liste) {
-        return liste.slice().sort(function (a, b) {
-            var na = valeurNote(a);
-            var nb = valeurNote(b);
-            if (na === null && nb === null) return 0;   // deux sans note : ordre du JSON
-            if (na === null) return 1;                  // a sans note : après b
-            if (nb === null) return -1;                 // b sans note : après a
-            return nb - na;                             // note décroissante
-        });
+    function votesTerrain(t) {
+        var direct = (window.mapetanqueNotes || {})[t.osm_id];
+        if (direct && direct[1]) return direct;
+        if (!t.epingle && t.votes && t.votes[1]) return t.votes;
+        return null;
+    }
+
+    function scoreTerrain(t) {
+        var v = votesTerrain(t);
+        if (v && v[1] >= NB_VOTES_MIN) {
+            if (v[0] / v[1] < MOYENNE_MIN) return null;
+            return (v[0] + NOTE_A_PRIORI * POIDS_A_PRIORI) / (v[1] + POIDS_A_PRIORI);
+        }
+        if (!t.epingle) return null;
+        // Épinglé sans note éditoriale : gardé, mais en queue plutôt qu'exclu.
+        var n = valeurNote(t);
+        return n === null ? 0 : n;
     }
 
     // ---------------------------------------------------------------------------------
     // Démarrage
     // ---------------------------------------------------------------------------------
-    fetch(CHEMIN_DONNEES)
-        .then(function (r) { return r.json(); })
-        .then(function (data) {
-            terrains = trierParNote(data || []);
+    // Les deux fichiers en parallèle. Les promus sont facultatifs : leur échec donne une liste
+    // vide, jamais une section masquée — seuls les épinglés sont indispensables.
+    Promise.all([
+        fetch(CHEMIN_DONNEES).then(function (r) { return r.json(); }),
+        fetch(CHEMIN_PROMUS)
+            .then(function (r) { return r.ok ? r.json() : []; })
+            .catch(function () { return []; })
+    ])
+        .then(function (resultats) {
+            var epingles = (resultats[0] || []).map(function (t) { t.epingle = true; return t; });
+
+            // Un terrain épinglé entre-temps peut encore figurer dans l'ancien fichier des
+            // promus (jusqu'au passage suivant du job) : l'épinglé l'emporte, pas de doublon.
+            var dejaLa = {};
+            epingles.forEach(function (t) { if (t.osm_id) dejaLa[t.osm_id] = true; });
+            var promus = (Array.isArray(resultats[1]) ? resultats[1] : [])
+                .filter(function (t) { return t && t.osm_id && !dejaLa[t.osm_id]; })
+                .map(function (t) { t.epingle = false; return t; });
+
+            terrains = epingles.concat(promus);
 
             // 1) Affichage immédiat : rien n'attend le réseau de géolocalisation.
             creerFleches();

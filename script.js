@@ -1243,7 +1243,9 @@ function construireContenuPopupTerrain(feature, layer) {
     // créé que si le terrain a effectivement un texte : aucun bloc vide pour les 1700 autres.
     // description_nl / description_de sont lus s'ils existent dans le JSON, sinon repli sur le
     // texte français — la structure est donc déjà prête si ces champs sont ajoutés un jour.
-    const beauTerrain = tags.osm_id ? (window.beauxTerrainsParOsmId || {})[tags.osm_id] : null;
+    const beauTerrain = (MAPETANQUE_AFFICHER_DESCRIPTIONS && tags.osm_id)
+        ? (window.beauxTerrainsParOsmId || {})[tags.osm_id]
+        : null;
     const texteDescription = beauTerrain
         ? (beauTerrain['description_' + currentLang] || beauTerrain.description || "")
         : "";
@@ -1251,19 +1253,24 @@ function construireContenuPopupTerrain(feature, layer) {
         ? `<p class="popup-description">${texteDescription}</p>`
         : "";
 
+    // Note publique, à l'emplacement qu'occupait la description. Voir construireBlocNotation plus
+    // bas dans ce fichier : deux lignes, la moyenne puis la zone de vote.
+    const notation = construireBlocNotation(tags.osm_id);
+
     // Le bloc photo se termine par un <br>, prévu pour séparer la photo de la ligne « Accès ».
     // Quand une description s'intercale entre les deux, ce blanc s'ajoute à la marge du
     // paragraphe et creuse au-dessus un écart bien plus large que partout ailleurs dans la
     // fiche : on le retire dans ce seul cas, l'espacement étant alors porté uniquement par les
     // marges de .popup-description (voir style-beaux-terrains.css). Sans description, la fiche
     // reste strictement inchangée.
-    const photoAvantDescription = description ? photo.replace(/<br>\s*$/, "") : photo;
+    const photoAvantDescription = (description || notation) ? photo.replace(/<br>\s*$/, "") : photo;
 
     return `
     ${filAriane}
     <b>${titre}</b><br><br>
     ${photoAvantDescription}
     ${description}
+    ${notation}
     <span class="popup-icon">${ICON_UNLOCK}</span> ${t('popup_access_label')} : ${acces}
     ${distance}
     ${itineraire}
@@ -1566,6 +1573,7 @@ function brancherPopupTerrain(layer, feature) {
     layer.once('popupopen', function (e) {
         brancherPartagePopup(e, feature, layer);
         brancherPhotosPopup(e);
+        brancherNotationPopup(e);
 
         // Doit venir APRÈS le câblage ci-dessus : on déplace les mêmes nœuds DOM (pas une
         // copie), donc les écouteurs déjà attachés restent valides une fois le contenu basculé
@@ -1697,15 +1705,243 @@ fetch('/data/photos_mapillary.json')
 // Fichier optionnel : son absence ne casse rien, les fiches restent celles d'aujourd'hui.
 // Le contenu des popups étant construit à l'ouverture (bindPopup reçoit une fonction), ce
 // chargement asynchrone n'a pas besoin d'être terminé avant l'affichage de la carte.
+// Depuis l'arrivée de la note publique, plus rien n'affiche ces descriptions : la fiche montre
+// les étoiles à leur emplacement, et la tuile du carrousel la note au lieu de l'extrait. Le
+// mécanisme entier reste en place, éteint par cette constante. La repasser à true ICI ET dans
+// beaux-terrains.js (AFFICHER_EXTRAIT) fait tout revenir : les textes n'ont jamais quitté
+// data/beaux_terrains.json.
+var MAPETANQUE_AFFICHER_DESCRIPTIONS = false;
+
 window.beauxTerrainsParOsmId = {};
-fetch('/data/beaux_terrains.json')
-    .then(response => response.json())
-    .then(data => {
-        (data || []).forEach(function (terrain) {
-            if (terrain.osm_id) window.beauxTerrainsParOsmId[terrain.osm_id] = terrain;
-        });
+if (MAPETANQUE_AFFICHER_DESCRIPTIONS) {
+    fetch('/data/beaux_terrains.json')
+        .then(response => response.json())
+        .then(data => {
+            (data || []).forEach(function (terrain) {
+                if (terrain.osm_id) window.beauxTerrainsParOsmId[terrain.osm_id] = terrain;
+            });
+        })
+        .catch(() => { /* absent ou invalide : les fiches s'affichent simplement sans description */ });
+}
+
+
+// ===================== Notes publiques des terrains =====================
+// Un seul GET au chargement rapatrie toutes les moyennes ; chaque fiche y puise ensuite sans
+// requête réseau. Le Worker (Cloudflare + D1) vit sur *.workers.dev parce que le DNS du domaine
+// est chez OVH et qu'un domaine personnalisé pour un Worker exige que Cloudflare gère le domaine
+// — d'où la requête cross-origin et les en-têtes CORS côté Worker.
+// Échec silencieux assumé : Worker injoignable = fiches sans note, tout le reste intact.
+//
+// UNE SEULE LIGNE À ADAPTER DANS CE FICHIER : l'adresse ci-dessous, donnée par Cloudflare au
+// moment du déploiement du Worker.
+var MAPETANQUE_URL_NOTES = "https://mapetanque-notes.mapetanque.workers.dev";
+
+// window.x = explicite plutôt que const/let : ces fonctions sont lues depuis beaux-terrains.js,
+// et const/let ne créent PAS de propriété sur window (même piège que brancherPopupTerrain).
+window.mapetanqueNotes = {};   // "node/123456789" -> [somme, nombre]
+
+fetch(MAPETANQUE_URL_NOTES + '/notes')
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (data) {
+        if (!data) return;
+        window.mapetanqueNotes = data;
+        // Les tuiles du carrousel sont déjà dessinées à ce moment : elles se redessinent sur cet
+        // événement, plutôt que de faire attendre le réseau avant le premier affichage.
+        window.dispatchEvent(new CustomEvent('mapetanque:notes'));
     })
-    .catch(() => { /* absent ou invalide : les fiches s'affichent simplement sans description */ });
+    .catch(function () { /* pas de note affichée ; le vote reste possible */ });
+
+
+// Moyenne → deux rangées d'étoiles superposées, la pleine rognée à la largeur voulue. Préférée à
+// un glyphe de demi-étoile, qui n'existe pas dans toutes les polices : ici n'importe quelle
+// fraction est dessinable. Arrondi au demi-point pour que le dessin et le chiffre affiché à côté
+// racontent la même chose.
+window.mapetanqueEtoilesHtml = function (moyenne) {
+    var demi = (typeof moyenne === 'number' && isFinite(moyenne)) ? Math.round(moyenne * 2) / 2 : 0;
+    var pourcentage = Math.max(0, Math.min(100, demi / 5 * 100));
+    return '<span class="note-etoiles" aria-hidden="true">'
+        + '<span class="note-etoiles-vides">\u2605\u2605\u2605\u2605\u2605</span>'
+        + '<span class="note-etoiles-pleines" style="width:' + pourcentage + '%">\u2605\u2605\u2605\u2605\u2605</span>'
+        + '</span>';
+};
+
+// "4,5 (12 avis)" — virgule décimale dans les trois langues. Retourne null tant qu'aucun vote
+// n'est enregistré, pour que l'appelant choisisse quoi afficher à la place.
+window.mapetanqueResumeNote = function (osmId) {
+    var brut = (window.mapetanqueNotes || {})[osmId];
+    if (!brut || !brut[1]) return null;
+    var nombre = brut[1];
+    var moyenne = brut[0] / nombre;
+    return {
+        moyenne: moyenne,
+        nombre: nombre,
+        texte: moyenne.toFixed(1).replace('.', ',')
+            + ' (' + nombre + '\u00a0' + t(nombre > 1 ? 'notation_avis_n' : 'notation_avis_un') + ')'
+    };
+};
+
+// Vote enregistré sur cet appareil : { note, jeton }. Le jeton est un identifiant aléatoire créé
+// par le Worker au premier vote ; le renvoyer permet de MODIFIER ce vote plutôt que d'en ajouter
+// un second. Il ne sert qu'à ça, n'identifie personne et n'existe que parce que le visiteur a
+// voté — un stockage « strictement nécessaire » à la fonction qu'il a lui-même demandée.
+// Clé distincte de l'ancienne (mapetanque_note_…), qui ne portait pas de jeton : les votes de test
+// antérieurs sont simplement ignorés.
+function mapetanqueVoteLocal(osmId) {
+    try {
+        var brut = localStorage.getItem('mapetanque_vote_' + osmId);
+        if (!brut) return null;
+        var vote = JSON.parse(brut);
+        return (vote && vote.note >= 1 && vote.note <= 5) ? vote : null;
+    } catch (e) {
+        return null;   // navigation privée stricte ou valeur corrompue : comme si rien n'était stocké
+    }
+}
+
+function mapetanqueMemoriserVote(osmId, note, jeton) {
+    try {
+        localStorage.setItem('mapetanque_vote_' + osmId, JSON.stringify({ note: note, jeton: jeton }));
+    } catch (e) { }
+}
+
+function construireResultatNote(osmId) {
+    var resume = window.mapetanqueResumeNote(osmId);
+    return resume
+        ? window.mapetanqueEtoilesHtml(resume.moyenne) + '<span class="note-chiffre">' + resume.texte + '</span>'
+        : "";
+}
+
+// Deux lignes au plus :
+//   - la moyenne, en lecture seule — absente tant que personne n'a voté (conteneur vide, masqué
+//     en CSS par :empty), ce qui évite deux rangées d'étoiles grises redondantes ;
+//   - la zone de vote : « Noter ce terrain » avant le vote, « Votre note » ensuite, avec les
+//     étoiles préremplies à la note donnée. Un clic sur une autre étoile modifie le vote.
+// Le libellé devant les étoiles de vote est ce qui les distingue de la moyenne, en lecture seule
+// au-dessus : sans lui, un appui « pour regarder » vaudrait un vote sur tactile.
+function construireBlocNotation(osmId) {
+    if (!osmId) return "";
+
+    var voteLocal = mapetanqueVoteLocal(osmId);
+    var noteLocale = voteLocal ? voteLocal.note : 0;
+
+    var etoiles = "";
+    for (var i = 1; i <= 5; i++) {
+        etoiles += '<button type="button" class="note-vote-etoile' + (i <= noteLocale ? ' active' : '')
+            + '" data-note="' + i
+            + '" aria-label="' + t('notation_etoile_aria').replace('%n', i) + '">\u2605</button>';
+    }
+
+    return '<div class="note-bloc" data-osm-id="' + osmId + '">'
+        + '<div class="note-resultat">' + construireResultatNote(osmId) + '</div>'
+        + '<div class="note-vote">'
+        + '<span class="note-vote-label">' + t(voteLocal ? 'notation_votre_note' : 'notation_invitation') + '</span>'
+        + '<span class="note-vote-etoiles">' + etoiles + '</span>'
+        + '</div>'
+        + '</div>';
+}
+
+// Appelée à chaque ouverture de fiche, comme brancherPartagePopup et brancherPhotosPopup.
+// IMPORTANT : définie ici au niveau racine du fichier, hors de tout bloc conditionnel — les pages
+// province et région l'atteignent via brancherPopupTerrain, et la placer dans un bloc la rendrait
+// indéfinie sur ces pages sans la moindre erreur visible (piège déjà payé une fois).
+function brancherNotationPopup(e) {
+    var contenu = e.popup.getElement();
+    var bloc = contenu ? contenu.querySelector('.note-bloc') : null;
+    if (!bloc) return;
+
+    var osmId = bloc.getAttribute('data-osm-id');
+    var boutons = bloc.querySelectorAll('.note-vote-etoile');
+    var libelle = bloc.querySelector('.note-vote-label');
+    var voteLocal = mapetanqueVoteLocal(osmId);
+    var noteActuelle = voteLocal ? voteLocal.note : 0;   // état de repos des étoiles de vote
+    var envoiEnCours = false;
+    var minuterieLibelle = null;
+
+    // Remplissage fait en JS plutôt qu'en CSS : la technique du sélecteur ~ imposerait un ordre
+    // DOM inversé, alors qu'ici le même code sert au survol, au clavier, au retour à l'état de
+    // repos et à l'état après vote.
+    function peindre(niveau) {
+        for (var i = 0; i < boutons.length; i++) {
+            var valeur = parseInt(boutons[i].getAttribute('data-note'), 10);
+            boutons[i].classList.toggle('active', valeur <= niveau);
+        }
+    }
+
+    function afficherLibelle(cle, classeErreur) {
+        if (minuterieLibelle) { clearTimeout(minuterieLibelle); minuterieLibelle = null; }
+        libelle.textContent = t(cle);
+        libelle.classList.toggle('note-erreur', !!classeErreur);
+    }
+
+    function voter(note) {
+        // Même note que celle déjà donnée : rien à envoyer. Clics répétés pendant un envoi :
+        // ignorés, sinon deux requêtes se croiseraient et la seconde pourrait écraser la première.
+        if (envoiEnCours || note === noteActuelle) return;
+        envoiEnCours = true;
+
+        var precedente = noteActuelle;
+        noteActuelle = note;
+        peindre(note);
+        afficherLibelle('notation_merci');
+
+        var voteExistant = mapetanqueVoteLocal(osmId);
+
+        fetch(MAPETANQUE_URL_NOTES + '/vote', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                osm_id: osmId,
+                note: note,
+                jeton: voteExistant ? voteExistant.jeton : undefined
+            })
+        })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (data) {
+                if (!data || typeof data.nombre !== 'number') throw new Error('réponse inattendue');
+
+                // Refus du Worker : cette connexion a déjà voté pour ce terrain ce mois-ci, mais
+                // depuis un autre navigateur (pas de jeton ici pour le modifier). On le dit, et
+                // on retire les étoiles de vote.
+                if (data.deja_vote) {
+                    bloc.querySelector('.note-vote').innerHTML =
+                        '<span class="note-vote-message">' + t('notation_deja') + '</span>';
+                    return;
+                }
+
+                mapetanqueMemoriserVote(osmId, note, data.jeton);
+
+                // Le Worker renvoie l'agrégat à jour : on le recopie dans le cache local plutôt que
+                // de relancer un GET /notes, mis en cache 5 min et qui renverrait l'ancienne valeur.
+                window.mapetanqueNotes[osmId] = [data.somme, data.nombre];
+                bloc.querySelector('.note-resultat').innerHTML = construireResultatNote(osmId);
+                window.dispatchEvent(new CustomEvent('mapetanque:notes'));
+
+                minuterieLibelle = setTimeout(function () {
+                    minuterieLibelle = null;
+                    libelle.textContent = t('notation_votre_note');
+                }, 2500);
+            })
+            .catch(function () {
+                noteActuelle = precedente;
+                peindre(precedente);
+                afficherLibelle('notation_erreur', true);
+            })
+            .then(function () { envoiEnCours = false; });
+    }
+
+    for (var i = 0; i < boutons.length; i++) {
+        (function (bouton) {
+            var valeur = parseInt(bouton.getAttribute('data-note'), 10);
+            bouton.addEventListener('mouseenter', function () { peindre(valeur); });
+            bouton.addEventListener('focus', function () { peindre(valeur); });
+            bouton.addEventListener('click', function () { voter(valeur); });
+        })(boutons[i]);
+    }
+
+    // Retour à l'état de repos : la note donnée si le visiteur a voté, rien sinon.
+    bloc.querySelector('.note-vote-etoiles').addEventListener('mouseleave', function () {
+        peindre(noteActuelle);
+    });
+}
 
 
 // ===================== Chargement des clubs affiliés =====================
