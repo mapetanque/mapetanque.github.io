@@ -237,7 +237,7 @@
         "sport": "boules",
         "osm_id": "node/5826811573",
         "nearest_street": "Bolsterlaan",
-        "commune": "Loppem",
+        "commune": "Zedelgem",
         "province": "flandre_occidentale",
         "region": "flandre"
       }
@@ -5974,7 +5974,7 @@
         "sport": "boules",
         "osm_id": "way/469206609",
         "nearest_street": "Finse piste",
-        "commune": "Sinaai",
+        "commune": "Sint-Niklaas",
         "province": "flandre_orientale",
         "region": "flandre"
       }
@@ -10883,29 +10883,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          3.6956228,
-          50.9787783
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "lit": "no",
-        "sport": "boules",
-        "surface": "gravel",
-        "osm_id": "way/734096623",
-        "nearest_street": "Kerkwegel",
-        "commune": "Zevergem",
-        "province": "flandre_orientale",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           3.6150136,
           50.8533286
         ]
@@ -11470,48 +11447,6 @@
         "commune": "Anderlecht",
         "province": null,
         "region": "bruxelles"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          3.20562,
-          50.7403654
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "surface": "sand",
-        "osm_id": "way/770672443",
-        "nearest_street": "Rue du Beau-Site - Beau-Sitestraat",
-        "commune": "Mouscron",
-        "province": "hainaut",
-        "region": "wallonie"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          3.2055932,
-          50.7403659
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "surface": "sand",
-        "osm_id": "way/770672444",
-        "nearest_street": "Rue du Beau-Site - Beau-Sitestraat",
-        "commune": "Mouscron",
-        "province": "hainaut",
-        "region": "wallonie"
       }
     },
     {
@@ -13351,7 +13286,7 @@
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/847327128",
-        "nearest_street": "Rue de Trixhes",
+        "nearest_street": "Rue des Abruns",
         "commune": "Vivegnis",
         "province": "liege",
         "region": "wallonie"
@@ -27305,7 +27240,7 @@
         "sport": "boules",
         "osm_id": "way/1303832596",
         "nearest_street": "Elzenhoek",
-        "commune": "Loppem",
+        "commune": "Zedelgem",
         "province": "flandre_occidentale",
         "region": "flandre"
       }
@@ -28650,6 +28585,7 @@
       },
       "properties": {
         "leisure": "pitch",
+        "lit": "yes",
         "sport": "boules",
         "surface": "fine_gravel",
         "osm_id": "way/1331109346",
@@ -35055,13 +34991,13 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          2.7233125,
-          51.1438282
+          2.7232655,
+          51.1438597
         ]
       },
       "properties": {
         "leisure": "pitch",
-        "mapillary": "4157416557838467",
+        "mapillary": "1545369280832050",
         "sport": "boules",
         "osm_id": "way/1558376441",
         "nearest_street": "Georges Eekhoudlaan",
@@ -35086,6 +35022,160 @@
         "nearest_street": "Kasteellei",
         "commune": "Wijnegem",
         "province": "anvers",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5576752,
+          50.2970691
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1558907302",
+        "nearest_street": "Avenue des Nations-Unies",
+        "commune": "Érezée",
+        "province": "luxembourg",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5576564,
+          50.296908
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1558907303",
+        "nearest_street": "Avenue des Nations-Unies",
+        "commune": "Érezée",
+        "province": "luxembourg",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5575854,
+          50.2969926
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1558907304",
+        "nearest_street": "Avenue des Nations-Unies",
+        "commune": "Érezée",
+        "province": "luxembourg",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.7251566,
+          51.1494443
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "mapillary": "1845376466819094",
+        "sport": "boules",
+        "osm_id": "way/1559166619",
+        "nearest_street": "Dienstweg Havengeul",
+        "commune": "Nieuwpoort",
+        "province": "flandre_occidentale",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.2437734,
+          51.3331898
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "mapillary": "1967944690557231",
+        "sport": "boules",
+        "osm_id": "way/1559169072",
+        "nearest_street": "De Bocht",
+        "commune": "Knokke-Heist",
+        "province": "flandre_occidentale",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5272479,
+          50.3800149
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1560564789",
+        "nearest_street": "La Drève",
+        "commune": "Bomal",
+        "province": "luxembourg",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.2024259,
+          50.7394725
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1560836244",
+        "nearest_street": "Cité Gosseries - Gosseriestuinwijk",
+        "commune": "Mouscron",
+        "province": "hainaut",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2566774,
+          50.8419874
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1560984426",
+        "nearest_street": "Dennenlaan",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
         "region": "flandre"
       }
     }

@@ -1,6 +1,6 @@
 {
   "wallonie": {
-    "total": 433,
+    "total": 436,
     "provinces": {
       "liege": {
         "total": 151,
@@ -128,7 +128,7 @@
         }
       },
       "luxembourg": {
-        "total": 48,
+        "total": 52,
         "communes": {
           "Haut-Fays": 1,
           "Saint-Hubert": 3,
@@ -155,7 +155,9 @@
           "Houffalize": 1,
           "Sy": 1,
           "Gouvy": 3,
-          "Bohon": 1
+          "Bohon": 1,
+          "Érezée": 3,
+          "Bomal": 1
         }
       },
       "brabant_wallon": {
@@ -185,9 +187,9 @@
         }
       },
       "hainaut": {
-        "total": 98,
+        "total": 97,
         "communes": {
-          "Mouscron": 4,
+          "Mouscron": 3,
           "Marcinelle": 1,
           "Mons": 9,
           "Tournai": 6,
@@ -233,10 +235,10 @@
     "communes": {}
   },
   "flandre": {
-    "total": 1186,
+    "total": 1188,
     "provinces": {
       "brabant_flamand": {
-        "total": 184,
+        "total": 185,
         "communes": {
           "Tienen": 3,
           "Sint-Genesius-Rode - Rhode-Saint-Genèse": 5,
@@ -255,7 +257,7 @@
           "Kampenhout": 1,
           "Heikruis": 3,
           "Ottenburg": 1,
-          "Dilbeek": 1,
+          "Dilbeek": 2,
           "Zoutleeuw": 1,
           "Halle": 21,
           "Kraainem": 2,
@@ -362,7 +364,7 @@
         }
       },
       "flandre_orientale": {
-        "total": 300,
+        "total": 299,
         "communes": {
           "Dendermonde": 5,
           "Wetteren": 3,
@@ -371,7 +373,7 @@
           "Hamme": 4,
           "Sint-Martens-Latem": 5,
           "Aalst": 13,
-          "Sinaai": 6,
+          "Sinaai": 5,
           "Mere": 2,
           "Etikhove": 1,
           "De Pinte": 8,
@@ -387,6 +389,7 @@
           "Deinze": 8,
           "Gijzenzele": 1,
           "Zingem": 2,
+          "Sint-Niklaas": 10,
           "Assenede": 1,
           "Lede": 4,
           "Merelbeke": 9,
@@ -405,7 +408,6 @@
           "Laarne": 2,
           "Lovendegem": 1,
           "Steendorp": 2,
-          "Zevergem": 1,
           "Landskouter": 1,
           "Lochristi": 1,
           "Munkzwalm": 2,
@@ -414,7 +416,6 @@
           "Oostwinkel": 1,
           "Berlare": 3,
           "Sint-Gillis-Waas": 2,
-          "Sint-Niklaas": 9,
           "Evergem": 1,
           "voormalige gemeente Ooike": 1,
           "Stekene": 1,
@@ -435,9 +436,9 @@
         }
       },
       "flandre_occidentale": {
-        "total": 220,
+        "total": 222,
         "communes": {
-          "Loppem": 2,
+          "Zedelgem": 2,
           "Gullegem": 9,
           "Izegem": 8,
           "Brugge": 27,
@@ -459,10 +460,10 @@
           "Bredene": 6,
           "Werken": 1,
           "Roeselare": 29,
-          "Nieuwpoort": 6,
+          "Nieuwpoort": 7,
           "Oostrozebeke": 2,
           "Zonnebeke": 2,
-          "Knokke-Heist": 3,
+          "Knokke-Heist": 4,
           "Gits": 3,
           "Wervik": 1,
           "Staden": 1,
