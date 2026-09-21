@@ -5463,7 +5463,7 @@
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/430723300",
-        "nearest_street": "Hoefstraat",
+        "nearest_street": "Bondgenotenstraat",
         "commune": "Halle",
         "province": "brabant_flamand",
         "region": "flandre"
@@ -13286,7 +13286,7 @@
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/847327128",
-        "nearest_street": "Rue des Abruns",
+        "nearest_street": "Rue de Trixhes",
         "commune": "Vivegnis",
         "province": "liege",
         "region": "wallonie"
@@ -31342,7 +31342,7 @@
         "sport": "petanque",
         "osm_id": "way/1412215072",
         "nearest_street": "Rue de la Cochette",
-        "commune": "Herbeumont",
+        "commune": "Straimont",
         "province": "luxembourg",
         "region": "wallonie"
       }
@@ -31744,7 +31744,7 @@
         "sport": "boules",
         "osm_id": "way/1421208969",
         "nearest_street": "Klokke Roelandlaan",
-        "commune": "Sinaai",
+        "commune": "Sint-Niklaas",
         "province": "flandre_orientale",
         "region": "flandre"
       }

@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "osm_id": "way/1326503204",
+    "nom": "Sint-Vincentiusstraat",
+    "commune": "Tielt",
+    "province": "Flandre occidentale",
+    "region": "Flandre",
+    "lat": 50.9556531,
+    "lon": 3.2966314,
+    "miniature": "/images/miniatures-carrees/566703969089032.webp",
+    "votes": [
+      10,
+      2
+    ]
+  }
+]
