@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin — Mapetanque.be</title>
+<style>
+    body { font-family: system-ui, sans-serif; margin: 0; background: #f4f5f0; color: #222; }
+
+    /* --- Écran de connexion ------------------------------------------- */
+    #connexion {
+        position: fixed; inset: 0; background: #1e1e1e; color: white; z-index: 100;
+        display: flex; align-items: center; justify-content: center;
+    }
+    #connexion form {
+        background: #2a2a2a; padding: 28px; border-radius: 12px;
+        display: flex; flex-direction: column; gap: 12px; width: min(340px, 90vw);
+    }
+    #connexion h1 { font-size: 17px; margin: 0 0 6px; }
+    #connexion input {
+        padding: 9px 11px; border-radius: 6px; border: none; font-size: 15px;
+    }
+    #connexion button {
+        padding: 10px; border-radius: 6px; border: none; font-size: 15px;
+        background: #74C15A; color: white; cursor: pointer;
+    }
+    #connexion button:disabled { opacity: 0.6; cursor: default; }
+    .message-erreur { color: #ef9d9a; font-size: 13px; min-height: 18px; }
+
+    /* --- Bandeau ------------------------------------------------------- */
+    header {
+        position: sticky; top: 0; background: #1e1e1e; color: white;
+        padding: 14px 20px; z-index: 10; display: flex; gap: 12px; align-items: center;
+        flex-wrap: wrap;
+    }
+    header h1 { font-size: 16px; margin: 0; flex: 1 1 auto; }
+    header input, header select, header button {
+        padding: 6px 10px; border-radius: 6px; border: none; font-size: 14px;
+    }
+    header button { cursor: pointer; }
+    .stats-resume { display: flex; gap: 6px; flex-wrap: wrap; flex-basis: 100%; }
+    .stat-chip {
+        font-size: 12px; padding: 3px 9px; border-radius: 999px;
+        background: #3a3a3a; color: #ddd; white-space: nowrap;
+    }
+    .stat-chip b { color: white; }
+    .stat-chip.accepte { background: rgba(116, 193, 90, 0.25); }
+    .stat-chip.accepte b { color: #a6e08a; }
+    .stat-chip.rejete { background: rgba(217, 83, 79, 0.25); }
+    .stat-chip.rejete b { color: #ef9d9a; }
+
+    /* Bandeau d'incident : toute écriture refusée par le Worker s'affiche ici.
+       Sans lui, une session expirée se traduirait par des clics sans effet, et
+       une soirée de revue perdue sans que rien ne le signale. */
+    #incident {
+        display: none; position: sticky; top: 0; z-index: 20;
+        background: #d9534f; color: white; padding: 10px 20px; font-size: 14px;
+    }
+
+    /* --- Liste --------------------------------------------------------- */
+    .commune-groupe { margin: 16px; background: white; border-radius: 10px; overflow: hidden; }
+    .commune-titre {
+        padding: 12px 16px; background: #eee; cursor: pointer; font-weight: bold;
+        display: flex; justify-content: space-between;
+    }
+    .commune-contenu { display: none; padding: 8px; }
+    .commune-contenu.ouvert { display: block; }
+    .commune-groupe.cachee { display: none; }
+    .terrain-carte {
+        display: flex; gap: 12px; padding: 10px; border-bottom: 1px solid #eee; align-items: flex-start;
+    }
+    .terrain-carte.decide-accepte { background: #eaffea; }
+    .terrain-carte.decide-rejete { background: #fff0f0; opacity: 0.65; }
+    .terrain-carte.decide-aucune { background: #f5f5f5; opacity: 0.65; }
+    .terrain-carte img { width: 160px; height: 120px; object-fit: cover; border-radius: 6px; background: #ddd; }
+    .terrain-info, .sans-candidat-info { flex: 1; font-size: 14px; min-width: 0; }
+    .terrain-info b, .sans-candidat-info b { display: block; margin-bottom: 4px; }
+    .terrain-meta { color: #777; font-size: 12px; }
+    .terrain-actions { margin-top: 6px; }
+    .terrain-actions button {
+        padding: 6px 12px; margin: 0 6px 4px 0; border-radius: 6px; border: 1px solid #ccc;
+        background: white; cursor: pointer; font-size: 13px;
+    }
+    .terrain-actions a { text-decoration: none; }
+    .terrain-actions button.actif-accepte { background: #74C15A; color: white; border-color: #74C15A; }
+    .terrain-actions button.actif-rejete { background: #d9534f; color: white; border-color: #d9534f; }
+    .terrain-deja-en-ligne { color: #3d8b3d; font-size: 12px; margin: 4px 0; }
+    .champ-alternative, .champ-pano {
+        width: 100%; max-width: 440px; box-sizing: border-box; margin-top: 4px;
+        padding: 5px 8px; border-radius: 6px; font-size: 12px;
+    }
+    .champ-alternative { border: 1px solid #ccc; }
+    .champ-pano { border: 1px dashed #b48ead; background: #faf5fc; }
+    .chip {
+        display: inline-flex; align-items: center; gap: 6px; margin: 3px 4px 0 0;
+        padding: 3px 4px 3px 9px; border-radius: 999px; font-size: 12px;
+        background: #e8e8e8;
+    }
+    .chip.chip-pano { background: #f0e4f5; }
+    .chip-remove {
+        border: none; background: none; cursor: pointer; font-size: 15px;
+        line-height: 1; color: #777; padding: 0 4px;
+    }
+    .terrain-carte.cachee { display: none !important; }
+    #chargement { padding: 40px; text-align: center; color: #777; }
+</style>
+</head>
+<body>
+
+<div id="connexion">
+    <form id="formConnexion">
+        <h1>Mapetanque — administration</h1>
+        <input type="text" id="identifiant" placeholder="Identifiant" autocomplete="username" required>
+        <input type="password" id="motDePasse" placeholder="Mot de passe" autocomplete="current-password" required>
+        <button type="submit" id="btnConnexion">Se connecter</button>
+        <div class="message-erreur" id="erreurConnexion"></div>
+    </form>
+</div>
+
+<div id="incident"></div>
+
+<header id="bandeau" style="display:none">
+    <h1>Revue des photos</h1>
+    <input type="text" id="recherche" placeholder="Filtrer par commune ou terrain...">
+    <select id="filtreCandidat">
+        <option value="tous">Avec et sans candidat</option>
+        <option value="avec_candidat">Avec candidat seulement</option>
+        <option value="sans_candidat">Sans candidat seulement</option>
+    </select>
+    <select id="filtreDecision">
+        <option value="tous">Tout afficher</option>
+        <option value="a_decider">À décider seulement</option>
+        <option value="acceptes">Avec au moins une photo</option>
+        <option value="rejetes">Rejetés (0 photo)</option>
+        <option value="aucune">Marqués "rien trouvé"</option>
+        <option value="avec_alternative">Avec plusieurs photos</option>
+        <option value="avec_pano">Avec 360° repérée</option>
+    </select>
+    <button id="telechargerPhotos">Télécharger photos_mapillary.json</button>
+    <button id="telechargerPanos">Télécharger la liste des 360°</button>
+    <button id="deconnexion">Se déconnecter</button>
+    <div id="progression" class="stats-resume"></div>
+</header>
+
+<div id="chargement" style="display:none">Chargement des données…</div>
+<div id="conteneur"></div>
+
+<script>
+/* ============================================================================
+   Page admin — revue des candidats photo.
+
+   Remplace scripts/revue_photos.html. Trois différences de fond :
+
+   1. Les données des candidats ne sont plus embarquées dans le HTML : elles
+      viennent de /data/candidats_photos.json. Cette page peut donc être
+      modifiée à la main sans qu'une régénération vienne écraser le travail —
+      le piège décrit dans le mémo disparaît.
+   2. Les décisions ne sont plus dans le localStorage mais dans D1, via le
+      Worker. Plus d'export/import par OneDrive, et le même état sur toutes les
+      machines.
+   3. Chaque clic écrit immédiatement côté serveur. L'affichage est mis à jour
+      sans attendre la réponse (sinon l'outil serait pénible à utiliser), mais
+      tout échec s'affiche en rouge en haut de page.
+   ============================================================================ */
+
+const URL_WORKER = "https://mapetanque-admin.mapetanque.workers.dev";
+const URL_CANDIDATS = "/data/candidats_photos.json";
+const URL_PHOTOS_EN_LIGNE = "/data/photos_mapillary.json";
+
+// Le jeton vit en sessionStorage, pas en localStorage : il disparaît à la
+// fermeture de l'onglet, ce qui est le bon compromis pour un accès admin.
+const CLE_JETON = "mapetanque_admin_jeton";
+
+let DONNEES = [];        // candidats, groupés par commune
+let ETAT = {};           // osm_id -> { statut, candidat_id, photos: [...] }
+let PHOTOS_EN_LIGNE = {};
+
+
+/* ===================== Appels au Worker ===================== */
+
+function jeton() {
+    return sessionStorage.getItem(CLE_JETON);
+}
+
+function signalerIncident(message) {
+    const zone = document.getElementById("incident");
+    zone.textContent = message;
+    zone.style.display = "";
+}
+
+async function appeler(chemin, options) {
+    const reglages = Object.assign({ headers: {} }, options || {});
+    reglages.headers["Authorization"] = "Bearer " + jeton();
+    if (reglages.body) reglages.headers["Content-Type"] = "application/json";
+
+    const reponse = await fetch(URL_WORKER + chemin, reglages);
+
+    if (reponse.status === 401) {
+        sessionStorage.removeItem(CLE_JETON);
+        signalerIncident("Session expirée — recharge la page et reconnecte-toi. "
+            + "Les décisions déjà enregistrées sont conservées, la dernière ne l'est pas.");
+        throw new Error("session expirée");
+    }
+    if (!reponse.ok) {
+        let detail = "";
+        try { detail = (await reponse.json()).erreur || ""; } catch (e) { /* corps non JSON */ }
+        signalerIncident("Enregistrement refusé par le serveur : " + (detail || reponse.status));
+        throw new Error(detail || reponse.status);
+    }
+    return reponse;
+}
+
+// Les écritures ne bloquent pas l'interface : on rafraîchit l'affichage tout de
+// suite et on laisse l'erreur, si erreur il y a, remonter dans le bandeau.
+function ecrire(chemin, charge) {
+    return appeler(chemin, { method: "POST", body: JSON.stringify(charge) })
+        .then(r => r.json())
+        .catch(() => null);
+}
+
+
+/* ===================== Connexion ===================== */
+
+document.getElementById("formConnexion").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const bouton = document.getElementById("btnConnexion");
+    const erreur = document.getElementById("erreurConnexion");
+    bouton.disabled = true;
+    erreur.textContent = "";
+
+    try {
+        const reponse = await fetch(URL_WORKER + "/admin/connexion", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                identifiant: document.getElementById("identifiant").value,
+                mot_de_passe: document.getElementById("motDePasse").value
+            })
+        });
+
+        const donnees = await reponse.json();
+        if (!reponse.ok) {
+            erreur.textContent = donnees.erreur || "Connexion refusée.";
+            bouton.disabled = false;
+            return;
+        }
+
+        sessionStorage.setItem(CLE_JETON, donnees.jeton);
+        document.getElementById("connexion").style.display = "none";
+        demarrer();
+    } catch (err) {
+        erreur.textContent = "Serveur injoignable.";
+        bouton.disabled = false;
+    }
+});
+
+document.getElementById("deconnexion").addEventListener("click", () => {
+    sessionStorage.removeItem(CLE_JETON);
+    location.reload();
+});
+
+
+/* ===================== Lecture de l'état ===================== */
+
+function etatDe(osmId) {
+    if (!ETAT[osmId]) ETAT[osmId] = { statut: null, candidat_id: null, photos: [] };
+    return ETAT[osmId];
+}
+
+function photosDe(osmId, origine) {
+    return etatDe(osmId).photos.filter(p => p.origine === origine);
+}
+
+// Nombre de photos qui seront réellement associées au terrain dans le fichier
+// publié : le candidat s'il est accepté, plus les photos ajoutées à la main.
+// Définition unique, partagée par les compteurs et les filtres, pour qu'ils ne
+// puissent pas se contredire. Les 360° n'en font pas partie : leur miniature
+// reste à produire.
+function compterPhotos(osmId) {
+    const etat = etatDe(osmId);
+    return (etat.statut === "accepte" ? 1 : 0) + photosDe(osmId, "manuelle").length;
+}
+
+
+/* ===================== Rendu ===================== */
+
+function formaterDate(captureMs) {
+    if (!captureMs) return "date inconnue";
+    return "photo du " + new Date(captureMs)
+        .toLocaleDateString("fr-BE", { day: "2-digit", month: "2-digit", year: "numeric" });
+}
+
+// Accepte aussi bien un identifiant collé seul qu'un lien complet.
+function extraireIdMapillary(texte) {
+    const trouve = texte.match(/(\d{10,})/);
+    return trouve ? trouve[1] : texte.trim();
+}
+
+// Extrait identifiant + direction de visée depuis une URL de l'app Mapillary.
+function analyserUrl360(texte) {
+    const id = texte.match(/pKey=(\d+)/) || texte.match(/(\d{10,})/);
+    if (!id) return null;
+    const x = texte.match(/[?&]x=([0-9.]+)/);
+    const y = texte.match(/[?&]y=([0-9.]+)/);
+    const zoom = texte.match(/[?&]zoom=([0-9.]+)/);
+    return {
+        mapillary_id: id[1],
+        pano_x: x ? parseFloat(x[1]) : null,
+        pano_y: y ? parseFloat(y[1]) : null,
+        pano_zoom: zoom ? parseFloat(zoom[1]) : null,
+        pano_url: texte.trim()
+    };
+}
+
+function rendreChip(texte, surRetrait, classeSupp) {
+    const chip = document.createElement("span");
+    chip.className = "chip" + (classeSupp ? " " + classeSupp : "");
+    const span = document.createElement("span");
+    span.textContent = texte;
+    chip.appendChild(span);
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "chip-remove";
+    btn.textContent = "×";
+    btn.title = "Retirer";
+    btn.addEventListener("click", surRetrait);
+    chip.appendChild(btn);
+    return chip;
+}
+
+function construireCarte(terrain) {
+    const cle = terrain.osm_id;
+    const c = terrain.candidat;
+
+    const div = document.createElement("div");
+    div.dataset.cle = cle;
+    div.dataset.recherche = (terrain.commune + " " + terrain.nom).toLowerCase();
+    div.dataset.avecCandidat = c ? "1" : "0";
+
+    div.innerHTML = c ? `
+        <a href="${c.lien}" target="_blank" rel="noopener"><img src="${c.thumbnail}" loading="lazy" alt=""></a>
+        <div class="terrain-info">
+            <b></b>
+            <div class="terrain-meta"></div>
+            <div class="terrain-actions">
+                <button class="btn-accepter">Accepter le candidat</button>
+                <button class="btn-rejeter">Rejeter le candidat</button>
+                <a href="${c.lien}" target="_blank" rel="noopener"><button type="button">Voir sur Mapillary</button></a>
+                <a href="https://www.openstreetmap.org/edit#map=20/${terrain.lat}/${terrain.lon}" target="_blank" rel="noopener"><button type="button">Localiser sur OSM</button></a>
+            </div>
+            <div class="terrain-extra"></div>
+        </div>
+    ` : `
+        <div class="sans-candidat-info">
+            <b></b>
+            <div class="terrain-meta"></div>
+            <div class="terrain-actions">
+                <button class="btn-aucune">Marquer "rien trouvé"</button>
+                <a href="https://www.mapillary.com/app/?lat=${terrain.lat}&lng=${terrain.lon}&z=19" target="_blank" rel="noopener"><button type="button">Explorer sur Mapillary</button></a>
+                <a href="https://www.openstreetmap.org/edit#map=20/${terrain.lat}/${terrain.lon}" target="_blank" rel="noopener"><button type="button">Localiser sur OSM</button></a>
+            </div>
+            <div class="terrain-extra"></div>
+        </div>
+    `;
+
+    // Nom et métadonnées passent par textContent, pas par le gabarit ci-dessus :
+    // ils viennent d'OpenStreetMap, donc d'un texte que n'importe qui peut
+    // modifier, et un nom de terrain contenant du HTML serait interprété.
+    div.querySelector("b").textContent = terrain.nom;
+    div.querySelector(".terrain-meta").textContent = c
+        ? `${terrain.commune} — score ${c.score} — ${c.distance_m} m — écart angle ${c.ecart_angle_deg}° — ${formaterDate(c.captured_at)}`
+        : `${terrain.commune} — aucun candidat automatique trouvé à proximité`;
+
+    const zoneExtra = div.querySelector(".terrain-extra");
+    zoneExtra.innerHTML = `
+        <div class="terrain-deja-en-ligne" style="display:none"></div>
+        <div class="liste-alternatives"></div>
+        <input type="text" class="champ-alternative" autocomplete="off"
+               placeholder="+ Photo trouvée à la main (lien ou ID Mapillary), Entrée pour valider">
+        <div class="liste-panos"></div>
+        <input type="text" class="champ-pano" autocomplete="off"
+               placeholder="+ 360° repérée (colle l'URL complète de l'app Mapillary), Entrée pour valider">
+    `;
+
+    const enLigne = PHOTOS_EN_LIGNE[cle];
+    if (enLigne && enLigne.length) {
+        const zone = zoneExtra.querySelector(".terrain-deja-en-ligne");
+        zone.style.display = "";
+        zone.textContent = "✓ " + enLigne.length + " photo(s) déjà en ligne pour ce terrain";
+    }
+
+    const listeAlternatives = zoneExtra.querySelector(".liste-alternatives");
+    const listePanos = zoneExtra.querySelector(".liste-panos");
+    const champAlternative = zoneExtra.querySelector(".champ-alternative");
+    const champPano = zoneExtra.querySelector(".champ-pano");
+
+    const btnAccepter = div.querySelector(".btn-accepter");
+    const btnRejeter = div.querySelector(".btn-rejeter");
+    const btnAucune = div.querySelector(".btn-aucune");
+
+    function rafraichir() {
+        const etat = etatDe(cle);
+
+        if (btnAccepter) {
+            btnAccepter.className = "btn-accepter" + (etat.statut === "accepte" ? " actif-accepte" : "");
+            btnRejeter.className = "btn-rejeter" + (etat.statut === "rejete" ? " actif-rejete" : "");
+        }
+        if (btnAucune) {
+            btnAucune.className = "btn-aucune" + (etat.statut === "aucune" ? " actif-rejete" : "");
+        }
+        div.className = "terrain-carte" +
+            (etat.statut === "accepte" ? " decide-accepte" :
+             etat.statut === "rejete" ? " decide-rejete" :
+             etat.statut === "aucune" ? " decide-aucune" : "");
+
+        listeAlternatives.innerHTML = "";
+        photosDe(cle, "manuelle").forEach(photo => {
+            listeAlternatives.appendChild(rendreChip(photo.mapillary_id, () => retirerPhoto(photo)));
+        });
+
+        listePanos.innerHTML = "";
+        photosDe(cle, "pano360").forEach(photo => {
+            listePanos.appendChild(rendreChip("360° : " + photo.mapillary_id,
+                () => retirerPhoto(photo), "chip-pano"));
+        });
+    }
+
+    function retirerPhoto(photo) {
+        const etat = etatDe(cle);
+        etat.photos = etat.photos.filter(p => p !== photo);
+        rafraichir();
+        mettreAJourProgression();
+        appliquerFiltres();
+        ecrire("/admin/photos/supprimer", { id: photo.id });
+    }
+
+    function definirStatut(valeur) {
+        const etat = etatDe(cle);
+        const nouveau = etat.statut === valeur ? null : valeur;
+        etat.statut = nouveau;
+        if (c) etat.candidat_id = String(c.id);
+        rafraichir();
+        mettreAJourProgression();
+        appliquerFiltres();
+        ecrire("/admin/revue", {
+            osm_id: cle,
+            statut: nouveau,
+            candidat_id: c ? String(c.id) : null
+        });
+    }
+
+    async function ajouterPhoto(origine, charge) {
+        const etat = etatDe(cle);
+        const provisoire = Object.assign({ id: null, osm_id: cle, origine: origine }, charge);
+        etat.photos.push(provisoire);
+        rafraichir();
+        mettreAJourProgression();
+        appliquerFiltres();
+
+        const reponse = await ecrire("/admin/photos",
+            Object.assign({ osm_id: cle, origine: origine }, charge));
+
+        if (reponse && reponse.id) {
+            // L'identifiant renvoyé par la base est indispensable pour pouvoir
+            // retirer la photo ensuite.
+            provisoire.id = reponse.id;
+        } else {
+            etat.photos = etat.photos.filter(p => p !== provisoire);
+            rafraichir();
+            mettreAJourProgression();
+        }
+    }
+
+    if (btnAccepter) {
+        btnAccepter.addEventListener("click", () => definirStatut("accepte"));
+        btnRejeter.addEventListener("click", () => definirStatut("rejete"));
+    }
+    if (btnAucune) {
+        btnAucune.addEventListener("click", () => definirStatut("aucune"));
+    }
+
+    champAlternative.addEventListener("keydown", (e) => {
+        if (e.key !== "Enter") return;
+        const valeur = champAlternative.value.trim();
+        if (!valeur) return;
+
+        const identifiant = extraireIdMapillary(valeur);
+        if (!/^\d{6,}$/.test(identifiant)) {
+            alert("Aucun identifiant Mapillary trouvé là-dedans (au moins 10 chiffres, ou un lien mapillary.com).");
+            return;
+        }
+        champAlternative.value = "";
+        ajouterPhoto("manuelle", { mapillary_id: identifiant });
+
+        // Réflexe « je propose autre chose à la place » : ajouter une photo à la
+        // main rejette le candidat automatique, comme dans l'ancien outil. Pour
+        // garder les deux, recliquer sur « Accepter le candidat » ensuite.
+        if (c && etatDe(cle).statut !== "rejete") definirStatut("rejete");
+    });
+
+    champPano.addEventListener("keydown", (e) => {
+        if (e.key !== "Enter") return;
+        const valeur = champPano.value.trim();
+        if (!valeur) return;
+
+        const analyse = analyserUrl360(valeur);
+        if (!analyse) {
+            alert("Impossible d'y trouver un identifiant Mapillary (ID à 10 chiffres ou plus, ou paramètre pKey= dans l'URL).");
+            return;
+        }
+        champPano.value = "";
+        ajouterPhoto("pano360", analyse);
+    });
+
+    rafraichir();
+    return div;
+}
+
+function construirePage() {
+    const conteneur = document.getElementById("conteneur");
+    conteneur.innerHTML = "";
+
+    DONNEES.forEach((groupe, index) => {
+        const div = document.createElement("div");
+        div.className = "commune-groupe";
+
+        const nbCandidats = groupe.terrains.filter(t => t.candidat).length;
+
+        const titre = document.createElement("div");
+        titre.className = "commune-titre";
+        const gauche = document.createElement("span");
+        gauche.textContent = `${groupe.commune} (${groupe.terrains.length} terrain(s), ${nbCandidats} candidat(s))`;
+        const droite = document.createElement("span");
+        droite.textContent = "▼";
+        titre.appendChild(gauche);
+        titre.appendChild(droite);
+
+        const contenu = document.createElement("div");
+        contenu.className = "commune-contenu" + (index === 0 ? " ouvert" : "");
+        groupe.terrains.forEach(t => contenu.appendChild(construireCarte(t)));
+
+        titre.addEventListener("click", () => contenu.classList.toggle("ouvert"));
+
+        div.appendChild(titre);
+        div.appendChild(contenu);
+        conteneur.appendChild(div);
+    });
+
+    mettreAJourProgression();
+}
+
+function mettreAJourProgression() {
+    const filtreCandidat = document.getElementById("filtreCandidat").value;
+
+    let total = 0, avecCandidat = 0, sansCandidat = 0;
+    let acceptes = 0, rejetes = 0, aucune = 0, plusieurs = 0, avecPano = 0, dejaEnLigne = 0;
+
+    DONNEES.forEach(groupe => groupe.terrains.forEach(t => {
+        const aUnCandidat = !!t.candidat;
+        if (filtreCandidat === "avec_candidat" && !aUnCandidat) return;
+        if (filtreCandidat === "sans_candidat" && aUnCandidat) return;
+
+        total++;
+        if (aUnCandidat) avecCandidat++; else sansCandidat++;
+
+        const etat = etatDe(t.osm_id);
+        const nbPhotos = compterPhotos(t.osm_id);
+        if (nbPhotos >= 1) acceptes++;
+        if (etat.statut === "rejete" && nbPhotos === 0) rejetes++;
+        if (etat.statut === "aucune") aucune++;
+        if (nbPhotos >= 2) plusieurs++;
+        if (photosDe(t.osm_id, "pano360").length) avecPano++;
+        if (PHOTOS_EN_LIGNE[t.osm_id] && PHOTOS_EN_LIGNE[t.osm_id].length) dejaEnLigne++;
+    }));
+
+    document.getElementById("progression").innerHTML = `
+        <span class="stat-chip">Terrains : <b>${total}</b></span>
+        <span class="stat-chip">Avec candidat : <b>${avecCandidat}</b></span>
+        <span class="stat-chip">Sans candidat : <b>${sansCandidat}</b></span>
+        <span class="stat-chip">À décider : <b>${total - acceptes - rejetes - aucune}</b></span>
+        <span class="stat-chip accepte">Avec photo : <b>${acceptes}</b></span>
+        <span class="stat-chip rejete">Rejetés : <b>${rejetes}</b></span>
+        <span class="stat-chip">Rien trouvé : <b>${aucune}</b></span>
+        <span class="stat-chip">Plusieurs photos : <b>${plusieurs}</b></span>
+        <span class="stat-chip">360° repérées : <b>${avecPano}</b></span>
+        <span class="stat-chip accepte">Déjà en ligne : <b>${dejaEnLigne}</b></span>
+    `;
+}
+
+function appliquerFiltres() {
+    const recherche = document.getElementById("recherche").value.toLowerCase();
+    const filtreDecision = document.getElementById("filtreDecision").value;
+    const filtreCandidat = document.getElementById("filtreCandidat").value;
+
+    document.querySelectorAll(".terrain-carte").forEach(carte => {
+        const cle = carte.dataset.cle;
+        const etat = etatDe(cle);
+        const nbPhotos = compterPhotos(cle);
+
+        const parRecherche = !recherche || carte.dataset.recherche.includes(recherche);
+
+        let parDecision = true;
+        if (filtreDecision === "a_decider") parDecision = !etat.statut && nbPhotos === 0;
+        if (filtreDecision === "acceptes") parDecision = nbPhotos >= 1;
+        if (filtreDecision === "rejetes") parDecision = etat.statut === "rejete" && nbPhotos === 0;
+        if (filtreDecision === "aucune") parDecision = etat.statut === "aucune";
+        if (filtreDecision === "avec_alternative") parDecision = nbPhotos >= 2;
+        if (filtreDecision === "avec_pano") parDecision = photosDe(cle, "pano360").length > 0;
+
+        let parCandidat = true;
+        if (filtreCandidat === "avec_candidat") parCandidat = carte.dataset.avecCandidat === "1";
+        if (filtreCandidat === "sans_candidat") parCandidat = carte.dataset.avecCandidat === "0";
+
+        carte.classList.toggle("cachee", !(parRecherche && parDecision && parCandidat));
+    });
+
+    // Une commune dont toutes les cartes sont filtrées disparaît aussi : sinon
+    // la page se remplit d'en-têtes vides dès qu'un filtre est actif.
+    document.querySelectorAll(".commune-groupe").forEach(groupe => {
+        const visible = groupe.querySelector(".terrain-carte:not(.cachee)");
+        groupe.classList.toggle("cachee", !visible);
+    });
+}
+
+document.getElementById("recherche").addEventListener("input", appliquerFiltres);
+document.getElementById("filtreDecision").addEventListener("change", appliquerFiltres);
+document.getElementById("filtreCandidat").addEventListener("change", () => {
+    appliquerFiltres();
+    mettreAJourProgression();
+});
+
+
+/* ===================== Téléchargements ===================== */
+
+function telecharger(nom, texte) {
+    const url = URL.createObjectURL(new Blob([texte], { type: "application/json" }));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = nom;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+document.getElementById("telechargerPhotos").addEventListener("click", async () => {
+    try {
+        const reponse = await appeler("/admin/export/photos-mapillary");
+        const ajoutees = reponse.headers.get("X-Photos-Ajoutees") || "?";
+        telecharger("photos_mapillary.json", await reponse.text());
+        alert(ajoutees + " photo(s) ajoutée(s) par-dessus le fichier actuellement en ligne.");
+    } catch (e) { /* le bandeau d'incident affiche déjà la cause */ }
+});
+
+document.getElementById("telechargerPanos").addEventListener("click", async () => {
+    try {
+        const reponse = await appeler("/admin/export/panos");
+        const liste = await reponse.json();
+        if (!liste.length) {
+            alert("Aucune 360° en attente de miniature.");
+            return;
+        }
+        telecharger("candidats_360.json", JSON.stringify(liste, null, 2));
+        alert(liste.length + " candidat(s) 360° dans le fichier téléchargé.");
+    } catch (e) { /* idem */ }
+});
+
+
+/* ===================== Démarrage ===================== */
+
+async function demarrer() {
+    document.getElementById("chargement").style.display = "";
+
+    try {
+        const [candidats, etat, enLigne] = await Promise.all([
+            fetch(URL_CANDIDATS, { cache: "no-store" }).then(r => r.json()),
+            appeler("/admin/revue").then(r => r.json()),
+            // Le fichier publié sert seulement à afficher « déjà en ligne » ;
+            // s'il manque, la revue reste utilisable.
+            fetch(URL_PHOTOS_EN_LIGNE, { cache: "no-store" }).then(r => r.json()).catch(() => ({}))
+        ]);
+
+        DONNEES = candidats;
+        ETAT = etat;
+        PHOTOS_EN_LIGNE = enLigne;
+
+        document.getElementById("chargement").style.display = "none";
+        document.getElementById("bandeau").style.display = "";
+        construirePage();
+    } catch (e) {
+        document.getElementById("chargement").textContent =
+            "Chargement impossible. Recharge la page pour te reconnecter.";
+    }
+}
+
+// Jeton encore en mémoire (rechargement de page en cours de session) : on
+// reprend directement, sans repasser par le formulaire.
+if (jeton()) {
+    document.getElementById("connexion").style.display = "none";
+    demarrer();
+}
+</script>
+
+</body>
+</html>
