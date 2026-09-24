@@ -84,12 +84,25 @@ def difference_angulaire(a, b):
 
 # ===================== Mapillary =====================
 
+class ErreurApi(RuntimeError):
+    """Refus de l'API Mapillary, avec le corps de la réponse, qui en donne la vraie cause."""
+
+    def __init__(self, code, corps):
+        super().__init__(f"HTTP {code} — {corps[:300]}")
+        self.corps = corps
+
+    def image_disparue(self):
+        # Seul ce message-là signifie que l'image n'existe plus (supprimée ou devenue
+        # privée). Un 400 peut aussi venir d'un jeton refusé ou d'une requête mal formée :
+        # le confondre avec une image supprimée a effacé 905 vignettes d'un coup.
+        return "does not exist" in self.corps
+
+
 def appel_api(url, parametres):
     reponse = requests.get(url, params=parametres, timeout=15,
                            headers={"User-Agent": "Mapetanque/1.0"})
-    # Le corps de la réponse porte la vraie cause de l'erreur : on le garde.
     if not reponse.ok:
-        raise RuntimeError(f"HTTP {reponse.status_code} — {reponse.text[:300]}")
+        raise ErreurApi(reponse.status_code, reponse.text)
     return reponse.json()
 
 
@@ -244,8 +257,14 @@ def main():
 
     # ---- 3. Vignettes ----
     limite = datetime.now(timezone.utc) + MARGE_EXPIRATION
-    renouvelees = disparues = 0
+    renouvelees = disparues = echecs_vignettes = 0
+    echecs_consecutifs = 0
     for osm_id, entree in entrees.items():
+        if echecs_consecutifs >= MAX_ECHECS_CONSECUTIFS:
+            print(f"{echecs_consecutifs} échecs consécutifs : arrêt du renouvellement des vignettes. "
+                  "Les liens existants sont conservés tels quels.")
+            arret = True
+            break
         candidat = entree.get("candidat")
         if not candidat or osm_id in trouves_ce_passage:
             continue
@@ -259,15 +278,22 @@ def main():
             })
             candidat["thumbnail"] = donnees.get("thumb_1024_url")
             renouvelees += 1
-        except RuntimeError as e:
-            # Image retirée de Mapillary (ou devenue privée) : la vignette ne
-            # reviendra pas. Le candidat reste visible, sans image.
-            if "HTTP 4" in str(e):
+            echecs_consecutifs = 0
+        except ErreurApi as e:
+            if e.image_disparue():
+                # L'image n'existe plus : la vignette ne reviendra pas. Le candidat
+                # reste visible, sans image. Ce n'est pas un échec de l'API.
                 candidat["thumbnail"] = None
                 disparues += 1
+                echecs_consecutifs = 0
             else:
+                # Toute autre erreur : on garde le lien existant, même expiré.
+                echecs_vignettes += 1
+                echecs_consecutifs += 1
                 print(f"  vignette {candidat['id']} : {e}")
         except Exception as e:
+            echecs_vignettes += 1
+            echecs_consecutifs += 1
             print(f"  vignette {candidat['id']} : {e}")
         time.sleep(DELAI_ENTRE_REQUETES)
 
@@ -289,6 +315,14 @@ def main():
     print(f"{renouvelees} vignette(s) renouvelée(s), {disparues} image(s) disparue(s) de Mapillary.")
     if echecs:
         print(f"{echecs} recherche(s) en échec, retentée(s) la semaine prochaine.")
+    if echecs_vignettes:
+        print(f"{echecs_vignettes} vignette(s) non renouvelée(s) à cause d'une erreur, retentée(s) la semaine prochaine.")
+
+    # Une série d'échecs trahit un problème d'ensemble (jeton refusé, quota) : l'étape
+    # s'affiche alors en échec dans l'onglet Actions au lieu de passer inaperçue. Le
+    # fichier a tout de même été écrit, sans rien perdre de ce qui existait.
+    if arret:
+        sys.exit("Arrêt sur échecs répétés : voir les messages d'erreur ci-dessus.")
 
 
 if __name__ == "__main__":
