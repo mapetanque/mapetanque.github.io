@@ -659,7 +659,7 @@
         "surface": "gravel",
         "osm_id": "node/8697280936",
         "nearest_street": "Allée des Cygnes",
-        "commune": "Marcinelle",
+        "commune": "Loverval",
         "province": "hainaut",
         "region": "wallonie"
       }
@@ -1612,7 +1612,7 @@
         "sport": "boules",
         "osm_id": "way/48863327",
         "nearest_street": "Hemelsbreedte",
-        "commune": "Sinaai",
+        "commune": "Sint-Niklaas",
         "province": "flandre_orientale",
         "region": "flandre"
       }
@@ -5463,7 +5463,7 @@
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/430723300",
-        "nearest_street": "Bondgenotenstraat",
+        "nearest_street": "Hoefstraat",
         "commune": "Halle",
         "province": "brabant_flamand",
         "region": "flandre"
@@ -12548,7 +12548,7 @@
         "sport": "boules",
         "osm_id": "way/822148571",
         "nearest_street": "Goed dreef",
-        "commune": "Sinaai",
+        "commune": "Sint-Niklaas",
         "province": "flandre_orientale",
         "region": "flandre"
       }
@@ -15646,6 +15646,7 @@
       },
       "properties": {
         "leisure": "pitch",
+        "panoramax": "9f9c3cbc-f83b-428c-ab90-ef23693fbe31",
         "sport": "boules",
         "osm_id": "way/910614646",
         "nearest_street": "Elfbunderweg",
@@ -30474,15 +30475,15 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          5.5875654,
-          51.0465973
+          5.5876356,
+          51.0466032
         ]
       },
       "properties": {
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1377167188",
-        "nearest_street": "Finse piste",
+        "nearest_street": "Kruisstraat",
         "commune": "Opglabbeek",
         "province": "limbourg",
         "region": "flandre"
@@ -31342,7 +31343,7 @@
         "sport": "petanque",
         "osm_id": "way/1412215072",
         "nearest_street": "Rue de la Cochette",
-        "commune": "Straimont",
+        "commune": "Herbeumont",
         "province": "luxembourg",
         "region": "wallonie"
       }
@@ -31744,7 +31745,7 @@
         "sport": "boules",
         "osm_id": "way/1421208969",
         "nearest_street": "Klokke Roelandlaan",
-        "commune": "Sint-Niklaas",
+        "commune": "Sinaai",
         "province": "flandre_orientale",
         "region": "flandre"
       }
