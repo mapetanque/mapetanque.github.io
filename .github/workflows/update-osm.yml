@@ -43,6 +43,17 @@ jobs:
         run: |
           python scripts/promouvoir_terrains.py
 
+      # Liste des terrains et candidats photo de la page admin : ajoute les nouveaux terrains
+      # (avec leur candidat Mapillary), retire ceux disparus d'OSM, renouvelle les liens des
+      # vignettes (temporaires, environ deux semaines). Même règle que l'étape précédente :
+      # jamais bloquante pour la sauvegarde de la mise à jour OSM.
+      - name: Candidats photo de la page admin
+        continue-on-error: true
+        env:
+          MAPILLARY_TOKEN: ${{ secrets.MAPILLARY_TOKEN }}
+        run: |
+          python scripts/mettre_a_jour_candidats.py
+
       - name: Sauvegarde des changements
         run: |
           git config --global user.name "github-actions"
@@ -50,7 +61,7 @@ jobs:
 
           # data/terrains_promus.json doit exister dans le dépôt AVANT le premier passage (même
           # vide : []) : git add échoue sur un chemin inexistant, et ferait échouer tout ce commit.
-          git add data/terrains.geojson data/stats_geo.json data/terrains_promus.json images/miniatures-carrees
+          git add data/terrains.geojson data/stats_geo.json data/terrains_promus.json images/miniatures-carrees data/candidats_photos.json data/terrains_apparition.json
 
           git commit -m "Mise à jour quotidienne OSM" || exit 0
 

@@ -5,6 +5,7 @@ import sys
 import os
 import unicodedata
 import urllib.parse
+from datetime import date
 
 OVERPASS_SERVERS = [
     "https://overpass-api.de/api/interpreter",
@@ -38,6 +39,9 @@ SEUIL_BAISSE_MAX = 0.10  # 10%
 
 CHEMIN_GEOJSON = "data/terrains.geojson"
 CHEMIN_STATS_GEO = "data/stats_geo.json"
+# Date à laquelle chaque terrain a été vu pour la première fois, pour signaler les nouveaux
+# terrains dans la page admin. Voir mettre_a_jour_apparitions() plus bas.
+CHEMIN_APPARITION = "data/terrains_apparition.json"
 
 
 # Régions et provinces belges : on identifie chaque terrain par une clé canonique STABLE
@@ -364,6 +368,40 @@ def calculer_statistiques_geo(features):
     return regions
 
 
+def mettre_a_jour_apparitions(features, chemin):
+    """
+    Tient à jour {osm_id: date de première apparition}. Ce fichier-ci est reconstruit de zéro
+    chaque semaine et ne garde aucune mémoire : c'est ce petit fichier séparé qui s'en charge.
+
+    - Premier passage (fichier absent) : tous les terrains existants reçoivent null, « déjà là
+      avant le suivi ». Sans quoi les ~1700 terrains actuels passeraient tous pour nouveaux.
+    - Ensuite : un terrain jamais vu reçoit la date du jour.
+    - Un terrain qui disparaît GARDE sa date : s'il revient (miroir Overpass incomplet une
+      semaine, par exemple), il n'est pas pris pour un nouveau.
+    """
+    premiere_fois = not os.path.exists(chemin)
+    apparitions = {}
+    if not premiere_fois:
+        with open(chemin, "r", encoding="utf-8") as f:
+            apparitions = json.load(f)
+
+    aujourd_hui = date.today().isoformat()
+    nouveaux = 0
+    for feature in features:
+        osm_id = feature["properties"]["osm_id"]
+        if osm_id not in apparitions:
+            apparitions[osm_id] = None if premiere_fois else aujourd_hui
+            nouveaux += 0 if premiere_fois else 1
+
+    with open(chemin, "w", encoding="utf-8") as f:
+        json.dump(dict(sorted(apparitions.items())), f, ensure_ascii=False, indent=1)
+
+    if premiere_fois:
+        print(f"Suivi des apparitions démarré : {len(apparitions)} terrain(s) marqué(s) « déjà là ».")
+    else:
+        print(f"{nouveaux} nouveau(x) terrain(s) depuis le passage précédent.")
+
+
 def compter_terrains_precedents(chemin):
     """
     Lit le nombre de terrains présents dans la version actuelle du fichier,
@@ -430,6 +468,8 @@ with open(CHEMIN_STATS_GEO, "w", encoding="utf-8") as f:
         ensure_ascii=False,
         indent=2
     )
+
+mettre_a_jour_apparitions(features, CHEMIN_APPARITION)
 
 # Diagnostic : signale si une proportion anormale de terrains n'a pas pu être rattachée à une
 # région (repli name-matching manquant, ou réponse Nominatim incomplète pour ce point). Ne bloque
