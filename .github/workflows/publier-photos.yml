@@ -1,0 +1,79 @@
+# Publication des photos de visiteurs validées dans la page admin.
+#
+# Envoie à Mapillary les photos validées, rattache l'identifiant de celles
+# envoyées lors d'un passage précédent (Mapillary met en général un à deux
+# jours à les traiter), puis reconstruit data/photos_mapillary.json et le
+# commite. Tout le travail est fait par scripts/publier_photos.py.
+#
+# Lancé chaque jour à 5 h UTC, loin du workflow hebdomadaire (lundi 3 h 17),
+# et à la demande par le bouton « Publier maintenant » de la page admin.
+#
+# Secrets du dépôt nécessaires :
+#   MAPILLARY_USER_TOKEN  clé d'envoi de mapillary_tools (compte mapetanque)
+#   MAPILLARY_TOKEN       jeton client MLY|..., déjà utilisé par update-osm.yml
+#   JETON_WORKFLOW        clé partagée avec le Worker mapetanque-admin
+
+name: Publication des photos
+
+on:
+  schedule:
+    - cron: "0 5 * * *"
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Deux lancements rapprochés (horaire + bouton) passent l'un après l'autre :
+# jamais deux envois simultanés de la même photo.
+concurrency:
+  group: publier-photos
+  cancel-in-progress: false
+
+jobs:
+  publier:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupération du projet
+        uses: actions/checkout@v4
+
+      # 3.12 plutôt que la 3.14 du workflow hebdomadaire : mapillary_tools et
+      # ses dépendances y sont éprouvés.
+      - name: Installation de Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installation des dépendances
+        run: |
+          pip install mapillary_tools piexif pillow
+
+      - name: Connexion à Mapillary
+        env:
+          MAPILLARY_USER_TOKEN: ${{ secrets.MAPILLARY_USER_TOKEN }}
+        run: |
+          mapillary_tools authenticate --user_name mapetanque --jwt "$MAPILLARY_USER_TOKEN"
+
+      - name: Rattachement, envoi et export
+        env:
+          JETON_WORKFLOW: ${{ secrets.JETON_WORKFLOW }}
+          MAPILLARY_TOKEN: ${{ secrets.MAPILLARY_TOKEN }}
+        run: |
+          python scripts/publier_photos.py
+
+      # Exécutée même si une phase a échoué : ce qui a été rattaché doit être
+      # publié. Pas de commit si le fichier n'a pas changé.
+      - name: Sauvegarde des changements
+        if: ${{ !cancelled() }}
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+
+          git add data/photos_mapillary.json
+          git commit -m "Publication des photos" || exit 0
+
+          # Un autre workflow a pu commiter entre-temps : on se remet à jour
+          # avant de pousser.
+          git pull --rebase
+          git push

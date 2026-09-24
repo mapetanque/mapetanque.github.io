@@ -54,4 +54,7 @@ jobs:
 
           git commit -m "Mise à jour quotidienne OSM" || exit 0
 
+          # Le workflow de publication des photos commite lui aussi : on se remet
+          # à jour avant de pousser, sinon le push serait refusé.
+          git pull --rebase
           git push
