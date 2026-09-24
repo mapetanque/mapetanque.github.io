@@ -1,0 +1,64 @@
+# Alerte à l'arrivée d'une photo de visiteur.
+#
+# Déclenché par le Worker mapetanque-admin (jamais par un horaire). Ouvre une
+# issue « Photos de visiteurs en attente de modération », ou la complète d'un
+# commentaire si elle est déjà ouverte. C'est le bot GitHub Actions qui écrit :
+# GitHub t'envoie donc un mail, ce qu'il ne ferait pas pour ta propre activité.
+#
+# Fermer l'issue après la séance de modération : la suivante en rouvrira une.
+#
+# À placer dans .github/workflows/alerte-photo.yml, sur la branche par défaut
+# (un workflow_dispatch n'est accepté que s'il y existe).
+
+name: Alerte photo visiteur
+
+on:
+  workflow_dispatch:
+    inputs:
+      osm_id:
+        description: "Terrain concerné (ex. node/7798043008)"
+        required: true
+      en_attente:
+        description: "Nombre total de photos en attente"
+        required: true
+
+permissions:
+  issues: write
+
+# Deux alertes simultanées ne doivent pas ouvrir deux issues : elles passent
+# l'une après l'autre.
+concurrency:
+  group: alerte-photo
+  cancel-in-progress: false
+
+jobs:
+  alerter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ouvrir ou compléter l'issue d'alerte
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          # Les entrées passent par des variables d'environnement, jamais
+          # directement dans le script : une valeur piégée ne peut ainsi pas
+          # être exécutée comme une commande.
+          OSM_ID: ${{ inputs.osm_id }}
+          EN_ATTENTE: ${{ inputs.en_attente }}
+        run: |
+          set -euo pipefail
+
+          [[ "$OSM_ID" =~ ^(node|way|relation)/[0-9]{1,16}$ ]] || { echo "osm_id invalide"; exit 1; }
+          [[ "$EN_ATTENTE" =~ ^[0-9]{1,4}$ ]] || { echo "compteur invalide"; exit 1; }
+
+          TITRE="Photos de visiteurs en attente de modération"
+          MESSAGE=$(printf 'Nouvelle photo reçue pour [%s](https://www.openstreetmap.org/%s).\n\nPhotos en attente au total : %s.\n\nModération : https://mapetanque.be/admin.html' \
+            "$OSM_ID" "$OSM_ID" "$EN_ATTENTE")
+
+          NUMERO=$(gh issue list --state open --limit 100 --json number,title \
+            --jq ".[] | select(.title == \"$TITRE\") | .number" | head -n 1)
+
+          if [ -z "$NUMERO" ]; then
+            gh issue create --title "$TITRE" --body "$MESSAGE"
+          else
+            gh issue comment "$NUMERO" --body "$MESSAGE"
+          fi

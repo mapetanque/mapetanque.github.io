@@ -779,19 +779,24 @@ const addPhotoOverlay = document.getElementById('add-photo-overlay');
 const addPhotoModal = document.getElementById('add-photo-modal');
 const addPhotoTerrainName = document.getElementById('add-photo-terrain-name');
 
-// ID du formulaire Forminit (dashboard Forminit > ton formulaire > endpoint https://forminit.com/f/XXXXXXXX
-// → colle juste la partie XXXXXXXX ci-dessous, pas l'URL complète).
-const FORMINIT_FORM_ID = "a0s7wffxoty";
+// Les photos partent maintenant vers le Worker Cloudflare, qui les range dans R2 et les met en
+// file d'attente de modération (Forminit n'est plus utilisé). Le honeypot _gotcha du HTML est
+// conservé : c'est désormais le Worker qui le vérifie, avec la taille, le format réel du fichier
+// et un plafond d'envois par jour.
+const URL_ENVOI_PHOTO = "https://mapetanque-admin.mapetanque.workers.dev/photos/envoi";
 
-// Site Key Turnstile : Turnstile a été retiré (bug côté Cloudflare — erreur 400020 reproductible
-// même sur un widget flambant neuf, en dehors de tout contrôle côté site, voir historique). La
-// protection anti-spam repose maintenant sur le honeypot ci-dessous (champ _gotcha dans le HTML
-// du formulaire) + le filtrage intégré de Forminit.
-
-// Taille maximale acceptée pour la photo envoyée (20 Mo) — vérifiée côté client avant l'envoi,
-// pour un retour immédiat à l'usager plutôt qu'un rejet côté serveur Forminit. Marge confortable
-// sous le plafond de 25 Mo par soumission de Forminit (tous plans, y compris gratuit).
+// Taille maximale acceptée AVANT redimensionnement, vérifiée ici pour un retour immédiat, et
+// revérifiée par le Worker (le contrôle côté navigateur se contourne).
 const TAILLE_MAX_PHOTO = 20 * 1024 * 1024;
+
+// Nombre de photos par envoi. Au-delà, l'attente devient longue et la file de modération se
+// remplit sans bénéfice : une poignée de bonnes photos vaut mieux qu'une rafale.
+const MAX_PHOTOS_PAR_ENVOI = 5;
+
+// Côté le plus long après redimensionnement. Largement suffisant pour Mapillary, et divise par
+// dix ou vingt le poids d'une photo de téléphone moderne.
+const COTE_MAX_PHOTO = 2048;
+const QUALITE_JPEG = 0.85;
 
 const addPhotoForm = document.getElementById('add-photo-form');
 const addPhotoStatus = document.getElementById('add-photo-status');
@@ -821,79 +826,251 @@ window.ouvrirModaleAjoutPhoto = function (osmId, terrainTitre) {
     }
 };
 
+// --- Préparation du formulaire ------------------------------------------------------------
+// Le bloc #add-photo-modal est présent à l'identique dans 15 pages statiques et 2 gabarits :
+// ces quelques ajustements sont faits ici pour n'avoir qu'une seule source à maintenir.
+if (addPhotoForm) {
+    const champPhoto = addPhotoForm.querySelector('[name="fi-file-photo"]');
+    if (champPhoto) champPhoto.multiple = true;
+
+    // L'ancien champ e-mail devient le prénom ou pseudo à créditer : c'est ce que la case de
+    // licence promet déjà, et un pseudo est bien moins sensible qu'une adresse.
+    const champCredit = addPhotoForm.querySelector('[name="fi-sender-email"]');
+    if (champCredit) {
+        champCredit.type = 'text';
+        champCredit.name = 'credit_nom';
+        champCredit.maxLength = 60;
+        champCredit.autocomplete = 'nickname';
+
+        const etiquette = champCredit.previousElementSibling;
+        if (etiquette && etiquette.classList.contains('add-photo-field-label')) {
+            etiquette.dataset.i18n = 'add_photo_field_credit_label';
+            etiquette.textContent = t('add_photo_field_credit_label');
+        }
+    }
+}
+
+
+// --- Lecture de la date de prise de vue ---------------------------------------------------
+// Le redimensionnement ci-dessous réécrit l'image et efface donc les EXIF : c'est voulu, ils
+// peuvent contenir les coordonnées du domicile de quelqu'un qui envoie une photo prise ailleurs,
+// ainsi que le modèle et le numéro de série de l'appareil. Mais mapillary_tools exige une date
+// de prise de vue, d'où cette lecture préalable du seul champ utile (DateTimeOriginal, 0x9003).
+//
+// Analyse volontairement minimale du conteneur JPEG : on cherche le segment APP1/Exif, on lit
+// l'en-tête TIFF pour connaître l'ordre des octets, puis on parcourt les deux répertoires qui
+// peuvent porter la date. Aucune bibliothèque, une centaine de lignes évitées.
+function lireDateExif(fichier) {
+    return new Promise(function (resoudre) {
+        // Les EXIF sont en tête de fichier : inutile de lire 8 Mo pour trouver une date.
+        const debut = fichier.slice(0, 131072);
+        const lecteur = new FileReader();
+
+        lecteur.onerror = function () { resoudre(null); };
+        lecteur.onload = function () {
+            try {
+                const vue = new DataView(lecteur.result);
+                if (vue.getUint16(0) !== 0xFFD8) { resoudre(null); return; }   // pas un JPEG
+
+                let position = 2;
+                while (position < vue.byteLength - 4) {
+                    if (vue.getUint8(position) !== 0xFF) break;
+
+                    const marqueur = vue.getUint8(position + 1);
+                    const longueur = vue.getUint16(position + 2);
+
+                    if (marqueur === 0xE1) {   // APP1
+                        const tiff = position + 10;   // 4 octets d'en-tête + "Exif\0\0"
+                        const petitBoutiste = vue.getUint16(tiff) === 0x4949;
+                        const premierIfd = tiff + vue.getUint32(tiff + 4, petitBoutiste);
+
+                        const date = chercherDateDansIfd(vue, tiff, premierIfd, petitBoutiste, 0);
+                        resoudre(date);
+                        return;
+                    }
+
+                    if (marqueur === 0xDA) break;   // début de l'image : plus d'EXIF au-delà
+                    position += 2 + longueur;
+                }
+                resoudre(null);
+            } catch (e) {
+                resoudre(null);   // EXIF illisibles : la date de réception fera l'affaire
+            }
+        };
+
+        lecteur.readAsArrayBuffer(debut);
+    });
+}
+
+// Parcourt un répertoire IFD à la recherche de DateTimeOriginal (0x9003) ou, à défaut, de
+// DateTime (0x0132). Descend d'un niveau dans le sous-répertoire Exif (0x8769), où la première
+// se trouve presque toujours.
+function chercherDateDansIfd(vue, tiff, ifd, petitBoutiste, profondeur) {
+    if (profondeur > 2 || ifd <= tiff || ifd + 2 > vue.byteLength) return null;
+
+    const nombreEntrees = vue.getUint16(ifd, petitBoutiste);
+    let sousRepertoire = null;
+    let dateSecours = null;
+
+    for (let i = 0; i < nombreEntrees; i++) {
+        const entree = ifd + 2 + i * 12;
+        if (entree + 12 > vue.byteLength) break;
+
+        const etiquette = vue.getUint16(entree, petitBoutiste);
+
+        if (etiquette === 0x8769) {
+            sousRepertoire = tiff + vue.getUint32(entree + 8, petitBoutiste);
+        }
+
+        if (etiquette === 0x9003 || etiquette === 0x0132) {
+            const decalage = tiff + vue.getUint32(entree + 8, petitBoutiste);
+            let texte = '';
+            for (let o = 0; o < 19 && decalage + o < vue.byteLength; o++) {
+                texte += String.fromCharCode(vue.getUint8(decalage + o));
+            }
+            // Format EXIF : "AAAA:MM:JJ hh:mm:ss"
+            if (/^\d{4}:\d{2}:\d{2} \d{2}:\d{2}:\d{2}$/.test(texte)) {
+                const normalisee = texte.slice(0, 10).replace(/:/g, '-') + texte.slice(10);
+                if (etiquette === 0x9003) return normalisee;
+                dateSecours = normalisee;
+            }
+        }
+    }
+
+    if (sousRepertoire) {
+        const trouvee = chercherDateDansIfd(vue, tiff, sousRepertoire, petitBoutiste, profondeur + 1);
+        if (trouvee) return trouvee;
+    }
+
+    return dateSecours;
+}
+
+
+// --- Redimensionnement --------------------------------------------------------------------
+// Ramène la photo à COTE_MAX_PHOTO sur son plus grand côté. createImageBitmap applique
+// l'orientation EXIF, ce qui évite les photos couchées ; en cas d'échec (navigateur ancien), on
+// repasse par un <img>, que les navigateurs actuels orientent également.
+function redimensionnerPhoto(fichier) {
+    return new Promise(function (resoudre) {
+        function dessiner(source, largeur, hauteur) {
+            const facteur = Math.min(1, COTE_MAX_PHOTO / Math.max(largeur, hauteur));
+
+            // Photo déjà petite : inutile de la réencoder, ce qui dégraderait l'image pour rien.
+            // Les EXIF sont alors conservés — acceptable, ces photos-là sont rares.
+            if (facteur === 1) { resoudre(fichier); return; }
+
+            const toile = document.createElement('canvas');
+            toile.width = Math.round(largeur * facteur);
+            toile.height = Math.round(hauteur * facteur);
+            toile.getContext('2d').drawImage(source, 0, 0, toile.width, toile.height);
+
+            toile.toBlob(function (blob) {
+                resoudre(blob || fichier);
+            }, 'image/jpeg', QUALITE_JPEG);
+        }
+
+        if (typeof createImageBitmap === 'function') {
+            createImageBitmap(fichier, { imageOrientation: 'from-image' })
+                .then(function (bitmap) { dessiner(bitmap, bitmap.width, bitmap.height); })
+                .catch(function () { resoudre(fichier); });
+            return;
+        }
+
+        const image = new Image();
+        const url = URL.createObjectURL(fichier);
+        image.onload = function () {
+            dessiner(image, image.naturalWidth, image.naturalHeight);
+            URL.revokeObjectURL(url);
+        };
+        image.onerror = function () { URL.revokeObjectURL(url); resoudre(fichier); };
+        image.src = url;
+    });
+}
+
+
+// --- Envoi --------------------------------------------------------------------------------
 if (addPhotoForm) {
     addPhotoForm.addEventListener('submit', function (evt) {
         evt.preventDefault();
 
-        // Vérification de la taille du fichier AVANT l'envoi : évite un aller-retour réseau
-        // inutile (et un rejet côté serveur moins clair pour l'usager) si la photo dépasse la
-        // limite autorisée.
-        const fichierChoisi = addPhotoForm.querySelector('[name="fi-file-photo"]').files[0];
-        if (fichierChoisi && fichierChoisi.size > TAILLE_MAX_PHOTO) {
-            if (addPhotoStatus) {
-                addPhotoStatus.textContent = t('add_photo_error_too_large');
-                addPhotoStatus.className = 'add-photo-status error';
-            }
+        const champPhoto = addPhotoForm.querySelector('[name="fi-file-photo"]');
+        const fichiers = champPhoto ? Array.from(champPhoto.files) : [];
+
+        function afficherStatut(cle, classe, texteDirect) {
+            if (!addPhotoStatus) return;
+            addPhotoStatus.textContent = texteDirect || t(cle);
+            addPhotoStatus.className = 'add-photo-status' + (classe ? ' ' + classe : '');
+        }
+
+        if (!fichiers.length) return;
+
+        if (fichiers.length > MAX_PHOTOS_PAR_ENVOI) {
+            afficherStatut('add_photo_error_too_many', 'error');
+            return;
+        }
+        if (fichiers.some(function (f) { return f.size > TAILLE_MAX_PHOTO; })) {
+            afficherStatut('add_photo_error_too_large', 'error');
             return;
         }
 
         if (addPhotoSubmitBtn) addPhotoSubmitBtn.disabled = true;
-        if (addPhotoStatus) {
-            addPhotoStatus.textContent = t('add_photo_sending');
-            addPhotoStatus.className = 'add-photo-status sending';
-        }
+        afficherStatut('add_photo_sending', 'sending');
 
-        const donnees = new FormData(addPhotoForm);
+        const osmId = addPhotoForm.querySelector('[name="fi-text-terrain-osm-id"]').value || '';
+        const champCredit = addPhotoForm.querySelector('[name="credit_nom"]');
+        const honeypot = addPhotoForm.querySelector('[name="_gotcha"]');
 
-        // Renomme le fichier envoyé pour qu'il porte l'identification du terrain directement
-        // dans son nom (ex. way-1546238442_rue-de-la-siroperie.jpg) : un moyen de repérage
-        // fiable et immédiat en plus des champs texte fi-text-terrain-*, utile notamment quand
-        // on parcourt les pièces jointes reçues (voir club/ajouter_photo_manuelle.py).
-        const fichierPhoto = donnees.get('fi-file-photo');
-        if (fichierPhoto instanceof File) {
-            const osmIdPropre = (addPhotoForm.querySelector('[name="fi-text-terrain-osm-id"]').value || 'terrain')
-                .replace(/\//g, '-');
-            const nomPropre = (addPhotoForm.querySelector('[name="fi-text-terrain-nom"]').value || '')
-                .normalize('NFKD').replace(/[\u0300-\u036f]/g, '')  // retire les accents
-                .replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-            const extension = fichierPhoto.name.split('.').pop();
-            const nouveauNom = `${osmIdPropre}${nomPropre ? '_' + nomPropre : ''}.${extension}`;
+        // Envois l'un après l'autre plutôt qu'en parallèle : la progression est lisible, et une
+        // photo refusée par le serveur n'emporte pas les autres.
+        let envoyees = 0;
 
-            donnees.set('fi-file-photo', new File([fichierPhoto], nouveauNom, { type: fichierPhoto.type }));
-        }
-
-        fetch(`https://forminit.com/f/${FORMINIT_FORM_ID}`, {
-            method: 'POST',
-            body: donnees,
-            headers: { 'Accept': 'application/json' }
-        })
-            .then(function (reponse) {
-                // Lit le corps de la réponse AVANT de décider si c'est une erreur : Forminit
-                // répond parfois avec un statut HTTP non-ok (400...) accompagné d'un JSON
-                // décrivant précisément la cause (ex. FI_DATA_VALIDATION) — utile dans la
-                // console pour diagnostiquer, plutôt qu'un simple "Réponse HTTP 400" muet.
-                return reponse.text().then(function (texte) {
-                    if (!reponse.ok) {
-                        throw new Error('Réponse HTTP ' + reponse.status + ' : ' + texte);
-                    }
-                    return texte;
-                });
-            })
-            .then(function () {
-                if (addPhotoStatus) {
-                    addPhotoStatus.textContent = t('add_photo_success');
-                    addPhotoStatus.className = 'add-photo-status success';
+        function envoyerSuivante(index) {
+            if (index >= fichiers.length) {
+                if (envoyees === 0) {
+                    afficherStatut('add_photo_error', 'error');
+                    if (addPhotoSubmitBtn) addPhotoSubmitBtn.disabled = false;
+                    return;
                 }
+                afficherStatut('add_photo_success', 'success');
                 addPhotoForm.style.display = 'none';
-            })
-            .catch(function (erreur) {
-                console.error('Échec envoi formulaire photo :', erreur);
-                if (addPhotoStatus) {
-                    addPhotoStatus.textContent = t('add_photo_error');
-                    addPhotoStatus.className = 'add-photo-status error';
-                }
-                if (addPhotoSubmitBtn) addPhotoSubmitBtn.disabled = false;
+                return;
+            }
+
+            if (fichiers.length > 1) {
+                afficherStatut(null, 'sending',
+                    t('add_photo_sending_progress')
+                        .replace('{n}', index + 1)
+                        .replace('{total}', fichiers.length));
+            }
+
+            const fichier = fichiers[index];
+
+            lireDateExif(fichier).then(function (datePrise) {
+                return redimensionnerPhoto(fichier).then(function (image) {
+                    const donnees = new FormData();
+                    donnees.set('osm_id', osmId);
+                    donnees.set('licence', '1');
+                    donnees.set('photo', image, fichier.name);
+                    donnees.set('nom_fichier', fichier.name);
+                    if (datePrise) donnees.set('date_prise', datePrise);
+                    if (champCredit && champCredit.value) donnees.set('credit_nom', champCredit.value);
+                    if (honeypot) donnees.set('_gotcha', honeypot.value || '');
+
+                    return fetch(URL_ENVOI_PHOTO, { method: 'POST', body: donnees });
+                });
+            }).then(function (reponse) {
+                return reponse.text().then(function (texte) {
+                    if (!reponse.ok) throw new Error('Réponse HTTP ' + reponse.status + ' : ' + texte);
+                    envoyees++;
+                });
+            }).catch(function (erreur) {
+                console.error('Échec envoi photo :', erreur);
+            }).then(function () {
+                envoyerSuivante(index + 1);
             });
+        }
+
+        envoyerSuivante(0);
     });
 }
 
@@ -2668,3 +2845,25 @@ document.addEventListener('keydown', function (e) {
 // ===================== Initialisation =====================
 
 appliquerTraductions();
+
+
+// ===================== Accès admin (footer) =====================
+
+// Lien discret vers la page d'administration, injecté ici plutôt que dans les 17 pages qui ont un
+// pied de page (gabarits province et région compris) : une seule source, rien à propager à la
+// génération. La page elle-même ne donne accès à rien sans mot de passe, et robots.txt l'exclut de
+// l'indexation — ce lien n'est qu'un raccourci.
+//
+// Placé à la suite des statistiques, dans le bloc de gauche, pour ne pas s'intercaler entre le
+// texte et les icônes de partage (qui restent tout à droite).
+const zoneStatsFooter = document.querySelector('.footer-small');
+
+if (zoneStatsFooter) {
+    const lienAdmin = document.createElement('a');
+    lienAdmin.href = '/admin.html';
+    lienAdmin.className = 'footer-admin';
+    lienAdmin.rel = 'nofollow';
+    lienAdmin.title = 'Administration';
+    lienAdmin.textContent = '⚙';
+    zoneStatsFooter.appendChild(lienAdmin);
+}

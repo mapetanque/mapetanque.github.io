@@ -27,7 +27,8 @@ META = {
         "fil": ("Accueil", "À propos"),
         "description": (
             "Pourquoi Mapetanque.be existe, sur quelles données libres le site s'appuie "
-            "(OpenStreetMap, Mapillary), et comment me contacter."
+            "(OpenStreetMap, Mapillary), ce qu'il fait de vos données, et comment me "
+            "contacter."
         ),
     },
     "nl": {
@@ -37,7 +38,8 @@ META = {
         "fil": ("Home", "Over ons"),
         "description": (
             "Waarom Mapetanque.be bestaat, op welke vrije gegevens de site steunt "
-            "(OpenStreetMap, Mapillary), en hoe je me kan bereiken."
+            "(OpenStreetMap, Mapillary), wat er met je gegevens gebeurt, en hoe je me kan "
+            "bereiken."
         ),
     },
     "de": {
@@ -47,7 +49,8 @@ META = {
         "fil": ("Startseite", "Über uns"),
         "description": (
             "Warum es Mapetanque.be gibt, auf welchen freien Daten die Website beruht "
-            "(OpenStreetMap, Mapillary), und wie Sie mich erreichen."
+            "(OpenStreetMap, Mapillary), was mit Ihren Daten geschieht, und wie Sie mich "
+            "erreichen."
         ),
     },
 }
@@ -88,6 +91,36 @@ CONTENU = {
                 "chaque photo reçue est publiée sur Mapillary avant d'être affichée ici. Ce qui "
                 "est collecté pour ce site profite donc à tout le monde.",
                 "Le site est gratuit, sans publicité, et développé sur mon temps libre.",
+            ],
+        },
+        {
+            "titre": "Vos données",
+            "paragraphes": [
+                "Mapetanque.be ne dépose aucun cookie publicitaire, n'utilise aucun outil de "
+                "mesure d'audience et ne transmet vos données à personne. Votre navigateur "
+                "conserve seulement votre langue et vos préférences d'affichage, en local sur "
+                "votre appareil.",
+                "Les notes que vous donnez aux terrains sont enregistrées sans votre nom ni "
+                "votre adresse IP. Pour éviter qu'un même visiteur note vingt fois le même "
+                "terrain, le site calcule une empreinte chiffrée à partir de votre adresse IP, "
+                "du terrain concerné et du mois en cours. Cette empreinte ne permet pas de "
+                "remonter à vous, et elle change chaque mois.",
+                "Quand vous envoyez une photo, votre navigateur la réduit et efface ses "
+                "métadonnées avant l'envoi : ni le modèle de votre appareil, ni les coordonnées "
+                "GPS d'origine ne quittent votre téléphone. Seule la date de prise de vue est "
+                "conservée, car Mapillary l'exige. La position associée à la photo est celle du "
+                "terrain, pas la vôtre.",
+                "La photo est ensuite stockée sur un serveur européen le temps que je la "
+                "vérifie. Si je ne la retiens pas, elle est supprimée immédiatement. Si je la "
+                "retiens, elle est publiée sur Mapillary sous licence CC BY-SA, comme la case du "
+                "formulaire vous l'indique, puis effacée de ce stockage temporaire. Mapillary "
+                "floute automatiquement les visages et les plaques d'immatriculation après "
+                "publication.",
+                "Si vous indiquez un prénom ou un pseudonyme, il ne sert qu'à vous créditer. "
+                "Vous pouvez à tout moment demander le retrait d'une photo que vous avez "
+                "envoyée, en écrivant à mapetanque@outlook.be.",
+                "Le site est hébergé par GitHub Pages et les envois transitent par Cloudflare. "
+                "Ces prestataires conservent des journaux techniques qui leur sont propres.",
             ],
         },
         {
@@ -134,6 +167,35 @@ CONTENU = {
             ],
         },
         {
+            "titre": "Je gegevens",
+            "paragraphes": [
+                "Mapetanque.be plaatst geen reclamecookies, gebruikt geen enkel hulpmiddel om "
+                "bezoekersaantallen te meten en geeft je gegevens aan niemand door. Je browser "
+                "bewaart alleen je taal en je weergavevoorkeuren, lokaal op je toestel.",
+                "De punten die je aan terreinen geeft, worden opgeslagen zonder je naam of je "
+                "IP-adres. Om te vermijden dat dezelfde bezoeker twintig keer hetzelfde terrein "
+                "beoordeelt, berekent de site een versleutelde vingerafdruk op basis van je "
+                "IP-adres, het betrokken terrein en de lopende maand. Die vingerafdruk leidt "
+                "niet naar jou terug, en ze verandert elke maand.",
+                "Wanneer je een foto verstuurt, verkleint je browser ze en wist hij de "
+                "metagegevens vóór het versturen: noch het model van je toestel, noch de "
+                "oorspronkelijke GPS-coördinaten verlaten je telefoon. Alleen de opnamedatum "
+                "blijft bewaard, omdat Mapillary die vereist. De positie die aan de foto "
+                "gekoppeld wordt, is die van het terrein, niet de jouwe.",
+                "De foto wordt vervolgens op een Europese server bewaard zolang ik ze nog moet "
+                "nakijken. Als ik ze niet weerhoud, wordt ze onmiddellijk verwijderd. Als ik ze "
+                "wel weerhoud, wordt ze op Mapillary gepubliceerd onder de CC BY-SA-licentie, "
+                "zoals het vakje in het formulier aangeeft, en daarna uit die tijdelijke opslag "
+                "gewist. Mapillary maakt gezichten en nummerplaten na publicatie automatisch "
+                "onherkenbaar.",
+                "Als je een voornaam of een pseudoniem opgeeft, dient dat alleen voor de "
+                "naamsvermelding. Je kan op elk moment vragen om een foto die je hebt verstuurd "
+                "te verwijderen, via mapetanque@outlook.be.",
+                "De site wordt gehost door GitHub Pages en de verzendingen lopen via Cloudflare. "
+                "Die dienstverleners houden hun eigen technische logboeken bij.",
+            ],
+        },
+        {
             "titre": "Wie ben ik?",
             "paragraphes": [
                 "Geboren in Luik en er nog altijd woonachtig, speel ik al van kleins af aan "
@@ -174,6 +236,36 @@ CONTENU = {
                 "bevor es hier erscheint. Was für diese Website gesammelt wird, kommt also allen "
                 "zugute.",
                 "Die Website ist kostenlos, werbefrei und entsteht in meiner Freizeit.",
+            ],
+        },
+        {
+            "titre": "Ihre Daten",
+            "paragraphes": [
+                "Mapetanque.be setzt keine Werbe-Cookies, verwendet kein Werkzeug zur "
+                "Reichweitenmessung und gibt Ihre Daten an niemanden weiter. Ihr Browser "
+                "speichert lediglich Ihre Sprache und Ihre Anzeigeeinstellungen, lokal auf Ihrem "
+                "Gerät.",
+                "Die Bewertungen, die Sie für Plätze abgeben, werden ohne Ihren Namen und ohne "
+                "Ihre IP-Adresse gespeichert. Damit nicht derselbe Besucher denselben Platz "
+                "zwanzigmal bewertet, berechnet die Website einen verschlüsselten Fingerabdruck "
+                "aus Ihrer IP-Adresse, dem betreffenden Platz und dem laufenden Monat. Dieser "
+                "Fingerabdruck lässt keinen Rückschluss auf Sie zu und ändert sich jeden Monat.",
+                "Wenn Sie ein Foto einsenden, verkleinert Ihr Browser es und löscht seine "
+                "Metadaten vor dem Versand: weder das Modell Ihres Geräts noch die "
+                "ursprünglichen GPS-Koordinaten verlassen Ihr Telefon. Nur das Aufnahmedatum "
+                "bleibt erhalten, weil Mapillary es verlangt. Die dem Foto zugeordnete Position "
+                "ist die des Platzes, nicht Ihre.",
+                "Das Foto wird anschließend auf einem europäischen Server gespeichert, solange "
+                "ich es noch prüfen muss. Nehme ich es nicht an, wird es sofort gelöscht. Nehme "
+                "ich es an, wird es unter der CC-BY-SA-Lizenz auf Mapillary veröffentlicht, wie "
+                "es das Kästchen im Formular angibt, und danach aus diesem Zwischenspeicher "
+                "entfernt. Mapillary macht Gesichter und Kennzeichen nach der Veröffentlichung "
+                "automatisch unkenntlich.",
+                "Wenn Sie einen Vornamen oder ein Pseudonym angeben, dient dies allein der "
+                "Namensnennung. Sie können jederzeit die Entfernung eines von Ihnen gesendeten "
+                "Fotos verlangen, unter mapetanque@outlook.be.",
+                "Die Website wird von GitHub Pages gehostet, und die Einsendungen laufen über "
+                "Cloudflare. Diese Anbieter führen ihre eigenen technischen Protokolle.",
             ],
         },
         {
