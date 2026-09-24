@@ -96,10 +96,10 @@ CONTENU = {
         {
             "titre": "Vos données",
             "paragraphes": [
-                "Mapetanque.be ne dépose aucun cookie publicitaire, n'utilise aucun outil de "
-                "mesure d'audience et ne transmet vos données à personne. Votre navigateur "
-                "conserve seulement votre langue et vos préférences d'affichage, en local sur "
-                "votre appareil.",
+                "Mapetanque.be ne dépose aucun cookie publicitaire et ne transmet vos données à "
+                "personne. Votre navigateur conserve seulement, en local sur votre appareil, votre "
+                "langue, vos préférences d'affichage et un identifiant aléatoire qui vous permet de "
+                "modifier votre note.",
                 "Les notes que vous donnez aux terrains sont enregistrées sans votre nom ni "
                 "votre adresse IP. Pour éviter qu'un même visiteur note vingt fois le même "
                 "terrain, le site calcule une empreinte chiffrée à partir de votre adresse IP, "
@@ -111,11 +111,15 @@ CONTENU = {
                 "conservée, car Mapillary l'exige. La position associée à la photo est celle du "
                 "terrain, pas la vôtre.",
                 "La photo est ensuite stockée sur un serveur européen le temps que je la "
-                "vérifie. Si je ne la retiens pas, elle est supprimée immédiatement. Si je la "
+                "vérifie. Si je ne la retiens pas, elle est supprimée immédiatement. Si je ne l'ai "
+                "pas vérifiée dans les 30 jours, elle est supprimée automatiquement. Si je la "
                 "retiens, elle est publiée sur Mapillary sous licence CC BY-SA, comme la case du "
                 "formulaire vous l'indique, puis effacée de ce stockage temporaire. Mapillary "
                 "floute automatiquement les visages et les plaques d'immatriculation après "
                 "publication.",
+                "Pour limiter les envois abusifs, le site calcule aussi une empreinte chiffrée de "
+                "votre adresse IP. Elle sert seulement à compter vos envois de la journée, et elle "
+                "est effacée au bout de quelques jours.",
                 "Si vous indiquez un prénom ou un pseudonyme, il ne sert qu'à vous créditer. "
                 "Vous pouvez à tout moment demander le retrait d'une photo que vous avez "
                 "envoyée, en écrivant à mapetanque@outlook.be.",
@@ -169,9 +173,9 @@ CONTENU = {
         {
             "titre": "Je gegevens",
             "paragraphes": [
-                "Mapetanque.be plaatst geen reclamecookies, gebruikt geen enkel hulpmiddel om "
-                "bezoekersaantallen te meten en geeft je gegevens aan niemand door. Je browser "
-                "bewaart alleen je taal en je weergavevoorkeuren, lokaal op je toestel.",
+                "Mapetanque.be plaatst geen reclamecookies en geeft je gegevens aan niemand door. "
+                "Je browser bewaart alleen, lokaal op je toestel, je taal, je weergavevoorkeuren "
+                "en een willekeurige code waarmee je je beoordeling kan wijzigen.",
                 "De punten die je aan terreinen geeft, worden opgeslagen zonder je naam of je "
                 "IP-adres. Om te vermijden dat dezelfde bezoeker twintig keer hetzelfde terrein "
                 "beoordeelt, berekent de site een versleutelde vingerafdruk op basis van je "
@@ -184,10 +188,14 @@ CONTENU = {
                 "gekoppeld wordt, is die van het terrein, niet de jouwe.",
                 "De foto wordt vervolgens op een Europese server bewaard zolang ik ze nog moet "
                 "nakijken. Als ik ze niet weerhoud, wordt ze onmiddellijk verwijderd. Als ik ze "
+                "niet binnen 30 dagen heb nagekeken, wordt ze automatisch verwijderd. Als ik ze "
                 "wel weerhoud, wordt ze op Mapillary gepubliceerd onder de CC BY-SA-licentie, "
                 "zoals het vakje in het formulier aangeeft, en daarna uit die tijdelijke opslag "
                 "gewist. Mapillary maakt gezichten en nummerplaten na publicatie automatisch "
                 "onherkenbaar.",
+                "Om misbruik te beperken, berekent de site ook een versleutelde vingerafdruk van "
+                "je IP-adres. Die dient alleen om je verzendingen van de dag te tellen en wordt "
+                "na enkele dagen gewist.",
                 "Als je een voornaam of een pseudoniem opgeeft, dient dat alleen voor de "
                 "naamsvermelding. Je kan op elk moment vragen om een foto die je hebt verstuurd "
                 "te verwijderen, via mapetanque@outlook.be.",
@@ -241,10 +249,10 @@ CONTENU = {
         {
             "titre": "Ihre Daten",
             "paragraphes": [
-                "Mapetanque.be setzt keine Werbe-Cookies, verwendet kein Werkzeug zur "
-                "Reichweitenmessung und gibt Ihre Daten an niemanden weiter. Ihr Browser "
-                "speichert lediglich Ihre Sprache und Ihre Anzeigeeinstellungen, lokal auf Ihrem "
-                "Gerät.",
+                "Mapetanque.be setzt keine Werbe-Cookies und gibt Ihre Daten an niemanden weiter. "
+                "Ihr Browser speichert lediglich, lokal auf Ihrem Gerät, Ihre Sprache, Ihre "
+                "Anzeigeeinstellungen und eine zufällige Kennung, mit der Sie Ihre Bewertung "
+                "ändern können.",
                 "Die Bewertungen, die Sie für Plätze abgeben, werden ohne Ihren Namen und ohne "
                 "Ihre IP-Adresse gespeichert. Damit nicht derselbe Besucher denselben Platz "
                 "zwanzigmal bewertet, berechnet die Website einen verschlüsselten Fingerabdruck "
@@ -256,11 +264,15 @@ CONTENU = {
                 "bleibt erhalten, weil Mapillary es verlangt. Die dem Foto zugeordnete Position "
                 "ist die des Platzes, nicht Ihre.",
                 "Das Foto wird anschließend auf einem europäischen Server gespeichert, solange "
-                "ich es noch prüfen muss. Nehme ich es nicht an, wird es sofort gelöscht. Nehme "
+                "ich es noch prüfen muss. Nehme ich es nicht an, wird es sofort gelöscht. Habe ich "
+                "es nicht innerhalb von 30 Tagen geprüft, wird es automatisch gelöscht. Nehme "
                 "ich es an, wird es unter der CC-BY-SA-Lizenz auf Mapillary veröffentlicht, wie "
                 "es das Kästchen im Formular angibt, und danach aus diesem Zwischenspeicher "
                 "entfernt. Mapillary macht Gesichter und Kennzeichen nach der Veröffentlichung "
                 "automatisch unkenntlich.",
+                "Um Missbrauch zu begrenzen, berechnet die Website außerdem einen verschlüsselten "
+                "Fingerabdruck Ihrer IP-Adresse. Er dient nur dazu, Ihre Einsendungen des Tages zu "
+                "zählen, und wird nach einigen Tagen gelöscht.",
                 "Wenn Sie einen Vornamen oder ein Pseudonym angeben, dient dies allein der "
                 "Namensnennung. Sie können jederzeit die Entfernung eines von Ihnen gesendeten "
                 "Fotos verlangen, unter mapetanque@outlook.be.",
