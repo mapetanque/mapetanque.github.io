@@ -130,6 +130,11 @@
     .moderation-carte .btn-refuser { background: #d9534f; color: white; border-color: #d9534f; }
     .moderation-carte.validee { background: #eaffea; }
     .moderation-carte.validee .btn-valider { opacity: 0.5; }
+    /* L'état est toujours écrit en toutes lettres dans la carte : la couleur de
+       fond n'est qu'un repère en plus, jamais la seule information. */
+    .moderation-carte.envoyee { background: #eef4ff; }
+    .moderation-carte.bloquee { background: #fff4e0; }
+    .moderation-erreur { color: #b52b27; font-size: 12px; margin-bottom: 6px; }
 </style>
 </head>
 <body>
@@ -163,6 +168,7 @@
         <option value="avec_alternative">Avec plusieurs photos</option>
         <option value="avec_pano">Avec 360° repérée</option>
     </select>
+    <button id="publierMaintenant">Publier maintenant</button>
     <button id="telechargerPhotos">Télécharger photos_mapillary.json</button>
     <button id="telechargerPanos">Télécharger la liste des 360°</button>
     <button id="deconnexion">Se déconnecter</button>
@@ -700,7 +706,41 @@ document.getElementById("telechargerPanos").addEventListener("click", async () =
 });
 
 
+/* ===================== Publication ===================== */
+
+// Lance tout de suite le workflow GitHub de publication (sinon, il passe chaque
+// matin à 5 h UTC) : envoi des photos validées à Mapillary, rattachement de
+// celles déjà traitées, mise à jour de photos_mapillary.json.
+document.getElementById("publierMaintenant").addEventListener("click", async (e) => {
+    const bouton = e.currentTarget;
+    bouton.disabled = true;
+    try {
+        await appeler("/admin/publier", { method: "POST" });
+        alert("Publication lancée. Elle prend quelques minutes (suivi dans l'onglet Actions "
+            + "du dépôt GitHub).\n\nLes photos envoyées reçoivent leur identifiant Mapillary "
+            + "à un passage suivant, en général sous un ou deux jours.");
+    } catch (err) {
+        /* le bandeau d'incident affiche déjà la cause */
+    } finally {
+        // Évite deux lancements par double clic ; GitHub les passerait de toute
+        // façon l'un après l'autre.
+        setTimeout(() => { bouton.disabled = false; }, 30000);
+    }
+});
+
+
 /* ===================== Modération des envois de visiteurs ===================== */
+
+// Au-delà, une photo envoyée sans identifiant est signalée : Mapillary traite
+// en général en un à deux jours, parfois jusqu'à une semaine.
+const JOURS_AVANT_ALERTE = 5;
+
+// Dates de la base : UTC, format « AAAA-MM-JJ hh:mm:ss », sans fuseau.
+function joursDepuis(dateBase) {
+    if (!dateBase) return 0;
+    const instant = Date.parse(dateBase.replace(" ", "T") + "Z");
+    return isNaN(instant) ? 0 : (Date.now() - instant) / 86400000;
+}
 
 // Nom du terrain, retrouvé dans les candidats déjà chargés : la file d'attente ne contient que
 // des osm_id, et « way/123456 » ne dit rien quand on modère.
@@ -731,9 +771,15 @@ async function chargerModeration() {
     bloc.classList.toggle("vide", file.length === 0);
     if (!file.length) return;
 
-    const enAttente = file.filter(p => p.statut === "en_attente").length;
-    resume.textContent = "Photos de visiteurs : " + enAttente + " en attente, "
-        + (file.length - enAttente) + " validée(s) en attente de publication";
+    const compter = statut => file.filter(p => p.statut === statut).length;
+    const bloquees = file.filter(p => p.statut === "envoyee"
+        && joursDepuis(p.maj) > JOURS_AVANT_ALERTE).length;
+
+    let texte = "Photos de visiteurs : " + compter("en_attente") + " en attente, "
+        + compter("validee") + " validée(s) à publier, "
+        + compter("envoyee") + " envoyée(s) en attente d'identifiant";
+    if (bloquees) texte += " — dont " + bloquees + " depuis plus de " + JOURS_AVANT_ALERTE + " jours";
+    resume.textContent = texte;
 
     contenu.innerHTML = "";
     file.forEach(photo => contenu.appendChild(construireCarteModeration(photo)));
@@ -741,7 +787,10 @@ async function chargerModeration() {
 
 function construireCarteModeration(photo) {
     const div = document.createElement("div");
-    div.className = "moderation-carte" + (photo.statut === "validee" ? " validee" : "");
+    const bloquee = photo.statut === "envoyee" && joursDepuis(photo.maj) > JOURS_AVANT_ALERTE;
+    div.className = "moderation-carte"
+        + (photo.statut === "validee" ? " validee" : "")
+        + (photo.statut === "envoyee" ? (bloquee ? " bloquee" : " envoyee") : "");
 
     const image = document.createElement("img");
     image.alt = "";
@@ -772,8 +821,24 @@ function construireCarteModeration(photo) {
     if (photo.credit_nom) morceaux.push("à créditer : " + photo.credit_nom);
     if (photo.nom_fichier) morceaux.push(photo.nom_fichier);
     if (photo.statut === "validee") morceaux.push("VALIDÉE — en attente de publication");
+    if (photo.statut === "envoyee") {
+        morceaux.push("ENVOYÉE à Mapillary le " + (photo.maj || "").slice(0, 10)
+            + " — en attente de l'identifiant");
+        if (bloquee) {
+            morceaux.push("PLUS DE " + JOURS_AVANT_ALERTE + " JOURS — à vérifier sur Mapillary");
+        }
+    }
     meta.textContent = morceaux.join(" — ");
     info.appendChild(meta);
+
+    // Dernier échec d'envoi noté par le workflow : la photo sera retentée au
+    // prochain passage, mais une erreur qui se répète doit se voir.
+    if (photo.erreur) {
+        const erreur = document.createElement("div");
+        erreur.className = "moderation-erreur";
+        erreur.textContent = "Dernier envoi en échec : " + photo.erreur;
+        info.appendChild(erreur);
+    }
 
     const actions = document.createElement("div");
     actions.className = "terrain-actions";
@@ -786,16 +851,20 @@ function construireCarteModeration(photo) {
         actions.appendChild(valider);
     }
 
-    const refuser = document.createElement("button");
-    refuser.className = "btn-refuser";
-    refuser.textContent = "Refuser et supprimer";
-    refuser.addEventListener("click", () => {
-        // Confirmation : le refus efface le fichier de R2, sans retour possible.
-        if (confirm("Refuser cette photo ? Le fichier sera définitivement supprimé.")) {
-            moderer(photo, "refuser", div);
-        }
-    });
-    actions.appendChild(refuser);
+    // Une photo déjà envoyée est chez Mapillary : la refuser ici ne la retirerait
+    // pas de là-bas. Le bouton disparaît, et le Worker refuse de toute façon.
+    if (photo.statut !== "envoyee") {
+        const refuser = document.createElement("button");
+        refuser.className = "btn-refuser";
+        refuser.textContent = "Refuser et supprimer";
+        refuser.addEventListener("click", () => {
+            // Confirmation : le refus efface le fichier de R2, sans retour possible.
+            if (confirm("Refuser cette photo ? Le fichier sera définitivement supprimé.")) {
+                moderer(photo, "refuser", div);
+            }
+        });
+        actions.appendChild(refuser);
+    }
 
     const lien = document.createElement("a");
     lien.href = "https://www.openstreetmap.org/" + photo.osm_id;

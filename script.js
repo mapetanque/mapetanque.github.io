@@ -1304,6 +1304,8 @@ function construireContenuPopupTerrain(feature, layer) {
             // photo en plein cadre — focus=photo donne directement la bonne vue.
             creditUrl: `https://www.mapillary.com/app/?pKey=${entree.mapillary_id}&lat=${terrainLat}&lng=${terrainLon}&z=17&focus=photo`,
             creditLabel: t('popup_photo_credit_mapillary'),
+            // Prénom ou pseudo d'un visiteur qui a envoyé la photo (voir creditVisiteur plus bas).
+            creditVisiteur: entree.credit_nom || null,
         });
     });
 
@@ -1331,8 +1333,26 @@ function construireContenuPopupTerrain(feature, layer) {
         return d.type === 'iframe' || d.panoStatique;
     }
 
+    // Photo envoyée par un visiteur : son prénom ou pseudo, s'il en a donné un, s'affiche sous la
+    // photo — c'est la promesse de la section « Vos données » de la page À propos. Le nom a été
+    // tapé par un inconnu dans le formulaire : il est neutralisé avant d'entrer dans le HTML,
+    // pour qu'aucun code glissé dedans ne puisse s'exécuter dans la page.
+    function echapperHtml(texte) {
+        return String(texte)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function creditVisiteur(d) {
+        if (!d.creditVisiteur) return "";
+        return `<span class="popup-photo-credit" style="display:block;margin-top:2px;">${t('popup_photo_envoyee_par')(echapperHtml(d.creditVisiteur))}</span>`;
+    }
+
     function sousLaPhoto(d) {
-        if (proposeAjouterPhoto(d)) return "";
+        if (proposeAjouterPhoto(d)) return creditVisiteur(d);
         return d.creditLabel
             ? `<a href="${d.creditUrl}" target="_blank" rel="noopener" class="popup-photo-credit">${d.creditLabel}</a>`
             : "";
@@ -1352,7 +1372,7 @@ function construireContenuPopupTerrain(feature, layer) {
         <br>`;
     } else if (diapositives.length === 1) {
         const d = diapositives[0];
-        photo = `${avecBoutonAgrandir(d)}${proposeAjouterPhoto(d) ? boutonAjouterPhoto() : sousLaPhoto(d)}<br>`;
+        photo = `${avecBoutonAgrandir(d)}${proposeAjouterPhoto(d) ? creditVisiteur(d) + boutonAjouterPhoto() : sousLaPhoto(d)}<br>`;
     } else {
         // Plusieurs photos : petit carrousel (flèches précédent/suivant), en JS natif — voir
         // brancherCarrouselPhotos(), appelée juste après l'ouverture de la popup plus bas.
