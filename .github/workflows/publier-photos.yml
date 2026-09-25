@@ -2,8 +2,9 @@
 #
 # Envoie à Mapillary les photos validées, rattache l'identifiant de celles
 # envoyées lors d'un passage précédent (Mapillary met en général un à deux
-# jours à les traiter), puis reconstruit data/photos_mapillary.json et le
-# commite. Tout le travail est fait par scripts/publier_photos.py.
+# jours à les traiter), génère les miniatures des vues 360° en attente, puis
+# reconstruit data/photos_mapillary.json et commite le tout. Le travail est fait
+# par scripts/publier_photos.py (et scripts/miniature_360.py pour les 360°).
 #
 # Lancé chaque jour à 5 h UTC, loin du workflow hebdomadaire (lundi 3 h 17),
 # et à la demande par le bouton « Publier maintenant » de la page admin.
@@ -47,7 +48,7 @@ jobs:
 
       - name: Installation des dépendances
         run: |
-          pip install mapillary_tools piexif pillow
+          pip install mapillary_tools piexif pillow numpy
 
       - name: Connexion à Mapillary
         env:
@@ -70,7 +71,7 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
 
-          git add data/photos_mapillary.json
+          git add data/photos_mapillary.json images/mapillary-360
           git commit -m "Publication des photos" || exit 0
 
           # Un autre workflow a pu commiter entre-temps : on se remet à jour

@@ -192,6 +192,26 @@
         color: var(--doux); min-width: 32px; min-height: 32px;
     }
 
+    /* --- Vues 360° et panneau de cadrage ---------------------------------- */
+    .pano {
+        display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; margin: 0 6px 4px 0;
+        padding: 4px 4px 4px 12px; border-radius: 10px; font-size: 13px; background: #efe6f3;
+    }
+    .pano .etat-pano { font-weight: 700; }
+    .pano .btn { min-height: 36px; padding: 0 12px; font-size: 13px; }
+    #cadrage { border: none; border-radius: 14px; padding: 0; width: min(760px, 96vw); max-height: 96vh; }
+    #cadrage::backdrop { background: rgba(0, 0, 0, 0.55); }
+    .cadrage-corps { padding: 20px 22px; display: flex; flex-direction: column; gap: 12px; }
+    .cadrage-corps h2 { margin: 0; font-size: 18px; }
+    #cadrageCanvas {
+        width: 100%; aspect-ratio: 16 / 9; height: auto; display: block; border-radius: 8px;
+        background: #dcdfd6; cursor: grab; touch-action: none;
+    }
+    #cadrageCanvas.saisi { cursor: grabbing; }
+    .cadrage-zoom { display: flex; align-items: center; gap: 12px; font-size: 14px; }
+    .cadrage-zoom input { flex: 1; min-height: 44px; }
+    .cadrage-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+
     /* --- Onglets Notes et Visites ---------------------------------------- */
     .a-venir { padding: 40px 24px; text-align: center; color: var(--doux); font-size: 15px; }
     .kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
@@ -312,7 +332,6 @@
             <div class="ligne-outils">
                 <h2 id="titreTerrains" style="align-self:center">Terrains</h2>
                 <div class="outils-secondaires">
-                    <button type="button" id="telechargerPanos" class="lien-outil">Télécharger la liste des 360°</button>
                     <button type="button" id="telechargerPhotos" class="lien-outil">Télécharger photos_mapillary.json</button>
                 </div>
             </div>
@@ -413,6 +432,24 @@
 </section>
 
 </main>
+
+<dialog id="cadrage" aria-labelledby="cadrageTitre">
+    <div class="cadrage-corps">
+        <h2 id="cadrageTitre">Cadrage de la vue 360°</h2>
+        <div class="terrain-meta" id="cadrageSousTitre"></div>
+        <canvas id="cadrageCanvas" width="640" height="360" aria-label="Aperçu de la miniature"></canvas>
+        <div class="terrain-meta" id="cadrageEtat">Glisse l'image du doigt pour choisir la direction. Cet aperçu est exactement la miniature qui sera publiée.</div>
+        <label class="cadrage-zoom">Zoom
+            <input type="range" id="cadrageZoom" min="0" max="3" step="0.05" value="0">
+            <span id="cadrageZoomValeur" style="min-width:48px; text-align:right">0</span>
+        </label>
+        <div class="cadrage-actions">
+            <a class="btn" id="cadrageMapillary" href="#" target="_blank" rel="noopener">Ouvrir dans Mapillary</a>
+            <button type="button" class="btn" id="cadrageAnnuler">Annuler</button>
+            <button type="button" class="btn btn-valider" id="cadrageEnregistrer">Enregistrer le cadrage</button>
+        </div>
+    </div>
+</dialog>
 
 <script>
 /* ============================================================================
@@ -726,8 +763,8 @@ function construireCarte(terrain) {
 
         listePanos.innerHTML = "";
         photosDe(cle, "pano360").forEach(photo => {
-            listePanos.appendChild(rendreChip("360° : " + photo.mapillary_id,
-                () => retirerPhoto(photo), "chip-pano"));
+            listePanos.appendChild(rendrePano(photo, () => retirerPhoto(photo),
+                () => ouvrirCadrage(photo, terrain.nom + " — " + terrain.commune, rafraichir)));
         });
     }
 
@@ -768,13 +805,16 @@ function construireCarte(terrain) {
 
         if (reponse && reponse.id) {
             // L'identifiant renvoyé par la base est indispensable pour pouvoir
-            // retirer la photo ensuite.
+            // retirer la photo ensuite (et, pour une 360°, la recadrer).
             provisoire.id = reponse.id;
-        } else {
-            etat.photos = etat.photos.filter(p => p !== provisoire);
+            if (origine === "pano360") provisoire.statut = provisoire.statut || "a_generer";
             rafraichir();
-            mettreAJourProgression();
+            return provisoire;
         }
+        etat.photos = etat.photos.filter(p => p !== provisoire);
+        rafraichir();
+        mettreAJourProgression();
+        return null;
     }
 
     if (btnAccepter) {
@@ -815,7 +855,10 @@ function construireCarte(terrain) {
             return;
         }
         champPano.value = "";
-        ajouterPhoto("pano360", analyse);
+        // Le panneau de cadrage s'ouvre tout de suite, sur le cadrage de l'adresse collée.
+        ajouterPhoto("pano360", analyse).then(photo => {
+            if (photo) ouvrirCadrage(photo, terrain.nom + " — " + terrain.commune, rafraichir);
+        });
     });
 
     rafraichir();
@@ -1037,20 +1080,6 @@ document.getElementById("telechargerPhotos").addEventListener("click", async () 
     } catch (e) { /* le bandeau d'incident affiche déjà la cause */ }
 });
 
-document.getElementById("telechargerPanos").addEventListener("click", async () => {
-    try {
-        const reponse = await appeler("/admin/export/panos");
-        const liste = await reponse.json();
-        if (!liste.length) {
-            alert("Aucune 360° en attente de miniature.");
-            return;
-        }
-        telecharger("candidats_360.json", JSON.stringify(liste, null, 2));
-        alert(liste.length + " candidat(s) 360° dans le fichier téléchargé.");
-    } catch (e) { /* idem */ }
-});
-
-
 /* ===================== Publication ===================== */
 
 // Lance tout de suite le workflow GitHub de publication (sinon, il passe chaque
@@ -1252,6 +1281,208 @@ async function moderer(photo, decision, carte) {
 
 document.getElementById("moderationTitre").addEventListener("click", () => {
     document.getElementById("moderationContenu").classList.toggle("ouvert");
+});
+
+
+/* ===================== Vues 360° : cadrage ===================== */
+
+function rendrePano(photo, surRetrait, surCadrage) {
+    const bloc = document.createElement("span");
+    bloc.className = "pano";
+
+    const texte = document.createElement("span");
+    texte.textContent = "360° " + photo.mapillary_id + " — ";
+    const etat = document.createElement("span");
+    etat.className = "etat-pano";
+    etat.textContent = photo.statut === "rattachee" ? "en ligne" : "à générer";
+    texte.appendChild(etat);
+    bloc.appendChild(texte);
+
+    const cadrer = document.createElement("button");
+    cadrer.type = "button";
+    cadrer.className = "btn";
+    cadrer.textContent = "Cadrage";
+    cadrer.disabled = !photo.id;   // pas encore enregistrée en base
+    cadrer.addEventListener("click", surCadrage);
+    bloc.appendChild(cadrer);
+
+    const retirer = document.createElement("button");
+    retirer.type = "button";
+    retirer.className = "chip-remove";
+    retirer.textContent = "×";
+    retirer.title = "Retirer";
+    retirer.addEventListener("click", surRetrait);
+    bloc.appendChild(retirer);
+    return bloc;
+}
+
+// Paramètres de l'app Mapillary (x, y, zoom) -> angles. STRICTEMENT les mêmes formules que
+// scripts/miniature_360.py : c'est ce qui garantit que l'aperçu est la miniature publiée.
+function versAngles(x, y, zoom) {
+    return {
+        yaw: (x - 0.5) * 360 + 180,
+        pitch: (0.5 - y) * 180,
+        fov: Math.max(30, 100 / Math.pow(1.5, zoom || 0))
+    };
+}
+
+// Reprojection équirectangulaire -> perspective, transcription ligne à ligne de
+// equirect_vers_perspective() (miniature_360.py) : mêmes axes, mêmes rotations, même
+// arrondi des coordonnées source.
+function reprojeter(source, largeurSource, hauteurSource, sortie, L, H, angles) {
+    const rad = Math.PI / 180;
+    const t = Math.tan(angles.fov * rad / 2);
+    const tv = t * H / L;
+    const cp = Math.cos(-angles.pitch * rad), sp = Math.sin(-angles.pitch * rad);
+    const cy = Math.cos(-angles.yaw * rad), sy = Math.sin(-angles.yaw * rad);
+    let k = 0;
+    for (let j = 0; j < H; j++) {
+        const yy = tv - 2 * tv * j / (H - 1);
+        for (let i = 0; i < L; i++) {
+            const xx = t - 2 * t * i / (L - 1);
+            const n = Math.sqrt(xx * xx + yy * yy + 1);
+            const rx = xx / n, ry = yy / n, rz = 1 / n;
+            // Rotation de tangage, puis de lacet (rayons @ rot_pitch.T @ rot_yaw.T)
+            const r1y = cp * ry - sp * rz, r1z = sp * ry + cp * rz;
+            const r2x = cy * rx + sy * r1z, r2y = r1y, r2z = -sy * rx + cy * r1z;
+            const lon = Math.atan2(r2x, -r2z);
+            const lat = Math.asin(Math.max(-1, Math.min(1, r2y)));
+            let mx = Math.trunc((lon / (2 * Math.PI) + 0.5) * largeurSource);
+            let my = Math.trunc((0.5 - lat / Math.PI) * hauteurSource);
+            mx = Math.min(largeurSource - 1, Math.max(0, mx));
+            my = Math.min(hauteurSource - 1, Math.max(0, my));
+            const s = (my * largeurSource + mx) * 4;
+            sortie[k] = source[s]; sortie[k + 1] = source[s + 1]; sortie[k + 2] = source[s + 2]; sortie[k + 3] = 255;
+            k += 4;
+        }
+    }
+}
+
+const CADRAGE = { photo: null, apres: null, source: null, x: 0.5, y: 0.5, zoom: 0, dessinPrevu: false };
+const IMAGES_360 = new Map();   // mapillary_id -> { donnees, largeur, hauteur }, gardées le temps de la session
+
+async function chargerImage360(mapillaryId) {
+    if (IMAGES_360.has(mapillaryId)) return IMAGES_360.get(mapillaryId);
+    const blob = await appeler("/admin/pano/image?id=" + encodeURIComponent(mapillaryId)).then(r => r.blob());
+    const url = URL.createObjectURL(blob);
+    try {
+        const img = new Image();
+        img.src = url;
+        await img.decode();
+        const toile = document.createElement("canvas");
+        toile.width = img.naturalWidth;
+        toile.height = img.naturalHeight;
+        const ctx = toile.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        const image = { donnees: ctx.getImageData(0, 0, toile.width, toile.height).data,
+                        largeur: toile.width, hauteur: toile.height };
+        IMAGES_360.set(mapillaryId, image);
+        return image;
+    } finally {
+        URL.revokeObjectURL(url);
+    }
+}
+
+function dessinerCadrage() {
+    CADRAGE.dessinPrevu = false;
+    if (!CADRAGE.source) return;
+    const canvas = document.getElementById("cadrageCanvas");
+    const ctx = canvas.getContext("2d");
+    const sortie = ctx.createImageData(canvas.width, canvas.height);
+    reprojeter(CADRAGE.source.donnees, CADRAGE.source.largeur, CADRAGE.source.hauteur,
+               sortie.data, canvas.width, canvas.height, versAngles(CADRAGE.x, CADRAGE.y, CADRAGE.zoom));
+    ctx.putImageData(sortie, 0, 0);
+
+    document.getElementById("cadrageZoomValeur").textContent = CADRAGE.zoom.toFixed(2).replace(".", ",");
+    document.getElementById("cadrageMapillary").href = "https://www.mapillary.com/app/?pKey="
+        + CADRAGE.photo.mapillary_id + "&focus=photo&x=" + CADRAGE.x + "&y=" + CADRAGE.y + "&zoom=" + CADRAGE.zoom;
+}
+
+function prevoirDessin() {
+    if (CADRAGE.dessinPrevu) return;
+    CADRAGE.dessinPrevu = true;
+    requestAnimationFrame(dessinerCadrage);
+}
+
+async function ouvrirCadrage(photo, nom, apres) {
+    CADRAGE.photo = photo;
+    CADRAGE.apres = apres;
+    CADRAGE.source = null;
+    CADRAGE.x = photo.pano_x != null ? Number(photo.pano_x) : 0.5;
+    CADRAGE.y = photo.pano_y != null ? Number(photo.pano_y) : 0.5;
+    CADRAGE.zoom = Number(photo.pano_zoom || 0);
+    document.getElementById("cadrageZoom").value = CADRAGE.zoom;
+    document.getElementById("cadrageSousTitre").textContent = nom + " · vue " + photo.mapillary_id;
+    document.getElementById("cadrageEtat").textContent = "Chargement de la vue 360°…";
+    document.getElementById("cadrageEnregistrer").disabled = true;
+
+    const canvas = document.getElementById("cadrageCanvas");
+    canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+    document.getElementById("cadrage").showModal();
+
+    try {
+        CADRAGE.source = await chargerImage360(photo.mapillary_id);
+    } catch (e) {
+        // Le panneau recouvre la page, bandeau rouge compris : la cause s'affiche ici.
+        const cause = document.getElementById("incident").textContent || String(e.message || e);
+        document.getElementById("cadrageEtat").textContent =
+            "Impossible de charger la vue 360°. " + cause;
+        return;
+    }
+    document.getElementById("cadrageEtat").textContent =
+        "Glisse l'image du doigt pour choisir la direction. Cet aperçu est exactement la miniature qui sera publiée.";
+    document.getElementById("cadrageEnregistrer").disabled = false;
+    dessinerCadrage();
+}
+
+// Glisser : l'image suit le doigt. Sens vérifiés sur la fonction Python : faire glisser vers
+// la gauche tourne la vue vers la droite (x augmente), vers le bas la fait monter (y diminue).
+(function brancherGlisser() {
+    const canvas = document.getElementById("cadrageCanvas");
+    let depart = null;
+    canvas.addEventListener("pointerdown", e => {
+        if (!CADRAGE.source) return;
+        depart = { px: e.clientX, py: e.clientY, x: CADRAGE.x, y: CADRAGE.y };
+        canvas.setPointerCapture(e.pointerId);
+        canvas.classList.add("saisi");
+    });
+    canvas.addEventListener("pointermove", e => {
+        if (!depart) return;
+        const echelle = canvas.width / canvas.getBoundingClientRect().width;
+        const degresParPixel = versAngles(0.5, 0.5, CADRAGE.zoom).fov / canvas.width;
+        const dx = (e.clientX - depart.px) * echelle, dy = (e.clientY - depart.py) * echelle;
+        CADRAGE.x = depart.x - dx * degresParPixel / 360;
+        CADRAGE.y = Math.min(0.98, Math.max(0.02, depart.y - dy * degresParPixel / 180));
+        prevoirDessin();
+    });
+    const lacher = () => { depart = null; canvas.classList.remove("saisi"); };
+    canvas.addEventListener("pointerup", lacher);
+    canvas.addEventListener("pointercancel", lacher);
+})();
+
+document.getElementById("cadrageZoom").addEventListener("input", e => {
+    CADRAGE.zoom = Number(e.target.value);
+    prevoirDessin();
+});
+
+document.getElementById("cadrageAnnuler").addEventListener("click", () => {
+    document.getElementById("cadrage").close();
+});
+
+document.getElementById("cadrageEnregistrer").addEventListener("click", async () => {
+    const photo = CADRAGE.photo;
+    const x = ((CADRAGE.x % 1) + 1) % 1;   // un tour complet revient au même endroit
+    const reponse = await ecrire("/admin/photos/cadrage", {
+        id: photo.id, pano_x: x, pano_y: CADRAGE.y, pano_zoom: CADRAGE.zoom
+    });
+    if (!reponse) return;   // le bandeau d'incident affiche la cause
+    photo.pano_x = reponse.pano_x;
+    photo.pano_y = reponse.pano_y;
+    photo.pano_zoom = reponse.pano_zoom;
+    photo.statut = "a_generer";
+    document.getElementById("cadrage").close();
+    if (CADRAGE.apres) CADRAGE.apres();
+    mettreAJourProgression();
 });
 
 

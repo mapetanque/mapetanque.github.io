@@ -20,9 +20,13 @@ Trois phases, dans cet ordre. Une phase qui échoue n'empêche pas les suivantes
      orientation, rien d'autre) puis envoyée SEULE par mapillary_tools : deux
      photos d'un même terrain portent les mêmes coordonnées, et envoyées
      ensemble, mapillary_tools écarterait la seconde comme doublon.
-  3. Export. Le Worker fusionne toutes les décisions (revue des candidats,
-     photos manuelles, photos de visiteurs rattachées) sur le
-     data/photos_mapillary.json du dépôt, qui est réécrit.
+  3. Miniatures 360°. Chaque vue 360° à générer (nouvelle, ou recadrée dans la
+     page admin) est recadrée par scripts/miniature_360.py et rangée dans
+     images/mapillary-360/. Une vue déjà en ligne avec l'ancien circuit, jamais
+     recadrée depuis, est seulement marquée comme faite.
+  4. Export. Le Worker fusionne toutes les décisions (revue des candidats,
+     photos manuelles, photos de visiteurs rattachées, vues 360° générées) sur
+     le data/photos_mapillary.json du dépôt, qui est réécrit.
 
 Variables d'environnement :
     JETON_WORKFLOW     clé partagée avec le Worker mapetanque-admin
@@ -42,6 +46,7 @@ import os
 import subprocess
 import sys
 import tempfile
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -50,6 +55,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 RACINE = Path(__file__).resolve().parent.parent
+DOSSIER_360 = RACINE / "images" / "mapillary-360"
 CHEMIN_TERRAINS = RACINE / "data" / "terrains.geojson"
 CHEMIN_PHOTOS = RACINE / "data" / "photos_mapillary.json"
 
@@ -279,6 +285,78 @@ def noter_erreur(photo_id, message):
 
 # ---------------------------------------------------------------- Phases
 
+def nom_miniature_360(pano):
+    """
+    Nom du fichier de la miniature. Après un recadrage (maj différent de cree), la date du
+    recadrage entre dans le nom : une nouvelle adresse, que les navigateurs ne peuvent pas
+    confondre avec l'ancienne image gardée en cache. DOIT rester identique au calcul de
+    l'export dans le Worker (exporterPhotosMapillary).
+    """
+    mapillary_id = str(pano["mapillary_id"])
+    if pano.get("cree") == pano.get("maj"):
+        return f"{mapillary_id}.webp"
+    return f"{mapillary_id}-{''.join(c for c in str(pano.get('maj')) if c.isdigit())}.webp"
+
+
+def retirer_anciennes_miniatures(mapillary_id, nom_garde):
+    """Supprime les miniatures précédentes de la même vue (avant un recadrage)."""
+    for fichier in DOSSIER_360.glob(f"{mapillary_id}*.webp"):
+        meme_vue = fichier.name == f"{mapillary_id}.webp" or fichier.name.startswith(f"{mapillary_id}-")
+        if meme_vue and fichier.name != nom_garde:
+            fichier.unlink()
+            print(f"  ancienne miniature supprimée : {fichier.name}")
+
+
+def phase_panos(token, simulation):
+    import miniature_360   # numpy et Pillow ne sont chargés que si cette phase tourne
+
+    panos = appel_worker("GET", "/workflow/panos-a-generer")
+    if not panos:
+        print("Aucune vue 360° à générer.")
+        return
+
+    deja_publiees = ids_du_fichier()
+    for pano in panos:
+        mapillary_id = str(pano["mapillary_id"])
+        etiquette = f"{pano['osm_id']} (360° {mapillary_id})"
+        chemin = DOSSIER_360 / nom_miniature_360(pano)
+
+        # Vue déjà en ligne, générée par l'ancien circuit, et jamais recadrée depuis
+        # (cree == maj : la ligne n'a pas bougé depuis l'import). Rien à recalculer.
+        jamais_recadree = pano.get("cree") == pano.get("maj")
+        if jamais_recadree and mapillary_id in deja_publiees and chemin.exists():
+            if simulation:
+                print(f"{etiquette} : déjà en ligne, serait marquée comme faite.")
+                continue
+            try:
+                appel_worker("POST", "/workflow/pano-genere", {"id": pano["id"]})
+                print(f"{etiquette} : déjà en ligne, marquée comme faite.")
+            except Exception as e:
+                print(f"{etiquette} : statut non enregistré ({detail_erreur(e)}).")
+            continue
+
+        if simulation:
+            print(f"{etiquette} : serait générée (x={pano.get('pano_x')}, y={pano.get('pano_y')}, "
+                  f"zoom={pano.get('pano_zoom')}).")
+            continue
+
+        try:
+            miniature_360.generer_miniature(mapillary_id, pano.get("pano_x"), pano.get("pano_y"),
+                                            pano.get("pano_zoom"), token, chemin)
+        except Exception as e:
+            print(f"{etiquette} : échec ({e}), réessai au prochain passage.")
+            noter_erreur(pano["id"], f"miniature 360° : {e}")
+            continue
+
+        retirer_anciennes_miniatures(mapillary_id, chemin.name)
+        try:
+            appel_worker("POST", "/workflow/pano-genere", {"id": pano["id"]})
+            print(f"{etiquette} : miniature générée ({chemin.name}).")
+        except Exception as e:
+            # Le fichier est écrit : le passage suivant le régénérera simplement.
+            print(f"{etiquette} : miniature écrite, statut non enregistré ({detail_erreur(e)}).")
+        time.sleep(1)   # politesse envers l'API Mapillary
+
 def phase_rattachement(terrains, token, simulation):
     reponse = appel_worker("GET", "/workflow/a-rattacher")
     photos = reponse["photos"]
@@ -451,6 +529,7 @@ def main():
     phases = [
         ("Rattachement", lambda: phase_rattachement(terrains, token, args.simulation)),
         ("Envoi", lambda: phase_envoi(terrains, args.simulation)),
+        ("Miniatures 360°", lambda: phase_panos(token, args.simulation)),
         ("Export", lambda: phase_export(args.simulation)),
     ]
 
