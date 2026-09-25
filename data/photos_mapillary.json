@@ -4050,5 +4050,17 @@
       "mapillary_id": "1571108411172733",
       "credit_url": "https://www.mapillary.com/map/im/1571108411172733"
     }
+  ],
+  "way/1546240055": [
+    {
+      "mapillary_id": "1454007699905716",
+      "credit_url": "https://www.mapillary.com/map/im/1454007699905716"
+    }
+  ],
+  "way/903125598": [
+    {
+      "mapillary_id": "2656568411428185",
+      "credit_url": "https://www.mapillary.com/map/im/2656568411428185"
+    }
   ]
 }
