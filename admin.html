@@ -5,186 +5,414 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Admin — Mapetanque.be</title>
+<link rel="icon" href="/images/logo.svg" type="image/svg+xml">
 <style>
-    body { font-family: system-ui, sans-serif; margin: 0; background: #f4f5f0; color: #222; }
+    :root {
+        --fond: #f4f5f0; --surface: #ffffff; --bord: #e2e4dc;
+        --encre: #1f2420; --doux: #5b625b; --sombre: #1e1e1e;
+        --vert: #2f6b1f; --vert-clair: #e6f2df;
+        --rouge: #a33a2c; --rouge-clair: #fbeae7;
+        --bleu: #1f4e8c; --bleu-clair: #e8f0fb;
+        --orange: #8a4a00; --orange-clair: #ffe9c7;
+    }
+    body { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; margin: 0; background: var(--fond); color: var(--encre); }
+    a { color: var(--bleu); }
 
     /* --- Écran de connexion ------------------------------------------- */
     #connexion {
-        position: fixed; inset: 0; background: #1e1e1e; color: white; z-index: 100;
+        position: fixed; inset: 0; background: var(--sombre); color: white; z-index: 100;
         display: flex; align-items: center; justify-content: center;
     }
     #connexion form {
         background: #2a2a2a; padding: 28px; border-radius: 12px;
         display: flex; flex-direction: column; gap: 12px; width: min(340px, 90vw);
     }
-    #connexion h1 { font-size: 17px; margin: 0 0 6px; }
-    #connexion input {
-        padding: 9px 11px; border-radius: 6px; border: none; font-size: 15px;
-    }
+    #connexion h1 { font-size: 17px; margin: 0 0 6px; display: flex; align-items: center; gap: 10px; }
+    #connexion input { padding: 11px 12px; border-radius: 8px; border: none; font-size: 16px; }
     #connexion button {
-        padding: 10px; border-radius: 6px; border: none; font-size: 15px;
-        background: #74C15A; color: white; cursor: pointer;
+        min-height: 44px; border-radius: 8px; border: none; font-size: 15px; font-weight: 700;
+        background: #74c15a; color: #10240a; cursor: pointer;
     }
     #connexion button:disabled { opacity: 0.6; cursor: default; }
     .message-erreur { color: #ef9d9a; font-size: 13px; min-height: 18px; }
 
-    /* --- Bandeau ------------------------------------------------------- */
-    header {
-        position: sticky; top: 0; background: #1e1e1e; color: white;
-        padding: 14px 20px; z-index: 10; display: flex; gap: 12px; align-items: center;
-        flex-wrap: wrap;
+    /* --- Bandeau et onglets -------------------------------------------- */
+    #bandeau { background: var(--sombre); color: white; }
+    .bandeau-haut { display: flex; align-items: center; gap: 12px; padding: 14px 24px 10px; flex-wrap: wrap; }
+    .logo { display: flex; align-items: center; border-radius: 8px; }
+    .logo img { width: 40px; height: 40px; display: block; }
+    .bandeau-titre { flex: 1 1 auto; font-size: 18px; font-weight: 700; }
+    .btn-principal, .btn-discret {
+        min-height: 44px; padding: 0 18px; border-radius: 8px; font-size: 15px; cursor: pointer;
     }
-    header h1 { font-size: 16px; margin: 0; flex: 1 1 auto; }
-    header input, header select, header button {
-        padding: 6px 10px; border-radius: 6px; border: none; font-size: 14px;
+    .btn-principal { border: none; background: #74c15a; color: #10240a; font-weight: 700; }
+    .btn-principal:disabled { opacity: 0.6; cursor: default; }
+    .btn-discret { border: 1px solid #5a5d57; background: transparent; color: white; }
+    .onglets { display: flex; gap: 4px; padding: 0 16px; overflow-x: auto; }
+    .onglets button {
+        min-height: 48px; padding: 0 20px; border: none; border-radius: 10px 10px 0 0;
+        background: transparent; color: #d6d9d1; font-size: 15px; font-weight: 600; cursor: pointer;
+        white-space: nowrap;
     }
-    header button { cursor: pointer; }
-    .stats-resume { display: flex; gap: 6px; flex-wrap: wrap; flex-basis: 100%; }
-    .stat-chip {
-        font-size: 12px; padding: 3px 9px; border-radius: 999px;
-        background: #3a3a3a; color: #ddd; white-space: nowrap;
-    }
-    .stat-chip b { color: white; }
-    .stat-chip.accepte { background: rgba(116, 193, 90, 0.25); }
-    .stat-chip.accepte b { color: #a6e08a; }
-    .stat-chip.rejete { background: rgba(217, 83, 79, 0.25); }
-    .stat-chip.rejete b { color: #ef9d9a; }
+    .onglets button[aria-selected="true"] { background: var(--fond); color: var(--encre); font-weight: 700; }
 
     /* Bandeau d'incident : toute écriture refusée par le Worker s'affiche ici.
        Sans lui, une session expirée se traduirait par des clics sans effet, et
        une soirée de revue perdue sans que rien ne le signale. */
     #incident {
         display: none; position: sticky; top: 0; z-index: 20;
-        background: #d9534f; color: white; padding: 10px 20px; font-size: 14px;
+        background: var(--rouge); color: white; padding: 10px 20px; font-size: 14px;
     }
 
-    /* --- Liste --------------------------------------------------------- */
-    .commune-groupe { margin: 16px; background: white; border-radius: 10px; overflow: hidden; }
-    .commune-titre {
-        padding: 12px 16px; background: #eee; cursor: pointer; font-weight: bold;
-        display: flex; justify-content: space-between;
+    #page { padding: 22px 24px 48px; display: flex; flex-direction: column; gap: 20px; }
+    [role="tabpanel"] { display: flex; flex-direction: column; gap: 20px; }
+    [role="tabpanel"][hidden] { display: none; }
+    #chargement { padding: 40px; text-align: center; color: var(--doux); }
+
+    /* --- Tableau de bord ------------------------------------------------- */
+    .tableau-bord { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+    .carte-kpi {
+        display: flex; flex-direction: column; gap: 6px; padding: 18px 20px; text-align: left;
+        background: var(--surface); border: 1px solid var(--bord); border-radius: 12px;
+        color: var(--encre); font: inherit; cursor: pointer;
     }
-    .commune-contenu { display: none; padding: 8px; }
-    .commune-contenu.ouvert { display: block; }
-    .commune-groupe.cachee { display: none; }
-    .terrain-carte {
-        display: flex; gap: 12px; padding: 10px; border-bottom: 1px solid #eee; align-items: flex-start;
-    }
-    .terrain-carte.decide-accepte { background: #eaffea; }
-    .terrain-carte.decide-rejete { background: #fff0f0; opacity: 0.65; }
-    .terrain-carte.decide-aucune { background: #f5f5f5; opacity: 0.65; }
-    .terrain-carte img { width: 160px; height: 120px; object-fit: cover; border-radius: 6px; background: #ddd; }
-    .terrain-info, .sans-candidat-info { flex: 1; font-size: 14px; min-width: 0; }
-    .terrain-info b, .sans-candidat-info b { display: block; margin-bottom: 4px; }
-    .terrain-meta { color: #777; font-size: 12px; }
-    .terrain-actions { margin-top: 6px; }
-    .terrain-actions button {
-        padding: 6px 12px; margin: 0 6px 4px 0; border-radius: 6px; border: 1px solid #ccc;
-        background: white; cursor: pointer; font-size: 13px;
-    }
-    .terrain-actions a { text-decoration: none; }
-    .terrain-actions button.actif-accepte { background: #74C15A; color: white; border-color: #74C15A; }
-    .terrain-actions button.actif-rejete { background: #d9534f; color: white; border-color: #d9534f; }
-    .terrain-deja-en-ligne { color: #3d8b3d; font-size: 12px; margin: 4px 0; }
-    .champ-alternative, .champ-pano {
-        width: 100%; max-width: 440px; box-sizing: border-box; margin-top: 4px;
-        padding: 5px 8px; border-radius: 6px; font-size: 12px;
-    }
-    .champ-alternative { border: 1px solid #ccc; }
-    .champ-pano { border: 1px dashed #b48ead; background: #faf5fc; }
-    .chip {
-        display: inline-flex; align-items: center; gap: 6px; margin: 3px 4px 0 0;
-        padding: 3px 4px 3px 9px; border-radius: 999px; font-size: 12px;
-        background: #e8e8e8;
-    }
-    .chip.chip-pano { background: #f0e4f5; }
-    .chip-remove {
-        border: none; background: none; cursor: pointer; font-size: 15px;
-        line-height: 1; color: #777; padding: 0 4px;
-    }
-    .terrain-carte.cachee { display: none !important; }
-    #chargement { padding: 40px; text-align: center; color: #777; }
+    .carte-kpi:hover { border-color: #c8cbc2; }
+    .kpi-etiquette { font-size: 13px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--doux); }
+    .kpi-valeur { font-size: 36px; font-weight: 750; line-height: 1.05; font-variant-numeric: tabular-nums; }
+    .kpi-detail { font-size: 14px; line-height: 1.4; color: var(--doux); }
+
+    /* --- Panneaux ------------------------------------------------------ */
+    .panneau { background: var(--surface); border: 1px solid var(--bord); border-radius: 12px; }
+    .panneau h2 { margin: 0; font-size: 18px; }
 
     /* --- Modération des envois de visiteurs ---------------------------- */
-    #moderation { margin: 16px; background: white; border-radius: 10px; overflow: hidden; }
+    #moderation { overflow: hidden; }
     #moderation.vide { display: none; }
     .moderation-titre {
-        padding: 12px 16px; background: #ffe9c7; font-weight: bold; cursor: pointer;
-        display: flex; justify-content: space-between;
+        padding: 16px 20px; background: var(--orange-clair); font-weight: 700; cursor: pointer;
+        display: flex; justify-content: space-between; gap: 12px;
     }
-    .moderation-contenu { display: none; padding: 8px; }
+    .moderation-contenu { display: none; padding: 8px 12px; }
     .moderation-contenu.ouvert { display: block; }
     .moderation-carte {
-        display: flex; gap: 12px; padding: 10px; border-bottom: 1px solid #eee; align-items: flex-start;
+        display: flex; gap: 16px; padding: 14px; border-bottom: 1px solid var(--bord); align-items: flex-start;
     }
+    .moderation-carte:last-child { border-bottom: none; }
     .moderation-carte img {
-        width: 220px; height: 165px; object-fit: cover; border-radius: 6px;
-        background: #ddd; cursor: zoom-in;
+        width: 220px; height: 165px; object-fit: cover; border-radius: 8px;
+        background: #dcdfd6; cursor: zoom-in; flex-shrink: 0;
     }
     .moderation-carte .terrain-meta { margin-bottom: 6px; }
-    .moderation-carte button {
-        padding: 6px 12px; margin: 0 6px 4px 0; border-radius: 6px; border: 1px solid #ccc;
-        background: white; cursor: pointer; font-size: 13px;
-    }
-    .moderation-carte .btn-valider { background: #74C15A; color: white; border-color: #74C15A; }
-    .moderation-carte .btn-refuser { background: #d9534f; color: white; border-color: #d9534f; }
-    .moderation-carte.validee { background: #eaffea; }
-    .moderation-carte.validee .btn-valider { opacity: 0.5; }
+    .moderation-carte.validee { background: #f3faef; }
     /* L'état est toujours écrit en toutes lettres dans la carte : la couleur de
        fond n'est qu'un repère en plus, jamais la seule information. */
-    .moderation-carte.envoyee { background: #eef4ff; }
+    .moderation-carte.envoyee { background: var(--bleu-clair); }
     .moderation-carte.bloquee { background: #fff4e0; }
-    .moderation-erreur { color: #b52b27; font-size: 12px; margin-bottom: 6px; }
+    .moderation-erreur { color: var(--rouge); font-size: 13px; margin-bottom: 6px; }
+
+    /* --- Terrains : barre d'outils --------------------------------------- */
+    #terrains { display: flex; flex-direction: column; }
+    /* Pas de barre collante : sur iPad elle prendrait un tiers de l'écran. */
+    .barre-outils {
+        background: var(--surface);
+        display: flex; flex-direction: column; gap: 12px; padding: 18px 20px 14px;
+        border-bottom: 1px solid var(--bord); border-radius: 12px 12px 0 0;
+    }
+    .ligne-outils { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+    .ligne-outils label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--doux); }
+    .ligne-outils input, .ligne-outils select {
+        min-height: 44px; padding: 0 12px; border: 1px solid #c8cbc2; border-radius: 8px;
+        font-size: 15px; background: white; color: var(--encre); box-sizing: border-box;
+    }
+    #recherche { width: min(360px, 80vw); }
+    .outils-secondaires { margin-left: auto; display: flex; gap: 6px; flex-wrap: wrap; }
+    .lien-outil {
+        min-height: 44px; padding: 0 10px; border: none; background: transparent;
+        color: var(--bleu); font-size: 14px; font-weight: 600; cursor: pointer;
+    }
+    #puces { display: flex; gap: 8px; flex-wrap: wrap; }
+    .puce {
+        min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid #c8cbc2;
+        background: white; color: var(--encre); font-size: 14px; font-weight: 600; cursor: pointer;
+        font-variant-numeric: tabular-nums;
+    }
+    .puce-nouveau { border: 2px solid #c77a1a; background: var(--orange-clair); color: var(--orange); }
+    .puce[aria-pressed="true"] { border: 2px solid var(--vert); background: var(--vert); color: white; }
+    #compteur { font-size: 15px; font-weight: 700; }
+    #listeVide { padding: 30px 20px; text-align: center; color: var(--doux); }
+
+    /* --- Terrains : cartes ----------------------------------------------- */
+    #conteneur { display: flex; flex-direction: column; }
+    .terrain-carte {
+        display: flex; gap: 16px; padding: 16px 20px; border-bottom: 1px solid var(--bord); align-items: flex-start;
+    }
+    .terrain-carte[hidden] { display: none !important; }
+    .terrain-carte.decide-accepte { background: #f3faef; }
+    .terrain-carte.decide-rejete, .terrain-carte.decide-aucune { background: #f7f7f5; }
+    .terrain-carte.decide-rejete .vignette, .terrain-carte.decide-aucune .vignette { opacity: 0.6; }
+    .vignette { flex-shrink: 0; width: 220px; height: 165px; border-radius: 8px; overflow: hidden; display: block; }
+    .vignette img { width: 100%; height: 100%; object-fit: cover; display: block; background: #dcdfd6; }
+    .vignette-vide {
+        background: #dcdfd6; color: var(--doux); font-size: 13px; text-align: center;
+        display: flex; align-items: center; justify-content: center; padding: 0 12px; box-sizing: border-box;
+    }
+    .terrain-info { flex: 1; font-size: 14px; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+    .terrain-info b { font-size: 17px; }
+    .etiquettes:empty, .etat-decision:empty { display: none; }
+    .badge {
+        align-self: flex-start; display: inline-block; padding: 4px 10px; border-radius: 999px;
+        font-size: 12px; font-weight: 700; letter-spacing: 0.04em;
+    }
+    .badge-nouveau { background: var(--orange-clair); color: var(--orange); }
+    .terrain-meta { color: var(--doux); font-size: 13px; }
+    .etat-decision { font-size: 14px; font-weight: 700; }
+    .decide-accepte .etat-decision { color: var(--vert); }
+    .terrain-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn {
+        display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; box-sizing: border-box;
+        border-radius: 8px; border: 1px solid #c8cbc2; background: white; color: var(--encre);
+        font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none;
+    }
+    .btn.actif-accepte, .btn-valider { background: var(--vert); color: white; border-color: var(--vert); }
+    .btn.actif-rejete, .btn-refuser { background: var(--rouge); color: white; border-color: var(--rouge); }
+    .terrain-deja-en-ligne { color: var(--vert); font-size: 13px; font-weight: 600; }
+    .champ-libelle { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--doux); max-width: 520px; }
+    .champ {
+        min-height: 40px; padding: 0 10px; border-radius: 8px; font-size: 14px; width: 100%; box-sizing: border-box;
+        border: 1px solid #c8cbc2; background: white; color: var(--encre);
+    }
+    .champ-pano { border-style: dashed; }
+    .chip {
+        display: inline-flex; align-items: center; gap: 6px; margin: 0 4px 0 0;
+        padding: 3px 4px 3px 10px; border-radius: 999px; font-size: 13px; background: #ecede8;
+    }
+    .chip.chip-pano { background: #efe6f3; }
+    .chip-remove {
+        border: none; background: none; cursor: pointer; font-size: 18px; line-height: 1;
+        color: var(--doux); min-width: 32px; min-height: 32px;
+    }
+
+    /* --- Onglets Notes et Visites ---------------------------------------- */
+    .a-venir { padding: 40px 24px; text-align: center; color: var(--doux); font-size: 15px; }
+    .kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+    .kpi-fixe { cursor: default; }
+    .kpi-fixe:hover { border-color: var(--bord); }
+    .bloc { padding: 20px 22px; display: flex; flex-direction: column; gap: 14px; }
+    .bloc-tete { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
+    .bloc-sous-titre { font-size: 14px; color: var(--doux); margin-top: 4px; }
+    .deux-colonnes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: start; }
+    .colonne { display: flex; flex-direction: column; gap: 20px; }
+    .graphique svg { width: 100%; height: auto; display: block; }
+    .note-bas { font-size: 13px; color: var(--doux); }
+    .legende { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--doux); }
+    .legende span { display: inline-flex; align-items: center; gap: 6px; }
+    .pastille { width: 14px; height: 14px; border-radius: 3px; display: inline-block; }
+    .segment { display: inline-flex; gap: 4px; padding: 4px; border-radius: 10px; background: #e6e8e1; }
+    .segment button {
+        min-height: 40px; padding: 0 16px; border: none; border-radius: 8px; background: transparent;
+        color: var(--encre); font-size: 14px; font-weight: 600; cursor: pointer;
+    }
+    .segment button[aria-pressed="true"] { background: var(--encre); color: white; font-weight: 700; }
+    .barres-h { display: flex; flex-direction: column; gap: 10px; }
+    .barre-h { display: grid; grid-template-columns: minmax(110px, 190px) minmax(0, 1fr) 84px; gap: 12px; align-items: center; font-size: 14px; }
+    .barre-h .libelle { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .barre-h .piste { position: relative; height: 16px; border-radius: 4px; background: #eef0ea; }
+    .barre-h .piste.avec-total { background: #c9dfbd; }
+    .barre-h .rempli { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; background: #3d7d2a; }
+    .barre-h .valeur { color: var(--doux); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+    .regions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .region { border: 1px solid var(--bord); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+    .region b { font-size: 14px; }
+    .region .kpi-valeur { font-size: 26px; }
+    .vide-bloc { padding: 26px 16px; text-align: center; color: var(--doux); font-size: 14px;
+                 border: 1px dashed #c8cbc2; border-radius: 10px; }
+
+    /* --- Écrans étroits (iPad en portrait, téléphone) --------------------- */
+    @media (max-width: 900px) {
+        .tableau-bord, .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .deux-colonnes { grid-template-columns: minmax(0, 1fr); }
+    }
+    @media (max-width: 640px) {
+        #page { padding: 14px 10px 40px; }
+        .terrain-carte, .moderation-carte { flex-direction: column; }
+        .vignette, .moderation-carte img { width: 100%; height: 200px; }
+        .outils-secondaires { margin-left: 0; }
+    }
 </style>
 </head>
 <body>
 
 <div id="connexion">
     <form id="formConnexion">
-        <h1>Mapetanque — administration</h1>
+        <h1><img src="/images/logo.svg" alt="" width="28" height="28"> Mapetanque — administration</h1>
         <input type="text" id="identifiant" placeholder="Identifiant" autocomplete="username" required>
         <input type="password" id="motDePasse" placeholder="Mot de passe" autocomplete="current-password" required>
         <button type="submit" id="btnConnexion">Se connecter</button>
         <div class="message-erreur" id="erreurConnexion"></div>
+        <a href="/" style="color:#c9ccc4; font-size:13px">← Retour au site</a>
     </form>
 </div>
 
 <div id="incident"></div>
 
 <header id="bandeau" style="display:none">
-    <h1>Revue des photos</h1>
-    <input type="text" id="recherche" placeholder="Filtrer par commune ou terrain...">
-    <select id="filtreCandidat">
-        <option value="tous">Avec et sans candidat</option>
-        <option value="avec_candidat">Avec candidat seulement</option>
-        <option value="sans_candidat">Sans candidat seulement</option>
-    </select>
-    <select id="filtreDecision">
-        <option value="tous">Tout afficher</option>
-        <option value="a_decider">À décider seulement</option>
-        <option value="acceptes">Avec au moins une photo</option>
-        <option value="rejetes">Rejetés (0 photo)</option>
-        <option value="aucune">Marqués "rien trouvé"</option>
-        <option value="avec_alternative">Avec plusieurs photos</option>
-        <option value="avec_pano">Avec 360° repérée</option>
-    </select>
-    <button id="publierMaintenant">Publier maintenant</button>
-    <button id="telechargerPhotos">Télécharger photos_mapillary.json</button>
-    <button id="telechargerPanos">Télécharger la liste des 360°</button>
-    <button id="deconnexion">Se déconnecter</button>
-    <div id="progression" class="stats-resume"></div>
+    <div class="bandeau-haut">
+        <a href="/" class="logo" title="Retour au site"><img src="/images/logo.svg" alt="Mapetanque.be — retour au site"></a>
+        <div class="bandeau-titre">Mapetanque — administration</div>
+        <button type="button" id="publierMaintenant" class="btn-principal">Publier maintenant</button>
+        <button type="button" id="deconnexion" class="btn-discret">Se déconnecter</button>
+    </div>
+    <nav class="onglets" role="tablist" aria-label="Rubriques">
+        <button type="button" role="tab" id="onglet-terrains" aria-controls="panneau-terrains" aria-selected="true">Terrains et photos</button>
+        <button type="button" role="tab" id="onglet-notes" aria-controls="panneau-notes" aria-selected="false">Notes</button>
+        <button type="button" role="tab" id="onglet-visites" aria-controls="panneau-visites" aria-selected="false">Visites</button>
+    </nav>
 </header>
 
 <div id="chargement" style="display:none">Chargement des données…</div>
 
-<div id="moderation" class="vide">
-    <div class="moderation-titre" id="moderationTitre">
-        <span id="moderationResume"></span>
-        <span>▼</span>
+<main id="page" style="display:none">
+
+<section id="panneau-terrains" role="tabpanel" aria-labelledby="onglet-terrains">
+
+    <div class="tableau-bord">
+        <button type="button" class="carte-kpi" id="kpiPhotos">
+            <span class="kpi-etiquette">Photos de visiteurs</span>
+            <span class="kpi-valeur" id="kpiPhotosValeur">…</span>
+            <span class="kpi-detail" id="kpiPhotosDetail">à modérer</span>
+        </button>
+        <button type="button" class="carte-kpi" id="kpiNouveaux">
+            <span class="kpi-etiquette">Nouveaux terrains</span>
+            <span class="kpi-valeur" id="kpiNouveauxValeur">…</span>
+            <span class="kpi-detail" id="kpiNouveauxDetail"></span>
+        </button>
+        <button type="button" class="carte-kpi" data-vers-onglet="notes">
+            <span class="kpi-etiquette">Notes</span>
+            <span class="kpi-valeur" id="kpiNotesValeur">…</span>
+            <span class="kpi-detail" id="kpiNotesDetail">reçues ces 30 derniers jours</span>
+        </button>
+        <button type="button" class="carte-kpi" data-vers-onglet="visites">
+            <span class="kpi-etiquette">Visites</span>
+            <span class="kpi-valeur" id="kpiVisitesValeur">…</span>
+            <span class="kpi-detail" id="kpiVisitesDetail">ces 30 derniers jours</span>
+            <span id="kpiVisitesCourbe" aria-hidden="true"></span>
+        </button>
     </div>
-    <div class="moderation-contenu ouvert" id="moderationContenu"></div>
-</div>
-<div id="conteneur"></div>
+
+    <div id="moderation" class="panneau vide">
+        <div class="moderation-titre" id="moderationTitre">
+            <span id="moderationResume"></span>
+            <span aria-hidden="true">▼</span>
+        </div>
+        <div class="moderation-contenu ouvert" id="moderationContenu"></div>
+    </div>
+
+    <section id="terrains" class="panneau" aria-labelledby="titreTerrains">
+        <div class="barre-outils">
+            <div class="ligne-outils">
+                <h2 id="titreTerrains" style="align-self:center">Terrains</h2>
+                <div class="outils-secondaires">
+                    <button type="button" id="telechargerPanos" class="lien-outil">Télécharger la liste des 360°</button>
+                    <button type="button" id="telechargerPhotos" class="lien-outil">Télécharger photos_mapillary.json</button>
+                </div>
+            </div>
+            <div class="ligne-outils">
+                <label>Rechercher une commune ou un terrain
+                    <input type="search" id="recherche" placeholder="ex. Liège, rue de la Prairie">
+                </label>
+                <label>Candidat
+                    <select id="filtreCandidat">
+                        <option value="tous">Avec et sans candidat</option>
+                        <option value="avec_candidat">Avec candidat</option>
+                        <option value="sans_candidat">Sans candidat</option>
+                    </select>
+                </label>
+                <label>Trier
+                    <select id="tri">
+                        <option value="nouveaux">Nouveaux d'abord</option>
+                        <option value="commune">Par commune</option>
+                    </select>
+                </label>
+            </div>
+            <div id="puces" role="group" aria-label="Filtres"></div>
+            <div id="compteur" aria-live="polite"></div>
+        </div>
+        <div id="conteneur"></div>
+        <div id="listeVide" hidden>Aucun terrain ne correspond. Un second clic sur la puce active revient à « Tous ».</div>
+    </section>
+
+</section>
+
+<section id="panneau-notes" role="tabpanel" aria-labelledby="onglet-notes" hidden>
+    <div class="panneau a-venir" id="notesAttente">Chargement des notes…</div>
+    <div class="kpis" id="notesKpis" hidden></div>
+    <div class="panneau bloc" id="notesSemaines" hidden>
+        <div><h2>Notes reçues par semaine</h2><div class="bloc-sous-titre">26 dernières semaines</div></div>
+        <div class="graphique" id="notesSemainesGraphique"></div>
+    </div>
+    <div class="deux-colonnes" id="notesDetail" hidden>
+        <div class="panneau bloc">
+            <div><h2>Terrains notés par province</h2><div class="bloc-sous-titre">terrains notés, sur le nombre de terrains de la province</div></div>
+            <div class="legende">
+                <span><span class="pastille" style="background:#3d7d2a"></span>Terrains notés</span>
+                <span><span class="pastille" style="background:#c9dfbd"></span>Terrains de la province</span>
+            </div>
+            <div class="barres-h" id="notesProvinces"></div>
+        </div>
+        <div class="colonne">
+            <div class="panneau bloc"><h2>Par région</h2><div class="regions" id="notesRegions"></div></div>
+            <div class="panneau bloc"><h2>Répartition des notes</h2><div class="barres-h" id="notesRepartition"></div></div>
+        </div>
+    </div>
+</section>
+
+<section id="panneau-visites" role="tabpanel" aria-labelledby="onglet-visites" hidden>
+    <div class="panneau a-venir" id="visitesAttente">Chargement des visites…</div>
+    <div class="kpis" id="visitesKpis" hidden></div>
+    <div class="panneau bloc" id="visitesCourbe" hidden>
+        <div class="bloc-tete">
+            <div><h2>Visites</h2><div class="bloc-sous-titre" id="visitesPeriode"></div></div>
+            <div class="segment" role="group" aria-label="Période" id="visitesSegment">
+                <button type="button" data-periode="jour" aria-pressed="true">Jour</button>
+                <button type="button" data-periode="semaine" aria-pressed="false">Semaine</button>
+                <button type="button" data-periode="mois" aria-pressed="false">Mois</button>
+                <button type="button" data-periode="annee" aria-pressed="false">Année</button>
+            </div>
+        </div>
+        <div class="legende">
+            <span><span class="pastille" style="background:#3d7d2a"></span>Chiffre précis</span>
+            <span><span class="pastille" style="background:#b7cfab"></span>Estimation Cloudflare (avant le 19/09/2026)</span>
+        </div>
+        <div class="graphique" id="visitesGraphique"></div>
+    </div>
+    <div class="panneau bloc" id="visitesDetails" hidden>
+        <div class="bloc-tete">
+            <div><h2>D'où viennent les visiteurs</h2><div class="bloc-sous-titre">pays, langue, provenance et appareil</div></div>
+            <div class="segment" role="group" aria-label="Période des détails" id="detailsSegment">
+                <button type="button" data-periode="30j" aria-pressed="true">30 derniers jours</button>
+                <button type="button" data-periode="tout" aria-pressed="false">Depuis le début</button>
+            </div>
+        </div>
+        <div class="deux-colonnes">
+            <div class="colonne">
+                <div><h2 style="font-size:16px; margin-bottom:10px">Pays</h2><div class="barres-h" id="detailPays"></div></div>
+                <div><h2 style="font-size:16px; margin-bottom:10px">Langue des pages lues</h2><div class="barres-h" id="detailLangues"></div></div>
+            </div>
+            <div class="colonne">
+                <div><h2 style="font-size:16px; margin-bottom:10px">Provenance</h2><div class="barres-h" id="detailProvenance"></div></div>
+                <div><h2 style="font-size:16px; margin-bottom:10px">Appareil</h2><div class="barres-h" id="detailAppareil"></div></div>
+            </div>
+        </div>
+        <div><h2 style="font-size:16px; margin-bottom:10px">Pages les plus lues</h2><div class="barres-h" id="detailPages"></div></div>
+    </div>
+    <div class="panneau bloc" id="visitesAdresses" hidden>
+        <div><h2>Par adresse</h2><div class="bloc-sous-titre">depuis le début de la collecte</div></div>
+        <div class="barres-h" id="visitesHotes"></div>
+    </div>
+    <div class="note-bas" id="visitesNote" hidden>Cloudflare compte des visites et des pages vues, sans cookie : il ne distingue pas les visiteurs uniques. Avant le 19/09/2026, il ne conserve que des chiffres estimés (multiples de 10).</div>
+</section>
+
+</main>
 
 <script>
 /* ============================================================================
@@ -207,6 +435,10 @@
 const URL_WORKER = "https://mapetanque-admin.mapetanque.workers.dev";
 const URL_CANDIDATS = "/data/candidats_photos.json";
 const URL_PHOTOS_EN_LIGNE = "/data/photos_mapillary.json";
+const URL_APPARITIONS = "/data/terrains_apparition.json";
+
+// Un terrain est « nouveau » pendant ce nombre de jours après sa première apparition.
+const JOURS_NOUVEAU = 30;
 
 // Le jeton vit en sessionStorage, pas en localStorage : il disparaît à la
 // fermeture de l'onglet, ce qui est le bon compromis pour un accès admin.
@@ -215,6 +447,9 @@ const CLE_JETON = "mapetanque_admin_jeton";
 let DONNEES = [];        // candidats, groupés par commune
 let ETAT = {};           // osm_id -> { statut, candidat_id, photos: [...] }
 let PHOTOS_EN_LIGNE = {};
+let APPARITIONS = {};    // osm_id -> date de première apparition (null = déjà là avant le suivi)
+let TERRAINS = [];       // liste à plat, tirée de DONNEES
+let CARTES = {};         // osm_id -> élément de la carte
 
 
 /* ===================== Appels au Worker ===================== */
@@ -379,31 +614,40 @@ function construireCarte(terrain) {
     div.dataset.recherche = (terrain.commune + " " + terrain.nom).toLowerCase();
     div.dataset.avecCandidat = c ? "1" : "0";
 
-    div.innerHTML = c ? `
-        <a href="${c.lien}" target="_blank" rel="noopener"><img src="${c.thumbnail}" loading="lazy" alt=""></a>
+    // Vignette : le lien renvoyé par Mapillary expire au bout de deux semaines environ, et le
+    // workflow hebdomadaire le renouvelle. S'il manque (image supprimée), un cadre gris le dit.
+    const vignette = c && c.thumbnail
+        ? `<a href="${c.lien}" target="_blank" rel="noopener" class="vignette"><img src="${c.thumbnail}" loading="lazy" alt="Photo candidate sur Mapillary"></a>`
+        : `<div class="vignette vignette-vide">${c ? "Aperçu indisponible" : "Aucun candidat automatique"}</div>`;
+
+    div.innerHTML = vignette + (c ? `
         <div class="terrain-info">
+            <div class="etiquettes"></div>
             <b></b>
             <div class="terrain-meta"></div>
+            <div class="etat-decision"></div>
             <div class="terrain-actions">
-                <button class="btn-accepter">Accepter le candidat</button>
-                <button class="btn-rejeter">Rejeter le candidat</button>
-                <a href="${c.lien}" target="_blank" rel="noopener"><button type="button">Voir sur Mapillary</button></a>
-                <a href="https://www.openstreetmap.org/edit#map=20/${terrain.lat}/${terrain.lon}" target="_blank" rel="noopener"><button type="button">Localiser sur OSM</button></a>
+                <button type="button" class="btn btn-accepter">Accepter le candidat</button>
+                <button type="button" class="btn btn-rejeter">Rejeter le candidat</button>
+                <a class="btn" href="${c.lien}" target="_blank" rel="noopener">Voir sur Mapillary</a>
+                <a class="btn" href="https://www.openstreetmap.org/edit#map=20/${terrain.lat}/${terrain.lon}" target="_blank" rel="noopener">Localiser sur OSM</a>
             </div>
             <div class="terrain-extra"></div>
         </div>
     ` : `
-        <div class="sans-candidat-info">
+        <div class="terrain-info">
+            <div class="etiquettes"></div>
             <b></b>
             <div class="terrain-meta"></div>
+            <div class="etat-decision"></div>
             <div class="terrain-actions">
-                <button class="btn-aucune">Marquer "rien trouvé"</button>
-                <a href="https://www.mapillary.com/app/?lat=${terrain.lat}&lng=${terrain.lon}&z=19" target="_blank" rel="noopener"><button type="button">Explorer sur Mapillary</button></a>
-                <a href="https://www.openstreetmap.org/edit#map=20/${terrain.lat}/${terrain.lon}" target="_blank" rel="noopener"><button type="button">Localiser sur OSM</button></a>
+                <button type="button" class="btn btn-aucune">Marquer « rien trouvé »</button>
+                <a class="btn" href="https://www.mapillary.com/app/?lat=${terrain.lat}&lng=${terrain.lon}&z=19" target="_blank" rel="noopener">Explorer sur Mapillary</a>
+                <a class="btn" href="https://www.openstreetmap.org/edit#map=20/${terrain.lat}/${terrain.lon}" target="_blank" rel="noopener">Localiser sur OSM</a>
             </div>
             <div class="terrain-extra"></div>
         </div>
-    `;
+    `);
 
     // Nom et métadonnées passent par textContent, pas par le gabarit ci-dessus :
     // ils viennent d'OpenStreetMap, donc d'un texte que n'importe qui peut
@@ -413,15 +657,26 @@ function construireCarte(terrain) {
         ? `${terrain.commune} — score ${c.score} — ${c.distance_m} m — écart angle ${c.ecart_angle_deg}° — ${formaterDate(c.captured_at)}`
         : `${terrain.commune} — aucun candidat automatique trouvé à proximité`;
 
+    if (estNouveau(cle)) {
+        const badge = document.createElement("span");
+        badge.className = "badge badge-nouveau";
+        badge.textContent = "NOUVEAU · apparu le " + formaterJour(APPARITIONS[cle]);
+        div.querySelector(".etiquettes").appendChild(badge);
+    }
+
     const zoneExtra = div.querySelector(".terrain-extra");
     zoneExtra.innerHTML = `
         <div class="terrain-deja-en-ligne" style="display:none"></div>
         <div class="liste-alternatives"></div>
-        <input type="text" class="champ-alternative" autocomplete="off"
-               placeholder="+ Photo trouvée à la main (lien ou ID Mapillary), Entrée pour valider">
+        <label class="champ-libelle">Autre photo : lien ou identifiant Mapillary, puis Entrée
+            <input type="text" class="champ champ-alternative" autocomplete="off" enterkeyhint="done"
+                   placeholder="https://www.mapillary.com/app/?pKey=…">
+        </label>
         <div class="liste-panos"></div>
-        <input type="text" class="champ-pano" autocomplete="off"
-               placeholder="+ 360° repérée (colle l'URL complète de l'app Mapillary), Entrée pour valider">
+        <label class="champ-libelle">Vue 360° : lien complet de l'app Mapillary, puis Entrée
+            <input type="text" class="champ champ-pano" autocomplete="off" enterkeyhint="done"
+                   placeholder="https://www.mapillary.com/app/?pKey=…&x=…&y=…">
+        </label>
     `;
 
     const enLigne = PHOTOS_EN_LIGNE[cle];
@@ -444,16 +699,25 @@ function construireCarte(terrain) {
         const etat = etatDe(cle);
 
         if (btnAccepter) {
-            btnAccepter.className = "btn-accepter" + (etat.statut === "accepte" ? " actif-accepte" : "");
-            btnRejeter.className = "btn-rejeter" + (etat.statut === "rejete" ? " actif-rejete" : "");
+            btnAccepter.className = "btn btn-accepter" + (etat.statut === "accepte" ? " actif-accepte" : "");
+            btnRejeter.className = "btn btn-rejeter" + (etat.statut === "rejete" ? " actif-rejete" : "");
+            btnAccepter.setAttribute("aria-pressed", etat.statut === "accepte" ? "true" : "false");
+            btnRejeter.setAttribute("aria-pressed", etat.statut === "rejete" ? "true" : "false");
         }
         if (btnAucune) {
-            btnAucune.className = "btn-aucune" + (etat.statut === "aucune" ? " actif-rejete" : "");
+            btnAucune.className = "btn btn-aucune" + (etat.statut === "aucune" ? " actif-rejete" : "");
+            btnAucune.setAttribute("aria-pressed", etat.statut === "aucune" ? "true" : "false");
         }
         div.className = "terrain-carte" +
             (etat.statut === "accepte" ? " decide-accepte" :
              etat.statut === "rejete" ? " decide-rejete" :
              etat.statut === "aucune" ? " decide-aucune" : "");
+
+        // La décision est aussi écrite en toutes lettres : la couleur de fond n'est qu'un repère.
+        div.querySelector(".etat-decision").textContent =
+            etat.statut === "accepte" ? "✓ Candidat accepté" :
+            etat.statut === "rejete" ? "Candidat rejeté" :
+            etat.statut === "aucune" ? "Marqué « rien trouvé »" : "";
 
         listeAlternatives.innerHTML = "";
         photosDe(cle, "manuelle").forEach(photo => {
@@ -558,117 +822,198 @@ function construireCarte(terrain) {
     return div;
 }
 
-function construirePage() {
-    const conteneur = document.getElementById("conteneur");
-    conteneur.innerHTML = "";
+/* ===================== Liste des terrains ===================== */
 
-    DONNEES.forEach((groupe, index) => {
-        const div = document.createElement("div");
-        div.className = "commune-groupe";
-
-        const nbCandidats = groupe.terrains.filter(t => t.candidat).length;
-
-        const titre = document.createElement("div");
-        titre.className = "commune-titre";
-        const gauche = document.createElement("span");
-        gauche.textContent = `${groupe.commune} (${groupe.terrains.length} terrain(s), ${nbCandidats} candidat(s))`;
-        const droite = document.createElement("span");
-        droite.textContent = "▼";
-        titre.appendChild(gauche);
-        titre.appendChild(droite);
-
-        const contenu = document.createElement("div");
-        contenu.className = "commune-contenu" + (index === 0 ? " ouvert" : "");
-        groupe.terrains.forEach(t => contenu.appendChild(construireCarte(t)));
-
-        titre.addEventListener("click", () => contenu.classList.toggle("ouvert"));
-
-        div.appendChild(titre);
-        div.appendChild(contenu);
-        conteneur.appendChild(div);
-    });
-
-    mettreAJourProgression();
+function formaterJour(jourIso) {
+    if (!jourIso) return "";
+    const [a, m, j] = jourIso.split("-");
+    return j + "/" + m + "/" + a;
 }
 
+function estNouveau(osmId) {
+    const jour = APPARITIONS[osmId];
+    if (!jour) return false;
+    return (Date.now() - Date.parse(jour + "T00:00:00Z")) / 86400000 <= JOURS_NOUVEAU;
+}
+
+// Filtres des puces. Une seule définition, partagée par les compteurs et l'affichage : ce que
+// dit une puce est exactement ce qu'elle montre quand on clique dessus.
+const FILTRES = [
+    ["a_decider", "À décider"],
+    ["nouveaux", "Nouveaux"],
+    ["acceptes", "Avec photo"],
+    ["deja_en_ligne", "Déjà en ligne"],
+    ["rejetes", "Rejetés"],
+    ["pano", "360° repérées"],
+    ["aucune", "Rien trouvé"],
+    ["plusieurs", "Plusieurs photos"],
+    ["tous", "Tous"]
+];
+let FILTRE = "a_decider";
+
+function correspond(osmId, filtre) {
+    const etat = etatDe(osmId);
+    const nbPhotos = compterPhotos(osmId);
+    switch (filtre) {
+        case "a_decider": return !etat.statut && nbPhotos === 0;
+        case "nouveaux": return estNouveau(osmId);
+        case "acceptes": return nbPhotos >= 1;
+        case "deja_en_ligne": return !!(PHOTOS_EN_LIGNE[osmId] && PHOTOS_EN_LIGNE[osmId].length);
+        case "rejetes": return etat.statut === "rejete" && nbPhotos === 0;
+        case "pano": return photosDe(osmId, "pano360").length > 0;
+        case "aucune": return etat.statut === "aucune";
+        case "plusieurs": return nbPhotos >= 2;
+        default: return true;
+    }
+}
+
+function passeFiltreCandidat(terrain) {
+    const choix = document.getElementById("filtreCandidat").value;
+    if (choix === "avec_candidat") return !!terrain.candidat;
+    if (choix === "sans_candidat") return !terrain.candidat;
+    return true;
+}
+
+function construirePage() {
+    TERRAINS = [];
+    DONNEES.forEach(groupe => groupe.terrains.forEach(t => TERRAINS.push(t)));
+
+    const conteneur = document.getElementById("conteneur");
+    conteneur.innerHTML = "";
+    CARTES = {};
+    TERRAINS.forEach(t => {
+        CARTES[t.osm_id] = construireCarte(t);
+        conteneur.appendChild(CARTES[t.osm_id]);
+    });
+
+    trierListe();
+    mettreAJourProgression();
+    appliquerFiltres();
+}
+
+// « Nouveaux d'abord » : les terrains apparus le plus récemment en tête, puis tous les
+// autres par commune. Tant qu'aucun terrain n'est nouveau, les deux tris se confondent.
+function trierListe() {
+    const tri = document.getElementById("tri").value;
+    const parCommune = (a, b) =>
+        a.commune.localeCompare(b.commune, "fr") || a.nom.localeCompare(b.nom, "fr");
+
+    const ordre = TERRAINS.slice().sort((a, b) => {
+        if (tri === "nouveaux") {
+            const da = APPARITIONS[a.osm_id] || "";
+            const db = APPARITIONS[b.osm_id] || "";
+            if (da !== db) return da < db ? 1 : -1;
+        }
+        return parCommune(a, b);
+    });
+
+    const conteneur = document.getElementById("conteneur");
+    ordre.forEach(t => conteneur.appendChild(CARTES[t.osm_id]));
+}
+
+// Les puces, avec leurs compteurs (restreints au choix « avec / sans candidat »).
 function mettreAJourProgression() {
-    const filtreCandidat = document.getElementById("filtreCandidat").value;
+    const retenus = TERRAINS.filter(passeFiltreCandidat);
+    const zone = document.getElementById("puces");
+    zone.innerHTML = "";
 
-    let total = 0, avecCandidat = 0, sansCandidat = 0;
-    let acceptes = 0, rejetes = 0, aucune = 0, plusieurs = 0, avecPano = 0, dejaEnLigne = 0;
+    FILTRES.forEach(([code, libelle]) => {
+        const nombre = retenus.filter(t => correspond(t.osm_id, code)).length;
+        const bouton = document.createElement("button");
+        bouton.type = "button";
+        bouton.className = "puce" + (code === "nouveaux" ? " puce-nouveau" : "");
+        bouton.setAttribute("aria-pressed", FILTRE === code ? "true" : "false");
+        bouton.textContent = libelle + " · " + nombre;
+        bouton.addEventListener("click", () => {
+            // Un second clic sur la puce active revient à « Tous ».
+            FILTRE = (FILTRE === code && code !== "tous") ? "tous" : code;
+            mettreAJourProgression();
+            appliquerFiltres();
+        });
+        zone.appendChild(bouton);
+    });
 
-    DONNEES.forEach(groupe => groupe.terrains.forEach(t => {
-        const aUnCandidat = !!t.candidat;
-        if (filtreCandidat === "avec_candidat" && !aUnCandidat) return;
-        if (filtreCandidat === "sans_candidat" && aUnCandidat) return;
-
-        total++;
-        if (aUnCandidat) avecCandidat++; else sansCandidat++;
-
-        const etat = etatDe(t.osm_id);
-        const nbPhotos = compterPhotos(t.osm_id);
-        if (nbPhotos >= 1) acceptes++;
-        if (etat.statut === "rejete" && nbPhotos === 0) rejetes++;
-        if (etat.statut === "aucune") aucune++;
-        if (nbPhotos >= 2) plusieurs++;
-        if (photosDe(t.osm_id, "pano360").length) avecPano++;
-        if (PHOTOS_EN_LIGNE[t.osm_id] && PHOTOS_EN_LIGNE[t.osm_id].length) dejaEnLigne++;
-    }));
-
-    document.getElementById("progression").innerHTML = `
-        <span class="stat-chip">Terrains : <b>${total}</b></span>
-        <span class="stat-chip">Avec candidat : <b>${avecCandidat}</b></span>
-        <span class="stat-chip">Sans candidat : <b>${sansCandidat}</b></span>
-        <span class="stat-chip">À décider : <b>${total - acceptes - rejetes - aucune}</b></span>
-        <span class="stat-chip accepte">Avec photo : <b>${acceptes}</b></span>
-        <span class="stat-chip rejete">Rejetés : <b>${rejetes}</b></span>
-        <span class="stat-chip">Rien trouvé : <b>${aucune}</b></span>
-        <span class="stat-chip">Plusieurs photos : <b>${plusieurs}</b></span>
-        <span class="stat-chip">360° repérées : <b>${avecPano}</b></span>
-        <span class="stat-chip accepte">Déjà en ligne : <b>${dejaEnLigne}</b></span>
-    `;
+    mettreAJourTableauBord();
 }
 
 function appliquerFiltres() {
-    const recherche = document.getElementById("recherche").value.toLowerCase();
-    const filtreDecision = document.getElementById("filtreDecision").value;
-    const filtreCandidat = document.getElementById("filtreCandidat").value;
+    const recherche = document.getElementById("recherche").value.trim().toLowerCase();
+    let affiches = 0;
 
-    document.querySelectorAll(".terrain-carte").forEach(carte => {
-        const cle = carte.dataset.cle;
-        const etat = etatDe(cle);
-        const nbPhotos = compterPhotos(cle);
-
-        const parRecherche = !recherche || carte.dataset.recherche.includes(recherche);
-
-        let parDecision = true;
-        if (filtreDecision === "a_decider") parDecision = !etat.statut && nbPhotos === 0;
-        if (filtreDecision === "acceptes") parDecision = nbPhotos >= 1;
-        if (filtreDecision === "rejetes") parDecision = etat.statut === "rejete" && nbPhotos === 0;
-        if (filtreDecision === "aucune") parDecision = etat.statut === "aucune";
-        if (filtreDecision === "avec_alternative") parDecision = nbPhotos >= 2;
-        if (filtreDecision === "avec_pano") parDecision = photosDe(cle, "pano360").length > 0;
-
-        let parCandidat = true;
-        if (filtreCandidat === "avec_candidat") parCandidat = carte.dataset.avecCandidat === "1";
-        if (filtreCandidat === "sans_candidat") parCandidat = carte.dataset.avecCandidat === "0";
-
-        carte.classList.toggle("cachee", !(parRecherche && parDecision && parCandidat));
+    TERRAINS.forEach(t => {
+        const carte = CARTES[t.osm_id];
+        const visible = passeFiltreCandidat(t)
+            && (!recherche || carte.dataset.recherche.includes(recherche))
+            && correspond(t.osm_id, FILTRE);
+        carte.hidden = !visible;
+        if (visible) affiches++;
     });
 
-    // Une commune dont toutes les cartes sont filtrées disparaît aussi : sinon
-    // la page se remplit d'en-têtes vides dès qu'un filtre est actif.
-    document.querySelectorAll(".commune-groupe").forEach(groupe => {
-        const visible = groupe.querySelector(".terrain-carte:not(.cachee)");
-        groupe.classList.toggle("cachee", !visible);
-    });
+    const libelle = FILTRES.find(f => f[0] === FILTRE)[1];
+    document.getElementById("compteur").textContent = affiches + " terrain(s) affiché(s)"
+        + (FILTRE === "tous" ? "" : " — filtre « " + libelle + " »")
+        + (recherche ? " — recherche « " + recherche + " »" : "");
+    document.getElementById("listeVide").hidden = affiches > 0;
 }
 
 document.getElementById("recherche").addEventListener("input", appliquerFiltres);
-document.getElementById("filtreDecision").addEventListener("change", appliquerFiltres);
 document.getElementById("filtreCandidat").addEventListener("change", () => {
-    appliquerFiltres();
     mettreAJourProgression();
+    appliquerFiltres();
+});
+document.getElementById("tri").addEventListener("change", trierListe);
+
+
+/* ===================== Tableau de bord ===================== */
+
+function mettreAJourTableauBord() {
+    const nouveaux = TERRAINS.filter(t => estNouveau(t.osm_id));
+    const aDecider = nouveaux.filter(t => correspond(t.osm_id, "a_decider")).length;
+    document.getElementById("kpiNouveauxValeur").textContent = nouveaux.length;
+    document.getElementById("kpiNouveauxDetail").textContent = nouveaux.length
+        ? "apparus ces " + JOURS_NOUVEAU + " derniers jours, dont " + aDecider + " à décider"
+        : "aucun terrain apparu ces " + JOURS_NOUVEAU + " derniers jours";
+}
+
+document.getElementById("kpiNouveaux").addEventListener("click", () => {
+    FILTRE = "nouveaux";
+    mettreAJourProgression();
+    appliquerFiltres();
+    document.getElementById("terrains").scrollIntoView({ behavior: "smooth" });
+});
+
+document.getElementById("kpiPhotos").addEventListener("click", () => {
+    const bloc = document.getElementById("moderation");
+    if (bloc.classList.contains("vide")) return;
+    document.getElementById("moderationContenu").classList.add("ouvert");
+    bloc.scrollIntoView({ behavior: "smooth" });
+});
+
+document.querySelectorAll("[data-vers-onglet]").forEach(element => {
+    element.addEventListener("click", () => afficherOnglet(element.dataset.versOnglet));
+});
+
+
+/* ===================== Onglets ===================== */
+
+const ONGLETS = ["terrains", "notes", "visites"];
+
+// L'onglet affiché est noté dans l'adresse (#notes, #visites) : un rechargement de la page
+// y revient directement.
+function afficherOnglet(nom) {
+    if (!ONGLETS.includes(nom)) nom = "terrains";
+    ONGLETS.forEach(o => {
+        const actif = o === nom;
+        document.getElementById("onglet-" + o).setAttribute("aria-selected", actif ? "true" : "false");
+        document.getElementById("panneau-" + o).hidden = !actif;
+    });
+    history.replaceState(null, "", nom === "terrains" ? location.pathname : "#" + nom);
+    if (nom === "notes") afficherNotes();
+    if (nom === "visites") afficherVisites();
+}
+
+ONGLETS.forEach(o => {
+    document.getElementById("onglet-" + o).addEventListener("click", () => afficherOnglet(o));
 });
 
 
@@ -768,12 +1113,21 @@ async function chargerModeration() {
     const contenu = document.getElementById("moderationContenu");
     const resume = document.getElementById("moderationResume");
 
-    bloc.classList.toggle("vide", file.length === 0);
-    if (!file.length) return;
-
     const compter = statut => file.filter(p => p.statut === statut).length;
     const bloquees = file.filter(p => p.statut === "envoyee"
         && joursDepuis(p.maj) > JOURS_AVANT_ALERTE).length;
+
+    // Carte du tableau de bord : le chiffre est ce qui demande une action (à modérer).
+    document.getElementById("kpiPhotosValeur").textContent = compter("en_attente");
+    const suite = [];
+    if (compter("validee")) suite.push(compter("validee") + " validée(s) à publier");
+    if (compter("envoyee")) suite.push(compter("envoyee") + " envoyée(s), en attente de l'identifiant Mapillary");
+    if (bloquees) suite.push(bloquees + " depuis plus de " + JOURS_AVANT_ALERTE + " jours");
+    document.getElementById("kpiPhotosDetail").textContent =
+        "à modérer" + (suite.length ? " · " + suite.join(" · ") : "");
+
+    bloc.classList.toggle("vide", file.length === 0);
+    if (!file.length) return;
 
     let texte = "Photos de visiteurs : " + compter("en_attente") + " en attente, "
         + compter("validee") + " validée(s) à publier, "
@@ -845,7 +1199,7 @@ function construireCarteModeration(photo) {
 
     if (photo.statut === "en_attente") {
         const valider = document.createElement("button");
-        valider.className = "btn-valider";
+        valider.className = "btn btn-valider";
         valider.textContent = "Valider";
         valider.addEventListener("click", () => moderer(photo, "valider", div));
         actions.appendChild(valider);
@@ -855,7 +1209,7 @@ function construireCarteModeration(photo) {
     // pas de là-bas. Le bouton disparaît, et le Worker refuse de toute façon.
     if (photo.statut !== "envoyee") {
         const refuser = document.createElement("button");
-        refuser.className = "btn-refuser";
+        refuser.className = "btn btn-refuser";
         refuser.textContent = "Refuser et supprimer";
         refuser.addEventListener("click", () => {
             // Confirmation : le refus efface le fichier de R2, sans retour possible.
@@ -870,7 +1224,8 @@ function construireCarteModeration(photo) {
     lien.href = "https://www.openstreetmap.org/" + photo.osm_id;
     lien.target = "_blank";
     lien.rel = "noopener";
-    lien.innerHTML = "<button type=\"button\">Voir le terrain sur OSM</button>";
+    lien.className = "btn";
+    lien.textContent = "Voir le terrain sur OSM";
     actions.appendChild(lien);
 
     info.appendChild(actions);
@@ -900,28 +1255,412 @@ document.getElementById("moderationTitre").addEventListener("click", () => {
 });
 
 
+/* ===================== Statistiques : outils communs ===================== */
+
+// Frontière de l'échantillonnage Cloudflare : avant ce jour, seuls des chiffres estimés
+// (multiples de 10) existent. Constaté le 25/09/2026.
+const DEBUT_VISITES_PRECISES = "2026-09-19";
+const VERT = "#3d7d2a";
+const VERT_CLAIR = "#b7cfab";
+
+function nombre(n) {
+    return Number(n || 0).toLocaleString("fr-BE");
+}
+
+function hierIso() {
+    const d = new Date();
+    d.setUTCDate(d.getUTCDate() - 1);
+    return d.toISOString().slice(0, 10);
+}
+
+function decalerJour(jour, n) {
+    const d = new Date(jour + "T00:00:00Z");
+    d.setUTCDate(d.getUTCDate() + n);
+    return d.toISOString().slice(0, 10);
+}
+
+function lundiDe(jour) {
+    const d = new Date(jour + "T00:00:00Z");
+    d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 6) % 7));
+    return d.toISOString().slice(0, 10);
+}
+
+function echapper(texte) {
+    return String(texte).replace(/[&<>"']/g, c =>
+        ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+}
+
+function carteKpi(etiquette, valeur, detail) {
+    return `<div class="carte-kpi kpi-fixe">
+        <span class="kpi-etiquette">${echapper(etiquette)}</span>
+        <span class="kpi-valeur">${echapper(valeur)}</span>
+        <span class="kpi-detail">${echapper(detail)}</span>
+    </div>`;
+}
+
+function variation(actuel, avant) {
+    const ecart = actuel - avant;
+    return (ecart >= 0 ? "+" : "−") + nombre(Math.abs(ecart)) + " par rapport aux 7 jours d'avant";
+}
+
+// Barres verticales en SVG. Chaque barre : { libelle, valeur, estime, infobulle }.
+// Une barre « estimée » est plus claire, et la légende le dit en toutes lettres.
+function barresVerticales(barres, options) {
+    const L = 900, H = 240, G = 44, B = 26, HAUT = 10;
+    const zoneL = L - G - 6, zoneH = H - B - HAUT;
+    const max = Math.max(1, ...barres.map(b => b.valeur));
+    const pas = options && options.pasLibelle || 1;
+    const largeur = zoneL / Math.max(1, barres.length);
+    let svg = `<svg viewBox="0 0 ${L} ${H}" role="img" aria-label="${echapper(options && options.titre || "Graphique")}">`;
+    for (let k = 0; k <= 4; k++) {
+        const y = HAUT + zoneH - k * zoneH / 4;
+        svg += `<line x1="${G}" y1="${y}" x2="${L - 6}" y2="${y}" stroke="#e2e4dc"/>`;
+        svg += `<text x="${G - 6}" y="${y + 4}" font-size="12" text-anchor="end" fill="#5b625b">${nombre(Math.round(max * k / 4))}</text>`;
+    }
+    barres.forEach((b, i) => {
+        const h = b.valeur / max * zoneH;
+        const x = G + i * largeur + largeur * 0.15;
+        svg += `<rect x="${x.toFixed(1)}" y="${(HAUT + zoneH - h).toFixed(1)}" width="${(largeur * 0.7).toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="${b.estime ? VERT_CLAIR : VERT}"><title>${echapper(b.infobulle || (b.libelle + " : " + nombre(b.valeur)))}</title></rect>`;
+        if (i % pas === 0) {
+            svg += `<text x="${(G + i * largeur + largeur / 2).toFixed(1)}" y="${H - 8}" font-size="12" text-anchor="middle" fill="#5b625b">${echapper(b.libelle)}</text>`;
+        }
+    });
+    return svg + "</svg>";
+}
+
+// Barres horizontales en HTML. Chaque ligne : { libelle, valeur, total (facultatif), texte }.
+function barresHorizontales(lignes, videTexte) {
+    if (!lignes.length) return `<div class="vide-bloc">${echapper(videTexte || "Pas encore de données.")}</div>`;
+    const max = Math.max(1, ...lignes.map(l => l.total || l.valeur));
+    return lignes.map(l => {
+        const base = l.total ? l.total : max;
+        const largeurPiste = l.total ? (l.total / max * 100) : 100;
+        const rempli = base ? l.valeur / base * 100 : 0;
+        return `<div class="barre-h">
+            <span class="libelle" title="${echapper(l.libelle)}">${echapper(l.libelle)}</span>
+            <span style="display:block"><span class="piste${l.total ? " avec-total" : ""}" style="display:block; width:${largeurPiste.toFixed(1)}%"><span class="rempli" style="width:${rempli.toFixed(1)}%"></span></span></span>
+            <span class="valeur">${echapper(l.texte || nombre(l.valeur))}</span>
+        </div>`;
+    }).join("");
+}
+
+function montrer(...ids) { ids.forEach(id => { document.getElementById(id).hidden = false; }); }
+
+
+/* ===================== Onglet Notes ===================== */
+
+let STATS_NOTES = null;
+let GEO_TERRAINS = null;    // osm_id -> { province, region }, lu à l'ouverture de l'onglet
+
+async function chargerNotes() {
+    try {
+        STATS_NOTES = await appeler("/admin/stats/notes").then(r => r.json());
+    } catch (e) {
+        document.getElementById("notesAttente").textContent = "Statistiques des notes indisponibles (voir le bandeau rouge).";
+        document.getElementById("kpiNotesValeur").textContent = "—";
+        return;
+    }
+    const r = STATS_NOTES.resume;
+    document.getElementById("kpiNotesValeur").textContent = nombre(r.j30);
+    document.getElementById("kpiNotesDetail").textContent =
+        "reçues ces 30 derniers jours · " + nombre(r.terrains) + " terrains notés au total";
+    if (!document.getElementById("panneau-notes").hidden) afficherNotes();
+}
+
+async function afficherNotes() {
+    if (!STATS_NOTES) return;
+    const r = STATS_NOTES.resume;
+
+    document.getElementById("notesKpis").innerHTML =
+        carteKpi("Terrains notés", nombre(r.terrains), "sur " + nombre(TERRAINS.length) + " terrains dans la page admin") +
+        carteKpi("Notes reçues", nombre(r.votes), "moyenne " + String(r.moyenne || 0).replace(".", ",") + " / 5") +
+        carteKpi("7 derniers jours", nombre(r.j7), variation(r.j7 || 0, r.j7_avant || 0)) +
+        carteKpi("30 derniers jours", nombre(r.j30), "dont " + nombre(STATS_NOTES.nouveaux_terrains_30j) + " terrain(s) noté(s) pour la première fois");
+
+    // 26 semaines, y compris celles sans aucune note.
+    const parSemaine = {};
+    STATS_NOTES.par_semaine.forEach(s => { parSemaine[s.semaine] = s.votes; });
+    const barres = [];
+    let lundi = lundiDe(hierIso());
+    for (let i = 0; i < 26; i++) {
+        const [a, m, j] = lundi.split("-");
+        barres.unshift({ libelle: j + "/" + m, valeur: parSemaine[lundi] || 0,
+                         infobulle: "Semaine du " + j + "/" + m + "/" + a + " : " + (parSemaine[lundi] || 0) + " note(s)" });
+        lundi = decalerJour(lundi, -7);
+    }
+    document.getElementById("notesSemainesGraphique").innerHTML =
+        barresVerticales(barres, { pasLibelle: 3, titre: "Notes reçues par semaine" });
+
+    document.getElementById("notesRepartition").innerHTML = barresHorizontales(
+        [1, 2, 3, 4, 5].map(n => {
+            const ligne = STATS_NOTES.repartition.find(x => Number(x.note) === n);
+            return { libelle: n + " / 5", valeur: ligne ? ligne.votes : 0 };
+        }));
+
+    document.getElementById("notesAttente").hidden = true;
+    montrer("notesKpis", "notesSemaines", "notesDetail");
+
+    // Provinces et régions : il faut savoir où se trouve chaque terrain. Le fichier des
+    // terrains n'est lu qu'ici, à la première ouverture de l'onglet.
+    if (!GEO_TERRAINS) {
+        document.getElementById("notesProvinces").innerHTML = `<div class="vide-bloc">Chargement des provinces…</div>`;
+        try {
+            const geo = await fetch("/data/terrains.geojson", { cache: "no-store" }).then(x => x.json());
+            GEO_TERRAINS = {};
+            geo.features.forEach(f => {
+                const p = f.properties || {};
+                if (p.osm_id) GEO_TERRAINS[p.osm_id] = {
+                    province: p.province || (p.region && /brux|brus/i.test(p.region) ? "Bruxelles-Capitale" : "Inconnue"),
+                    region: p.region || "Inconnue"
+                };
+            });
+        } catch (e) {
+            document.getElementById("notesProvinces").innerHTML = `<div class="vide-bloc">Fichier des terrains illisible.</div>`;
+            return;
+        }
+    }
+
+    const totaux = {}, notes = {}, totauxRegion = {}, notesRegion = {};
+    Object.values(GEO_TERRAINS).forEach(g => {
+        totaux[g.province] = (totaux[g.province] || 0) + 1;
+        totauxRegion[g.region] = (totauxRegion[g.region] || 0) + 1;
+    });
+    STATS_NOTES.par_terrain.forEach(t => {
+        const g = GEO_TERRAINS[t.osm_id];
+        if (!g) return;   // terrain disparu d'OSM depuis
+        notes[g.province] = (notes[g.province] || 0) + 1;
+        notesRegion[g.region] = (notesRegion[g.region] || 0) + 1;
+    });
+
+    document.getElementById("notesProvinces").innerHTML = barresHorizontales(
+        Object.keys(totaux).sort((a, b) => a.localeCompare(b, "fr")).map(p => ({
+            libelle: p, valeur: notes[p] || 0, total: totaux[p],
+            texte: nombre(notes[p] || 0) + " / " + nombre(totaux[p])
+        })));
+
+    document.getElementById("notesRegions").innerHTML = Object.keys(totauxRegion)
+        .sort((a, b) => totauxRegion[b] - totauxRegion[a])
+        .map(reg => `<div class="region"><b>${echapper(reg)}</b>
+            <span class="kpi-valeur">${nombre(notesRegion[reg] || 0)}</span>
+            <span class="kpi-detail">terrains notés sur ${nombre(totauxRegion[reg])}</span></div>`).join("");
+}
+
+
+/* ===================== Onglet Visites ===================== */
+
+let STATS_VISITES = null;
+let PERIODE_VISITES = "jour";
+let PERIODE_DETAILS = "30j";
+
+async function chargerVisites() {
+    try {
+        STATS_VISITES = await appeler("/admin/stats/visites").then(r => r.json());
+    } catch (e) {
+        document.getElementById("visitesAttente").textContent = "Statistiques des visites indisponibles (voir le bandeau rouge).";
+        document.getElementById("kpiVisitesValeur").textContent = "—";
+        return;
+    }
+
+    // Carte du tableau de bord : 30 derniers jours et petite courbe.
+    const serie = serieJours(30);
+    const total30 = serie.reduce((s, j) => s + j.visites, 0);
+    const pages30 = serie.reduce((s, j) => s + j.pages_vues, 0);
+    document.getElementById("kpiVisitesValeur").textContent = nombre(total30);
+    document.getElementById("kpiVisitesDetail").textContent = "ces 30 derniers jours · " + nombre(pages30) + " pages vues";
+    document.getElementById("kpiVisitesCourbe").innerHTML = miniCourbe(serie.map(j => j.visites));
+
+    if (!document.getElementById("panneau-visites").hidden) afficherVisites();
+}
+
+// Les n derniers jours jusqu'à hier, jours sans visite compris (à zéro).
+function serieJours(n) {
+    const parJour = {};
+    STATS_VISITES.jours.forEach(j => { parJour[j.jour] = j; });
+    const serie = [];
+    let jour = hierIso();
+    for (let i = 0; i < n; i++) {
+        const j = parJour[jour] || { visites: 0, pages_vues: 0 };
+        serie.unshift({ jour: jour, visites: Number(j.visites), pages_vues: Number(j.pages_vues) });
+        jour = decalerJour(jour, -1);
+    }
+    return serie;
+}
+
+function miniCourbe(valeurs) {
+    const L = 220, H = 40, max = Math.max(1, ...valeurs);
+    const points = valeurs.map((v, i) =>
+        (i * (L - 4) / Math.max(1, valeurs.length - 1) + 2).toFixed(1) + "," + (H - 4 - v / max * (H - 8)).toFixed(1));
+    return `<svg width="${L}" height="${H}" viewBox="0 0 ${L} ${H}"><polyline points="${points.join(" ")}" fill="none" stroke="${VERT}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>`;
+}
+
+function afficherVisites() {
+    if (!STATS_VISITES) return;
+    const jours = STATS_VISITES.jours.map(j => ({ jour: j.jour, visites: Number(j.visites), pages_vues: Number(j.pages_vues) }));
+    const somme = (liste, champ) => liste.reduce((s, j) => s + j[champ], 0);
+
+    const hier = hierIso();
+    const j7 = jours.filter(j => j.jour > decalerJour(hier, -7));
+    const j7avant = jours.filter(j => j.jour > decalerJour(hier, -14) && j.jour <= decalerJour(hier, -7));
+    const j30 = jours.filter(j => j.jour > decalerJour(hier, -30));
+    const annee = jours.filter(j => j.jour >= hier.slice(0, 4) + "-01-01");
+    const ligneHier = jours.find(j => j.jour === hier) || { visites: 0, pages_vues: 0 };
+    const premier = jours.length ? jours[0].jour.split("-").reverse().join("/") : "—";
+
+    document.getElementById("visitesKpis").innerHTML =
+        carteKpi("Hier", nombre(ligneHier.visites), "visites · " + nombre(ligneHier.pages_vues) + " pages vues") +
+        carteKpi("7 derniers jours", nombre(somme(j7, "visites")), variation(somme(j7, "visites"), somme(j7avant, "visites"))) +
+        carteKpi("30 derniers jours", nombre(somme(j30, "visites")), "visites · " + nombre(somme(j30, "pages_vues")) + " pages vues") +
+        carteKpi("Depuis le 1er janvier", nombre(somme(annee, "visites")), "visites · données depuis le " + premier);
+
+    dessinerCourbeVisites();
+    dessinerDetails();
+
+    document.getElementById("visitesHotes").innerHTML = barresHorizontales(
+        STATS_VISITES.hotes.map(h => ({
+            libelle: h.hote === "mapetanque-be.translate.goog" ? "via Google Traduction" : h.hote,
+            valeur: Number(h.visites)
+        })));
+
+    document.getElementById("visitesAttente").hidden = true;
+    montrer("visitesKpis", "visitesCourbe", "visitesDetails", "visitesAdresses", "visitesNote");
+}
+
+function dessinerCourbeVisites() {
+    const parJour = {};
+    STATS_VISITES.jours.forEach(j => { parJour[j.jour] = Number(j.visites); });
+    const hier = hierIso();
+    let barres = [], titre = "", pas = 1;
+
+    if (PERIODE_VISITES === "jour") {
+        barres = serieJours(30).map(j => ({
+            libelle: j.jour.slice(8, 10) + "/" + j.jour.slice(5, 7),
+            valeur: j.visites,
+            estime: j.jour < DEBUT_VISITES_PRECISES,
+            infobulle: j.jour.split("-").reverse().join("/") + " : " + j.visites + " visite(s), " + j.pages_vues + " page(s) vue(s)"
+        }));
+        titre = "30 derniers jours"; pas = 5;
+    } else if (PERIODE_VISITES === "semaine") {
+        let lundi = lundiDe(hier);
+        for (let i = 0; i < 26; i++) {
+            let total = 0;
+            for (let k = 0; k < 7; k++) total += parJour[decalerJour(lundi, k)] || 0;
+            barres.unshift({ libelle: lundi.slice(8, 10) + "/" + lundi.slice(5, 7), valeur: total,
+                             estime: lundi < DEBUT_VISITES_PRECISES,
+                             infobulle: "Semaine du " + lundi.split("-").reverse().join("/") + " : " + total + " visite(s)" });
+            lundi = decalerJour(lundi, -7);
+        }
+        titre = "26 dernières semaines (lundi de chaque semaine)"; pas = 3;
+    } else if (PERIODE_VISITES === "mois") {
+        const MOIS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
+        const d = new Date(hier + "T00:00:00Z");
+        for (let i = 11; i >= 0; i--) {
+            const m = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() - i, 1));
+            const cle = m.toISOString().slice(0, 7);
+            const total = Object.keys(parJour).filter(j => j.startsWith(cle)).reduce((s, j) => s + parJour[j], 0);
+            barres.push({ libelle: MOIS[m.getUTCMonth()], valeur: total,
+                          estime: cle < DEBUT_VISITES_PRECISES.slice(0, 7) || cle === DEBUT_VISITES_PRECISES.slice(0, 7),
+                          infobulle: MOIS[m.getUTCMonth()] + " " + m.getUTCFullYear() + " : " + total + " visite(s)" });
+        }
+        titre = "12 derniers mois (un mois clair contient des jours estimés)";
+    } else {
+        const annees = {};
+        Object.keys(parJour).forEach(j => { annees[j.slice(0, 4)] = (annees[j.slice(0, 4)] || 0) + parJour[j]; });
+        barres = Object.keys(annees).sort().map(a => ({ libelle: a, valeur: annees[a],
+                                                        estime: a <= DEBUT_VISITES_PRECISES.slice(0, 4) }));
+        titre = "par année (la première contient des jours estimés)";
+    }
+
+    document.getElementById("visitesPeriode").textContent = titre;
+    document.getElementById("visitesGraphique").innerHTML = barres.length
+        ? barresVerticales(barres, { pasLibelle: pas, titre: "Visites, " + titre })
+        : `<div class="vide-bloc">Pas encore de données.</div>`;
+}
+
+function dessinerDetails() {
+    const lignes = PERIODE_DETAILS === "30j" ? STATS_VISITES.detail_30j : STATS_VISITES.detail_tout;
+    const de = dim => lignes.filter(l => l.dimension === dim)
+        .map(l => ({ valeur: l.valeur, visites: Number(l.visites), pages_vues: Number(l.pages_vues) }));
+
+    // Pays : code ISO (BE, FR…) traduit en nom français par le navigateur lui-même.
+    let noms = null;
+    try { noms = new Intl.DisplayNames(["fr"], { type: "region" }); } catch (e) { /* ancien navigateur */ }
+    const pays = de("pays").sort((a, b) => b.visites - a.visites).slice(0, 10);
+    document.getElementById("detailPays").innerHTML = barresHorizontales(pays.map(p => ({
+        libelle: (noms && /^[A-Z]{2}$/.test(p.valeur) ? noms.of(p.valeur) : p.valeur), valeur: p.visites
+    })));
+
+    // Langue : déduite de l'adresse des pages lues (/nl/…, /de/…, le reste en français).
+    const langues = { "Français": 0, "Néerlandais": 0, "Allemand": 0 };
+    de("page").forEach(p => {
+        const cle = p.valeur.startsWith("/nl/") || p.valeur === "/nl" ? "Néerlandais"
+                  : p.valeur.startsWith("/de/") || p.valeur === "/de" ? "Allemand" : "Français";
+        langues[cle] += p.pages_vues;
+    });
+    document.getElementById("detailLangues").innerHTML = barresHorizontales(
+        Object.keys(langues).map(l => ({ libelle: l, valeur: langues[l], texte: nombre(langues[l]) + " pages" })));
+
+    // Provenance : les passages d'une page du site à une autre ne sont pas une provenance.
+    const internes = ["mapetanque.be", "www.mapetanque.be", "mapetanque.github.io"];
+    const provenances = de("provenance").filter(p => !internes.includes(p.valeur))
+        .sort((a, b) => b.visites - a.visites).slice(0, 8);
+    document.getElementById("detailProvenance").innerHTML = barresHorizontales(provenances.map(p => ({
+        libelle: p.valeur === "(direct)" ? "Accès direct" : p.valeur, valeur: p.visites
+    })));
+
+    const NOMS_APPAREILS = { mobile: "Téléphone", desktop: "Ordinateur", tablet: "Tablette" };
+    document.getElementById("detailAppareil").innerHTML = barresHorizontales(
+        de("appareil").sort((a, b) => b.visites - a.visites).map(a => ({
+            libelle: NOMS_APPAREILS[a.valeur] || a.valeur, valeur: a.visites
+        })));
+
+    document.getElementById("detailPages").innerHTML = barresHorizontales(
+        de("page").sort((a, b) => b.pages_vues - a.pages_vues).slice(0, 10).map(p => ({
+            libelle: p.valeur, valeur: p.pages_vues, texte: nombre(p.pages_vues) + " vues"
+        })));
+}
+
+function brancherSegment(id, surChoix) {
+    document.querySelectorAll("#" + id + " button").forEach(bouton => {
+        bouton.addEventListener("click", () => {
+            document.querySelectorAll("#" + id + " button").forEach(b =>
+                b.setAttribute("aria-pressed", b === bouton ? "true" : "false"));
+            surChoix(bouton.dataset.periode);
+        });
+    });
+}
+brancherSegment("visitesSegment", p => { PERIODE_VISITES = p; dessinerCourbeVisites(); });
+brancherSegment("detailsSegment", p => { PERIODE_DETAILS = p; dessinerDetails(); });
+
+
 /* ===================== Démarrage ===================== */
 
 async function demarrer() {
     document.getElementById("chargement").style.display = "";
 
     try {
-        const [candidats, etat, enLigne] = await Promise.all([
+        const [candidats, etat, enLigne, apparitions] = await Promise.all([
             fetch(URL_CANDIDATS, { cache: "no-store" }).then(r => r.json()),
             appeler("/admin/revue").then(r => r.json()),
             // Le fichier publié sert seulement à afficher « déjà en ligne » ;
             // s'il manque, la revue reste utilisable.
-            fetch(URL_PHOTOS_EN_LIGNE, { cache: "no-store" }).then(r => r.json()).catch(() => ({}))
+            fetch(URL_PHOTOS_EN_LIGNE, { cache: "no-store" }).then(r => r.json()).catch(() => ({})),
+            // Idem pour les dates d'apparition : sans elles, pas de « nouveaux », rien d'autre.
+            fetch(URL_APPARITIONS, { cache: "no-store" }).then(r => r.json()).catch(() => ({}))
         ]);
 
         DONNEES = candidats;
         ETAT = etat;
         PHOTOS_EN_LIGNE = enLigne;
+        APPARITIONS = apparitions;
 
         document.getElementById("chargement").style.display = "none";
         document.getElementById("bandeau").style.display = "";
+        document.getElementById("page").style.display = "";
         construirePage();
+        afficherOnglet(location.hash.slice(1));
         chargerModeration();
+        chargerNotes();
+        chargerVisites();
     } catch (e) {
         document.getElementById("chargement").textContent =
             "Chargement impossible. Recharge la page pour te reconnecter.";

@@ -205,23 +205,41 @@ def resoudre_mapillary(image_id):
     de proximité) en URL de vignette, via l'API Mapillary. Le lien de crédit pointe vers la page
     d'accueil Mapillary : leurs conditions d'utilisation exigent d'attribuer visiblement la source
     dès que leurs données/images sont affichées.
+
+    Renvoie (statut, url), statut valant :
+      "ok"       — url est l'adresse de la vignette ;
+      "disparue" — Mapillary répond que l'image n'existe plus : la photo doit disparaître ;
+      "erreur"   — toute autre raison (jeton absent ou refusé, panne, délai dépassé) : on ne
+                   sait rien de l'image, et l'appelant reprend la photo de la semaine d'avant.
     """
     if not MAPILLARY_TOKEN:
-        return None
+        return "erreur", None
     try:
         response = requests.get(
             f"https://graph.mapillary.com/{image_id}",
             params={"access_token": MAPILLARY_TOKEN, "fields": "thumb_1024_url"},
             timeout=10
         )
-        response.raise_for_status()
-        return response.json().get("thumb_1024_url")
     except Exception as e:
         print(f"    ⚠ Erreur résolution photo Mapillary (id {image_id}) : {e}")
-        return None
+        return "erreur", None
+
+    if response.ok:
+        url = response.json().get("thumb_1024_url")
+        return ("ok", url) if url else ("erreur", None)
+
+    # Seul ce message-là veut dire que l'image n'existe plus. Un 400 peut aussi venir d'un jeton
+    # refusé : le 24/09/2026, c'est ce qui a retiré du site toutes les photos de ce type.
+    if "does not exist" in response.text:
+        print(f"    Photo Mapillary {image_id} supprimée de Mapillary : retirée du terrain.")
+        return "disparue", None
+
+    print(f"    ⚠ Erreur résolution photo Mapillary (id {image_id}) : HTTP {response.status_code} "
+          f"— {response.text[:200]}")
+    return "erreur", None
 
 
-def resoudre_photo(tags):
+def resoudre_photo(tags, precedente=None):
     """
     Détermine la photo à afficher pour un terrain, par ordre de priorité :
     1. image=<url>                    — déjà une URL directe, utilisable telle quelle
@@ -230,6 +248,11 @@ def resoudre_photo(tags):
     Retourne (url, source, url_credit) où source vaut "image"/"wikimedia_commons"/"mapillary",
     et url_credit est le lien vers la source à créditer (None pour "image", aucune page de
     référence connue dans ce cas). Retourne (None, None, None) si aucune photo n'est disponible.
+
+    precedente : les propriétés du même terrain dans le terrains.geojson de la semaine d'avant.
+    Si l'API Mapillary ne répond pas, la photo qu'il avait alors est reprise plutôt que de publier
+    le terrain sans photo. Seulement si le tag mapillary= n'a pas changé entre-temps : si le
+    mappeur a choisi une autre photo, l'ancienne adresse ne correspond plus.
     """
     if tags.get("image"):
         return tags["image"], "image", None
@@ -239,9 +262,17 @@ def resoudre_photo(tags):
         return url_image, "wikimedia_commons", url_credit
 
     if tags.get("mapillary"):
-        url = resoudre_mapillary(tags["mapillary"])
-        if url:
+        statut, url = resoudre_mapillary(tags["mapillary"])
+        if statut == "ok":
             return url, "mapillary", "https://www.mapillary.com/"
+
+        if (statut == "erreur" and precedente
+                and precedente.get("photo_source") == "mapillary"
+                and precedente.get("mapillary") == tags["mapillary"]
+                and precedente.get("photo_url")):
+            PHOTOS_REPRISES.append(tags["mapillary"])
+            return (precedente["photo_url"], "mapillary",
+                    precedente.get("photo_credit_url") or "https://www.mapillary.com/")
 
     return None, None, None
 
@@ -280,6 +311,29 @@ else:
 
 print(f"{len(osm_data['elements'])} objets reçus depuis OSM")
 
+def charger_proprietes_precedentes(chemin):
+    """
+    {osm_id: propriétés} du terrains.geojson de la semaine d'avant, pour pouvoir reprendre une
+    photo Mapillary si l'API ne répond pas cette fois. Vide si le fichier est absent ou illisible :
+    le script tourne alors comme avant, sans filet.
+    """
+    if not os.path.exists(chemin):
+        return {}
+    try:
+        with open(chemin, "r", encoding="utf-8") as f:
+            return {
+                feat["properties"]["osm_id"]: feat["properties"]
+                for feat in json.load(f).get("features", [])
+                if feat.get("properties", {}).get("osm_id")
+            }
+    except Exception as e:
+        print(f"⚠ Ancien fichier illisible ({e}) : pas de reprise possible des photos Mapillary.")
+        return {}
+
+
+PROPRIETES_PRECEDENTES = charger_proprietes_precedentes(CHEMIN_GEOJSON)
+PHOTOS_REPRISES = []
+
 features = []
 total = len(osm_data["elements"])
 
@@ -316,7 +370,10 @@ for index, element in enumerate(osm_data["elements"], start=1):
     proprietes["province"] = infos_adresse["province"]
     proprietes["region"] = infos_adresse["region"]
 
-    photo_url, photo_source, photo_credit_url = resoudre_photo(element.get("tags", {}))
+    photo_url, photo_source, photo_credit_url = resoudre_photo(
+        element.get("tags", {}),
+        PROPRIETES_PRECEDENTES.get(proprietes["osm_id"])
+    )
     if photo_url:
         proprietes["photo_url"] = photo_url
         proprietes["photo_source"] = photo_source
@@ -419,6 +476,10 @@ def compter_terrains_precedents(chemin):
         print(f"⚠ Impossible de lire l'ancien fichier ({e}), vérification ignorée.")
         return None
 
+
+if PHOTOS_REPRISES:
+    print(f"⚠ {len(PHOTOS_REPRISES)} photo(s) Mapillary reprise(s) de la semaine précédente, "
+          "l'API n'ayant pas répondu. Si c'est un grand nombre, vérifier le secret MAPILLARY_TOKEN.")
 
 geojson = {
     "type": "FeatureCollection",
