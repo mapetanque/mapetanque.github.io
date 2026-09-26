@@ -98,8 +98,7 @@ CONTENU = {
             "paragraphes": [
                 "Mapetanque.be ne dépose aucun cookie publicitaire et ne transmet vos données à "
                 "personne. Votre navigateur conserve seulement, en local sur votre appareil, votre "
-                "langue, vos préférences d'affichage et un identifiant aléatoire qui vous permet de "
-                "modifier votre note.",
+                "langue et vos préférences d'affichage.",
                 "Les notes que vous donnez aux terrains sont enregistrées sans votre nom ni "
                 "votre adresse IP. Pour éviter qu'un même visiteur note vingt fois le même "
                 "terrain, le site calcule une empreinte chiffrée à partir de votre adresse IP, "
@@ -174,8 +173,8 @@ CONTENU = {
             "titre": "Je gegevens",
             "paragraphes": [
                 "Mapetanque.be plaatst geen reclamecookies en geeft je gegevens aan niemand door. "
-                "Je browser bewaart alleen, lokaal op je toestel, je taal, je weergavevoorkeuren "
-                "en een willekeurige code waarmee je je beoordeling kan wijzigen.",
+                "Je browser bewaart alleen, lokaal op je toestel, je taal en je "
+                "weergavevoorkeuren.",
                 "De punten die je aan terreinen geeft, worden opgeslagen zonder je naam of je "
                 "IP-adres. Om te vermijden dat dezelfde bezoeker twintig keer hetzelfde terrein "
                 "beoordeelt, berekent de site een versleutelde vingerafdruk op basis van je "
@@ -250,9 +249,8 @@ CONTENU = {
             "titre": "Ihre Daten",
             "paragraphes": [
                 "Mapetanque.be setzt keine Werbe-Cookies und gibt Ihre Daten an niemanden weiter. "
-                "Ihr Browser speichert lediglich, lokal auf Ihrem Gerät, Ihre Sprache, Ihre "
-                "Anzeigeeinstellungen und eine zufällige Kennung, mit der Sie Ihre Bewertung "
-                "ändern können.",
+                "Ihr Browser speichert lediglich, lokal auf Ihrem Gerät, Ihre Sprache und Ihre "
+                "Anzeigeeinstellungen.",
                 "Die Bewertungen, die Sie für Plätze abgeben, werden ohne Ihren Namen und ohne "
                 "Ihre IP-Adresse gespeichert. Damit nicht derselbe Besucher denselben Platz "
                 "zwanzigmal bewertet, berechnet die Website einen verschlüsselten Fingerabdruck "
@@ -371,7 +369,11 @@ for langue, meta in META.items():
         fil=meta["fil"],
         contenu=bloc_contenu(langue),
         feuilles_sup=("/style-a-propos.css",),
-        banniere="/images/banniere-faq.webp",
-        credit="« Les Joueurs de pétanque, Marseille » par Émile Loubon",
+        banniere="/images/banniere-a-propos.webp",
+        credit=(
+            'Photo : Marianne Casamance, '
+            '<a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" '
+            'rel="noopener">CC BY-SA 4.0</a>'
+        ),
     )
     print(f"{meta['prefixe']}a-propos.html : {taille} octets, {len(CONTENU[langue])} sections")

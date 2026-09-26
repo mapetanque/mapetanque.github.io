@@ -29,6 +29,34 @@
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/" />
     </url>
 
+    <url>
+        <loc>https://mapetanque.be/la-petanque.html</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/la-petanque.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/la-petanque.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/la-petanque.html" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/la-petanque.html" />
+    </url>
+    <url>
+        <loc>https://mapetanque.be/nl/la-petanque.html</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/la-petanque.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/la-petanque.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/la-petanque.html" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/la-petanque.html" />
+    </url>
+    <url>
+        <loc>https://mapetanque.be/de/la-petanque.html</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/la-petanque.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/la-petanque.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/la-petanque.html" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/la-petanque.html" />
+    </url>
+
 <!-- DEBUT PAGES PROVINCES (géré automatiquement par scripts/generate_provinces.py, ne pas éditer à la main : réécrit à chaque lancement) -->
     <url>
         <loc>https://mapetanque.be/province-anvers.html</loc>

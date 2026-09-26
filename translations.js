@@ -33,6 +33,7 @@ const translations = {
         menu_faq: "FAQ",
         menu_comment_jouer: "Comment jouer",
         menu_compteur: "Compteur de points",
+        menu_la_petanque: "La pétanque",
 
         stats_page_title: "Liste des terrains",
         stats_headline_label: "terrains de pétanque recensés en Belgique",
@@ -180,6 +181,7 @@ const translations = {
         menu_faq: "FAQ",
         menu_comment_jouer: "Hoe spelen",
         menu_compteur: "Scoreteller",
+        menu_la_petanque: "Petanque",
 
         stats_page_title: "Lijst met terreinen",
         stats_headline_label: "petanquevelden geregistreerd in België",
@@ -326,6 +328,7 @@ const translations = {
         menu_faq: "FAQ",
         menu_comment_jouer: "Spielregeln",
         menu_compteur: "Punktezähler",
+        menu_la_petanque: "Pétanque",
 
         stats_page_title: "Liste der Plätze",
         stats_headline_label: "erfasste Boule-/Pétanque-Plätze in Belgien",

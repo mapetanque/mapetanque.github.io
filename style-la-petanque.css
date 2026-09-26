@@ -1,0 +1,334 @@
+/* =============================================================================================
+   Page « La pétanque, d'hier à aujourd'hui ».
+   Fichier additif : ni style.css ni style-comment-jouer.css ne sont modifiés. La page charge
+   style-comment-jouer.css pour la bannière, l'en-tête et le conteneur .rules-content, puis
+   cette feuille pour ce qui lui est propre : chapô, frise chronologique, texte « aujourd'hui »,
+   liens-sources dans le texte et boutons de fin de page.
+============================================================================================= */
+
+/* --- Chapô et ancres ------------------------------------------------------------------- */
+
+.petanque-intro {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #333;
+    margin: 24px 0 16px;
+}
+
+.petanque-ancres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 44px;
+}
+
+.petanque-ancres a {
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #2f6b1f;
+    padding: 8px 16px;
+    border: 1.5px solid #c9dcc0;
+    border-radius: 999px;
+    transition: background-color 0.15s ease;
+}
+
+.petanque-ancres a:hover {
+    background: rgba(116, 193, 90, 0.1);
+}
+
+/* --- Sections ------------------------------------------------------------------------------ */
+
+.petanque-section {
+    margin-bottom: 48px;
+    /* Les ancres #histoire / #aujourdhui ne collent pas au bord haut de l'écran */
+    scroll-margin-top: 16px;
+}
+
+.petanque-section h2 {
+    font-family: 'Quicksand', Arial, sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin: 0 0 26px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #eceee9;
+}
+
+.petanque-section p {
+    font-size: 15.5px;
+    line-height: 1.7;
+    color: #444;
+    margin: 0 0 16px;
+}
+
+.petanque-transition {
+    font-weight: bold;
+    color: #333 !important;
+    margin-top: 24px !important;
+}
+
+/* Liens-sources glissés dans le texte : couleur du texte, soulignement vert pâle et fin,
+   pour rester discrets à la lecture tout en restant repérables. */
+.petanque-section p a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: #9cc48a;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+
+.petanque-section p a:hover {
+    color: #2f6b1f;
+    text-decoration-color: #2f6b1f;
+}
+
+/* --- Frise chronologique ------------------------------------------------------------------- */
+
+.frise {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.jalon {
+    display: grid;
+    grid-template-columns: 124px minmax(0, 1fr);
+}
+
+.jalon-date {
+    text-align: right;
+    padding-right: 16px;
+}
+
+.jalon-annee {
+    display: block;
+    font-family: 'Quicksand', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.3;
+    color: #2f6b1f;
+}
+
+.jalon-lieu {
+    display: block;
+    font-size: 13px;
+    color: #666;
+    margin-top: 2px;
+}
+
+/* Le trait vertical est la bordure gauche du contenu ; le point est un pseudo-élément posé
+   dessus. Jalon ordinaire : point creux. Jalon belge : point plein cerclé, plus grand — la
+   différence tient à la forme et au remplissage, pas seulement à la couleur. */
+.jalon-contenu {
+    position: relative;
+    border-left: 2px solid #d9e8d2;
+    padding: 0 0 32px 26px;
+}
+
+.jalon-contenu::before {
+    content: "";
+    position: absolute;
+    box-sizing: border-box;
+    left: -8px;
+    top: 5px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2.5px solid #74C15A;
+    background: #fff;
+}
+
+.jalon-belge .jalon-contenu::before {
+    left: -7px;
+    top: 6px;
+    width: 12px;
+    height: 12px;
+    border: none;
+    background: #74C15A;
+    box-shadow: 0 0 0 3px #fff, 0 0 0 5px #74C15A;
+}
+
+/* Dernier jalon : le trait s'arrête sous le point */
+.jalon:last-child .jalon-contenu {
+    padding-bottom: 0;
+    border-left-color: transparent;
+}
+
+.jalon:last-child .jalon-contenu::after {
+    content: "";
+    position: absolute;
+    left: -2px;
+    top: 0;
+    width: 2px;
+    height: 10px;
+    background: #d9e8d2;
+}
+
+.jalon-titre {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+}
+
+.jalon-titre h3 {
+    font-family: 'Quicksand', Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+    line-height: 1.35;
+}
+
+.badge-belgique {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 10px 2px 8px;
+    border: 1.5px solid #333;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+    background: #fff;
+    white-space: nowrap;
+}
+
+.badge-belgique svg {
+    width: 15px;
+    height: 10px;
+    flex-shrink: 0;
+}
+
+.jalon-contenu p {
+    margin: 6px 0 0;
+}
+
+/* --- Boutons de fin de page ---------------------------------------------------------------- */
+
+.petanque-cta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin: 32px 0 10px;
+}
+
+.petanque-cta a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    box-sizing: border-box;
+    padding: 11px 22px;
+    border-radius: 999px;
+    font-weight: bold;
+    font-size: 15px;
+    text-decoration: none;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.petanque-cta a svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.petanque-cta-carte {
+    background: #74C15A;
+    color: #fff;
+    border: 2px solid #74C15A;
+}
+
+.petanque-cta-carte:hover {
+    background: #5ea845;
+    border-color: #5ea845;
+}
+
+.petanque-cta-regles {
+    color: #2f6b1f;
+    border: 2px solid #74C15A;
+}
+
+.petanque-cta-regles:hover {
+    background: rgba(116, 193, 90, 0.1);
+}
+
+/* --- Mobile -------------------------------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+    .petanque-intro {
+        font-size: 16.5px;
+    }
+
+    .petanque-section h2 {
+        font-size: 20px;
+    }
+
+    .petanque-section p {
+        font-size: 15px;
+    }
+}
+
+/* Écran étroit : la colonne des dates passe au-dessus du texte, dans la continuité du trait.
+   Le point se déplace sur la date pour rester en tête du jalon. */
+@media (max-width: 600px) {
+    .jalon {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .jalon-date {
+        position: relative;
+        text-align: left;
+        padding: 0 0 4px 26px;
+        border-left: 2px solid #d9e8d2;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 2px 10px;
+    }
+
+    .jalon-lieu {
+        margin-top: 0;
+    }
+
+    .jalon-date::before {
+        content: "";
+        position: absolute;
+        box-sizing: border-box;
+        left: -8px;
+        top: 5px;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        border: 2.5px solid #74C15A;
+        background: #fff;
+    }
+
+    .jalon-belge .jalon-date::before {
+        left: -7px;
+        top: 6px;
+        width: 12px;
+        height: 12px;
+        border: none;
+        background: #74C15A;
+        box-shadow: 0 0 0 3px #fff, 0 0 0 5px #74C15A;
+    }
+
+    .jalon-contenu::before,
+    .jalon-belge .jalon-contenu::before,
+    .jalon:last-child .jalon-contenu::after {
+        display: none;
+    }
+
+    .jalon:last-child .jalon-date {
+        border-left-color: transparent;
+    }
+
+    .petanque-cta a {
+        width: 100%;
+    }
+}
