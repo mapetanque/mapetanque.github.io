@@ -203,9 +203,12 @@
     #cadrage::backdrop { background: rgba(0, 0, 0, 0.55); }
     .cadrage-corps { padding: 20px 22px; display: flex; flex-direction: column; gap: 12px; }
     .cadrage-corps h2 { margin: 0; font-size: 18px; }
+    /* Cadre 16:9 par la marge haute en pourcentage : Safari sur iPad étirait le canvas
+       (aspect-ratio non respecté dans ce panneau en colonne). */
+    .cadrage-cadre { position: relative; width: 100%; padding-top: 56.25%; flex: none; }
     #cadrageCanvas {
-        width: 100%; aspect-ratio: 16 / 9; height: auto; display: block; border-radius: 8px;
-        background: #dcdfd6; cursor: grab; touch-action: none;
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block;
+        border-radius: 8px; background: #dcdfd6; cursor: grab; touch-action: none;
     }
     #cadrageCanvas.saisi { cursor: grabbing; }
     .cadrage-zoom { display: flex; align-items: center; gap: 12px; font-size: 14px; }
@@ -441,7 +444,9 @@
     <div class="cadrage-corps">
         <h2 id="cadrageTitre">Cadrage de la vue 360°</h2>
         <div class="terrain-meta" id="cadrageSousTitre"></div>
-        <canvas id="cadrageCanvas" width="640" height="360" aria-label="Aperçu de la miniature"></canvas>
+        <div class="cadrage-cadre">
+            <canvas id="cadrageCanvas" width="640" height="360" aria-label="Aperçu de la miniature"></canvas>
+        </div>
         <div class="terrain-meta" id="cadrageEtat">Glisse l'image du doigt pour choisir la direction. Cet aperçu est exactement la miniature qui sera publiée.</div>
         <label class="cadrage-zoom">Zoom
             <input type="range" id="cadrageZoom" min="0" max="3" step="0.05" value="0">
@@ -1320,37 +1325,91 @@ function rendrePano(photo, surRetrait, surCadrage) {
     return bloc;
 }
 
-// Paramètres de l'app Mapillary (x, y, zoom) -> angles. STRICTEMENT les mêmes formules que
-// scripts/miniature_360.py : c'est ce qui garantit que l'aperçu est la miniature publiée.
-function versAngles(x, y, zoom) {
-    return {
-        yaw: (x - 0.5) * 360 + 180,
-        pitch: (0.5 - y) * 180,
-        fov: Math.max(30, 100 / Math.pow(1.5, zoom || 0))
-    };
+// Sens de lecture de computed_rotation : STRICTEMENT la même valeur que SENS_ROTATION dans
+// scripts/miniature_360.py. Si l'aperçu penche deux fois plus au lieu d'être droit, passer à -1
+// ici ET là-bas.
+const SENS_ROTATION = 1;
+
+// Zoom de l'app Mapillary -> champ de vision horizontal, en degrés. Même formule que
+// zoom_app_vers_fov() (miniature_360.py).
+function champVision(zoom) {
+    return Math.max(30, 100 / Math.pow(1.5, zoom || 0));
 }
 
-// Reprojection équirectangulaire -> perspective, transcription ligne à ligne de
-// equirect_vers_perspective() (miniature_360.py) : mêmes axes, mêmes rotations, même
-// arrondi des coordonnées source.
-function reprojeter(source, largeurSource, hauteurSource, sortie, L, H, angles) {
-    const rad = Math.PI / 180;
-    const t = Math.tan(angles.fov * rad / 2);
+// Toutes les fonctions qui suivent sont la transcription ligne à ligne de miniature_360.py :
+// c'est ce qui garantit que l'aperçu est la miniature publiée. Repère de l'image brute : un
+// rayon [rx, ry, rz] a pour longitude atan2(rx, -rz) et pour latitude asin(ry).
+const vec = {
+    scal: (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2],
+    vect: (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]],
+    comb: (a, k, b) => [a[0] + k * b[0], a[1] + k * b[1], a[2] + k * b[2]],
+    norme: a => Math.hypot(a[0], a[1], a[2]),
+    unite: a => { const n = vec.norme(a); return [a[0] / n, a[1] / n, a[2] / n]; }
+};
+
+// Vertical du monde dans le repère de l'image brute, d'après computed_rotation (rotation
+// monde -> caméra d'OpenSfM, en angle-axe). null = pas d'orientation : haut de l'image brute.
+function hautReel(rotation) {
+    if (!Array.isArray(rotation) || rotation.length !== 3) return null;
+    const v = rotation.map(c => SENS_ROTATION * Number(c));
+    if (!v.every(Number.isFinite)) return null;
+    const angle = vec.norme(v);
+    // Troisième colonne de la matrice de rotation (formule de Rodrigues) = image de (0, 0, 1).
+    let h = [0, 0, 1];
+    if (angle > 1e-12) {
+        const k = v.map(c => c / angle);
+        const s = Math.sin(angle), c1 = 1 - Math.cos(angle);
+        h = [k[1] * s + c1 * k[0] * k[2],
+             -k[0] * s + c1 * k[1] * k[2],
+             1 + c1 * (k[2] * k[2] - 1)];
+    }
+    // Repère caméra d'OpenSfM (x droite, y bas, z avant) -> repère de l'image brute.
+    return [h[0], -h[1], -h[2]];
+}
+
+function directionVisee(x, y) {
+    const lon = (x - 0.5) * 2 * Math.PI, lat = (0.5 - y) * Math.PI;
+    return [Math.cos(lat) * Math.sin(lon), Math.sin(lat), -Math.cos(lat) * Math.cos(lon)];
+}
+
+function versXY(d) {
+    const lon = Math.atan2(d[0], -d[2]);
+    const lat = Math.asin(Math.max(-1, Math.min(1, d[1])));
+    return { x: lon / (2 * Math.PI) + 0.5, y: 0.5 - lat / Math.PI };
+}
+
+// Axes de la vue : avant (point visé), droite et haut de l'écran.
+function axesVue(x, y, haut) {
+    const avant = directionVisee(x, y);
+    for (const h of [haut, [0, 1, 0], [0, 0, -1]]) {
+        if (!h) continue;
+        const ecranHaut = vec.comb(h, -vec.scal(h, avant), avant);
+        if (vec.norme(ecranHaut) > 1e-6) {   // sinon on vise le zénith ou le nadir : axe suivant
+            const u = vec.unite(ecranHaut);
+            return { avant: avant, droite: vec.vect(avant, u), haut: u };
+        }
+    }
+    throw new Error("axes de vue indéterminés");
+}
+
+// Reprojection équirectangulaire -> perspective : equirect_vers_perspective() de
+// miniature_360.py, mêmes axes, même arrondi des coordonnées source.
+function reprojeter(source, largeurSource, hauteurSource, sortie, L, H, x, y, fov, haut) {
+    const axes = axesVue(x, y, haut);
+    const A = axes.avant, D = axes.droite, U = axes.haut;
+    const t = Math.tan(fov * Math.PI / 360);
     const tv = t * H / L;
-    const cp = Math.cos(-angles.pitch * rad), sp = Math.sin(-angles.pitch * rad);
-    const cy = Math.cos(-angles.yaw * rad), sy = Math.sin(-angles.yaw * rad);
     let k = 0;
     for (let j = 0; j < H; j++) {
-        const yy = tv - 2 * tv * j / (H - 1);
+        const b = tv - 2 * tv * j / (H - 1);          // haut -> bas
         for (let i = 0; i < L; i++) {
-            const xx = t - 2 * t * i / (L - 1);
-            const n = Math.sqrt(xx * xx + yy * yy + 1);
-            const rx = xx / n, ry = yy / n, rz = 1 / n;
-            // Rotation de tangage, puis de lacet (rayons @ rot_pitch.T @ rot_yaw.T)
-            const r1y = cp * ry - sp * rz, r1z = sp * ry + cp * rz;
-            const r2x = cy * rx + sy * r1z, r2y = r1y, r2z = -sy * rx + cy * r1z;
-            const lon = Math.atan2(r2x, -r2z);
-            const lat = Math.asin(Math.max(-1, Math.min(1, r2y)));
+            const a = -t + 2 * t * i / (L - 1);       // gauche -> droite
+            const rx = A[0] + a * D[0] + b * U[0];
+            const ry = A[1] + a * D[1] + b * U[1];
+            const rz = A[2] + a * D[2] + b * U[2];
+            const n = Math.sqrt(rx * rx + ry * ry + rz * rz);
+            const lon = Math.atan2(rx / n, -rz / n);
+            const lat = Math.asin(Math.max(-1, Math.min(1, ry / n)));
             let mx = Math.trunc((lon / (2 * Math.PI) + 0.5) * largeurSource);
             let my = Math.trunc((0.5 - lat / Math.PI) * hauteurSource);
             mx = Math.min(largeurSource - 1, Math.max(0, mx));
@@ -1362,12 +1421,26 @@ function reprojeter(source, largeurSource, hauteurSource, sortie, L, H, angles) 
     }
 }
 
+// Rotation du vecteur d autour de l'axe unitaire u, d'un angle en radians (Rodrigues).
+function tourner(d, u, angle) {
+    const c = Math.cos(angle), s = Math.sin(angle), uxd = vec.vect(u, d), ud = vec.scal(u, d);
+    return [0, 1, 2].map(i => d[i] * c + uxd[i] * s + u[i] * ud * (1 - c));
+}
+
 const CADRAGE = { photo: null, apres: null, source: null, x: 0.5, y: 0.5, zoom: 0, dessinPrevu: false };
-const IMAGES_360 = new Map();   // mapillary_id -> { donnees, largeur, hauteur }, gardées le temps de la session
+const IMAGES_360 = new Map();   // mapillary_id -> { donnees, largeur, hauteur, haut, etatRotation }, gardées le temps de la session
 
 async function chargerImage360(mapillaryId) {
     if (IMAGES_360.has(mapillaryId)) return IMAGES_360.get(mapillaryId);
-    const blob = await appeler("/admin/pano/image?id=" + encodeURIComponent(mapillaryId)).then(r => r.blob());
+    const reponse = await appeler("/admin/pano/image?id=" + encodeURIComponent(mapillaryId));
+    // En-tête absent = Worker pas encore mis à jour ; vide = Mapillary n'a pas d'orientation.
+    const enTete = reponse.headers.get("X-Mapillary-Rotation");
+    let rotation = null;
+    try { rotation = enTete ? JSON.parse(enTete) : null; } catch (e) { rotation = null; }
+    const haut = hautReel(rotation);
+    const etatRotation = haut ? "ok" : (enTete === null ? "worker" : "absente");
+
+    const blob = await reponse.blob();
     const url = URL.createObjectURL(blob);
     try {
         const img = new Image();
@@ -1379,7 +1452,8 @@ async function chargerImage360(mapillaryId) {
         const ctx = toile.getContext("2d");
         ctx.drawImage(img, 0, 0);
         const image = { donnees: ctx.getImageData(0, 0, toile.width, toile.height).data,
-                        largeur: toile.width, hauteur: toile.height };
+                        largeur: toile.width, hauteur: toile.height,
+                        haut: haut, etatRotation: etatRotation };
         IMAGES_360.set(mapillaryId, image);
         return image;
     } finally {
@@ -1394,7 +1468,8 @@ function dessinerCadrage() {
     const ctx = canvas.getContext("2d");
     const sortie = ctx.createImageData(canvas.width, canvas.height);
     reprojeter(CADRAGE.source.donnees, CADRAGE.source.largeur, CADRAGE.source.hauteur,
-               sortie.data, canvas.width, canvas.height, versAngles(CADRAGE.x, CADRAGE.y, CADRAGE.zoom));
+               sortie.data, canvas.width, canvas.height,
+               CADRAGE.x, CADRAGE.y, champVision(CADRAGE.zoom), CADRAGE.source.haut);
     ctx.putImageData(sortie, 0, 0);
 
     document.getElementById("cadrageZoomValeur").textContent = CADRAGE.zoom.toFixed(2).replace(".", ",");
@@ -1433,16 +1508,24 @@ async function ouvrirCadrage(photo, nom, apres) {
             "Impossible de charger la vue 360°. " + cause;
         return;
     }
-    document.getElementById("cadrageEtat").textContent =
-        "Glisse l'image du doigt pour choisir la direction. Cet aperçu est exactement la miniature qui sera publiée.";
+    let message = "Glisse l'image du doigt pour choisir la direction. Cet aperçu est exactement la miniature qui sera publiée.";
+    if (CADRAGE.source.etatRotation === "worker") {
+        message += " ⚠ Aperçu non redressé : le Worker ne transmet pas l'orientation (pas encore mis à jour ?).";
+    } else if (CADRAGE.source.etatRotation === "absente") {
+        message += " ⚠ Mapillary ne fournit pas d'orientation pour cette vue : elle n'est pas redressée.";
+    }
+    document.getElementById("cadrageEtat").textContent = message;
     document.getElementById("cadrageEnregistrer").disabled = false;
     dessinerCadrage();
 }
 
-// Glisser : l'image suit le doigt. Sens vérifiés sur la fonction Python : faire glisser vers
-// la gauche tourne la vue vers la droite (x augmente), vers le bas la fait monter (y diminue).
+// Glisser : l'image suit le doigt. Glisser vers la gauche tourne la vue vers la droite, vers
+// le bas la fait monter. Les rotations se font autour du VRAI vertical (et de l'axe droite de
+// l'écran) : sur une vue penchée, la vue tourne à l'horizontale au lieu de suivre l'horizon
+// incliné de l'image brute.
 (function brancherGlisser() {
     const canvas = document.getElementById("cadrageCanvas");
+    const LIMITE = 86 * Math.PI / 180;   // hauteur maximale au-dessus / en dessous de l'horizon
     let depart = null;
     canvas.addEventListener("pointerdown", e => {
         if (!CADRAGE.source) return;
@@ -1453,10 +1536,24 @@ async function ouvrirCadrage(photo, nom, apres) {
     canvas.addEventListener("pointermove", e => {
         if (!depart) return;
         const echelle = canvas.width / canvas.getBoundingClientRect().width;
-        const degresParPixel = versAngles(0.5, 0.5, CADRAGE.zoom).fov / canvas.width;
+        const radiansParPixel = champVision(CADRAGE.zoom) / canvas.width * Math.PI / 180;
         const dx = (e.clientX - depart.px) * echelle, dy = (e.clientY - depart.py) * echelle;
-        CADRAGE.x = depart.x - dx * degresParPixel / 360;
-        CADRAGE.y = Math.min(0.98, Math.max(0.02, depart.y - dy * degresParPixel / 180));
+
+        const vertical = CADRAGE.source.haut ? vec.unite(CADRAGE.source.haut) : [0, 1, 0];
+        const axes = axesVue(depart.x, depart.y, CADRAGE.source.haut);
+        let d = tourner(axes.avant, vertical, dx * radiansParPixel);
+        d = tourner(d, vec.unite(vec.vect(d, vertical)), dy * radiansParPixel);
+
+        // Pas au-delà de 86° au-dessus ou en dessous de l'horizon.
+        const hauteur = Math.asin(Math.max(-1, Math.min(1, vec.scal(d, vertical))));
+        if (Math.abs(hauteur) > LIMITE) {
+            const horizontal = vec.unite(vec.comb(d, -vec.scal(d, vertical), vertical));
+            const h = Math.sign(hauteur) * LIMITE;
+            d = vec.comb(horizontal.map(c => c * Math.cos(h)), Math.sin(h), vertical);
+        }
+        const xy = versXY(d);
+        CADRAGE.x = xy.x;
+        CADRAGE.y = xy.y;
         prevoirDessin();
     });
     const lacher = () => { depart = null; canvas.classList.remove("saisi"); };
