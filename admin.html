@@ -223,6 +223,10 @@
     .deux-colonnes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: start; }
     .colonne { display: flex; flex-direction: column; gap: 20px; }
     .graphique svg { width: 100%; height: auto; display: block; }
+    .graphique .zone-barre { cursor: pointer; }
+    .graphique .barre.active { fill: #c77a1a; }
+    .graphique-info { min-height: 22px; margin-top: 8px; font-size: 14px; color: var(--doux); }
+    .graphique-info.rempli { color: var(--encre); font-weight: 600; }
     .note-bas { font-size: 13px; color: var(--doux); }
     .legende { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--doux); }
     .legende span { display: inline-flex; align-items: center; gap: 6px; }
@@ -1551,13 +1555,39 @@ function barresVerticales(barres, options) {
     barres.forEach((b, i) => {
         const h = b.valeur / max * zoneH;
         const x = G + i * largeur + largeur * 0.15;
-        svg += `<rect x="${x.toFixed(1)}" y="${(HAUT + zoneH - h).toFixed(1)}" width="${(largeur * 0.7).toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="${b.estime ? VERT_CLAIR : VERT}"><title>${echapper(b.infobulle || (b.libelle + " : " + nombre(b.valeur)))}</title></rect>`;
+        svg += `<rect class="barre" data-i="${i}" x="${x.toFixed(1)}" y="${(HAUT + zoneH - h).toFixed(1)}" width="${(largeur * 0.7).toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="${b.estime ? VERT_CLAIR : VERT}"/>`;
+        // Zone cliquable invisible sur toute la hauteur de la colonne : une barre fine ou
+        // basse reste facile à toucher au doigt.
+        svg += `<rect class="zone-barre" data-i="${i}" data-info="${echapper(b.infobulle || (b.libelle + " : " + nombre(b.valeur)))}" x="${(G + i * largeur).toFixed(1)}" y="${HAUT}" width="${largeur.toFixed(1)}" height="${zoneH}" fill="transparent"/>`;
         if (i % pas === 0) {
             svg += `<text x="${(G + i * largeur + largeur / 2).toFixed(1)}" y="${H - 8}" font-size="12" text-anchor="middle" fill="#5b625b">${echapper(b.libelle)}</text>`;
         }
     });
-    return svg + "</svg>";
+    return svg + `</svg><div class="graphique-info">${INVITE_GRAPHIQUE}</div>`;
 }
+
+// Détail d'une barre au clic (et au toucher), plutôt qu'au survol. Un seul écouteur pour
+// tous les graphiques : ils sont redessinés à chaque changement de période.
+const INVITE_GRAPHIQUE = "Touche une barre pour voir le détail.";
+document.addEventListener("click", e => {
+    const graphique = e.target.closest(".graphique");
+    if (!graphique) return;
+    const info = graphique.querySelector(".graphique-info");
+    if (!info) return;
+    const zone = e.target.closest(".zone-barre");
+    const active = graphique.querySelector(".barre.active");
+    const dejaChoisie = zone && active && active.dataset.i === zone.dataset.i;
+    if (active) active.classList.remove("active");
+    // Clic hors d'une barre, ou second clic sur la même : on referme.
+    if (!zone || dejaChoisie) {
+        info.textContent = INVITE_GRAPHIQUE;
+        info.classList.remove("rempli");
+        return;
+    }
+    graphique.querySelector(`.barre[data-i="${zone.dataset.i}"]`).classList.add("active");
+    info.textContent = zone.dataset.info;
+    info.classList.add("rempli");
+});
 
 // Barres horizontales en HTML. Chaque ligne : { libelle, valeur, total (facultatif), texte }.
 function barresHorizontales(lignes, videTexte) {
