@@ -853,6 +853,107 @@ if (addPhotoForm) {
     }
 }
 
+// --- Astuce "format paysage" animée -------------------------------------------------------
+// Même logique que ci-dessus : l'astuce est en dur dans toutes les pages, on la reconstruit ici
+// pour n'avoir qu'une source. Elle gagne un petit téléphone qui pivote vers le format paysage
+// (animation en boucle, 3,6 s) et le lien porte désormais sur le mot "Mapillary" lui-même.
+//
+// Le texte est découpé en trois morceaux (avant le lien / le lien / après le lien), chacun avec
+// son data-i18n : appliquerTraductions() les met à jour tout seul au changement de langue, et
+// l'allemand peut accrocher "-Fotos passt." directement derrière le lien.
+//
+// Le style est injecté ici plutôt que dans une feuille CSS : la modale est présente dans des
+// pages qui ne chargent pas toutes les mêmes feuilles additives, et style.css n'est pas modifié.
+const CSS_ASTUCE_PAYSAGE = `
+#add-photo-modal .add-photo-tip { display: flex; align-items: center; gap: 10px; }
+.astuce-paysage-anim { flex: none; width: 44px; height: 44px; overflow: visible; }
+.astuce-paysage-tout { animation: astuce-paysage-tout 3.6s infinite; }
+.astuce-paysage-fleche { fill: none; stroke: #74C15A; stroke-width: 2.4; stroke-linecap: round;
+    stroke-dasharray: 100; animation: astuce-paysage-fleche 3.6s infinite; }
+.astuce-paysage-pointe { fill: none; stroke: #74C15A; stroke-width: 2.4; stroke-linecap: round;
+    stroke-linejoin: round; animation: astuce-paysage-pointe 3.6s infinite; }
+.astuce-paysage-tel { transform-box: view-box; transform-origin: 24px 24px;
+    animation: astuce-paysage-tel 3.6s infinite; }
+.astuce-paysage-coque { fill: #fff; stroke: #555; stroke-width: 2.4; }
+.astuce-paysage-hp { stroke: #555; stroke-width: 2; stroke-linecap: round; }
+.astuce-paysage-ecran { opacity: 0; animation: astuce-paysage-ecran 3.6s infinite; }
+@keyframes astuce-paysage-tout { 0% { opacity: 0; } 6% { opacity: 1; } 88% { opacity: 1; } 97%, 100% { opacity: 0; } }
+@keyframes astuce-paysage-fleche {
+    0%, 8% { stroke-dashoffset: 100; opacity: 1; }
+    30%, 48% { stroke-dashoffset: 0; opacity: 1; }
+    58%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+@keyframes astuce-paysage-pointe { 0%, 26% { opacity: 0; } 32%, 48% { opacity: 1; } 58%, 100% { opacity: 0; } }
+@keyframes astuce-paysage-tel {
+    0%, 32% { transform: rotate(0deg); animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
+    56%, 100% { transform: rotate(-90deg); } }
+@keyframes astuce-paysage-ecran { 0%, 56% { opacity: 0; } 66%, 100% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+    .astuce-paysage-tout, .astuce-paysage-fleche, .astuce-paysage-pointe,
+    .astuce-paysage-tel, .astuce-paysage-ecran { animation: none; }
+    .astuce-paysage-tel { transform: rotate(-90deg); }
+    .astuce-paysage-ecran { opacity: 1; }
+    .astuce-paysage-fleche, .astuce-paysage-pointe { opacity: 0; }
+}`;
+
+// Repère 48 x 48 centré sur le téléphone (24, 24), avec 4 unités de marge pour la pointe de la
+// flèche. Le téléphone pivote autour de ce centre ; le petit paysage (colline + soleil) est
+// dessiné hors du groupe qui tourne, déjà à l'horizontale, et n'apparaît qu'une fois couché.
+const SVG_ASTUCE_PAYSAGE = `
+<svg class="astuce-paysage-anim" viewBox="-4 -4 56 56" aria-hidden="true" focusable="false">
+    <defs><clipPath id="astuce-paysage-clip"><rect x="12.5" y="16.5" width="26" height="15" rx="1.5"/></clipPath></defs>
+    <g class="astuce-paysage-tout">
+        <path class="astuce-paysage-fleche" pathLength="100" d="M35 4.95 A22 22 0 0 0 2.33 20.18"/>
+        <polyline class="astuce-paysage-pointe" points="6.48,16.85 2.33,20.18 -0.42,15.63"/>
+        <g class="astuce-paysage-tel">
+            <rect class="astuce-paysage-coque" x="14" y="7" width="20" height="34" rx="3.5"/>
+            <line class="astuce-paysage-hp" x1="21.5" y1="10.8" x2="26.5" y2="10.8"/>
+        </g>
+        <g class="astuce-paysage-ecran" clip-path="url(#astuce-paysage-clip)">
+            <path d="M12 32 L19 23.5 L23.5 27.5 L29 21.5 L39 32 Z" fill="#74C15A"/>
+            <circle cx="33" cy="20.3" r="1.9" fill="#74C15A"/>
+        </g>
+    </g>
+</svg>`;
+
+(function preparerAstucePaysage() {
+    const astuce = addPhotoModal ? addPhotoModal.querySelector('.add-photo-tip') : null;
+    if (!astuce || astuce.querySelector('.astuce-paysage-anim')) return;
+
+    if (!document.getElementById('style-astuce-paysage')) {
+        const style = document.createElement('style');
+        style.id = 'style-astuce-paysage';
+        style.textContent = CSS_ASTUCE_PAYSAGE;
+        document.head.appendChild(style);
+    }
+
+    // On garde l'adresse du lien existant, pour ne pas la dupliquer ici.
+    const ancienLien = astuce.querySelector('a');
+    const adresse = ancienLien ? ancienLien.href : 'https://www.mapillary.com';
+
+    function morceau(balise, cle) {
+        const el = document.createElement(balise);
+        el.dataset.i18n = cle;
+        el.textContent = t(cle);
+        return el;
+    }
+
+    const texte = document.createElement('span');
+    const lien = morceau('a', 'add_photo_tip_link');
+    lien.href = adresse;
+    lien.target = '_blank';
+    lien.rel = 'noopener';
+
+    texte.append(
+        morceau('strong', 'add_photo_tip_label'), ' ',
+        morceau('span', 'add_photo_tip'), ' ',
+        lien,
+        morceau('span', 'add_photo_tip_after')
+    );
+
+    astuce.innerHTML = SVG_ASTUCE_PAYSAGE;
+    astuce.appendChild(texte);
+})();
+
 
 // --- Lecture de la date de prise de vue ---------------------------------------------------
 // Le redimensionnement ci-dessous réécrit l'image et efface donc les EXIF : c'est voulu, ils
