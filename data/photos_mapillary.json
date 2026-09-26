@@ -4076,5 +4076,12 @@
       "credit_url": "https://www.mapillary.com/app/?pKey=1343589533565576&focus=photo&x=0.36115000764350436&y=0.628299382566602&zoom=0.15",
       "miniature_locale": "/images/mapillary-360/1343589533565576-20260925220946.webp"
     }
+  ],
+  "way/914750193": [
+    {
+      "mapillary_id": "1954598775243344",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1954598775243344&focus=photo&x=0.2938320572146229&y=0.5487545244291471&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1954598775243344-20260926124536.webp"
+    }
   ]
 }
