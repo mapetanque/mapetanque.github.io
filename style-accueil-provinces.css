@@ -93,6 +93,30 @@
     z-index: 2;
 }
 
+/* ===================== Barre de contrôles : hauteurs alignées, champ sans bordure ===================== */
+
+/* Dans style.css, ni le bouton "Me localiser" ni le champ de recherche n'ont de hauteur fixe :
+   elle découle du padding et de la taille du texte (≈ 38-40px pour le bouton, ≈ 43-44px pour
+   le champ avec sa bordure). Même hauteur imposée aux deux ici. Le préfixe .controls fait
+   passer ces règles devant celles de style.css (non modifiable). */
+.controls #locateBtn {
+    height: 42px;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.controls .search-form input {
+    height: 42px;
+    padding: 0 16px 0 42px;
+    border: none;
+}
+
+/* Sans bordure, le focus est signalé par un contour vert de la charte */
+.controls .search-form input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #74C15A;
+}
+
 /* ===================== Carte "fiche" (.map-wrapper) ===================== */
 
 .map-wrapper {

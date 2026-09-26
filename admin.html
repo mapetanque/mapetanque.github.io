@@ -898,7 +898,7 @@ function correspond(osmId, filtre) {
     const etat = etatDe(osmId);
     const nbPhotos = compterPhotos(osmId);
     switch (filtre) {
-        case "a_decider": return !etat.statut && nbPhotos === 0;
+        case "a_decider": return !etat.statut && nbPhotos === 0 && photosDe(osmId, "pano360").length === 0;
         case "nouveaux": return estNouveau(osmId);
         case "acceptes": return nbPhotos >= 1;
         case "deja_en_ligne": return !!(PHOTOS_EN_LIGNE[osmId] && PHOTOS_EN_LIGNE[osmId].length);
