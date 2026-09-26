@@ -459,28 +459,19 @@ body.fullscreen-lock {
     flex-shrink: 0;
 }
 
-.logo {
-    width: 30px;
-    height: 30px;
-    flex-shrink: 0;
-}
-
-.brand {
-    font-family: 'Quicksand', Arial, sans-serif;
-    font-weight: 700;
-    font-size: 27.6px;
-    color: #333;
-}
-
-.brand-tld {
-    color: #999;
-    font-weight: 400;
-}
-
-.logo {
-    height: 2.07em;
-    width: auto;
+/* Logo complet (boule + « Mapetanque.be » vectorisé) : une seule image SVG, le texte n'est plus
+   du HTML. En mobile, la balise <picture> bascule sur la boule seule (voir @media plus bas,
+   même point de bascule que le menu burger). */
+.brand-link picture {
     display: block;
+    line-height: 0;
+}
+
+.logo {
+    display: block;
+    height: 34px;
+    width: auto;
+    flex-shrink: 0;
 }
 
 /* Grand titre au-dessus des contrôles de recherche, inspiré d'AllTrails */
@@ -615,13 +606,9 @@ body.fullscreen-lock {
         padding: 14px 15px 8px;
     }
 
-    .brand {
-        font-size: 23px;
-    }
-
+    /* Boule seule, à peu près à la taille du burger */
     .logo {
-        width: 28.75px;
-        height: 28.75px;
+        height: 32px;
     }
 
     .hero-headline {
@@ -646,21 +633,21 @@ body.fullscreen-lock {
 
         width: 40px;
         height: 40px;
+        padding: 0;
+        margin-right: -7px; /* aligne les traits (et non la zone cliquable) sur le bord droit */
 
         border: none;
-        border-radius: 50%;
-        background: white;
-        font-size: 22px;
+        background: none;
+        color: #fff;
         cursor: pointer;
-
-        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
-}
 
-/* Jeu de mots Map + (p)étanque dans le titre */
-.brand-map {
-    font-weight: 700;
-    color: #74C15A;
+    /* Trois traits blancs, sans pastille : même traitement que le logo et la nav sur la bannière */
+    #menu-button svg {
+        display: block;
+        width: 26px;
+        height: 26px;
+    }
 }
 
 /* Bouton de localisation */
@@ -1961,20 +1948,8 @@ footer a:hover {
    en haut (accueil) ou en bas (province, comment-jouer).
 ============================================================================================= */
 
-.hero-banner .brand,
 .hero-banner .hero-headline {
     color: #fff;
-}
-
-.hero-banner .brand-tld {
-    color: rgba(255,255,255,0.75);
-    /* La graisse 400 de Quicksand est désormais chargée sur toutes les pages (ajoutée aux liens
-       Google Fonts existants) spécifiquement pour ce ".be" plus fin — auparavant elle n'était
-       chargée nulle part, donc le navigateur retombait sur la graisse chargée la plus proche, qui
-       différait d'une page à l'autre (700 sur l'accueil/provinces/régions, 600 sur "Comment jouer",
-       500 sur "Compteur de points"). Rendu identique sur tout le site, léger surcoût : une graisse
-       Quicksand supplémentaire téléchargée (rendue nécessaire par ce choix visuel). */
-    font-weight: 400;
 }
 
 .hero-banner .info-nav-trigger,
@@ -2032,11 +2007,6 @@ footer a:hover {
 .hero-banner #game-nav-inline,
 .hero-banner #desktop-nav {
     gap: 1.7px;
-}
-
-/* Distance logo <-> marque réduite de 30 % (5px -> 3.5px dans .brand-link de style.css). */
-.hero-banner .brand-link {
-    gap: 3.5px;
 }
 
 /* Trait de séparation retiré entre les liens de jeu et la nav d'information : depuis que

@@ -150,8 +150,9 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 ├── sitemap.xml                       # Plan du site (accueil + provinces + régions)
 ├── robots.txt                        # Référence le sitemap pour les robots d'indexation
 ├── images/
-│   ├── logomap.svg                   # Logo (favicon)
-│   ├── logomap.png                   # Logo (image de partage Open Graph)
+│   ├── mapetanque-logo-blanc.svg     # Logo complet (boule + texte vectorisé), en-tête sur bannière
+│   ├── mapetanque-boule.svg          # Boule seule (en-tête mobile, favicon SVG, page admin)
+│   ├── mapetanque-partage.png        # Image de partage Open Graph (1200 × 630)
 │   ├── banniere-accueil.webp         # Bannière photo de l'accueil
 │   └── provinces/                    # Bannières et tuiles photo (provinces + régions)
 ├── scripts/

@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <title>Compteur de points — Mapetanque.be</title>
     <meta name="description" content="Un compteur de points interactif pour suivre le score de vos parties de pétanque, sur mobile ou tablette.">
-    <link rel="icon" type="image/svg+xml" href="/images/logomap.svg?v=2">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
+    <link rel="icon" type="image/svg+xml" href="/images/mapetanque-boule.svg?v=3">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png?v=3">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta property="og:title" content="Compteur de points — Mapetanque.be">
     <meta property="og:description" content="Un compteur de points interactif pour suivre le score de vos parties de pétanque, sur mobile ou tablette.">
-    <meta property="og:image" content="https://mapetanque.be/images/logomap.png">
+    <meta property="og:image" content="https://mapetanque.be/images/mapetanque-partage.png">
     <meta property="og:url" content="https://mapetanque.be/compteur.html">
     <meta property="og:type" content="website">
 
@@ -358,8 +358,10 @@
 
     <div class="header-top-row">
         <a href="/" class="brand-link">
-            <img src="/images/logo.svg" class="logo" width="32" height="32" alt="" aria-hidden="true">
-            <span class="brand"><span class="brand-map">Map</span>etanque<span class="brand-tld">.be</span></span>
+            <picture>
+                <source media="(max-width: 1024px)" srcset="/images/mapetanque-boule.svg" width="32" height="32">
+                <img src="/images/mapetanque-logo-blanc.svg" class="logo" width="241" height="34" alt="Mapetanque.be">
+            </picture>
         </a>
 
         <div class="header-nav-group">
@@ -410,8 +412,8 @@
         </nav>
         </div>
 
-        <button id="menu-button" data-i18n-aria="open_menu">
-            ☰
+        <button id="menu-button" aria-label="Menu" data-i18n-aria="open_menu">
+            <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
         </button>
     </div>
 
