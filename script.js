@@ -199,14 +199,11 @@ document.querySelectorAll('.lang-link').forEach(function (btn) {
 // ===================== Carte =====================
 
 // Création de la carte centrée sur la Belgique
-// scrollWheelZoom désactivé par défaut : sans ça, la molette de la souris zoome la carte au lieu
-// de faire défiler la page dès qu'on scrolle en passant dessus. Un premier clic sur la carte
-// l'active (voir plus bas) — même principe que Google Maps. Concerne uniquement la souris/molette
-// (desktop) : la version tactile équivalente a été essayée puis retirée, elle gênait plus qu'elle
-// n'aidait (le premier tap la plupart du temps sur un terrain/cluster plutôt que sur une zone
-// vide, rendant la désactivation quasi permanente en pratique).
+// Molette active dès le chargement, sur toutes les pages (réglage par défaut de Leaflet). Une
+// protection "premier clic" existait auparavant (molette désactivée tant qu'on n'avait pas cliqué
+// sur la carte, pour que le défilement de la page ne zoome pas la carte au passage) : retirée à la
+// demande de l'utilisateur, en connaissance de cause.
 const map = L.map('map', {
-    scrollWheelZoom: false,
     // Sensibilité de la molette : Leaflet accumule le défilement et change de niveau de zoom
     // tous les wheelPxPerZoomLevel pixels équivalents (défaut Leaflet : 60, ce qui faisait sauter
     // plusieurs niveaux d'un coup pour un seul cran de molette, contrairement aux boutons +/-
@@ -237,15 +234,6 @@ function cadrerSurBelgique() {
     map.setView(emprise.getCenter(), zoomCible);
 }
 cadrerSurBelgique();
-
-// Active la molette de la carte au tout premier clic, où qu'il ait lieu sur la carte, y compris
-// directement sur un marqueur/terrain. Volontairement un event listener natif en 'pointerdown'
-// plutôt que map.once('click', ...) : Leaflet arrête la propagation du clic sur un marqueur
-// (pour ne pas perturber l'ouverture de son popup), donc ce clic ne remontait jamais jusqu'à la
-// carte. 'pointerdown' se déclenche avant toute cette logique, sur n'importe quel point de la carte.
-map.getContainer().addEventListener('pointerdown', function () {
-    map.scrollWheelZoom.enable();
-}, { once: true });
 
 let userPosition = null;
 

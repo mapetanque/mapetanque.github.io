@@ -1075,12 +1075,22 @@ body.fullscreen-lock {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 555px; /* 483px + 15% (déjà +15% une première fois avant) */
-        max-width: calc(100vw - 48px);
-        max-height: 98vh; /* 85vh + 15% */
+        /* Hauteur dynamique : la fenêtre se cale sur son contenu et ne s'étire que jusqu'à 16px
+           des bords haut et bas — la même marge que la carte de l'accueil par rapport aux bords
+           latéraux (.map-wrapper, margin 16px, dans style-accueil-provinces.css). Au-delà, le
+           contenu défile à l'intérieur. (Une hauteur fixe à cette valeur avait été essayée :
+           elle laissait presque toujours une grande zone blanche en bas.)
+           Largeur liée à la hauteur de l'ÉCRAN (pas à celle du contenu, ratio 0,936), avec un
+           plancher à 666px (écrans peu hauts) et un plafond à 1152px (très grands écrans) —
+           valeurs agrandies de 20% par rapport au premier réglage (0,78 / 555px / 960px). La
+           photo, en 16:9 sur toute la largeur, garde donc la même taille quelle que soit la
+           longueur de la fiche. */
+        width: clamp(666px, calc((100vh - 32px) * 0.936), 1152px);
+        max-width: calc(100vw - 32px);
+        max-height: calc(100vh - 32px);
         z-index: 1450;
         background: white;
-        border-radius: 12px;
+        border-radius: 20px; /* Aligné sur les coins de la carte de l'accueil (.map-wrapper) */
         box-shadow: 0 12px 40px rgba(0,0,0,0.25);
         overflow-y: auto;
     }
