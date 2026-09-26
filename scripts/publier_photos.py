@@ -7,7 +7,8 @@ Lancé par .github/workflows/publier-photos.yml, chaque jour et à la demande
 (bouton « Publier maintenant » de la page admin). Remplace
 scripts/tester_envoi_mapillary.py, dont il reprend la préparation des EXIF.
 
-Trois phases, dans cet ordre. Une phase qui échoue n'empêche pas les suivantes :
+Cinq phases, dans cet ordre. Une phase qui échoue n'empêche pas les suivantes
+(sauf le ménage, qui n'a lieu qu'après un export réussi) :
 
   1. Rattachement. Pour les photos envoyées lors d'un passage précédent, cherche
      leur identifiant : une image de notre compte, à moins de RAYON_RECHERCHE_M
@@ -23,10 +24,17 @@ Trois phases, dans cet ordre. Une phase qui échoue n'empêche pas les suivantes
   3. Miniatures 360°. Chaque vue 360° à générer (nouvelle, ou recadrée dans la
      page admin) est recadrée par scripts/miniature_360.py et rangée dans
      images/mapillary-360/. Une vue déjà en ligne avec l'ancien circuit, jamais
-     recadrée depuis, est seulement marquée comme faite.
+     recadrée depuis, est seulement marquée comme faite. Rien n'est supprimé ici :
+     une même vue sert souvent à plusieurs terrains voisins, chacun avec son
+     propre fichier, et un épinglé du carrousel peut pointer sur l'un d'eux.
   4. Export. Le Worker fusionne toutes les décisions (revue des candidats,
      photos manuelles, photos de visiteurs rattachées, vues 360° générées) sur
      le data/photos_mapillary.json du dépôt, qui est réécrit.
+  5. Ménage 360°. Supprime de images/mapillary-360/ les fichiers que plus rien
+     ne cite : ni photos_mapillary.json (tout juste réécrit), ni
+     beaux_terrains.json, ni terrains_promus.json. N'a lieu que si l'export a
+     réussi : sur un fichier pas à jour, les miniatures du passage seraient
+     prises pour des orphelines.
 
 Variables d'environnement :
     JETON_WORKFLOW     clé partagée avec le Worker mapetanque-admin
@@ -58,6 +66,11 @@ RACINE = Path(__file__).resolve().parent.parent
 DOSSIER_360 = RACINE / "images" / "mapillary-360"
 CHEMIN_TERRAINS = RACINE / "data" / "terrains.geojson"
 CHEMIN_PHOTOS = RACINE / "data" / "photos_mapillary.json"
+CHEMIN_EPINGLES = RACINE / "data" / "beaux_terrains.json"
+CHEMIN_PROMUS = RACINE / "data" / "terrains_promus.json"
+
+# Préfixe des chemins web qui désignent un fichier de DOSSIER_360.
+PREFIXE_360 = "/images/mapillary-360/"
 
 URL_WORKER = os.environ.get(
     "MAPETANQUE_ADMIN_URL", "https://mapetanque-admin.mapetanque.workers.dev"
@@ -298,15 +311,6 @@ def nom_miniature_360(pano):
     return f"{mapillary_id}-{''.join(c for c in str(pano.get('maj')) if c.isdigit())}.webp"
 
 
-def retirer_anciennes_miniatures(mapillary_id, nom_garde):
-    """Supprime les miniatures précédentes de la même vue (avant un recadrage)."""
-    for fichier in DOSSIER_360.glob(f"{mapillary_id}*.webp"):
-        meme_vue = fichier.name == f"{mapillary_id}.webp" or fichier.name.startswith(f"{mapillary_id}-")
-        if meme_vue and fichier.name != nom_garde:
-            fichier.unlink()
-            print(f"  ancienne miniature supprimée : {fichier.name}")
-
-
 def phase_panos(token, simulation):
     import miniature_360   # numpy et Pillow ne sont chargés que si cette phase tourne
 
@@ -348,7 +352,6 @@ def phase_panos(token, simulation):
             noter_erreur(pano["id"], f"miniature 360° : {e}")
             continue
 
-        retirer_anciennes_miniatures(mapillary_id, chemin.name)
         try:
             appel_worker("POST", "/workflow/pano-genere", {"id": pano["id"]})
             print(f"{etiquette} : miniature générée ({chemin.name}).")
@@ -508,6 +511,54 @@ def phase_export(simulation):
     CHEMIN_PHOTOS.write_bytes(brut)
 
 
+def miniatures_citees():
+    """
+    Noms des fichiers de DOSSIER_360 que le site utilise encore. Les trois fichiers
+    sont parcourus en entier, quel que soit leur format : toute chaîne qui commence
+    par PREFIXE_360 compte, où qu'elle se trouve.
+    """
+    noms = set()
+
+    def parcourir(valeur):
+        if isinstance(valeur, str):
+            if valeur.startswith(PREFIXE_360):
+                noms.add(valeur[len(PREFIXE_360):])
+        elif isinstance(valeur, dict):
+            for v in valeur.values():
+                parcourir(v)
+        elif isinstance(valeur, list):
+            for v in valeur:
+                parcourir(v)
+
+    for chemin in (CHEMIN_PHOTOS, CHEMIN_EPINGLES, CHEMIN_PROMUS):
+        if chemin.exists():
+            with open(chemin, encoding="utf-8") as f:
+                parcourir(json.load(f))
+    return noms
+
+
+def phase_menage_360(simulation):
+    citees = miniatures_citees()
+    # Garde-fou : un fichier illisible ou vidé ne doit jamais faire tout effacer.
+    if not citees:
+        print("Aucune miniature 360° citée nulle part : ménage annulé par prudence.")
+        return
+
+    orphelines = [f for f in sorted(DOSSIER_360.glob("*.webp")) if f.name not in citees]
+    if not orphelines:
+        print("Aucune miniature 360° orpheline.")
+        return
+
+    for fichier in orphelines:
+        if simulation:
+            print(f"  serait supprimée : {fichier.name}")
+        else:
+            fichier.unlink()
+            print(f"  supprimée : {fichier.name}")
+    print(f"{len(orphelines)} miniature(s) 360° orpheline(s)"
+          + (" repérée(s)." if simulation else " supprimée(s)."))
+
+
 # ---------------------------------------------------------------- Principal
 
 def main():
@@ -541,6 +592,17 @@ def main():
         except Exception as e:
             print(f"Échec de la phase {nom} : {detail_erreur(e)}")
             echecs.append(nom)
+
+    # Ménage seulement sur un photos_mapillary.json à jour (voir la phase 5).
+    print("\n=== Ménage 360° ===")
+    if "Export" in echecs:
+        print("Export en échec : ménage reporté au prochain passage.")
+    else:
+        try:
+            phase_menage_360(args.simulation)
+        except Exception as e:
+            print(f"Échec de la phase Ménage 360° : {e}")
+            echecs.append("Ménage 360°")
 
     # Un échec rend le lancement rouge dans l'onglet Actions : GitHub prévient
     # alors par mail. Le fichier déjà écrit est tout de même sauvegardé.
