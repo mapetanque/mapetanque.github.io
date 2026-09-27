@@ -1,9 +1,9 @@
 {
   "wallonie": {
-    "total": 436,
+    "total": 437,
     "provinces": {
       "liege": {
-        "total": 151,
+        "total": 152,
         "communes": {
           "Fléron": 3,
           "Liège": 25,
@@ -11,6 +11,7 @@
           "Filot": 1,
           "Bütgenbach": 1,
           "Bra": 1,
+          "Ouffet": 1,
           "Verviers": 2,
           "Visé": 2,
           "Blegny": 4,
@@ -373,7 +374,7 @@
           "Hamme": 4,
           "Sint-Martens-Latem": 5,
           "Aalst": 13,
-          "Sinaai": 4,
+          "Sinaai": 5,
           "Mere": 2,
           "Etikhove": 1,
           "De Pinte": 8,
@@ -408,7 +409,7 @@
           "Lovendegem": 1,
           "Steendorp": 2,
           "Landskouter": 1,
-          "Sint-Niklaas": 11,
+          "Sint-Niklaas": 10,
           "Lochristi": 1,
           "Munkzwalm": 2,
           "Sint-Lievens-Houtem": 2,
