@@ -137,6 +137,7 @@
         font-variant-numeric: tabular-nums;
     }
     .puce-nouveau { border: 2px solid #c77a1a; background: var(--orange-clair); color: var(--orange); }
+    .puce-pistes { border: 2px solid var(--bleu); background: var(--bleu-clair); color: var(--bleu); }
     .puce[aria-pressed="true"] { border: 2px solid var(--vert); background: var(--vert); color: white; }
     #compteur { font-size: 15px; font-weight: 700; }
     #listeVide { padding: 30px 20px; text-align: center; color: var(--doux); }
@@ -148,9 +149,14 @@
     }
     .terrain-carte[hidden] { display: none !important; }
     .terrain-carte.decide-accepte { background: #f3faef; }
-    .terrain-carte.decide-rejete, .terrain-carte.decide-aucune { background: #f7f7f5; }
-    .terrain-carte.decide-rejete .vignette, .terrain-carte.decide-aucune .vignette { opacity: 0.6; }
-    .vignette { flex-shrink: 0; width: 220px; height: 165px; border-radius: 8px; overflow: hidden; display: block; }
+    .terrain-carte.rien-trouve { background: #f7f7f5; }
+    .terrain-carte.rien-trouve > .vignette { opacity: 0.6; }
+    .vignette { flex-shrink: 0; width: 220px; height: 165px; border-radius: 8px; overflow: hidden; display: block; position: relative; }
+    /* Ce que montre la vignette (candidat, photo en ligne…), écrit en toutes lettres. */
+    .vignette-legende {
+        position: absolute; left: 6px; bottom: 6px; padding: 3px 9px; border-radius: 999px;
+        font-size: 12px; font-weight: 700; background: rgba(20, 20, 20, 0.8); color: white;
+    }
     .vignette img { width: 100%; height: 100%; object-fit: cover; display: block; background: #dcdfd6; }
     .vignette-vide {
         background: #dcdfd6; color: var(--doux); font-size: 13px; text-align: center;
@@ -176,6 +182,20 @@
     .btn.actif-accepte, .btn-valider { background: var(--vert); color: white; border-color: var(--vert); }
     .btn.actif-rejete, .btn-refuser { background: var(--rouge); color: white; border-color: var(--rouge); }
     .terrain-deja-en-ligne { color: var(--vert); font-size: 13px; font-weight: 600; }
+    .terrain-attente { color: var(--orange); font-size: 13px; font-weight: 600; }
+    .terrain-deja-en-ligne:empty, .terrain-attente:empty { display: none; }
+
+    /* --- Pistes de la veille (terrains « rien trouvé ») ------------------ */
+    .pistes {
+        display: flex; flex-direction: column; gap: 10px; padding: 12px; border-radius: 10px;
+        border: 2px solid var(--bleu); background: var(--bleu-clair);
+    }
+    .pistes[hidden] { display: none; }
+    .pistes-titre { font-weight: 700; color: var(--bleu); }
+    .pistes-liste { display: flex; gap: 12px; flex-wrap: wrap; }
+    .piste { display: flex; flex-direction: column; gap: 6px; width: 190px; font-size: 12px; color: var(--doux); }
+    .piste .vignette { width: 190px; height: 130px; }
+    .piste .btn { align-self: flex-start; }
     .champ-libelle { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--doux); max-width: 520px; }
     .champ {
         min-height: 40px; padding: 0 10px; border-radius: 8px; font-size: 14px; width: 100%; box-sizing: border-box;
@@ -263,6 +283,7 @@
         #page { padding: 14px 10px 40px; }
         .terrain-carte, .moderation-carte { flex-direction: column; }
         .vignette, .moderation-carte img { width: 100%; height: 200px; }
+        .piste, .piste .vignette { width: 100%; }
         .outils-secondaires { margin-left: 0; }
     }
 </style>
@@ -345,13 +366,6 @@
             <div class="ligne-outils">
                 <label>Rechercher une commune ou un terrain
                     <input type="search" id="recherche" placeholder="ex. Liège, rue de la Prairie">
-                </label>
-                <label>Candidat
-                    <select id="filtreCandidat">
-                        <option value="tous">Avec et sans candidat</option>
-                        <option value="avec_candidat">Avec candidat</option>
-                        <option value="sans_candidat">Sans candidat</option>
-                    </select>
                 </label>
                 <label>Trier
                     <select id="tri">
@@ -491,10 +505,11 @@ const JOURS_NOUVEAU = 30;
 const CLE_JETON = "mapetanque_admin_jeton";
 
 let DONNEES = [];        // candidats, groupés par commune
-let ETAT = {};           // osm_id -> { statut, candidat_id, photos: [...] }
+let ETAT = {};           // osm_id -> { statut, candidat_id, maj, photos: [...] }
 let PHOTOS_EN_LIGNE = {};
 let APPARITIONS = {};    // osm_id -> date de première apparition (null = déjà là avant le suivi)
 let TERRAINS = [];       // liste à plat, tirée de DONNEES
+let TERRAINS_PAR_ID = {}; // osm_id -> terrain
 let CARTES = {};         // osm_id -> élément de la carte
 
 
@@ -594,14 +609,91 @@ function photosDe(osmId, origine) {
     return etatDe(osmId).photos.filter(p => p.origine === origine);
 }
 
-// Nombre de photos qui seront réellement associées au terrain dans le fichier
-// publié : le candidat s'il est accepté, plus les photos ajoutées à la main.
-// Définition unique, partagée par les compteurs et les filtres, pour qu'ils ne
-// puissent pas se contredire. Les 360° n'en font pas partie : leur miniature
-// reste à produire.
-function compterPhotos(osmId) {
+// Vignette d'une photo plate, quand on en connaît une : l'aperçu de la première photo en
+// ligne (fourni par le workflow hebdomadaire) ou celle du candidat.
+function vignettePlate(terrain, id) {
+    if (!terrain) return null;
+    if (terrain.apercu && terrain.apercu.id === id && terrain.apercu.thumbnail) return terrain.apercu.thumbnail;
+    if (terrain.candidat && String(terrain.candidat.id) === id && terrain.candidat.thumbnail) return terrain.candidat.thumbnail;
+    return null;
+}
+
+// Toutes les photos d'un terrain, dans l'ordre d'affichage du site : d'abord la photo du
+// tag OSM, puis celles de photos_mapillary.json, puis celles validées ici mais pas encore
+// publiées (le workflow de publication passe chaque nuit). Chaque photo n'est comptée
+// qu'une fois. Définition unique, partagée par les puces, les compteurs et la vignette,
+// pour qu'ils ne puissent pas se contredire.
+//   liste : [{ type: "plate" | "360", enLigne, image, lien, legende }]
+function photosTerrain(osmId) {
+    const terrain = TERRAINS_PAR_ID[osmId];
     const etat = etatDe(osmId);
-    return (etat.statut === "accepte" ? 1 : 0) + photosDe(osmId, "manuelle").length;
+    const vues = new Map();
+    const lienPhoto = id => "https://www.mapillary.com/app/?pKey=" + id + "&focus=photo";
+
+    if (terrain && terrain.photo_osm) {
+        vues.set("osm", { type: "plate", enLigne: true, image: terrain.photo_osm,
+                          lien: terrain.photo_osm, legende: "Photo OSM en ligne" });
+    }
+    (PHOTOS_EN_LIGNE[osmId] || []).forEach(e => {
+        const id = String(e.mapillary_id);
+        if (vues.has(id)) return;
+        vues.set(id, e.miniature_locale
+            ? { type: "360", enLigne: true, image: e.miniature_locale, lien: e.credit_url || lienPhoto(id),
+                legende: "Vue 360° en ligne" }
+            : { type: "plate", enLigne: true, image: vignettePlate(terrain, id), lien: lienPhoto(id),
+                legende: "Photo en ligne" });
+    });
+
+    const enAttente = (type, id, image) => {
+        if (!vues.has(id)) {
+            vues.set(id, { type: type, enLigne: false, image: image, lien: id.startsWith("visiteur-") ? null : lienPhoto(id),
+                           legende: "En attente de publication" });
+        }
+    };
+    if (etat.statut === "accepte") {
+        const id = String(etat.candidat_id || (terrain && terrain.candidat && terrain.candidat.id) || "");
+        if (id) enAttente("plate", id, vignettePlate(terrain, id));
+    }
+    etat.photos.forEach(p => {
+        if (p.origine === "pano360" && p.mapillary_id) enAttente("360", String(p.mapillary_id), null);
+        if (p.origine === "manuelle" && p.mapillary_id) enAttente("plate", String(p.mapillary_id), null);
+        // Photo de visiteur : comptée dès qu'elle est validée. En attente de modération,
+        // elle n'est encore rien.
+        if (p.origine === "visiteur" && ["validee", "envoyee", "rattachee"].includes(p.statut)) {
+            enAttente("plate", p.mapillary_id ? String(p.mapillary_id) : "visiteur-" + p.id, null);
+        }
+    });
+
+    const liste = Array.from(vues.values());
+    return {
+        liste: liste,
+        total: liste.length,
+        plates: liste.filter(v => v.type === "plate").length,
+        panos: liste.filter(v => v.type === "360").length
+    };
+}
+
+// « Rien trouvé » : décision prise (candidat rejeté ou rien trouvé à la main) et toujours
+// aucune photo. Un rejeté qui a reçu une photo depuis passe dans « Avec photo ».
+function estRienTrouve(osmId) {
+    const statut = etatDe(osmId).statut;
+    return (statut === "rejete" || statut === "aucune") && photosTerrain(osmId).total === 0;
+}
+
+// Pistes de la veille encore à regarder. Écarter les pistes réenregistre le statut, donc
+// la date maj : toute piste trouvée avant disparaît ici tout de suite, et le workflow
+// hebdomadaire la range ensuite parmi les images déjà vues.
+function pistesActives(osmId) {
+    if (!estRienTrouve(osmId)) return [];
+    const terrain = TERRAINS_PAR_ID[osmId];
+    const pistes = (terrain && terrain.veille && terrain.veille.pistes) || [];
+    const maj = etatDe(osmId).maj || "";
+    return pistes.filter(p => p.trouvee_le > maj);
+}
+
+// Même format que la colonne maj de D1 (UTC, « AAAA-MM-JJ hh:mm:ss »).
+function maintenantUtc() {
+    return new Date().toISOString().slice(0, 19).replace("T", " ");
 }
 
 
@@ -651,6 +743,33 @@ function rendreChip(texte, surRetrait, classeSupp) {
     return chip;
 }
 
+// Vignette d'une carte : l'élément <a> (ou <div> s'il n'y a pas de lien) et sa légende.
+function elementVignette(image, lien, legende, texteSansImage, alt) {
+    const bloc = document.createElement(lien ? "a" : "div");
+    bloc.className = "vignette" + (image ? "" : " vignette-vide");
+    if (lien) {
+        bloc.href = lien;
+        bloc.target = "_blank";
+        bloc.rel = "noopener";
+    }
+    if (image) {
+        const img = document.createElement("img");
+        img.src = image;
+        img.loading = "lazy";
+        img.alt = alt || "";
+        bloc.appendChild(img);
+    } else {
+        bloc.textContent = texteSansImage;
+    }
+    if (legende) {
+        const etiquette = document.createElement("span");
+        etiquette.className = "vignette-legende";
+        etiquette.textContent = legende;
+        bloc.appendChild(etiquette);
+    }
+    return bloc;
+}
+
 function construireCarte(terrain) {
     const cle = terrain.osm_id;
     const c = terrain.candidat;
@@ -658,49 +777,39 @@ function construireCarte(terrain) {
     const div = document.createElement("div");
     div.dataset.cle = cle;
     div.dataset.recherche = (terrain.commune + " " + terrain.nom).toLowerCase();
-    div.dataset.avecCandidat = c ? "1" : "0";
 
-    // Vignette : le lien renvoyé par Mapillary expire au bout de deux semaines environ, et le
-    // workflow hebdomadaire le renouvelle. S'il manque (image supprimée), un cadre gris le dit.
-    const vignette = c && c.thumbnail
-        ? `<a href="${c.lien}" target="_blank" rel="noopener" class="vignette"><img src="${c.thumbnail}" loading="lazy" alt="Photo candidate sur Mapillary"></a>`
-        : `<div class="vignette vignette-vide">${c ? "Aperçu indisponible" : "Aucun candidat automatique"}</div>`;
+    // Le lien « Voir sur Mapillary » : sur le candidat s'il y en a un, sinon sur la carte
+    // Mapillary centrée sur le terrain. Les liens des vignettes viennent des données du
+    // workflow et de Mapillary, pas d'OSM ; nom et commune, eux, passent par textContent.
+    const lienMapillary = c
+        ? c.lien
+        : `https://www.mapillary.com/app/?lat=${terrain.lat}&lng=${terrain.lon}&z=19`;
 
-    div.innerHTML = vignette + (c ? `
+    div.innerHTML = `
+        <div class="vignette vignette-vide"></div>
         <div class="terrain-info">
             <div class="etiquettes"></div>
             <b></b>
             <div class="terrain-meta"></div>
             <div class="etat-decision"></div>
             <div class="terrain-actions">
+                ${c ? `
                 <button type="button" class="btn btn-accepter">Accepter le candidat</button>
-                <button type="button" class="btn btn-rejeter">Rejeter le candidat</button>
-                <a class="btn" href="${c.lien}" target="_blank" rel="noopener">Voir sur Mapillary</a>
+                <button type="button" class="btn btn-rejeter">Rejeter le candidat</button>` : `
+                <button type="button" class="btn btn-aucune">Marquer « rien trouvé »</button>`}
+                <a class="btn" href="${lienMapillary}" target="_blank" rel="noopener">Voir sur Mapillary</a>
                 <a class="btn" href="https://www.openstreetmap.org/edit#map=20/${terrain.lat}/${terrain.lon}" target="_blank" rel="noopener">Localiser sur OSM</a>
             </div>
             <div class="terrain-extra"></div>
         </div>
-    ` : `
-        <div class="terrain-info">
-            <div class="etiquettes"></div>
-            <b></b>
-            <div class="terrain-meta"></div>
-            <div class="etat-decision"></div>
-            <div class="terrain-actions">
-                <button type="button" class="btn btn-aucune">Marquer « rien trouvé »</button>
-                <a class="btn" href="https://www.mapillary.com/app/?lat=${terrain.lat}&lng=${terrain.lon}&z=19" target="_blank" rel="noopener">Explorer sur Mapillary</a>
-                <a class="btn" href="https://www.openstreetmap.org/edit#map=20/${terrain.lat}/${terrain.lon}" target="_blank" rel="noopener">Localiser sur OSM</a>
-            </div>
-            <div class="terrain-extra"></div>
-        </div>
-    `);
+    `;
 
     // Nom et métadonnées passent par textContent, pas par le gabarit ci-dessus :
     // ils viennent d'OpenStreetMap, donc d'un texte que n'importe qui peut
     // modifier, et un nom de terrain contenant du HTML serait interprété.
     div.querySelector("b").textContent = terrain.nom;
     div.querySelector(".terrain-meta").textContent = c
-        ? `${terrain.commune} — score ${c.score} — ${c.distance_m} m — écart angle ${c.ecart_angle_deg}° — ${formaterDate(c.captured_at)}`
+        ? `${terrain.commune} — candidat : score ${c.score} — ${c.distance_m} m — écart angle ${c.ecart_angle_deg}° — ${formaterDate(c.captured_at)}`
         : `${terrain.commune} — aucun candidat automatique trouvé à proximité`;
 
     if (estNouveau(cle)) {
@@ -712,7 +821,13 @@ function construireCarte(terrain) {
 
     const zoneExtra = div.querySelector(".terrain-extra");
     zoneExtra.innerHTML = `
-        <div class="terrain-deja-en-ligne" style="display:none"></div>
+        <div class="pistes" hidden>
+            <div class="pistes-titre"></div>
+            <div class="pistes-liste"></div>
+            <button type="button" class="btn btn-ecarter" style="align-self:flex-start">Écarter ces pistes</button>
+        </div>
+        <div class="terrain-deja-en-ligne"></div>
+        <div class="terrain-attente"></div>
         <div class="liste-alternatives"></div>
         <label class="champ-libelle">Autre photo : lien ou identifiant Mapillary, puis Entrée
             <input type="text" class="champ champ-alternative" autocomplete="off" enterkeyhint="done"
@@ -725,13 +840,8 @@ function construireCarte(terrain) {
         </label>
     `;
 
-    const enLigne = PHOTOS_EN_LIGNE[cle];
-    if (enLigne && enLigne.length) {
-        const zone = zoneExtra.querySelector(".terrain-deja-en-ligne");
-        zone.style.display = "";
-        zone.textContent = "✓ " + enLigne.length + " photo(s) déjà en ligne pour ce terrain";
-    }
-
+    const zonePistes = zoneExtra.querySelector(".pistes");
+    const listePistes = zoneExtra.querySelector(".pistes-liste");
     const listeAlternatives = zoneExtra.querySelector(".liste-alternatives");
     const listePanos = zoneExtra.querySelector(".liste-panos");
     const champAlternative = zoneExtra.querySelector(".champ-alternative");
@@ -741,8 +851,74 @@ function construireCarte(terrain) {
     const btnRejeter = div.querySelector(".btn-rejeter");
     const btnAucune = div.querySelector(".btn-aucune");
 
+    // Vignette : pour un terrain sans photo, le candidat (s'il y en a un) ; dès qu'une
+    // photo est retenue, la première, comme sur le site. Une photo validée mais pas encore
+    // publiée n'a pas toujours d'image : un cadre gris le dit.
+    function vignetteCourante() {
+        const bilan = photosTerrain(cle);
+        if (bilan.total > 0) {
+            const premiere = bilan.liste[0];
+            const sansImage = premiere.type === "360"
+                ? "Vue 360° : miniature en préparation"
+                : (premiere.enLigne ? "Aperçu indisponible" : "Photo validée, en attente de publication");
+            return elementVignette(premiere.image, premiere.lien, premiere.legende, sansImage,
+                                   "Photo retenue pour ce terrain");
+        }
+        if (c) {
+            return elementVignette(c.thumbnail, c.lien, "Candidat", "Aperçu indisponible",
+                                   "Photo candidate sur Mapillary");
+        }
+        return elementVignette(null, null, null, "Aucune photo", "");
+    }
+
+    function rendrePistes() {
+        const pistes = pistesActives(cle);
+        zonePistes.hidden = pistes.length === 0;
+        listePistes.innerHTML = "";
+        if (!pistes.length) return;
+
+        zonePistes.querySelector(".pistes-titre").textContent =
+            pistes.length + (pistes.length > 1 ? " nouvelles pistes" : " nouvelle piste")
+            + " sur Mapillary (trouvée" + (pistes.length > 1 ? "s" : "") + " le "
+            + formaterJour(pistes[0].trouvee_le.slice(0, 10)) + ")";
+
+        pistes.forEach(piste => {
+            const bloc = document.createElement("div");
+            bloc.className = "piste";
+            const est360 = piste.type === "360";
+            bloc.appendChild(elementVignette(piste.thumbnail, piste.lien, est360 ? "Vue 360°" : "Photo plate",
+                                             "Aperçu indisponible", "Piste sur Mapillary"));
+
+            const detail = document.createElement("div");
+            detail.textContent = piste.distance_m + " m"
+                + (est360 ? "" : " — écart angle " + piste.ecart_angle_deg + "°")
+                + " — " + formaterDate(piste.captured_at);
+            bloc.appendChild(detail);
+
+            const ajouter = document.createElement("button");
+            ajouter.type = "button";
+            ajouter.className = "btn btn-valider";
+            ajouter.textContent = est360 ? "Ajouter et cadrer" : "Ajouter cette photo";
+            ajouter.addEventListener("click", () => {
+                if (est360) {
+                    ajouterPhoto("pano360", {
+                        mapillary_id: piste.id, pano_x: null, pano_y: null, pano_zoom: null, pano_url: piste.lien
+                    }).then(photo => {
+                        if (photo) ouvrirCadrage(photo, terrain.nom + " — " + terrain.commune, rafraichir);
+                    });
+                } else {
+                    ajouterPhoto("manuelle", { mapillary_id: piste.id });
+                }
+            });
+            bloc.appendChild(ajouter);
+            listePistes.appendChild(bloc);
+        });
+    }
+
     function rafraichir() {
         const etat = etatDe(cle);
+        const bilan = photosTerrain(cle);
+        const rienTrouve = estRienTrouve(cle);
 
         if (btnAccepter) {
             btnAccepter.className = "btn btn-accepter" + (etat.statut === "accepte" ? " actif-accepte" : "");
@@ -755,15 +931,33 @@ function construireCarte(terrain) {
             btnAucune.setAttribute("aria-pressed", etat.statut === "aucune" ? "true" : "false");
         }
         div.className = "terrain-carte" +
-            (etat.statut === "accepte" ? " decide-accepte" :
-             etat.statut === "rejete" ? " decide-rejete" :
-             etat.statut === "aucune" ? " decide-aucune" : "");
+            (etat.statut === "accepte" ? " decide-accepte" : rienTrouve ? " rien-trouve" : "");
+
+        div.replaceChild(vignetteCourante(), div.firstElementChild);
 
         // La décision est aussi écrite en toutes lettres : la couleur de fond n'est qu'un repère.
         div.querySelector(".etat-decision").textContent =
             etat.statut === "accepte" ? "✓ Candidat accepté" :
-            etat.statut === "rejete" ? "Candidat rejeté" :
+            etat.statut === "rejete" ? (rienTrouve ? "Rien trouvé (candidat rejeté)" : "Candidat rejeté") :
             etat.statut === "aucune" ? "Marqué « rien trouvé »" : "";
+
+        // Bilan des photos : en ligne d'un côté, validées en attente de publication de l'autre.
+        const decrire = (liste) => {
+            const plates = liste.filter(v => v.type === "plate").length;
+            const panos = liste.filter(v => v.type === "360").length;
+            const morceaux = [];
+            if (plates) morceaux.push(plates + (plates > 1 ? " photos plates" : " photo plate"));
+            if (panos) morceaux.push(panos + (panos > 1 ? " vues 360°" : " vue 360°"));
+            return morceaux.join(", ");
+        };
+        const enLigne = bilan.liste.filter(v => v.enLigne);
+        const attente = bilan.liste.filter(v => !v.enLigne);
+        zoneExtra.querySelector(".terrain-deja-en-ligne").textContent =
+            enLigne.length ? "✓ En ligne : " + decrire(enLigne) : "";
+        zoneExtra.querySelector(".terrain-attente").textContent =
+            attente.length ? "En attente de publication : " + decrire(attente) : "";
+
+        rendrePistes();
 
         listeAlternatives.innerHTML = "";
         photosDe(cle, "manuelle").forEach(photo => {
@@ -786,10 +980,13 @@ function construireCarte(terrain) {
         ecrire("/admin/photos/supprimer", { id: photo.id });
     }
 
+    // Le Worker met à jour maj à chaque enregistrement de statut : on fait de même ici,
+    // pour que les pistes trouvées avant disparaissent sans attendre un rechargement.
     function definirStatut(valeur) {
         const etat = etatDe(cle);
         const nouveau = etat.statut === valeur ? null : valeur;
         etat.statut = nouveau;
+        etat.maj = maintenantUtc();
         if (c) etat.candidat_id = String(c.id);
         rafraichir();
         mettreAJourProgression();
@@ -797,6 +994,20 @@ function construireCarte(terrain) {
         ecrire("/admin/revue", {
             osm_id: cle,
             statut: nouveau,
+            candidat_id: c ? String(c.id) : null
+        });
+    }
+
+    // Écarter les pistes = réenregistrer le même statut. Rien d'autre ne change.
+    function ecarterPistes() {
+        const etat = etatDe(cle);
+        etat.maj = maintenantUtc();
+        rafraichir();
+        mettreAJourProgression();
+        appliquerFiltres();
+        ecrire("/admin/revue", {
+            osm_id: cle,
+            statut: etat.statut,
             candidat_id: c ? String(c.id) : null
         });
     }
@@ -823,6 +1034,7 @@ function construireCarte(terrain) {
         etat.photos = etat.photos.filter(p => p !== provisoire);
         rafraichir();
         mettreAJourProgression();
+        appliquerFiltres();
         return null;
     }
 
@@ -833,6 +1045,7 @@ function construireCarte(terrain) {
     if (btnAucune) {
         btnAucune.addEventListener("click", () => definirStatut("aucune"));
     }
+    zoneExtra.querySelector(".btn-ecarter").addEventListener("click", ecarterPistes);
 
     champAlternative.addEventListener("keydown", (e) => {
         if (e.key !== "Enter") return;
@@ -889,15 +1102,18 @@ function estNouveau(osmId) {
 }
 
 // Filtres des puces. Une seule définition, partagée par les compteurs et l'affichage : ce que
-// dit une puce est exactement ce qu'elle montre quand on clique dessus.
+// dit une puce est exactement ce qu'elle montre quand on clique dessus. Les photos comptent
+// dès qu'elles sont validées, en ligne ou pas encore publiées (voir photosTerrain).
+// « Nouveaux », « Nouvelles pistes », « Plusieurs photos » et « Tous » recoupent les
+// autres : les compteurs ne s'additionnent pas.
 const FILTRES = [
-    ["a_decider", "À décider"],
     ["nouveaux", "Nouveaux"],
-    ["acceptes", "Avec photo"],
-    ["deja_en_ligne", "Déjà en ligne"],
-    ["rejetes", "Rejetés"],
-    ["pano", "360° repérées"],
-    ["aucune", "Rien trouvé"],
+    ["a_decider", "À décider"],
+    ["avec_photo", "Avec photo"],
+    ["avec_360", "Avec photo 360"],
+    ["avec_plates", "Avec photos plates"],
+    ["rien_trouve", "Rien trouvé"],
+    ["pistes", "Nouvelles pistes"],
     ["plusieurs", "Plusieurs photos"],
     ["tous", "Tous"]
 ];
@@ -905,30 +1121,27 @@ let FILTRE = "a_decider";
 
 function correspond(osmId, filtre) {
     const etat = etatDe(osmId);
-    const nbPhotos = compterPhotos(osmId);
+    const bilan = photosTerrain(osmId);
     switch (filtre) {
-        case "a_decider": return !etat.statut && nbPhotos === 0 && photosDe(osmId, "pano360").length === 0;
         case "nouveaux": return estNouveau(osmId);
-        case "acceptes": return nbPhotos >= 1;
-        case "deja_en_ligne": return !!(PHOTOS_EN_LIGNE[osmId] && PHOTOS_EN_LIGNE[osmId].length);
-        case "rejetes": return etat.statut === "rejete" && nbPhotos === 0;
-        case "pano": return photosDe(osmId, "pano360").length > 0;
-        case "aucune": return etat.statut === "aucune";
-        case "plusieurs": return nbPhotos >= 2;
+        case "a_decider": return !etat.statut && bilan.total === 0;
+        case "avec_photo": return bilan.total >= 1;
+        case "avec_360": return bilan.panos >= 1;
+        case "avec_plates": return bilan.plates >= 1;
+        case "rien_trouve": return estRienTrouve(osmId);
+        case "pistes": return pistesActives(osmId).length > 0;
+        case "plusieurs": return bilan.total >= 2;
         default: return true;
     }
 }
 
-function passeFiltreCandidat(terrain) {
-    const choix = document.getElementById("filtreCandidat").value;
-    if (choix === "avec_candidat") return !!terrain.candidat;
-    if (choix === "sans_candidat") return !terrain.candidat;
-    return true;
-}
-
 function construirePage() {
     TERRAINS = [];
-    DONNEES.forEach(groupe => groupe.terrains.forEach(t => TERRAINS.push(t)));
+    TERRAINS_PAR_ID = {};
+    DONNEES.forEach(groupe => groupe.terrains.forEach(t => {
+        TERRAINS.push(t);
+        TERRAINS_PAR_ID[t.osm_id] = t;
+    }));
 
     const conteneur = document.getElementById("conteneur");
     conteneur.innerHTML = "";
@@ -963,17 +1176,16 @@ function trierListe() {
     ordre.forEach(t => conteneur.appendChild(CARTES[t.osm_id]));
 }
 
-// Les puces, avec leurs compteurs (restreints au choix « avec / sans candidat »).
+// Les puces, avec leurs compteurs.
 function mettreAJourProgression() {
-    const retenus = TERRAINS.filter(passeFiltreCandidat);
     const zone = document.getElementById("puces");
     zone.innerHTML = "";
 
     FILTRES.forEach(([code, libelle]) => {
-        const nombre = retenus.filter(t => correspond(t.osm_id, code)).length;
+        const nombre = TERRAINS.filter(t => correspond(t.osm_id, code)).length;
         const bouton = document.createElement("button");
         bouton.type = "button";
-        bouton.className = "puce" + (code === "nouveaux" ? " puce-nouveau" : "");
+        bouton.className = "puce" + (code === "nouveaux" ? " puce-nouveau" : code === "pistes" ? " puce-pistes" : "");
         bouton.setAttribute("aria-pressed", FILTRE === code ? "true" : "false");
         bouton.textContent = libelle + " · " + nombre;
         bouton.addEventListener("click", () => {
@@ -994,8 +1206,7 @@ function appliquerFiltres() {
 
     TERRAINS.forEach(t => {
         const carte = CARTES[t.osm_id];
-        const visible = passeFiltreCandidat(t)
-            && (!recherche || carte.dataset.recherche.includes(recherche))
+        const visible = (!recherche || carte.dataset.recherche.includes(recherche))
             && correspond(t.osm_id, FILTRE);
         carte.hidden = !visible;
         if (visible) affiches++;
@@ -1009,10 +1220,6 @@ function appliquerFiltres() {
 }
 
 document.getElementById("recherche").addEventListener("input", appliquerFiltres);
-document.getElementById("filtreCandidat").addEventListener("change", () => {
-    mettreAJourProgression();
-    appliquerFiltres();
-});
 document.getElementById("tri").addEventListener("change", trierListe);
 
 

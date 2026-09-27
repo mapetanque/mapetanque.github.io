@@ -606,9 +606,9 @@ body.fullscreen-lock {
         padding: 14px 15px 8px;
     }
 
-    /* Boule seule, à peu près à la taille du burger */
+     /* Boule seule, même taille que dans l'admin (et que la zone cliquable du burger) */
     .logo {
-        height: 32px;
+        height: 40px;
     }
 
     .hero-headline {

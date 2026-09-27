@@ -44,13 +44,16 @@ jobs:
           python scripts/promouvoir_terrains.py
 
       # Liste des terrains et candidats photo de la page admin : ajoute les nouveaux terrains
-      # (avec leur candidat Mapillary), retire ceux disparus d'OSM, renouvelle les liens des
-      # vignettes (temporaires, environ deux semaines). Même règle que l'étape précédente :
-      # jamais bloquante pour la sauvegarde de la mise à jour OSM.
+      # (avec leur candidat Mapillary), retire ceux disparus d'OSM, cherche de nouvelles pistes
+      # pour les terrains « rien trouvé » (liste lue sur le Worker mapetanque-admin, d'où
+      # JETON_WORKFLOW), renouvelle les liens des vignettes (temporaires, environ deux
+      # semaines). Même règle que l'étape précédente : jamais bloquante pour la sauvegarde
+      # de la mise à jour OSM.
       - name: Candidats photo de la page admin
         continue-on-error: true
         env:
           MAPILLARY_TOKEN: ${{ secrets.MAPILLARY_TOKEN }}
+          JETON_WORKFLOW: ${{ secrets.JETON_WORKFLOW }}
         run: |
           python scripts/mettre_a_jour_candidats.py
 
