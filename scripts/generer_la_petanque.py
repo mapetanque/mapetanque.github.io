@@ -1,5 +1,5 @@
 """
-Génère la-petanque.html, nl/la-petanque.html et de/la-petanque.html à partir des pages
+Génère la-petanque.html, nl/la-petanque.html, de/la-petanque.html et en/la-petanque.html à partir des pages
 « Comment jouer » du dépôt.
 
 La mécanique commune (métadonnées, bannière, fil d'Ariane, sélecteur de langue) vit dans
@@ -58,9 +58,19 @@ META = {
             "geselliger Sport ist."
         ),
     },
+    "en": {
+        "prefixe": "en/",
+        "titre_page": "Pétanque, then and now — Mapetanque.be",
+        "h1": "Pétanque, then and now",
+        "fil": ("Home", "Pétanque"),
+        "description": (
+            "The history of pétanque, from its invention in La Ciotat in 1907 to Belgium's world "
+            "titles, and why it is such an accessible and sociable sport today."
+        ),
+    },
 }
 
-# Sources, communes aux trois langues. Numérotées pour être appelées dans les textes.
+# Sources, communes aux quatre langues. Numérotées pour être appelées dans les textes.
 SOURCES = {
     1: "https://home.ffpjp.org/pratiquer/la-pratique/l-histoire-de-la-petanque",
     2: "https://gomet.net/histoire-petanque/",
@@ -364,6 +374,95 @@ CONTENU = {
         "cta_carte": "Einen Platz in meiner Nähe finden",
         "cta_regles": "Die Regeln lernen",
     },
+    "en": {
+        "intro": (
+            "Invented in 1907 in La Ciotat by a player whose rheumatism stopped him from "
+            "running, pétanque took root in Belgium as early as 1949. Here is its story, and "
+            "what it has become today."
+        ),
+        "ancres_label": "On this page",
+        "belgique": "Belgium",
+        "histoire_titre": "A bit of history",
+        "jalons": [
+            ("Before 1907", "Provence", "The days of jeu provençal",
+             "In the 19th century, the south of France is gripped by [jeu provençal](1), also "
+             "known as “la longue”. The pitch is long, and shooters take a three-step run-up "
+             "before throwing.", False),
+            ("1907", "La Ciotat", "Feet planted",
+             "Jules Hugues, known as “Lenoir”, a jeu provençal champion, can no longer run "
+             "because of his rheumatism. He draws a circle on the ground, throws the jack 5 or "
+             "6 metres and plays without moving, feet firmly planted. In Provençal, that's "
+             "“pè tanca”: [pétanque is born](1).", False),
+            ("1910", "La Ciotat", "The first competition",
+             "On 11 June 1910, eight teams of two play [the first official pétanque "
+             "competition](2), with 10 francs at stake.", False),
+            ("1945", "France", "A national federation",
+             "[The French federation of pétanque and jeu provençal](3) is founded to bring "
+             "together the players of a sport that has been holding competitions since 1910.",
+             False),
+            ("1949", "Verviers", "Pétanque arrives in Belgium",
+             "Pétanque [takes root in Belgium](4) through Verviers. The club founded there is "
+             "even [the first outside the south of France](2).", True),
+            ("1957", "Spa", "The idea of a world federation",
+             "At an international competition organised in Spa by the Belgian federation, "
+             "delegates from six countries [decide to create an international federation](5). "
+             "It is founded on 8 March 1958 in Marseille.", True),
+            ("1959", "Spa", "The first world championship",
+             "Spa hosts [the very first pétanque world championship](5).", True),
+            ("1981 · 2000", "Worlds", "Two world titles",
+             "Belgium are crowned [triples world champions in 1981](7), and again [in 2000](6) "
+             "with Jean-François Hémon, Claudy Weibel, André Lozano and Michel Van Campenhout.",
+             True),
+            ("1995 · 2005", "Brussels", "The Worlds in Brussels",
+             "Brussels hosts the world championship [twice](8), in 1995 and again in 2005.",
+             True),
+            ("2004", "France", "An elite sport",
+             "The French Ministry of Sport officially recognises pétanque as an "
+             "[elite sport](3).", False),
+            ("2015", "Nice", "First singles world champion",
+             "Claudy Weibel, from Arlon, wins [the very first singles (tête-à-tête) world "
+             "championship](9).", True),
+            ("2017", "Ghent", "The Worlds return to Belgium",
+             "Ghent hosts [the singles and doubles world championships](10).", True),
+        ],
+        "aujourdhui_titre": "And today?",
+        "avant": [
+            "Pétanque is on the rise. In France, where the sport was born, the figures speak for "
+            "themselves. Covid had brought the number of licensed players down to 226,000 in "
+            "2021. Since then, [the curve has only gone up](11): 263,000 in 2022, 282,000 in "
+            "2023, then more than 300,000 in 2024. By the end of May 2025, the French federation "
+            "already had [305,470 licensed players](12), a record. It is now [France's largest "
+            "non-Olympic sports federation](11).",
+        ],
+        "transition": (
+            "This success is no accident: pétanque is probably the most accessible and "
+            "sociable sport there is."
+        ),
+        "apres": [
+            "To start with, you need almost no equipment. At Decathlon Belgium, a set of three "
+            "boules with a jack and a carry bag [costs €20](13). No membership, no special kit, "
+            "no booking. Even in competition, the outlay stays modest: approved boules [start at "
+            "around €60](14).",
+            "It can be played at any age. In French-speaking Belgium, the federation welcomes "
+            "players [from the age of 6](15), and there is no upper limit: in France, [more than "
+            "four in ten licensed players](16) are over 60. It is one of the few sports where "
+            "grandparents and grandchildren really play the same game.",
+            "It is also open to people with disabilities. [The French disability sports "
+            "federation](17) points out that it can be played in a wheelchair, with a visual "
+            "impairment, by people who are deaf or hard of hearing, or with a physical "
+            "disability. In Flanders, [G-petanque](18) welcomes people with an intellectual "
+            "disability, autism or mental health difficulties.",
+            "Another plus: [public courts are everywhere](carte). All you need to do is turn up "
+            "with your boules. And that's where pétanque shows its best side: an afternoon with "
+            "friends or family, where you talk as much as you play, and often meet new people.",
+            "Don't be fooled, though: while you need no skills at all to play your first game, "
+            "pétanque is also played at the highest level. World championships [have been held "
+            "since 1959](5), and Belgium holds its own: in triples, it is [the nation that has "
+            "most often made the podium](7), after France.",
+        ],
+        "cta_carte": "Find a court near me",
+        "cta_regles": "Learn the rules",
+    }
 }
 
 DRAPEAU = (

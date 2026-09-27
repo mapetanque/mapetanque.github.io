@@ -69,15 +69,16 @@ function creerIconeClusterClub(cluster) {
 
 // ===================== Gestion de la langue =====================
 
-const LANGUES_DISPONIBLES = ['fr', 'nl', 'de'];
+const LANGUES_DISPONIBLES = ['fr', 'nl', 'de', 'en'];
 
-// Langue déduite du chemin de l'URL (/nl/, /de/), le cas échéant. Cette détection passe en
-// priorité sur tout le reste : c'est elle qui permet à Google d'indexer /nl/ et /de/ comme
-// deux pages distinctes et réellement en néerlandais/allemand dès le premier rendu.
+// Langue déduite du chemin de l'URL (/nl/, /de/, /en/), le cas échéant. Cette détection passe
+// en priorité sur tout le reste : c'est elle qui permet à Google d'indexer /nl/, /de/ et /en/
+// comme des pages distinctes, réellement dans leur langue dès le premier rendu.
 function detecterLangueDepuisURL() {
     const chemin = window.location.pathname;
     if (chemin === '/nl' || chemin.startsWith('/nl/')) return 'nl';
     if (chemin === '/de' || chemin.startsWith('/de/')) return 'de';
+    if (chemin === '/en' || chemin.startsWith('/en/')) return 'en';
     return null;
 }
 
@@ -90,14 +91,24 @@ function detecterLanguePreferee() {
         return sauvegardee;
     }
 
+    // L'anglais n'est jamais choisi d'après le navigateur, seulement via le bouton EN ou
+    // l'adresse /en/ : Googlebot se présente avec un navigateur en anglais, et sans cette
+    // exception il afficherait les pages françaises en anglais.
     const navigateur = (navigator.language || 'fr').slice(0, 2).toLowerCase();
-    return LANGUES_DISPONIBLES.includes(navigateur) ? navigateur : 'fr';
+    return LANGUES_DISPONIBLES.includes(navigateur) && navigateur !== 'en' ? navigateur : 'fr';
 }
 
 let currentLang = detecterLanguePreferee();
 
 function t(cle) {
     return translations[currentLang][cle];
+}
+
+// Nombre à une décimale, avec la virgule en français, néerlandais et allemand, et le point en
+// anglais (3,4 → 3.4).
+function uneDecimale(nombre) {
+    const texte = nombre.toFixed(1);
+    return currentLang === 'en' ? texte : texte.replace('.', ',');
 }
 
 // Piste du panneau d'info actuellement ouvert, pour le régénérer si la langue change
@@ -174,7 +185,7 @@ function changerLangue(langue) {
     localStorage.setItem('mapetanque_lang', langue);
 
     // Met à jour l'URL sans recharger la page, pour que chaque langue reste indexable et
-    // partageable via sa propre adresse (/nl/, /de/, ou / pour le français)
+    // partageable via sa propre adresse (/nl/, /de/, /en/, ou / pour le français)
     const cheminCible = langue === 'fr' ? '/' : '/' + langue + '/';
     if (window.location.pathname !== cheminCible) {
         history.pushState({ lang: langue }, '', cheminCible + window.location.search + window.location.hash);
@@ -613,11 +624,11 @@ if (locateBtn) {
                 .openPopup();
 
             }, function() {
-                alert("Impossible de récupérer votre position.");
+                alert(t('geoloc_error'));
             });
 
         } else {
-            alert("La géolocalisation n'est pas supportée par votre navigateur.");
+            alert(t('geoloc_unsupported'));
         }
 
     });
@@ -1256,14 +1267,16 @@ function calculDistance(lat1, lon1, lat2, lon2) {
 // stocké tel quel dans terrains.geojson — voir commentaire plus bas sur le fil d'Ariane). N'affiche
 // que la partie correspondant à la langue courante. Pas de nom officiel distinct en allemand pour
 // ces communes : on retombe sur le néerlandais (choix assumé, cohérent avec le reste du site DE
-// qui n'a pas toujours de traduction propre à ce niveau de détail). Exposée sur window car
+// qui n'a pas toujours de traduction propre à ce niveau de détail). L'anglais reprend au contraire
+// la forme française, la plus courante dans l'usage anglophone à Bruxelles (Ixelles,
+// Woluwe-Saint-Lambert…). Exposée sur window car
 // réutilisée par le script inline des pages province/région (voir templates/province_template.html).
 // Sans effet sur les communes à nom unique (pas de séparateur " - " trouvé) : renvoyées telles quelles.
 window.nomCommuneAffiche = function (nomBrut, langue) {
     if (!nomBrut) return nomBrut;
     const parties = nomBrut.split(' - ');
     if (parties.length !== 2) return nomBrut;
-    return langue === 'fr' ? parties[0] : parties[1];
+    return (langue === 'fr' || langue === 'en') ? parties[0] : parties[1];
 };
 
 // Fil d'Ariane région › province › commune des fiches terrain et club.
@@ -1530,7 +1543,7 @@ function construireContenuPopupTerrain(feature, layer) {
     // (voir le chargement de /data/beaux_terrains.json plus bas dans ce fichier). Le carrousel
     // n'en affiche que les premiers mots, la fiche affiche le texte entier. Le paragraphe n'est
     // créé que si le terrain a effectivement un texte : aucun bloc vide pour les 1700 autres.
-    // description_nl / description_de sont lus s'ils existent dans le JSON, sinon repli sur le
+    // description_nl / description_de / description_en sont lus s'ils existent dans le JSON, sinon repli sur le
     // texte français — la structure est donc déjà prête si ces champs sont ajoutés un jour.
     const beauTerrain = (MAPETANQUE_AFFICHER_DESCRIPTIONS && tags.osm_id)
         ? (window.beauxTerrainsParOsmId || {})[tags.osm_id]
@@ -2064,7 +2077,7 @@ window.mapetanqueResumeNote = function (osmId) {
     return {
         moyenne: moyenne,
         nombre: nombre,
-        texte: moyenne.toFixed(1).replace('.', ',')
+        texte: uneDecimale(moyenne)
             + ' (' + nombre + '\u00a0' + t(nombre > 1 ? 'notation_avis_n' : 'notation_avis_un') + ')'
     };
 };
@@ -2371,7 +2384,7 @@ const SUPERFICIES_KM2 = {
 function formaterDensite(nombreTerrains, cleGeo) {
     const superficie = SUPERFICIES_KM2[cleGeo];
     if (!superficie) return null;
-    return (nombreTerrains / superficie * 100).toFixed(1).replace('.', ',') + '/100km²';
+    return uneDecimale(nombreTerrains / superficie * 100) + '/100km²';
 }
 
 // Filigranes discrets pour les tuiles région (silhouette officielle, en gris clair) : coq wallon,

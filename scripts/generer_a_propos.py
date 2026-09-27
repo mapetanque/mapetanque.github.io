@@ -1,5 +1,5 @@
 """
-Génère a-propos.html, nl/a-propos.html et de/a-propos.html à partir des pages
+Génère a-propos.html, nl/a-propos.html, de/a-propos.html et en/a-propos.html à partir des pages
 « Comment jouer » du dépôt.
 
 La mécanique commune (métadonnées, bannière, fil d'Ariane, sélecteur de langue) vit dans
@@ -53,6 +53,16 @@ META = {
             "erreichen."
         ),
     },
+    "en": {
+        "prefixe": "en/",
+        "titre_page": "About — Mapetanque.be",
+        "h1": "About",
+        "fil": ("Home", "About"),
+        "description": (
+            "Why Mapetanque.be exists, the open data it relies on (OpenStreetMap, Mapillary), "
+            "what it does with your data, and how to contact me."
+        ),
+    },
 }
 
 # --- Contenu -------------------------------------------------------------------------------
@@ -60,7 +70,7 @@ META = {
 # ce principe, et le dupliquer créerait deux sources de vérité.
 #
 # Registre : le néerlandais tutoie (« je »), l'allemand vouvoie (« Sie »), conformément aux
-# textes déjà en place dans translations.js.
+# textes déjà en place dans translations.js. L'anglais (« you ») suit l'orthographe britannique.
 
 CONTENU = {
     "fr": [
@@ -291,6 +301,77 @@ CONTENU = {
                        "Projekt mitwirken? Schreiben Sie mir.",
         },
     ],
+    "en": [
+        {
+            "titre": "Why Mapetanque.be?",
+            "paragraphes": [
+                "Mapetanque.be was born of a simple observation: no website made it easy to find "
+                "the freely accessible pétanque courts in Belgium. And yet there are more than "
+                "1,700 of them.",
+                "Now you can find a court near you, or near any address, in a matter of seconds, "
+                "see what it looks like, get directions and share it with your friends.",
+            ],
+        },
+        {
+            "titre": "An open-source project built on open data",
+            "paragraphes": [
+                "Mapetanque.be's code is open, and so is the data it uses:",
+            ],
+            "sources": [
+                ("osm", "for the courts and their locations"),
+                ("mapillary", "for the photos of the courts"),
+            ],
+            "paragraphes_apres": [
+                "But Mapetanque.be doesn't just draw on these databases: it also contributes to "
+                "them. Every court reported to me is added to OpenStreetMap, and every photo I "
+                "receive is published on Mapillary before appearing here. What is collected for "
+                "this site therefore benefits everyone.",
+                "The site is free, ad-free, and developed in my spare time.",
+            ],
+        },
+        {
+            "titre": "Your data",
+            "paragraphes": [
+                "Mapetanque.be sets no advertising cookies and doesn't share your data with "
+                "anyone. Your browser only stores your language and display preferences, locally "
+                "on your device.",
+                "The ratings you give courts are recorded without your name or IP address. To "
+                "prevent the same visitor from rating the same court twenty times, the site "
+                "computes a hashed fingerprint from your IP address, the court concerned and the "
+                "current month. This fingerprint cannot be traced back to you, and it changes "
+                "every month.",
+                "When you send a photo, your browser shrinks it and strips its metadata before "
+                "uploading: neither your device model nor the original GPS coordinates leave your "
+                "phone. Only the date the photo was taken is kept, because Mapillary requires it. "
+                "The location attached to the photo is that of the court, not yours.",
+                "The photo is then stored on a European server until I've checked it. If I don't "
+                "keep it, it is deleted immediately. If I haven't checked it within 30 days, it is "
+                "deleted automatically. If I keep it, it is published on Mapillary under a CC BY-SA "
+                "licence, as stated next to the checkbox on the form, and then erased from this "
+                "temporary storage. Mapillary automatically blurs faces and licence plates after "
+                "publication.",
+                "To limit abuse, the site also computes a hashed fingerprint of your IP address. "
+                "It is only used to count your uploads for the day, and it is erased after a few "
+                "days.",
+                "If you enter a first name or nickname, it is only used to credit you. You can ask "
+                "for a photo you sent to be removed at any time by writing to "
+                "mapetanque@outlook.be.",
+                "The site is hosted by GitHub Pages and uploads go through Cloudflare. These "
+                "providers keep their own technical logs.",
+            ],
+        },
+        {
+            "titre": "Who am I?",
+            "paragraphes": [
+                "Born in Liège and still living in the area, I've been playing pétanque since I "
+                "was a child: first on holiday in the south of France, then briefly in a club in "
+                "Vottem. These days I mostly play with friends on public courts, and it was this "
+                "search for the perfect court that gave rise to this site.",
+            ],
+            "contact": "A suggestion, an error to report, or keen to get involved? "
+                       "Drop me a line.",
+        },
+    ]
 }
 
 # Les deux sources sont les mêmes partout : seul leur rôle, traduit ci-dessus, change.

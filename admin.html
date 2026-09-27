@@ -2154,11 +2154,12 @@ function dessinerDetails() {
         libelle: (noms && /^[A-Z]{2}$/.test(p.valeur) ? noms.of(p.valeur) : p.valeur), valeur: p.visites
     })));
 
-    // Langue : déduite de l'adresse des pages lues (/nl/…, /de/…, le reste en français).
-    const langues = { "Français": 0, "Néerlandais": 0, "Allemand": 0 };
+    // Langue : déduite de l'adresse des pages lues (/nl/…, /de/…, /en/…, le reste en français).
+    const langues = { "Français": 0, "Néerlandais": 0, "Allemand": 0, "Anglais": 0 };
     de("page").forEach(p => {
         const cle = p.valeur.startsWith("/nl/") || p.valeur === "/nl" ? "Néerlandais"
-                  : p.valeur.startsWith("/de/") || p.valeur === "/de" ? "Allemand" : "Français";
+                  : p.valeur.startsWith("/de/") || p.valeur === "/de" ? "Allemand"
+                  : p.valeur.startsWith("/en/") || p.valeur === "/en" ? "Anglais" : "Français";
         langues[cle] += p.pages_vues;
     });
     document.getElementById("detailLangues").innerHTML = barresHorizontales(

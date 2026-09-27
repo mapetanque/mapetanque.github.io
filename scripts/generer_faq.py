@@ -1,5 +1,5 @@
 """
-Génère faq.html, nl/faq.html et de/faq.html à partir des pages « Comment jouer » du dépôt.
+Génère faq.html, nl/faq.html, de/faq.html et en/faq.html à partir des pages « Comment jouer » du dépôt.
 
 La mécanique commune (métadonnées, bannière, fil d'Ariane, sélecteur de langue) vit dans
 _squelette.py, partagée avec generer_a_propos.py.
@@ -46,6 +46,16 @@ META = {
         "description": (
             "Antworten auf häufige Fragen zu Mapetanque.be: Herkunft der Daten, einen Platz "
             "finden, Fotos, einen Pétanque-Platz hinzufügen oder entfernen."
+        ),
+    },
+    "en": {
+        "prefixe": "en/",
+        "titre": "FAQ — Mapetanque.be",
+        "h1": "Frequently asked questions",
+        "fil": ("Home", "Frequently asked questions"),
+        "description": (
+            "Answers to frequently asked questions about Mapetanque.be: where the data comes "
+            "from, finding a court, photos, adding or removing a pétanque court."
         ),
     },
 }
@@ -139,6 +149,32 @@ CONTENU = {
         {
             "q": "Was ist der Unterschied zwischen einem Platz und einem angeschlossenen Verein?",
             "a": "Die standardmäßig auf der Karte angezeigten Plätze sind öffentliche Plätze: frei zugänglich, ohne Anmeldung oder Reservierung, Sie können dort jederzeit mit Ihren eigenen Kugeln spielen. Die angeschlossenen Vereine, die Sie mit der Option \"Vereine anzeigen\" einblenden können, sind Mitglieder der Fédération Belge Francophone de Pétanque (FBFP) oder der Petanque Federatie Vlaanderen (PFV): Sie verfügen über eigene Plätze, oft überdacht oder beleuchtet, und organisieren Training und Turniere, mit einer Lizenz für den Wettkampfbetrieb. Die Zugangsbedingungen unterscheiden sich von Verein zu Verein: Viele empfangen gerne Gäste, nehmen Sie aber besser vorher Kontakt auf."
+        }
+    ],
+    "en": [
+        {
+            "q": "Where does the information on the map come from?",
+            "a": "The courts shown come from OpenStreetMap's open data. Every Monday, Mapetanque.be retrieves this information to provide an up-to-date map of pétanque courts in Belgium. The affiliated clubs come from information published on the websites of the Walloon and Flemish federations and their provincial branches. This information may sometimes be out of date: feel free to email me at mapetanque@outlook.be to report an error."
+        },
+        {
+            "q": "How do I find a court near me?",
+            "a": "Click the “Locate me” button to show your position and see the courts near you."
+        },
+        {
+            "q": "Why don't all courts have a photo, and how can I add one?",
+            "a": "Court photos mainly come from Mapillary (a collaborative street-level photo platform). If you have a photo of a court, feel free to send it to me using the “Add a photo?” link on each court's info card! It will first be uploaded to Mapillary so that everyone can use it, and then linked to the site."
+        },
+        {
+            "q": "How do I add a missing court?",
+            "a": "The courts shown on Mapetanque.be come from OpenStreetMap (OSM) open data. If you know of a publicly accessible pétanque court that doesn't appear on the map, you can: add it directly to OSM using their editing tool; or email me the details at mapetanque@outlook.be (exact location, number of lanes if known, etc.). Once the OSM data has been updated, the court will automatically appear on Mapetanque.be at the next synchronisation."
+        },
+        {
+            "q": "How do I remove a court that no longer exists or can no longer be used?",
+            "a": "The courts shown on Mapetanque.be come from OpenStreetMap (OSM) open data. If a court no longer exists or is no longer open to the public, you can: correct the information directly in OSM using their editing tool; or report the error to me by email at mapetanque@outlook.be, giving the court's location and any useful details. If the court still exists but is simply poorly maintained or damaged, your best option is to contact the municipality concerned (sports, public works or parks department), which is usually responsible for maintaining public facilities."
+        },
+        {
+            "q": "What's the difference between a court and an affiliated club?",
+            "a": "The courts shown on the map by default are public courts: freely accessible, with no registration or booking, so you can play there whenever you like with your own boules. Affiliated clubs, which you can display with the “Show clubs” option, are associations belonging to the Fédération Belge Francophone de Pétanque (FBFP) or the Petanque Federatie Vlaanderen (PFV): they have their own courts, often covered or floodlit, organise training sessions and competitions, and issue the licence needed to play competitively. Access conditions vary from club to club: many are happy to welcome visitors, but it's best to get in touch before you go."
         }
     ]
 }

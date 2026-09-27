@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mapetanque.be</title>
+    <meta name="description" id="meta-description" content="Interactive map of publicly accessible pétanque courts in Belgium: search by town, geolocation and lists by region on Mapetanque.be.">
+    <link rel="icon" type="image/svg+xml" href="/images/mapetanque-boule.svg?v=3">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png?v=3">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Open Graph : aperçu affiché lors du partage du lien (WhatsApp, Facebook, etc.) -->
+    <meta property="og:title" content="Mapetanque.be">
+    <meta property="og:description" content="Interactive map of publicly accessible pétanque courts in Belgium: search by town, geolocation and lists by region on Mapetanque.be.">
+    <meta property="og:image" content="https://mapetanque.be/images/mapetanque-partage.png">
+    <meta property="og:url" content="https://mapetanque.be/en/">
+    <meta property="og:type" content="website">
+
+    <!-- Versions par langue : indique à Google que /, /nl/, /de/ et /en/ sont la même page en
+         4 langues, et non 4 pages de contenu dupliqué. Ce bloc doit être identique (mêmes 5
+         lignes) dans les <head> de /index.html, /nl/index.html, /de/index.html et /en/index.html. -->
+    <link rel="canonical" href="https://mapetanque.be/en/">
+    <link rel="alternate" hreflang="fr" href="https://mapetanque.be/">
+    <link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/">
+    <link rel="alternate" hreflang="de" href="https://mapetanque.be/de/">
+    <link rel="alternate" hreflang="en" href="https://mapetanque.be/en/">
+    <link rel="alternate" hreflang="x-default" href="https://mapetanque.be/">
+
+    <!-- Bibliothèque Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+
+    <!-- Feuille de style du site (chemin absolu : ce même fichier index.html est aussi servi
+         depuis /nl/ et /de/, un chemin relatif irait chercher /nl/style.css et casserait tout) -->
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style-chargeur-photo.css">
+
+    <!-- Bannière photo + grille "Parcourir par province" : ajouts additifs uniquement, aucune
+         règle de /style.css n'est modifiée par ce fichier. -->
+    <link rel="stylesheet" href="/style-accueil-provinces.css">
+
+    <!-- Carrousel "Les plus beaux terrains" : additif également, aucune règle de /style.css
+         n'est modifiée par ce fichier. -->
+    <link rel="stylesheet" href="/style-beaux-terrains.css">
+</head>
+
+<body>
+
+<div class="map-view" id="top">
+
+<div class="hero-banner">
+
+<div class="header">
+
+    <div class="header-top-row">
+        <a href="#top" class="brand-link">
+            <picture>
+                <source media="(max-width: 1024px)" srcset="/images/mapetanque-boule.svg" width="32" height="32">
+                <img src="/images/mapetanque-logo-blanc.svg" class="logo" width="241" height="34" alt="Mapetanque.be">
+            </picture>
+        </a>
+
+        <!-- Navigation desktop : liens directs vers le panneau d'info + sélecteur de langue discret -->
+        <div class="header-nav-group">
+        <span id="game-nav-inline">
+            <a href="/en/comment-jouer.html" class="game-nav-link jouer"><svg viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;stroke-width:1.91px;}</style></defs><polyline class="cls-1" points="13.91 10.09 14.86 11.04 16.77 9.14"/><polyline class="cls-1" points="13.91 13.91 14.86 14.86 16.77 12.96"/><line class="cls-1" x1="7.23" y1="11.05" x2="11.05" y2="11.05"/><line class="cls-1" x1="7.23" y1="14.86" x2="11.05" y2="14.86"/><polyline class="cls-1" points="13.91 17.73 14.86 18.68 16.77 16.77"/><line class="cls-1" x1="7.23" y1="18.68" x2="11.05" y2="18.68"/><polygon class="cls-1" points="20.59 6.27 20.59 22.5 3.41 22.5 3.41 1.5 15.82 1.5 20.59 6.27"/><polygon class="cls-1" points="20.59 6.27 20.59 7.23 14.86 7.23 14.86 1.5 15.82 1.5 20.59 6.27"/></svg><span data-i18n="menu_comment_jouer">Comment jouer</span></a>
+            <a href="/en/compteur.html" class="game-nav-link compteur"><svg fill="currentColor" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+	 viewBox="0 0 512 512" xml:space="preserve">
+<g>
+	<g>
+		<path d="M469.973,75.985H353.357V50.769c0-11.605-9.408-21.013-21.013-21.013c-11.605,0-21.013,9.408-21.013,21.013v25.216
+			H200.659V50.769c0-11.605-9.408-21.013-21.013-21.013c-11.605,0-21.013,9.408-21.013,21.013v25.216H42.027
+			C18.853,75.985,0,94.838,0,118.012c0,11.55,0,297.873,0,322.206c0,23.174,18.853,42.027,42.027,42.027
+			c18.793,0,409.188,0,427.946,0c23.174,0,42.027-18.853,42.027-42.027c0-24.441,0-310.739,0-322.206
+			C512,94.838,493.147,75.985,469.973,75.985z M42.027,190.858v-72.847h0l116.607-0.007v19.62c0,11.605,9.408,21.013,21.013,21.013
+			c11.605,0,21.013-9.408,21.013-21.013v-19.621l110.671-0.006v19.627c0,11.605,9.408,21.013,21.013,21.013
+			c11.605,0,21.013-9.408,21.013-21.013v-19.629l116.615-0.007c0,0,0,0.008,0,0.024v72.847
+			C451.18,190.858,60.785,190.858,42.027,190.858z M234.987,440.218H42.027V232.885h192.96V440.218z M469.973,440.218h-192.96
+			V232.885h192.96V440.218z"/>
+	</g>
+</g>
+<g>
+	<g>
+		<path d="M159.904,299.504c-13.867-21.128-39.257-21.367-53.278,0c-13.111,19.069-12.829,49.983,0,68.643
+			c14.155,21.236,39.103,21.263,53.278,0C172.663,349.154,172.846,318.766,159.904,299.504z M146.691,359.243
+			c-8.047,11.931-18.766,11.8-26.997,0c-9.068-13.601-9.289-36.713,0-50.98c8.108-11.35,18.614-12.139,26.997,0
+			C155.973,322.516,155.766,345.634,146.691,359.243z"/>
+	</g>
+</g>
+<g>
+	<g>
+		<path d="M394.889,299.504c-13.866-21.128-39.256-21.367-53.278,0c-13.111,19.069-12.829,49.983,0,68.643
+			c14.155,21.236,39.103,21.263,53.278,0C407.648,349.154,407.831,318.766,394.889,299.504z M381.676,359.243
+			c-8.045,11.931-18.765,11.8-26.997,0c-9.068-13.603-9.289-36.713,0-50.98c8.108-11.35,18.614-12.139,26.997,0
+			C390.957,322.516,390.751,345.634,381.676,359.243z"/>
+	</g>
+</g>
+</svg><span data-i18n="menu_compteur">Compteur de points</span></a>
+            <a href="/en/la-petanque.html" class="game-nav-link petanque"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"></path><path d="M3 3v5h5"></path><path d="M12 7v5l4 2"></path></svg><span data-i18n="menu_la_petanque">La pétanque</span></a>
+        </span>
+        <nav id="desktop-nav">
+            <a href="/en/a-propos.html" class="info-nav-trigger" data-i18n="menu_about">À propos</a>
+            <a href="/en/faq.html" class="info-nav-trigger" data-i18n="menu_faq">FAQ</a>
+
+            <span id="lang-switcher-inline">
+                <button type="button" class="lang-link" data-lang="fr" data-lang-url="/">FR</button>
+                <button type="button" class="lang-link" data-lang="nl" data-lang-url="/nl/">NL</button>
+                <button type="button" class="lang-link" data-lang="de" data-lang-url="/de/">DE</button>
+                <button type="button" class="lang-link" data-lang="en" data-lang-url="/en/">EN</button>
+            </span>
+        </nav>
+        </div>
+
+        <!-- Menu burger (mobile uniquement) -->
+        <button id="menu-button" aria-label="Menu" data-i18n-aria="open_menu">
+            <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+        </button>
+
+        <nav id="side-menu">
+            <button id="close-menu" data-i18n-aria="close_menu">
+                ✕
+            </button>
+
+            <ul>
+                <li><a href="/en/comment-jouer.html" class="side-menu-game-link jouer"><svg viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;stroke:currentColor;stroke-miterlimit:10;stroke-width:1.91px;}</style></defs><polyline class="cls-1" points="13.91 10.09 14.86 11.04 16.77 9.14"/><polyline class="cls-1" points="13.91 13.91 14.86 14.86 16.77 12.96"/><line class="cls-1" x1="7.23" y1="11.05" x2="11.05" y2="11.05"/><line class="cls-1" x1="7.23" y1="14.86" x2="11.05" y2="14.86"/><polyline class="cls-1" points="13.91 17.73 14.86 18.68 16.77 16.77"/><line class="cls-1" x1="7.23" y1="18.68" x2="11.05" y2="18.68"/><polygon class="cls-1" points="20.59 6.27 20.59 22.5 3.41 22.5 3.41 1.5 15.82 1.5 20.59 6.27"/><polygon class="cls-1" points="20.59 6.27 20.59 7.23 14.86 7.23 14.86 1.5 15.82 1.5 20.59 6.27"/></svg><span data-i18n="menu_comment_jouer">Comment jouer</span></a></li>
+                <li><a href="/en/compteur.html" class="side-menu-game-link compteur"><svg fill="currentColor" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+	 viewBox="0 0 512 512" xml:space="preserve">
+<g>
+	<g>
+		<path d="M469.973,75.985H353.357V50.769c0-11.605-9.408-21.013-21.013-21.013c-11.605,0-21.013,9.408-21.013,21.013v25.216
+			H200.659V50.769c0-11.605-9.408-21.013-21.013-21.013c-11.605,0-21.013,9.408-21.013,21.013v25.216H42.027
+			C18.853,75.985,0,94.838,0,118.012c0,11.55,0,297.873,0,322.206c0,23.174,18.853,42.027,42.027,42.027
+			c18.793,0,409.188,0,427.946,0c23.174,0,42.027-18.853,42.027-42.027c0-24.441,0-310.739,0-322.206
+			C512,94.838,493.147,75.985,469.973,75.985z M42.027,190.858v-72.847h0l116.607-0.007v19.62c0,11.605,9.408,21.013,21.013,21.013
+			c11.605,0,21.013-9.408,21.013-21.013v-19.621l110.671-0.006v19.627c0,11.605,9.408,21.013,21.013,21.013
+			c11.605,0,21.013-9.408,21.013-21.013v-19.629l116.615-0.007c0,0,0,0.008,0,0.024v72.847
+			C451.18,190.858,60.785,190.858,42.027,190.858z M234.987,440.218H42.027V232.885h192.96V440.218z M469.973,440.218h-192.96
+			V232.885h192.96V440.218z"/>
+	</g>
+</g>
+<g>
+	<g>
+		<path d="M159.904,299.504c-13.867-21.128-39.257-21.367-53.278,0c-13.111,19.069-12.829,49.983,0,68.643
+			c14.155,21.236,39.103,21.263,53.278,0C172.663,349.154,172.846,318.766,159.904,299.504z M146.691,359.243
+			c-8.047,11.931-18.766,11.8-26.997,0c-9.068-13.601-9.289-36.713,0-50.98c8.108-11.35,18.614-12.139,26.997,0
+			C155.973,322.516,155.766,345.634,146.691,359.243z"/>
+	</g>
+</g>
+<g>
+	<g>
+		<path d="M394.889,299.504c-13.866-21.128-39.256-21.367-53.278,0c-13.111,19.069-12.829,49.983,0,68.643
+			c14.155,21.236,39.103,21.263,53.278,0C407.648,349.154,407.831,318.766,394.889,299.504z M381.676,359.243
+			c-8.045,11.931-18.765,11.8-26.997,0c-9.068-13.603-9.289-36.713,0-50.98c8.108-11.35,18.614-12.139,26.997,0
+			C390.957,322.516,390.751,345.634,381.676,359.243z"/>
+	</g>
+</g>
+</svg><span data-i18n="menu_compteur">Compteur de points</span></a></li>
+                <li><a href="/en/la-petanque.html" class="side-menu-game-link petanque"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"></path><path d="M3 3v5h5"></path><path d="M12 7v5l4 2"></path></svg><span data-i18n="menu_la_petanque">La pétanque</span></a></li>
+                <li><a href="/en/a-propos.html" data-i18n="menu_about">À propos</a></li>
+                <li><a href="/en/faq.html" data-i18n="menu_faq">FAQ</a></li>
+        
+            </ul>
+
+            <!-- Sélecteur de langue discret, plus de bouton en évidence : la détection automatique
+                 (navigateur + mémorisation locale) suffit dans l'immense majorité des cas, ceci reste
+                 disponible en repli pour corriger manuellement si besoin. -->
+            <div id="side-menu-lang">
+                <button type="button" class="lang-link" data-lang="fr" data-lang-url="/">FR</button>
+                <button type="button" class="lang-link" data-lang="nl" data-lang-url="/nl/">NL</button>
+                <button type="button" class="lang-link" data-lang="de" data-lang-url="/de/">DE</button>
+                <button type="button" class="lang-link" data-lang="en" data-lang-url="/en/">EN</button>
+            </div>
+        </nav>
+
+        <div id="menu-overlay"></div>
+    </div>
+
+    <h1 class="hero-headline" data-i18n="hero_headline">Trouvez un terrain de pétanque public</h1>
+
+</div>
+
+<div class="controls">
+    <button id="locateBtn">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        <span data-i18n="locate_btn">Me localiser</span>
+    </button>
+
+    <form id="searchForm" class="search-form">
+        <input
+            type="text"
+            id="searchInput"
+            data-i18n-placeholder="search_placeholder"
+            autocomplete="off"
+        >
+        <button type="submit" id="searchBtn" aria-label="Rechercher">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </button>
+    </form>
+
+    <a href="#stats-section" id="browseListBtn">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+        <span data-i18n="browse_list_btn">Parcourir la liste</span>
+    </a>
+</div>
+
+<!-- Crédit photo bannière -->
+<div class="hero-banner-credit">
+    Photo : Jean-Claude Parayre, <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a>
+</div>
+
+</div><!-- /.hero-banner -->
+
+<p class="add-terrain-link-wrapper">
+    <a href="/en/faq.html#terrain-manquant" id="add-terrain-link" data-i18n="add_terrain_link">Ajouter un terrain de pétanque</a>
+</p>
+
+<p id="searchError" class="search-error"></p>
+
+<!-- Panneau de partage réutilisable (site ou terrain précis) -->
+<div id="share-overlay"></div>
+
+<!-- Fiche terrain plein écran sur mobile — voir le commentaire dans style.css et
+     ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. Vide par défaut, son
+     contenu est déplacé ici (pas copié) depuis le popup Leaflet correspondant à l'ouverture. -->
+<div id="mobile-sheet-overlay"></div>
+<div id="mobile-sheet">
+    <button id="mobile-sheet-close" aria-label="Fermer">&#10005;</button>
+    <div id="mobile-sheet-content"></div>
+</div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
+<div id="share-panel">
+    <button id="share-close" data-i18n-aria="close_panel">✕</button>
+    <p id="share-title" class="share-title"></p>
+
+    <div class="share-links">
+        <a id="share-whatsapp" class="share-link" target="_blank" rel="noopener">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></span><span data-i18n="share_whatsapp">WhatsApp</span>
+        </a>
+        <a id="share-facebook" class="share-link" target="_blank" rel="noopener">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></span><span data-i18n="share_facebook">Facebook</span>
+        </a>
+        <a id="share-twitter" class="share-link" target="_blank" rel="noopener">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><span data-i18n="share_twitter">X (Twitter)</span>
+        </a>
+        <a id="share-email" class="share-link">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span><span data-i18n="share_email">E-mail</span>
+        </a>
+        <button type="button" id="share-copy" class="share-link">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></span><span id="share-copy-label" data-i18n="share_copy">Copier le lien</span>
+        </button>
+    </div>
+</div>
+
+<!-- Modale "Ajouter une photo", ouverte depuis le bouton correspondant dans une popup de
+     terrain sans photo (voir brancherPhotosPopup dans script.js). Structure calquée sur
+     #share-panel/#share-overlay ci-dessus. -->
+<div id="add-photo-overlay"></div>
+<div id="add-photo-modal">
+    <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
+    <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
+    <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
+
+    <div id="add-photo-form-zone">
+        <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <p class="add-photo-tip"><strong data-i18n="add_photo_tip_label">Astuce :</strong> <span data-i18n="add_photo_tip">Prenez votre photo au format paysage (téléphone à l'horizontale), pour coller au format des photos Mapillary.</span> <a href="https://www.mapillary.com" target="_blank" rel="noopener" data-i18n="add_photo_tip_link">En savoir plus sur Mapillary</a></p><label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
+    </div>
+</div>
+
+
+<div class="map-wrapper">
+    <div id="map"></div>
+</div>
+
+</div><!-- /.map-view -->
+
+<!-- Section "Les plus beaux terrains" : sélection curatée, affichée juste au-dessus de la
+     grille des provinces. Le titre et la liste sont remplis par /beaux-terrains.js à partir de
+     /data/beaux_terrains.json ; le titre écrit ici sert de repli si le JS ne s'exécute pas. La
+     région n'est pas imposée sur cette page : elle est devinée par géolocalisation IP (repli
+     "en Belgique"). -->
+<section id="beaux-terrains" class="beaux-terrains-accueil">
+    <div class="provinces-container">
+        <h2 data-i18n="beaux_terrains_titre_belgique">The most beautiful courts in Belgium</h2>
+
+        <div class="beaux-terrains-carrousel">
+            <div class="beaux-terrains-scroller"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Section "Parcourir par région" : affichée avant les provinces, Bruxelles y figure à sa
+     vraie place (ce n'est pas une province) et renvoie directement vers sa page dédiée
+     existante (pas de page région séparée pour Bruxelles, qui n'a pas de sous-provinces). -->
+<section id="regions-section">
+    <div class="provinces-container">
+        <h2 data-i18n="regions_section_title">Browse by region</h2>
+
+        <div class="province-tiles-grid regions-tiles-grid">
+            <a href="/en/region-flandre.html" class="province-tile" style="background-image: url('/images/provinces/tuile-flandre.jpg');">
+                <span class="province-tile-name">Flanders</span>
+            </a>
+            <a href="/en/region-wallonie.html" class="province-tile" style="background-image: url('/images/provinces/tuile-wallonie.jpg');">
+                <span class="province-tile-name">Wallonia</span>
+            </a>
+            <a href="/en/province-bruxelles.html" class="province-tile" style="background-image: url('/images/provinces/tuile-bruxelles.jpg');">
+                <span class="province-tile-name">Brussels</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Section "Parcourir par province" : remplace visuellement l'ancienne section statistiques
+     (#stats-section juste en dessous, désormais masquée en CSS mais conservée intacte dans le DOM
+     — tout son JS continue de tourner normalement, rien n'a été retiré). -->
+<section id="provinces-section">
+    <div class="provinces-container">
+        <h2 data-i18n="provinces_section_title">Parcourir par province</h2>
+
+        <div class="province-tiles-grid">
+            <a href="/en/province-anvers.html" class="province-tile" style="background-image: url('/images/provinces/tuile-anvers.jpg');">
+                <span class="province-tile-name">Antwerp</span>
+            </a>
+            <a href="/en/province-brabant-flamand.html" class="province-tile" style="background-image: url('/images/provinces/tuile-brabant-flamand.jpg');">
+                <span class="province-tile-name">Flemish Brabant</span>
+            </a>
+            <a href="/en/province-flandre-orientale.html" class="province-tile" style="background-image: url('/images/provinces/tuile-flandre-orientale.jpg');">
+                <span class="province-tile-name">East Flanders</span>
+            </a>
+            <a href="/en/province-flandre-occidentale.html" class="province-tile" style="background-image: url('/images/provinces/tuile-flandre-occidentale.jpg');">
+                <span class="province-tile-name">West Flanders</span>
+            </a>
+            <a href="/en/province-limbourg.html" class="province-tile" style="background-image: url('/images/provinces/tuile-limbourg.jpg');">
+                <span class="province-tile-name">Limburg</span>
+            </a>
+            <a href="/en/province-brabant-wallon.html" class="province-tile" style="background-image: url('/images/provinces/tuile-brabant-wallon.jpg');">
+                <span class="province-tile-name">Walloon Brabant</span>
+            </a>
+            <a href="/en/province-hainaut.html" class="province-tile" style="background-image: url('/images/provinces/tuile-hainaut.jpg');">
+                <span class="province-tile-name">Hainaut</span>
+            </a>
+            <a href="/en/province-liege.html" class="province-tile" style="background-image: url('/images/provinces/tuile-liege.jpg');">
+                <span class="province-tile-name">Liège</span>
+            </a>
+            <a href="/en/province-luxembourg.html" class="province-tile" style="background-image: url('/images/provinces/tuile-luxembourg.jpg');">
+                <span class="province-tile-name">Luxembourg</span>
+            </a>
+            <a href="/en/province-namur.html" class="province-tile" style="background-image: url('/images/provinces/tuile-namur.jpg');">
+                <span class="province-tile-name">Namur</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Section statistiques : conservée intacte, JS toujours actif, seulement masquée visuellement
+     (voir /style-accueil-provinces.css). Rien n'est supprimé ici. -->
+<section id="stats-section">
+    <div class="stats-container">
+        <h2 data-i18n="stats_page_title">Statistiques</h2>
+
+        <div class="stats-headline">
+            <span class="stats-headline-number">…</span>
+            <span class="stats-headline-label" data-i18n="stats_headline_label">terrains de pétanque recensés en Belgique</span>
+        </div>
+
+        <!-- Contenu construit dynamiquement en JS depuis data/stats_geo.json (voir construireStatsGeo
+             dans script.js), au chargement de la page et à chaque changement de langue — pas au clic,
+             donc indexable normalement, comme le reste des données de la carte. -->
+        <div id="stats-regions-tiles" class="stats-regions-tiles"></div>
+
+        <div id="stats-geo-tree"></div>
+    </div>
+</section>
+
+<!-- Panneau d'info coulissant -->
+
+<footer>
+    <div class="footer-content">
+        <p class="footer-small">
+            <span id="site-stats"></span>
+        </p>
+
+        <div class="footer-share">
+            <a id="footer-share-whatsapp" class="footer-share-icon" target="_blank" rel="noopener" data-i18n-aria="share_whatsapp" aria-label="WhatsApp">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            </a>
+            <a id="footer-share-facebook" class="footer-share-icon" target="_blank" rel="noopener" data-i18n-aria="share_facebook" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+            </a>
+            <a id="footer-share-twitter" class="footer-share-icon" target="_blank" rel="noopener" data-i18n-aria="share_twitter" aria-label="X (Twitter)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </a>
+            <a id="footer-share-email" class="footer-share-icon" data-i18n-aria="share_email" aria-label="E-mail">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </a>
+            <span class="footer-share-copy-wrapper">
+                <button type="button" id="footer-share-copy" class="footer-share-icon" data-i18n-aria="share_copy" aria-label="Copier le lien">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                </button>
+                <span id="copy-tooltip" class="copy-tooltip"></span>
+            </span>
+        </div>
+    </div>
+</footer>
+
+<!-- Bibliothèque Leaflet -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+<!-- Traductions -->
+<script src="/translations.js"></script>
+
+<!-- Script du site -->
+<script src="/chargeur-photo.js"></script>
+    <script src="/script.js"></script>
+<!-- Carrousel "Les plus beaux terrains" : après script.js, dont il utilise allerVersTerrain()
+     pour ouvrir la fiche du bon terrain au clic sur une tuile. -->
+<script src="/beaux-terrains.js"></script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
+
+
+<script>
+document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+        window.location.href = btn.dataset.langUrl;
+    });
+});
+</script>
+</body>
+</html>

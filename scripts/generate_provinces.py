@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-Générateur des pages provinces de Mapetanque (FR + NL + DE).
+Générateur des pages provinces de Mapetanque (FR + NL + DE + EN).
 
 Lit :
   - templates/province_template.html   (template avec jetons {{...}})
   - data/provinces.json                (contenu propre à chaque province, avec traductions
-                                         optionnelles sous province["translations"]["nl"/"de"])
+                                         optionnelles sous province["translations"]["nl"/"de"/"en"])
   - data/stats_geo.json                (mêmes données que le site : terrains/communes)
   - translations.js                    (SOURCE UNIQUE des noms de provinces/régions et des
                                          textes d'interface des pages province — mêmes clés
@@ -17,9 +17,10 @@ Lit :
   - province-<slug>.html               (français, à la racine)
   - nl/province-<slug>.html            (néerlandais, si traduction dispo)
   - de/province-<slug>.html            (allemand, si traduction dispo)
-  - data/communes-<slug>.json          (partagé entre les 3 langues, écrit une seule fois)
+  - en/province-<slug>.html            (anglais, si traduction dispo)
+  - data/communes-<slug>.json          (partagé entre les 4 langues, écrit une seule fois)
 
-Une langue "pas encore prête" pour une province (pas d'entrée dans translations.nl/de) est
+Une langue "pas encore prête" pour une province (pas d'entrée dans translations.nl/de/en) est
 ignorée avec un message clair, plutôt que de générer une page à moitié traduite. Le sélecteur
 de langue de chaque page renvoie alors vers la racine de la langue cible (comportement de repli
 déjà existant sur le reste du site) plutôt que vers un lien mort.
@@ -45,12 +46,12 @@ SITEMAP_PATH = BASE_DIR / "sitemap.xml"
 MARQUEUR_DEBUT = "<!-- DEBUT PAGES PROVINCES"
 MARQUEUR_FIN = "<!-- FIN PAGES PROVINCES -->"
 
-LANGUES = ["fr", "nl", "de"]
+LANGUES = ["fr", "nl", "de", "en"]
 
 
 def charger_traductions_js(path):
     """Extrait les paires clé/valeur (chaînes simples uniquement) de chaque bloc de langue
-    fr:{...}/nl:{...}/de:{...} de translations.js, par une lecture directe du fichier plutôt
+    fr:{...}/nl:{...}/de:{...}/en:{...} de translations.js, par une lecture directe du fichier plutôt
     que de dupliquer son contenu dans un fichier séparé à maintenir en parallèle.
 
     Volontairement limité aux valeurs "chaîne de caractères" (ignore silencieusement les clés
@@ -86,11 +87,18 @@ def recuperer_communes(stats_geo, region_key, province_key):
     return province["communes"], province["total"]
 
 
-def calculer_densite(total_terrains, area_km2):
+def calculer_densite(total_terrains, area_km2, langue="fr"):
+    """Densité à une décimale : virgule en français, néerlandais et allemand, point en anglais."""
     if not area_km2:
         return None
     valeur = total_terrains / (area_km2 / 100)
-    return f"{valeur:.1f}".replace(".", ",")
+    texte = f"{valeur:.1f}"
+    return texte if langue == "en" else texte.replace(".", ",")
+
+
+def credit_banniere(credit_html, langue):
+    """Typographie anglaise : pas d'espace avant le deux-points (« Photo: … »)."""
+    return credit_html.replace("Photo : ", "Photo: ") if langue == "en" else credit_html
 
 
 def construire_bloc_beaux_terrains(config, tr):
@@ -308,7 +316,7 @@ def generer_page(cle, config, langue, langues_disponibles, other_provinces_block
         stats_geo, config["stats_geo_region"], config["stats_geo_province"]
     )
     nb_communes = len(communes)
-    densite = calculer_densite(total_terrains, config.get("area_km2"))
+    densite = calculer_densite(total_terrains, config.get("area_km2"), langue)
 
     nom_province = nom_traduit_province(cle, langue, traductions)
     nom_region = tr[f"geo_region_{config['region_key']}"]
@@ -348,7 +356,7 @@ def generer_page(cle, config, langue, langues_disponibles, other_provinces_block
         "{{REGION_NAME}}": nom_region,
         "{{REGION_URL}}": region_url,
         "{{PROVINCE_NAME}}": nom_province,
-        "{{BANNER_CREDIT_HTML}}": config["banner_credit_html"],
+        "{{BANNER_CREDIT_HTML}}": credit_banniere(config["banner_credit_html"], langue),
         "{{INTRO_HTML}}": intro_html,
         "{{STAT_TERRAINS}}": str(total_terrains),
         "{{STAT_COMMUNES}}": str(nb_communes),
@@ -365,6 +373,7 @@ def generer_page(cle, config, langue, langues_disponibles, other_provinces_block
         "{{URL_FR}}": url_page(config["slug"], "fr") if "fr" in langues_disponibles else url_racine_langue("fr"),
         "{{URL_NL}}": url_page(config["slug"], "nl") if "nl" in langues_disponibles else url_racine_langue("nl"),
         "{{URL_DE}}": url_page(config["slug"], "de") if "de" in langues_disponibles else url_racine_langue("de"),
+        "{{URL_EN}}": url_page(config["slug"], "en") if "en" in langues_disponibles else url_racine_langue("en"),
         "{{UI_ACCUEIL}}": tr["province_accueil_breadcrumb"],
         "{{UI_TERRAINS_RECENSES}}": tr["province_terrains_recenses"],
         "{{UI_COMMUNES_COUVERTES}}": tr["province_communes_couvertes"],
@@ -434,7 +443,7 @@ def generer_page_region(cle, config, langue, langues_disponibles, template, stat
         "{{H1}}": h1,
         "{{BANNER_IMAGE}}": config["banner_image"],
         "{{REGION_NAME}}": nom_region,
-        "{{BANNER_CREDIT_HTML}}": config["banner_credit_html"],
+        "{{BANNER_CREDIT_HTML}}": credit_banniere(config["banner_credit_html"], langue),
         "{{INTRO_HTML}}": intro_html,
         "{{STAT_TERRAINS}}": str(total_terrains),
         "{{STAT_PROVINCES}}": str(nb_provinces),
@@ -449,6 +458,7 @@ def generer_page_region(cle, config, langue, langues_disponibles, template, stat
         "{{URL_FR}}": url_page_region(config["slug"], "fr") if "fr" in langues_disponibles else url_racine_langue("fr"),
         "{{URL_NL}}": url_page_region(config["slug"], "nl") if "nl" in langues_disponibles else url_racine_langue("nl"),
         "{{URL_DE}}": url_page_region(config["slug"], "de") if "de" in langues_disponibles else url_racine_langue("de"),
+        "{{URL_EN}}": url_page_region(config["slug"], "en") if "en" in langues_disponibles else url_racine_langue("en"),
         "{{UI_ACCUEIL}}": tr["province_accueil_breadcrumb"],
         "{{UI_TERRAINS_RECENSES}}": tr["province_terrains_recenses"],
         "{{UI_PROVINCES_COUVERTES}}": tr["region_provinces_couvertes"],
@@ -499,7 +509,7 @@ def construire_bloc_sitemap_url(url_absolue, langues_disponibles, url_par_langue
 def mettre_a_jour_sitemap(pages_generees):
     """pages_generees : liste de (slug, langues_disponibles, fonction_url). Remplace uniquement
     la section entre les marqueurs DEBUT/FIN PAGES PROVINCES, laisse tout le reste du fichier
-    (page d'accueil FR/NL/DE, etc.) strictement intact. Contient aussi bien les pages province
+    (page d'accueil FR/NL/DE/EN, etc.) strictement intact. Contient aussi bien les pages province
     que les pages région, malgré le nom des marqueurs conservé tel quel pour ne pas avoir à
     retoucher sitemap.xml une nouvelle fois."""
     if not SITEMAP_PATH.exists():
@@ -534,7 +544,7 @@ def main():
     stats_geo = charger_json(STATS_GEO_PATH)
     traductions = charger_traductions_js(TRANSLATIONS_JS_PATH)
 
-    print("Génération des pages provinces (FR + NL + DE)...\n")
+    print("Génération des pages provinces (FR + NL + DE + EN)...\n")
 
     communes_deja_ecrites = set()
     generees, ignorees = 0, 0
@@ -574,7 +584,7 @@ def main():
 
     print(f"\n{generees} page(s) province générée(s), {ignorees} ignorée(s) (français incomplet).")
 
-    print("\nGénération des pages régions (FR + NL + DE)...\n")
+    print("\nGénération des pages régions (FR + NL + DE + EN)...\n")
     generees_regions, ignorees_regions = 0, 0
 
     for cle, config in regions.items():

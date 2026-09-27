@@ -8,6 +8,7 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/" />
         <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/" />
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/" />
     </url>
     <url>
@@ -17,6 +18,7 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/" />
         <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/" />
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/" />
     </url>
     <url>
@@ -26,6 +28,17 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/" />
         <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/" />
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/" />
+    </url>
+    <url>
+        <loc>https://mapetanque.be/en/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/" />
     </url>
 
@@ -36,6 +49,7 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/la-petanque.html" />
         <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/la-petanque.html" />
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/la-petanque.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/la-petanque.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/la-petanque.html" />
     </url>
     <url>
@@ -45,6 +59,7 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/la-petanque.html" />
         <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/la-petanque.html" />
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/la-petanque.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/la-petanque.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/la-petanque.html" />
     </url>
     <url>
@@ -54,6 +69,17 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/la-petanque.html" />
         <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/la-petanque.html" />
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/la-petanque.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/la-petanque.html" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/la-petanque.html" />
+    </url>
+    <url>
+        <loc>https://mapetanque.be/en/la-petanque.html</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/la-petanque.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/la-petanque.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/la-petanque.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/la-petanque.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/la-petanque.html" />
     </url>
 
@@ -65,6 +91,7 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/province-anvers.html" />
         <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/province-anvers.html" />
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/province-anvers.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/province-anvers.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/province-anvers.html" />
     </url>
     <url>
@@ -74,6 +101,7 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/province-brabant-flamand.html" />
         <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/province-brabant-flamand.html" />
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/province-brabant-flamand.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/province-brabant-flamand.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/province-brabant-flamand.html" />
     </url>
     <url>
@@ -83,6 +111,7 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/province-flandre-orientale.html" />
         <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/province-flandre-orientale.html" />
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/province-flandre-orientale.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/province-flandre-orientale.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/province-flandre-orientale.html" />
     </url>
     <url>
@@ -92,6 +121,7 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/province-flandre-occidentale.html" />
         <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/province-flandre-occidentale.html" />
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/province-flandre-occidentale.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/province-flandre-occidentale.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/province-flandre-occidentale.html" />
     </url>
     <url>
@@ -101,6 +131,7 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/province-limbourg.html" />
         <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/province-limbourg.html" />
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/province-limbourg.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/province-limbourg.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/province-limbourg.html" />
     </url>
     <url>
@@ -110,6 +141,7 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/province-brabant-wallon.html" />
         <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/province-brabant-wallon.html" />
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/province-brabant-wallon.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/province-brabant-wallon.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/province-brabant-wallon.html" />
     </url>
     <url>
@@ -119,6 +151,7 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/province-hainaut.html" />
         <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/province-hainaut.html" />
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/province-hainaut.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/province-hainaut.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/province-hainaut.html" />
     </url>
     <url>
@@ -128,6 +161,7 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/province-liege.html" />
         <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/province-liege.html" />
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/province-liege.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/province-liege.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/province-liege.html" />
     </url>
     <url>
@@ -137,6 +171,7 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/province-luxembourg.html" />
         <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/province-luxembourg.html" />
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/province-luxembourg.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/province-luxembourg.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/province-luxembourg.html" />
     </url>
     <url>
@@ -146,6 +181,7 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/province-namur.html" />
         <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/province-namur.html" />
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/province-namur.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/province-namur.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/province-namur.html" />
     </url>
     <url>
@@ -155,6 +191,7 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/province-bruxelles.html" />
         <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/province-bruxelles.html" />
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/province-bruxelles.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/province-bruxelles.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/province-bruxelles.html" />
     </url>
     <url>
@@ -164,6 +201,7 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/region-flandre.html" />
         <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/region-flandre.html" />
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/region-flandre.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/region-flandre.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/region-flandre.html" />
     </url>
     <url>
@@ -173,6 +211,7 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/region-wallonie.html" />
         <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/region-wallonie.html" />
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/region-wallonie.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/region-wallonie.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/region-wallonie.html" />
     </url>
 <!-- FIN PAGES PROVINCES -->
@@ -183,6 +222,7 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/faq.html" />
         <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/faq.html" />
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/faq.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/faq.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/faq.html" />
     </url>
     <url>
@@ -192,6 +232,7 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/faq.html" />
         <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/faq.html" />
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/faq.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/faq.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/faq.html" />
     </url>
     <url>
@@ -201,6 +242,17 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/faq.html" />
         <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/faq.html" />
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/faq.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/faq.html" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/faq.html" />
+    </url>
+    <url>
+        <loc>https://mapetanque.be/en/faq.html</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/faq.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/faq.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/faq.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/faq.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/faq.html" />
     </url>
     <url>
@@ -210,6 +262,7 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/a-propos.html" />
         <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/a-propos.html" />
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/a-propos.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/a-propos.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/a-propos.html" />
     </url>
     <url>
@@ -219,6 +272,7 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/a-propos.html" />
         <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/a-propos.html" />
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/a-propos.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/a-propos.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/a-propos.html" />
     </url>
     <url>
@@ -228,6 +282,17 @@
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/a-propos.html" />
         <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/a-propos.html" />
         <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/a-propos.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/a-propos.html" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/a-propos.html" />
+    </url>
+    <url>
+        <loc>https://mapetanque.be/en/a-propos.html</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/a-propos.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/a-propos.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/a-propos.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/a-propos.html" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/a-propos.html" />
     </url>
 </urlset>

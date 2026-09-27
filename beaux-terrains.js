@@ -303,7 +303,7 @@
         return niveaux.map(echapper).join(" &rsaquo; ");
     }
 
-    // Description du terrain dans la langue affichée. description_nl / description_de sont lus
+    // Description du terrain dans la langue affichée. description_nl / description_de / description_en sont lus
     // s'ils existent dans le JSON, sinon repli sur le texte français — même règle que dans les
     // fiches (voir construireContenuPopupTerrain dans script.js), pour que l'extrait de la tuile
     // et le texte complet de la fiche soient toujours dans la même langue.

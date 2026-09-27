@@ -12,6 +12,9 @@
       },
       "de": {
         "intro_html": "Flandern zählt <strong>{{STAT_TERRAINS}} Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>{{STAT_PROVINCES}} Provinzen</strong> und <strong>{{STAT_COMMUNES}} Gemeinden</strong>. Ostflandern führt mit 316 Plätzen, gefolgt von der Provinz Antwerpen mit 286 und Westflandern mit 226. Ob in Ostflandern, Antwerpen oder Westflandern – hier finden Sie alle flämischen Provinzen, um Ihre Suche zu verfeinern."
+      },
+      "en": {
+        "intro_html": "Flanders has <strong>{{STAT_TERRAINS}} pétanque courts</strong> listed on Mapetanque.be, spread across its <strong>{{STAT_PROVINCES}} provinces</strong> and <strong>{{STAT_COMMUNES}} municipalities</strong>. East Flanders leads with 316 courts, followed by the province of Antwerp with 286, then West Flanders with 226. Whether you're in East Flanders, Antwerp or West Flanders, you'll find all the Flemish provinces below to narrow down your search."
       }
     }
   },
@@ -27,6 +30,9 @@
       },
       "de": {
         "intro_html": "Wallonien zählt <strong>{{STAT_TERRAINS}} Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>{{STAT_PROVINCES}} Provinzen</strong> und <strong>{{STAT_COMMUNES}} Gemeinden</strong>. Die Provinz Lüttich führt mit 159 Plätzen, vor Hennegau mit 100 und Namur mit 91. Ob aus Lüttich, Hennegau oder Namur – hier finden Sie alle wallonischen Provinzen, um Ihre Suche zu verfeinern."
+      },
+      "en": {
+        "intro_html": "Wallonia has <strong>{{STAT_TERRAINS}} pétanque courts</strong> listed on Mapetanque.be, spread across its <strong>{{STAT_PROVINCES}} provinces</strong> and <strong>{{STAT_COMMUNES}} municipalities</strong>. The province of Liège leads with 159 courts, ahead of Hainaut with 100 and Namur with 91. Whether you're from Liège, Hainaut or Namur, you'll find all the Walloon provinces below to narrow down your search."
       }
     }
   }

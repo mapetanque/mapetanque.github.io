@@ -16,7 +16,7 @@ from pathlib import Path
 
 BASE = "https://mapetanque.be"
 
-LANGUES = (("fr", ""), ("nl", "nl/"), ("de", "de/"))
+LANGUES = (("fr", ""), ("nl", "nl/"), ("de", "de/"), ("en", "en/"))
 
 
 def _remplacer_meta(src, balise, valeur):
@@ -50,7 +50,7 @@ def construire_page(
     Écrit `cible` à partir de `squelette`.
 
     page              nom du fichier produit, ex. "faq.html" — sert à construire les URL
-    prefixe           "", "nl/" ou "de/"
+    prefixe           "", "nl/", "de/" ou "en/"
     titre             contenu de <title> et de og:title
     description       meta description et og:description
     h1                titre affiché dans la bannière
@@ -122,6 +122,9 @@ def construire_page(
             "url('/images/banniere-comment-jouer.webp')", f"url('{banniere}')", 1
         )
     if credit:
+        # Typographie anglaise : pas d'espace avant le deux-points (« Photo: … »).
+        if prefixe == "en/":
+            credit = credit.replace("Photo : ", "Photo: ")
         src = re.sub(
             r'<div class="hero-banner-credit">.*?</div>',
             f'<div class="hero-banner-credit">\n    {credit}\n</div>',
