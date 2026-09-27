@@ -234,6 +234,10 @@ for langue, meta in META.items():
         contenu=bloc_accordeon(items),
         tete_sup=donnees_structurees(items),
         banniere="/images/banniere-faq.webp",
-        credit="« Les Joueurs de pétanque, Marseille » par Émile Loubon",
+        credit=(
+            "« De petanque-spelers », d'après David Teniers, graveur inconnu, "
+            "<a href=\"https://commons.wikimedia.org/wiki/File:De_petanque-spelers_1635-1668_barcode_910000211454.jpg\" "
+            "target=\"_blank\" rel=\"noopener\">CC BY-SA 4.0</a>"
+        ),
     )
     print(f"{meta['prefixe']}faq.html : {taille} octets, {len(items)} questions")

@@ -81,6 +81,26 @@ def axes_vue(x, y, haut):
     raise RuntimeError("axes de vue indéterminés")
 
 
+def echantillonner_bilineaire(img_arr, map_x, map_y):
+    """Lecture bilinéaire dans l'équirectangulaire (raccord horizontal géré par modulo).
+    Remplace l'ancienne lecture « au plus proche voisin », qui donnait des bords en escalier
+    dès que la miniature agrandit la source."""
+    H, W = img_arr.shape[:2]
+    fx = map_x - 0.5                      # le pixel i couvre [i, i+1[ : on vise son centre
+    fy = np.clip(map_y - 0.5, 0, H - 1)
+    x0 = np.floor(fx).astype(np.int32)
+    y0 = np.floor(fy).astype(np.int32)
+    dx = (fx - x0)[..., None]
+    dy = (fy - y0)[..., None]
+    x0 %= W
+    x1 = (x0 + 1) % W
+    y1 = np.minimum(y0 + 1, H - 1)
+    src = img_arr.astype(np.float32)
+    ligne_haut = src[y0, x0] * (1 - dx) + src[y0, x1] * dx
+    ligne_bas = src[y1, x0] * (1 - dx) + src[y1, x1] * dx
+    return np.clip(ligne_haut * (1 - dy) + ligne_bas * dy + 0.5, 0, 255).astype(np.uint8)
+
+
 def equirect_vers_perspective(img_equirect, x, y, fov_deg, largeur_sortie, hauteur_sortie, haut=None):
     """Reprojection équirectangulaire -> perspective, centrée sur le point (x, y) de l'image
     brute. haut = vertical du monde (voir haut_reel) ; None = haut de l'image brute."""
@@ -104,10 +124,7 @@ def equirect_vers_perspective(img_equirect, x, y, fov_deg, largeur_sortie, haute
     map_x = (lon / (2 * np.pi) + 0.5) * W_in
     map_y = (0.5 - lat / np.pi) * H_in
 
-    map_x = np.clip(map_x.astype(np.int32), 0, W_in - 1)
-    map_y = np.clip(map_y.astype(np.int32), 0, H_in - 1)
-
-    return Image.fromarray(img_arr[map_y, map_x])
+    return Image.fromarray(echantillonner_bilineaire(img_arr, map_x, map_y))
 
 
 def zoom_app_vers_fov(zoom):
@@ -116,11 +133,12 @@ def zoom_app_vers_fov(zoom):
 
 
 def telecharger_vue(mapillary_id, token):
-    """Image 360° brute (équirectangulaire, 2048 px de large) et orientation calculée de la
-    caméra (computed_rotation, None si Mapillary ne la fournit pas)."""
+    """Image 360° brute (équirectangulaire, en résolution d'origine si Mapillary la fournit,
+    sinon 2048 px de large) et orientation calculée de la caméra (computed_rotation, None si
+    Mapillary ne la fournit pas)."""
     reponse = requests.get(f"https://graph.mapillary.com/{mapillary_id}", params={
         "access_token": token,
-        "fields": "thumb_2048_url,camera_type,computed_rotation",
+        "fields": "thumb_original_url,thumb_2048_url,camera_type,computed_rotation",
     }, timeout=20)
     if not reponse.ok:
         raise RuntimeError(f"HTTP {reponse.status_code} — {reponse.text[:200]}")
@@ -130,9 +148,9 @@ def telecharger_vue(mapillary_id, token):
         print(f"  ⚠ camera_type = {donnees.get('camera_type')!r}, pas 'spherical' : "
               f"résultat potentiellement incorrect.")
 
-    thumb_url = donnees.get("thumb_2048_url")
+    thumb_url = donnees.get("thumb_original_url") or donnees.get("thumb_2048_url")
     if not thumb_url:
-        raise RuntimeError(f"pas de thumb_2048_url dans la réponse : {donnees}")
+        raise RuntimeError(f"ni thumb_original_url ni thumb_2048_url dans la réponse : {donnees}")
 
     image = requests.get(thumb_url, timeout=30)
     image.raise_for_status()
