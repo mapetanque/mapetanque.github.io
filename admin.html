@@ -846,13 +846,6 @@ function construireCarte(terrain) {
         ? `${terrain.commune} — candidat : score ${c.score} — ${c.distance_m} m — écart angle ${c.ecart_angle_deg}° — ${formaterDate(c.captured_at)}`
         : `${terrain.commune} — aucun candidat automatique trouvé à proximité`;
 
-    if (estNouveau(cle)) {
-        const badge = document.createElement("span");
-        badge.className = "badge badge-nouveau";
-        badge.textContent = "NOUVEAU · apparu le " + formaterJour(APPARITIONS[cle]);
-        div.querySelector(".etiquettes").appendChild(badge);
-    }
-
     const zoneExtra = div.querySelector(".terrain-extra");
     zoneExtra.innerHTML = `
         <div class="pistes" hidden>
@@ -966,6 +959,16 @@ function construireCarte(terrain) {
         }
         div.className = "terrain-carte" +
             (etat.statut === "accepte" ? " decide-accepte" : rienTrouve ? " rien-trouve" : "");
+
+        // Le badge « NOUVEAU » disparaît dès que le terrain est traité, comme la puce.
+        const etiquettes = div.querySelector(".etiquettes");
+        etiquettes.innerHTML = "";
+        if (estNouveauATraiter(cle)) {
+            const badge = document.createElement("span");
+            badge.className = "badge badge-nouveau";
+            badge.textContent = "NOUVEAU · apparu le " + formaterJour(APPARITIONS[cle]);
+            etiquettes.appendChild(badge);
+        }
 
         div.replaceChild(vignetteCourante(), div.firstElementChild);
 
@@ -1135,11 +1138,23 @@ function estNouveau(osmId) {
     return (Date.now() - Date.parse(jour + "T00:00:00Z")) / 86400000 <= JOURS_NOUVEAU;
 }
 
+// Traité : une décision est prise (candidat accepté ou rejeté, « rien trouvé ») ou le
+// terrain a au moins une photo (validée, en ligne ou en attente de publication).
+function estTraite(osmId) {
+    return !!etatDe(osmId).statut || photosTerrain(osmId).total > 0;
+}
+
+// « Nouveau » au sens de la puce et du badge : récent ET pas encore traité. Une fois
+// traité, le terrain ne vit plus que dans sa catégorie (« Avec photo », « Rien trouvé »…).
+function estNouveauATraiter(osmId) {
+    return estNouveau(osmId) && !estTraite(osmId);
+}
+
 // Filtres des puces. Une seule définition, partagée par les compteurs et l'affichage : ce que
 // dit une puce est exactement ce qu'elle montre quand on clique dessus. Les photos comptent
 // dès qu'elles sont validées, en ligne ou pas encore publiées (voir photosTerrain).
-// « Nouveaux », « Nouvelles pistes », « Plusieurs photos » et « Tous » recoupent les
-// autres : les compteurs ne s'additionnent pas.
+// « Nouveaux » (sous-ensemble de « À décider »), « Nouvelles pistes », « Plusieurs photos »
+// et « Tous » recoupent les autres : les compteurs ne s'additionnent pas.
 const FILTRES = [
     ["nouveaux", "Nouveaux"],
     ["a_decider", "À décider"],
@@ -1154,11 +1169,10 @@ const FILTRES = [
 let FILTRE = "a_decider";
 
 function correspond(osmId, filtre) {
-    const etat = etatDe(osmId);
     const bilan = photosTerrain(osmId);
     switch (filtre) {
-        case "nouveaux": return estNouveau(osmId);
-        case "a_decider": return !etat.statut && bilan.total === 0;
+        case "nouveaux": return estNouveauATraiter(osmId);
+        case "a_decider": return !estTraite(osmId);
         case "avec_photo": return bilan.total >= 1;
         case "avec_360": return bilan.panos >= 1;
         case "avec_plates": return bilan.plates >= 1;
@@ -1260,12 +1274,16 @@ document.getElementById("tri").addEventListener("change", trierListe);
 /* ===================== Tableau de bord ===================== */
 
 function mettreAJourTableauBord() {
-    const nouveaux = TERRAINS.filter(t => estNouveau(t.osm_id));
-    const aDecider = nouveaux.filter(t => correspond(t.osm_id, "a_decider")).length;
-    document.getElementById("kpiNouveauxValeur").textContent = nouveaux.length;
-    document.getElementById("kpiNouveauxDetail").textContent = nouveaux.length
-        ? "apparus ces " + JOURS_NOUVEAU + " derniers jours, dont " + aDecider + " à décider"
-        : "aucun terrain apparu ces " + JOURS_NOUVEAU + " derniers jours";
+    const recents = TERRAINS.filter(t => estNouveau(t.osm_id)).length;
+    const aTraiter = TERRAINS.filter(t => estNouveauATraiter(t.osm_id)).length;
+    const traites = recents - aTraiter;
+    document.getElementById("kpiNouveauxValeur").textContent = aTraiter;
+    document.getElementById("kpiNouveauxDetail").textContent = !recents
+        ? "aucun terrain apparu ces " + JOURS_NOUVEAU + " derniers jours"
+        : aTraiter
+            ? "à traiter, apparus ces " + JOURS_NOUVEAU + " derniers jours"
+                + (traites ? " (" + traites + " déjà traité" + (traites > 1 ? "s" : "") + ")" : "")
+            : "tous traités (" + recents + " apparu" + (recents > 1 ? "s" : "") + " ces " + JOURS_NOUVEAU + " derniers jours)";
 }
 
 document.getElementById("kpiNouveaux").addEventListener("click", () => {
