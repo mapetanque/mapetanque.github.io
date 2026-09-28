@@ -1,0 +1,83 @@
+# Alerte à l'arrivée d'un signalement de visiteur (terrain manquant ou erreur
+# sur une fiche).
+#
+# Même mécanique que alerte-photo.yml : déclenché par le Worker
+# mapetanque-admin (jamais par un horaire), il ouvre une issue « Signalements
+# de visiteurs à traiter », ou la complète d'un commentaire si elle est déjà
+# ouverte. C'est le bot GitHub Actions qui écrit : GitHub t'envoie donc un mail.
+# Issue distincte de celle des photos, pour que les deux sujets ne se mélangent
+# pas.
+#
+# Fermer l'issue après avoir traité les signalements : le suivant en rouvrira une.
+#
+# À placer dans .github/workflows/alerte-signalement.yml, sur la branche par
+# défaut (un workflow_dispatch n'est accepté que s'il y existe). Le jeton
+# GITHUB_JETON du Worker (Actions en écriture sur ce dépôt) suffit déjà.
+
+name: Alerte signalement visiteur
+
+on:
+  workflow_dispatch:
+    inputs:
+      type:
+        description: "manquant ou erreur"
+        required: true
+      reference:
+        description: "osm_id (erreur, ex. node/7798043008) ou lat,lon (terrain manquant)"
+        required: true
+      en_attente:
+        description: "Nombre total de signalements à traiter"
+        required: true
+
+permissions:
+  issues: write
+
+# Deux alertes simultanées ne doivent pas ouvrir deux issues : elles passent
+# l'une après l'autre.
+concurrency:
+  group: alerte-signalement
+  cancel-in-progress: false
+
+jobs:
+  alerter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ouvrir ou compléter l'issue d'alerte
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          # Les entrées passent par des variables d'environnement, jamais
+          # directement dans le script : une valeur piégée ne peut ainsi pas
+          # être exécutée comme une commande.
+          TYPE: ${{ inputs.type }}
+          REFERENCE: ${{ inputs.reference }}
+          EN_ATTENTE: ${{ inputs.en_attente }}
+        run: |
+          set -euo pipefail
+
+          [[ "$EN_ATTENTE" =~ ^[0-9]{1,4}$ ]] || { echo "compteur invalide"; exit 1; }
+
+          if [ "$TYPE" = "erreur" ]; then
+            [[ "$REFERENCE" =~ ^(node|way|relation)/[0-9]{1,16}$ ]] || { echo "osm_id invalide"; exit 1; }
+            LIGNE=$(printf 'Erreur signalée sur [%s](https://www.openstreetmap.org/%s).' "$REFERENCE" "$REFERENCE")
+          elif [ "$TYPE" = "manquant" ]; then
+            [[ "$REFERENCE" =~ ^-?[0-9]{1,3}\.[0-9]{1,8},-?[0-9]{1,3}\.[0-9]{1,8}$ ]] || { echo "position invalide"; exit 1; }
+            LAT="${REFERENCE%,*}"
+            LON="${REFERENCE#*,}"
+            LIGNE=$(printf 'Terrain manquant signalé [ici](https://www.openstreetmap.org/?mlat=%s&mlon=%s#map=19/%s/%s).' "$LAT" "$LON" "$LAT" "$LON")
+          else
+            echo "type invalide"; exit 1
+          fi
+
+          TITRE="Signalements de visiteurs à traiter"
+          MESSAGE=$(printf '%s\n\nSignalements à traiter au total : %s.\n\nTraitement : https://mapetanque.be/admin.html#signalements' \
+            "$LIGNE" "$EN_ATTENTE")
+
+          NUMERO=$(gh issue list --state open --limit 100 --json number,title \
+            --jq ".[] | select(.title == \"$TITRE\") | .number" | head -n 1)
+
+          if [ -z "$NUMERO" ]; then
+            gh issue create --title "$TITRE" --body "$MESSAGE"
+          else
+            gh issue comment "$NUMERO" --body "$MESSAGE"
+          fi

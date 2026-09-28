@@ -349,3 +349,72 @@ body {
 .popup-action-link:hover .popup-link-text {
     text-decoration: underline;
 }
+/* ===================== Lien « Signaler un terrain manquant » (bannière) ===================== */
+/* Dans le flux, juste sous .controls (qui porte déjà 10px de marge en dessous) : la bannière ayant
+   une hauteur fixe (300px, 230px en mobile), le lien occupe l'espace libre sous les boutons sans
+   jamais l'agrandir, ni elle ni la page. Quand cet espace manque (boutons repliés sur deux lignes
+   sur les plus petits écrans), script.js le masque (classe .hors-cadre) plutôt que de le laisser
+   chevaucher le « i » du crédit photo ou être coupé — voir « Signalements » dans script.js.
+   Même police que « Me localiser », en 14px, graisse normale, blanc souligné. */
+.hero-signalement {
+    /* Centré verticalement entre le bas des boutons et le bord de la bannière : le bloc occupe
+       tout l'espace restant (flex: 1) et y centre le lien. La marge négative du haut reprend les
+       10px de marge sous .controls, pour que le milieu soit pris à partir du bas des boutons. */
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: -10px 0 0;
+    padding: 0 15px;
+    text-align: center;
+    line-height: 1.25;
+}
+
+@media (max-width: 1024px) {
+    /* En mobile, la bannière réserve 26px de padding en bas (voir plus haut) : la marge négative
+       du bas les reprend, pour que le milieu soit bien pris jusqu'au bord de la bannière. La
+       hauteur totale ne change pas. */
+    .hero-signalement {
+        margin-bottom: -26px;
+    }
+}
+
+.hero-signalement a {
+    color: #fff;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 400;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    /* Même ombre légère que la mention de licence : le voile sombre de la bannière s'efface
+       vers le bas, justement là où se trouve ce lien. */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.hero-signalement a:hover {
+    text-decoration-thickness: 2px;
+}
+
+.hero-signalement a:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+    border-radius: 3px;
+}
+
+.hero-signalement.hors-cadre {
+    visibility: hidden;
+}
+
+.map-view.fullscreen-active .hero-signalement {
+    display: none;
+}
+
+/* ===================== Champ de recherche raccourci sur petit écran ===================== */
+/* À 360-400 px de large, « Me localiser » + le champ (180px, voir style.css) ne tenaient plus sur
+   une ligne : les boutons passaient sur deux lignes et ne laissaient aucune place au lien
+   « Signaler un terrain manquant ». 150px les fait tenir dès 360 px dans les quatre langues. */
+@media (max-width: 400px) {
+    .controls .search-form input {
+        width: 150px;
+    }
+}

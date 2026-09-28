@@ -126,6 +126,9 @@ CONTENU = {
                 "formulaire vous l'indique, puis effacée de ce stockage temporaire. Mapillary "
                 "floute automatiquement les visages et les plaques d'immatriculation après "
                 "publication.",
+                "Quand vous signalez un terrain manquant ou une erreur, seuls l'emplacement indiqué et "
+                "votre commentaire sont enregistrés. Le signalement est conservé le temps de le vérifier "
+                "et de corriger OpenStreetMap, puis supprimé au plus tard un an après.",
                 "Pour limiter les envois abusifs, le site calcule aussi une empreinte chiffrée de "
                 "votre adresse IP. Elle sert seulement à compter vos envois de la journée, et elle "
                 "est effacée au bout de quelques jours.",
@@ -202,6 +205,9 @@ CONTENU = {
                 "zoals het vakje in het formulier aangeeft, en daarna uit die tijdelijke opslag "
                 "gewist. Mapillary maakt gezichten en nummerplaten na publicatie automatisch "
                 "onherkenbaar.",
+                "Als je een ontbrekend terrein of een fout meldt, worden alleen de aangeduide plaats en "
+                "je opmerking bewaard. De melding blijft bewaard zolang nodig is om ze te controleren en "
+                "OpenStreetMap te verbeteren, en wordt uiterlijk na een jaar verwijderd.",
                 "Om misbruik te beperken, berekent de site ook een versleutelde vingerafdruk van "
                 "je IP-adres. Die dient alleen om je verzendingen van de dag te tellen en wordt "
                 "na enkele dagen gewist.",
@@ -278,6 +284,9 @@ CONTENU = {
                 "es das Kästchen im Formular angibt, und danach aus diesem Zwischenspeicher "
                 "entfernt. Mapillary macht Gesichter und Kennzeichen nach der Veröffentlichung "
                 "automatisch unkenntlich.",
+                "Wenn Sie einen fehlenden Platz oder einen Fehler melden, werden nur der angegebene Ort "
+                "und Ihr Kommentar gespeichert. Die Meldung wird so lange aufbewahrt, wie es für die "
+                "Prüfung und die Korrektur in OpenStreetMap nötig ist, und spätestens nach einem Jahr gelöscht.",
                 "Um Missbrauch zu begrenzen, berechnet die Website außerdem einen verschlüsselten "
                 "Fingerabdruck Ihrer IP-Adresse. Er dient nur dazu, Ihre Einsendungen des Tages zu "
                 "zählen, und wird nach einigen Tagen gelöscht.",
@@ -350,6 +359,9 @@ CONTENU = {
                 "licence, as stated next to the checkbox on the form, and then erased from this "
                 "temporary storage. Mapillary automatically blurs faces and licence plates after "
                 "publication.",
+                "When you report a missing court or an error, only the location you give and your "
+                "comment are stored. The report is kept for as long as it takes to check it and update "
+                "OpenStreetMap, then deleted within a year at the latest.",
                 "To limit abuse, the site also computes a hashed fingerprint of your IP address. "
                 "It is only used to count your uploads for the day, and it is erased after a few "
                 "days.",

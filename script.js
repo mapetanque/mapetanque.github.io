@@ -3,6 +3,7 @@
 const ICON_PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>';
 const ICON_ROUTE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>';
 const ICON_SHARE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>';
+const ICON_FLAG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>';
 const ICON_UNLOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg>';
 const ICON_MAP_PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>';
 const ICON_CLOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>';
@@ -1186,6 +1187,598 @@ document.getElementById('add-photo-close').addEventListener('click', fermerModal
 addPhotoOverlay.addEventListener('click', fermerModaleAjoutPhoto);
 
 
+// ===================== Signalements (terrain manquant, erreur sur une fiche) =====================
+// Deux portes d'entrée, une seule modale :
+//   - « Signaler un terrain manquant », lien de la bannière d'accueil (#signaler-terrain-link) :
+//     le visiteur place une épingle sur une petite carte, peut préciser le nombre de pistes et
+//     ajouter un commentaire ;
+//   - « Signaler une erreur », en bas de chaque fiche de terrain (voir construireContenuPopupTerrain) :
+//     un simple commentaire libre, le terrain étant déjà connu.
+// Les signalements partent vers le Worker mapetanque-admin, qui les range dans D1 et prévient
+// par une issue GitHub (même circuit que les photos). Rien n'est modifié sur le site : la
+// correction se fait dans OSM, et la carte suit à la mise à jour hebdomadaire suivante.
+//
+// La modale est construite ici en JS, à la première ouverture, plutôt qu'écrite en dur dans
+// les pages : le lien d'erreur existe dans toutes les pages à carte (accueils et pages province
+// ou région générées), et une seule source évite de maintenir le même bloc dans une vingtaine de
+// fichiers. Même raison pour son style, injecté ici (style.css n'est pas modifié) ; les classes
+// .add-photo-* du formulaire photo sont réutilisées pour que les deux formulaires se ressemblent.
+const URL_ENVOI_SIGNALEMENT = "https://mapetanque-admin.mapetanque.workers.dev/signalements/envoi";
+
+// Zoom minimum auquel l'épingle doit avoir été posée. En dessous, un clic sur la carte tombe
+// facilement à plusieurs centaines de mètres du terrain réel ; à 16, l'écart reste de l'ordre de
+// quelques mètres, ce qui suffit pour le retrouver sur la photo aérienne.
+const ZOOM_MIN_SIGNALEMENT = 16;
+
+const CSS_SIGNALEMENT = `
+#signalement-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 1500; }
+#signalement-overlay.visible { display: block; }
+#signalement-modal {
+    display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    z-index: 1550; box-sizing: border-box; width: 420px; max-width: calc(100vw - 24px);
+    max-height: 88vh; overflow-y: auto; padding: 25px; background: white;
+    border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+#signalement-modal.open { display: block; }
+#signalement-close { float: right; border: none; background: none; font-size: 22px; cursor: pointer; line-height: 1; }
+#signalement-modal .signalement-zone { border-top: 1px solid #eee; padding-top: 16px; }
+#signalement-modal .signalement-bloc { display: flex; flex-direction: column; gap: 10px; }
+#signalement-modal .signalement-bloc[hidden] { display: none; }
+#signalement-modal .signalement-intro { font-size: 12.5px; line-height: 1.45; color: #555; margin: 0; }
+#signalement-modal .signalement-recherche { display: flex; gap: 6px; }
+#signalement-modal .signalement-recherche input { flex: 1; min-width: 0; }
+#signalement-modal .signalement-recherche button {
+    flex: none; width: 38px; display: flex; align-items: center; justify-content: center;
+    border: 1px solid #ddd; border-radius: 6px; background: white; color: #555; cursor: pointer;
+}
+#signalement-modal .signalement-recherche button:hover { color: #56A03D; border-color: #74C15A; }
+#signalement-modal .signalement-recherche button svg { width: 17px; height: 17px; }
+#signalement-modal .signalement-carte {
+    position: relative; z-index: 0; height: 220px; border: 1px solid #ddd; border-radius: 8px;
+}
+#signalement-modal .signalement-legende { font-size: 11px; color: #888; margin: -4px 0 0; }
+#signalement-modal textarea.add-photo-text-input { min-height: 84px; resize: vertical; font-family: inherit; }
+#signalement-modal .signalement-osm { font-size: 12px; color: #777; text-align: center; margin: 2px 0 0; }
+#signalement-modal .signalement-osm a { color: #56A03D; font-weight: bold; text-decoration: none; white-space: nowrap; }
+#signalement-modal .signalement-osm a:hover { text-decoration: underline; }
+.signalement-epingle { filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.45)); }
+`;
+
+// Épingle du terrain signalé : même silhouette que les terrains de la carte, mais une croix
+// blanche à la place du rond, et un vert plus soutenu (#56A03D) — la forme suffit à la distinguer
+// des terrains déjà recensés, affichés sur la petite carte sous forme de simples points.
+const iconeEpingleSignalement = L.divIcon({
+    className: 'signalement-epingle',
+    html: '<svg width="29" height="45" viewBox="0 0 29 45" xmlns="http://www.w3.org/2000/svg">' +
+          '<g transform="translate(2,2)">' +
+          '<path d="M12.5 0C5.6 0 0 5.6 0 12.5c0 9.4 12.5 28.5 12.5 28.5s12.5-19.1 12.5-28.5C25 5.6 19.4 0 12.5 0z" fill="#56A03D" stroke="white" stroke-width="2"/>' +
+          '<path d="M12.5 7.5v10M7.5 12.5h10" stroke="white" stroke-width="2.6" stroke-linecap="round"/>' +
+          '</g>' +
+          '</svg>',
+    iconSize: [29, 45],
+    iconAnchor: [14, 43]
+});
+
+let modaleSignalement = null;          // construite à la première ouverture
+let overlaySignalement = null;
+let miniCarteSignalement = null;
+let epingleSignalement = null;
+let pointsTerrainsSignalement = null;  // terrains déjà recensés, en points sur la petite carte
+let zoomPlacementSignalement = 0;      // zoom au moment où l'épingle a été posée pour la dernière fois
+let contexteSignalement = null;        // { type: 'manquant' | 'erreur', osmId, titre, lat, lon }
+
+function elementSignalement(selecteur) {
+    return modaleSignalement.querySelector(selecteur);
+}
+
+// Pose le texte ET la clé de traduction : appliquerTraductions() tient ensuite l'élément à jour
+// tout seul si la langue change.
+function texteSignalement(el, cle) {
+    el.dataset.i18n = cle;
+    el.textContent = t(cle);
+}
+
+function construireModaleSignalement() {
+    if (modaleSignalement) return;
+
+    if (!document.getElementById('style-signalement')) {
+        const style = document.createElement('style');
+        style.id = 'style-signalement';
+        style.textContent = CSS_SIGNALEMENT;
+        document.head.appendChild(style);
+    }
+
+    overlaySignalement = document.createElement('div');
+    overlaySignalement.id = 'signalement-overlay';
+
+    modaleSignalement = document.createElement('div');
+    modaleSignalement.id = 'signalement-modal';
+    modaleSignalement.setAttribute('role', 'dialog');
+    modaleSignalement.setAttribute('aria-modal', 'true');
+    modaleSignalement.setAttribute('aria-labelledby', 'signalement-titre');
+    modaleSignalement.innerHTML = `
+        <button type="button" id="signalement-close" data-i18n-aria="close_panel">✕</button>
+        <p class="add-photo-title" id="signalement-titre"></p>
+        <p class="add-photo-terrain-name" id="signalement-terrain-nom"></p>
+        <div class="signalement-zone">
+            <form id="signalement-form" class="add-photo-form">
+                <div class="signalement-bloc" data-bloc="manquant">
+                    <p class="signalement-intro" data-cle="signalement_intro"></p>
+                    <div class="signalement-recherche">
+                        <input type="text" class="add-photo-text-input" autocomplete="off" enterkeyhint="search">
+                        <button type="button">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        </button>
+                    </div>
+                    <div class="signalement-carte"></div>
+                    <p class="signalement-legende" data-cle="signalement_map_legend"></p>
+                    <label class="add-photo-field-label" for="signalement-pistes" data-cle="signalement_field_lanes"></label>
+                    <input type="number" id="signalement-pistes" name="nb_pistes" min="1" max="50" step="1" inputmode="numeric" class="add-photo-text-input">
+                    <label class="add-photo-checkbox-row">
+                        <input type="checkbox" name="acces_libre" value="1">
+                        <span data-cle="signalement_checkbox_access"></span>
+                    </label>
+                </div>
+
+                <label class="add-photo-field-label" for="signalement-commentaire" id="signalement-commentaire-label"></label>
+                <textarea id="signalement-commentaire" name="commentaire" rows="4" maxlength="1000" class="add-photo-text-input"></textarea>
+
+                <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none !important">
+
+                <button type="submit" class="add-photo-submit-btn" data-cle="signalement_submit"></button>
+
+                <p class="signalement-osm">
+                    <span data-cle="signalement_osm_prefix"></span>
+                    <a id="signalement-lien-osm" href="https://www.openstreetmap.org" target="_blank" rel="noopener"></a>
+                </p>
+            </form>
+            <p id="signalement-status" class="add-photo-status" role="status"></p>
+        </div>
+    `;
+
+    document.body.appendChild(overlaySignalement);
+    document.body.appendChild(modaleSignalement);
+
+    modaleSignalement.querySelectorAll('[data-cle]').forEach(function (el) {
+        texteSignalement(el, el.dataset.cle);
+    });
+    const champRecherche = elementSignalement('.signalement-recherche input');
+    champRecherche.dataset.i18nPlaceholder = 'signalement_search_placeholder';
+    champRecherche.placeholder = t('signalement_search_placeholder');
+    const boutonRecherche = elementSignalement('.signalement-recherche button');
+    boutonRecherche.dataset.i18nAria = 'signalement_search_btn';
+    boutonRecherche.setAttribute('aria-label', t('signalement_search_btn'));
+    elementSignalement('#signalement-close').setAttribute('aria-label', t('close_panel'));
+
+    // Fermeture : croix, clic à côté, touche Échap.
+    elementSignalement('#signalement-close').addEventListener('click', fermerModaleSignalement);
+    overlaySignalement.addEventListener('click', fermerModaleSignalement);
+    document.addEventListener('keydown', function (evt) {
+        if (evt.key === 'Escape' && modaleSignalement.classList.contains('open')) fermerModaleSignalement();
+    });
+
+    // Recherche d'adresse : pas de <form> ici (il n'en faut pas un dans l'autre), d'où la
+    // touche Entrée interceptée à la main — sans quoi elle enverrait le signalement.
+    boutonRecherche.addEventListener('click', rechercherAdresseSignalement);
+    champRecherche.addEventListener('keydown', function (evt) {
+        if (evt.key === 'Enter') {
+            evt.preventDefault();
+            rechercherAdresseSignalement();
+        }
+    });
+
+    elementSignalement('#signalement-form').addEventListener('submit', envoyerSignalement);
+}
+
+// --- Petite carte (terrain manquant) ---------------------------------------------------------
+function preparerMiniCarteSignalement() {
+    const conteneur = elementSignalement('.signalement-carte');
+
+    if (!miniCarteSignalement) {
+        miniCarteSignalement = L.map(conteneur, { preferCanvas: true });
+
+        // Couches propres à la petite carte : une couche Leaflet ne peut pas vivre sur deux
+        // cartes à la fois. Même fond que la carte principale au moment de l'ouverture — la vue
+        // satellite aide beaucoup à repérer un terrain.
+        const plan = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap contributors'
+        });
+        const vueSatellite = L.tileLayer(
+            'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+            { maxZoom: 19, attribution: 'Tiles &copy; Esri' }
+        );
+        ((typeof satellite !== 'undefined' && map.hasLayer(satellite)) ? vueSatellite : plan)
+            .addTo(miniCarteSignalement);
+        L.control.layers({ "🗺️ Plan": plan, "🛰️ Satellite": vueSatellite }).addTo(miniCarteSignalement);
+
+        epingleSignalement = L.marker([50.5, 4.5], {
+            icon: iconeEpingleSignalement,
+            draggable: true,
+            autoPan: true,
+            zIndexOffset: 1000
+        }).addTo(miniCarteSignalement);
+
+        epingleSignalement.on('dragend', function () {
+            noterPlacementSignalement();
+        });
+        miniCarteSignalement.on('click', function (evt) {
+            epingleSignalement.setLatLng(evt.latlng);
+            noterPlacementSignalement();
+        });
+    }
+
+    // Terrains déjà recensés, pour éviter de signaler un terrain qui figure déjà sur la carte.
+    // Construits une seule fois, dès que la liste est chargée (voir le fetch de terrains.geojson).
+    if (!pointsTerrainsSignalement && listeTousLesTerrains.length) {
+        pointsTerrainsSignalement = L.layerGroup(listeTousLesTerrains.map(function (terrain) {
+            return L.circleMarker([terrain.lat, terrain.lon], {
+                radius: 5,
+                color: '#ffffff',
+                weight: 1.5,
+                fillColor: '#74C15A',
+                fillOpacity: 1,
+                interactive: false
+            });
+        })).addTo(miniCarteSignalement);
+    }
+
+    // Démarre sur la vue de la carte principale : si le visiteur a déjà cherché une commune ou
+    // s'est localisé, il tombe directement au bon endroit.
+    const centre = map.getCenter();
+    const zoom = map.getZoom();
+    miniCarteSignalement.setView(centre, zoom, { animate: false });
+    miniCarteSignalement.invalidateSize();
+    epingleSignalement.setLatLng(centre);
+    zoomPlacementSignalement = zoom;
+    mettreAJourLienOsmSignalement();
+}
+
+function noterPlacementSignalement() {
+    zoomPlacementSignalement = miniCarteSignalement.getZoom();
+    mettreAJourLienOsmSignalement();
+    afficherStatutSignalement(null, '', '');
+}
+
+// Même recherche que la barre de la bannière (Nominatim, orientée vers la Belgique).
+function rechercherAdresseSignalement() {
+    const champ = elementSignalement('.signalement-recherche input');
+    const requete = champ.value.trim();
+    if (!requete) return;
+
+    champ.blur();   // referme le clavier virtuel, comme dans la recherche principale
+
+    const url = 'https://nominatim.openstreetmap.org/search'
+        + '?format=jsonv2'
+        + '&q=' + encodeURIComponent(requete)
+        + '&limit=1'
+        + '&viewbox=2.5,51.6,6.5,49.4'
+        + '&bounded=0';
+
+    fetch(url)
+        .then(function (reponse) {
+            if (!reponse.ok) throw new Error('Réponse Nominatim invalide');
+            return reponse.json();
+        })
+        .then(function (resultats) {
+            if (!resultats || !resultats.length) {
+                afficherStatutSignalement('search_no_result', 'error');
+                return;
+            }
+            const resultat = resultats[0];
+            const point = L.latLng(parseFloat(resultat.lat), parseFloat(resultat.lon));
+
+            if (resultat.boundingbox) {
+                const bbox = resultat.boundingbox.map(parseFloat);
+                miniCarteSignalement.fitBounds([[bbox[0], bbox[2]], [bbox[1], bbox[3]]],
+                    { maxZoom: 18, animate: false });
+            } else {
+                miniCarteSignalement.setView(point, 17, { animate: false });
+            }
+            epingleSignalement.setLatLng(point);
+            noterPlacementSignalement();
+        })
+        .catch(function () {
+            afficherStatutSignalement('search_failed', 'error');
+        });
+}
+
+// Lien « … directement » vers l'éditeur d'OSM : sur l'élément lui-même pour une erreur
+// (edit?node=123), sur l'emplacement de l'épingle pour un terrain manquant.
+function mettreAJourLienOsmSignalement() {
+    const lien = elementSignalement('#signalement-lien-osm');
+    const c = contexteSignalement;
+    let adresse = 'https://www.openstreetmap.org/edit';
+
+    if (c.type === 'erreur' && /^(node|way|relation)\/\d+$/.test(c.osmId)) {
+        const morceaux = c.osmId.split('/');
+        adresse += '?' + morceaux[0] + '=' + morceaux[1];
+    } else {
+        const position = c.type === 'manquant' && epingleSignalement
+            ? epingleSignalement.getLatLng()
+            : L.latLng(c.lat, c.lon);
+        if (position && isFinite(position.lat)) {
+            adresse += '#map=19/' + position.lat.toFixed(6) + '/' + position.lng.toFixed(6);
+        }
+    }
+    lien.href = adresse;
+}
+
+function afficherStatutSignalement(cle, classe, texteDirect) {
+    const statut = elementSignalement('#signalement-status');
+    statut.textContent = texteDirect !== undefined ? texteDirect : t(cle);
+    statut.className = 'add-photo-status' + (classe ? ' ' + classe : '');
+}
+
+// --- Ouverture / fermeture -------------------------------------------------------------------
+function ouvrirModaleSignalement(options) {
+    construireModaleSignalement();
+
+    contexteSignalement = {
+        type: options.type === 'erreur' ? 'erreur' : 'manquant',
+        osmId: options.osmId || '',
+        titre: options.titre || '',
+        lat: parseFloat(options.lat),
+        lon: parseFloat(options.lon)
+    };
+    const estManquant = contexteSignalement.type === 'manquant';
+
+    const formulaire = elementSignalement('#signalement-form');
+    formulaire.reset();
+    formulaire.style.display = '';
+    formulaire.querySelector('.add-photo-submit-btn').disabled = false;
+    afficherStatutSignalement(null, '', '');
+
+    texteSignalement(elementSignalement('#signalement-titre'),
+        estManquant ? 'signalement_missing_title' : 'signalement_error_title');
+
+    const nomTerrain = elementSignalement('#signalement-terrain-nom');
+    nomTerrain.textContent = estManquant ? '' : contexteSignalement.titre;
+    nomTerrain.hidden = estManquant;
+
+    // Le bloc carte + pistes + accès n'existe que pour un terrain manquant. Ses champs sont
+    // désactivés quand il est masqué : sinon la case obligatoire bloquerait l'envoi d'une erreur.
+    const bloc = elementSignalement('[data-bloc="manquant"]');
+    bloc.hidden = !estManquant;
+    bloc.querySelectorAll('input, button').forEach(function (champ) { champ.disabled = !estManquant; });
+    bloc.querySelector('[name="acces_libre"]').required = estManquant;
+
+    // Commentaire : facultatif pour un terrain manquant (l'épingle dit l'essentiel),
+    // obligatoire pour une erreur (c'est tout le contenu du signalement).
+    const commentaire = elementSignalement('#signalement-commentaire');
+    commentaire.required = !estManquant;
+    texteSignalement(elementSignalement('#signalement-commentaire-label'),
+        estManquant ? 'signalement_field_comment_missing' : 'signalement_field_comment_error');
+    commentaire.dataset.i18nPlaceholder = estManquant
+        ? 'signalement_comment_placeholder_missing'
+        : 'signalement_comment_placeholder_error';
+    commentaire.placeholder = t(commentaire.dataset.i18nPlaceholder);
+
+    texteSignalement(elementSignalement('#signalement-lien-osm'),
+        estManquant ? 'signalement_osm_link_missing' : 'signalement_osm_link_error');
+
+    modaleSignalement.classList.add('open');
+    overlaySignalement.classList.add('visible');
+    modaleSignalement.scrollTop = 0;
+
+    // La carte ne se construit qu'une fois la modale affichée : Leaflet a besoin de connaître la
+    // taille réelle de son conteneur.
+    if (estManquant) {
+        preparerMiniCarteSignalement();
+    } else {
+        mettreAJourLienOsmSignalement();
+    }
+}
+window.ouvrirModaleSignalement = ouvrirModaleSignalement;
+
+function fermerModaleSignalement() {
+    if (!modaleSignalement) return;
+    modaleSignalement.classList.remove('open');
+    overlaySignalement.classList.remove('visible');
+}
+
+// --- Envoi -----------------------------------------------------------------------------------
+// FormData plutôt que JSON : c'est un envoi « simple » aux yeux du navigateur, sans requête
+// préalable OPTIONS, exactement comme l'envoi de photos vers le même Worker.
+function envoyerSignalement(evt) {
+    evt.preventDefault();
+
+    const c = contexteSignalement;
+    const formulaire = evt.currentTarget;
+    const bouton = formulaire.querySelector('.add-photo-submit-btn');
+    const donnees = new FormData();
+
+    donnees.set('type', c.type);
+    donnees.set('langue', currentLang);
+
+    if (c.type === 'manquant') {
+        if (zoomPlacementSignalement < ZOOM_MIN_SIGNALEMENT) {
+            afficherStatutSignalement('signalement_error_zoom', 'error');
+            return;
+        }
+        const position = epingleSignalement.getLatLng();
+        donnees.set('lat', position.lat.toFixed(6));
+        donnees.set('lon', position.lng.toFixed(6));
+        const pistes = formulaire.querySelector('[name="nb_pistes"]').value;
+        if (pistes) donnees.set('nb_pistes', pistes);
+        donnees.set('acces_libre', '1');
+    } else {
+        donnees.set('osm_id', c.osmId);
+        donnees.set('titre', c.titre);
+        if (isFinite(c.lat)) donnees.set('lat', c.lat.toFixed(6));
+        if (isFinite(c.lon)) donnees.set('lon', c.lon.toFixed(6));
+    }
+
+    donnees.set('commentaire', formulaire.querySelector('[name="commentaire"]').value.trim());
+    donnees.set('_gotcha', formulaire.querySelector('[name="_gotcha"]').value || '');
+
+    bouton.disabled = true;
+    afficherStatutSignalement('add_photo_sending', 'sending');
+
+    fetch(URL_ENVOI_SIGNALEMENT, { method: 'POST', body: donnees })
+        .then(function (reponse) {
+            if (reponse.status === 429) {
+                afficherStatutSignalement('signalement_error_limit', 'error');
+                bouton.disabled = false;
+                return;
+            }
+            if (!reponse.ok) throw new Error('Réponse HTTP ' + reponse.status);
+            formulaire.style.display = 'none';
+            afficherStatutSignalement(
+                c.type === 'manquant' ? 'signalement_success_missing' : 'signalement_success_error',
+                'success');
+        })
+        .catch(function (erreur) {
+            console.error('Échec envoi signalement :', erreur);
+            afficherStatutSignalement('add_photo_error', 'error');
+            bouton.disabled = false;
+        });
+}
+
+// --- Portes d'entrée -------------------------------------------------------------------------
+// Un seul écouteur pour tous les liens « Signaler une erreur » des fiches, présents ou à venir.
+document.addEventListener('click', function (evt) {
+    const lien = evt.target.closest('.popup-report-btn');
+    if (!lien) return;
+    evt.preventDefault();
+    ouvrirModaleSignalement({
+        type: 'erreur',
+        osmId: lien.dataset.osmId,
+        titre: lien.dataset.terrainTitre,
+        lat: lien.dataset.lat,
+        lon: lien.dataset.lon
+    });
+});
+
+// Lien de la bannière d'accueil. Son href mène à la FAQ : c'est le repli si le script ne tourne
+// pas. Il ne vit que dans l'espace libre sous les boutons, sans jamais agrandir la bannière :
+// quand cet espace manque (boutons repliés sur deux lignes sur les plus petits écrans, titre plus
+// long dans certaines langues), le lien déborderait sur la mention de licence de la photo ou
+// serait coupé. Il est alors masqué plutôt que de chevaucher quoi que ce soit.
+const lienSignalerTerrain = document.getElementById('signaler-terrain-link');
+if (lienSignalerTerrain) {
+    lienSignalerTerrain.addEventListener('click', function (evt) {
+        evt.preventDefault();
+        ouvrirModaleSignalement({ type: 'manquant' });
+    });
+
+    const blocLien = lienSignalerTerrain.parentElement;
+    const banniere = blocLien.closest('.hero-banner');
+    const credit = banniere ? banniere.querySelector('.hero-banner-credit') : null;
+
+    const verifierPlaceLienSignalement = function () {
+        if (!banniere) return;
+        blocLien.classList.remove('hors-cadre');
+
+        const lien = lienSignalerTerrain.getBoundingClientRect();
+        const cadre = banniere.getBoundingClientRect();
+        let deborde = lien.bottom > cadre.bottom;
+
+        if (credit && !deborde) {
+            const c = credit.getBoundingClientRect();
+            const marge = 4;
+            deborde = lien.bottom + marge > c.top && lien.top < c.bottom + marge
+                && lien.right + marge > c.left && lien.left < c.right + marge;
+        }
+        blocLien.classList.toggle('hors-cadre', deborde);
+    };
+
+    verifierPlaceLienSignalement();
+    window.addEventListener('load', verifierPlaceLienSignalement);
+    // La place change avec la largeur de l'écran, mais aussi avec la langue (libellés plus ou
+    // moins longs) : on surveille donc directement la taille des éléments concernés.
+    if (typeof ResizeObserver === 'function') {
+        const observateur = new ResizeObserver(verifierPlaceLienSignalement);
+        observateur.observe(banniere);
+        observateur.observe(lienSignalerTerrain);
+        const controles = banniere.querySelector('.controls');
+        if (controles) observateur.observe(controles);
+    } else {
+        window.addEventListener('resize', verifierPlaceLienSignalement);
+    }
+}
+
+// ===================== Crédit photo des bannières, replié en « i » =====================
+// Sur toutes les pages à bannière photo (accueils, provinces, régions, pages de contenu), en
+// mobile comme en desktop : le crédit tient dans un petit « i » en bas à droite. Un clic ou un
+// toucher affiche le texte complet (auteur, licence et son lien) dans une bulle, un clic ailleurs
+// la referme ; sur ordinateur, le survol suffit aussi. Le crédit reste ainsi accessible, comme
+// l'exige la licence CC BY-SA, sans occuper la bannière. Sans JavaScript, le crédit reste
+// affiché en toutes lettres, comme avant.
+//
+// Le texte d'origine est simplement déplacé dans une enveloppe, sans être réécrit : chaque page
+// garde son propre crédit. Le style est injecté ici, comme celui de la modale de signalement :
+// toutes ces pages chargent script.js, mais pas les mêmes feuilles additives.
+const CSS_CREDIT_PHOTO = `
+.hero-banner-credit.credit-repliable {
+    bottom: 4px; right: 6px; z-index: 2;
+    display: flex; align-items: center; gap: 4px;
+}
+.hero-banner-credit.credit-repliable .credit-texte { display: none; }
+.hero-banner-credit.credit-repliable.ouvert .credit-texte {
+    display: inline; padding: 4px 8px; border-radius: 6px;
+    background: rgba(0, 0, 0, 0.65); color: #fff; font-size: 11px; text-shadow: none;
+    max-width: calc(100vw - 56px); line-height: 1.35;
+}
+@media (hover: hover) {
+    .hero-banner-credit.credit-repliable:hover .credit-texte {
+        display: inline; padding: 4px 8px; border-radius: 6px;
+        background: rgba(0, 0, 0, 0.65); color: #fff; font-size: 11px; text-shadow: none;
+        max-width: calc(100vw - 56px); line-height: 1.35;
+    }
+}
+.hero-banner-credit.credit-repliable .credit-info-btn {
+    display: flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; padding: 0; border: none; background: none;
+    color: rgba(255, 255, 255, 0.85); cursor: pointer;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
+}
+.hero-banner-credit.credit-repliable .credit-info-btn:hover { color: #fff; }
+.credit-info-btn svg { width: 18px; height: 18px; }
+`;
+
+document.querySelectorAll('.hero-banner .hero-banner-credit').forEach(function (credit, index) {
+    if (credit.querySelector('.credit-info-btn')) return;
+
+    if (!document.getElementById('style-credit-photo')) {
+        const style = document.createElement('style');
+        style.id = 'style-credit-photo';
+        style.textContent = CSS_CREDIT_PHOTO;
+        document.head.appendChild(style);
+    }
+
+    const texte = document.createElement('span');
+    texte.className = 'credit-texte';
+    texte.id = 'credit-banniere-texte-' + index;
+    while (credit.firstChild) texte.appendChild(credit.firstChild);
+
+    const bouton = document.createElement('button');
+    bouton.type = 'button';
+    bouton.className = 'credit-info-btn';
+    bouton.dataset.i18nAria = 'photo_credit_btn';
+    bouton.setAttribute('aria-label', t('photo_credit_btn'));
+    bouton.setAttribute('aria-expanded', 'false');
+    bouton.setAttribute('aria-controls', texte.id);
+    bouton.innerHTML = ICON_INFO;
+
+    credit.append(texte, bouton);
+    credit.classList.add('credit-repliable');
+
+    const basculer = function (ouvrir) {
+        credit.classList.toggle('ouvert', ouvrir);
+        bouton.setAttribute('aria-expanded', ouvrir ? 'true' : 'false');
+    };
+    bouton.addEventListener('click', function (evt) {
+        evt.stopPropagation();
+        basculer(!credit.classList.contains('ouvert'));
+    });
+    // Un clic ou un toucher n'importe où ailleurs referme la bulle.
+    document.addEventListener('click', function (evt) {
+        if (credit.classList.contains('ouvert') && !credit.contains(evt.target)) basculer(false);
+    });
+});
+
+
 // Fonction globale appelée depuis le lien "Partager" de chaque popup de terrain
 window.partagerTerrain = function (lat, lon, titre) {
     const url = window.location.origin + window.location.pathname
@@ -1538,6 +2131,19 @@ function construireContenuPopupTerrain(feature, layer) {
     </a>
     `;
 
+    // Lien « Signaler une erreur », séparé des deux précédents par une ligne vide : ce n'est pas
+    // une action courante, il ne doit pas se confondre avec l'itinéraire et le partage. Il ouvre
+    // la modale de signalement (voir « Signalements » plus haut dans ce fichier), branchée par
+    // un seul écouteur sur le document : rien à rebrancher à chaque ouverture de fiche, et le lien
+    // fonctionne aussi bien dans le popup Leaflet que dans la fenêtre flottante ou la fiche mobile.
+    // Le titre vient d'OSM (nom de rue) : il est neutralisé avant d'entrer dans l'attribut.
+    let signaler = `
+    <br><br>
+    <a href="#" class="popup-report-btn popup-action-link" data-osm-id="${echapperHtml(tags.osm_id || '')}" data-terrain-titre="${echapperHtml(titre)}" data-lat="${terrainLat}" data-lon="${terrainLon}">
+    <span class="popup-link-icon">${ICON_FLAG}</span> <span class="popup-link-text">${t('popup_report')}</span>
+    </a>
+    `;
+
 
     // Description rédigée à la main pour les terrains de la sélection "Les plus beaux terrains"
     // (voir le chargement de /data/beaux_terrains.json plus bas dans ce fichier). Le carrousel
@@ -1577,6 +2183,7 @@ function construireContenuPopupTerrain(feature, layer) {
     ${distance}
     ${itineraire}
     ${partager}
+    ${signaler}
     `;
 
 }

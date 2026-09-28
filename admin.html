@@ -235,6 +235,30 @@
     .cadrage-zoom input { flex: 1; min-height: 44px; }
     .cadrage-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
 
+    /* --- Onglet Signalements ------------------------------------------- */
+    #signalementsPuces { display: flex; gap: 8px; flex-wrap: wrap; padding: 18px 20px 14px; border-bottom: 1px solid var(--bord); }
+    .signalement-carte { padding: 16px 20px; border-bottom: 1px solid var(--bord); display: flex; flex-direction: column; gap: 8px; }
+    .signalement-carte:last-child { border-bottom: none; }
+    /* L'état est toujours écrit en toutes lettres : le fond n'est qu'un repère en plus. */
+    .signalement-carte.traite, .signalement-carte.refuse { background: #f7f8f4; }
+    .signalement-tete { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+    .signalement-type { font-weight: 700; font-size: 15px; }
+    .signalement-etat { font-size: 13px; font-weight: 700; padding: 2px 10px; border-radius: 999px; }
+    .signalement-etat.nouveau { background: var(--orange-clair); color: var(--orange); }
+    .signalement-etat.traite { background: var(--vert-clair); color: var(--vert); }
+    .signalement-etat.refuse { background: var(--rouge-clair); color: var(--rouge); }
+    .signalement-date { font-size: 13px; color: var(--doux); margin-left: auto; }
+    .signalement-lieu { font-size: 14px; color: var(--doux); }
+    .signalement-commentaire { font-size: 15px; white-space: pre-wrap; background: var(--fond); border-radius: 8px; padding: 10px 12px; }
+    .signalement-commentaire.vide { color: var(--doux); font-style: italic; background: none; padding: 0; }
+    .signalement-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .signalement-actions a { font-size: 14px; font-weight: 600; margin-right: 8px; }
+    .signalement-actions button {
+        min-height: 40px; padding: 0 14px; border-radius: 8px; border: 1px solid #c8cbc2;
+        background: white; color: var(--encre); font-size: 14px; font-weight: 600; cursor: pointer;
+    }
+    .signalement-actions button.principal { border: none; background: #74c15a; color: #10240a; }
+
     /* --- Onglets Notes et Visites ---------------------------------------- */
     .a-venir { padding: 40px 24px; text-align: center; color: var(--doux); font-size: 15px; }
     .kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
@@ -314,6 +338,7 @@
         <button type="button" role="tab" id="onglet-terrains" aria-controls="panneau-terrains" aria-selected="true">Terrains et photos</button>
         <button type="button" role="tab" id="onglet-notes" aria-controls="panneau-notes" aria-selected="false">Notes</button>
         <button type="button" role="tab" id="onglet-visites" aria-controls="panneau-visites" aria-selected="false">Visites</button>
+        <button type="button" role="tab" id="onglet-signalements" aria-controls="panneau-signalements" aria-selected="false">Signalements</button>
     </nav>
 </header>
 
@@ -450,6 +475,15 @@
         <div class="barres-h" id="visitesHotes"></div>
     </div>
     <div class="note-bas" id="visitesNote" hidden>Cloudflare compte des visites et des pages vues, sans cookie : il ne distingue pas les visiteurs uniques. Avant le 19/09/2026, il ne conserve que des chiffres estimés (multiples de 10).</div>
+</section>
+
+<section id="panneau-signalements" role="tabpanel" aria-labelledby="onglet-signalements" hidden>
+    <div class="panneau a-venir" id="signalementsAttente">Chargement des signalements…</div>
+    <div class="panneau" id="signalementsBloc" hidden>
+        <div id="signalementsPuces" role="group" aria-label="Filtres"></div>
+        <div id="signalementsListe"></div>
+        <div id="signalementsVide" class="a-venir" hidden>Aucun signalement ici.</div>
+    </div>
 </section>
 
 </main>
@@ -1255,7 +1289,7 @@ document.querySelectorAll("[data-vers-onglet]").forEach(element => {
 
 /* ===================== Onglets ===================== */
 
-const ONGLETS = ["terrains", "notes", "visites"];
+const ONGLETS = ["terrains", "notes", "visites", "signalements"];
 
 // L'onglet affiché est noté dans l'adresse (#notes, #visites) : un rechargement de la page
 // y revient directement.
@@ -1269,6 +1303,7 @@ function afficherOnglet(nom) {
     history.replaceState(null, "", nom === "terrains" ? location.pathname : "#" + nom);
     if (nom === "notes") afficherNotes();
     if (nom === "visites") afficherVisites();
+    if (nom === "signalements") dessinerSignalements();
 }
 
 ONGLETS.forEach(o => {
@@ -2198,6 +2233,156 @@ brancherSegment("visitesSegment", p => { PERIODE_VISITES = p; dessinerCourbeVisi
 brancherSegment("detailsSegment", p => { PERIODE_DETAILS = p; dessinerDetails(); });
 
 
+/* ===================== Signalements ===================== */
+// Terrains manquants (lien de la bannière d'accueil) et erreurs signalées depuis les fiches.
+// Rien n'est modifié sur le site depuis ici : la correction se fait dans OSM, et la carte suit
+// à la mise à jour hebdomadaire. Cet onglet sert à ne rien oublier : ouvrir l'éditeur OSM au bon
+// endroit, puis marquer le signalement comme traité ou refusé.
+
+let SIGNALEMENTS = null;            // null = pas encore chargés
+let FILTRE_SIGNALEMENTS = "nouveau";
+
+const ETATS_SIGNALEMENT = {
+    nouveau: "À traiter",
+    traite: "Traité",
+    refuse: "Refusé"
+};
+
+async function chargerSignalements() {
+    try {
+        SIGNALEMENTS = await appeler("/admin/signalements").then(r => r.json());
+    } catch (e) {
+        document.getElementById("signalementsAttente").textContent =
+            "Signalements indisponibles (la route /admin/signalements répond-elle ?).";
+        return;
+    }
+    majOngletSignalements();
+    if (!document.getElementById("panneau-signalements").hidden) dessinerSignalements();
+}
+
+// Le nombre de signalements à traiter s'affiche dans l'onglet : c'est là qu'on le voit sans
+// avoir à ouvrir la rubrique.
+function majOngletSignalements() {
+    const aTraiter = (SIGNALEMENTS || []).filter(s => s.statut === "nouveau").length;
+    document.getElementById("onglet-signalements").textContent =
+        "Signalements" + (aTraiter ? " · " + aTraiter + " à traiter" : "");
+}
+
+function dessinerSignalements() {
+    if (!SIGNALEMENTS) return;
+    document.getElementById("signalementsAttente").hidden = true;
+    document.getElementById("signalementsBloc").hidden = false;
+
+    const compte = statut => SIGNALEMENTS.filter(s => statut === "tous" || s.statut === statut).length;
+    const puces = document.getElementById("signalementsPuces");
+    puces.innerHTML = "";
+    [["nouveau", "À traiter"], ["traite", "Traités"], ["refuse", "Refusés"], ["tous", "Tous"]]
+        .forEach(([valeur, libelle]) => {
+            const bouton = document.createElement("button");
+            bouton.type = "button";
+            bouton.className = "puce";
+            bouton.setAttribute("aria-pressed", FILTRE_SIGNALEMENTS === valeur ? "true" : "false");
+            bouton.textContent = libelle + " (" + compte(valeur) + ")";
+            bouton.addEventListener("click", () => { FILTRE_SIGNALEMENTS = valeur; dessinerSignalements(); });
+            puces.appendChild(bouton);
+        });
+
+    const liste = document.getElementById("signalementsListe");
+    liste.innerHTML = "";
+    const visibles = SIGNALEMENTS.filter(s => FILTRE_SIGNALEMENTS === "tous" || s.statut === FILTRE_SIGNALEMENTS);
+    visibles.forEach(s => liste.appendChild(carteSignalement(s)));
+    document.getElementById("signalementsVide").hidden = visibles.length > 0;
+}
+
+function lienExterne(texte, adresse) {
+    const a = document.createElement("a");
+    a.href = adresse;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.textContent = texte;
+    return a;
+}
+
+function carteSignalement(s) {
+    const carte = document.createElement("div");
+    carte.className = "signalement-carte " + s.statut;
+
+    const aCoordonnees = s.lat !== null && s.lon !== null && s.lat !== undefined && s.lon !== undefined;
+    const lat = aCoordonnees ? Number(s.lat).toFixed(6) : null;
+    const lon = aCoordonnees ? Number(s.lon).toFixed(6) : null;
+
+    // En-tête : type, état en toutes lettres, date de réception (UTC en base).
+    const tete = document.createElement("div");
+    tete.className = "signalement-tete";
+    const date = new Date(String(s.cree).replace(" ", "T") + "Z");
+    tete.innerHTML =
+        '<span class="signalement-type">' + (s.type === "manquant" ? "Terrain manquant" : "Erreur sur un terrain") + '</span>'
+        + '<span class="signalement-etat ' + echapper(s.statut) + '">' + echapper(ETATS_SIGNALEMENT[s.statut] || s.statut) + '</span>'
+        + '<span class="signalement-date">' + echapper(isNaN(date) ? String(s.cree) : date.toLocaleString("fr-BE", { dateStyle: "medium", timeStyle: "short" }))
+        + (s.langue ? " · " + echapper(String(s.langue).toUpperCase()) : "") + '</span>';
+    carte.appendChild(tete);
+
+    const lieu = document.createElement("div");
+    lieu.className = "signalement-lieu";
+    const morceaux = [];
+    if (s.type === "erreur") {
+        morceaux.push(s.titre || "Terrain sans nom", s.osm_id || "");
+    } else {
+        if (aCoordonnees) morceaux.push(lat + ", " + lon);
+        if (s.nb_pistes) morceaux.push(s.nb_pistes + " piste" + (s.nb_pistes > 1 ? "s" : ""));
+    }
+    lieu.textContent = morceaux.filter(Boolean).join(" · ");
+    carte.appendChild(lieu);
+
+    const commentaire = document.createElement("div");
+    commentaire.className = "signalement-commentaire" + (s.commentaire ? "" : " vide");
+    commentaire.textContent = s.commentaire || "Pas de commentaire.";
+    carte.appendChild(commentaire);
+
+    // Liens : le site au bon endroit, l'éditeur OSM (sur l'élément lui-même pour une erreur).
+    const actions = document.createElement("div");
+    actions.className = "signalement-actions";
+    if (aCoordonnees) {
+        actions.appendChild(lienExterne("Voir sur le site", "/?lat=" + lat + "&lon=" + lon + "&z=18"));
+    }
+    const osmValide = /^(node|way|relation)\/[0-9]+$/.test(s.osm_id || "");
+    if (s.type === "erreur" && osmValide) {
+        actions.appendChild(lienExterne("Élément OSM", "https://www.openstreetmap.org/" + s.osm_id));
+        const [type, id] = s.osm_id.split("/");
+        actions.appendChild(lienExterne("Éditeur OSM", "https://www.openstreetmap.org/edit?" + type + "=" + id));
+    } else if (aCoordonnees) {
+        actions.appendChild(lienExterne("Éditeur OSM", "https://www.openstreetmap.org/edit#map=19/" + lat + "/" + lon));
+    }
+
+    function bouton(libelle, statut, principal) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = libelle;
+        if (principal) b.className = "principal";
+        b.addEventListener("click", () => changerStatutSignalement(s, statut));
+        actions.appendChild(b);
+    }
+    if (s.statut === "nouveau") {
+        bouton(s.type === "manquant" ? "Ajouté dans OSM" : "Corrigé dans OSM", "traite", true);
+        bouton("Refuser", "refuse");
+    } else {
+        bouton("Remettre à traiter", "nouveau");
+    }
+    carte.appendChild(actions);
+
+    return carte;
+}
+
+// Même règle que le reste de la page : l'affichage suit tout de suite, une erreur éventuelle
+// s'affiche dans le bandeau rouge.
+function changerStatutSignalement(s, statut) {
+    s.statut = statut;
+    majOngletSignalements();
+    dessinerSignalements();
+    ecrire("/admin/signalements", { id: s.id, statut: statut });
+}
+
+
 /* ===================== Démarrage ===================== */
 
 async function demarrer() {
@@ -2227,6 +2412,7 @@ async function demarrer() {
         chargerModeration();
         chargerNotes();
         chargerVisites();
+        chargerSignalements();
     } catch (e) {
         document.getElementById("chargement").textContent =
             "Chargement impossible. Recharge la page pour te reconnecter.";

@@ -132,7 +132,7 @@ CONTENU = {
         },
         {
             "q": "Wie finde ich einen Platz in meiner Nähe?",
-            "a": "Klicken Sie auf die Schaltfläche \"Meinen Standort finden\", um Ihre Position anzuzeigen und die Plätze in Ihrer Nähe zu sehen."
+            "a": "Klicken Sie auf die Schaltfläche \"Mein Standort\", um Ihre Position anzuzeigen und die Plätze in Ihrer Nähe zu sehen."
         },
         {
             "q": "Warum haben nicht alle Plätze ein Foto und wie kann ich eines hinzufügen?",
