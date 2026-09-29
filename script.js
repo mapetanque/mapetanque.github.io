@@ -2224,7 +2224,7 @@ function construireContenuPopupTerrain(feature, layer) {
 
     // Note publique, à l'emplacement qu'occupait la description. Voir construireBlocNotation plus
     // bas dans ce fichier : deux lignes, la moyenne puis la zone de vote.
-    const notation = construireBlocNotation(tags.osm_id);
+    const notation = construireBlocNotation(tags.osm_id) + construireBlocAvis(tags.osm_id);
 
     // Le bloc photo se termine par un <br>, prévu pour séparer la photo de la ligne « Accès ».
     // Quand une description s'intercale entre les deux, ce blanc s'ajoute à la marge du
@@ -2544,6 +2544,7 @@ function brancherPopupTerrain(layer, feature) {
         brancherPartagePopup(e, feature, layer);
         brancherPhotosPopup(e);
         brancherNotationPopup(e);
+        brancherAvisPopup(e);
 
         // Doit venir APRÈS le câblage ci-dessus : on déplace les mêmes nœuds DOM (pas une
         // copie), donc les écouteurs déjà attachés restent valides une fois le contenu basculé
@@ -2906,6 +2907,242 @@ function brancherNotationPopup(e) {
     bloc.querySelector('.note-vote-etoiles').addEventListener('mouseleave', function () {
         peindre(noteActuelle);
     });
+}
+
+
+// ===================== Avis des visiteurs =====================
+// Texte libre de 280 caractères au plus, sous les étoiles de la fiche. Circuit :
+//   - envoi : Worker mapetanque-admin (POST /avis/envoi), qui range l'avis « en attente » et
+//     prévient par une issue GitHub, comme pour les signalements ;
+//   - publication : un clic dans l'onglet Notes/Avis de la page admin ;
+//   - lecture : Worker mapetanque-notes (GET /avis), un seul paquet pour tout le site, chargé
+//     une fois comme les notes et mis en cache 5 minutes.
+// La fiche montre l'avis le plus récent, puis « Voir les N avis » pour déplier les autres.
+var MAPETANQUE_URL_AVIS_ENVOI = "https://mapetanque-admin.mapetanque.workers.dev/avis/envoi";
+var AVIS_TAILLE_MAX = 280;
+
+// "node/123" -> [[texte, pseudo, note, "AAAA-MM"], ...], du plus récent au plus ancien.
+// null tant que la réponse n'est pas arrivée : la fiche affiche alors un bloc vide, rempli à
+// l'arrivée (événement mapetanque:avis).
+window.mapetanqueAvis = null;
+
+fetch(MAPETANQUE_URL_NOTES + '/avis')
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (data) {
+        window.mapetanqueAvis = data || {};
+        window.dispatchEvent(new CustomEvent('mapetanque:avis'));
+    })
+    .catch(function () {
+        // Worker injoignable : les fiches restent sans avis, l'écriture reste possible.
+        window.mapetanqueAvis = {};
+        window.dispatchEvent(new CustomEvent('mapetanque:avis'));
+    });
+
+function echapperAvis(texte) {
+    return String(texte == null ? '' : texte)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// Identifiant aléatoire de ce navigateur pour les avis : il permet seulement qu'un nouvel avis
+// remplace le précédent sur le même terrain. Il n'identifie personne et n'est jamais publié.
+function mapetanqueAuteurAvis() {
+    try {
+        var existant = localStorage.getItem('mapetanque_auteur_avis');
+        if (existant) return existant;
+        var nouveau = (window.crypto && crypto.randomUUID)
+            ? crypto.randomUUID()
+            : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0;
+                return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+            });
+        localStorage.setItem('mapetanque_auteur_avis', nouveau);
+        return nouveau;
+    } catch (e) {
+        return null;   // stockage bloqué : l'envoi reste possible, sans remplacement
+    }
+}
+
+// Terrains sur lesquels ce navigateur a déjà envoyé un avis : sert au message « votre nouvel
+// avis remplacera le précédent ».
+function mapetanqueAvisDejaEnvoye(osmId) {
+    try { return localStorage.getItem('mapetanque_avis_' + osmId) === '1'; } catch (e) { return false; }
+}
+
+function mapetanqueMemoriserAvisEnvoye(osmId) {
+    try { localStorage.setItem('mapetanque_avis_' + osmId, '1'); } catch (e) { }
+}
+
+// « 2026-09 » -> « septembre 2026 » dans la langue du site.
+function moisAvis(mois) {
+    var morceaux = String(mois || '').split('-');
+    if (morceaux.length !== 2) return '';
+    var date = new Date(Date.UTC(+morceaux[0], +morceaux[1] - 1, 15));
+    var locale = { fr: 'fr-BE', nl: 'nl-BE', de: 'de-BE', en: 'en-GB' }[currentLang] || 'fr-BE';
+    return date.toLocaleDateString(locale, { month: 'long', year: 'numeric', timeZone: 'UTC' });
+}
+
+// Une seule étoile et le chiffre, comme pour la moyenne : « ★ 4 ».
+function noteAvisHtml(note) {
+    return (note >= 1 && note <= 5)
+        ? '<span class="avis-note">' + window.mapetanqueEtoileHtml(note) + ' ' + note + '</span>'
+        : '';
+}
+
+function avisHtml(avis) {
+    var meta = [noteAvisHtml(avis[2]), echapperAvis(avis[1] || t('avis_anonyme')), echapperAvis(moisAvis(avis[3]))]
+        .filter(Boolean).join(' · ');
+    return '<div class="avis">'
+        + '<p class="avis-texte">' + echapperAvis(avis[0]) + '</p>'
+        + '<div class="avis-meta">' + meta + '</div>'
+        + '</div>';
+}
+
+// Conteneur seul : son contenu dépend de données qui peuvent arriver après l'ouverture de la
+// fiche, il est donc rempli par brancherAvisPopup.
+function construireBlocAvis(osmId) {
+    return osmId ? '<div class="avis-bloc" data-osm-id="' + osmId + '"></div>' : '';
+}
+
+function brancherAvisPopup(e) {
+    var contenu = e.popup.getElement();
+    var bloc = contenu ? contenu.querySelector('.avis-bloc') : null;
+    if (!bloc) return;
+
+    var osmId = bloc.getAttribute('data-osm-id');
+    var deplie = false;
+    var etat = 'liste';   // 'liste', 'formulaire' ou 'merci'
+
+    function listeDuTerrain() {
+        return (window.mapetanqueAvis || {})[osmId] || [];
+    }
+
+    function entete(nombre, avecLien) {
+        return '<div class="avis-titre"><b>' + t('avis_titre') + (nombre ? ' (' + nombre + ')' : '') + '</b>'
+            + (avecLien ? '<button type="button" class="avis-rediger">✎ ' + t('avis_rediger') + '</button>' : '')
+            + '</div>';
+    }
+
+    function afficherListe() {
+        etat = 'liste';
+        // Données pas encore arrivées : rien plutôt qu'un « pas encore d'avis » peut-être faux.
+        if (window.mapetanqueAvis === null) { bloc.innerHTML = ''; return; }
+
+        var liste = listeDuTerrain();
+        var html = entete(liste.length, true);
+        if (!liste.length) {
+            html += '<p class="avis-vide">' + t('avis_aucun') + '</p>';
+        } else {
+            html += (deplie ? liste : liste.slice(0, 1)).map(avisHtml).join('');
+            if (!deplie && liste.length > 1) {
+                html += '<button type="button" class="avis-voir-tout">'
+                    + t('avis_voir_tous').replace('%n', liste.length) + '</button>';
+            }
+        }
+        bloc.innerHTML = html;
+
+        bloc.querySelector('.avis-rediger').addEventListener('click', afficherFormulaire);
+        var voirTout = bloc.querySelector('.avis-voir-tout');
+        if (voirTout) voirTout.addEventListener('click', function () { deplie = true; afficherListe(); });
+    }
+
+    function afficherFormulaire() {
+        etat = 'formulaire';
+        var vote = mapetanqueVoteLocal(osmId);
+        var idTexte = 'avis-texte-' + osmId.replace('/', '-');
+        var idPseudo = 'avis-pseudo-' + osmId.replace('/', '-');
+
+        bloc.innerHTML = entete(0, false)
+            + '<form class="avis-form" novalidate>'
+            + (mapetanqueAvisDejaEnvoye(osmId) ? '<p class="avis-info">' + t('avis_remplacera') + '</p>' : '')
+            + '<label for="' + idTexte + '">' + t('avis_champ_texte') + '</label>'
+            + '<textarea id="' + idTexte + '" name="texte" maxlength="' + AVIS_TAILLE_MAX + '" required></textarea>'
+            + '<div class="avis-compteur" aria-live="polite">0 / ' + AVIS_TAILLE_MAX + '</div>'
+            + '<label for="' + idPseudo + '">' + t('avis_champ_pseudo')
+            + ' <span class="avis-facultatif">' + t('avis_facultatif') + '</span></label>'
+            + '<input type="text" id="' + idPseudo + '" name="pseudo" maxlength="40" autocomplete="nickname" placeholder="' + t('avis_anonyme') + '">'
+            // Champ piège : invisible pour un visiteur, rempli par les robots.
+            + '<input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="avis-piege" aria-hidden="true">'
+            + (vote ? '<div class="avis-lien-note">' + t('avis_avec_note') + ' ' + noteAvisHtml(vote.note) + '</div>' : '')
+            + '<p class="avis-mention">' + t('avis_mention') + '</p>'
+            + '<p class="avis-erreur" hidden></p>'
+            + '<div class="avis-boutons">'
+            + '<button type="button" class="avis-btn avis-btn-annuler">' + t('avis_annuler') + '</button>'
+            + '<button type="submit" class="avis-btn avis-btn-envoyer" disabled>' + t('avis_envoyer') + '</button>'
+            + '</div>'
+            + '</form>';
+
+        var formulaire = bloc.querySelector('.avis-form');
+        var zoneTexte = formulaire.querySelector('textarea');
+        var compteur = formulaire.querySelector('.avis-compteur');
+        var bouton = formulaire.querySelector('.avis-btn-envoyer');
+
+        zoneTexte.addEventListener('input', function () {
+            var longueur = zoneTexte.value.length;
+            compteur.textContent = longueur + ' / ' + AVIS_TAILLE_MAX;
+            compteur.classList.toggle('presque', longueur >= AVIS_TAILLE_MAX - 20);
+            bouton.disabled = zoneTexte.value.trim().length < 3;
+        });
+        formulaire.querySelector('.avis-btn-annuler').addEventListener('click', afficherListe);
+        formulaire.addEventListener('submit', envoyer);
+        zoneTexte.focus();
+    }
+
+    function envoyer(evt) {
+        evt.preventDefault();
+        var formulaire = evt.currentTarget;
+        var bouton = formulaire.querySelector('.avis-btn-envoyer');
+        var erreur = formulaire.querySelector('.avis-erreur');
+        var vote = mapetanqueVoteLocal(osmId);
+        var auteur = mapetanqueAuteurAvis();
+
+        // FormData plutôt que JSON : envoi « simple », sans requête OPTIONS préalable, comme
+        // les photos et les signalements vers le même Worker.
+        var donnees = new FormData();
+        donnees.set('osm_id', osmId);
+        donnees.set('texte', formulaire.querySelector('[name="texte"]').value);
+        donnees.set('pseudo', formulaire.querySelector('[name="pseudo"]').value);
+        donnees.set('_gotcha', formulaire.querySelector('[name="_gotcha"]').value);
+        donnees.set('langue', currentLang);
+        if (auteur) donnees.set('auteur', auteur);
+        if (vote && vote.jeton) donnees.set('jeton', vote.jeton);
+
+        bouton.disabled = true;
+        erreur.hidden = true;
+
+        fetch(MAPETANQUE_URL_AVIS_ENVOI, { method: 'POST', body: donnees })
+            .then(function (r) {
+                return r.json().catch(function () { return {}; }).then(function (corps) {
+                    if (r.ok) return;
+                    throw new Error(r.status === 429 ? 'avis_erreur_trop'
+                        : corps.erreur === 'lien interdit' ? 'avis_erreur_lien' : 'avis_erreur');
+                });
+            })
+            .then(function () {
+                etat = 'merci';
+                mapetanqueMemoriserAvisEnvoye(osmId);
+                var liste = listeDuTerrain();
+                bloc.innerHTML = entete(liste.length, false)
+                    + '<div class="avis-merci">✓ ' + t('avis_merci') + '</div>';
+            })
+            .catch(function (err) {
+                var cle = /^avis_/.test(err.message) ? err.message : 'avis_erreur';
+                erreur.textContent = t(cle);
+                erreur.hidden = false;
+                bouton.disabled = false;
+            });
+    }
+
+    // Les avis arrivent après l'ouverture de la fiche (premier chargement) : on redessine la
+    // liste, sans jamais écraser un formulaire en cours de saisie. L'écouteur se retire de
+    // lui-même une fois la fiche fermée et son contenu détaché du document.
+    function surArrivee() {
+        if (!bloc.isConnected) { window.removeEventListener('mapetanque:avis', surArrivee); return; }
+        if (etat === 'liste') afficherListe();
+    }
+    window.addEventListener('mapetanque:avis', surArrivee);
+
+    afficherListe();
 }
 
 

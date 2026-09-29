@@ -129,6 +129,12 @@ CONTENU = {
                 "Quand vous signalez un terrain manquant ou une erreur, seuls l'emplacement indiqué et "
                 "votre commentaire sont enregistrés. Le signalement est conservé le temps de le vérifier "
                 "et de corriger OpenStreetMap, puis supprimé au plus tard un an après.",
+                "Quand vous rédigez un avis sur un terrain, seuls son texte, le prénom ou pseudo "
+                "éventuel et la langue du site sont enregistrés, avec votre note si vous en avez "
+                "donné une. Votre navigateur garde un identifiant aléatoire, qui sert seulement à ce "
+                "qu'un nouvel avis remplace le précédent. L'avis n'est publié qu'après relecture ; "
+                "un avis refusé ou remplacé est supprimé 30 jours plus tard. Vous pouvez demander le "
+                "retrait d'un avis publié en écrivant à mapetanque@outlook.be.",
                 "Pour limiter les envois abusifs, le site calcule aussi une empreinte chiffrée de "
                 "votre adresse IP. Elle sert seulement à compter vos envois de la journée, et elle "
                 "est effacée au bout de quelques jours.",
@@ -208,6 +214,12 @@ CONTENU = {
                 "Als je een ontbrekend terrein of een fout meldt, worden alleen de aangeduide plaats en "
                 "je opmerking bewaard. De melding blijft bewaard zolang nodig is om ze te controleren en "
                 "OpenStreetMap te verbeteren, en wordt uiterlijk na een jaar verwijderd.",
+                "Als je een recensie over een terrein schrijft, worden alleen de tekst, je eventuele "
+                "voornaam of bijnaam en de taal van de site bewaard, samen met je beoordeling als je "
+                "er een gaf. Je browser bewaart een willekeurige code die alleen dient om een nieuwe "
+                "recensie de vorige te laten vervangen. Een recensie verschijnt pas na controle; een "
+                "geweigerde of vervangen recensie wordt 30 dagen later verwijderd. Je kan vragen om "
+                "een gepubliceerde recensie te verwijderen via mapetanque@outlook.be.",
                 "Om misbruik te beperken, berekent de site ook een versleutelde vingerafdruk van "
                 "je IP-adres. Die dient alleen om je verzendingen van de dag te tellen en wordt "
                 "na enkele dagen gewist.",
@@ -287,6 +299,13 @@ CONTENU = {
                 "Wenn Sie einen fehlenden Platz oder einen Fehler melden, werden nur der angegebene Ort "
                 "und Ihr Kommentar gespeichert. Die Meldung wird so lange aufbewahrt, wie es für die "
                 "Prüfung und die Korrektur in OpenStreetMap nötig ist, und spätestens nach einem Jahr gelöscht.",
+                "Wenn Sie eine Rezension zu einem Platz schreiben, werden nur der Text, Ihr "
+                "eventueller Vorname oder Spitzname und die Sprache der Website gespeichert, dazu "
+                "Ihre Bewertung, falls Sie eine abgegeben haben. Ihr Browser speichert eine zufällige "
+                "Kennung, die nur dazu dient, dass eine neue Rezension die vorherige ersetzt. Die "
+                "Rezension erscheint erst nach Prüfung; eine abgelehnte oder ersetzte Rezension wird "
+                "30 Tage später gelöscht. Sie können die Entfernung einer veröffentlichten Rezension "
+                "unter mapetanque@outlook.be verlangen.",
                 "Um Missbrauch zu begrenzen, berechnet die Website außerdem einen verschlüsselten "
                 "Fingerabdruck Ihrer IP-Adresse. Er dient nur dazu, Ihre Einsendungen des Tages zu "
                 "zählen, und wird nach einigen Tagen gelöscht.",
@@ -362,6 +381,12 @@ CONTENU = {
                 "When you report a missing court or an error, only the location you give and your "
                 "comment are stored. The report is kept for as long as it takes to check it and update "
                 "OpenStreetMap, then deleted within a year at the latest.",
+                "When you write a review of a court, only its text, your optional first name or "
+                "nickname and the site language are stored, along with your rating if you gave one. "
+                "Your browser keeps a random identifier whose only purpose is to let a new review "
+                "replace your previous one. Reviews are published only after moderation; a rejected "
+                "or replaced review is deleted 30 days later. You can ask for a published review to "
+                "be removed by writing to mapetanque@outlook.be.",
                 "To limit abuse, the site also computes a hashed fingerprint of your IP address. "
                 "It is only used to count your uploads for the day, and it is erased after a few "
                 "days.",

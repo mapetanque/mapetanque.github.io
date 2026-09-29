@@ -1,0 +1,63 @@
+# Alerte à l'arrivée d'un avis de visiteur sur une fiche de terrain.
+#
+# Même mécanique que alerte-signalement.yml : déclenché par le Worker
+# mapetanque-admin (jamais par un horaire), il ouvre une issue « Avis de
+# visiteurs à valider », ou la complète d'un commentaire si elle est déjà
+# ouverte. C'est le bot GitHub Actions qui écrit : GitHub t'envoie donc un mail.
+# Le texte de l'avis n'est PAS recopié dans l'issue (le dépôt est public) : il
+# se lit dans la page admin, avant publication.
+#
+# Fermer l'issue après avoir validé les avis : le suivant en rouvrira une.
+
+name: Alerte avis visiteur
+
+on:
+  workflow_dispatch:
+    inputs:
+      osm_id:
+        description: "Terrain concerné (ex. node/7798043008)"
+        required: true
+      en_attente:
+        description: "Nombre total d'avis à valider"
+        required: true
+
+permissions:
+  issues: write
+
+# Deux alertes simultanées ne doivent pas ouvrir deux issues : elles passent
+# l'une après l'autre.
+concurrency:
+  group: alerte-avis
+  cancel-in-progress: false
+
+jobs:
+  alerter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ouvrir ou compléter l'issue d'alerte
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          # Les entrées passent par des variables d'environnement, jamais
+          # directement dans le script : une valeur piégée ne peut ainsi pas
+          # être exécutée comme une commande.
+          OSM_ID: ${{ inputs.osm_id }}
+          EN_ATTENTE: ${{ inputs.en_attente }}
+        run: |
+          set -euo pipefail
+
+          [[ "$EN_ATTENTE" =~ ^[0-9]{1,4}$ ]] || { echo "compteur invalide"; exit 1; }
+          [[ "$OSM_ID" =~ ^(node|way|relation)/[0-9]{1,16}$ ]] || { echo "osm_id invalide"; exit 1; }
+
+          TITRE="Avis de visiteurs à valider"
+          MESSAGE=$(printf 'Nouvel avis sur [%s](https://www.openstreetmap.org/%s).\n\nAvis à valider au total : %s.\n\nValidation : https://mapetanque.be/admin.html#notes' \
+            "$OSM_ID" "$OSM_ID" "$EN_ATTENTE")
+
+          NUMERO=$(gh issue list --state open --limit 100 --json number,title \
+            --jq ".[] | select(.title == \"$TITRE\") | .number" | head -n 1)
+
+          if [ -z "$NUMERO" ]; then
+            gh issue create --title "$TITRE" --body "$MESSAGE"
+          else
+            gh issue comment "$NUMERO" --body "$MESSAGE"
+          fi

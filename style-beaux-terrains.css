@@ -272,6 +272,53 @@
 .note-vote-etoile.active { color: #4a8f36; }
 .note-vote-etoile:focus-visible { outline: 2px solid #74C15A; outline-offset: 2px; }
 
+/* ---- Avis des visiteurs dans la fiche (voir brancherAvisPopup dans script.js) ----
+   Sous le bloc de notation, séparé par un filet. Vide tant que les avis ne sont pas chargés :
+   aucune marge dans ce cas, pour que la fiche ne « saute » pas à leur arrivée. */
+.avis-bloc:empty { display: none; }
+.avis-bloc { margin: 0 0 14px; padding-top: 12px; border-top: 1px solid #eee; }
+.avis-titre { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+.avis-titre b { font-size: 14px; color: #333; }
+.avis-rediger {
+    background: none; border: 0; padding: 0; font: inherit; font-size: 12.5px;
+    color: #56A03D; text-decoration: underline; cursor: pointer; white-space: nowrap;
+}
+.avis { background: #f6f8f3; border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; }
+.avis-texte { margin: 0; font-size: 13.5px; line-height: 1.45; color: #333; overflow-wrap: anywhere; }
+.avis-meta { margin-top: 6px; font-size: 12px; color: #888; }
+.avis-note .note-etoile { font-size: 13px; vertical-align: -1px; }
+.avis-voir-tout {
+    display: block; width: 100%; padding: 8px; border: 1px solid #dfe5d8; border-radius: 8px;
+    background: #fff; color: #4a8f36; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+}
+.avis-voir-tout:hover { border-color: #74C15A; }
+.avis-vide { margin: 0; font-size: 12.5px; color: #888; }
+
+.avis-form { display: flex; flex-direction: column; gap: 8px; padding: 12px; background: #f6f8f3; border-radius: 10px; }
+.avis-form label { font-size: 12.5px; font-weight: 600; color: #555; }
+.avis-facultatif { font-weight: 400; color: #999; }
+.avis-form textarea,
+.avis-form input[type="text"] {
+    width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1px solid #ddd; border-radius: 8px;
+    background: #fff; font: inherit; font-size: 13.5px; color: #333;
+}
+.avis-form textarea { min-height: 86px; resize: vertical; }
+.avis-form textarea:focus,
+.avis-form input[type="text"]:focus { outline: 2px solid #74C15A; outline-offset: -1px; border-color: #74C15A; }
+.avis-form .avis-piege { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.avis-compteur { margin-top: -4px; font-size: 11.5px; color: #888; text-align: right; }
+.avis-compteur.presque { color: #b56a00; font-weight: 600; }
+.avis-lien-note { font-size: 12px; color: #666; }
+.avis-mention { margin: 0; font-size: 11px; line-height: 1.4; color: #999; }
+.avis-info { margin: 0; padding: 8px 10px; border-radius: 8px; background: #eef3fb; color: #1f4e8c; font-size: 12.5px; }
+.avis-erreur { margin: 0; font-size: 12.5px; color: #b04a3a; }
+.avis-boutons { display: flex; justify-content: flex-end; gap: 8px; }
+.avis-btn { padding: 8px 14px; border-radius: 8px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+.avis-btn-annuler { background: #fff; border: 1px solid #ddd; color: #555; }
+.avis-btn-envoyer { background: #74C15A; border: 1px solid #74C15A; color: #fff; }
+.avis-btn-envoyer:disabled { opacity: 0.5; cursor: default; }
+.avis-merci { padding: 10px 12px; border-radius: 10px; background: #eef7e9; color: #3d7a2a; font-size: 13px; }
+
 /* ---- Ligne de note dans une tuile du carrousel ----
    Occupe exactement la place de .tuile-extrait : même hauteur, même troncature sur une ligne,
    donc aucun décalage dans la géométrie du carrousel. Aucun curseur ni état de survol ici : le

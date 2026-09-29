@@ -298,6 +298,50 @@
     .vide-bloc { padding: 26px 16px; text-align: center; color: var(--doux); font-size: 14px;
                  border: 1px dashed #c8cbc2; border-radius: 10px; }
 
+    /* --- Onglet Notes/Avis : chiffres compacts, bande hebdomadaire, avis ---- */
+    .kpis-compacts { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
+    .kpis-compacts .carte-kpi { padding: 12px 14px; gap: 2px; }
+    .kpis-compacts .kpi-etiquette { font-size: 11.5px; }
+    .kpis-compacts .kpi-valeur { font-size: 26px; }
+    .kpis-compacts .kpi-detail { font-size: 12.5px; }
+    /* Des avis attendent : la case le signale, en plus du chiffre. */
+    .carte-kpi.attention { border-color: #f0c48a; background: #fff8ec; }
+    .bande { padding: 12px 18px 8px; }
+    .bande-tete { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; font-size: 14px; }
+    .bande .graphique-info { margin-top: 2px; font-size: 13px; min-height: 18px; }
+    .file-avis { overflow: hidden; }
+    .file-avis-titre {
+        display: flex; justify-content: space-between; gap: 12px; width: 100%; box-sizing: border-box; padding: 14px 20px;
+        border: none; background: #f0f1ec; color: var(--encre); font: inherit; font-weight: 700; text-align: left;
+    }
+    button.file-avis-titre { cursor: pointer; }
+    .file-avis-titre.attente { background: var(--orange-clair); }
+    .file-avis-aide { font-weight: 400; color: var(--doux); font-size: 14px; }
+    .avis-carte { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 20px; padding: 14px 20px; border-bottom: 1px solid var(--bord); }
+    .avis-carte:last-child { border-bottom: none; }
+    .avis-terrain { font-weight: 700; }
+    .avis-terrain a { margin-left: 8px; font-size: 13px; font-weight: 400; }
+    .avis-lieu { font-size: 13px; color: var(--doux); }
+    .avis-carte blockquote {
+        margin: 8px 0 6px; padding: 8px 12px; border-left: 3px solid #c8d8bd; background: #fafbf8;
+        font-size: 15px; line-height: 1.45; overflow-wrap: anywhere;
+    }
+    .avis-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 13px; color: var(--doux); }
+    .avis-etoile { color: #4a8f36; }
+    .etiquette { display: inline-block; padding: 1px 7px; border-radius: 6px; background: #eef0ea; font-size: 12px; font-weight: 700; color: var(--doux); }
+    .etiquette.remplace { background: var(--bleu-clair); color: var(--bleu); }
+    .avis-actions { display: flex; flex-direction: column; gap: 8px; justify-content: center; }
+    .avis-actions button {
+        min-height: 40px; min-width: 110px; padding: 0 14px; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer;
+    }
+    .avis-actions .publier { border: none; background: #74c15a; color: #10240a; }
+    .avis-actions .refuser { border: 1px solid #d9b3ad; background: white; color: var(--rouge); }
+    .avis-actions .retirer { border: 1px solid var(--bord); background: white; color: var(--doux); font-weight: 600; min-height: 34px; }
+    .avis-publie { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 10px 20px; border-bottom: 1px solid var(--bord); font-size: 14px; }
+    .avis-publie:last-child { border-bottom: none; }
+    .avis-publie .avis-lieu { margin-top: 2px; }
+    @media (max-width: 1100px) { .kpis-compacts { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
     /* --- Écrans étroits (iPad en portrait, téléphone) --------------------- */
     @media (max-width: 900px) {
         .tableau-bord, .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -336,7 +380,7 @@
     </div>
     <nav class="onglets" role="tablist" aria-label="Rubriques">
         <button type="button" role="tab" id="onglet-terrains" aria-controls="panneau-terrains" aria-selected="true">Terrains et photos</button>
-        <button type="button" role="tab" id="onglet-notes" aria-controls="panneau-notes" aria-selected="false">Notes</button>
+        <button type="button" role="tab" id="onglet-notes" aria-controls="panneau-notes" aria-selected="false">Notes/Avis</button>
         <button type="button" role="tab" id="onglet-visites" aria-controls="panneau-visites" aria-selected="false">Visites</button>
         <button type="button" role="tab" id="onglet-signalements" aria-controls="panneau-signalements" aria-selected="false">Signalements</button>
     </nav>
@@ -410,10 +454,24 @@
 
 <section id="panneau-notes" role="tabpanel" aria-labelledby="onglet-notes" hidden>
     <div class="panneau a-venir" id="notesAttente">Chargement des notes…</div>
-    <div class="kpis" id="notesKpis" hidden></div>
-    <div class="panneau bloc" id="notesSemaines" hidden>
-        <div><h2>Notes reçues par semaine</h2><div class="bloc-sous-titre">26 dernières semaines</div></div>
+    <div class="kpis kpis-compacts" id="notesKpis" hidden></div>
+    <div class="panneau bande" id="notesSemaines" hidden>
+        <div class="bande-tete">
+            <div><b>Par semaine</b> <span class="bloc-sous-titre">26 dernières semaines</span></div>
+            <div class="legende">
+                <span><span class="pastille" style="background:#3d7d2a"></span>Notes</span>
+                <span><span class="pastille" style="background:#9fcf87"></span>Avis</span>
+            </div>
+        </div>
         <div class="graphique" id="notesSemainesGraphique"></div>
+    </div>
+    <div class="panneau file-avis" id="avisAttenteBloc" hidden>
+        <div class="file-avis-titre attente"><span id="avisAttenteTitre">Avis à valider</span><span class="file-avis-aide">du plus ancien au plus récent</span></div>
+        <div id="avisAttenteListe"></div>
+    </div>
+    <div class="panneau file-avis" id="avisPubliesBloc" hidden>
+        <button type="button" class="file-avis-titre" id="avisPubliesTitre" aria-expanded="false" aria-controls="avisPubliesListe"></button>
+        <div id="avisPubliesListe" hidden></div>
     </div>
     <div class="deux-colonnes" id="notesDetail" hidden>
         <div class="panneau bloc">
@@ -1995,10 +2053,249 @@ function barresHorizontales(lignes, videTexte) {
 function montrer(...ids) { ids.forEach(id => { document.getElementById(id).hidden = false; }); }
 
 
-/* ===================== Onglet Notes ===================== */
+/* ===================== Onglet Notes/Avis ===================== */
 
 let STATS_NOTES = null;
-let GEO_TERRAINS = null;    // osm_id -> { province, region }, lu à l'ouverture de l'onglet
+// osm_id -> { province, region, nom, commune, lat, lon }, lu à la première ouverture de l'onglet.
+let GEO_TERRAINS = null;
+
+// Le fichier des terrains sert aux provinces et régions, et à nommer le terrain d'un avis
+// (l'avis ne porte qu'un osm_id). Même intitulé que la fiche du site : « Terrain <rue> ».
+async function chargerGeoTerrains() {
+    if (GEO_TERRAINS) return true;
+    try {
+        const geo = await fetch("/data/terrains.geojson", { cache: "no-store" }).then(x => x.json());
+        GEO_TERRAINS = {};
+        geo.features.forEach(f => {
+            const p = f.properties || {};
+            const c = (f.geometry && f.geometry.coordinates) || [];
+            if (p.osm_id) GEO_TERRAINS[p.osm_id] = {
+                province: p.province || (p.region && /brux|brus/i.test(p.region) ? "Bruxelles-Capitale" : "Inconnue"),
+                region: p.region || "Inconnue",
+                nom: p.nearest_street ? "Terrain " + p.nearest_street : "Terrain sans nom",
+                commune: p.commune || "",
+                lat: c[1], lon: c[0]
+            };
+        });
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+
+// Bande hebdomadaire : deux barres par semaine, notes (vert foncé) et avis (vert clair), sur une
+// seule échelle. Même principe de détail au clic que barresVerticales (.zone-barre / .barre).
+function barresBande(semaines) {
+    const L = 900, H = 64, G = 30, B = 16, HAUT = 4;
+    const zoneL = L - G - 6, zoneH = H - B - HAUT;
+    const max = Math.max(1, ...semaines.map(s => Math.max(s.notes, s.avis)));
+    const largeur = zoneL / Math.max(1, semaines.length);
+    let svg = `<svg viewBox="0 0 ${L} ${H}" role="img" aria-label="Notes et avis par semaine">`;
+    svg += `<line x1="${G}" y1="${HAUT + zoneH}" x2="${L - 6}" y2="${HAUT + zoneH}" stroke="#e2e4dc"/>`;
+    svg += `<text x="${G - 6}" y="${HAUT + 10}" font-size="11" text-anchor="end" fill="#5b625b">${nombre(max)}</text>`;
+    semaines.forEach((s, i) => {
+        const x = G + i * largeur;
+        const hNotes = s.notes / max * zoneH, hAvis = s.avis / max * zoneH;
+        svg += `<rect class="barre" data-i="${i}" x="${(x + largeur * 0.12).toFixed(1)}" y="${(HAUT + zoneH - hNotes).toFixed(1)}" width="${(largeur * 0.38).toFixed(1)}" height="${hNotes.toFixed(1)}" rx="1.5" fill="${VERT}"/>`;
+        svg += `<rect x="${(x + largeur * 0.5).toFixed(1)}" y="${(HAUT + zoneH - hAvis).toFixed(1)}" width="${(largeur * 0.38).toFixed(1)}" height="${hAvis.toFixed(1)}" rx="1.5" fill="#9fcf87"/>`;
+        svg += `<rect class="zone-barre" data-i="${i}" data-info="${echapper(s.infobulle)}" x="${x.toFixed(1)}" y="${HAUT}" width="${largeur.toFixed(1)}" height="${zoneH}" fill="transparent"/>`;
+        if (i % 3 === 0) {
+            svg += `<text x="${(x + largeur / 2).toFixed(1)}" y="${H - 3}" font-size="11" text-anchor="middle" fill="#5b625b">${echapper(s.libelle)}</text>`;
+        }
+    });
+    return svg + `</svg><div class="graphique-info">${INVITE_GRAPHIQUE}</div>`;
+}
+
+/* ---- Avis des visiteurs ----
+   File d'attente et avis publiés, lus à part des statistiques : ils changent à chaque clic de
+   modération, les statistiques non. Même règle que le reste de la page : l'affichage suit tout
+   de suite, puis la liste est relue auprès du Worker (un avis publié peut en avoir remplacé un
+   autre du même auteur, que la page ne peut pas deviner). */
+let AVIS = null;   // { en_attente: [...], publies: [...] }
+let AVIS_PUBLIES_OUVERTS = false;
+
+async function chargerAvis() {
+    try {
+        AVIS = await appeler("/admin/avis").then(r => r.json());
+    } catch (e) {
+        return;   // le bandeau d'incident a déjà parlé
+    }
+    majOngletNotes();
+    majKpisAvis();
+    dessinerAvis();
+}
+
+// Les deux cases « avis » en fin de ligne des chiffres clés, remplacées seules.
+function majKpisAvis() {
+    const kpis = document.getElementById("notesKpis");
+    if (!kpis.innerHTML) return;   // onglet pas encore dessiné : afficherNotes les posera
+    kpis.querySelectorAll('[data-kpi="avis"]').forEach(e => e.remove());
+    kpis.insertAdjacentHTML("beforeend", kpisAvis());
+}
+
+// Le nombre d'avis à valider s'affiche dans l'onglet, comme pour les signalements.
+function majOngletNotes() {
+    const aValider = AVIS ? AVIS.en_attente.length : 0;
+    document.getElementById("onglet-notes").textContent =
+        "Notes/Avis" + (aValider ? " · " + aValider + " à valider" : "");
+}
+
+function kpisAvis() {
+    if (!AVIS) {
+        return `<div class="carte-kpi kpi-fixe" data-kpi="avis"><span class="kpi-etiquette">Avis</span><span class="kpi-valeur">—</span><span class="kpi-detail">chargement…</span></div>`;
+    }
+    const attente = AVIS.en_attente;
+    const age = attente.length ? joursDepuis(attente[0].cree) : 0;
+    const terrains = new Set(AVIS.publies.map(a => a.osm_id)).size;
+    return `<div class="carte-kpi kpi-fixe${attente.length ? " attention" : ""}" data-kpi="avis">
+            <span class="kpi-etiquette">Avis à valider</span>
+            <span class="kpi-valeur">${nombre(attente.length)}</span>
+            <span class="kpi-detail">${attente.length ? "le plus ancien : " + (age < 1 ? "aujourd'hui" : Math.floor(age) + " j") : "rien en attente"}</span>
+        </div>`
+        + `<div class="carte-kpi kpi-fixe" data-kpi="avis">
+            <span class="kpi-etiquette">Avis publiés</span>
+            <span class="kpi-valeur">${nombre(AVIS.publies.length)}</span>
+            <span class="kpi-detail">sur ${nombre(terrains)} terrain(s)</span>
+        </div>`;
+}
+
+// Dates de la base : UTC, « AAAA-MM-JJ hh:mm:ss » (voir joursDepuis plus haut).
+function dateCourte(texte, avecHeure) {
+    const d = new Date(String(texte).replace(" ", "T") + "Z");
+    if (isNaN(d)) return String(texte || "");
+    return avecHeure
+        ? d.toLocaleString("fr-BE", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })
+        : d.toLocaleDateString("fr-BE", { day: "2-digit", month: "2-digit", year: "numeric" });
+}
+
+function terrainAvis(osmId) {
+    return (GEO_TERRAINS && GEO_TERRAINS[osmId]) || { nom: osmId, commune: "" };
+}
+
+// En-tête commun : nom du terrain, lien vers sa fiche sur le site, commune.
+function enteteAvis(a) {
+    const t = terrainAvis(a.osm_id);
+    const bloc = document.createElement("div");
+    const nom = document.createElement("div");
+    nom.className = "avis-terrain";
+    nom.textContent = t.nom;
+    if (isFinite(t.lat) && isFinite(t.lon)) {
+        nom.appendChild(lienExterne("Voir la fiche ↗", "/?lat=" + Number(t.lat).toFixed(6) + "&lon=" + Number(t.lon).toFixed(6) + "&z=18"));
+    }
+    bloc.appendChild(nom);
+    const lieu = document.createElement("div");
+    lieu.className = "avis-lieu";
+    lieu.textContent = [t.commune, a.osm_id].filter(Boolean).join(" · ");
+    bloc.appendChild(lieu);
+    return bloc;
+}
+
+function carteAvisAttente(a) {
+    const carte = document.createElement("div");
+    carte.className = "avis-carte";
+
+    const contenu = enteteAvis(a);
+    const texte = document.createElement("blockquote");
+    texte.textContent = a.texte;
+    contenu.appendChild(texte);
+
+    const meta = document.createElement("div");
+    meta.className = "avis-meta";
+    meta.innerHTML =
+        (a.note ? '<span><span class="avis-etoile">★</span> ' + echapper(a.note) + '</span><span>·</span>' : "")
+        + '<span>' + echapper(a.pseudo || "Anonyme") + '</span><span>·</span>'
+        + '<span>reçu le ' + echapper(dateCourte(a.cree, true)) + '</span>'
+        + (a.langue ? '<span class="etiquette">' + echapper(String(a.langue).toUpperCase()) + '</span>' : "")
+        + (a.remplace_publie_le
+            ? '<span class="etiquette remplace">Remplacera son avis publié le ' + echapper(dateCourte(a.remplace_publie_le)) + '</span>'
+            : "");
+    contenu.appendChild(meta);
+    carte.appendChild(contenu);
+
+    const actions = document.createElement("div");
+    actions.className = "avis-actions";
+    [["Publier", "publier"], ["Refuser", "refuser"]].forEach(([libelle, decision]) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = decision;
+        b.textContent = libelle;
+        b.addEventListener("click", () => modererAvis(a, decision));
+        actions.appendChild(b);
+    });
+    carte.appendChild(actions);
+    return carte;
+}
+
+function ligneAvisPublie(a) {
+    const ligne = document.createElement("div");
+    ligne.className = "avis-publie";
+
+    const contenu = document.createElement("div");
+    const texte = document.createElement("div");
+    texte.textContent = "« " + a.texte + " »";
+    contenu.appendChild(texte);
+    const lieu = document.createElement("div");
+    lieu.className = "avis-lieu";
+    lieu.textContent = [terrainAvis(a.osm_id).nom, a.pseudo || "Anonyme", a.note ? "★ " + a.note : "",
+                        "publié le " + dateCourte(a.maj)].filter(Boolean).join(" · ");
+    contenu.appendChild(lieu);
+    ligne.appendChild(contenu);
+
+    const actions = document.createElement("div");
+    actions.className = "avis-actions";
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "retirer";
+    b.textContent = "Retirer";
+    b.addEventListener("click", () => {
+        if (confirm("Retirer cet avis du site ?")) modererAvis(a, "retirer");
+    });
+    actions.appendChild(b);
+    ligne.appendChild(actions);
+    return ligne;
+}
+
+function dessinerAvis() {
+    if (!AVIS) return;
+
+    const attente = AVIS.en_attente;
+    document.getElementById("avisAttenteBloc").hidden = attente.length === 0;
+    document.getElementById("avisAttenteTitre").textContent = "Avis à valider (" + attente.length + ")";
+    const liste = document.getElementById("avisAttenteListe");
+    liste.innerHTML = "";
+    attente.forEach(a => liste.appendChild(carteAvisAttente(a)));
+
+    const publies = AVIS.publies;
+    document.getElementById("avisPubliesBloc").hidden = publies.length === 0;
+    const titre = document.getElementById("avisPubliesTitre");
+    titre.innerHTML = "<span>Avis publiés (" + publies.length + ")</span>"
+        + '<span class="file-avis-aide">' + (AVIS_PUBLIES_OUVERTS ? "masquer ▴" : "afficher ▾") + "</span>";
+    titre.setAttribute("aria-expanded", AVIS_PUBLIES_OUVERTS ? "true" : "false");
+    const listePublies = document.getElementById("avisPubliesListe");
+    listePublies.hidden = !AVIS_PUBLIES_OUVERTS;
+    listePublies.innerHTML = "";
+    if (AVIS_PUBLIES_OUVERTS) publies.forEach(a => listePublies.appendChild(ligneAvisPublie(a)));
+}
+
+document.getElementById("avisPubliesTitre").addEventListener("click", () => {
+    AVIS_PUBLIES_OUVERTS = !AVIS_PUBLIES_OUVERTS;
+    dessinerAvis();
+});
+
+function modererAvis(a, decision) {
+    if (decision === "retirer") {
+        AVIS.publies = AVIS.publies.filter(x => x.id !== a.id);
+    } else {
+        AVIS.en_attente = AVIS.en_attente.filter(x => x.id !== a.id);
+        if (decision === "publier") {
+            AVIS.publies.unshift(Object.assign({}, a, { maj: new Date().toISOString().slice(0, 19).replace("T", " ") }));
+        }
+    }
+    majOngletNotes();
+    majKpisAvis();
+    dessinerAvis();
+    ecrire("/admin/avis", { id: a.id, decision: decision }).then(() => chargerAvis());
+}
 
 async function chargerNotes() {
     try {
@@ -2020,24 +2317,26 @@ async function afficherNotes() {
     const r = STATS_NOTES.resume;
 
     document.getElementById("notesKpis").innerHTML =
-        carteKpi("Terrains notés", nombre(r.terrains), "sur " + nombre(TERRAINS.length) + " terrains dans la page admin") +
+        carteKpi("Terrains notés", nombre(r.terrains), "sur " + nombre(TERRAINS.length) + " dans la page admin") +
         carteKpi("Notes reçues", nombre(r.votes), "moyenne " + String(r.moyenne || 0).replace(".", ",") + " / 5") +
         carteKpi("7 derniers jours", nombre(r.j7), variation(r.j7 || 0, r.j7_avant || 0)) +
-        carteKpi("30 derniers jours", nombre(r.j30), "dont " + nombre(STATS_NOTES.nouveaux_terrains_30j) + " terrain(s) noté(s) pour la première fois");
+        carteKpi("30 derniers jours", nombre(r.j30), "dont " + nombre(STATS_NOTES.nouveaux_terrains_30j) + " nouveau(x) terrain(s)") +
+        kpisAvis();
 
-    // 26 semaines, y compris celles sans aucune note.
-    const parSemaine = {};
+    // 26 semaines, y compris celles sans aucune note ni aucun avis.
+    const parSemaine = {}, avisParSemaine = {};
     STATS_NOTES.par_semaine.forEach(s => { parSemaine[s.semaine] = s.votes; });
-    const barres = [];
+    ((STATS_NOTES.avis && STATS_NOTES.avis.par_semaine) || []).forEach(s => { avisParSemaine[s.semaine] = s.avis; });
+    const semaines = [];
     let lundi = lundiDe(hierIso());
     for (let i = 0; i < 26; i++) {
         const [a, m, j] = lundi.split("-");
-        barres.unshift({ libelle: j + "/" + m, valeur: parSemaine[lundi] || 0,
-                         infobulle: "Semaine du " + j + "/" + m + "/" + a + " : " + (parSemaine[lundi] || 0) + " note(s)" });
+        const notes = parSemaine[lundi] || 0, avis = avisParSemaine[lundi] || 0;
+        semaines.unshift({ libelle: j + "/" + m, notes: notes, avis: avis,
+                           infobulle: "Semaine du " + j + "/" + m + "/" + a + " : " + notes + " note(s), " + avis + " avis" });
         lundi = decalerJour(lundi, -7);
     }
-    document.getElementById("notesSemainesGraphique").innerHTML =
-        barresVerticales(barres, { pasLibelle: 3, titre: "Notes reçues par semaine" });
+    document.getElementById("notesSemainesGraphique").innerHTML = barresBande(semaines);
 
     document.getElementById("notesRepartition").innerHTML = barresHorizontales(
         [1, 2, 3, 4, 5].map(n => {
@@ -2047,25 +2346,16 @@ async function afficherNotes() {
 
     document.getElementById("notesAttente").hidden = true;
     montrer("notesKpis", "notesSemaines", "notesDetail");
+    dessinerAvis();
 
-    // Provinces et régions : il faut savoir où se trouve chaque terrain. Le fichier des
-    // terrains n'est lu qu'ici, à la première ouverture de l'onglet.
+    // Provinces et régions : il faut savoir où se trouve chaque terrain.
     if (!GEO_TERRAINS) {
         document.getElementById("notesProvinces").innerHTML = `<div class="vide-bloc">Chargement des provinces…</div>`;
-        try {
-            const geo = await fetch("/data/terrains.geojson", { cache: "no-store" }).then(x => x.json());
-            GEO_TERRAINS = {};
-            geo.features.forEach(f => {
-                const p = f.properties || {};
-                if (p.osm_id) GEO_TERRAINS[p.osm_id] = {
-                    province: p.province || (p.region && /brux|brus/i.test(p.region) ? "Bruxelles-Capitale" : "Inconnue"),
-                    region: p.region || "Inconnue"
-                };
-            });
-        } catch (e) {
+        if (!(await chargerGeoTerrains())) {
             document.getElementById("notesProvinces").innerHTML = `<div class="vide-bloc">Fichier des terrains illisible.</div>`;
             return;
         }
+        dessinerAvis();   // les noms de terrains sont maintenant connus
     }
 
     const totaux = {}, notes = {}, totauxRegion = {}, notesRegion = {};
@@ -2458,6 +2748,7 @@ async function demarrer() {
         afficherOnglet(location.hash.slice(1));
         chargerModeration();
         chargerNotes();
+        chargerAvis();
         chargerVisites();
         chargerSignalements();
     } catch (e) {
