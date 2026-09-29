@@ -3,7 +3,7 @@ Génère a-propos.html, nl/a-propos.html, de/a-propos.html et en/a-propos.html �
 « Comment jouer » du dépôt.
 
 La mécanique commune (métadonnées, bannière, fil d'Ariane, sélecteur de langue) vit dans
-_squelette.py, partagée avec generer_faq.py.
+_squelette.py, partagée avec generer_la_petanque.py.
 
 À lancer depuis la racine du dépôt :
     python scripts/generer_a_propos.py

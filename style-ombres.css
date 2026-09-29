@@ -1,0 +1,63 @@
+/* =============================================================================================
+   Ombres portées de la bannière (logo + textes blancs posés sur la photo)
+
+   Fichier additif, chargé en dernier sur toutes les pages publiques (pas sur admin.html) :
+   aucune règle de /style.css ni des feuilles de page n'est modifiée.
+
+   Le voile sombre en dégradé des bannières reste en place et continue d'assurer l'essentiel de
+   la lisibilité. Ces ombres ne font que détacher légèrement le logo et les textes de la photo :
+   elles sont volontairement larges et peu opaques. Une ombre courte et foncée recréerait le
+   halo autour de chaque lettre qui avait fait retirer les anciennes ombres.
+
+   Deux couches, réglables ici et nulle part ailleurs :
+     - une ombre serrée et très légère, qui ne fait que souligner le contour ;
+     - une ombre large et diffuse, qui porte l'effet.
+   text-shadow ne s'applique qu'au texte : le logo (image) et les icônes SVG de la nav reçoivent
+   l'équivalent en filter: drop-shadow().
+============================================================================================= */
+
+:root {
+    --ombre-banniere-texte: 0 1px 3px rgba(0, 0, 0, 0.22), 0 2px 14px rgba(0, 0, 0, 0.28);
+    --ombre-banniere-image: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.22)) drop-shadow(0 2px 10px rgba(0, 0, 0, 0.28));
+}
+
+/* Logo (complet en desktop, boule seule en mobile : même <img>, via <picture>) */
+.hero-banner .brand-link .logo {
+    filter: var(--ombre-banniere-image);
+}
+
+/* Titre de la bannière (h1 de l'accueil et des pages de contenu) */
+.hero-banner .hero-headline {
+    text-shadow: var(--ombre-banniere-texte);
+}
+
+/* Fil d'Ariane (liens, séparateurs et page courante héritent de l'ombre) */
+.hero-banner .province-breadcrumb {
+    text-shadow: var(--ombre-banniere-texte);
+}
+
+/* Menu desktop : « Comment jouer », « Compteur », « La pétanque », « À propos », « FAQ », langues.
+   Ciblés par leurs conteneurs de la bannière pour ne pas toucher le menu latéral mobile
+   (#side-menu, texte foncé sur fond clair), qui se trouve lui aussi dans .hero-banner sur
+   l'accueil. */
+#game-nav-inline .game-nav-link,
+#desktop-nav .info-nav-trigger,
+#lang-switcher-inline .lang-link {
+    text-shadow: var(--ombre-banniere-texte);
+}
+
+#game-nav-inline .game-nav-link svg {
+    filter: var(--ombre-banniere-image);
+}
+
+/* Burger mobile (trois traits blancs) */
+#menu-button svg {
+    filter: var(--ombre-banniere-image);
+}
+
+/* Harmonisation des deux textes qui avaient déjà leur propre ombre (0 1px 2px à 60 %) :
+   « Signaler un terrain manquant » et le crédit photo reprennent la même ombre que le reste. */
+.hero-signalement a,
+.hero-banner .hero-banner-credit {
+    text-shadow: var(--ombre-banniere-texte);
+}

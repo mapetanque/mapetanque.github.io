@@ -30,7 +30,6 @@ const translations = {
         popup_share: "Partager ce terrain",
 
         menu_about: "À propos",
-        menu_faq: "FAQ",
         menu_comment_jouer: "Comment jouer",
         menu_compteur: "Compteur de points",
         menu_la_petanque: "La pétanque",
@@ -206,7 +205,6 @@ const translations = {
         popup_share: "Dit terrein delen",
 
         menu_about: "Over ons",
-        menu_faq: "FAQ",
         menu_comment_jouer: "Hoe spelen",
         menu_compteur: "Scoreteller",
         menu_la_petanque: "Petanque",
@@ -381,7 +379,6 @@ const translations = {
         popup_share: "Diesen Platz teilen",
 
         menu_about: "Über uns",
-        menu_faq: "FAQ",
         menu_comment_jouer: "Spielregeln",
         menu_compteur: "Punktezähler",
         menu_la_petanque: "Pétanque",
@@ -556,7 +553,6 @@ const translations = {
         popup_share: "Share this court",
 
         menu_about: "About",
-        menu_faq: "FAQ",
         menu_comment_jouer: "How to play",
         menu_compteur: "Score counter",
         menu_la_petanque: "Pétanque",

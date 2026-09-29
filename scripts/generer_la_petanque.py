@@ -3,7 +3,7 @@ Génère la-petanque.html, nl/la-petanque.html, de/la-petanque.html et en/la-pet
 « Comment jouer » du dépôt.
 
 La mécanique commune (métadonnées, bannière, fil d'Ariane, sélecteur de langue) vit dans
-_squelette.py, partagée avec generer_faq.py et generer_a_propos.py.
+_squelette.py, partagée avec generer_a_propos.py.
 
 À lancer depuis la racine du dépôt :
     python scripts/generer_la_petanque.py

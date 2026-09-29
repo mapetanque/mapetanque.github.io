@@ -1,8 +1,9 @@
 """
 Fabrique une page du site à partir d'une page existante servant de squelette.
 
-Utilisé par generer_faq.py et generer_a_propos.py, qui partageaient jusqu'ici 129 lignes
-identiques : toute correction sur l'en-tête ou les métadonnées devait être faite deux fois.
+Utilisé par generer_a_propos.py et generer_la_petanque.py (et auparavant par generer_faq.py,
+supprimé avec la page FAQ), pour que toute correction sur l'en-tête ou les métadonnées ne soit
+faite qu'une fois.
 
 Le principe : on part de comment-jouer.html, dont on garde l'en-tête, le logo, le menu, les
 feuilles de style, les scripts et le pied de page, et on remplace ce qui est propre à la page.
@@ -49,7 +50,7 @@ def construire_page(
     """
     Écrit `cible` à partir de `squelette`.
 
-    page              nom du fichier produit, ex. "faq.html" — sert à construire les URL
+    page              nom du fichier produit, ex. "a-propos.html" — sert à construire les URL
     prefixe           "", "nl/", "de/" ou "en/"
     titre             contenu de <title> et de og:title
     description       meta description et og:description

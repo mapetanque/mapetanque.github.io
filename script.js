@@ -1656,7 +1656,7 @@ document.addEventListener('click', function (evt) {
     });
 });
 
-// Lien de la bannière d'accueil. Son href mène à la FAQ : c'est le repli si le script ne tourne
+// Lien de la bannière d'accueil. Son href mène au contact de l'À propos : c'est le repli si le script ne tourne
 // pas. Il ne vit que dans l'espace libre sous les boutons, sans jamais agrandir la bannière :
 // quand cet espace manque (boutons repliés sur deux lignes sur les plus petits écrans, titre plus
 // long dans certaines langues), le lien déborderait sur la mention de licence de la photo ou
