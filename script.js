@@ -2722,20 +2722,15 @@ fetch(MAPETANQUE_URL_NOTES + '/notes')
     .catch(function () { /* pas de note affichée ; le vote reste possible */ });
 
 
-// Moyenne → deux rangées d'étoiles superposées, la pleine rognée à la largeur voulue. Préférée à
-// un glyphe de demi-étoile, qui n'existe pas dans toutes les polices : ici n'importe quelle
-// fraction est dessinable. Arrondi au demi-point pour que le dessin et le chiffre affiché à côté
-// racontent la même chose.
-window.mapetanqueEtoilesHtml = function (moyenne) {
-    var demi = (typeof moyenne === 'number' && isFinite(moyenne)) ? Math.round(moyenne * 2) / 2 : 0;
-    var pourcentage = Math.max(0, Math.min(100, demi / 5 * 100));
-    return '<span class="note-etoiles" aria-hidden="true">'
-        + '<span class="note-etoiles-vides">\u2605\u2605\u2605\u2605\u2605</span>'
-        + '<span class="note-etoiles-pleines" style="width:' + pourcentage + '%">\u2605\u2605\u2605\u2605\u2605</span>'
-        + '</span>';
+// Moyenne → une seule étoile, suivie du chiffre écrit à côté par l'appelant (« ★ 4,7 »). Les cinq
+// étoiles restent réservées au vote, dans la fiche : deux rangées de cinq l'une sous l'autre se
+// confondaient. Étoile grise tant que personne n'a voté.
+window.mapetanqueEtoileHtml = function (moyenne) {
+    var notee = typeof moyenne === 'number' && isFinite(moyenne) && moyenne > 0;
+    return '<span class="note-etoile' + (notee ? '' : ' vide') + '" aria-hidden="true">★</span>';
 };
 
-// "4,5 (12 avis)" — virgule décimale dans les trois langues. Retourne null tant qu'aucun vote
+// "4,5 (12 notes)" — virgule décimale dans les trois langues. Retourne null tant qu'aucun vote
 // n'est enregistré, pour que l'appelant choisisse quoi afficher à la place.
 window.mapetanqueResumeNote = function (osmId) {
     var brut = (window.mapetanqueNotes || {})[osmId];
@@ -2746,7 +2741,7 @@ window.mapetanqueResumeNote = function (osmId) {
         moyenne: moyenne,
         nombre: nombre,
         texte: uneDecimale(moyenne)
-            + ' (' + nombre + '\u00a0' + t(nombre > 1 ? 'notation_avis_n' : 'notation_avis_un') + ')'
+            + ' (' + nombre + '\u00a0' + t(nombre > 1 ? 'notation_note_n' : 'notation_note_un') + ')'
     };
 };
 
@@ -2776,7 +2771,7 @@ function mapetanqueMemoriserVote(osmId, note, jeton) {
 function construireResultatNote(osmId) {
     var resume = window.mapetanqueResumeNote(osmId);
     return resume
-        ? window.mapetanqueEtoilesHtml(resume.moyenne) + '<span class="note-chiffre">' + resume.texte + '</span>'
+        ? window.mapetanqueEtoileHtml(resume.moyenne) + '<span class="note-chiffre">' + resume.texte + '</span>'
         : "";
 }
 

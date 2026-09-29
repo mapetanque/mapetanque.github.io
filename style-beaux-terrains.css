@@ -217,30 +217,16 @@
    seules ; style.css reste donc intact, conformément à l'approche additive.
    ===================================================================================== */
 
-/* ---- Étoiles (commun aux tuiles et aux fiches) ----
-   Deux rangées superposées, la pleine rognée en largeur à la valeur de la moyenne. Les deux
-   rangées DOIVENT partager exactement la même taille et le même letter-spacing, sinon le rognage
-   ne tombe pas au bon endroit et une demi-étoile en devient un tiers. Toute surcharge de taille
-   se fait donc sur .note-etoiles, jamais sur l'une des deux rangées séparément.
-   L'information ne repose pas sur la teinte : le contraste entre étoile pleine et étoile vide est
-   d'abord un contraste de valeur (#4a8f36 contre #c4ccbd), et le chiffre est toujours écrit à
-   côté — rien ne dépend du comptage de formes ni de la perception d'une couleur. */
-.note-etoiles {
-    position: relative;
+/* ---- Étoile de la moyenne (commun aux tuiles et aux fiches) ----
+   Une seule étoile, le chiffre écrit à côté porte la valeur. Grise tant que personne n'a voté :
+   le texte « Pas encore noté » le dit aussi, rien ne repose sur la seule couleur. */
+.note-etoile {
     display: inline-block;
     line-height: 1;
-    font-size: 19px;
-    letter-spacing: 2px;
-    white-space: nowrap;
-}
-.note-etoiles-vides { color: #c4ccbd; }
-.note-etoiles-pleines {
-    position: absolute;
-    left: 0;
-    top: 0;
-    overflow: hidden;
+    font-size: 17px;
     color: #4a8f36;
 }
+.note-etoile.vide { color: #c4ccbd; }
 
 /* ---- Bloc de notation dans la fiche ---- */
 /* Marges symétriques : le <br> de fin de bloc photo est retiré côté JS quand ce bloc s'intercale
@@ -297,6 +283,6 @@
     white-space: nowrap;
     overflow: hidden;
 }
-.tuile-note .note-etoiles { font-size: 14px; letter-spacing: 1px; }
+.tuile-note .note-etoile { font-size: 14px; }
 .tuile-note-chiffre { font-size: 12.5px; color: #666; }
 .tuile-note-vide { font-size: 12.5px; color: #999; }

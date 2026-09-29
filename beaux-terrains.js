@@ -320,8 +320,8 @@
     function ligneNoteTuile(osmId) {
         var resume = osmId && typeof window.mapetanqueResumeNote === "function"
             ? window.mapetanqueResumeNote(osmId) : null;
-        var etoiles = typeof window.mapetanqueEtoilesHtml === "function"
-            ? window.mapetanqueEtoilesHtml(resume ? resume.moyenne : 0) : "";
+        var etoiles = typeof window.mapetanqueEtoileHtml === "function"
+            ? window.mapetanqueEtoileHtml(resume ? resume.moyenne : 0) : "";
         var texte = resume
             ? '<span class="tuile-note-chiffre">' + echapper(resume.texte) + '</span>'
             : '<span class="tuile-note-vide">'
