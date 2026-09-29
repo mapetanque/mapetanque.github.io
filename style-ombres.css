@@ -42,8 +42,13 @@
    l'accueil. */
 #game-nav-inline .game-nav-link,
 #desktop-nav .info-nav-trigger,
-#lang-switcher-inline .lang-link {
+#lang-switcher-inline .lang-link,
+#lang-switcher-inline .lang-toggle {
     text-shadow: var(--ombre-banniere-texte);
+}
+
+#lang-switcher-inline .lang-toggle svg {
+    filter: var(--ombre-banniere-image);
 }
 
 #game-nav-inline .game-nav-link svg {

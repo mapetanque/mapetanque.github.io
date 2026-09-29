@@ -570,6 +570,83 @@ body.fullscreen-lock {
     background: rgba(116, 193, 90, 0.1);
 }
 
+/* Sélecteur de langue desktop en menu déroulant (construit par script.js) : bouton « FR ▾ »,
+   et les quatre langues dans une petite liste qui s'ouvre en dessous. */
+#lang-switcher-inline {
+    position: relative;
+}
+
+.lang-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    border: none;
+    background: none;
+    padding: 6px 8px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #74C15A;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: background-color 0.15s ease;
+}
+
+.lang-toggle:hover,
+#lang-switcher-inline.ouvert .lang-toggle {
+    background: rgba(116, 193, 90, 0.1);
+}
+
+.lang-toggle svg {
+    width: 9px;
+    height: 6px;
+    transition: transform 0.15s ease;
+}
+
+#lang-switcher-inline.ouvert .lang-toggle svg {
+    transform: rotate(180deg);
+}
+
+.lang-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    /* Centré sous le bouton : + 5px compense la moitié du padding-left (10px) de
+       #lang-switcher-inline, qui décale le bouton vers la droite dans son conteneur. */
+    left: calc(50% + 5px);
+    transform: translateX(-50%);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 4px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+
+.lang-menu[hidden] {
+    display: none;
+}
+
+/* Spécificité alignée sur les règles de la bannière (.hero-banner .lang-link…) et des ombres
+   (#lang-switcher-inline .lang-link) : dans la liste blanche, texte foncé et sans ombre. */
+#lang-switcher-inline .lang-menu .lang-link {
+    text-align: center;
+    padding: 6px 9px;
+    border-radius: 7px;
+    color: #555;
+    text-shadow: none;
+}
+
+#lang-switcher-inline .lang-menu .lang-link:hover {
+    color: #74C15A;
+    background: rgba(116, 193, 90, 0.08);
+}
+
+#lang-switcher-inline .lang-menu .lang-link.active {
+    color: #74C15A;
+    background: rgba(116, 193, 90, 0.12);
+}
+
 .info-nav-trigger {
     display: inline-flex;
     align-items: center;
@@ -1993,6 +2070,15 @@ footer a:hover {
 
 .hero-banner #lang-switcher-inline {
     border-left: 1px solid rgba(255,255,255,0.35);
+}
+
+.hero-banner .lang-toggle {
+    color: #fff;
+}
+
+.hero-banner .lang-toggle:hover,
+.hero-banner #lang-switcher-inline.ouvert .lang-toggle {
+    background: rgba(255,255,255,0.18);
 }
 
 .hero-banner-credit a {

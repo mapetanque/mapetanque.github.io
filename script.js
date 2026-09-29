@@ -207,6 +207,66 @@ document.querySelectorAll('.lang-link').forEach(function (btn) {
     });
 });
 
+// Sélecteur de langue de la nav desktop en menu déroulant : seule la langue en cours est
+// visible (« FR ▾ »), les quatre boutons s'affichent au clic. Le HTML des pages garde ses
+// quatre boutons tels quels (pages générées, une vingtaine de fichiers par langue) : on les
+// range ici dans une liste déroulante, et le libellé du bouton suit .active, posé par
+// appliquerTraductions(). Le menu burger mobile garde ses quatre boutons côte à côte.
+(function () {
+    const selecteur = document.getElementById('lang-switcher-inline');
+    if (!selecteur) return;
+
+    const bouton = document.createElement('button');
+    bouton.type = 'button';
+    bouton.className = 'lang-toggle';
+    bouton.setAttribute('aria-haspopup', 'true');
+    bouton.setAttribute('aria-expanded', 'false');
+    bouton.innerHTML = '<span class="lang-toggle-code"></span>' +
+        '<svg viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+    const menu = document.createElement('div');
+    menu.className = 'lang-menu';
+    menu.hidden = true;
+    selecteur.querySelectorAll('.lang-link').forEach(function (lien) { menu.appendChild(lien); });
+
+    selecteur.appendChild(bouton);
+    selecteur.appendChild(menu);
+
+    function mettreAJourLibelle() {
+        bouton.querySelector('.lang-toggle-code').textContent = currentLang.toUpperCase();
+        bouton.setAttribute('aria-label', currentLang.toUpperCase());
+    }
+
+    function ouvrir(ouvert) {
+        menu.hidden = !ouvert;
+        bouton.setAttribute('aria-expanded', String(ouvert));
+        selecteur.classList.toggle('ouvert', ouvert);
+    }
+
+    bouton.addEventListener('click', function (e) {
+        e.stopPropagation();
+        ouvrir(menu.hidden);
+    });
+    menu.addEventListener('click', function (e) {
+        if (e.target.closest('.lang-link')) {
+            ouvrir(false);
+            mettreAJourLibelle();
+        }
+    });
+    document.addEventListener('click', function (e) {
+        if (!selecteur.contains(e.target)) ouvrir(false);
+    });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !menu.hidden) {
+            ouvrir(false);
+            bouton.focus();
+        }
+    });
+    window.addEventListener('popstate', mettreAJourLibelle);
+
+    mettreAJourLibelle();
+})();
+
 
 // ===================== Carte =====================
 
@@ -1190,8 +1250,7 @@ addPhotoOverlay.addEventListener('click', fermerModaleAjoutPhoto);
 // ===================== Signalements (terrain manquant, erreur sur une fiche) =====================
 // Deux portes d'entrée, une seule modale :
 //   - « Signaler un terrain manquant », lien de la bannière d'accueil (#signaler-terrain-link) :
-//     le visiteur place une épingle sur une petite carte, peut préciser le nombre de pistes et
-//     ajouter un commentaire ;
+//     le visiteur place une épingle sur une petite carte et peut ajouter un commentaire ;
 //   - « Signaler une erreur », en bas de chaque fiche de terrain (voir construireContenuPopupTerrain) :
 //     un simple commentaire libre, le terrain étant déjà connu.
 // Les signalements partent vers le Worker mapetanque-admin, qui les range dans D1 et prévient
@@ -1312,8 +1371,6 @@ function construireModaleSignalement() {
                     </div>
                     <div class="signalement-carte"></div>
                     <p class="signalement-legende" data-cle="signalement_map_legend"></p>
-                    <label class="add-photo-field-label" for="signalement-pistes" data-cle="signalement_field_lanes"></label>
-                    <input type="number" id="signalement-pistes" name="nb_pistes" min="1" max="50" step="1" inputmode="numeric" class="add-photo-text-input">
                     <label class="add-photo-checkbox-row">
                         <input type="checkbox" name="acces_libre" value="1">
                         <span data-cle="signalement_checkbox_access"></span>
@@ -1536,7 +1593,7 @@ function ouvrirModaleSignalement(options) {
     nomTerrain.textContent = estManquant ? '' : contexteSignalement.titre;
     nomTerrain.hidden = estManquant;
 
-    // Le bloc carte + pistes + accès n'existe que pour un terrain manquant. Ses champs sont
+    // Le bloc carte + accès n'existe que pour un terrain manquant. Ses champs sont
     // désactivés quand il est masqué : sinon la case obligatoire bloquerait l'envoi d'une erreur.
     const bloc = elementSignalement('[data-bloc="manquant"]');
     bloc.hidden = !estManquant;
@@ -1605,8 +1662,6 @@ function envoyerSignalement(evt) {
         const position = epingleSignalement.getLatLng();
         donnees.set('lat', position.lat.toFixed(6));
         donnees.set('lon', position.lng.toFixed(6));
-        const pistes = formulaire.querySelector('[name="nb_pistes"]').value;
-        if (pistes) donnees.set('nb_pistes', pistes);
         donnees.set('acces_libre', '1');
     } else {
         donnees.set('osm_id', c.osmId);
