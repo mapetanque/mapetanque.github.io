@@ -1547,8 +1547,14 @@ function ouvrirModaleSignalement(options) {
     // obligatoire pour une erreur (c'est tout le contenu du signalement).
     const commentaire = elementSignalement('#signalement-commentaire');
     commentaire.required = !estManquant;
-    texteSignalement(elementSignalement('#signalement-commentaire-label'),
-        estManquant ? 'signalement_field_comment_missing' : 'signalement_field_comment_error');
+    const libelleCommentaire = elementSignalement('#signalement-commentaire-label');
+    libelleCommentaire.hidden = !estManquant;
+    if (estManquant) {
+        texteSignalement(libelleCommentaire, 'signalement_field_comment_missing');
+        commentaire.removeAttribute('aria-labelledby');
+    } else {
+        commentaire.setAttribute('aria-labelledby', 'signalement-titre');
+    }
     commentaire.dataset.i18nPlaceholder = estManquant
         ? 'signalement_comment_placeholder_missing'
         : 'signalement_comment_placeholder_error';
