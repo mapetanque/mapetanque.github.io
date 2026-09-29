@@ -1157,12 +1157,12 @@ body.fullscreen-lock {
            latéraux (.map-wrapper, margin 16px, dans style-accueil-provinces.css). Au-delà, le
            contenu défile à l'intérieur. (Une hauteur fixe à cette valeur avait été essayée :
            elle laissait presque toujours une grande zone blanche en bas.)
-           Largeur liée à la hauteur de l'ÉCRAN (pas à celle du contenu, ratio 0,936), avec un
-           plancher à 666px (écrans peu hauts) et un plafond à 1152px (très grands écrans) —
-           valeurs agrandies de 20% par rapport au premier réglage (0,78 / 555px / 960px). La
+           Largeur liée à la hauteur de l'ÉCRAN (pas à celle du contenu, ratio 0,7956), avec un
+           plancher à 566px (écrans peu hauts) et un plafond à 979px (très grands écrans) —
+           valeurs réduites de 15% par rapport au réglage précédent (0,936 / 666px / 1152px). La
            photo, en 16:9 sur toute la largeur, garde donc la même taille quelle que soit la
            longueur de la fiche. */
-        width: clamp(666px, calc((100vh - 32px) * 0.936), 1152px);
+        width: clamp(566px, calc((100vh - 32px) * 0.7956), 979px);
         max-width: calc(100vw - 32px);
         max-height: calc(100vh - 32px);
         z-index: 1450;
