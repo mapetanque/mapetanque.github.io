@@ -714,15 +714,28 @@ function estRienTrouve(osmId) {
     return (statut === "rejete" || statut === "aucune") && photosTerrain(osmId).total === 0;
 }
 
-// Pistes de la veille encore à regarder. Écarter les pistes réenregistre le statut, donc
-// la date maj : toute piste trouvée avant disparaît ici tout de suite, et le workflow
-// hebdomadaire la range ensuite parmi les images déjà vues.
+// Pistes de la veille encore à regarder (images Mapillary proches, plates ou 360°, trouvées
+// par le workflow hebdomadaire).
+//  - Terrain à décider : toutes ses pistes. « Marquer rien trouvé » ou « Rejeter le
+//    candidat » les écarte d'un coup : le terrain passe alors dans « Rien trouvé ».
+//  - Terrain « rien trouvé » : celles trouvées depuis la dernière décision. Écarter les
+//    pistes réenregistre le statut, donc la date maj : toute piste trouvée avant disparaît
+//    ici tout de suite, et le workflow hebdomadaire la range ensuite parmi les images vues.
+//  - Tout autre terrain (photo retenue, candidat accepté) : aucune.
 function pistesActives(osmId) {
-    if (!estRienTrouve(osmId)) return [];
     const terrain = TERRAINS_PAR_ID[osmId];
     const pistes = (terrain && terrain.veille && terrain.veille.pistes) || [];
+    if (!estTraite(osmId)) return pistes;
+    if (!estRienTrouve(osmId)) return [];
     const maj = etatDe(osmId).maj || "";
     return pistes.filter(p => p.trouvee_le > maj);
+}
+
+// Un terrain à décider « avec candidat » a quelque chose à regarder : le candidat
+// automatique, ou au moins une piste.
+function aQuelqueChoseAutour(osmId) {
+    const terrain = TERRAINS_PAR_ID[osmId];
+    return !!(terrain && terrain.candidat) || pistesActives(osmId).length > 0;
 }
 
 // Même format que la colonne maj de D1 (UTC, « AAAA-MM-JJ hh:mm:ss »).
@@ -842,9 +855,8 @@ function construireCarte(terrain) {
     // ils viennent d'OpenStreetMap, donc d'un texte que n'importe qui peut
     // modifier, et un nom de terrain contenant du HTML serait interprété.
     div.querySelector("b").textContent = terrain.nom;
-    div.querySelector(".terrain-meta").textContent = c
-        ? `${terrain.commune} — candidat : score ${c.score} — ${c.distance_m} m — écart angle ${c.ecart_angle_deg}° — ${formaterDate(c.captured_at)}`
-        : `${terrain.commune} — aucun candidat automatique trouvé à proximité`;
+    // Le texte de .terrain-meta est écrit par rafraichir() : sans candidat automatique, il
+    // dépend des pistes, qui disparaissent dès que le terrain est traité.
 
     const zoneExtra = div.querySelector(".terrain-extra");
     zoneExtra.innerHTML = `
@@ -904,10 +916,17 @@ function construireCarte(terrain) {
         listePistes.innerHTML = "";
         if (!pistes.length) return;
 
+        // Terrain à décider : pas de « nouvelles » pistes (rien n'a encore été décidé), et pas
+        // de bouton « Écarter » : « Marquer rien trouvé » ou « Rejeter le candidat » le font.
+        const aDecider = !estTraite(cle);
+        const pluriel = pistes.length > 1;
         zonePistes.querySelector(".pistes-titre").textContent =
-            pistes.length + (pistes.length > 1 ? " nouvelles pistes" : " nouvelle piste")
-            + " sur Mapillary (trouvée" + (pistes.length > 1 ? "s" : "") + " le "
+            pistes.length
+            + (aDecider ? (pluriel ? " pistes à proximité" : " piste à proximité")
+                        : (pluriel ? " nouvelles pistes" : " nouvelle piste"))
+            + " sur Mapillary (trouvée" + (pluriel ? "s" : "") + " le "
             + formaterJour(pistes[0].trouvee_le.slice(0, 10)) + ")";
+        zonePistes.querySelector(".btn-ecarter").style.display = aDecider ? "none" : "";
 
         pistes.forEach(piste => {
             const bloc = document.createElement("div");
@@ -971,6 +990,12 @@ function construireCarte(terrain) {
         }
 
         div.replaceChild(vignetteCourante(), div.firstElementChild);
+
+        div.querySelector(".terrain-meta").textContent = c
+            ? `${terrain.commune} — candidat : score ${c.score} — ${c.distance_m} m — écart angle ${c.ecart_angle_deg}° — ${formaterDate(c.captured_at)}`
+            : terrain.commune + " — " + (!estTraite(cle) && pistesActives(cle).length
+                ? "pas de candidat automatique, mais des pistes à proximité (ci-dessous)"
+                : "aucun candidat automatique trouvé à proximité");
 
         // La décision est aussi écrite en toutes lettres : la couleur de fond n'est qu'un repère.
         div.querySelector(".etat-decision").textContent =
@@ -1153,11 +1178,15 @@ function estNouveauATraiter(osmId) {
 // Filtres des puces. Une seule définition, partagée par les compteurs et l'affichage : ce que
 // dit une puce est exactement ce qu'elle montre quand on clique dessus. Les photos comptent
 // dès qu'elles sont validées, en ligne ou pas encore publiées (voir photosTerrain).
-// « Nouveaux » (sous-ensemble de « À décider »), « Nouvelles pistes », « Plusieurs photos »
-// et « Tous » recoupent les autres : les compteurs ne s'additionnent pas.
+// « À décider » est coupé en deux : avec candidat (candidat automatique ou piste, plate ou
+// 360°) et sans candidat (rien trouvé autour par le workflow hebdomadaire).
+// « Nouveaux » (à cheval sur les deux « À décider »), « Nouvelles pistes » (terrains « rien
+// trouvé »), « Plusieurs photos » et « Tous » recoupent les autres : les compteurs ne
+// s'additionnent pas.
 const FILTRES = [
     ["nouveaux", "Nouveaux"],
-    ["a_decider", "À décider"],
+    ["a_decider_avec", "À décider avec candidat"],
+    ["a_decider_sans", "À décider sans candidat"],
     ["avec_photo", "Avec photo"],
     ["avec_360", "Avec photo 360"],
     ["avec_plates", "Avec photos plates"],
@@ -1166,18 +1195,19 @@ const FILTRES = [
     ["plusieurs", "Plusieurs photos"],
     ["tous", "Tous"]
 ];
-let FILTRE = "a_decider";
+let FILTRE = "a_decider_avec";
 
 function correspond(osmId, filtre) {
     const bilan = photosTerrain(osmId);
     switch (filtre) {
         case "nouveaux": return estNouveauATraiter(osmId);
-        case "a_decider": return !estTraite(osmId);
+        case "a_decider_avec": return !estTraite(osmId) && aQuelqueChoseAutour(osmId);
+        case "a_decider_sans": return !estTraite(osmId) && !aQuelqueChoseAutour(osmId);
         case "avec_photo": return bilan.total >= 1;
         case "avec_360": return bilan.panos >= 1;
         case "avec_plates": return bilan.plates >= 1;
         case "rien_trouve": return estRienTrouve(osmId);
-        case "pistes": return pistesActives(osmId).length > 0;
+        case "pistes": return estRienTrouve(osmId) && pistesActives(osmId).length > 0;
         case "plusieurs": return bilan.total >= 2;
         default: return true;
     }

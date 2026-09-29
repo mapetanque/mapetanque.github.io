@@ -21,11 +21,18 @@ et un terrain supprimé y restait. Ce script le tient à jour en cinq temps :
      plate, son adresse de vignette (apercu). La page admin l'affiche à la
      place du candidat. Une vue 360° n'en a pas besoin : sa miniature est un
      fichier du dépôt.
-  4. Veille des terrains « rien trouvé » : pour chacun, les images Mapillary
-     proches et bien placées qu'on n'a pas encore vues deviennent des
-     « pistes », proposées dans la page admin. La liste de ces terrains vient
-     du Worker mapetanque-admin (les décisions vivent dans D1). Voir
-     veiller_terrain() pour le détail.
+  4. Veille : pour chaque terrain sans photo, les images Mapillary proches et
+     bien placées qu'on n'a pas encore vues deviennent des « pistes »,
+     proposées dans la page admin. Deux cas :
+       - terrain « rien trouvé » (liste lue sur le Worker mapetanque-admin,
+         les décisions vivent dans D1) : seules les images apparues depuis la
+         décision ;
+       - terrain encore à décider (tous les autres sans photo) : tout ce qui
+         est bien placé, photos plates comme vues 360° — la recherche des
+         candidats, elle, ignore les 360° et ne regarde qu'une fois. La page
+         admin s'en sert pour séparer « À décider avec candidat » et « À
+         décider sans candidat ».
+     Voir veiller_terrain() pour le détail.
   5. Vignettes : les liens d'images renvoyés par Mapillary sont temporaires
      (environ deux semaines). Ceux qui expirent bientôt sont renouvelés
      (candidats, aperçus, pistes), sinon les images de la page admin finissent
@@ -285,9 +292,15 @@ def images_bien_placees(entree, images):
     return retenues
 
 
-def veiller_terrain(entree, maj, images, maintenant):
+def veiller_terrain(entree, maj, images, maintenant, a_decider=False):
     """
     Met à jour entree["veille"] = { "vues": [...], "pistes": [...] }.
+
+    a_decider : terrain sans décision ni photo. Aucune décision à respecter,
+    donc tout ce qui est bien placé est proposé, dès le premier passage, et
+    rien n'est rangé d'après maj. Quand tu tranches (« rien trouvé » ou
+    candidat rejeté), le terrain repasse ici en « rien trouvé » : les pistes
+    trouvées avant ta décision rejoignent alors les vues, comme d'habitude.
 
     vues : les images bien placées déjà connues, qu'on ne proposera plus. Suivre
     les identifiants plutôt qu'une date de prise de vue : une photo prise il y a
@@ -308,7 +321,7 @@ def veiller_terrain(entree, maj, images, maintenant):
     vues = set(veille.get("vues", []))
     pistes = veille.get("pistes", [])
 
-    if maj:
+    if maj and not a_decider:
         encore = []
         for piste in pistes:
             if piste["trouvee_le"] <= maj:
@@ -316,6 +329,11 @@ def veiller_terrain(entree, maj, images, maintenant):
             else:
                 encore.append(piste)
         pistes = encore
+
+    # Le candidat automatique est déjà proposé comme tel : pas de doublon en piste.
+    candidat = entree.get("candidat")
+    if candidat and candidat.get("id"):
+        vues.add(str(candidat["id"]))
 
     deja = vues | {p["id"] for p in pistes}
     nouvelles = []
@@ -326,7 +344,8 @@ def veiller_terrain(entree, maj, images, maintenant):
     for image in images_bien_placees(entree, images):
         if image["id"] in deja:
             continue
-        if premier_passage and not (limite_ms and image["captured_at"] and image["captured_at"] > limite_ms):
+        if (premier_passage and not a_decider
+                and not (limite_ms and image["captured_at"] and image["captured_at"] > limite_ms)):
             vues.add(image["id"])
             continue
         image["trouvee_le"] = maintenant
@@ -458,19 +477,25 @@ def main():
                 # Vignette récupérée à l'étape 5, comme un lien expiré.
                 entree["apercu"] = {"id": identifiant, "thumbnail": None}
 
-    # ---- 4. Veille des terrains « rien trouvé » ----
+    # ---- 4. Veille des terrains sans photo (« rien trouvé » et à décider) ----
+    # La liste du Worker est indispensable même pour les terrains à décider : c'est elle
+    # qui les distingue des « rien trouvé ». Sans elle, toute la veille attend une semaine.
     rien_trouve = terrains_rien_trouve() if photos_en_ligne is not None else None
-    veilles = pistes_ajoutees = echecs_veille = 0
+    veilles_rien = veilles_decider = pistes_ajoutees = echecs_veille = 0
     if rien_trouve is not None and not arret:
         echecs_consecutifs = 0
         for osm_id, entree in entrees.items():
             a_une_photo = entree.get("photo_osm") or photos_en_ligne.get(osm_id)
-            if osm_id not in rien_trouve or a_une_photo:
+            if a_une_photo:
                 # Plus concerné : les pistes n'ont plus lieu d'être. Les vues restent,
                 # au cas où le terrain redeviendrait « rien trouvé ».
                 if entree.get("veille"):
                     entree["veille"].pop("pistes", None)
                 continue
+            # Sans photo et absent de la liste du Worker : terrain à décider (ou, pour
+            # un jour, un candidat accepté pas encore publié ; la page admin n'affiche
+            # pas les pistes d'un terrain déjà traité).
+            a_decider = osm_id not in rien_trouve
             if echecs_consecutifs >= MAX_ECHECS_CONSECUTIFS:
                 print(f"{echecs_consecutifs} échecs consécutifs : arrêt de la veille pour cette fois.")
                 arret = True
@@ -486,8 +511,12 @@ def main():
                 time.sleep(DELAI_ENTRE_REQUETES)
                 continue
             echecs_consecutifs = 0
-            veilles += 1
-            ajout = veiller_terrain(entree, rien_trouve[osm_id], images, maintenant)
+            if a_decider:
+                veilles_decider += 1
+            else:
+                veilles_rien += 1
+            ajout = veiller_terrain(entree, rien_trouve.get(osm_id), images, maintenant,
+                                    a_decider=a_decider)
             if ajout:
                 pistes_ajoutees += ajout
                 print(f"  piste(s) : {osm_id} — {entree['nom']} ({entree['commune']}) : {ajout}")
@@ -557,7 +586,8 @@ def main():
     print(f"\n{len(entrees)} terrain(s) dans la page admin, dont {avec_candidat} avec candidat.")
     print(f"{nouveaux} nouveau(x), {len(retires)} retiré(s) car disparu(s) d'OSM.")
     if rien_trouve is not None:
-        print(f"Veille : {veilles} terrain(s) « rien trouvé » revu(s), {pistes_ajoutees} nouvelle(s) piste(s).")
+        print(f"Veille : {veilles_rien} terrain(s) « rien trouvé » et {veilles_decider} à décider revu(s), "
+              f"{pistes_ajoutees} nouvelle(s) piste(s).")
     print(f"{renouvelees} vignette(s) renouvelée(s), {disparues} image(s) disparue(s) de Mapillary.")
     if echecs:
         print(f"{echecs} recherche(s) en échec, retentée(s) la semaine prochaine.")
