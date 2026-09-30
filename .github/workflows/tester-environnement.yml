@@ -42,7 +42,7 @@ jobs:
         run: pip install requests
 
       - name: Réponses Overpass déjà reçues
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: cache_env
           key: overpass-env-${{ github.run_id }}-${{ github.run_attempt }}
@@ -54,6 +54,14 @@ jobs:
         run: |
           set -o pipefail
           python -u scripts/tester_environnement.py | tee resultats.txt
+
+      # Sauvegardé même en cas d'échec ou d'arrêt : l'essai suivant reprend où celui-ci s'est arrêté
+      - name: Sauvegarde des réponses reçues
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: cache_env
+          key: overpass-env-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Résumé
         if: always()

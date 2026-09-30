@@ -133,28 +133,49 @@ TAILLE_LOT = 250
 # ---------------------------------------------------------------------------------------
 
 
+def attente_slot(server):
+    """Secondes à attendre avant un créneau libre, d'après /api/status (limite par adresse IP)."""
+    try:
+        texte = requests.get(server.replace("/interpreter", "/status"), timeout=30).text
+        if "slots available now" in texte:
+            return 0
+        attentes = [int(x) for x in re.findall(r"in (\d+) seconds", texte)]
+        return min(attentes) if attentes else 30
+    except Exception:
+        return 30
+
+
 def envoyer(requete, etiquette):
-    """Envoie une requête, en essayant chaque serveur sur plusieurs tours (serveurs saturés)."""
+    """Envoie une requête. Serveur principal d'abord, en respectant sa limite de requêtes par
+    adresse (erreur 429 : on attend un créneau libre), puis les serveurs de secours."""
     for tour in range(5):
         if tour:
             print(f"    … nouvel essai dans {30 * tour} s", flush=True)
             time.sleep(30 * tour)
         for server in OVERPASS_SERVERS:
-            debut = time.time()
-            try:
-                r = requests.post(
-                    server, data={"data": requete}, headers={"User-Agent": "Mapetanque/1.0"}, timeout=280
-                )
-                r.raise_for_status()
-                donnees = r.json()
-                if donnees.get("remark"):
-                    raise RuntimeError(donnees["remark"])
-                print(f"  ✓ {etiquette} : {len(donnees['elements'])} objets, "
-                      f"{time.time() - debut:.0f} s ({server.split('/')[2]})", flush=True)
-                return donnees
-            except Exception as e:
-                print(f"  ✗ {etiquette} ({server.split('/')[2]}) : {type(e).__name__} "
-                      f"{str(e)[:120]} ({time.time() - debut:.0f} s)", flush=True)
+            essais = 6 if server == OVERPASS_SERVERS[0] else 1
+            for _ in range(essais):
+                debut = time.time()
+                try:
+                    r = requests.post(
+                        server, data={"data": requete}, headers={"User-Agent": "Mapetanque/1.0"}, timeout=280
+                    )
+                    if r.status_code in (429, 504) and essais > 1:
+                        attente = max(5, min(120, attente_slot(server) + 2))
+                        print(f"  … {etiquette} : serveur occupé ({r.status_code}), attente {attente} s", flush=True)
+                        time.sleep(attente)
+                        continue
+                    r.raise_for_status()
+                    donnees = r.json()
+                    if donnees.get("remark"):
+                        raise RuntimeError(donnees["remark"])
+                    print(f"  ✓ {etiquette} : {len(donnees['elements'])} objets, "
+                          f"{time.time() - debut:.0f} s ({server.split('/')[2]})", flush=True)
+                    return donnees
+                except Exception as e:
+                    print(f"  ✗ {etiquette} ({server.split('/')[2]}) : {type(e).__name__} "
+                          f"{str(e)[:120]} ({time.time() - debut:.0f} s)", flush=True)
+                    break
     raise RuntimeError(f"Tous les serveurs Overpass ont échoué pour « {etiquette} »")
 
 
