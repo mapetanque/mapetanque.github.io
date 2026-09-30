@@ -491,6 +491,9 @@ def charger_terrains(donnees):
 
 
 def main():
+    # Console Windows : éviter une erreur sur ✓ ✗ ≥ si la sortie est redirigée vers un fichier
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
     sans_cache = "--sans-cache" in sys.argv
     print(f"Cache : {DOSSIER_CACHE}")
     donnees = {"terrains": interroger_terrains(sans_cache)}
