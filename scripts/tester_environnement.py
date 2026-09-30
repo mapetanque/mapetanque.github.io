@@ -49,48 +49,60 @@ area["ISO3166-1"="BE"]["admin_level"="2"]->.belgique;
 )->.t;
 """
 
+REQUETE_TERRAINS = ENTETE + ".t out geom tags;"
+
+# Requêtes par critère, découpées en petits morceaux : des serveurs saturés refusent les grosses
+# requêtes, et la connexion est coupée au-delà de quelques minutes d'attente. Chaque morceau
+# est envoyé pour un lot de terrains (set .t). Rayon d'interrogation = au moins le double du seuil.
 REQUETES = {
-    "terrains": ".t out geom tags;",
-    # Éléments ponctuels ou petits : rayon d'interrogation = au moins le double du seuil
-    "points": """
-(
+    "points": {
+        "bancs": """(
   nwr(around.t:30)["amenity"="bench"];
   nwr(around.t:30)["leisure"="picnic_table"];
   node(around.t:30)["highway"="street_lamp"];
-  nwr(around.t:300)["leisure"="playground"];
+);
+out geom;""",
+        "jeux": 'nwr(around.t:300)["leisure"="playground"];\nout geom;',
+        "wc_eau": """(
   nwr(around.t:400)["amenity"="toilets"];
   nwr(around.t:400)["amenity"="drinking_water"];
   nwr(around.t:400)["drinking_water"="yes"];
-  nwr(around.t:600)["amenity"="parking"];
+);
+out geom;""",
+        "parking": 'nwr(around.t:600)["amenity"="parking"];\nout geom;',
+        "arrets": """(
   nwr(around.t:600)["highway"="bus_stop"];
   nwr(around.t:600)["railway"="tram_stop"];
 );
-out geom;
-""",
+out geom;""",
+    },
     # Routes : rayon selon le type (au moins le double de la distance minimale)
-    "routes": """
-(
+    "routes": {
+        "grands_axes": """(
   way(around.t:400)["highway"~"^(motorway|trunk)(_link)?$"];
   way(around.t:200)["highway"~"^primary(_link)?$"];
   way(around.t:150)["highway"~"^secondary(_link)?$"];
+);
+out geom tags;""",
+        "petites": """(
   way(around.t:100)["highway"~"^tertiary(_link)?$"];
   way(around.t:40)["highway"~"^(residential|unclassified)$"];
 );
-out geom tags;
-""",
-    "eau": """
-(
+out geom tags;""",
+    },
+    "eau": {
+        "eau": """(
   nwr(around.t:200)["natural"="water"];
   way(around.t:200)["waterway"~"^(river|canal|stream|riverbank)$"];
   way(around.t:200)["natural"="coastline"];
   nwr(around.t:200)["natural"="beach"];
 );
-out geom;
-""",
+out geom;""",
+    },
     # Zones nature : is_in sur les sommets des terrains, puis retour aux objets des zones.
     # Overpass ne dit pas quel terrain est dans quelle zone : le test est refait localement.
-    "nature": """
-(node.t; node(w.t);)->.pts;
+    "nature": {
+        "nature": """(node.t; node(w.t);)->.pts;
 .pts is_in->.a;
 (
   area.a["leisure"="park"];
@@ -100,69 +112,110 @@ out geom;
   area.a["landuse"="recreation_ground"];
 )->.z;
 (way(pivot.z); rel(pivot.z););
-out geom;
-""",
+out geom;""",
+    },
     # Voies vertes : chemins sans voitures proches, avec les itinéraires vélo qui les contiennent
-    "velo": """
-(
+    "velo": {
+        "velo": """(
   way(around.t:400)["highway"="cycleway"];
   way(around.t:400)["highway"~"^(path|track)$"]["bicycle"~"^(designated|yes)$"];
 )->.w;
 .w out geom tags;
 rel(bw.w)["route"="bicycle"];
-out body;
-""",
+out body;""",
+    },
 }
+
+TAILLE_LOT = 250
 
 # ---------------------------------------------------------------------------------------
 # Interrogation d'Overpass (avec cache)
 # ---------------------------------------------------------------------------------------
 
 
-def entete_par_identifiants(terrains):
-    """Set .t désigné par identifiants : ne dépend plus de l'index des zones de chaque serveur."""
-    par_type = defaultdict(list)
-    for el in terrains["elements"]:
-        par_type[el["type"]].append(str(el["id"]))
-    morceaux = "".join(f"{t}(id:{','.join(ids)});" for t, ids in par_type.items())
-    return f"[out:json][timeout:300];\n({morceaux})->.t;\n"
-
-
-def interroger(nom, sans_cache, entete=ENTETE):
-    os.makedirs(DOSSIER_CACHE, exist_ok=True)
-    chemin = os.path.join(DOSSIER_CACHE, f"{nom}.json")
-    if not sans_cache and os.path.exists(chemin):
-        with open(chemin, encoding="utf-8") as f:
-            return json.load(f)
-    requete = entete + REQUETES[nom]
-    # Serveurs souvent saturés (« server is probably too busy ») : plusieurs tours, avec pause
-    for tour in range(4):
+def envoyer(requete, etiquette):
+    """Envoie une requête, en essayant chaque serveur sur plusieurs tours (serveurs saturés)."""
+    for tour in range(5):
         if tour:
-            print(f"    … nouvel essai dans {60 * tour} s", flush=True)
-            time.sleep(60 * tour)
+            print(f"    … nouvel essai dans {30 * tour} s", flush=True)
+            time.sleep(30 * tour)
         for server in OVERPASS_SERVERS:
             debut = time.time()
             try:
-                print(f"  → {nom} : {server}", flush=True)
                 r = requests.post(
-                    server, data={"data": requete}, headers={"User-Agent": "Mapetanque/1.0"}, timeout=600
+                    server, data={"data": requete}, headers={"User-Agent": "Mapetanque/1.0"}, timeout=280
                 )
                 r.raise_for_status()
                 donnees = r.json()
                 if donnees.get("remark"):
                     raise RuntimeError(donnees["remark"])
-                # Un serveur de secours sans index des zones renvoie une réponse vide sans erreur
-                if not donnees.get("elements"):
-                    raise RuntimeError("réponse vide")
-                print(f"    ✓ {len(donnees['elements'])} objets, {len(r.content) / 1e6:.1f} Mo, "
-                      f"{time.time() - debut:.0f} s", flush=True)
-                with open(chemin, "w", encoding="utf-8") as f:
-                    json.dump(donnees, f)
-                time.sleep(5)  # ménager le serveur entre deux requêtes
+                print(f"  ✓ {etiquette} : {len(donnees['elements'])} objets, "
+                      f"{time.time() - debut:.0f} s ({server.split('/')[2]})", flush=True)
                 return donnees
             except Exception as e:
-                print(f"    ✗ {type(e).__name__} - {str(e)[:200]} ({time.time() - debut:.0f} s)", flush=True)
-    raise RuntimeError(f"Tous les serveurs Overpass ont échoué pour « {nom} »")
+                print(f"  ✗ {etiquette} ({server.split('/')[2]}) : {type(e).__name__} "
+                      f"{str(e)[:120]} ({time.time() - debut:.0f} s)", flush=True)
+    raise RuntimeError(f"Tous les serveurs Overpass ont échoué pour « {etiquette} »")
+
+
+def lire_cache(chemin):
+    if os.path.exists(chemin):
+        with open(chemin, encoding="utf-8") as f:
+            return json.load(f)
+    return None
+
+
+def ecrire_cache(chemin, donnees):
+    os.makedirs(DOSSIER_CACHE, exist_ok=True)
+    with open(chemin, "w", encoding="utf-8") as f:
+        json.dump(donnees, f)
+
+
+def interroger_terrains(sans_cache):
+    chemin = os.path.join(DOSSIER_CACHE, "terrains.json")
+    donnees = None if sans_cache else lire_cache(chemin)
+    if donnees is None:
+        donnees = envoyer(REQUETE_TERRAINS, "terrains")
+        if not donnees["elements"]:
+            raise RuntimeError("aucun terrain reçu")
+        ecrire_cache(chemin, donnees)
+    return donnees
+
+
+def interroger_groupe(nom, terrains, sans_cache):
+    """Toutes les sous-requêtes d'un groupe, lot de terrains par lot, fusionnées sans doublons."""
+    ids = [(el["type"], el["id"]) for el in terrains["elements"]]
+    lots = [ids[i:i + TAILLE_LOT] for i in range(0, len(ids), TAILLE_LOT)]
+    vus = {}
+    for sous, corps in REQUETES[nom].items():
+        for n, lot in enumerate(lots):
+            chemin = os.path.join(DOSSIER_CACHE, f"{nom}_{sous}_{n}.json")
+            donnees = None if sans_cache else lire_cache(chemin)
+            if donnees is None:
+                par_type = defaultdict(list)
+                for t, i in lot:
+                    par_type[t].append(str(i))
+                selection = "".join(f"{t}(id:{','.join(v)});" for t, v in par_type.items())
+                # « .t out count » en fin de requête : prouve que le lot a bien été trouvé, et
+                # distingue une vraie réponse vide d'un serveur qui n'a rien compris
+                requete = f"[out:json][timeout:180];\n({selection})->.t;\n{corps}\n.t out count;"
+                donnees = envoyer(requete, f"{sous} {n + 1}/{len(lots)}")
+                compte = [e for e in donnees["elements"] if e["type"] == "count"]
+                # Un serveur en retard (données de quelques mois) ignore les terrains récents :
+                # acceptable pour un test, mais au-delà de 10 % de manquants on arrête.
+                trouves = int(compte[0]["tags"]["total"]) if compte else 0
+                date_osm = donnees.get("osm3s", {}).get("timestamp_osm_base", "?")[:10]
+                if trouves < 0.9 * len(lot):
+                    raise RuntimeError(f"{sous} {n + 1} : {trouves}/{len(lot)} terrains trouvés côté serveur")
+                if trouves < len(lot):
+                    print(f"    ! {len(lot) - trouves} terrains inconnus du serveur (données du {date_osm})")
+                ecrire_cache(chemin, donnees)
+                time.sleep(2)  # ménager le serveur
+            for el in donnees["elements"]:
+                if el["type"] != "count":
+                    vus[(el["type"], el["id"])] = el
+    print(f"  = {nom} : {len(vus)} objets", flush=True)
+    return {"elements": list(vus.values())}
 
 
 # ---------------------------------------------------------------------------------------
@@ -440,11 +493,9 @@ def charger_terrains(donnees):
 def main():
     sans_cache = "--sans-cache" in sys.argv
     print(f"Cache : {DOSSIER_CACHE}")
-    donnees = {"terrains": interroger("terrains", sans_cache)}
-    entete = entete_par_identifiants(donnees["terrains"])
+    donnees = {"terrains": interroger_terrains(sans_cache)}
     for nom in REQUETES:
-        if nom != "terrains":
-            donnees[nom] = interroger(nom, sans_cache, entete)
+        donnees[nom] = interroger_groupe(nom, donnees["terrains"], sans_cache)
 
     terrains = charger_terrains(donnees["terrains"])
     print(f"\n{len(terrains)} terrains ({sum(not t['surface'] for t in terrains)} simples points)\n")
