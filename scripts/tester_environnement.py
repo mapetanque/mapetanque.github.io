@@ -669,7 +669,7 @@ def ligne(titre, terrains, test):
     for reg in REGIONS:
         tr = [t for t in terrains if t["region"] == reg]
         m = sum(1 for t in tr if test(t))
-        par_region.append(f"{m / len(tr) * 100:5.1f} %")
+        par_region.append(f"{m / len(tr) * 100:5.1f} %" if tr else "    –  ")
     print(f"  {titre:<42} {n:5d}  {n / total * 100:5.1f} %   " + "  ".join(par_region))
 
 
@@ -689,7 +689,7 @@ def afficher(terrains, res):
     ligne("Éclairé (lit=yes)", terrains, lambda t: res[t["id"]]["lit"] == "yes")
     ligne("  lit=no explicite", terrains, lambda t: res[t["id"]]["lit"] == "no")
     ligne("  lit=yes ou lampadaire à 15 m", terrains,
-          lambda t: res[t["id"]]["lit"] == "yes" or (res[t["id"]]["lampadaire"] or 99) <= 15)
+          lambda t: res[t["id"]]["lit"] == "yes" or (res[t["id"]]["lampadaire"] is not None and res[t["id"]]["lampadaire"] <= 15))
     ligne("Abrité (covered, indoor, building)", terrains, lambda t: res[t["id"]]["abrite"])
 
     for nom, test in (
