@@ -119,13 +119,22 @@ out body;
 # ---------------------------------------------------------------------------------------
 
 
-def interroger(nom, sans_cache):
+def entete_par_identifiants(terrains):
+    """Set .t désigné par identifiants : ne dépend plus de l'index des zones de chaque serveur."""
+    par_type = defaultdict(list)
+    for el in terrains["elements"]:
+        par_type[el["type"]].append(str(el["id"]))
+    morceaux = "".join(f"{t}(id:{','.join(ids)});" for t, ids in par_type.items())
+    return f"[out:json][timeout:300];\n({morceaux})->.t;\n"
+
+
+def interroger(nom, sans_cache, entete=ENTETE):
     os.makedirs(DOSSIER_CACHE, exist_ok=True)
     chemin = os.path.join(DOSSIER_CACHE, f"{nom}.json")
     if not sans_cache and os.path.exists(chemin):
         with open(chemin, encoding="utf-8") as f:
             return json.load(f)
-    requete = ENTETE + REQUETES[nom]
+    requete = entete + REQUETES[nom]
     # Serveurs souvent saturés (« server is probably too busy ») : plusieurs tours, avec pause
     for tour in range(4):
         if tour:
@@ -142,6 +151,9 @@ def interroger(nom, sans_cache):
                 donnees = r.json()
                 if donnees.get("remark"):
                     raise RuntimeError(donnees["remark"])
+                # Un serveur de secours sans index des zones renvoie une réponse vide sans erreur
+                if not donnees.get("elements"):
+                    raise RuntimeError("réponse vide")
                 print(f"    ✓ {len(donnees['elements'])} objets, {len(r.content) / 1e6:.1f} Mo, "
                       f"{time.time() - debut:.0f} s", flush=True)
                 with open(chemin, "w", encoding="utf-8") as f:
@@ -428,7 +440,11 @@ def charger_terrains(donnees):
 def main():
     sans_cache = "--sans-cache" in sys.argv
     print(f"Cache : {DOSSIER_CACHE}")
-    donnees = {nom: interroger(nom, sans_cache) for nom in REQUETES}
+    donnees = {"terrains": interroger("terrains", sans_cache)}
+    entete = entete_par_identifiants(donnees["terrains"])
+    for nom in REQUETES:
+        if nom != "terrains":
+            donnees[nom] = interroger(nom, sans_cache, entete)
 
     terrains = charger_terrains(donnees["terrains"])
     print(f"\n{len(terrains)} terrains ({sum(not t['surface'] for t in terrains)} simples points)\n")
