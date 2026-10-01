@@ -182,41 +182,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          4.4283875,
-          51.1672309
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "indoor": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "node/3127499128",
-        "nearest_street": "Parklaan",
-        "commune": "Edegem",
-        "province": "anvers",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "jeux": 83,
-          "eau_potable": 13,
-          "parking": 46,
-          "arret": 149,
-          "voie_verte": 91,
-          "routes": {
-            "residential": 25
-          },
-          "eau": {
-            "douves": 32
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           4.1235043,
           51.0246039
         ]
@@ -8296,7 +8261,7 @@
         "commune": "Bredene",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-ord5-2.xx.fbcdn.net/m1/v/t6/An8E1l4wAD-px3sqi8ZwbfPPb4Q4Hw3Cj0Frk0tUX4yx8viOmbXX1vK_1Xcydig3WgmY7WkA4sw312YUwoaWGEQT1t37vc6dMWnsOAZR5zox3sK49BZiq1dJ5-UTqjOb1UB4_n8_-x8PGbGUSJCp-Q?stp=s1024x576&edm=ALXxkZ8EAAAA&_nc_gid=JfZ5Bbwj_LU0nZfjhq_d4Q&_nc_oc=AdqQcc337cb1MfqJY3AT3TR1y0ssHb2a97jtwOIKjK1zIu5XMhBv2b6bGDpY-WJQmEQ&ccb=10-5&oh=00_AQMs9DM-_MQK1kEVHCKe6ji-_trwEQy85UNw2ZoMfrYztw&oe=6AE3722B&_nc_sid=201bca",
+        "photo_url": "https://scontent-atl3-2.xx.fbcdn.net/m1/v/t6/An8E1l4wAD-px3sqi8ZwbfPPb4Q4Hw3Cj0Frk0tUX4yx8viOmbXX1vK_1Xcydig3WgmY7WkA4sw312YUwoaWGEQT1t37vc6dMWnsOAZR5zox3sK49BZiq1dJ5-UTqjOb1UB4_n8_-x8PGbGUSJCp-Q?stp=s1024x576&edm=ALXxkZ8EAAAA&_nc_gid=8sO2lcBRE53EDrG6K2_Yaw&_nc_oc=Adq_FwhS4AsI_4xt7gLGd0prCE-xVBBxXo7Aa8B-Qk7eeGaZpU3hWWZ28P4B6TGwd7M&ccb=10-5&oh=00_AQPeHkhfHK6uwZzBbE9bq0t9x8FwD7uuFJPMH4cewaRwzw&oe=6AE6152B&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/",
         "env": {
@@ -8968,7 +8933,7 @@
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/430723300",
-        "nearest_street": "Hoefstraat",
+        "nearest_street": "Bondgenotenstraat",
         "commune": "Halle",
         "province": "brabant_flamand",
         "region": "flandre",
@@ -11866,7 +11831,7 @@
         "commune": "Knokke-Heist",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-ord5-2.xx.fbcdn.net/m1/v/t6/An_826nXBC4N2y38_46JfHk8TYlVeq-hNAQyzdi3RGipbSCTiu-UDyRUbVxSsn3AtQHTJC5D0XSUSCYVrkOORldTwq1jZBjhb4xAKNsDBtL7z72Ymk2r6Lm5q-lmR7rzHlQbfvo134VEeJ8nxcqte8Q?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=1yPpFV3dZqh4TJ9hesqLUA&_nc_oc=AdrkUcBaUiCJNxEN0C3E33YD09FlpJsA8_tHuQGer4jpZ7DJKU9Y9ZoB5AJJviYuDqM&ccb=10-5&oh=00_AQMTbvR5d21bdngpfWxEYGekfT2Xv8oW26X3Qay_j7567g&oe=6AE377B4&_nc_sid=201bca",
+        "photo_url": "https://scontent-atl3-2.xx.fbcdn.net/m1/v/t6/An_826nXBC4N2y38_46JfHk8TYlVeq-hNAQyzdi3RGipbSCTiu-UDyRUbVxSsn3AtQHTJC5D0XSUSCYVrkOORldTwq1jZBjhb4xAKNsDBtL7z72Ymk2r6Lm5q-lmR7rzHlQbfvo134VEeJ8nxcqte8Q?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=MFazXcEjxDH22yDx90yFgA&_nc_oc=AdrhXVAGRH37TU4OdAnCrFjadJJW94bbUwxTNQ7a5w3qS2UNDvgevDhOjzlzIjnP4Nw&ccb=10-5&oh=00_AQPUWFdTTngAqt_wemlPDijfe2vAxWwmxNV8WNsCMM50oQ&oe=6AE61AB4&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/",
         "env": {
@@ -14447,7 +14412,7 @@
         "surface": "gravel",
         "osm_id": "way/659291664",
         "nearest_street": "Filip de Pillecynlaan",
-        "commune": "Belsele",
+        "commune": "Sint-Niklaas",
         "province": "flandre_orientale",
         "region": "flandre",
         "env": {
@@ -25058,7 +25023,6 @@
         ]
       },
       "properties": {
-        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/908215108",
@@ -25092,7 +25056,6 @@
         ]
       },
       "properties": {
-        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/908215109",
@@ -25669,6 +25632,7 @@
       "properties": {
         "leisure": "pitch",
         "sport": "boules",
+        "surface": "compacted",
         "osm_id": "way/913952896",
         "nearest_street": "Noulaertsplein",
         "commune": "Edegem",
@@ -28868,39 +28832,6 @@
           },
           "nature": {
             "parc": 0.4
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.576135,
-          50.8480511
-        ]
-      },
-      "properties": {
-        "building": "yes",
-        "leisure": "pitch",
-        "name": "Petanque Club 2000",
-        "source:geometry:date": "2018-01-08",
-        "source:geometry:ref": "Gbg/6179673",
-        "sport": "boules",
-        "osm_id": "way/976669570",
-        "nearest_street": "Snijderstraat",
-        "commune": "Rosmeer",
-        "province": "limbourg",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 28,
-          "parking": 2,
-          "arret": 122,
-          "routes": {
-            "tertiary": 99,
-            "residential": 38
           }
         }
       }
@@ -33963,8 +33894,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          5.4875536,
-          50.5804681
+          5.4875346,
+          50.5804564
         ]
       },
       "properties": {
@@ -35026,7 +34957,6 @@
         ]
       },
       "properties": {
-        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1093423326",
@@ -35055,7 +34985,6 @@
         ]
       },
       "properties": {
-        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1093423327",
@@ -35084,7 +35013,6 @@
         ]
       },
       "properties": {
-        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1093423328",
@@ -35113,7 +35041,6 @@
         ]
       },
       "properties": {
-        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1093423329",
@@ -35142,7 +35069,6 @@
         ]
       },
       "properties": {
-        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1093423330",
@@ -36151,7 +36077,6 @@
         ]
       },
       "properties": {
-        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1111578286",
@@ -36184,7 +36109,6 @@
         ]
       },
       "properties": {
-        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1111578287",
@@ -38913,7 +38837,6 @@
         ]
       },
       "properties": {
-        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1160254569",
@@ -40155,7 +40078,6 @@
       },
       "properties": {
         "boules": "petanque",
-        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1185362291",
@@ -44445,7 +44367,6 @@
         ]
       },
       "properties": {
-        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1306209765",
@@ -45535,7 +45456,6 @@
         ]
       },
       "properties": {
-        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1317363581",
@@ -46076,7 +45996,6 @@
         ]
       },
       "properties": {
-        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1329632112",
@@ -46106,7 +46025,6 @@
         ]
       },
       "properties": {
-        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1329632113",
@@ -46221,7 +46139,6 @@
         ]
       },
       "properties": {
-        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1330215705",
@@ -46254,7 +46171,6 @@
         ]
       },
       "properties": {
-        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1330215706",
@@ -46287,7 +46203,6 @@
         ]
       },
       "properties": {
-        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1330215707",
@@ -46561,7 +46476,6 @@
         ]
       },
       "properties": {
-        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1332818061",
@@ -46594,7 +46508,6 @@
         ]
       },
       "properties": {
-        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1332818062",
@@ -47571,7 +47484,6 @@
         ]
       },
       "properties": {
-        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1344545710",
@@ -47737,7 +47649,6 @@
         ]
       },
       "properties": {
-        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1346947045",
@@ -48547,7 +48458,6 @@
         ]
       },
       "properties": {
-        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1353914002",
@@ -49295,7 +49205,7 @@
         ]
       },
       "properties": {
-        "building": "yes",
+        "boules": "petanque",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1366552656",
@@ -50929,7 +50839,7 @@
         "sport": "petanque",
         "osm_id": "way/1412215072",
         "nearest_street": "Rue de la Cochette",
-        "commune": "Herbeumont",
+        "commune": "Straimont",
         "province": "luxembourg",
         "region": "wallonie",
         "env": {
@@ -53712,7 +53622,6 @@
         ]
       },
       "properties": {
-        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1461911445",
@@ -54787,7 +54696,7 @@
         "commune": "Antwerpen",
         "province": "anvers",
         "region": "flandre",
-        "photo_url": "https://scontent-ord5-2.xx.fbcdn.net/m1/v/t6/An9eRdQmXCN4yubsaSpfzMly5AetIuhgH4M1EIfCu_o9OXHzHM2o7mt2bWV8R8YodldvBBeEv-Mw1TIfU24F2LquK6ClQlY0yt6zhb9sHWwZdbwWQcene-17tCznvEC2bj6_g9kqHsXJJZvcgGWADXY?stp=s1024x771&edm=ALXxkZ8EAAAA&_nc_gid=3p0lZKMc-ZOBJfSlFIzZXQ&_nc_oc=AdqWj0rFm4oVvnEALH5scJd60VDABCZkSWf6VYUqvTRfCgnzJqylS8FosfTUTKduHUA&ccb=10-5&oh=00_AQOe91WYWK3AFIpnz3AuQZGD2xIS7NpLueu94m_Arba3Fg&oe=6AE36AE0&_nc_sid=201bca",
+        "photo_url": "https://scontent-atl3-2.xx.fbcdn.net/m1/v/t6/An9eRdQmXCN4yubsaSpfzMly5AetIuhgH4M1EIfCu_o9OXHzHM2o7mt2bWV8R8YodldvBBeEv-Mw1TIfU24F2LquK6ClQlY0yt6zhb9sHWwZdbwWQcene-17tCznvEC2bj6_g9kqHsXJJZvcgGWADXY?stp=s1024x771&edm=ALXxkZ8EAAAA&_nc_gid=dBfDkBYn-r0Q3KNP4weqEg&_nc_oc=AdqJvkuBAdK6aluTVQimjnfC3wnIj64rLnMCRijxFo_8uK40mR7vE0m4GymZW1ERlj0&ccb=10-5&oh=00_AQMZbsVroN-Epw6rtcR1Ypmy6XSumiJAWX1pt6aLzgiFsA&oe=6AE60DE0&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/",
         "env": {
@@ -56846,7 +56755,7 @@
         "commune": "Nieuwpoort",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-ord5-2.xx.fbcdn.net/m1/v/t6/An_IcsQv0t9Niw27hAS6xszVl8KaCwqtEwaVsnC0X6h5obOnL9wJzqt49q1HZthHhpcg3aQQ_S52WEAEIn_enyZfgEQMSm4VpxuNT-y04WeYjRtg-jYtlfIGy2WX-MOFaTW5JP5mrnK6tnk0jVXQMQ?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=UPRqpicE3JChcRUwQVql3Q&_nc_oc=AdrFI1D08sV9IFKDaeRpIBeUSdHpfF13we2sJj6quWqWBS9rO1gvrm1Flfdx2q5LcxI&ccb=10-5&oh=00_AQOaa_71oY0WAwJt4yj-VjxAwLJ1nfPp15zVPx7tQB5iCw&oe=6AE36BA3&_nc_sid=201bca",
+        "photo_url": "https://scontent-atl3-2.xx.fbcdn.net/m1/v/t6/An_IcsQv0t9Niw27hAS6xszVl8KaCwqtEwaVsnC0X6h5obOnL9wJzqt49q1HZthHhpcg3aQQ_S52WEAEIn_enyZfgEQMSm4VpxuNT-y04WeYjRtg-jYtlfIGy2WX-MOFaTW5JP5mrnK6tnk0jVXQMQ?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=ZQ3ueLAL8KkQWOeUmLN6lQ&_nc_oc=AdplzdVKv4lQDvhzhXuBtkRfpUXGUYCrxN3-o9Lsf7K39YTetJPD84TjzyjJIY8Phxk&ccb=10-5&oh=00_AQM0_VT3olbkZ6sgOic3kDlKoABonas8jeBLiNIwobtFfA&oe=6AE60EA3&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/",
         "env": {
@@ -56998,7 +56907,7 @@
         "commune": "Nieuwpoort",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-ord5-2.xx.fbcdn.net/m1/v/t6/An-7s0AaVZAJuquC6rZRN_Qw2oZZKfZW0pEdJPpdXib7Pd9_8IhZetiwdp9R5OOnBRiTZo-pcMs5tIXECBndV3Qv1MQoIf5dRqGNDSUQ6n-6j2Pj0tlGLMzm7eHBCXjZeZkSzpHquMHrV37D34NXw8o?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=Iy0WjRvaIc-S6mEGxlNXnQ&_nc_oc=AdqGouNlhYSJkZo7eJccf4xdXb6dmxeJevHj-XRgpIlydBeTAzNGiFn1zhqyERTpa20&ccb=10-5&oh=00_AQNs_LOZn6ME2zEmDIvTNbAfj4JlG61AlzE1UbpNctq03A&oe=6AE37C50&_nc_sid=201bca",
+        "photo_url": "https://scontent-atl3-2.xx.fbcdn.net/m1/v/t6/An-7s0AaVZAJuquC6rZRN_Qw2oZZKfZW0pEdJPpdXib7Pd9_8IhZetiwdp9R5OOnBRiTZo-pcMs5tIXECBndV3Qv1MQoIf5dRqGNDSUQ6n-6j2Pj0tlGLMzm7eHBCXjZeZkSzpHquMHrV37D34NXw8o?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=vjWmjWwErrU-rA1t-hOlPQ&_nc_oc=AdrwlQB_lczyn2xldezBHBad9EKJwbyjKXBxOBDNLWGC9f-c-5GINb_SlbQ4RYKMs1o&ccb=10-5&oh=00_AQMa7dZYyaC5DXZB9aFphSCvw7_IPHOwpEioI9I1vD-nng&oe=6AE61F50&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/",
         "env": {
@@ -57040,7 +56949,7 @@
         "commune": "Knokke-Heist",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-ord5-2.xx.fbcdn.net/m1/v/t6/An-mTENCLyapxTL4yvPcXs6AgL1g_Orx4tjMHHWFLByZQUkV8A54RcB7_jg209bKympEDMe0Nfz1Wwti6FNPGtEA3soUYQZqwPnSNnwec1bIvHej0RYY0AxUx-nUWegUButzN7hFINqnB73oyRqizWw?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=2n-FodzN1-107jPHWk67pw&_nc_oc=Adp4WKRf9XIYWMljlxgTPGdTnc448bbsRz6bvyRw-LYEZVPfe-P22oAi0B-MbBaJsOw&ccb=10-5&oh=00_AQNgg1JRhYbr0bMNBHT5fHkphcoxwzbe0VwuGCRXqe1GZQ&oe=6AE34A5C&_nc_sid=201bca",
+        "photo_url": "https://scontent-atl3-2.xx.fbcdn.net/m1/v/t6/An-mTENCLyapxTL4yvPcXs6AgL1g_Orx4tjMHHWFLByZQUkV8A54RcB7_jg209bKympEDMe0Nfz1Wwti6FNPGtEA3soUYQZqwPnSNnwec1bIvHej0RYY0AxUx-nUWegUButzN7hFINqnB73oyRqizWw?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=ygy2cgTlwxWdcgaB0sf3IQ&_nc_oc=AdpTaSGXgCrMvTDwvaCmOhme0Zf07HWLhMmLVrquI76O8-v3pDpxpOEWhUtNXMOpe_g&ccb=10-5&oh=00_AQMTO407fDJgunEL2Eh9Dalbyos7IOkoXxhn3fbkdaZtdQ&oe=6AE6259C&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/",
         "env": {

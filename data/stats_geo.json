@@ -151,7 +151,7 @@
           "Virton": 1,
           "Torgny": 1,
           "Journal": 1,
-          "Herbeumont": 1,
+          "Straimont": 1,
           "Fauvillers": 1,
           "Houffalize": 1,
           "Sy": 1,
@@ -236,7 +236,7 @@
     "communes": {}
   },
   "flandre": {
-    "total": 1187,
+    "total": 1185,
     "provinces": {
       "brabant_flamand": {
         "total": 185,
@@ -298,11 +298,10 @@
         }
       },
       "anvers": {
-        "total": 287,
+        "total": 286,
         "communes": {
           "Willebroek": 1,
           "Mechelen": 7,
-          "Edegem": 4,
           "Brasschaat": 10,
           "Merksplas": 4,
           "Stabroek": 4,
@@ -315,6 +314,7 @@
           "Lille": 2,
           "Bornem": 7,
           "Kasterlee": 3,
+          "Edegem": 3,
           "Aartselaar": 4,
           "Boom": 3,
           "Wuustwezel": 4,
@@ -374,7 +374,7 @@
           "Hamme": 4,
           "Sint-Martens-Latem": 5,
           "Aalst": 13,
-          "Sint-Niklaas": 12,
+          "Sint-Niklaas": 13,
           "Mere": 2,
           "Etikhove": 1,
           "De Pinte": 8,
@@ -399,7 +399,6 @@
           "Huise": 1,
           "Kieldrecht": 2,
           "Lokeren": 14,
-          "Belsele": 1,
           "Temse": 2,
           "Watervliet": 1,
           "Neigem": 1,
@@ -496,7 +495,7 @@
         }
       },
       "limbourg": {
-        "total": 194,
+        "total": 193,
         "communes": {
           "Peer": 3,
           "Koninksem": 2,
@@ -531,10 +530,10 @@
           "Halen": 3,
           "Riksingen": 2,
           "Alken": 3,
-          "Rosmeer": 6,
           "Heers": 2,
           "Overrepen": 2,
           "Bilzen": 1,
+          "Rosmeer": 5,
           "Hoeselt": 2,
           "Lanklaar": 4,
           "Vechmaal": 1,
