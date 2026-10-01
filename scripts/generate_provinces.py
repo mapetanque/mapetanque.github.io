@@ -161,43 +161,6 @@ def construire_bloc_densite(densite, label_100km2):
     )
 
 
-def reordonner_stats_et_carte_bruxelles(template):
-    """Bruxelles tient lieu de page région (voir construire_bloc_beaux_terrains) : on y reprend
-    l'ordre carrousel/carte/statistiques des pages région (region_template.html), plutôt que
-    l'ordre stats/carte du template province, pensé pour les provinces qui n'ont pas de
-    carrousel. Opère sur une copie du texte du template (jetons {{...}} encore intacts, avant
-    substitution) : ne modifie ni le fichier partagé, ni le rendu des dix autres provinces, qui
-    continuent de recevoir le template tel quel."""
-    bloc_stats = (
-        '    <div class="province-stats-tiles">\n'
-        '        <div class="province-stat-tile">\n'
-        '            <span class="province-stat-tile-number">{{STAT_TERRAINS}}</span>\n'
-        '            <span class="province-stat-tile-label">{{UI_TERRAINS_RECENSES}}</span>\n'
-        '        </div>\n'
-        '        <div class="province-stat-tile">\n'
-        '            <span class="province-stat-tile-number">{{STAT_COMMUNES}}</span>\n'
-        '            <span class="province-stat-tile-label">{{UI_COMMUNES_COUVERTES}}</span>\n'
-        '        </div>\n'
-        '{{DENSITY_TILE_BLOCK}}    </div>'
-    )
-    bloc_carte = (
-        '    <div class="province-map-inline-wrapper" style="position: relative;">\n'
-        '        <div id="map"></div>\n'
-        '        <div class="map-toast" id="mapToast"></div>\n'
-        '    </div>'
-    )
-    ancien = f"{bloc_stats}\n\n{bloc_carte}"
-    nouveau = f"{bloc_carte}\n\n{bloc_stats}"
-    if ancien not in template:
-        # Garde-fou : si province_template.html change de forme, on veut un échec bruyant ici
-        # plutôt qu'un Bruxelles silencieusement resté dans l'ancien ordre.
-        raise ValueError(
-            "reordonner_stats_et_carte_bruxelles : bloc stats/carte introuvable dans le "
-            "template — celui-ci a dû changer, ajuster cette fonction en conséquence."
-        )
-    return template.replace(ancien, nouveau, 1)
-
-
 def url_page(slug, langue):
     prefixe = "" if langue == "fr" else f"{langue}/"
     return f"/{prefixe}province-{slug}.html"
@@ -239,34 +202,41 @@ def recuperer_stats_region(stats_geo, region_key):
     return region["total"], nb_provinces, nb_communes
 
 
-def construire_tuiles_provinces_region(region_key, provinces, stats_geo, langue, traductions):
+def html_tuile(url, image, nom, total, tr):
+    """Une tuile photo (province ou région) avec son nombre de terrains."""
+    if not (BASE_DIR / "images" / "provinces" / image).exists():
+        raise FileNotFoundError(f"images/provinces/{image} introuvable (tuile de {nom})")
+    unite = tr["province_terrain_singulier"] if total == 1 else tr["stats_terrains_unit"]
+    return (
+        f'            <a href="{url}" class="tuile-province" '
+        f"style=\"background-image: url('/images/provinces/{image}');\">\n"
+        f'                <span class="tuile-province-nom">{nom}</span>\n'
+        f'                <span class="tuile-province-nombre">{total} {unite}</span>\n'
+        '            </a>'
+    )
+
+
+def construire_tuiles_provinces_region(region_key, provinces, stats_geo, langue, traductions,
+                                       exclure=None):
     """Tuiles photo vers chaque province de la région (mêmes images que « Parcourir par
     province » sur l'accueil), avec leur nombre de terrains, triées par nombre de terrains
-    décroissant — seulement les provinces déjà prêtes dans cette langue."""
+    décroissant — seulement les provinces déjà prêtes dans cette langue, sauf `exclure` (la
+    province de la page, pour son rebond)."""
     tr = traductions[langue]
     pretes = provinces_pretes(provinces, langue)
-    entrees = [(cle, cfg) for cle, cfg in pretes.items() if cfg["region_key"] == region_key]
+    entrees = [(cle, cfg) for cle, cfg in pretes.items()
+               if cfg["region_key"] == region_key and cle != exclure]
 
     def total_terrains(cle):
         return stats_geo[region_key]["provinces"][cle]["total"]
 
     entrees.sort(key=lambda t: -total_terrains(t[0]))
 
-    tuiles = []
-    for cle, cfg in entrees:
-        image = f"tuile-{cfg['slug']}.webp"
-        if not (BASE_DIR / "images" / "provinces" / image).exists():
-            raise FileNotFoundError(f"images/provinces/{image} introuvable (tuile de {cle})")
-        total = total_terrains(cle)
-        unite = tr["province_terrain_singulier"] if total == 1 else tr["stats_terrains_unit"]
-        tuiles.append(
-            f'            <a href="{url_page(cfg["slug"], langue)}" class="tuile-province" '
-            f"style=\"background-image: url('/images/provinces/{image}');\">\n"
-            f'                <span class="tuile-province-nom">{nom_traduit_province(cle, langue, traductions)}</span>\n'
-            f'                <span class="tuile-province-nombre">{total} {unite}</span>\n'
-            '            </a>'
-        )
-    return "\n".join(tuiles)
+    return [
+        html_tuile(url_page(cfg["slug"], langue), f"tuile-{cfg['slug']}.webp",
+                   nom_traduit_province(cle, langue, traductions), total_terrains(cle), tr)
+        for cle, cfg in entrees
+    ]
 
 
 def provinces_pretes(provinces, langue):
@@ -293,43 +263,42 @@ def nom_traduit_province(cle, langue, traductions):
     return traductions[langue][f"geo_province_{cle}"]
 
 
-def construire_bloc_autres_provinces(cle_courante, provinces, langue, traductions):
-    """HTML complet du bloc "Autres provinces" (h2 + liens), ou chaîne vide s'il n'y a
-    encore aucune autre province prête dans cette langue."""
+def construire_bloc_rebond(cle_courante, config, provinces, regions, stats_geo, langue,
+                           traductions):
+    """Rebond en bas de page province, en tuiles photo comme « Provinces de … » sur les pages
+    région. Une province : la tuile de sa région en tête (pleine largeur sur mobile), puis les
+    autres provinces de la région. Bruxelles, sans province voisine : les deux régions. Chaîne
+    vide si aucune tuile n'est prête dans cette langue."""
     tr = traductions[langue]
-    pretes = provinces_pretes(provinces, langue)
-    pretes.pop(cle_courante, None)
-    if not pretes:
+    regions_par_cle = {cfg["region_key"]: cfg for cfg in regions_pretes(regions, langue).values()}
+
+    def tuile_region(region_key):
+        cfg = regions_par_cle[region_key]
+        return html_tuile(url_page_region(cfg["slug"], langue), f"tuile-{cfg['slug']}.webp",
+                          tr[f"geo_region_{region_key}"], stats_geo[region_key]["total"], tr)
+
+    if config["region_key"] == "bruxelles":
+        titre = tr["province_ailleurs_belgique"]
+        cles = sorted(regions_par_cle, key=lambda r: -stats_geo[r]["total"])
+        tuiles = [tuile_region(r) for r in cles]
+    else:
+        region_key = config["region_key"]
+        titre = tr["province_ailleurs_region"].format(nom=tr[f"geo_region_{region_key}"])
+        tuiles = [tuile_region(region_key)] if region_key in regions_par_cle else []
+        tuiles += construire_tuiles_provinces_region(
+            region_key, provinces, stats_geo, langue, traductions, exclure=cle_courante
+        )
+
+    if not tuiles:
         return ""
-
-    ordre_regions = ["flandre", "wallonie", "bruxelles"]
-    par_region = {}
-    for cle, config in pretes.items():
-        par_region.setdefault(config["region_key"], []).append((cle, config))
-
-    blocs = []
-    for region_key in ordre_regions:
-        entrees = par_region.get(region_key)
-        if not entrees:
-            continue
-        nom_region = tr[f"geo_region_{region_key}"]
-        entrees_triees = sorted(entrees, key=lambda paire: nom_traduit_province(paire[0], langue, traductions))
-        liens = "\n".join(
-            f'            <a href="{url_page(c["slug"], langue)}">{nom_traduit_province(cle, langue, traductions)}</a>'
-            for cle, c in entrees_triees
-        )
-        blocs.append(
-            f'        <div class="other-provinces-group">\n'
-            f'            <span class="other-provinces-group-label">{nom_region}</span>\n'
-            f'            <div class="other-provinces-links">\n{liens}\n            </div>\n'
-            f'        </div>'
-        )
-
-    liens_html = "\n".join(blocs)
+    # Deux tuiles seulement (Bruxelles) : grille à deux colonnes, tuiles moins hautes
+    classe = "tuiles-provinces tuiles-deux" if len(tuiles) == 2 else "tuiles-provinces"
     return (
         '    <div class="other-provinces-section">\n'
-        f'        <h2>{tr["province_autres_provinces"]}</h2>\n'
-        f'{liens_html}\n'
+        f'        <h2>{titre}</h2>\n'
+        f'        <div class="{classe}">\n'
+        + "\n".join(tuiles) + "\n"
+        '        </div>\n'
         '    </div>'
     )
 
@@ -438,7 +407,7 @@ def generer_page(cle, config, langue, langues_disponibles, other_provinces_block
         "{{UI_ERREUR_CHARGEMENT}}": chaine_js(tr["carte_erreur_chargement"]),
     }
 
-    page = reordonner_stats_et_carte_bruxelles(template) if config["region_key"] == "bruxelles" else template
+    page = template
     for jeton, valeur in remplacements.items():
         page = page.replace(jeton, valeur)
 
@@ -482,9 +451,9 @@ def generer_page_region(cle, config, langue, langues_disponibles, template, stat
     if densite is None:
         raise ValueError(f"{cle} : area_km2 manquant dans data/regions.json")
 
-    tuiles_provinces = construire_tuiles_provinces_region(
+    tuiles_provinces = "\n".join(construire_tuiles_provinces_region(
         config["region_key"], provinces, stats_geo, langue, traductions
-    )
+    ))
 
     remplacements = {
         "{{LANG_CODE}}": langue,
@@ -620,10 +589,10 @@ def main():
             continue
 
         for langue in langues_disponibles:
-            bloc_autres_provinces = construire_bloc_autres_provinces(
-                cle, provinces, langue, traductions
+            bloc_rebond = construire_bloc_rebond(
+                cle, config, provinces, regions, stats_geo, langue, traductions
             )
-            generer_page(cle, config, langue, langues_disponibles, bloc_autres_provinces,
+            generer_page(cle, config, langue, langues_disponibles, bloc_rebond,
                          template, stats_geo, traductions, communes_deja_ecrites)
             generees += 1
 

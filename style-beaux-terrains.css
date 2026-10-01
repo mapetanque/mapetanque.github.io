@@ -185,10 +185,10 @@
     color: #333;
     text-align: left;
 }
-/* Pages région : aligné à gauche, comme .province-communes-section h2. */
+/* Pages région : même titre que sur l'accueil, comme les autres sections de ces pages. */
 .beaux-terrains-region h2 {
-    margin: 0 0 16px;
-    font-size: 19px;
+    margin: 0 0 24px;
+    font-size: 26px;
     color: #333;
 }
 

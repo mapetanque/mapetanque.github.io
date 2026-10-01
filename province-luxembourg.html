@@ -97,26 +97,6 @@
 
 </div>
 
-<div class="controls">
-    <button id="locateBtn">
-        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-        <span data-i18n="locate_btn">Me localiser</span>
-    </button>
-
-    <form id="searchForm" class="search-form">
-        <input
-            type="text"
-            id="searchInput"
-            data-i18n-placeholder="search_placeholder"
-            autocomplete="off"
-        >
-        <button type="submit" id="searchBtn" aria-label="Rechercher" data-i18n-aria="signalement_search_btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        </button>
-    </form>
-
-</div>
-
 <!-- Crédit photo bannière -->
 <div class="hero-banner-credit">
     Photo : Jean Housen, <a href="https://commons.wikimedia.org/w/index.php?curid=41870270" target="_blank" rel="noopener">CC BY-SA 3.0</a>
@@ -147,8 +127,6 @@
 </nav>
 
 <div id="menu-overlay"></div>
-
-<p id="searchError" class="search-error"></p>
 
 <!-- Panneau de partage réutilisable (site ou terrain précis) -->
 <div id="share-overlay"></div>
@@ -229,9 +207,37 @@
 </div>
 
 
-<!-- Tuiles + carte + description + liste des communes : une seule fiche, toujours à l'intérieur
-     de .map-view (nécessaire pour que le mode plein écran continue de fonctionner sur #map). -->
-<div class="province-content">
+<!-- Deux bandes pleine largeur, sur le modèle de l'accueil. Bande grise : barre de recherche,
+     carte, carrousel (pages région et Bruxelles) et tuiles de statistiques. Elle reste dans
+     .map-view, nécessaire pour que le mode plein écran fonctionne sur #map. -->
+<div class="province-bande-carte">
+
+    <div class="province-map-inline-wrapper" style="position: relative;">
+        <!-- Barre « Me localiser » + recherche d'adresse, juste au-dessus de la carte : la carte
+             est plus bas dans la page qu'à l'accueil, une recherche depuis la bannière aurait
+             donné un résultat hors de vue. Mêmes identifiants qu'à l'accueil (voir script.js). -->
+        <div class="controls">
+            <button id="locateBtn" data-i18n-aria="locate_btn">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <span data-i18n="locate_btn">Me localiser</span>
+            </button>
+
+            <form id="searchForm" class="search-form">
+                <input
+                    type="text"
+                    id="searchInput"
+                    data-i18n-placeholder="search_placeholder"
+                    autocomplete="off"
+                >
+                <button type="submit" id="searchBtn" aria-label="Rechercher" data-i18n-aria="signalement_search_btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+            </form>
+        </div>
+        <p id="searchError" class="search-error"></p>
+        <div id="map"></div>
+        <div class="map-toast" id="mapToast"></div>
+    </div>
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
@@ -248,11 +254,14 @@
         </div>
     </div>
 
-    <div class="province-map-inline-wrapper" style="position: relative;">
-        <div id="map"></div>
-        <div class="map-toast" id="mapToast"></div>
-    </div>
+</div>
 
+</div><!-- /.map-view -->
+
+<!-- Bande blanche : texte, liste des communes et rebond, comme « Parcourir par région /
+     province » sur l'accueil. -->
+<div class="province-bande-texte">
+<div class="province-bande-interieur">
     <p class="province-intro">
         La province de Luxembourg compte <strong>52 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>28 communes</strong>. Arlon, son chef-lieu, arrive en tête avec 7 terrains, devant Vielsalm avec 6. Elle peut se targuer d'avoir vu naître Claudy Weibel, double champion du monde de pétanque, sacré en triplette en 2000 puis en tête-à-tête en 2015. Anecdote historique : en 1961, un boulodrome de 3 000 m² a été aménagé au pied de la centrale électrique de Saint-Hubert. Le bâtiment a été entièrement ravagé par un incendie en 82 avant d'être reconstruit.
     </p>
@@ -267,37 +276,33 @@
     </div>
 
     <div class="other-provinces-section">
-        <h2>Autres provinces</h2>
-        <div class="other-provinces-group">
-            <span class="other-provinces-group-label">Flandre</span>
-            <div class="other-provinces-links">
-            <a href="/province-anvers.html">Anvers</a>
-            <a href="/province-brabant-flamand.html">Brabant flamand</a>
-            <a href="/province-flandre-occidentale.html">Flandre occidentale</a>
-            <a href="/province-flandre-orientale.html">Flandre orientale</a>
-            <a href="/province-limbourg.html">Limbourg</a>
-            </div>
-        </div>
-        <div class="other-provinces-group">
-            <span class="other-provinces-group-label">Wallonie</span>
-            <div class="other-provinces-links">
-            <a href="/province-brabant-wallon.html">Brabant wallon</a>
-            <a href="/province-hainaut.html">Hainaut</a>
-            <a href="/province-liege.html">Liège</a>
-            <a href="/province-namur.html">Namur</a>
-            </div>
-        </div>
-        <div class="other-provinces-group">
-            <span class="other-provinces-group-label">Bruxelles</span>
-            <div class="other-provinces-links">
-            <a href="/province-bruxelles.html">Bruxelles</a>
-            </div>
+        <h2>Ailleurs en Wallonie</h2>
+        <div class="tuiles-provinces">
+            <a href="/region-wallonie.html" class="tuile-province" style="background-image: url('/images/provinces/tuile-wallonie.webp');">
+                <span class="tuile-province-nom">Wallonie</span>
+                <span class="tuile-province-nombre">437 terrains</span>
+            </a>
+            <a href="/province-liege.html" class="tuile-province" style="background-image: url('/images/provinces/tuile-liege.webp');">
+                <span class="tuile-province-nom">Liège</span>
+                <span class="tuile-province-nombre">152 terrains</span>
+            </a>
+            <a href="/province-hainaut.html" class="tuile-province" style="background-image: url('/images/provinces/tuile-hainaut.webp');">
+                <span class="tuile-province-nom">Hainaut</span>
+                <span class="tuile-province-nombre">97 terrains</span>
+            </a>
+            <a href="/province-namur.html" class="tuile-province" style="background-image: url('/images/provinces/tuile-namur.webp');">
+                <span class="tuile-province-nom">Namur</span>
+                <span class="tuile-province-nombre">88 terrains</span>
+            </a>
+            <a href="/province-brabant-wallon.html" class="tuile-province" style="background-image: url('/images/provinces/tuile-brabant-wallon.webp');">
+                <span class="tuile-province-nom">Brabant wallon</span>
+                <span class="tuile-province-nombre">48 terrains</span>
+            </a>
         </div>
     </div>
 
 </div>
-
-</div><!-- /.map-view -->
+</div>
 
 <!-- Panneau d'info coulissant -->
 

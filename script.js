@@ -1016,6 +1016,8 @@ const locateBtn = document.getElementById("locateBtn");
 if (locateBtn) {
     locateBtn.addEventListener("click", function () {
 
+        effacerMessageRecherche();
+
         if (navigator.geolocation) {
 
             navigator.geolocation.getCurrentPosition(function(position) {
@@ -1044,6 +1046,8 @@ if (locateBtn) {
                 .bindPopup(function () { return t('popup_here'); })
                 .openPopup();
 
+                signalerSiHorsZone(lat, lon, '?localiser=1');
+
             }, function() {
                 alert(t('geoloc_error'));
             });
@@ -1060,6 +1064,70 @@ if (locateBtn) {
 
 let searchMarker = null;
 
+// Pages province et région : la carte ne montre que les terrains de la zone de la page
+// (window.MAPETANQUE_STATS_GEO_KEY, clé de province ou de région, absente sur l'accueil). Même
+// condition que pour les clubs (voir « Chargement des clubs » plus bas).
+function estDansLaZone(props) {
+    const cle = window.MAPETANQUE_STATS_GEO_KEY;
+    return !cle || props.province === cle || props.region === cle;
+}
+
+// Recherche biaisée vers la zone de la page, sans l'exclure strictement (utile pour les communes
+// frontalières) : la Belgique sur l'accueil, l'emprise des terrains de la province ou de la région
+// ailleurs, pour que le Saint-Gérard de la province passe avant ses homonymes.
+function viewboxRecherche() {
+    if (!window.MAPETANQUE_STATS_GEO_KEY) return Promise.resolve('2.5,51.6,6.5,49.4');
+    return terrainsGeojson.then(function (data) {
+        let ouest = 180, est = -180, sud = 90, nord = -90;
+        data.features.forEach(function (f) {
+            if (!estDansLaZone(f.properties)) return;
+            const c = f.geometry.coordinates; // [lon, lat]
+            ouest = Math.min(ouest, c[0]);
+            est = Math.max(est, c[0]);
+            sud = Math.min(sud, c[1]);
+            nord = Math.max(nord, c[1]);
+        });
+        return [ouest, nord, est, sud].join(',');
+    });
+}
+
+function effacerMessageRecherche() {
+    const errorEl = document.getElementById('searchError');
+    if (!errorEl) return;
+    errorEl.textContent = '';
+    errorEl.classList.remove('search-info');
+}
+
+// Pages province et région : un lieu (recherche ou géolocalisation) hors de la zone de la page
+// tombe sur une carte vide. Il est jugé hors zone quand le terrain le plus proche, tous terrains
+// de Belgique confondus, n'en fait pas partie ; on propose alors la carte de Belgique, qui
+// reprend la recherche ou la géolocalisation (suiteUrl, voir la fin de « Chargement des
+// terrains » plus bas).
+function signalerSiHorsZone(lat, lon, suiteUrl) {
+    if (!window.MAPETANQUE_STATS_GEO_KEY) return;
+    terrainsGeojson.then(function (data) {
+        let plusProche = null;
+        let distanceMin = Infinity;
+        data.features.forEach(function (f) {
+            const c = f.geometry.coordinates;
+            const d = calculDistance(lat, lon, c[1], c[0]);
+            if (d < distanceMin) {
+                distanceMin = d;
+                plusProche = f;
+            }
+        });
+        if (!plusProche || estDansLaZone(plusProche.properties)) return;
+
+        const errorEl = document.getElementById('searchError');
+        const lien = document.createElement('a');
+        lien.href = (currentLang === 'fr' ? '/' : '/' + currentLang + '/') + suiteUrl;
+        lien.textContent = t('hors_zone_lien');
+        errorEl.textContent = t('hors_zone') + ' ';
+        errorEl.appendChild(lien);
+        errorEl.classList.add('search-info');
+    });
+}
+
 // Même principe que locateBtn ci-dessus : optionnel, absent sur les pages sans recherche.
 const searchForm = document.getElementById('searchForm');
 if (searchForm) {
@@ -1071,7 +1139,7 @@ if (searchForm) {
     const errorEl = document.getElementById('searchError');
     const query = input.value.trim();
 
-    errorEl.textContent = '';
+    effacerMessageRecherche();
 
     if (!query) return;
 
@@ -1081,15 +1149,15 @@ if (searchForm) {
     // fiable que dans le contexte du geste utilisateur, pas depuis une callback asynchrone.
     input.blur();
 
-    // Recherche biaisée vers la Belgique (sans l'exclure strictement, utile pour les communes frontalières)
-    const url = 'https://nominatim.openstreetmap.org/search'
-        + '?format=jsonv2'
-        + '&q=' + encodeURIComponent(query)
-        + '&limit=1'
-        + '&viewbox=2.5,51.6,6.5,49.4'
-        + '&bounded=0';
-
-    fetch(url)
+    viewboxRecherche()
+        .then(function (viewbox) {
+            return fetch('https://nominatim.openstreetmap.org/search'
+                + '?format=jsonv2'
+                + '&q=' + encodeURIComponent(query)
+                + '&limit=1'
+                + '&viewbox=' + viewbox
+                + '&bounded=0');
+        })
         .then(function (response) {
             if (!response.ok) throw new Error('Réponse Nominatim invalide');
             return response.json();
@@ -1133,6 +1201,8 @@ if (searchForm) {
                 .openPopup();
 
             searchMarker._displayName = resultat.display_name;
+
+            signalerSiHorsZone(lat, lon, '?recherche=' + encodeURIComponent(query));
 
         })
         .catch(function () {
@@ -3226,6 +3296,34 @@ terrainsGeojson
 
 } // fin du if (!window.MAPETANQUE_SKIP_DEFAULT_MARKERS)
 
+// Pages province et région : la flèche « terrain le plus proche » (après une recherche ou une
+// géolocalisation) ne vise que les terrains de la page.
+if (window.MAPETANQUE_STATS_GEO_KEY) {
+    terrainsGeojson.then(function (data) {
+        listeTousLesTerrains = data.features
+            .filter(function (f) { return estDansLaZone(f.properties); })
+            .map(function (f) {
+                return { lat: f.geometry.coordinates[1], lon: f.geometry.coordinates[0], props: f.properties };
+            });
+    });
+}
+
+// Lien « Le voir sur la carte de Belgique » des pages province et région (voir
+// signalerSiHorsZone) : ?recherche=… relance la recherche, ?localiser=1 la géolocalisation. Une
+// fois les terrains chargés, pour que la flèche du terrain le plus proche puisse s'afficher.
+if (searchForm || locateBtn) {
+    const paramsArrivee = new URLSearchParams(window.location.search);
+    const rechercheArrivee = paramsArrivee.get('recherche');
+    terrainsGeojson.then(function () {
+        if (rechercheArrivee && searchForm) {
+            document.getElementById('searchInput').value = rechercheArrivee;
+            searchForm.dispatchEvent(new Event('submit', { cancelable: true }));
+        } else if (paramsArrivee.get('localiser') === '1' && locateBtn) {
+            locateBtn.click();
+        }
+    });
+}
+
 
 // ===================== Chargement des photos Mapillary validées manuellement =====================
 // Association simple osm_id -> {mapillary_id, credit_url}, produite par l'outil de revue
@@ -4687,8 +4785,7 @@ function revenirAccueil() {
     const searchInput = document.getElementById('searchInput');
     if (searchInput) searchInput.value = '';
 
-    const searchError = document.getElementById('searchError');
-    if (searchError) searchError.textContent = '';
+    effacerMessageRecherche();
 
     fermerPartage();
     if (sideMenu) fermerMenu();

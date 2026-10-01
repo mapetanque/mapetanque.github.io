@@ -109,13 +109,16 @@
 /* ===================== Carte "fiche" (.map-wrapper) ===================== */
 
 .map-wrapper {
-    /* 16px sur les côtés, à tous les gabarits (pas de variante mobile séparée, contrairement au
-       modèle province 44px/18px envisagé un temps). Auparavant sans marge latérale, la carte
-       s'étendait bord à bord.
+    /* 16px sur les côtés, et au plus 1100px de large, centrée : la largeur des sections qui
+       suivent (.provinces-container) et du contenu des pages province et région. Largeur posée
+       explicitement : avec des marges latérales « auto », un enfant de .map-view (display:flex)
+       ne s'étire plus de lui-même.
        En haut, margin-top:6px plutôt que 16px directement : .controls (juste au-dessus, dans
        style.css) a déjà margin:10px auto, et .map-view étant en display:flex, les marges entre
        éléments ne fusionnent pas — elles s'additionnent. 6 + 10 = 16px visibles au total. */
-    margin: 6px 16px 0;
+    width: calc(100% - 32px);
+    max-width: 1100px;
+    margin: 6px auto 0;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 6px 24px rgba(30, 50, 20, 0.10);
@@ -145,7 +148,15 @@
     display: none;
 }
 
+/* Sans la photo, le champ de recherche (sans bordure, voir plus haut) se fondait dans le fond
+   blanc : il reprend la bordure qu'il a sur les pages province et région (style.css). */
+.map-view.fullscreen-active .controls .search-form input {
+    border: 1px solid #ccc;
+}
+
 .map-view.fullscreen-active .map-wrapper {
+    width: 100%;
+    max-width: none;
     margin: 0;
     border-radius: 0;
     box-shadow: none;
@@ -373,14 +384,4 @@
 
 .map-view.fullscreen-active .hero-signalement {
     display: none;
-}
-
-/* ===================== Champ de recherche raccourci sur petit écran ===================== */
-/* À 360-400 px de large, « Me localiser » + le champ (180px, voir style.css) ne tenaient plus sur
-   une ligne : les boutons passaient sur deux lignes et ne laissaient aucune place au lien
-   « Signaler un terrain manquant ». 150px les fait tenir dès 360 px dans les quatre langues. */
-@media (max-width: 400px) {
-    .controls .search-form input {
-        width: 150px;
-    }
 }

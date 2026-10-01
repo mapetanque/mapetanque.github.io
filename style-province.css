@@ -5,12 +5,53 @@
    templates/region_template.html).
    ========================================================================================== */
 
-/* Barre de recherche + "Me localiser" masqués sur les pages province : la carte est déjà
-   zoomée automatiquement sur la province au chargement, page plus épurée. Le formulaire reste
-   dans le DOM (juste invisible) car le script de la page l'utilise en coulisses pour la
-   recherche automatique et pour les clics sur les communes. */
-.controls {
+/* Barre « Me localiser » + recherche d'adresse, centrée juste au-dessus de la carte (et non dans
+   la bannière comme à l'accueil : la carte est plus bas dans la page, le résultat aurait été hors
+   de vue). Mêmes identifiants qu'à l'accueil, script.js s'en occupe de la même façon ; sur
+   mobile, « Me localiser » se réduit à son icône (voir .controls dans style.css). */
+.province-map-inline-wrapper .controls {
+    margin: 0 0 10px;
+    padding: 0;
+}
+
+.province-map-inline-wrapper #locateBtn {
+    height: 42px;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.province-map-inline-wrapper .search-form {
+    flex: 0 1 340px;
+    min-width: 0;
+}
+
+.province-map-inline-wrapper .search-form input {
+    width: 100%;
+    max-width: none;
+    height: 42px;
+    padding: 0 16px 0 42px;
+}
+
+/* Message sous la barre (aucun résultat, lieu hors de la carte), sans place réservée tant
+   qu'il est vide. */
+.province-map-inline-wrapper .search-error {
+    margin: -2px 0 10px;
+    min-height: 0;
+}
+
+.province-map-inline-wrapper .search-error:empty {
     display: none;
+}
+
+/* Lieu hors de la carte (voir signalerSiHorsZone dans script.js) : une information, pas une
+   erreur. */
+.search-error.search-info {
+    color: #444;
+}
+
+.search-error.search-info a {
+    color: #56A03D;
+    font-weight: 600;
 }
 
 /* ===================== Bannière photo (.hero-banner) ===================== */
@@ -115,27 +156,60 @@
     font-weight: bold;
 }
 
-/* ===================== Carte (incluse dans la fiche, même largeur que le contenu) ===================== */
+/* ===================== Bandes pleine largeur (modèle de l'accueil) ===================== */
 
-/* Même espacement que celui déjà utilisé entre l'intro et les tuiles (32px), pour rester
-   cohérent : remplace l'ancien titre "Carte des terrains" retiré au-dessus de la carte. */
-.province-map-inline-wrapper {
+/* Bande grise sous la bannière, même gris que l'accueil (.map-view et .beaux-terrains-accueil) :
+   barre de recherche, carte, carrousel et tuiles de statistiques, tous sur 1100px, la largeur
+   des sections de l'accueil (et de sa carte, .map-wrapper). */
+.province-bande-carte {
+    background: #f7f9f6;
+    padding: 20px 16px 48px;
+}
+
+.province-bande-carte > .province-map-inline-wrapper,
+.province-bande-carte > .beaux-terrains-region,
+.province-bande-carte > .province-stats-tiles {
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Bande blanche : texte, liste des communes, rebond. */
+.province-bande-texte {
+    background: #fff;
+    padding: 48px 20px 60px;
+}
+
+.province-bande-interieur {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Titres de section à la taille de l'accueil (.provinces-container h2) */
+.province-communes-section h2,
+.other-provinces-section h2 {
+    font-size: 26px;
+    color: #333;
+    margin: 0 0 24px;
+}
+
+/* ===================== Carte ===================== */
+
+/* 32px séparent la carte de ce qui la suit, le carrousel (pages région et Bruxelles) ou les
+   tuiles de statistiques. « ~ » plutôt que « + » pour les tuiles : le carrousel qui les précède
+   se masque de lui-même quand il est vide. */
+.province-map-inline-wrapper + .beaux-terrains-region,
+.province-map-inline-wrapper ~ .province-stats-tiles {
     margin-top: 32px;
 }
 
-/* Pages région uniquement : l'ordre y est carte puis tuiles de statistiques (inverse des pages
-   province/Bruxelles, où les tuiles précèdent la carte et où la règle ci-dessus suffit déjà à
-   les espacer). Le sélecteur de frère adjacent cible donc seulement le cas où les tuiles suivent
-   directement la carte, sans affecter les pages province. Même valeur (32px) que ci-dessus. */
-.province-map-inline-wrapper + .province-stats-tiles {
-    margin-top: 32px;
-}
-
+/* Même forme que la carte de l'accueil (.map-wrapper) */
 #map {
     width: 100%;
     height: 420px;
-    border-radius: 14px;
+    border-radius: 20px;
     overflow: hidden;
+    box-shadow: 0 6px 24px rgba(30, 50, 20, 0.10);
 }
 
 .map-toast {
@@ -162,12 +236,10 @@
 
 /* ===================== Compatibilité mode plein écran ===================== */
 
+/* Plus rien à montrer dans la bannière en plein écran (titre et fil d'Ariane masqués, la
+   recherche est au-dessus de la carte) : elle disparaît. */
 .map-view.fullscreen-active .hero-banner {
-    height: auto;
-    /* !important nécessaire : l'image de fond est posée en style="" directement sur la balise
-       (une image différente par province), qui passe toujours devant une règle CSS classique. */
-    background-image: none !important;
-    padding: 10px 15px;
+    display: none;
 }
 
 .map-view.fullscreen-active .hero-banner-credit,
@@ -175,62 +247,62 @@
     display: none;
 }
 
-/* La fiche qui contient tout (tuiles, carte, description, liste) s'efface (plus de
-   padding/coins arrondis/ombre) pour laisser #map occuper tout l'espace disponible — la règle
-   "height:100%" sur #map vient de style.css (non modifié), on l'aide juste à s'appliquer
-   correctement ici. */
-.map-view.fullscreen-active .province-content {
-    max-width: none;
-    width: 100%;
-    margin: 0;
+/* La bande grise (barre, carte, carrousel, tuiles) s'efface pour laisser #map occuper tout
+   l'espace disponible ; la bande blanche, hors de .map-view, reste cachée sous le plein écran. */
+.map-view.fullscreen-active .province-bande-carte {
+    background: none;
     padding: 0;
-    border-radius: 0;
-    box-shadow: none;
     height: 100%;
     display: flex;
     flex-direction: column;
 }
 
-.map-view.fullscreen-active .province-intro,
-.map-view.fullscreen-active .province-stats-tiles,
-.map-view.fullscreen-active .province-communes-section,
-.map-view.fullscreen-active .other-provinces-section {
+.map-view.fullscreen-active #beaux-terrains,
+.map-view.fullscreen-active .province-stats-tiles {
     display: none;
 }
 
-/* #map n'est pas lui-même un enfant flex de .province-content (il est imbriqué dans
+/* #map n'est pas lui-même un enfant flex de .province-bande-carte (il est imbriqué dans
    .province-map-inline-wrapper) : donner du "flex: 1 1 auto" à #map directement n'avait donc
    aucun effet, et la carte restait coincée à sa hauteur normale (420px) avec beaucoup de vide en
    dessous. C'est le wrapper qui doit grandir ; #map n'a plus qu'à occuper 100% de sa hauteur. */
 .map-view.fullscreen-active .province-map-inline-wrapper {
     flex: 1 1 auto;
-    margin-top: 0;
-}
-
-.map-view.fullscreen-active #map {
-    height: 100%;
-    border-radius: 0;
-}
-
-/* ===================== Contenu province (une seule fiche blanche flottante) ===================== */
-
-.province-content {
-    align-self: center;
     width: 100%;
-    max-width: 1100px;
-    margin: 25px 0 30px;
-    padding: 44px;
-    background: #fff;
-    border-radius: 22px;
-    box-shadow: 0 6px 28px rgba(30, 50, 20, 0.08);
-    box-sizing: border-box;
+    max-width: none;
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
 }
+
+/* La barre de recherche reste au-dessus de la carte : #map prend la hauteur restante. */
+.map-view.fullscreen-active #map {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.map-view.fullscreen-active .province-map-inline-wrapper .controls {
+    padding: 10px 15px 0;
+}
+
+/* style.css masque le message de recherche en plein écran ; ici il reste utile (lieu hors de
+   la carte). */
+.map-view.fullscreen-active .province-map-inline-wrapper .search-error:not(:empty) {
+    display: block;
+    padding: 0 15px;
+}
+
+/* ===================== Contenu ===================== */
 
 .province-intro {
     font-size: 16px;
     line-height: 1.65;
     color: #444;
-    margin: 32px 0;
+    margin: 0 0 48px;
 }
 
 .province-stats-tiles {
@@ -266,12 +338,6 @@
     color: #666;
     margin-top: 7px;
     line-height: 1.3;
-}
-
-.province-communes-section h2 {
-    font-size: 19px;
-    color: #333;
-    margin: 0 0 16px;
 }
 
 .commune-search {
@@ -362,67 +428,16 @@
     grid-column: 1 / -1;
 }
 
-/* ===================== Autres provinces (navigation) ===================== */
+/* ===================== Rebond : autres provinces, régions (tuiles photo) ===================== */
 
-.other-provinces-section {
-    margin-top: 40px;
-    padding-top: 34px;
-    border-top: 1px solid #f0f2ee;
+.province-communes-section + .other-provinces-section {
+    margin-top: 56px;
 }
-
-.other-provinces-section h2 {
-    font-size: 19px;
-    color: #333;
-    margin: 0 0 18px;
-}
-
-.other-provinces-group {
-    margin-bottom: 16px;
-}
-
-.other-provinces-group:last-child {
-    margin-bottom: 0;
-}
-
-.other-provinces-group-label {
-    display: block;
-    font-size: 12.5px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    color: #999;
-    margin-bottom: 8px;
-}
-
-.other-provinces-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.other-provinces-links a {
-    display: inline-block;
-    padding: 7px 14px;
-    background: #f7f9f6;
-    border: 1px solid #e2e6de;
-    border-radius: 20px;
-    font-size: 13.5px;
-    font-weight: 600;
-    color: #444;
-    text-decoration: none;
-    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-}
-
-.other-provinces-links a:hover {
-    background: #74C15A;
-    border-color: #74C15A;
-    color: #fff;
-}
-
-/* ===================== Provinces de la région (tuiles photo) ===================== */
 
 /* Mêmes tuiles que « Parcourir par province » sur l'accueil (style-accueil-provinces.css, non
-   chargée sur ces pages), avec en plus le nombre de terrains. */
+   chargée sur ces pages), avec en plus le nombre de terrains. Pages région : les provinces de la
+   région ; pages province : leur région puis les autres provinces de celle-ci ; Bruxelles : les
+   deux régions (.tuiles-deux). */
 .tuiles-provinces {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -477,6 +492,16 @@
     bottom: 10px;
     font-size: 12.5px;
     opacity: 0.9;
+}
+
+/* Deux tuiles seulement (Bruxelles) : moitié de largeur chacune, moins hautes pour ne pas
+   occuper tout l'écran. */
+.tuiles-provinces.tuiles-deux {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.tuiles-deux .tuile-province {
+    padding-top: 36%;
 }
 
 /* ===================== Bulle du résultat de recherche ===================== */
@@ -536,8 +561,12 @@
         gap: 8px;
     }
 
-    .province-content {
-        padding: 28px 18px 50px;
+    .province-bande-carte {
+        padding: 16px 16px 40px;
+    }
+
+    .province-bande-texte {
+        padding: 40px 16px 50px;
     }
 
     .commune-list {
@@ -546,8 +575,9 @@
     }
 }
 
-/* Sous 800px : 2 colonnes, la première tuile (province qui compte le plus de terrains) sur
-   toute la largeur — 5 tuiles, sans en laisser une seule sur la dernière ligne. */
+/* Sous 800px : 2 colonnes, la première tuile (province qui compte le plus de terrains, ou la
+   région sur les pages province) sur toute la largeur — 5 tuiles, sans en laisser une seule sur
+   la dernière ligne. */
 @media (max-width: 800px) {
     .tuiles-provinces {
         grid-template-columns: repeat(2, 1fr);
@@ -557,6 +587,15 @@
     .tuiles-provinces .tuile-province:first-child {
         grid-column: 1 / -1;
         padding-top: 45%;
+    }
+
+    .tuiles-deux .tuile-province:first-child {
+        grid-column: auto;
+    }
+
+    .tuiles-deux .tuile-province,
+    .tuiles-deux .tuile-province:first-child {
+        padding-top: 75%;
     }
 }
 

@@ -95,26 +95,6 @@
 
 </div>
 
-<div class="controls">
-    <button id="locateBtn">
-        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-        <span data-i18n="locate_btn">Me localiser</span>
-    </button>
-
-    <form id="searchForm" class="search-form">
-        <input
-            type="text"
-            id="searchInput"
-            data-i18n-placeholder="search_placeholder"
-            autocomplete="off"
-        >
-        <button type="submit" id="searchBtn" aria-label="Suchen" data-i18n-aria="signalement_search_btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        </button>
-    </form>
-
-</div>
-
 <!-- Crédit photo bannière -->
 <div class="hero-banner-credit">
     Photo : Missvain, d'après une image de Klaus with K, <a href="https://commons.wikimedia.org/w/index.php?curid=35827473" target="_blank" rel="noopener">CC BY-SA 3.0</a>
@@ -145,8 +125,6 @@
 </nav>
 
 <div id="menu-overlay"></div>
-
-<p id="searchError" class="search-error"></p>
 
 <!-- Panneau de partage réutilisable (site ou terrain précis) -->
 <div id="share-overlay"></div>
@@ -227,13 +205,41 @@
 </div>
 
 
-<!-- Tuiles + carte + description + liste des communes : une seule fiche, toujours à l'intérieur
-     de .map-view (nécessaire pour que le mode plein écran continue de fonctionner sur #map). -->
-<div class="province-content">
+<!-- Deux bandes pleine largeur, sur le modèle de l'accueil. Bande grise : barre de recherche,
+     carte, carrousel (pages région et Bruxelles) et tuiles de statistiques. Elle reste dans
+     .map-view, nécessaire pour que le mode plein écran fonctionne sur #map. -->
+<div class="province-bande-carte">
 
-    <!-- Section "Les plus beaux terrains", à la place des anciennes tuiles de statistiques
-         (redescendues sous la carte juste en dessous). Remplie par /beaux-terrains.js à partir
-         de /data/beaux_terrains.json, restreinte à cette région via data-region : la clé
+    <div class="province-map-inline-wrapper" style="position: relative;">
+        <!-- Barre « Me localiser » + recherche d'adresse, juste au-dessus de la carte : la carte
+             est plus bas dans la page qu'à l'accueil, une recherche depuis la bannière aurait
+             donné un résultat hors de vue. Mêmes identifiants qu'à l'accueil (voir script.js). -->
+        <div class="controls">
+            <button id="locateBtn" data-i18n-aria="locate_btn">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <span data-i18n="locate_btn">Me localiser</span>
+            </button>
+
+            <form id="searchForm" class="search-form">
+                <input
+                    type="text"
+                    id="searchInput"
+                    data-i18n-placeholder="search_placeholder"
+                    autocomplete="off"
+                >
+                <button type="submit" id="searchBtn" aria-label="Suchen" data-i18n-aria="signalement_search_btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+            </form>
+        </div>
+        <p id="searchError" class="search-error"></p>
+        <div id="map"></div>
+        <div class="map-toast" id="mapToast"></div>
+    </div>
+
+    <!-- Section "Les plus beaux terrains", entre la carte et les tuiles de statistiques. Remplie
+         par /beaux-terrains.js à partir de /data/beaux_terrains.json, restreinte à cette région
+         via data-region : la clé
          flandre ("flandre"/"wallonie"/"bruxelles") est la même que celle utilisée plus
          bas pour filtrer les terrains de la carte. Pas de géolocalisation ici, la page impose
          déjà sa région. La section se masque d'elle-même si aucun terrain n'y est sélectionné. -->
@@ -244,11 +250,6 @@
             <div class="beaux-terrains-scroller"></div>
         </div>
     </section>
-
-    <div class="province-map-inline-wrapper" style="position: relative;">
-        <div id="map"></div>
-        <div class="map-toast" id="mapToast"></div>
-    </div>
 
     <div class="province-stats-tiles">
         <div class="province-stat-tile">
@@ -265,6 +266,14 @@
         </div>
     </div>
 
+</div>
+
+</div><!-- /.map-view -->
+
+<!-- Bande blanche : texte, tuiles des provinces, comme « Parcourir par région /
+     province » sur l'accueil. -->
+<div class="province-bande-texte">
+<div class="province-bande-interieur">
     <p class="province-intro">
         Flandern zählt <strong>1185 Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>5 Provinzen</strong> und <strong>287 Gemeinden</strong>. Ostflandern führt mit 299 Plätzen, gefolgt von der Provinz Antwerpen mit 286 und Westflandern mit 222. Ob in Ostflandern, Antwerpen oder Westflandern – hier finden Sie alle flämischen Provinzen, um Ihre Suche zu verfeinern.
     </p>
@@ -298,8 +307,7 @@
     </div>
 
 </div>
-
-</div><!-- /.map-view -->
+</div>
 
 <!-- Panneau d'info coulissant -->
 
