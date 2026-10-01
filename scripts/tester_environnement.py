@@ -561,6 +561,9 @@ def main():
             "itineraire": bool(rels),
             "national": any(r.get("network") in ("icn", "ncn") for r in rels),
             "nom": bool(RE_VOIE_VERTE.search(" ".join([tags.get("name", "")] + [r.get("name", "") for r in rels]))),
+            "way": el["id"],
+            "way_nom": tags.get("name", ""),
+            "rels": sorted({(r.get("network", "?"), r.get("name") or r.get("ref") or "?") for r in rels}),
         }
         idx["velo"].ajouter(el, info)
 
@@ -615,6 +618,8 @@ def main():
                 variantes.append("V3_national_ou_ravel")
             for v in variantes:
                 velo[v] = min(d, velo.get(v, math.inf))
+            if "V3_national_ou_ravel" in variantes and d <= 200 and d < r.get("velo_ex", (math.inf,))[0]:
+                r["velo_ex"] = (d, info)
         r["velo"] = velo
         # Nature
         nat = [z for z in zones
@@ -747,6 +752,34 @@ def afficher(terrains, res):
         compte[cause] += 1
     for c, n in compte.most_common():
         print(f"  {c:<22} {n:5d}  {n / len(terrains) * 100:5.1f} %")
+
+    # Voie verte retenue (V3 à 200 m) : sur quoi repose chaque cas, pour vérification
+    print("\nVOIE VERTE V3 À 200 m : motif du chemin le plus proche")
+    exemples = [(t, res[t["id"]]["velo_ex"]) for t in terrains if "velo_ex" in res[t["id"]]]
+    motifs, routes, mots = Counter(), Counter(), Counter()
+    for t, (d, info) in exemples:
+        motifs["réseau national/international" if info["national"] else "nom seulement"] += 1
+        for reseau, nom in info["rels"]:
+            routes[f"{reseau} · {nom}"] += 1
+        texte = " ".join([info["way_nom"]] + [n for _, n in info["rels"]])
+        for m in RE_VOIE_VERTE.findall(texte):
+            mots[m.lower()] += 1
+    for k, n in motifs.most_common():
+        print(f"  {k:<32} {n:5d}")
+    print("  mots-clés trouvés : " + ", ".join(f"{k} {n}" for k, n in mots.most_common()))
+    print("  itinéraires les plus fréquents :")
+    for k, n in routes.most_common(40):
+        print(f"    {n:4d}  {k}")
+    print("  échantillon (terrain, distance, chemin, nom du chemin, itinéraires) :")
+    import random
+    random.seed(1)
+    for t, (d, info) in random.sample(exemples, min(25, len(exemples))):
+        print(f"    {t['id']:<16} {d:4.0f} m  way/{info['way']}  « {info['way_nom']} »  "
+              + " | ".join(f"{r} {n}" for r, n in info["rels"])[:160])
+    print("  cas « nom seulement » :")
+    for t, (d, info) in [e for e in exemples if not e[1]["national"]][:25]:
+        print(f"    {t['id']:<16} {d:4.0f} m  way/{info['way']}  « {info['way_nom']} »  "
+              + " | ".join(f"{r} {n}" for r, n in info["rels"])[:160])
 
     # Répartition des distances pour les critères avec distance
     print("\nDISTANCES (terrains où l'élément est trouvé) : médiane et quartiles, en m")
