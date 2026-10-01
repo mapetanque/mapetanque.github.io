@@ -2348,8 +2348,8 @@ function formaterDistanceKm(km) {
 // criteresOsmSurPlace, estAbriteOsm…) sont dans /criteres.js, chargé avant ce fichier : la page
 // admin s'en sert aussi.
 
-// "way/123" -> { ombrage: [nombre, "AAAA-MM"], ... } — un seul GET pour tout le site, comme les
-// notes. Vide tant que la réponse n'est pas arrivée ; l'événement mapetanque:criteres redessine
+// "way/123" -> { ombrage: [nombre, "AAAA-MM"], ... }, cumulé par groupe de pistes voisines (voir
+// « Terrains voisins ») — un seul GET pour tout le site, comme les notes. Vide tant que la réponse n'est pas arrivée ; l'événement mapetanque:criteres redessine
 // alors les fiches ouvertes.
 window.mapetanqueCriteres = {};
 
@@ -3216,18 +3216,118 @@ if (MAPETANQUE_AFFICHER_DESCRIPTIONS) {
 // moment du déploiement du Worker.
 var MAPETANQUE_URL_NOTES = "https://mapetanque-notes.mapetanque.workers.dev";
 
+// ===================== Terrains voisins =====================
+// Plusieurs pistes côte à côte sont souvent autant de terrains dans OSM, alors que c'est un seul
+// endroit pour un joueur : une note, un critère des joueurs ou un avis déposé sur une piste vaut
+// pour ses voisines. Les groupes (centres à 25 m au plus, de proche en proche) sont calculés par
+// scripts/grouper_terrains.py dans data/groupes_terrains.json.
+// Le cumul se fait ici, à la lecture : le Worker garde chaque piste séparée, les données déjà
+// déposées en profitent, et changer le seuil ne demande rien côté base. Les données brutes
+// restent dans mapetanqueBrut ; window.mapetanqueNotes, mapetanqueCriteres et mapetanqueAvis
+// portent le cumul du groupe sous l'osm_id de CHAQUE piste, si bien que les fiches, les filtres
+// et le carrousel n'ont rien à savoir des groupes.
+var mapetanqueGroupes = {};   // osm_id -> osm_id de toutes les pistes de son groupe (absent = isolé)
+var mapetanqueBrut = { notes: {}, criteres: {}, avis: null };
+
+function membresGroupe(osmId) {
+    return mapetanqueGroupes[osmId] || [osmId];
+}
+
+// Piste du groupe où ce navigateur a déjà voté (ou, à défaut, envoyé un avis) : ses envois
+// suivants y vont aussi, pour qu'un même visiteur ne compte pas deux fois dans le cumul en passant
+// d'une piste à l'autre (le jeton de vote ne vaut que pour sa piste). Sinon, la piste ouverte.
+function terrainCible(osmId) {
+    var membres = membresGroupe(osmId);
+    if (mapetanqueVoteLocal(osmId)) return osmId;
+    for (var i = 0; i < membres.length; i++) {
+        if (mapetanqueVoteLocal(membres[i])) return membres[i];
+    }
+    for (var j = 0; j < membres.length; j++) {
+        if (mapetanqueAvisDejaEnvoye(membres[j])) return membres[j];
+    }
+    return osmId;
+}
+
+// Recopie les données brutes de chaque piste sur toutes les pistes de son groupe, puis prévient
+// les fiches ouvertes et le carrousel.
+//   notes    : [somme, nombre] additionnés ;
+//   critères : nombres de confirmations additionnés, mois le plus récent ;
+//   avis     : listes mises bout à bout, du plus récent au plus ancien.
+function cumulerNotes() {
+    var cumul = {};
+    Object.keys(mapetanqueBrut.notes).forEach(function (id) {
+        var brut = mapetanqueBrut.notes[id];
+        membresGroupe(id).forEach(function (m) {
+            var c = cumul[m] || (cumul[m] = [0, 0]);
+            c[0] += brut[0];
+            c[1] += brut[1];
+        });
+    });
+    window.mapetanqueNotes = cumul;
+    window.dispatchEvent(new CustomEvent('mapetanque:notes'));
+}
+
+function cumulerCriteres() {
+    var cumul = {};
+    Object.keys(mapetanqueBrut.criteres).forEach(function (id) {
+        var brut = mapetanqueBrut.criteres[id] || {};
+        membresGroupe(id).forEach(function (m) {
+            var c = cumul[m] || (cumul[m] = {});
+            Object.keys(brut).forEach(function (cle) {
+                var actuel = c[cle] || [0, ''];
+                c[cle] = [actuel[0] + brut[cle][0], actuel[1] > brut[cle][1] ? actuel[1] : brut[cle][1]];
+            });
+        });
+    });
+    window.mapetanqueCriteres = cumul;
+    window.dispatchEvent(new CustomEvent('mapetanque:criteres'));
+}
+
+function cumulerAvis() {
+    if (!mapetanqueBrut.avis) return;   // pas encore chargés : mapetanqueAvis reste null
+    var cumul = {};
+    Object.keys(mapetanqueBrut.avis).forEach(function (id) {
+        membresGroupe(id).forEach(function (m) {
+            cumul[m] = (cumul[m] || []).concat(mapetanqueBrut.avis[id]);
+        });
+    });
+    // Tri stable par mois : l'ordre d'arrivée est gardé à l'intérieur d'un même mois.
+    Object.keys(cumul).forEach(function (m) {
+        cumul[m].sort(function (a, b) { return a[3] < b[3] ? 1 : a[3] > b[3] ? -1 : 0; });
+    });
+    window.mapetanqueAvis = cumul;
+    window.dispatchEvent(new CustomEvent('mapetanque:avis'));
+}
+
+// Groupes arrivés après les données : on refait les trois cumuls. Échec : chaque piste garde
+// simplement ses propres données, comme avant les groupes.
+fetch('/data/groupes_terrains.json')
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (groupes) {
+        if (!Array.isArray(groupes)) return;
+        groupes.forEach(function (groupe) {
+            groupe.forEach(function (id) { mapetanqueGroupes[id] = groupe; });
+        });
+        cumulerNotes();
+        cumulerCriteres();
+        cumulerAvis();
+    })
+    .catch(function () { });
+
+
 // window.x = explicite plutôt que const/let : ces fonctions sont lues depuis beaux-terrains.js,
 // et const/let ne créent PAS de propriété sur window (même piège que brancherPopupTerrain).
-window.mapetanqueNotes = {};   // "node/123456789" -> [somme, nombre]
+window.mapetanqueNotes = {};   // "node/123456789" -> [somme, nombre], cumulé par groupe de pistes
 
 fetch(MAPETANQUE_URL_NOTES + '/notes')
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (data) {
         if (!data) return;
-        window.mapetanqueNotes = data;
-        // Les tuiles du carrousel sont déjà dessinées à ce moment : elles se redessinent sur cet
-        // événement, plutôt que de faire attendre le réseau avant le premier affichage.
-        window.dispatchEvent(new CustomEvent('mapetanque:notes'));
+        mapetanqueBrut.notes = data;
+        // Les tuiles du carrousel sont déjà dessinées à ce moment : elles se redessinent sur
+        // l'événement mapetanque:notes, plutôt que de faire attendre le réseau avant le premier
+        // affichage.
+        cumulerNotes();
     })
     .catch(function () { /* pas de note affichée ; le vote reste possible */ });
 
@@ -3293,8 +3393,8 @@ fetch(MAPETANQUE_URL_NOTES + '/criteres')
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (data) {
         if (!data) return;
-        window.mapetanqueCriteres = data;
-        window.dispatchEvent(new CustomEvent('mapetanque:criteres'));
+        mapetanqueBrut.criteres = data;
+        cumulerCriteres();
     })
     .catch(function () { /* fiches sans les critères des joueurs ; les critères OSM restent */ });
 
@@ -3328,7 +3428,8 @@ function mapetanqueMemoriserConfirmations(osmId, liste) {
 var MAPETANQUE_URL_AVIS_ENVOI = "https://mapetanque-admin.mapetanque.workers.dev/avis/envoi";
 var AVIS_TAILLE_MAX = 280;
 
-// "node/123" -> [[texte, pseudo, note, "AAAA-MM"], ...], du plus récent au plus ancien.
+// "node/123" -> [[texte, pseudo, note, "AAAA-MM"], ...], du plus récent au plus ancien, avis des
+// pistes voisines compris (voir « Terrains voisins »).
 // null tant que la réponse n'est pas arrivée : la fiche n'affiche alors pas de lien « N avis »,
 // ajouté à l'arrivée (événement mapetanque:avis).
 window.mapetanqueAvis = null;
@@ -3336,13 +3437,13 @@ window.mapetanqueAvis = null;
 fetch(MAPETANQUE_URL_NOTES + '/avis')
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (data) {
-        window.mapetanqueAvis = data || {};
-        window.dispatchEvent(new CustomEvent('mapetanque:avis'));
+        mapetanqueBrut.avis = data || {};
+        cumulerAvis();
     })
     .catch(function () {
         // Worker injoignable : les fiches restent sans avis, l'écriture reste possible.
-        window.mapetanqueAvis = {};
-        window.dispatchEvent(new CustomEvent('mapetanque:avis'));
+        mapetanqueBrut.avis = {};
+        cumulerAvis();
     });
 
 function echapperAvis(texte) {
@@ -3460,7 +3561,10 @@ function brancherFicheTerrain(e, feature) {
     if (!osmId || !panneauNoter || !panneauAvis || !boutonNoter) return;
 
     // --- Ouverture des panneaux --------------------------------------------------------------
+    var panneauxTouches = false;   // le visiteur a déjà ouvert ou fermé un panneau lui-même
+
     function basculer(panneau) {
+        panneauxTouches = true;
         var ouvrir = panneau.hidden;
         panneauNoter.hidden = true;
         panneauAvis.hidden = true;
@@ -3474,6 +3578,18 @@ function brancherFicheTerrain(e, feature) {
         if (lien) lien.setAttribute('aria-expanded', String(!panneauAvis.hidden));
     }
     boutonNoter.addEventListener('click', function () { basculer(panneauNoter); });
+
+    // Les avis sont dépliés d'office quand le terrain en a : à l'ouverture de la fiche, ou à leur
+    // arrivée si elle est plus tardive — sauf si le visiteur a entre-temps ouvert ou fermé un
+    // panneau lui-même. Le lien « N avis » les replie.
+    function deplierAvisParDefaut() {
+        if (panneauxTouches || !panneauAvis.hidden || !panneauNoter.hidden) return;
+        if (!((window.mapetanqueAvis || {})[osmId] || []).length) return;
+        afficherAvis();
+        panneauAvis.hidden = false;
+        var lien = fiche.querySelector('.fiche-lien-avis');
+        if (lien) lien.setAttribute('aria-expanded', 'true');
+    }
 
     // --- Ligne de résumé ---------------------------------------------------------------------
     function majResume() {
@@ -3525,7 +3641,7 @@ function brancherFicheTerrain(e, feature) {
             // Avis : le champ est là dès l'ouverture (un avis sans note reste permis) ; le reste du
             // formulaire n'apparaît qu'au premier caractère.
             + '<form class="avis-form" novalidate>'
-            + (mapetanqueAvisDejaEnvoye(osmId) ? '<p class="avis-info">' + t('avis_remplacera') + '</p>' : '')
+            + (mapetanqueAvisDejaEnvoye(terrainCible(osmId)) ? '<p class="avis-info">' + t('avis_remplacera') + '</p>' : '')
             + '<label for="avis-texte-' + suffixe + '">' + t('fiche_votre_avis') + ' <span class="avis-facultatif">' + t('avis_facultatif') + '</span></label>'
             + '<textarea id="avis-texte-' + suffixe + '" name="texte" maxlength="' + AVIS_TAILLE_MAX + '" placeholder="' + t('fiche_avis_exemple') + '"></textarea>'
             + '<div class="avis-suite" hidden>'
@@ -3550,7 +3666,7 @@ function brancherFicheTerrain(e, feature) {
 
     // État du panneau d'après le vote mémorisé sur cet appareil : étoiles, libellé, cases, mention.
     function etatNote() {
-        var vote = mapetanqueVoteLocal(osmId);
+        var vote = mapetanqueVoteLocal(terrainCible(osmId));
         noteActuelle = vote ? vote.note : 0;
         peindre(noteActuelle);
         afficherLibelle(vote ? '✓ ' + t('fiche_note_enregistree') : t('notation_votre_note'), vote ? 'ok' : '');
@@ -3602,13 +3718,15 @@ function brancherFicheTerrain(e, feature) {
         noteActuelle = note;
         peindre(note);
 
-        var voteExistant = mapetanqueVoteLocal(osmId);
+        // Piste voisine déjà notée depuis ce navigateur : on modifie ce vote-là (voir terrainCible).
+        var cible = terrainCible(osmId);
+        var voteExistant = mapetanqueVoteLocal(cible);
 
         fetch(MAPETANQUE_URL_NOTES + '/vote', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                osm_id: osmId,
+                osm_id: cible,
                 note: note,
                 jeton: voteExistant ? voteExistant.jeton : undefined
             })
@@ -3626,13 +3744,13 @@ function brancherFicheTerrain(e, feature) {
                     return;
                 }
 
-                mapetanqueMemoriserVote(osmId, note, data.jeton);
+                mapetanqueMemoriserVote(cible, note, data.jeton);
 
-                // Le Worker renvoie l'agrégat à jour : on le recopie dans le cache local plutôt que
-                // de relancer un GET /notes, mis en cache 5 min et qui renverrait l'ancienne valeur.
-                // L'événement met à jour la ligne de résumé et les tuiles du carrousel.
-                window.mapetanqueNotes[osmId] = [data.somme, data.nombre];
-                window.dispatchEvent(new CustomEvent('mapetanque:notes'));
+                // Le Worker renvoie l'agrégat à jour de la piste : on le recopie dans le cache local
+                // plutôt que de relancer un GET /notes, mis en cache 5 min et qui renverrait
+                // l'ancienne valeur. Le cumul prévient la ligne de résumé et le carrousel.
+                mapetanqueBrut.notes[cible] = [data.somme, data.nombre];
+                cumulerNotes();
                 etatNote();
             })
             .catch(function () {
@@ -3645,7 +3763,7 @@ function brancherFicheTerrain(e, feature) {
 
     // --- Cases des joueurs -------------------------------------------------------------------
     function majCases() {
-        var confirmes = mapetanqueConfirmationsLocales(osmId);
+        var confirmes = mapetanqueConfirmationsLocales(terrainCible(osmId));
         panneauNoter.querySelectorAll('.critere-case').forEach(function (bouton) {
             bouton.setAttribute('aria-pressed', String(confirmes.indexOf(bouton.getAttribute('data-critere')) !== -1));
         });
@@ -3654,7 +3772,8 @@ function brancherFicheTerrain(e, feature) {
     // Cocher confirme (ou rafraîchit la date), décocher retire. La case change tout de suite et
     // revient en arrière si l'envoi échoue.
     function basculerCase(bouton) {
-        var vote = mapetanqueVoteLocal(osmId);
+        var cible = terrainCible(osmId);
+        var vote = mapetanqueVoteLocal(cible);
         if (!vote || !vote.jeton || bouton.disabled) return;
 
         var erreur = panneauNoter.querySelector('.noter-erreur');
@@ -3669,18 +3788,18 @@ function brancherFicheTerrain(e, feature) {
         fetch(MAPETANQUE_URL_NOTES + '/confirmation', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ osm_id: osmId, jeton: vote.jeton, criteres: criteres })
+            body: JSON.stringify({ osm_id: cible, jeton: vote.jeton, criteres: criteres })
         })
             .then(function (r) {
                 if (!r.ok) throw new Error('Réponse HTTP ' + r.status);
                 return r.json();
             })
             .then(function (data) {
-                mapetanqueMemoriserConfirmations(osmId, data.confirmes);
+                mapetanqueMemoriserConfirmations(cible, data.confirmes);
                 majCases();
-                // Compteurs à jour du terrain, sans attendre le cache de GET /criteres.
-                window.mapetanqueCriteres[osmId] = data.criteres || {};
-                window.dispatchEvent(new CustomEvent('mapetanque:criteres'));
+                // Compteurs à jour de la piste, sans attendre le cache de GET /criteres.
+                mapetanqueBrut.criteres[cible] = data.criteres || {};
+                cumulerCriteres();
             })
             .catch(function () {
                 bouton.setAttribute('aria-pressed', String(!coche));
@@ -3694,7 +3813,7 @@ function brancherFicheTerrain(e, feature) {
     function majMention() {
         var mention = panneauNoter.querySelector('.avis-mention');
         if (!mention) return;
-        var vote = mapetanqueVoteLocal(osmId);
+        var vote = mapetanqueVoteLocal(terrainCible(osmId));
         mention.textContent = t('avis_mention')
             + (vote ? ' ' + t('fiche_note_jointe').replace('%n', vote.note + ' ★') : '');
     }
@@ -3721,13 +3840,16 @@ function brancherFicheTerrain(e, feature) {
         var formulaire = evt.currentTarget;
         var bouton = formulaire.querySelector('.avis-btn-envoyer');
         var erreur = formulaire.querySelector('.avis-erreur');
-        var vote = mapetanqueVoteLocal(osmId);
+        // Même piste que le vote : la note jointe à l'avis est retrouvée par ce jeton, et un
+        // nouvel avis remplace le précédent du même auteur sur la même piste.
+        var cible = terrainCible(osmId);
+        var vote = mapetanqueVoteLocal(cible);
         var auteur = mapetanqueAuteurAvis();
 
         // FormData plutôt que JSON : envoi « simple », sans requête OPTIONS préalable, comme
         // les photos et les signalements vers le même Worker.
         var donnees = new FormData();
-        donnees.set('osm_id', osmId);
+        donnees.set('osm_id', cible);
         donnees.set('texte', formulaire.querySelector('[name="texte"]').value);
         donnees.set('pseudo', formulaire.querySelector('[name="pseudo"]').value);
         donnees.set('_gotcha', formulaire.querySelector('[name="_gotcha"]').value);
@@ -3747,7 +3869,7 @@ function brancherFicheTerrain(e, feature) {
                 });
             })
             .then(function () {
-                mapetanqueMemoriserAvisEnvoye(osmId);
+                mapetanqueMemoriserAvisEnvoye(cible);
                 var merci = document.createElement('div');
                 merci.className = 'avis-merci';
                 merci.textContent = '✓ ' + t('avis_merci');
@@ -3773,12 +3895,16 @@ function brancherFicheTerrain(e, feature) {
             zoneCriteres.innerHTML = criteresHtml(tags);
         } else {
             majResume();
-            if (evt.type === 'mapetanque:avis' && !panneauAvis.hidden) afficherAvis();
+            if (evt.type === 'mapetanque:avis') {
+                if (!panneauAvis.hidden) afficherAvis();
+                else deplierAvisParDefaut();
+            }
         }
     }
     EVENEMENTS.forEach(function (nom) { window.addEventListener(nom, surDonnees); });
 
     majResume();
+    deplierAvisParDefaut();
 }
 
 

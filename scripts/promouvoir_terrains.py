@@ -7,10 +7,12 @@ rafraîchir data/terrains.geojson).
 Usage :
     python scripts/promouvoir_terrains.py
 
-Pour chaque terrain noté par les visiteurs (lu sur le Worker Cloudflare, route /notes) :
-  - écarte les épinglés (déjà dans data/beaux_terrains.json) ;
+Pour chaque terrain noté par les visiteurs (lu sur le Worker Cloudflare, route /notes), votes des
+pistes voisines cumulés (data/groupes_terrains.json, voir grouper_terrains.py) :
+  - écarte les épinglés (déjà dans data/beaux_terrains.json), et leurs pistes voisines ;
   - garde ceux qui ont au moins NB_VOTES_MIN votes et une moyenne d'au moins MOYENNE_MIN ;
-  - exige une photo validée dans data/photos_mapillary.json (la première de la liste) ;
+  - exige une photo validée dans data/photos_mapillary.json (la première de la liste) ; une seule
+    piste par groupe est promue, la plus notée parmi celles qui ont une photo ;
   - génère sa miniature carrée si elle n'existe pas encore :
       * photo classique : téléchargée via l'API Mapillary et recadrée, exactement comme
         generer_miniatures_carrees.py — ses fonctions sont réutilisées telles quelles ;
@@ -42,6 +44,7 @@ from PIL import Image
 # Python ajoute le dossier du script lancé (scripts/) à sys.path, donc l'import fonctionne depuis
 # la racine du dépôt comme depuis scripts/.
 from generer_miniatures_carrees import telecharger_photo, recadrer_carre, DOSSIER_SORTIE
+from grouper_terrains import charger_groupes
 
 RACINE = pathlib.Path(__file__).resolve().parent.parent
 CHEMIN_TERRAINS = RACINE / "data" / "terrains.geojson"
@@ -125,27 +128,41 @@ def main():
     photos = charger_json(CHEMIN_PHOTOS)
     epingles = {t.get("osm_id") for t in charger_json(CHEMIN_EPINGLES)}
 
-    promus = []
+    # Votes cumulés par groupe de pistes voisines, comme sur le site (script.js).
+    groupe_de = charger_groupes()
+    cumuls = {}     # tuple des osm_id du groupe -> [somme, nombre]
+    votes_piste = {}
     for osm_id, valeurs in notes.items():
         try:
             somme, nombre = int(valeurs[0]), int(valeurs[1])
         except (TypeError, ValueError, IndexError):
             continue
+        votes_piste[osm_id] = nombre
+        cumul = cumuls.setdefault(tuple(groupe_de.get(osm_id, [osm_id])), [0, 0])
+        cumul[0] += somme
+        cumul[1] += nombre
 
-        if osm_id in epingles:
+    promus = []
+    for groupe, (somme, nombre) in cumuls.items():
+        if any(m in epingles for m in groupe):
             continue
         if nombre < NB_VOTES_MIN or somme / nombre < MOYENNE_MIN:
             continue
 
-        feature = terrains.get(osm_id)
-        if not feature:
-            print(f"  - {osm_id} : plus dans terrains.geojson (retiré d'OSM ?), ignoré")
+        presents = [m for m in groupe if m in terrains]
+        if not presents:
+            print(f"  - {', '.join(groupe)} : plus dans terrains.geojson (retiré d'OSM ?), ignoré")
             continue
 
-        liste_photos = photos.get(osm_id) or []
-        if not liste_photos:
-            print(f"  - {osm_id} : bien noté mais sans photo validée, ignoré")
+        # Une seule piste du groupe dans le carrousel : la plus notée parmi celles qui ont une photo.
+        presents.sort(key=lambda m: votes_piste.get(m, 0), reverse=True)
+        osm_id = next((m for m in presents if photos.get(m)), None)
+        if not osm_id:
+            print(f"  - {presents[0]} : bien noté mais sans photo validée, ignoré")
             continue
+
+        feature = terrains[osm_id]
+        liste_photos = photos[osm_id]
 
         miniature = assurer_miniature(liste_photos[0])
         if not miniature:

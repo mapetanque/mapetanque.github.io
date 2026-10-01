@@ -601,6 +601,9 @@ const URL_APPARITIONS = "/data/terrains_apparition.json";
 // critères confirmés par les joueurs (même paquet public que le site, Worker des notes).
 const URL_TERRAINS = "/data/terrains.geojson";
 const URL_CRITERES_JOUEURS = "https://mapetanque-notes.mapetanque.workers.dev/criteres";
+// Pistes voisines (scripts/grouper_terrains.py) : un critère des joueurs vaut pour tout le
+// groupe, comme sur le site.
+const URL_GROUPES = "/data/groupes_terrains.json";
 
 // Un terrain est « nouveau » pendant ce nombre de jours après sa première apparition.
 const JOURS_NOUVEAU = 30;
@@ -617,7 +620,7 @@ let TERRAINS = [];       // liste à plat, tirée de DONNEES
 let TERRAINS_PAR_ID = {}; // osm_id -> terrain
 let CARTES = {};         // osm_id -> élément de la carte
 let PROPRIETES = {};     // osm_id -> propriétés du terrain dans terrains.geojson (critères OSM)
-let CRITERES_JOUEURS_TERRAINS = {}; // osm_id -> { ombrage: [nombre, "AAAA-MM"], ... }
+let CRITERES_JOUEURS_TERRAINS = {}; // osm_id -> { ombrage: [nombre, "AAAA-MM"], ... }, cumulé par groupe de pistes
 const CRITERES_ACTIFS = new Set();  // critères cochés dans l'onglet Terrains (cumulés : ET)
 
 
@@ -2844,11 +2847,30 @@ function changerStatutSignalement(s, statut) {
 
 /* ===================== Démarrage ===================== */
 
+// Recopie les confirmations de chaque piste sur toutes les pistes de son groupe (nombres
+// additionnés, mois le plus récent), comme script.js sur le site.
+function cumulerCriteresJoueurs(brut, groupes) {
+    const groupeDe = {};
+    (Array.isArray(groupes) ? groupes : []).forEach(g => g.forEach(id => { groupeDe[id] = g; }));
+    const cumul = {};
+    Object.keys(brut).forEach(id => {
+        (groupeDe[id] || [id]).forEach(m => {
+            const c = cumul[m] || (cumul[m] = {});
+            Object.keys(brut[id] || {}).forEach(cle => {
+                const actuel = c[cle] || [0, ""];
+                const ajout = brut[id][cle];
+                c[cle] = [actuel[0] + ajout[0], actuel[1] > ajout[1] ? actuel[1] : ajout[1]];
+            });
+        });
+    });
+    return cumul;
+}
+
 async function demarrer() {
     document.getElementById("chargement").style.display = "";
 
     try {
-        const [candidats, etat, enLigne, apparitions, geo, criteresJoueurs] = await Promise.all([
+        const [candidats, etat, enLigne, apparitions, geo, criteresJoueurs, groupes] = await Promise.all([
             fetch(URL_CANDIDATS, { cache: "no-store" }).then(r => r.json()),
             appeler("/admin/revue").then(r => r.json()),
             // Le fichier publié sert seulement à afficher « déjà en ligne » ;
@@ -2858,7 +2880,8 @@ async function demarrer() {
             fetch(URL_APPARITIONS, { cache: "no-store" }).then(r => r.json()).catch(() => ({})),
             // Idem pour les critères : sans ces fichiers, la rangée « Critères » reste à zéro.
             fetch(URL_TERRAINS, { cache: "no-store" }).then(r => r.json()).catch(() => null),
-            fetch(URL_CRITERES_JOUEURS).then(r => r.ok ? r.json() : {}).catch(() => ({}))
+            fetch(URL_CRITERES_JOUEURS).then(r => r.ok ? r.json() : {}).catch(() => ({})),
+            fetch(URL_GROUPES, { cache: "no-store" }).then(r => r.json()).catch(() => [])
         ]);
 
         DONNEES = candidats;
@@ -2869,7 +2892,7 @@ async function demarrer() {
         ((geo && geo.features) || []).forEach(f => {
             if (f.properties && f.properties.osm_id) PROPRIETES[f.properties.osm_id] = f.properties;
         });
-        CRITERES_JOUEURS_TERRAINS = criteresJoueurs || {};
+        CRITERES_JOUEURS_TERRAINS = cumulerCriteresJoueurs(criteresJoueurs || {}, groupes);
 
         document.getElementById("chargement").style.display = "none";
         document.getElementById("bandeau").style.display = "";
