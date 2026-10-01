@@ -766,6 +766,20 @@ def afficher(terrains, res):
             mots[m.lower()] += 1
     for k, n in motifs.most_common():
         print(f"  {k:<32} {n:5d}")
+    familles = Counter()
+    for t, (d, info) in exemples:
+        noms = " ".join(n for _, n in info["rels"]).lower()
+        if "ravel" in noms or "ravel" in info["way_nom"].lower():
+            familles["RAVeL"] += 1
+        elif "eurovelo" in noms:
+            familles["EuroVelo"] += 1
+        elif "fietssnelweg" in noms or re.search(r"\bf\d", noms):
+            familles["Fietssnelweg (F…) seulement"] += 1
+        else:
+            familles["autre itinéraire national ou nom"] += 1
+    print("  par famille (priorité RAVeL > EuroVelo > Fietssnelweg) :")
+    for k, n in familles.most_common():
+        print(f"    {k:<36} {n:5d}")
     print("  mots-clés trouvés : " + ", ".join(f"{k} {n}" for k, n in mots.most_common()))
     print("  itinéraires les plus fréquents :")
     for k, n in routes.most_common(40):
@@ -777,7 +791,7 @@ def afficher(terrains, res):
         print(f"    {t['id']:<16} {d:4.0f} m  way/{info['way']}  « {info['way_nom']} »  "
               + " | ".join(f"{r} {n}" for r, n in info["rels"])[:160])
     print("  cas « nom seulement » :")
-    for t, (d, info) in [e for e in exemples if not e[1]["national"]][:25]:
+    for t, (d, info) in [e for e in exemples if not e[1][1]["national"]][:25]:
         print(f"    {t['id']:<16} {d:4.0f} m  way/{info['way']}  « {info['way_nom']} »  "
               + " | ".join(f"{r} {n}" for r, n in info["rels"])[:160])
 
