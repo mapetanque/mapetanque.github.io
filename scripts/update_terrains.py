@@ -332,6 +332,16 @@ def charger_proprietes_precedentes(chemin):
 
 
 PROPRIETES_PRECEDENTES = charger_proprietes_precedentes(CHEMIN_GEOJSON)
+
+# Critères d'environnement (bancs, jeux, eau…) calculés à part par enrichir_environnement.py,
+# indexés par osm_id : recopiés dans chaque terrain (propriété « env ») pour que le site n'ait
+# qu'un fichier à charger. Fichier séparé, sinon cette régénération hebdomadaire les effacerait.
+CHEMIN_ENVIRONNEMENT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "environnement.json")
+try:
+    with open(CHEMIN_ENVIRONNEMENT, encoding="utf-8") as f:
+        ENVIRONNEMENT = json.load(f)
+except (OSError, ValueError):
+    ENVIRONNEMENT = {}
 PHOTOS_REPRISES = []
 
 features = []
@@ -379,6 +389,9 @@ for index, element in enumerate(osm_data["elements"], start=1):
         proprietes["photo_source"] = photo_source
         if photo_credit_url:
             proprietes["photo_credit_url"] = photo_credit_url
+
+    if proprietes["osm_id"] in ENVIRONNEMENT:
+        proprietes["env"] = ENVIRONNEMENT[proprietes["osm_id"]]
 
     features.append({
         "type": "Feature",
