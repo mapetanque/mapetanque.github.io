@@ -1,10 +1,8 @@
 // ===================== Icônes SVG réutilisables (popups des terrains) =====================
 
-const ICON_PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>';
 const ICON_ROUTE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>';
 const ICON_SHARE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>';
 const ICON_FLAG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>';
-const ICON_UNLOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg>';
 const ICON_MAP_PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>';
 const ICON_CLOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>';
 // Icône appareil photo (même famille Feather que les deux ci-dessus — coins arrondis,
@@ -15,8 +13,37 @@ const ICON_PHOTO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" s
 const ICON_REGLAGES = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>';
 const ICON_MAXIMIZE = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>';
 const ICON_MINIMIZE = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path></svg>';
-const ICON_BADGE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.39 4.84 5.34.78-3.87 3.77.91 5.32L12 14.27l-4.77 2.44.91-5.32-3.87-3.77 5.34-.78L12 2z"></path></svg>';
 const ICON_INFO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>';
+
+// Pictos des fiches terrain et club : Lucide (https://lucide.dev, suite de Feather, licence ISC),
+// même style que les icônes ci-dessus. Seuls les tracés sont stockés ; iconeLucide() les habille.
+// Le banc et les jeux sont dessinés pour le site (pas d'équivalent lisible chez Lucide).
+function iconeLucide(traces) {
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + traces + '</svg>';
+}
+const PICTOS = {
+    banc: iconeLucide('<path d="M4 7h16"/><path d="M6 7v6M18 7v6"/><path d="M3 13h18"/><path d="M5 13v6M19 13v6"/>'),
+    jeux: iconeLucide('<path d="M4 21V4"/><path d="M8 21V4"/><path d="M4 9h4M4 14h4"/><path d="M8 4c4 0 6 3 8 9 1.3 4 3 7 5 8"/>'),
+    eclaire: iconeLucide('<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>'),
+    nature: iconeLucide('<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>'),
+    calme: iconeLucide('<path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/>'),
+    eau: iconeLucide('<path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/>'),
+    wc: iconeLucide('<path d="M7 12h13a1 1 0 0 1 1 1 5 5 0 0 1-5 5h-.598a.5.5 0 0 0-.424.765l1.544 2.47a.5.5 0 0 1-.424.765H5.402a.5.5 0 0 1-.424-.765L7 18"/><path d="M8 18a5 5 0 0 1-5-5V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8"/>'),
+    eau_potable: iconeLucide('<path d="M5.116 4.104A1 1 0 0 1 6.11 3h11.78a1 1 0 0 1 .994 1.105L17.19 20.21A2 2 0 0 1 15.2 22H8.8a2 2 0 0 1-2-1.79z"/><path d="M6 12a5 5 0 0 1 6 0 5 5 0 0 0 6 0"/>'),
+    parking: iconeLucide('<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/>'),
+    arret: iconeLucide('<path d="M4 6 2 7"/><path d="M10 6h4"/><path d="m22 7-2-1"/><rect width="16" height="16" x="4" y="3" rx="2"/><path d="M4 11h16"/><path d="M8 15h.01"/><path d="M16 15h.01"/><path d="M6 19v2"/><path d="M18 21v-2"/>'),
+    voie_verte: iconeLucide('<circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/>'),
+    ombrage: iconeLucide('<path d="M8 19a4 4 0 0 1-2.24-7.32A3.5 3.5 0 0 1 9 6.03V6a3 3 0 1 1 6 0v.04a3.5 3.5 0 0 1 3.24 5.65A4 4 0 0 1 16 19Z"/><path d="M12 19v3"/>'),
+    abri_pluie: iconeLucide('<path d="M22 12a10.06 10.06 1 0 0-20 0Z"/><path d="M12 12v8a2 2 0 0 0 4 0"/><path d="M12 2v1"/>'),
+    plusieurs_pistes: iconeLucide('<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="M15 3v18"/>'),
+    bien_entretenu: iconeLucide('<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/>'),
+    // Boutons et fiche club
+    etoile: iconeLucide('<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/>'),
+    club: iconeLucide('<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>'),
+    site: iconeLucide('<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>'),
+    federation: iconeLucide('<path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"/><circle cx="12" cy="8" r="6"/>'),
+    lien_sortant: iconeLucide('<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>'),
+};
 
 // Icône des marqueurs de terrain sur la carte (pin vert personnalisé, remplace le pin bleu par défaut de Leaflet)
 const terrainMarkerIcon = L.divIcon({
@@ -1252,7 +1279,9 @@ addPhotoOverlay.addEventListener('click', fermerModaleAjoutPhoto);
 //   - « Signaler un terrain manquant », lien de la bannière d'accueil (#signaler-terrain-link) :
 //     le visiteur place une épingle sur une petite carte et peut ajouter un commentaire ;
 //   - « Signaler une erreur », en bas de chaque fiche de terrain (voir construireContenuPopupTerrain) :
-//     un simple commentaire libre, le terrain étant déjà connu.
+//     un simple commentaire libre, le terrain étant déjà connu ;
+//   - le même lien en bas de chaque fiche club (type « club » : nom et position du club, sans
+//     osm_id, puisque les clubs ne viennent pas d'OSM).
 // Les signalements partent vers le Worker mapetanque-admin, qui les range dans D1 et prévient
 // par une issue GitHub (même circuit que les photos). Rien n'est modifié sur le site : la
 // correction se fait dans OSM, et la carte suit à la mise à jour hebdomadaire suivante.
@@ -1571,8 +1600,10 @@ function afficherStatutSignalement(cle, classe, texteDirect) {
 function ouvrirModaleSignalement(options) {
     construireModaleSignalement();
 
+    // Trois types : 'manquant' (bannière d'accueil), 'erreur' (fiche terrain), 'club' (fiche
+    // club : comme une erreur, mais sans osm_id ni lien vers OpenStreetMap).
     contexteSignalement = {
-        type: options.type === 'erreur' ? 'erreur' : 'manquant',
+        type: (options.type === 'erreur' || options.type === 'club') ? options.type : 'manquant',
         osmId: options.osmId || '',
         titre: options.titre || '',
         lat: parseFloat(options.lat),
@@ -1614,9 +1645,13 @@ function ouvrirModaleSignalement(options) {
     }
     commentaire.dataset.i18nPlaceholder = estManquant
         ? 'signalement_comment_placeholder_missing'
-        : 'signalement_comment_placeholder_error';
+        : contexteSignalement.type === 'club'
+            ? 'signalement_comment_placeholder_club'
+            : 'signalement_comment_placeholder_error';
     commentaire.placeholder = t(commentaire.dataset.i18nPlaceholder);
 
+    // Un club ne se corrige pas dans OpenStreetMap : pas d'invitation à le faire.
+    elementSignalement('.signalement-osm').hidden = contexteSignalement.type === 'club';
     texteSignalement(elementSignalement('#signalement-lien-osm'),
         estManquant ? 'signalement_osm_link_missing' : 'signalement_osm_link_error');
 
@@ -1664,7 +1699,7 @@ function envoyerSignalement(evt) {
         donnees.set('lon', position.lng.toFixed(6));
         donnees.set('acces_libre', '1');
     } else {
-        donnees.set('osm_id', c.osmId);
+        if (c.type === 'erreur') donnees.set('osm_id', c.osmId);
         donnees.set('titre', c.titre);
         if (isFinite(c.lat)) donnees.set('lat', c.lat.toFixed(6));
         if (isFinite(c.lon)) donnees.set('lon', c.lon.toFixed(6));
@@ -1697,13 +1732,14 @@ function envoyerSignalement(evt) {
 }
 
 // --- Portes d'entrée -------------------------------------------------------------------------
-// Un seul écouteur pour tous les liens « Signaler une erreur » des fiches, présents ou à venir.
+// Un seul écouteur pour tous les liens « Signaler une erreur » des fiches (terrains et clubs),
+// présents ou à venir.
 document.addEventListener('click', function (evt) {
     const lien = evt.target.closest('.popup-report-btn');
     if (!lien) return;
     evt.preventDefault();
     ouvrirModaleSignalement({
-        type: 'erreur',
+        type: lien.dataset.type === 'club' ? 'club' : 'erreur',
         osmId: lien.dataset.osmId,
         titre: lien.dataset.terrainTitre,
         lat: lien.dataset.lat,
@@ -1915,6 +1951,152 @@ function calculDistance(lat1, lon1, lat2, lon2) {
     return R * c;
 }
 
+// « 850 m » sous le kilomètre, « 1,2 km » au-delà (virgule sauf en anglais, voir uneDecimale).
+function formaterDistanceKm(km) {
+    return km < 1 ? Math.round(km * 1000) + ' m' : uneDecimale(km) + ' km';
+}
+
+
+// ===================== Critères des terrains =====================
+// Deux sources, affichées dans la fiche en deux groupes de pastilles :
+//   - les critères OSM, calculés chaque semaine par scripts/enrichir_environnement.py et rangés
+//     dans la propriété `env` de chaque terrain (distances en mètres ; clé absente = rien trouvé
+//     dans le rayon interrogé), plus deux tags du terrain lui-même (éclairage, toit) ;
+//   - les critères confirmés par les joueurs, lus sur le Worker mapetanque-notes (GET /criteres).
+// Les seuils sont appliqués ici, pas dans la collecte : on peut les ajuster sans rien recalculer.
+// On n'affiche que la présence, jamais l'absence (l'absence dans OSM ne prouve rien), et un
+// groupe vide disparaît.
+
+// Routes trop proches pour « Au calme » : distance minimale par type, en mètres. Une route absente
+// de env.routes est assez loin (rien trouvé dans le rayon interrogé).
+const SEUILS_ROUTES_CALME = {
+    motorway: 200, trunk: 200, primary: 100, secondary: 75,
+    tertiary: 50, residential: 20, unclassified: 20
+};
+
+// Plans d'eau retenus pour « Au bord de l'eau » (à 100 m au plus). Les ruisseaux et les petits
+// plans d'eau (suffixe _petit, moins de 0,5 ha) sont exclus : trop nombreux et souvent trompeurs.
+const TYPES_EAU_BORD = ['riviere', 'canal', 'lac', 'etang', 'plan_eau', 'reservoir', 'douves', 'mer', 'plage'];
+
+// « À proximité » : clé de env, seuil en mètres, dans l'ordre d'affichage.
+const CRITERES_PROXIMITE = [
+    { cle: 'jeux', seuil: 100 },
+    { cle: 'wc', seuil: 200 },
+    { cle: 'eau_potable', seuil: 200 },
+    { cle: 'parking', seuil: 300 },
+    { cle: 'arret', seuil: 300 },
+    { cle: 'voie_verte', seuil: 200 }
+];
+
+// Critères des joueurs (liste fermée, voir le Worker), dans l'ordre d'affichage. Une pastille
+// n'apparaît qu'à partir de CONFIRMATIONS_MIN appareils distincts.
+const CRITERES_JOUEURS = ['ombrage', 'abri_pluie', 'plusieurs_pistes', 'bien_entretenu'];
+const CONFIRMATIONS_MIN = 2;
+
+// "way/123" -> { ombrage: [nombre, "AAAA-MM"], ... } — un seul GET pour tout le site, comme les
+// notes. Vide tant que la réponse n'est pas arrivée ; l'événement mapetanque:criteres redessine
+// alors les fiches ouvertes.
+window.mapetanqueCriteres = {};
+
+// Toit d'après les tags OSM du terrain lui-même.
+function estAbriteOsm(tags) {
+    return tags.covered === 'yes' || tags.covered === 'partial' || tags.indoor === 'yes'
+        || ['yes', 'roof', 'public', 'sports_hall', 'sports_centre'].indexOf(tags.building) !== -1;
+}
+
+// Liste des critères OSM « Sur place » présents, dans l'ordre d'affichage.
+function criteresOsmSurPlace(tags) {
+    const env = tags.env || null;
+    const presents = [];
+
+    if (env && typeof env.banc === 'number' && env.banc <= 10) presents.push('banc');
+    if (tags.lit === 'yes') presents.push('eclaire');
+
+    // Nature : dans un bois, une réserve, ou un parc d'au moins 1 ha (les zones de loisirs, en
+    // pratique des terrains de sport, ne comptent pas).
+    const nature = (env && env.nature) || {};
+    if ('bois' in nature || 'reserve' in nature || (nature.parc || 0) >= 1) presents.push('nature');
+
+    // Au calme : seulement si la collecte a tourné pour ce terrain (sinon on ne sait rien).
+    if (env) {
+        const routes = env.routes || {};
+        const bruyant = Object.keys(SEUILS_ROUTES_CALME).some(function (type) {
+            return typeof routes[type] === 'number' && routes[type] < SEUILS_ROUTES_CALME[type];
+        });
+        if (!bruyant) presents.push('calme');
+    }
+
+    const eau = (env && env.eau) || {};
+    if (TYPES_EAU_BORD.some(function (type) { return typeof eau[type] === 'number' && eau[type] <= 100; })) {
+        presents.push('eau');
+    }
+    return presents;
+}
+
+// Liste des critères OSM « À proximité » présents : [{ cle, distance }].
+function criteresOsmProximite(tags) {
+    const env = tags.env || {};
+    return CRITERES_PROXIMITE
+        .filter(function (c) { return typeof env[c.cle] === 'number' && env[c.cle] <= c.seuil; })
+        .map(function (c) { return { cle: c.cle, distance: env[c.cle] }; });
+}
+
+// Critères des joueurs assez confirmés : [{ cle, nombre, mois }].
+function criteresJoueursConfirmes(osmId) {
+    const brut = (window.mapetanqueCriteres || {})[osmId] || {};
+    return CRITERES_JOUEURS
+        .filter(function (cle) { return brut[cle] && brut[cle][0] >= CONFIRMATIONS_MIN; })
+        .map(function (cle) { return { cle: cle, nombre: brut[cle][0], mois: brut[cle][1] }; });
+}
+
+// Distance arrondie à la dizaine (« 40 m ») ; rien sous 10 m, le libellé seul suffit alors.
+function distanceCritere(metres) {
+    return metres < 10 ? '' : (Math.round(metres / 10) * 10) + ' m';
+}
+
+function pastilleHtml(cle, complement) {
+    return '<span class="critere">' + PICTOS[cle] + '<span>' + t('critere_' + cle) + '</span>'
+        + (complement ? '<span class="critere-distance">' + complement + '</span>' : '') + '</span>';
+}
+
+// Les deux groupes de pastilles de la fiche. Chaîne vide si aucun critère n'est présent.
+function criteresHtml(tags) {
+    const joueurs = criteresJoueursConfirmes(tags.osm_id);
+    const osm = criteresOsmSurPlace(tags);
+    // Abrité de la pluie vient des joueurs OU du toit tagué dans OSM : la pastille OSM (sans
+    // compteur) ne s'affiche que si les joueurs ne l'ont pas déjà confirmée.
+    if (estAbriteOsm(tags) && !joueurs.some(function (j) { return j.cle === 'abri_pluie'; })) {
+        osm.push('abri_pluie');
+    }
+
+    // Pastille d'un critère des joueurs : un bouton, dont l'appui affiche sous le groupe
+    // « Confirmé par N joueurs, la dernière fois en <mois> » (pas de survol sur mobile).
+    const surPlace = joueurs.map(function (j) {
+        return '<button type="button" class="critere critere-joueurs" aria-expanded="false" data-detail="'
+            + echapperAvis(t('critere_confirme_par').replace('%n', j.nombre).replace('%m', moisAvis(j.mois))) + '">'
+            + PICTOS[j.cle] + '<span>' + t('critere_' + j.cle) + '</span>'
+            + '<span class="critere-compteur">' + j.nombre + '</span></button>';
+    }).concat(osm.map(function (cle) { return pastilleHtml(cle); }));
+
+    const proximite = criteresOsmProximite(tags).map(function (c) {
+        return pastilleHtml(c.cle, distanceCritere(c.distance));
+    });
+
+    function groupe(cleTitre, pastilles, avecDetail) {
+        if (!pastilles.length) return '';
+        return '<div class="criteres-groupe">'
+            + '<div class="criteres-titre">' + t(cleTitre) + '</div>'
+            + '<div class="criteres-liste">' + pastilles.join('') + '</div>'
+            + (avecDetail ? '<p class="criteres-detail" hidden></p>' : '')
+            + '</div>';
+    }
+
+    return groupe('fiche_sur_place', surPlace, joueurs.length > 0)
+        + groupe('fiche_a_proximite', proximite, false);
+}
+// (Le chargement de GET /criteres est plus bas, avec celui des notes : il a besoin de
+// MAPETANQUE_URL_NOTES, qui n'est défini qu'à cet endroit.)
+
 
 // Certaines communes bruxelloises n'ont pas de nom belge unique mais un nom officiel bilingue
 // FR/NL (ex. "Woluwe-Saint-Lambert - Sint-Lambrechts-Woluwe", tel que renvoyé par Nominatim et
@@ -1986,8 +2168,8 @@ function construireContenuPopupTerrain(feature, layer) {
     let tags = feature.properties;
 
     let acces = (tags.access === "public" || tags.access === "yes")
-        ? t('popup_access_public')
-        : t('popup_access_probable');
+        ? t('fiche_acces_public')
+        : t('fiche_acces_probable');
 
     let titre = tags.nearest_street
         ? t('popup_terrain_prefix') + " " + tags.nearest_street
@@ -2123,15 +2305,17 @@ function construireContenuPopupTerrain(feature, layer) {
 
     let photo = "";
     if (diapositives.length === 0) {
-        // Aucune photo : illustration de substitution + invitation à en proposer une (ouvre la
-        // modale #add-photo-modal, voir plus bas dans ce fichier pour son câblage).
+        // Aucune photo : un bandeau bas (le dessin recadré et atténué) plutôt que le grand dessin,
+        // qui occupait près de la moitié de la fiche. L'invitation à proposer une photo est posée
+        // dessus ; elle ouvre la modale #add-photo-modal (voir brancherPhotosPopup).
         photo = `
-        <img src="/images/pas-de-photo.webp" alt="" class="popup-photo popup-photo-placeholder" loading="lazy">
-        ${boutonAjouterPhoto()}
-        <br>`;
+        <div class="fiche-sans-photo">
+            <img src="/images/pas-de-photo.webp" alt="" loading="lazy">
+            <button type="button" class="popup-photo-add-btn fiche-ajout-photo" data-osm-id="${tags.osm_id || ''}" data-terrain-titre="${titre.replace(/"/g, '&quot;')}">${t('fiche_ajouter_photo')}</button>
+        </div>`;
     } else if (diapositives.length === 1) {
         const d = diapositives[0];
-        photo = `${avecBoutonAgrandir(d)}${proposeAjouterPhoto(d) ? creditVisiteur(d) + boutonAjouterPhoto() : sousLaPhoto(d)}<br>`;
+        photo = `<div class="fiche-photos">${avecBoutonAgrandir(d)}${proposeAjouterPhoto(d) ? creditVisiteur(d) + boutonAjouterPhoto() : sousLaPhoto(d)}</div>`;
     } else {
         // Plusieurs photos : petit carrousel (flèches précédent/suivant), en JS natif — voir
         // brancherCarrouselPhotos(), appelée juste après l'ouverture de la popup plus bas.
@@ -2142,6 +2326,7 @@ function construireContenuPopupTerrain(feature, layer) {
             </div>`).join('');
         const auMoinsUneAvecBouton = diapositives.some(proposeAjouterPhoto);
         photo = `
+        <div class="fiche-photos">
         <div class="popup-photo-carousel" data-total="${diapositives.length}">
             ${diapositivesHtml}
             <button type="button" class="popup-photo-nav prev" aria-label="${t('popup_photo_prev')}">‹</button>
@@ -2149,67 +2334,40 @@ function construireContenuPopupTerrain(feature, layer) {
             <div class="popup-photo-dots">${diapositives.map((_, i) => `<span class="popup-photo-dot${i === 0 ? ' active' : ''}"></span>`).join('')}</div>
         </div>
         ${auMoinsUneAvecBouton ? boutonAjouterPhoto() : ""}
-        <br>`;
+        </div>`;
     }
 
-    let distance = "";
+    // Distance : seulement si la position du visiteur est connue. Sinon rien, plutôt que l'ancienne
+    // invitation « Cliquez sur Me localiser » qui prenait deux lignes pour ne rien apprendre.
+    const distance = userPosition
+        ? formaterDistanceKm(calculDistance(userPosition[0], userPosition[1], terrainLat, terrainLon))
+        : "";
 
-    if (userPosition) {
+    // Trois boutons côte à côte. « Partager » garde la classe popup-share-btn, sur laquelle
+    // brancherPartagePopup s'accroche ; « Noter » ouvre le panneau du même nom (brancherFicheTerrain).
+    const boutons = `
+    <div class="fiche-boutons">
+        <a href="https://www.google.com/maps/dir/?api=1&destination=${terrainLat},${terrainLon}" target="_blank" rel="noopener" class="fiche-btn fiche-btn-plein">${ICON_ROUTE}<span>${t('fiche_itineraire')}</span></a>
+        <button type="button" class="fiche-btn popup-share-btn">${ICON_SHARE}<span>${t('fiche_partager')}</span></button>
+        ${tags.osm_id ? `<button type="button" class="fiche-btn fiche-btn-noter" aria-expanded="false">${PICTOS.etoile}<span>${t('fiche_noter')}</span></button>` : ''}
+    </div>`;
 
-        let terrainLat = layer.getLatLng().lat;
-        let terrainLon = layer.getLatLng().lng;
-
-        let km = calculDistance(
-            userPosition[0],
-            userPosition[1],
-            terrainLat,
-            terrainLon
-        );
-
-        let valeurDistance = km < 1
-            ? `${Math.round(km * 1000)} m`
-            : `${km.toFixed(1)} km`;
-
-        distance = `<br><span class="popup-icon">${ICON_PIN}</span> ${t('popup_distance_label')} : ${valeurDistance}`;
-
-    } else {
-
-        distance = `<br><span class="popup-icon">${ICON_PIN}</span> ${t('popup_distance_hint')}`;
-
-    }
-
-    let itineraire = `
-    <br><br>
-    <a href="https://www.google.com/maps/dir/?api=1&destination=${terrainLat},${terrainLon}" target="_blank" class="popup-action-link">
-    <span class="popup-link-icon">${ICON_ROUTE}</span> <span class="popup-link-text">${t('popup_itinerary')}</span>
-    </a>
-    `;
-
-    let partager = `
-    <br>
-    <a href="#" class="popup-share-btn popup-action-link">
-    <span class="popup-link-icon">${ICON_SHARE}</span> <span class="popup-link-text">${t('popup_share')}</span>
-    </a>
-    `;
-
-    // Lien « Signaler une erreur », séparé des deux précédents par une ligne vide : ce n'est pas
-    // une action courante, il ne doit pas se confondre avec l'itinéraire et le partage. Il ouvre
-    // la modale de signalement (voir « Signalements » plus haut dans ce fichier), branchée par
-    // un seul écouteur sur le document : rien à rebrancher à chaque ouverture de fiche, et le lien
-    // fonctionne aussi bien dans le popup Leaflet que dans la fenêtre flottante ou la fiche mobile.
-    // Le titre vient d'OSM (nom de rue) : il est neutralisé avant d'entrer dans l'attribut.
-    let signaler = `
-    <br><br>
-    <a href="#" class="popup-report-btn popup-action-link" data-osm-id="${echapperHtml(tags.osm_id || '')}" data-terrain-titre="${echapperHtml(titre)}" data-lat="${terrainLat}" data-lon="${terrainLon}">
-    <span class="popup-link-icon">${ICON_FLAG}</span> <span class="popup-link-text">${t('popup_report')}</span>
-    </a>
-    `;
+    // « Signaler une erreur », en pied de fiche et en gris : ce n'est pas une action courante, il
+    // ne doit pas se confondre avec les boutons. Il ouvre la modale de signalement (voir
+    // « Signalements » plus haut dans ce fichier), branchée par un seul écouteur sur le document :
+    // rien à rebrancher à chaque ouverture de fiche. Le titre vient d'OSM (nom de rue) : il est
+    // neutralisé avant d'entrer dans l'attribut.
+    const signaler = `
+    <div class="fiche-pied">
+        <a href="#" class="popup-report-btn" data-osm-id="${echapperHtml(tags.osm_id || '')}" data-terrain-titre="${echapperHtml(titre)}" data-lat="${terrainLat}" data-lon="${terrainLon}">${ICON_FLAG}<span>${t('popup_report')}</span></a>
+    </div>`;
 
 
     // Description rédigée à la main pour les terrains de la sélection "Les plus beaux terrains"
     // (voir le chargement de /data/beaux_terrains.json plus bas dans ce fichier). Le carrousel
-    // n'en affiche que les premiers mots, la fiche affiche le texte entier. Le paragraphe n'est
-    // créé que si le terrain a effectivement un texte : aucun bloc vide pour les 1700 autres.
+    // n'en affiche que les premiers mots, la fiche affiche le texte entier, juste sous la photo.
+    // Le paragraphe n'est créé que si le terrain a effectivement un texte : aucun bloc vide pour
+    // les 1700 autres.
     // description_nl / description_de / description_en sont lus s'ils existent dans le JSON, sinon repli sur le
     // texte français — la structure est donc déjà prête si ces champs sont ajoutés un jour.
     const beauTerrain = (MAPETANQUE_AFFICHER_DESCRIPTIONS && tags.osm_id)
@@ -2222,29 +2380,36 @@ function construireContenuPopupTerrain(feature, layer) {
         ? `<p class="popup-description">${texteDescription}</p>`
         : "";
 
-    // Note publique, à l'emplacement qu'occupait la description. Voir construireBlocNotation plus
-    // bas dans ce fichier : deux lignes, la moyenne puis la zone de vote.
-    const notation = construireBlocNotation(tags.osm_id) + construireBlocAvis(tags.osm_id);
+    // Ligne de résumé sous le titre : « ★ 4,2 (9) · 2 avis · 1,2 km · Accès public probable ».
+    // Un <span> par morceau, sans aucun blanc à l'intérieur : un morceau vide (pas de note, pas
+    // d'avis, position inconnue) disparaît avec son séparateur, posé en CSS (voir .fiche-resume).
+    // La note et le lien « N avis » sont remplis ici avec les données déjà chargées, puis tenus à
+    // jour par brancherFicheTerrain (données arrivées après l'ouverture, vote du visiteur).
+    const resume = `<div class="fiche-resume">`
+        + `<span class="fiche-resume-note">${resumeNoteHtml(tags.osm_id)}</span>`
+        + `<span class="fiche-resume-avis">${lienAvisHtml(tags.osm_id)}</span>`
+        + `<span>${distance}</span>`
+        + `<span>${acces}</span>`
+        + `</div>`;
 
-    // Le bloc photo se termine par un <br>, prévu pour séparer la photo de la ligne « Accès ».
-    // Quand une description s'intercale entre les deux, ce blanc s'ajoute à la marge du
-    // paragraphe et creuse au-dessus un écart bien plus large que partout ailleurs dans la
-    // fiche : on le retire dans ce seul cas, l'espacement étant alors porté uniquement par les
-    // marges de .popup-description (voir style-beaux-terrains.css). Sans description, la fiche
-    // reste strictement inchangée.
-    const photoAvantDescription = (description || notation) ? photo.replace(/<br>\s*$/, "") : photo;
+    // Panneaux « Noter » et « N avis » : vides et masqués, juste sous les boutons ; leur contenu
+    // est construit par brancherFicheTerrain à l'ouverture.
+    const panneaux = tags.osm_id
+        ? `<div class="fiche-panneau fiche-panneau-noter" hidden></div><div class="fiche-panneau fiche-panneau-avis" hidden></div>`
+        : "";
 
     return `
+    <div class="fiche fiche-terrain" data-osm-id="${echapperHtml(tags.osm_id || '')}">
     ${filAriane}
-    <b>${titre}</b><br><br>
-    ${photoAvantDescription}
+    <div class="fiche-titre">${titre}</div>
+    ${resume}
+    ${photo}
     ${description}
-    ${notation}
-    <span class="popup-icon">${ICON_UNLOCK}</span> ${t('popup_access_label')} : ${acces}
-    ${distance}
-    ${itineraire}
-    ${partager}
+    ${boutons}
+    ${panneaux}
+    <div class="fiche-criteres">${criteresHtml(tags)}</div>
     ${signaler}
+    </div>
     `;
 
 }
@@ -2400,70 +2565,72 @@ window.ouvrirFicheMobileTerrain = ouvrirFicheMobileTerrain;
 window.fermerFicheMobileTerrain = fermerFicheMobileTerrain;
 
 
-// ===================== Contenu des popups de club affilié =====================
-// Même schéma que construireContenuPopupTerrain ci-dessus, mais pour un club issu de
-// data/clubs.json (pas de GeoJSON ici, club = objet simple {name, lat, lon, region, province,
-// federation}). Pas de commune dans le fil d'Ariane (les clubs n'ont pas cette donnée), et la
-// ligne "Accès" des terrains est remplacée par la ligne "Club affilié" (fédération + bouton
-// d'aide (i) cliquable — voir brancherBullesAideClubs plus bas pour la logique de la bulle).
+// ===================== Fiche club affilié =====================
+// Même fenêtre que la fiche terrain (plein écran sur mobile, fenêtre flottante sur ordinateur) :
+// l'ancienne petite bulle Leaflet était recouverte, sur téléphone, par les boutons de la carte.
+// Club = objet simple de data/clubs.json : {name, lat, lon, region, province, commune,
+// federation, adresse, site} — adresse et site recopiés du CSV par club/enrichir_clubs.py.
+// Rien d'autre que la fiche terrain n'est repris : ni note, ni avis, ni critères, ni photo.
+
+// Fédérations : nom officiel (identique dans toutes les langues) et site.
+const FEDERATIONS = {
+    FBFP: { nom: 'Fédération Belge Francophone de Pétanque', site: 'https://www.fbfp.be/', detail: 'federation_fbfp_detail' },
+    PFV: { nom: 'Petanque Federatie Vlaanderen', site: 'https://www.pfv.be/', detail: 'federation_pfv_detail' }
+};
+
 function construireContenuPopupClub(club) {
 
     const filAriane = window.construireFilAriane(club);
+    const sigle = club.federation === 'PFV' ? 'PFV' : 'FBFP';
+    const federation = FEDERATIONS[sigle];
+    const nom = echapperAvis(club.name);
 
-    const federationTexte = club.federation === 'PFV'
-        ? t('federation_flamande')
-        : t('federation_wallonne');
+    // Distance seulement si la position du visiteur est connue (même règle que les terrains).
+    const distance = userPosition
+        ? formaterDistanceKm(calculDistance(userPosition[0], userPosition[1], club.lat, club.lon))
+        : "";
 
-    let distance = "";
+    const adresse = club.adresse
+        ? `<div class="fiche-club-adresse">${ICON_MAP_PIN}<span>${echapperAvis(club.adresse)}</span></div>`
+        : "";
 
-    if (userPosition) {
+    // Le site web n'existe que pour les clubs dont on l'a collecté : sinon deux boutons.
+    const siteWeb = /^https?:\/\//.test(club.site || '')
+        ? `<a href="${echapperAvis(club.site)}" target="_blank" rel="noopener" class="fiche-btn">${PICTOS.site}<span>${t('fiche_site_web')}</span></a>`
+        : "";
 
-        let km = calculDistance(
-            userPosition[0],
-            userPosition[1],
-            club.lat,
-            club.lon
-        );
-
-        let valeurDistance = km < 1
-            ? `${Math.round(km * 1000)} m`
-            : `${km.toFixed(1)} km`;
-
-        distance = `<br><span class="popup-icon">${ICON_PIN}</span> ${t('popup_distance_label')} : ${valeurDistance}`;
-
-    } else {
-
-        distance = `<br><span class="popup-icon">${ICON_PIN}</span> ${t('popup_distance_hint')}`;
-
-    }
-
-    let itineraire = `
-    <br><br>
-    <a href="https://www.google.com/maps/dir/?api=1&destination=${club.lat},${club.lon}" target="_blank" class="popup-action-link">
-    <span class="popup-link-icon">${ICON_ROUTE}</span> <span class="popup-link-text">${t('popup_itinerary')}</span>
-    </a>
-    `;
-
-    let partager = `
-    <br>
-    <a href="#" class="popup-share-btn-club popup-action-link">
-    <span class="popup-link-icon">${ICON_SHARE}</span> <span class="popup-link-text">${t('popup_share_club')}</span>
-    </a>
-    `;
-
+    // « Signaler une erreur » : même modale que pour les terrains, en type « club » (un club n'a
+    // pas d'osm_id ; le Worker le reconnaît à son nom et à sa position).
     return `
+    <div class="fiche fiche-club">
+    <div class="fiche-club-pastille">${PICTOS.club}<span>${t('fiche_club')}</span></div>
     ${filAriane}
-    <b>${club.name}</b><br><br>
-    <span class="popup-icon">${ICON_BADGE}</span> ${t('club_affilie_label')} : ${federationTexte}
-    ${distance}
-    ${itineraire}
-    ${partager}
+    <div class="fiche-titre">${nom}</div>
+    <div class="fiche-resume"><span>${t('club_affilie_a').replace('%f', sigle)}</span><span>${distance}</span></div>
+    ${adresse}
+    <div class="fiche-boutons">
+        <a href="https://www.google.com/maps/dir/?api=1&destination=${club.lat},${club.lon}" target="_blank" rel="noopener" class="fiche-btn fiche-btn-plein">${ICON_ROUTE}<span>${t('fiche_itineraire')}</span></a>
+        <button type="button" class="fiche-btn popup-share-btn-club">${ICON_SHARE}<span>${t('fiche_partager')}</span></button>
+        ${siteWeb}
+    </div>
+    <div class="criteres-groupe">
+        <div class="criteres-titre">${t('federation_titre')}</div>
+        <a href="${federation.site}" target="_blank" rel="noopener" class="fiche-federation">
+            ${PICTOS.federation}
+            <span class="fiche-federation-texte"><b>${federation.nom}</b><span>${t(federation.detail)}</span></span>
+            <span class="fiche-federation-lien">${t('federation_site')} ${PICTOS.lien_sortant}</span>
+        </a>
+    </div>
+    <div class="fiche-pied">
+        <a href="#" class="popup-report-btn" data-type="club" data-terrain-titre="${nom}" data-lat="${club.lat}" data-lon="${club.lon}">${ICON_FLAG}<span>${t('popup_report')}</span></a>
+    </div>
+    </div>
     `;
 
 }
 window.construireContenuPopupClub = construireContenuPopupClub;
 
-// Bouton "Partager ce club" du popup : même schéma que brancherPartagePopup, avec un paramètre
+// Bouton « Partager » de la fiche club : même schéma que brancherPartagePopup, avec un paramètre
 // distinctif (club=1) dans l'URL de partage pour que la résolution du deep-link sache qu'il
 // s'agit d'un club et pas d'un terrain (voir plus bas, section deep-link).
 function brancherPartagePopupClub(e, club, layer) {
@@ -2476,6 +2643,35 @@ function brancherPartagePopupClub(e, club, layer) {
     };
 }
 window.brancherPartagePopupClub = brancherPartagePopupClub;
+
+// Branche la popup d'un club et bascule son contenu dans la fiche (plein écran ou fenêtre
+// flottante). Même mécanique, et même piège, que brancherPopupTerrain : Leaflet réutilise sa popup
+// d'une ouverture à l'autre, alors que son contenu a été déplacé ; on repart donc d'une popup
+// neuve à chaque fermeture (voir le commentaire de brancherPopupTerrain).
+function brancherPopupClub(marker, club) {
+    marker.bindPopup(function () {
+        return construireContenuPopupClub(club);
+    }, {
+        maxHeight: 320,
+        autoPan: false,
+    });
+
+    marker.once('popupopen', function (e) {
+        brancherPartagePopupClub(e, club, marker);
+        const noeudContenu = e.popup.getElement().querySelector('.leaflet-popup-content');
+        if (noeudContenu) {
+            ouvrirFicheMobileTerrain(noeudContenu);
+        }
+    });
+
+    marker.once('popupclose', function () {
+        fermerFicheMobileTerrain();
+        setTimeout(function () {
+            marker.unbindPopup();
+            brancherPopupClub(marker, club);
+        }, 0);
+    });
+}
 
 // Fonction globale appelée depuis le lien "Partager ce club" de chaque popup de club
 window.partagerClub = function (lat, lon, titre) {
@@ -2543,8 +2739,7 @@ function brancherPopupTerrain(layer, feature) {
     layer.once('popupopen', function (e) {
         brancherPartagePopup(e, feature, layer);
         brancherPhotosPopup(e);
-        brancherNotationPopup(e);
-        brancherAvisPopup(e);
+        brancherFicheTerrain(e, feature);
 
         // Doit venir APRÈS le câblage ci-dessus : on déplace les mêmes nœuds DOM (pas une
         // copie), donc les écouteurs déjà attachés restent valides une fois le contenu basculé
@@ -2769,161 +2964,59 @@ function mapetanqueMemoriserVote(osmId, note, jeton) {
     } catch (e) { }
 }
 
-function construireResultatNote(osmId) {
-    var resume = window.mapetanqueResumeNote(osmId);
-    return resume
-        ? window.mapetanqueEtoileHtml(resume.moyenne) + '<span class="note-chiffre">' + resume.texte + '</span>'
-        : "";
+// Note dans la ligne de résumé de la fiche : « ★ 4,2 (9) ». Chaîne vide tant que personne n'a
+// voté : le morceau disparaît alors de la ligne, avec son séparateur.
+function resumeNoteHtml(osmId) {
+    var resume = osmId ? window.mapetanqueResumeNote(osmId) : null;
+    if (!resume) return '';
+    return '<span title="' + resume.texte + '">' + window.mapetanqueEtoileHtml(resume.moyenne)
+        + ' ' + uneDecimale(resume.moyenne) + ' (' + resume.nombre + ')</span>';
 }
 
-// Deux lignes au plus :
-//   - la moyenne, en lecture seule — absente tant que personne n'a voté (conteneur vide, masqué
-//     en CSS par :empty), ce qui évite deux rangées d'étoiles grises redondantes ;
-//   - la zone de vote : « Noter ce terrain » avant le vote, « Votre note » ensuite, avec les
-//     étoiles préremplies à la note donnée. Un clic sur une autre étoile modifie le vote.
-// Le libellé devant les étoiles de vote est ce qui les distingue de la moyenne, en lecture seule
-// au-dessus : sans lui, un appui « pour regarder » vaudrait un vote sur tactile.
-function construireBlocNotation(osmId) {
-    if (!osmId) return "";
+// Critères confirmés par les joueurs (voir « Critères des terrains » plus haut) : même Worker et
+// même principe que les notes, un seul GET pour tout le site.
+fetch(MAPETANQUE_URL_NOTES + '/criteres')
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (data) {
+        if (!data) return;
+        window.mapetanqueCriteres = data;
+        window.dispatchEvent(new CustomEvent('mapetanque:criteres'));
+    })
+    .catch(function () { /* fiches sans les critères des joueurs ; les critères OSM restent */ });
 
-    var voteLocal = mapetanqueVoteLocal(osmId);
-    var noteLocale = voteLocal ? voteLocal.note : 0;
-
-    var etoiles = "";
-    for (var i = 1; i <= 5; i++) {
-        etoiles += '<button type="button" class="note-vote-etoile' + (i <= noteLocale ? ' active' : '')
-            + '" data-note="' + i
-            + '" aria-label="' + t('notation_etoile_aria').replace('%n', i) + '">\u2605</button>';
+// Critères cochés depuis ce navigateur, pour pré-cocher les cases du panneau « Noter ». Le
+// Worker ne sait les retrouver que par le jeton du vote, qu'il ne faut pas exposer dans un GET :
+// on garde donc ici la liste renvoyée par chaque POST /confirmation.
+function mapetanqueConfirmationsLocales(osmId) {
+    try {
+        var liste = JSON.parse(localStorage.getItem('mapetanque_confirmations_' + osmId) || '[]');
+        return Array.isArray(liste) ? liste : [];
+    } catch (e) {
+        return [];
     }
-
-    return '<div class="note-bloc" data-osm-id="' + osmId + '">'
-        + '<div class="note-resultat">' + construireResultatNote(osmId) + '</div>'
-        + '<div class="note-vote">'
-        + '<span class="note-vote-label">' + t(voteLocal ? 'notation_votre_note' : 'notation_invitation') + '</span>'
-        + '<span class="note-vote-etoiles">' + etoiles + '</span>'
-        + '</div>'
-        + '</div>';
 }
 
-// Appelée à chaque ouverture de fiche, comme brancherPartagePopup et brancherPhotosPopup.
-// IMPORTANT : définie ici au niveau racine du fichier, hors de tout bloc conditionnel — les pages
-// province et région l'atteignent via brancherPopupTerrain, et la placer dans un bloc la rendrait
-// indéfinie sur ces pages sans la moindre erreur visible (piège déjà payé une fois).
-function brancherNotationPopup(e) {
-    var contenu = e.popup.getElement();
-    var bloc = contenu ? contenu.querySelector('.note-bloc') : null;
-    if (!bloc) return;
-
-    var osmId = bloc.getAttribute('data-osm-id');
-    var boutons = bloc.querySelectorAll('.note-vote-etoile');
-    var libelle = bloc.querySelector('.note-vote-label');
-    var voteLocal = mapetanqueVoteLocal(osmId);
-    var noteActuelle = voteLocal ? voteLocal.note : 0;   // état de repos des étoiles de vote
-    var envoiEnCours = false;
-    var minuterieLibelle = null;
-
-    // Remplissage fait en JS plutôt qu'en CSS : la technique du sélecteur ~ imposerait un ordre
-    // DOM inversé, alors qu'ici le même code sert au survol, au clavier, au retour à l'état de
-    // repos et à l'état après vote.
-    function peindre(niveau) {
-        for (var i = 0; i < boutons.length; i++) {
-            var valeur = parseInt(boutons[i].getAttribute('data-note'), 10);
-            boutons[i].classList.toggle('active', valeur <= niveau);
-        }
-    }
-
-    function afficherLibelle(cle, classeErreur) {
-        if (minuterieLibelle) { clearTimeout(minuterieLibelle); minuterieLibelle = null; }
-        libelle.textContent = t(cle);
-        libelle.classList.toggle('note-erreur', !!classeErreur);
-    }
-
-    function voter(note) {
-        // Même note que celle déjà donnée : rien à envoyer. Clics répétés pendant un envoi :
-        // ignorés, sinon deux requêtes se croiseraient et la seconde pourrait écraser la première.
-        if (envoiEnCours || note === noteActuelle) return;
-        envoiEnCours = true;
-
-        var precedente = noteActuelle;
-        noteActuelle = note;
-        peindre(note);
-        afficherLibelle('notation_merci');
-
-        var voteExistant = mapetanqueVoteLocal(osmId);
-
-        fetch(MAPETANQUE_URL_NOTES + '/vote', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                osm_id: osmId,
-                note: note,
-                jeton: voteExistant ? voteExistant.jeton : undefined
-            })
-        })
-            .then(function (r) { return r.ok ? r.json() : null; })
-            .then(function (data) {
-                if (!data || typeof data.nombre !== 'number') throw new Error('réponse inattendue');
-
-                // Refus du Worker : cette connexion a déjà voté pour ce terrain ce mois-ci, mais
-                // depuis un autre navigateur (pas de jeton ici pour le modifier). On le dit, et
-                // on retire les étoiles de vote.
-                if (data.deja_vote) {
-                    bloc.querySelector('.note-vote').innerHTML =
-                        '<span class="note-vote-message">' + t('notation_deja') + '</span>';
-                    return;
-                }
-
-                mapetanqueMemoriserVote(osmId, note, data.jeton);
-
-                // Le Worker renvoie l'agrégat à jour : on le recopie dans le cache local plutôt que
-                // de relancer un GET /notes, mis en cache 5 min et qui renverrait l'ancienne valeur.
-                window.mapetanqueNotes[osmId] = [data.somme, data.nombre];
-                bloc.querySelector('.note-resultat').innerHTML = construireResultatNote(osmId);
-                window.dispatchEvent(new CustomEvent('mapetanque:notes'));
-
-                minuterieLibelle = setTimeout(function () {
-                    minuterieLibelle = null;
-                    libelle.textContent = t('notation_votre_note');
-                }, 2500);
-            })
-            .catch(function () {
-                noteActuelle = precedente;
-                peindre(precedente);
-                afficherLibelle('notation_erreur', true);
-            })
-            .then(function () { envoiEnCours = false; });
-    }
-
-    for (var i = 0; i < boutons.length; i++) {
-        (function (bouton) {
-            var valeur = parseInt(bouton.getAttribute('data-note'), 10);
-            bouton.addEventListener('mouseenter', function () { peindre(valeur); });
-            bouton.addEventListener('focus', function () { peindre(valeur); });
-            bouton.addEventListener('click', function () { voter(valeur); });
-        })(boutons[i]);
-    }
-
-    // Retour à l'état de repos : la note donnée si le visiteur a voté, rien sinon.
-    bloc.querySelector('.note-vote-etoiles').addEventListener('mouseleave', function () {
-        peindre(noteActuelle);
-    });
+function mapetanqueMemoriserConfirmations(osmId, liste) {
+    try {
+        localStorage.setItem('mapetanque_confirmations_' + osmId, JSON.stringify(liste || []));
+    } catch (e) { }
 }
 
 
 // ===================== Avis des visiteurs =====================
-// Texte libre de 280 caractères au plus, sous les étoiles de la fiche. Circuit :
+// Texte libre de 280 caractères au plus, écrit dans le panneau « Noter » de la fiche. Circuit :
 //   - envoi : Worker mapetanque-admin (POST /avis/envoi), qui range l'avis « en attente » et
 //     prévient par une issue GitHub, comme pour les signalements ;
 //   - publication : un clic dans l'onglet Notes/Avis de la page admin ;
 //   - lecture : Worker mapetanque-notes (GET /avis), un seul paquet pour tout le site, chargé
 //     une fois comme les notes et mis en cache 5 minutes.
-// La fiche montre l'avis le plus récent, puis « Voir les N avis » pour déplier les autres.
+// La fiche montre « N avis » dans sa ligne de résumé ; ce lien ouvre le panneau de la liste.
 var MAPETANQUE_URL_AVIS_ENVOI = "https://mapetanque-admin.mapetanque.workers.dev/avis/envoi";
 var AVIS_TAILLE_MAX = 280;
 
 // "node/123" -> [[texte, pseudo, note, "AAAA-MM"], ...], du plus récent au plus ancien.
-// null tant que la réponse n'est pas arrivée : la fiche affiche alors un bloc vide, rempli à
-// l'arrivée (événement mapetanque:avis).
+// null tant que la réponse n'est pas arrivée : la fiche n'affiche alors pas de lien « N avis »,
+// ajouté à l'arrivée (événement mapetanque:avis).
 window.mapetanqueAvis = null;
 
 fetch(MAPETANQUE_URL_NOTES + '/avis')
@@ -2998,97 +3091,318 @@ function avisHtml(avis) {
         + '</div>';
 }
 
-// Conteneur seul : son contenu dépend de données qui peuvent arriver après l'ouverture de la
-// fiche, il est donc rempli par brancherAvisPopup.
-function construireBlocAvis(osmId) {
-    return osmId ? '<div class="avis-bloc" data-osm-id="' + osmId + '"></div>' : '';
+// Lien « N avis » de la ligne de résumé : absent tant qu'aucun avis n'est publié (ou pas encore
+// chargé), plutôt qu'un « Pas encore d'avis ».
+function lienAvisHtml(osmId) {
+    var nombre = osmId ? ((window.mapetanqueAvis || {})[osmId] || []).length : 0;
+    if (!nombre) return '';
+    return '<button type="button" class="fiche-lien-avis" aria-expanded="false">'
+        + t(nombre > 1 ? 'fiche_n_avis' : 'fiche_un_avis').replace('%n', nombre) + '</button>';
 }
 
-function brancherAvisPopup(e) {
+
+// ===================== Fiche terrain : panneaux « Noter » et « N avis » =====================
+// Appelée à chaque ouverture de fiche, comme brancherPartagePopup et brancherPhotosPopup.
+// IMPORTANT : définie au niveau racine du fichier, hors de tout bloc conditionnel — les pages
+// province et région l'atteignent via brancherPopupTerrain, et la placer dans un bloc la rendrait
+// indéfinie sur ces pages sans la moindre erreur visible (piège déjà payé une fois).
+//
+// Les deux panneaux s'ouvrent juste sous les boutons, un seul à la fois :
+//   - « Noter » (bouton) : la note, puis les cases des joueurs (après un vote), puis l'avis. C'est
+//     le seul endroit où l'on note et où l'on écrit un avis ;
+//   - « N avis » (lien de la ligne de résumé) : la liste complète, terminée par « Donner votre
+//     avis › », qui ouvre « Noter ».
+// La fiche se tient aussi à jour quand les notes, les avis ou les critères arrivent après son
+// ouverture, ou changent après un vote.
+function brancherFicheTerrain(e, feature) {
     var contenu = e.popup.getElement();
-    var bloc = contenu ? contenu.querySelector('.avis-bloc') : null;
-    if (!bloc) return;
+    var fiche = contenu ? contenu.querySelector('.fiche-terrain') : null;
+    if (!fiche) return;
 
-    var osmId = bloc.getAttribute('data-osm-id');
-    var deplie = false;
-    var etat = 'liste';   // 'liste', 'formulaire' ou 'merci'
+    var tags = feature.properties;
+    var osmId = tags.osm_id;
+    var zoneCriteres = fiche.querySelector('.fiche-criteres');
 
-    function listeDuTerrain() {
-        return (window.mapetanqueAvis || {})[osmId] || [];
-    }
-
-    function entete(nombre, avecLien) {
-        return '<div class="avis-titre"><b>' + t('avis_titre') + (nombre ? ' (' + nombre + ')' : '') + '</b>'
-            + (avecLien ? '<button type="button" class="avis-rediger">✎ ' + t('avis_rediger') + '</button>' : '')
-            + '</div>';
-    }
-
-    function afficherListe() {
-        etat = 'liste';
-        // Données pas encore arrivées : rien plutôt qu'un « pas encore d'avis » peut-être faux.
-        if (window.mapetanqueAvis === null) { bloc.innerHTML = ''; return; }
-
-        var liste = listeDuTerrain();
-        var html = entete(liste.length, true);
-        if (!liste.length) {
-            html += '<p class="avis-vide">' + t('avis_aucun') + '</p>';
-        } else {
-            html += (deplie ? liste : liste.slice(0, 1)).map(avisHtml).join('');
-            if (!deplie && liste.length > 1) {
-                html += '<button type="button" class="avis-voir-tout">'
-                    + t('avis_voir_tous').replace('%n', liste.length) + '</button>';
-            }
+    // Appui sur une pastille des joueurs : « Confirmé par N joueurs… » sous le groupe ; un second
+    // appui le referme. Écouteur sur la zone entière : les pastilles sont redessinées à l'arrivée
+    // des données sans qu'il faille le rebrancher.
+    zoneCriteres.addEventListener('click', function (evt) {
+        var pastille = evt.target.closest('.critere-joueurs');
+        if (!pastille) return;
+        var groupe = pastille.closest('.criteres-groupe');
+        var detail = groupe.querySelector('.criteres-detail');
+        var etaitOuverte = pastille.getAttribute('aria-expanded') === 'true';
+        groupe.querySelectorAll('.critere-joueurs').forEach(function (p) { p.setAttribute('aria-expanded', 'false'); });
+        detail.hidden = etaitOuverte;
+        if (!etaitOuverte) {
+            pastille.setAttribute('aria-expanded', 'true');
+            detail.textContent = pastille.getAttribute('data-detail');
         }
-        bloc.innerHTML = html;
+    });
 
-        bloc.querySelector('.avis-rediger').addEventListener('click', afficherFormulaire);
-        var voirTout = bloc.querySelector('.avis-voir-tout');
-        if (voirTout) voirTout.addEventListener('click', function () { deplie = true; afficherListe(); });
+    var panneauNoter = fiche.querySelector('.fiche-panneau-noter');
+    var panneauAvis = fiche.querySelector('.fiche-panneau-avis');
+    var boutonNoter = fiche.querySelector('.fiche-btn-noter');
+    if (!osmId || !panneauNoter || !panneauAvis || !boutonNoter) return;
+
+    // --- Ouverture des panneaux --------------------------------------------------------------
+    function basculer(panneau) {
+        var ouvrir = panneau.hidden;
+        panneauNoter.hidden = true;
+        panneauAvis.hidden = true;
+        if (ouvrir) {
+            if (panneau === panneauAvis) afficherAvis();
+            else if (!panneauNoter.firstChild) construireNoter();   // construit une fois : un avis en cours de frappe survit à la fermeture
+            panneau.hidden = false;
+        }
+        boutonNoter.setAttribute('aria-expanded', String(!panneauNoter.hidden));
+        var lien = fiche.querySelector('.fiche-lien-avis');
+        if (lien) lien.setAttribute('aria-expanded', String(!panneauAvis.hidden));
+    }
+    boutonNoter.addEventListener('click', function () { basculer(panneauNoter); });
+
+    // --- Ligne de résumé ---------------------------------------------------------------------
+    function majResume() {
+        fiche.querySelector('.fiche-resume-note').innerHTML = resumeNoteHtml(osmId);
+        var zoneLien = fiche.querySelector('.fiche-resume-avis');
+        zoneLien.innerHTML = lienAvisHtml(osmId);
+        var lien = zoneLien.querySelector('.fiche-lien-avis');
+        if (lien) {
+            lien.setAttribute('aria-expanded', String(!panneauAvis.hidden));
+            lien.addEventListener('click', function () { basculer(panneauAvis); });
+        }
     }
 
-    function afficherFormulaire() {
-        etat = 'formulaire';
-        var vote = mapetanqueVoteLocal(osmId);
-        var idTexte = 'avis-texte-' + osmId.replace('/', '-');
-        var idPseudo = 'avis-pseudo-' + osmId.replace('/', '-');
+    // --- Panneau « N avis » ------------------------------------------------------------------
+    function afficherAvis() {
+        var liste = (window.mapetanqueAvis || {})[osmId] || [];
+        panneauAvis.innerHTML = liste.map(avisHtml).join('')
+            + '<button type="button" class="fiche-lien-texte avis-donner">' + t('fiche_donner_avis') + ' ›</button>';
+        panneauAvis.querySelector('.avis-donner').addEventListener('click', function () { basculer(panneauNoter); });
+    }
 
-        bloc.innerHTML = entete(0, false)
+    // --- Panneau « Noter » -------------------------------------------------------------------
+    var noteActuelle = 0;        // note de ce navigateur, état de repos des étoiles
+    var envoiEnCours = false;
+
+    function construireNoter() {
+        var suffixe = osmId.replace('/', '-');
+        var etoiles = '';
+        for (var i = 1; i <= 5; i++) {
+            etoiles += '<button type="button" class="note-vote-etoile" data-note="' + i
+                + '" aria-label="' + t('notation_etoile_aria').replace('%n', i) + '">★</button>';
+        }
+        var cases = CRITERES_JOUEURS.map(function (cle) {
+            return '<button type="button" class="critere-case" data-critere="' + cle + '" aria-pressed="false">'
+                + PICTOS[cle] + '<span>' + t('critere_' + cle) + '</span></button>';
+        }).join('');
+
+        panneauNoter.innerHTML =
+            '<div class="noter-note">'
+            + '<span class="noter-libelle"></span>'
+            + '<span class="note-vote-etoiles">' + etoiles + '</span>'
+            + '</div>'
+            // Cases des joueurs : seulement après un vote (le Worker exige le jeton de ce vote).
+            + '<div class="noter-criteres" hidden>'
+            + '<div class="noter-sous-titre">' + t('fiche_vous_confirmez') + ' <span class="avis-facultatif">' + t('avis_facultatif') + '</span></div>'
+            + '<div class="noter-cases">' + cases + '</div>'
+            + '<p class="noter-erreur" hidden></p>'
+            + '</div>'
+            // Avis : le champ est là dès l'ouverture (un avis sans note reste permis) ; le reste du
+            // formulaire n'apparaît qu'au premier caractère.
             + '<form class="avis-form" novalidate>'
             + (mapetanqueAvisDejaEnvoye(osmId) ? '<p class="avis-info">' + t('avis_remplacera') + '</p>' : '')
-            + '<label for="' + idTexte + '">' + t('avis_champ_texte') + '</label>'
-            + '<textarea id="' + idTexte + '" name="texte" maxlength="' + AVIS_TAILLE_MAX + '" required></textarea>'
+            + '<label for="avis-texte-' + suffixe + '">' + t('fiche_votre_avis') + ' <span class="avis-facultatif">' + t('avis_facultatif') + '</span></label>'
+            + '<textarea id="avis-texte-' + suffixe + '" name="texte" maxlength="' + AVIS_TAILLE_MAX + '" placeholder="' + t('fiche_avis_exemple') + '"></textarea>'
+            + '<div class="avis-suite" hidden>'
             + '<div class="avis-compteur" aria-live="polite">0 / ' + AVIS_TAILLE_MAX + '</div>'
-            + '<label for="' + idPseudo + '">' + t('avis_champ_pseudo')
-            + ' <span class="avis-facultatif">' + t('avis_facultatif') + '</span></label>'
-            + '<input type="text" id="' + idPseudo + '" name="pseudo" maxlength="40" autocomplete="nickname" placeholder="' + t('avis_anonyme') + '">'
+            + '<label for="avis-pseudo-' + suffixe + '">' + t('avis_champ_pseudo') + ' <span class="avis-facultatif">' + t('avis_facultatif') + '</span></label>'
+            + '<input type="text" id="avis-pseudo-' + suffixe + '" name="pseudo" maxlength="40" autocomplete="nickname" placeholder="' + t('avis_anonyme') + '">'
             // Champ piège : invisible pour un visiteur, rempli par les robots.
             + '<input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="avis-piege" aria-hidden="true">'
-            + (vote ? '<div class="avis-lien-note">' + t('avis_avec_note') + ' ' + noteAvisHtml(vote.note) + '</div>' : '')
-            + '<p class="avis-mention">' + t('avis_mention') + '</p>'
+            + '<p class="avis-mention"></p>'
             + '<p class="avis-erreur" hidden></p>'
-            + '<div class="avis-boutons">'
-            + '<button type="button" class="avis-btn avis-btn-annuler">' + t('avis_annuler') + '</button>'
-            + '<button type="submit" class="avis-btn avis-btn-envoyer" disabled>' + t('avis_envoyer') + '</button>'
+            + '<div class="avis-boutons"><button type="submit" class="avis-btn avis-btn-envoyer" disabled>' + t('fiche_publier_avis') + '</button></div>'
             + '</div>'
             + '</form>';
 
-        var formulaire = bloc.querySelector('.avis-form');
+        brancherEtoiles();
+        panneauNoter.querySelectorAll('.critere-case').forEach(function (bouton) {
+            bouton.addEventListener('click', function () { basculerCase(bouton); });
+        });
+        brancherFormulaire();
+        etatNote();
+    }
+
+    // État du panneau d'après le vote mémorisé sur cet appareil : étoiles, libellé, cases, mention.
+    function etatNote() {
+        var vote = mapetanqueVoteLocal(osmId);
+        noteActuelle = vote ? vote.note : 0;
+        peindre(noteActuelle);
+        afficherLibelle(vote ? '✓ ' + t('fiche_note_enregistree') : t('notation_votre_note'), vote ? 'ok' : '');
+        var criteres = panneauNoter.querySelector('.noter-criteres');
+        if (criteres) criteres.hidden = !(vote && vote.jeton);
+        majCases();
+        majMention();
+    }
+
+    function afficherLibelle(texte, etat) {
+        var libelle = panneauNoter.querySelector('.noter-libelle');
+        if (!libelle) return;
+        libelle.textContent = texte;
+        libelle.classList.toggle('ok', etat === 'ok');
+        libelle.classList.toggle('note-erreur', etat === 'erreur');
+    }
+
+    // Remplissage fait en JS plutôt qu'en CSS : la technique du sélecteur ~ imposerait un ordre
+    // DOM inversé, alors qu'ici le même code sert au survol, au clavier, au retour à l'état de
+    // repos et à l'état après vote.
+    function peindre(niveau) {
+        panneauNoter.querySelectorAll('.note-vote-etoile').forEach(function (bouton) {
+            bouton.classList.toggle('active', parseInt(bouton.getAttribute('data-note'), 10) <= niveau);
+        });
+    }
+
+    function brancherEtoiles() {
+        panneauNoter.querySelectorAll('.note-vote-etoile').forEach(function (bouton) {
+            var valeur = parseInt(bouton.getAttribute('data-note'), 10);
+            bouton.addEventListener('mouseenter', function () { peindre(valeur); });
+            bouton.addEventListener('focus', function () { peindre(valeur); });
+            bouton.addEventListener('click', function () { voter(valeur); });
+        });
+        // Retour à l'état de repos : la note donnée si le visiteur a voté, rien sinon.
+        panneauNoter.querySelector('.note-vote-etoiles').addEventListener('mouseleave', function () {
+            peindre(noteActuelle);
+        });
+    }
+
+    // Le vote part dès l'appui et reste modifiable : le jeton mémorisé permet de MODIFIER ce vote
+    // plutôt que d'en ajouter un second (voir mapetanqueVoteLocal).
+    function voter(note) {
+        // Même note que celle déjà donnée : rien à envoyer. Clics répétés pendant un envoi :
+        // ignorés, sinon deux requêtes se croiseraient et la seconde pourrait écraser la première.
+        if (envoiEnCours || note === noteActuelle) return;
+        envoiEnCours = true;
+
+        var precedente = noteActuelle;
+        noteActuelle = note;
+        peindre(note);
+
+        var voteExistant = mapetanqueVoteLocal(osmId);
+
+        fetch(MAPETANQUE_URL_NOTES + '/vote', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                osm_id: osmId,
+                note: note,
+                jeton: voteExistant ? voteExistant.jeton : undefined
+            })
+        })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (data) {
+                if (!data || typeof data.nombre !== 'number') throw new Error('réponse inattendue');
+
+                // Refus du Worker : cette connexion a déjà voté pour ce terrain ce mois-ci, mais
+                // depuis un autre navigateur (pas de jeton ici pour le modifier). On le dit, et
+                // on retire les étoiles de vote.
+                if (data.deja_vote) {
+                    panneauNoter.querySelector('.noter-note').innerHTML =
+                        '<span class="note-vote-message">' + t('notation_deja') + '</span>';
+                    return;
+                }
+
+                mapetanqueMemoriserVote(osmId, note, data.jeton);
+
+                // Le Worker renvoie l'agrégat à jour : on le recopie dans le cache local plutôt que
+                // de relancer un GET /notes, mis en cache 5 min et qui renverrait l'ancienne valeur.
+                // L'événement met à jour la ligne de résumé et les tuiles du carrousel.
+                window.mapetanqueNotes[osmId] = [data.somme, data.nombre];
+                window.dispatchEvent(new CustomEvent('mapetanque:notes'));
+                etatNote();
+            })
+            .catch(function () {
+                noteActuelle = precedente;
+                peindre(precedente);
+                afficherLibelle(t('notation_erreur'), 'erreur');
+            })
+            .then(function () { envoiEnCours = false; });
+    }
+
+    // --- Cases des joueurs -------------------------------------------------------------------
+    function majCases() {
+        var confirmes = mapetanqueConfirmationsLocales(osmId);
+        panneauNoter.querySelectorAll('.critere-case').forEach(function (bouton) {
+            bouton.setAttribute('aria-pressed', String(confirmes.indexOf(bouton.getAttribute('data-critere')) !== -1));
+        });
+    }
+
+    // Cocher confirme (ou rafraîchit la date), décocher retire. La case change tout de suite et
+    // revient en arrière si l'envoi échoue.
+    function basculerCase(bouton) {
+        var vote = mapetanqueVoteLocal(osmId);
+        if (!vote || !vote.jeton || bouton.disabled) return;
+
+        var erreur = panneauNoter.querySelector('.noter-erreur');
+        var coche = bouton.getAttribute('aria-pressed') !== 'true';
+        var criteres = {};
+        criteres[bouton.getAttribute('data-critere')] = coche;
+
+        bouton.setAttribute('aria-pressed', String(coche));
+        bouton.disabled = true;
+        erreur.hidden = true;
+
+        fetch(MAPETANQUE_URL_NOTES + '/confirmation', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ osm_id: osmId, jeton: vote.jeton, criteres: criteres })
+        })
+            .then(function (r) {
+                if (!r.ok) throw new Error('Réponse HTTP ' + r.status);
+                return r.json();
+            })
+            .then(function (data) {
+                mapetanqueMemoriserConfirmations(osmId, data.confirmes);
+                majCases();
+                // Compteurs à jour du terrain, sans attendre le cache de GET /criteres.
+                window.mapetanqueCriteres[osmId] = data.criteres || {};
+                window.dispatchEvent(new CustomEvent('mapetanque:criteres'));
+            })
+            .catch(function () {
+                bouton.setAttribute('aria-pressed', String(!coche));
+                erreur.textContent = t('fiche_confirmation_erreur');
+                erreur.hidden = false;
+            })
+            .then(function () { bouton.disabled = false; });
+    }
+
+    // --- Formulaire d'avis -------------------------------------------------------------------
+    function majMention() {
+        var mention = panneauNoter.querySelector('.avis-mention');
+        if (!mention) return;
+        var vote = mapetanqueVoteLocal(osmId);
+        mention.textContent = t('avis_mention')
+            + (vote ? ' ' + t('fiche_note_jointe').replace('%n', vote.note + ' ★') : '');
+    }
+
+    function brancherFormulaire() {
+        var formulaire = panneauNoter.querySelector('.avis-form');
         var zoneTexte = formulaire.querySelector('textarea');
+        var suite = formulaire.querySelector('.avis-suite');
         var compteur = formulaire.querySelector('.avis-compteur');
         var bouton = formulaire.querySelector('.avis-btn-envoyer');
 
         zoneTexte.addEventListener('input', function () {
             var longueur = zoneTexte.value.length;
+            if (longueur > 0) suite.hidden = false;   // une fois affichée, la suite reste
             compteur.textContent = longueur + ' / ' + AVIS_TAILLE_MAX;
             compteur.classList.toggle('presque', longueur >= AVIS_TAILLE_MAX - 20);
             bouton.disabled = zoneTexte.value.trim().length < 3;
         });
-        formulaire.querySelector('.avis-btn-annuler').addEventListener('click', afficherListe);
-        formulaire.addEventListener('submit', envoyer);
-        zoneTexte.focus();
+        formulaire.addEventListener('submit', envoyerAvis);
     }
 
-    function envoyer(evt) {
+    function envoyerAvis(evt) {
         evt.preventDefault();
         var formulaire = evt.currentTarget;
         var bouton = formulaire.querySelector('.avis-btn-envoyer');
@@ -3119,11 +3433,11 @@ function brancherAvisPopup(e) {
                 });
             })
             .then(function () {
-                etat = 'merci';
                 mapetanqueMemoriserAvisEnvoye(osmId);
-                var liste = listeDuTerrain();
-                bloc.innerHTML = entete(liste.length, false)
-                    + '<div class="avis-merci">✓ ' + t('avis_merci') + '</div>';
+                var merci = document.createElement('div');
+                merci.className = 'avis-merci';
+                merci.textContent = '✓ ' + t('avis_merci');
+                formulaire.replaceWith(merci);
             })
             .catch(function (err) {
                 var cle = /^avis_/.test(err.message) ? err.message : 'avis_erreur';
@@ -3133,16 +3447,24 @@ function brancherAvisPopup(e) {
             });
     }
 
-    // Les avis arrivent après l'ouverture de la fiche (premier chargement) : on redessine la
-    // liste, sans jamais écraser un formulaire en cours de saisie. L'écouteur se retire de
-    // lui-même une fois la fiche fermée et son contenu détaché du document.
-    function surArrivee() {
-        if (!bloc.isConnected) { window.removeEventListener('mapetanque:avis', surArrivee); return; }
-        if (etat === 'liste') afficherListe();
+    // --- Données arrivées après l'ouverture, ou modifiées par un vote ------------------------
+    // L'écouteur se retire de lui-même une fois la fiche fermée et son contenu détaché du document.
+    var EVENEMENTS = ['mapetanque:notes', 'mapetanque:avis', 'mapetanque:criteres'];
+    function surDonnees(evt) {
+        if (!fiche.isConnected) {
+            EVENEMENTS.forEach(function (nom) { window.removeEventListener(nom, surDonnees); });
+            return;
+        }
+        if (evt.type === 'mapetanque:criteres') {
+            zoneCriteres.innerHTML = criteresHtml(tags);
+        } else {
+            majResume();
+            if (evt.type === 'mapetanque:avis' && !panneauAvis.hidden) afficherAvis();
+        }
     }
-    window.addEventListener('mapetanque:avis', surArrivee);
+    EVENEMENTS.forEach(function (nom) { window.addEventListener(nom, surDonnees); });
 
-    afficherListe();
+    majResume();
 }
 
 
@@ -3173,13 +3495,7 @@ fetch('/data/clubs.json')
 
             const marker = L.marker([club.lat, club.lon], { icon: clubMarkerIcon });
 
-            marker.bindPopup(function () {
-                return construireContenuPopupClub(club);
-            });
-
-            marker.on('popupopen', function (e) {
-                brancherPartagePopupClub(e, club, marker);
-            });
+            brancherPopupClub(marker, club);
 
             marker.addTo(clubsLayer);
 

@@ -2572,7 +2572,8 @@ brancherSegment("detailsSegment", p => { PERIODE_DETAILS = p; dessinerDetails();
 
 
 /* ===================== Signalements ===================== */
-// Terrains manquants (lien de la bannière d'accueil) et erreurs signalées depuis les fiches.
+// Terrains manquants (lien de la bannière d'accueil) et erreurs signalées depuis les fiches
+// terrain et club.
 // Rien n'est modifié sur le site depuis ici : la correction se fait dans OSM, et la carte suit
 // à la mise à jour hebdomadaire. Cet onglet sert à ne rien oublier : ouvrir l'éditeur OSM au bon
 // endroit, puis marquer le signalement comme traité ou refusé.
@@ -2584,6 +2585,12 @@ const ETATS_SIGNALEMENT = {
     nouveau: "À traiter",
     traite: "Traité",
     refuse: "Refusé"
+};
+
+const TYPES_SIGNALEMENT = {
+    manquant: "Terrain manquant",
+    erreur: "Erreur sur un terrain",
+    club: "Erreur sur un club"
 };
 
 async function chargerSignalements() {
@@ -2654,7 +2661,7 @@ function carteSignalement(s) {
     tete.className = "signalement-tete";
     const date = new Date(String(s.cree).replace(" ", "T") + "Z");
     tete.innerHTML =
-        '<span class="signalement-type">' + (s.type === "manquant" ? "Terrain manquant" : "Erreur sur un terrain") + '</span>'
+        '<span class="signalement-type">' + (TYPES_SIGNALEMENT[s.type] || s.type) + '</span>'
         + '<span class="signalement-etat ' + echapper(s.statut) + '">' + echapper(ETATS_SIGNALEMENT[s.statut] || s.statut) + '</span>'
         + '<span class="signalement-date">' + echapper(isNaN(date) ? String(s.cree) : date.toLocaleString("fr-BE", { dateStyle: "medium", timeStyle: "short" }))
         + (s.langue ? " · " + echapper(String(s.langue).toUpperCase()) : "") + '</span>';
@@ -2665,6 +2672,8 @@ function carteSignalement(s) {
     const morceaux = [];
     if (s.type === "erreur") {
         morceaux.push(s.titre || "Terrain sans nom", s.osm_id || "");
+    } else if (s.type === "club") {
+        morceaux.push(s.titre || "Club sans nom");
     } else if (aCoordonnees) {
         morceaux.push(lat + ", " + lon);
     }
@@ -2677,13 +2686,18 @@ function carteSignalement(s) {
     carte.appendChild(commentaire);
 
     // Liens : le site au bon endroit, l'éditeur OSM (sur l'élément lui-même pour une erreur).
+    // Un club ne vient pas d'OSM : lien vers sa fiche seulement, la correction se fait dans
+    // club/clubs_petanque_belgique_propre.csv (puis club/enrichir_clubs.py).
     const actions = document.createElement("div");
     actions.className = "signalement-actions";
     if (aCoordonnees) {
-        actions.appendChild(lienExterne("Voir sur le site", "/?lat=" + lat + "&lon=" + lon + "&z=18"));
+        actions.appendChild(lienExterne("Voir sur le site",
+            "/?" + (s.type === "club" ? "club=1&" : "") + "lat=" + lat + "&lon=" + lon + "&z=18"));
     }
     const osmValide = /^(node|way|relation)\/[0-9]+$/.test(s.osm_id || "");
-    if (s.type === "erreur" && osmValide) {
+    if (s.type === "club") {
+        // pas d'éditeur OSM
+    } else if (s.type === "erreur" && osmValide) {
         actions.appendChild(lienExterne("Élément OSM", "https://www.openstreetmap.org/" + s.osm_id));
         const [type, id] = s.osm_id.split("/");
         actions.appendChild(lienExterne("Éditeur OSM", "https://www.openstreetmap.org/edit?" + type + "=" + id));
@@ -2700,7 +2714,7 @@ function carteSignalement(s) {
         actions.appendChild(b);
     }
     if (s.statut === "nouveau") {
-        bouton(s.type === "manquant" ? "Ajouté dans OSM" : "Corrigé dans OSM", "traite", true);
+        bouton(s.type === "manquant" ? "Ajouté dans OSM" : s.type === "club" ? "Corrigé" : "Corrigé dans OSM", "traite", true);
         bouton("Refuser", "refuse");
     } else {
         bouton("Remettre à traiter", "nouveau");

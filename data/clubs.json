@@ -6,7 +6,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "anvers",
-    "commune": "Antwerpen"
+    "commune": "Antwerpen",
+    "adresse": "Fortsteenweg 120, 2170 Merksem",
+    "site": ""
   },
   {
     "name": "PC Aartselaar",
@@ -15,7 +17,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "anvers",
-    "commune": "Aartselaar"
+    "commune": "Aartselaar",
+    "adresse": "'t Sportzicht - Kleistraat 204, 2630 Aartselaar",
+    "site": ""
   },
   {
     "name": "PC Bernardus",
@@ -24,7 +28,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "anvers",
-    "commune": "Antwerpen"
+    "commune": "Antwerpen",
+    "adresse": "Pierenbergstraat 65, 2020 Antwerpen",
+    "site": ""
   },
   {
     "name": "PC Boom",
@@ -33,7 +39,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "anvers",
-    "commune": "Boom"
+    "commune": "Boom",
+    "adresse": "Kerkhofstraat 88/92, 2850 Boom",
+    "site": ""
   },
   {
     "name": "PC De Lindepet",
@@ -42,7 +50,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "anvers",
-    "commune": "Zandhoven"
+    "commune": "Zandhoven",
+    "adresse": "Veldstraat 33, 2240 Zandhoven",
+    "site": ""
   },
   {
     "name": "PC Duffel",
@@ -51,7 +61,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "anvers",
-    "commune": "Duffel"
+    "commune": "Duffel",
+    "adresse": "Perwijsstraat 33, 2570 Duffel",
+    "site": ""
   },
   {
     "name": "PC Hemelhof",
@@ -60,7 +72,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "anvers",
-    "commune": "Brasschaat"
+    "commune": "Brasschaat",
+    "adresse": "Hemeldreef 5, 2930 Brasschaat",
+    "site": ""
   },
   {
     "name": "PC Herentals",
@@ -69,7 +83,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "anvers",
-    "commune": "Herentals"
+    "commune": "Herentals",
+    "adresse": "Wijngaard 8, 2200 Herentals",
+    "site": ""
   },
   {
     "name": "PC Kalmthout",
@@ -78,7 +94,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "anvers",
-    "commune": "Kalmthout"
+    "commune": "Kalmthout",
+    "adresse": "Heikantstraat 60, 2920 Kalmthout",
+    "site": ""
   },
   {
     "name": "PC Kontich",
@@ -87,7 +105,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "anvers",
-    "commune": "Kontich"
+    "commune": "Kontich",
+    "adresse": "Keizershoek 196 B, 2550 Kontich",
+    "site": ""
   },
   {
     "name": "PC Lier",
@@ -96,7 +116,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "anvers",
-    "commune": "Lier"
+    "commune": "Lier",
+    "adresse": "Kazernedreef 99, 2500 Lier",
+    "site": ""
   },
   {
     "name": "PC Lint",
@@ -105,7 +127,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "anvers",
-    "commune": "Lint"
+    "commune": "Lint",
+    "adresse": "Kontichsesteenweg 83, 2547 Lint",
+    "site": ""
   },
   {
     "name": "PC Markdal",
@@ -114,7 +138,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "anvers",
-    "commune": "Hoogstraten"
+    "commune": "Hoogstraten",
+    "adresse": "Hoogeind 74c, 2321 Meer-Hoogstraten",
+    "site": ""
   },
   {
     "name": "PC Meerosa",
@@ -123,7 +149,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "anvers",
-    "commune": "Antwerpen"
+    "commune": "Antwerpen",
+    "adresse": "Peter Benoitlaan zn, 2100 Deurne",
+    "site": ""
   },
   {
     "name": "PC Mercurius",
@@ -132,7 +160,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "anvers",
-    "commune": "Antwerpen"
+    "commune": "Antwerpen",
+    "adresse": "Hoofdfrontweg 3/10, 2660 Hoboken",
+    "site": ""
   },
   {
     "name": "PC Mol",
@@ -141,7 +171,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "anvers",
-    "commune": "Mol"
+    "commune": "Mol",
+    "adresse": "Spoorwegstraat 27/1, 2400 Mol",
+    "site": ""
   },
   {
     "name": "PC Niel",
@@ -150,7 +182,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "anvers",
-    "commune": "Niel"
+    "commune": "Niel",
+    "adresse": "Legastraat 21, 2845 Niel",
+    "site": ""
   },
   {
     "name": "PC Rozemaai",
@@ -159,7 +193,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "anvers",
-    "commune": "Antwerpen"
+    "commune": "Antwerpen",
+    "adresse": "Leo Baekelandstraat 2, 2180 Ekeren",
+    "site": ""
   },
   {
     "name": "PC Technico",
@@ -168,7 +204,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "anvers",
-    "commune": "Turnhout"
+    "commune": "Turnhout",
+    "adresse": "Smiskensstraat 45, 2300 Turnhout",
+    "site": ""
   },
   {
     "name": "PC Wijnegem",
@@ -177,7 +215,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "anvers",
-    "commune": "Wijnegem"
+    "commune": "Wijnegem",
+    "adresse": "Kasteellei 79A, 2110 Wijnegem",
+    "site": ""
   },
   {
     "name": "PC de Nete",
@@ -186,7 +226,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "anvers",
-    "commune": "Nijlen"
+    "commune": "Nijlen",
+    "adresse": "Grote Puttingbaan 4, 2560 Kessel",
+    "site": ""
   },
   {
     "name": "PK De Evers",
@@ -195,7 +237,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "anvers",
-    "commune": "Wommelgem"
+    "commune": "Wommelgem",
+    "adresse": "Fort II straat, 2160 Wommelgem",
+    "site": ""
   },
   {
     "name": "Putse Petanque",
@@ -204,7 +248,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "anvers",
-    "commune": "Putte"
+    "commune": "Putte",
+    "adresse": "Mechelbaan 604, 2580 Putte",
+    "site": ""
   },
   {
     "name": "KPC Tienen",
@@ -213,7 +259,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "brabant_flamand",
-    "commune": "Tienen"
+    "commune": "Tienen",
+    "adresse": "Sporthalstraat 8, 3300 Tienen",
+    "site": ""
   },
   {
     "name": "PC Beersel",
@@ -222,7 +270,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "brabant_flamand",
-    "commune": "Lot"
+    "commune": "Lot",
+    "adresse": "Goutstouwersstraat 59, 1651 Lot",
+    "site": ""
   },
   {
     "name": "PC De Blockskes",
@@ -231,7 +281,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "brabant_flamand",
-    "commune": "Merchtem"
+    "commune": "Merchtem",
+    "adresse": "Processiebaan 5, 1785 Merchtem",
+    "site": ""
   },
   {
     "name": "PC De Valkerij (Tervuren)",
@@ -240,7 +292,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "brabant_flamand",
-    "commune": "Tervuren"
+    "commune": "Tervuren",
+    "adresse": "Oppemstraat 57, 3080 Tervuren",
+    "site": ""
   },
   {
     "name": "PC Dilbeek",
@@ -249,7 +303,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "brabant_flamand",
-    "commune": "Dilbeek"
+    "commune": "Dilbeek",
+    "adresse": "Bal-O-Droom, d'Arconatistraat 3, 1700 Dilbeek",
+    "site": ""
   },
   {
     "name": "PC Hap (Asse)",
@@ -258,7 +314,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "brabant_flamand",
-    "commune": "Asse"
+    "commune": "Asse",
+    "adresse": "Broekeweg Z/N, 1730 Asse",
+    "site": ""
   },
   {
     "name": "PC Vilvoorde",
@@ -267,7 +325,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "brabant_flamand",
-    "commune": "Vilvoorde"
+    "commune": "Vilvoorde",
+    "adresse": "Perksestraat 288, 1800 Vilvoorde",
+    "site": ""
   },
   {
     "name": "PC Wemmel",
@@ -276,7 +336,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "brabant_flamand",
-    "commune": "Wemmel"
+    "commune": "Wemmel",
+    "adresse": "Steenweg op Brussel 113, 1780 Wemmel",
+    "site": ""
   },
   {
     "name": "Petanque Club Affligem",
@@ -285,7 +347,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "brabant_flamand",
-    "commune": "Affligem"
+    "commune": "Affligem",
+    "adresse": "Brusselsebaan 182, 1790 Affligem",
+    "site": ""
   },
   {
     "name": "Petanque Kerkom",
@@ -294,7 +358,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "brabant_flamand",
-    "commune": "Boutersem"
+    "commune": "Boutersem",
+    "adresse": "Schoolstraat 15, 3370 Boutersem",
+    "site": ""
   },
   {
     "name": "Petanqueclub Leuven",
@@ -303,7 +369,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "brabant_flamand",
-    "commune": "Leuven"
+    "commune": "Leuven",
+    "adresse": "Aarschotsesteenweg 334, 3000 Leuven",
+    "site": ""
   },
   {
     "name": "S.P.E.M. Petek (Everberg)",
@@ -312,7 +380,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "brabant_flamand",
-    "commune": "Kwerps"
+    "commune": "Kwerps",
+    "adresse": "Sint-Pietersplein 10, 3071 Erps-Kwerps",
+    "site": ""
   },
   {
     "name": "Singel PC (Strombeek)",
@@ -321,7 +391,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "brabant_flamand",
-    "commune": "Strombeek-Bever"
+    "commune": "Strombeek-Bever",
+    "adresse": "Grimbergsesteenweg 99A, 1850 Grimbergen",
+    "site": ""
   },
   {
     "name": "AS Beauchamp",
@@ -330,7 +402,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "brabant_wallon",
-    "commune": "Wavre"
+    "commune": "Wavre",
+    "adresse": "Place de la Constellation, 3 - 1300 Limal",
+    "site": ""
   },
   {
     "name": "ASBL Petanque Club De Genappe",
@@ -339,7 +413,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "brabant_wallon",
-    "commune": "Genappe"
+    "commune": "Genappe",
+    "adresse": "rue de Ways, 115z - 1470 Genappe",
+    "site": ""
   },
   {
     "name": "Kiki Tubizien",
@@ -348,7 +424,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "brabant_wallon",
-    "commune": "Tubize"
+    "commune": "Tubize",
+    "adresse": "Chemin Massart, 66a - 1480 Tubize",
+    "site": ""
   },
   {
     "name": "La Petanque Jauchoise",
@@ -357,7 +435,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "brabant_wallon",
-    "commune": "Orp-Jauche"
+    "commune": "Orp-Jauche",
+    "adresse": "Ruelle du Cuvé, 2 - 1350 Orp-Jauche",
+    "site": ""
   },
   {
     "name": "La Wavrienne",
@@ -366,7 +446,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "brabant_wallon",
-    "commune": "Wavre"
+    "commune": "Wavre",
+    "adresse": "Avenue du Centre Sportif, 20 - 1300 Wavre",
+    "site": ""
   },
   {
     "name": "PC Caramboul",
@@ -375,7 +457,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "brabant_wallon",
-    "commune": "Bierghes"
+    "commune": "Bierghes",
+    "adresse": "Chaussée Maîeur Habils,145 - 1430 Bierghes",
+    "site": ""
   },
   {
     "name": "Pachy PC",
@@ -384,7 +468,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "brabant_wallon",
-    "commune": "Waterloo"
+    "commune": "Waterloo",
+    "adresse": "Rue Théophile Delbar, 33/4 - 1410 Waterloo",
+    "site": ""
   },
   {
     "name": "Petanque Club Genval",
@@ -393,7 +479,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "brabant_wallon",
-    "commune": "Rixensart"
+    "commune": "Rixensart",
+    "adresse": "rue de la Fontaine, 3 - 1332 Genval",
+    "site": ""
   },
   {
     "name": "Royal Blanc Ry Ottignies",
@@ -402,7 +490,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "brabant_wallon",
-    "commune": "Ottignies-Louvain-la-Neuve"
+    "commune": "Ottignies-Louvain-la-Neuve",
+    "adresse": "Bld Baudouin 1er - 1348 Louvain-La-Neuve",
+    "site": ""
   },
   {
     "name": "Royal CP Limaloise",
@@ -411,7 +501,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "brabant_wallon",
-    "commune": "Wavre"
+    "commune": "Wavre",
+    "adresse": "Rue Bois l'Abbé, 7 - 1300 Limal",
+    "site": ""
   },
   {
     "name": "Royal PC Paradis",
@@ -420,7 +512,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "brabant_wallon",
-    "commune": "Braine-l'Alleud"
+    "commune": "Braine-l'Alleud",
+    "adresse": "rue Ernest Laurent 215 - 1420 Braine-L'Alleud",
+    "site": ""
   },
   {
     "name": "Royal Petanque Club La Hulpe",
@@ -429,7 +523,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "brabant_wallon",
-    "commune": "La Hulpe"
+    "commune": "La Hulpe",
+    "adresse": "Avenue René Soyer, 7 - 1310 La Hulpe",
+    "site": ""
   },
   {
     "name": "Royal Petanque Club Nivelloise",
@@ -438,7 +534,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "brabant_wallon",
-    "commune": "Nivelles"
+    "commune": "Nivelles",
+    "adresse": "Chaussée de Bruxelles, 91b - 1400 Nivelles",
+    "site": ""
   },
   {
     "name": "Amicale Anderlechtoise P.C.",
@@ -446,7 +544,9 @@
     "lon": 4.2744595,
     "region": "bruxelles",
     "federation": "FBFP",
-    "commune": "Anderlecht"
+    "commune": "Anderlecht",
+    "adresse": "Dreve Olympique, 60 - 1070 Anderlecht",
+    "site": ""
   },
   {
     "name": "Forever Saint Josse",
@@ -454,7 +554,9 @@
     "lon": 4.4228293,
     "region": "bruxelles",
     "federation": "FBFP",
-    "commune": "Evere"
+    "commune": "Evere",
+    "adresse": "Avenue des Communautés, 6 - 1140 Evere",
+    "site": ""
   },
   {
     "name": "New Ixelles",
@@ -462,7 +564,9 @@
     "lon": 4.393361,
     "region": "bruxelles",
     "federation": "FBFP",
-    "commune": "Ixelles - Elsene"
+    "commune": "Ixelles - Elsene",
+    "adresse": "rue des Brebis, 48 - 1050 Bruxelles",
+    "site": ""
   },
   {
     "name": "PC Esseghem (Jette)",
@@ -470,7 +574,9 @@
     "lon": 4.3375838,
     "region": "bruxelles",
     "federation": "PFV",
-    "commune": "Jette"
+    "commune": "Jette",
+    "adresse": "Rue Jules Lahaye 304, 1020 Bruxelles",
+    "site": ""
   },
   {
     "name": "PC Etterbeekois",
@@ -478,7 +584,9 @@
     "lon": 4.3957368,
     "region": "bruxelles",
     "federation": "FBFP",
-    "commune": "Etterbeek"
+    "commune": "Etterbeek",
+    "adresse": "Rue Général Tombeur, 53 - 1040 Etterbeek",
+    "site": ""
   },
   {
     "name": "PC Le Domaine",
@@ -486,7 +594,9 @@
     "lon": 4.3393058,
     "region": "bruxelles",
     "federation": "FBFP",
-    "commune": "Uccle - Ukkel"
+    "commune": "Uccle - Ukkel",
+    "adresse": "rue Robert Scott, 14 - 1180 Bruxelles (Royal P.U.C.)",
+    "site": ""
   },
   {
     "name": "PC Le Silence",
@@ -494,7 +604,9 @@
     "lon": 4.3473761,
     "region": "bruxelles",
     "federation": "FBFP",
-    "commune": "Saint-Gilles - Sint-Gillis"
+    "commune": "Saint-Gilles - Sint-Gillis",
+    "adresse": "Boulodrome Ch. PICQUE - rue de l'Hôtel des Monnaies, 108 - 1060 Bruxelles",
+    "site": ""
   },
   {
     "name": "PC New F.E.S.",
@@ -502,7 +614,9 @@
     "lon": 4.4173074,
     "region": "bruxelles",
     "federation": "FBFP",
-    "commune": "Evere"
+    "commune": "Evere",
+    "adresse": "Rue des Deux Maisons, 34-36 1140 Bruxelles",
+    "site": ""
   },
   {
     "name": "Petanque Club Saint-Gillois",
@@ -510,7 +624,9 @@
     "lon": 4.3475182,
     "region": "bruxelles",
     "federation": "FBFP",
-    "commune": "Saint-Gilles - Sint-Gillis"
+    "commune": "Saint-Gilles - Sint-Gillis",
+    "adresse": "rue de l'Hôtel des Monnaies, 108 - 1060 St-Gilles",
+    "site": ""
   },
   {
     "name": "Pétanque Auderghem Sainte Anne (P.A.S.A.)",
@@ -518,7 +634,9 @@
     "lon": 4.4296944,
     "region": "bruxelles",
     "federation": "FBFP",
-    "commune": "Auderghem - Oudergem"
+    "commune": "Auderghem - Oudergem",
+    "adresse": "rue du Vieux Moulin, 23 - 1160 Auderghem",
+    "site": ""
   },
   {
     "name": "Royal PC Cite Modele",
@@ -526,7 +644,9 @@
     "lon": 4.3248842,
     "region": "bruxelles",
     "federation": "FBFP",
-    "commune": "Bruxelles - Brussel"
+    "commune": "Bruxelles - Brussel",
+    "adresse": "Allée de l'Amethyste, 6B - 1020 Bruxelles",
+    "site": ""
   },
   {
     "name": "Royal PC Elite",
@@ -534,7 +654,9 @@
     "lon": 4.4356537,
     "region": "bruxelles",
     "federation": "FBFP",
-    "commune": "Woluwe-Saint-Lambert - Sint-Lambrechts-Woluwe"
+    "commune": "Woluwe-Saint-Lambert - Sint-Lambrechts-Woluwe",
+    "adresse": "Rue Saint Lambert, 34 - 1200 Bruxelles",
+    "site": ""
   },
   {
     "name": "Royal PC Floreal",
@@ -542,7 +664,9 @@
     "lon": 4.4113209,
     "region": "bruxelles",
     "federation": "FBFP",
-    "commune": "Watermael-Boitsfort - Watermaal-Bosvoorde"
+    "commune": "Watermael-Boitsfort - Watermaal-Bosvoorde",
+    "adresse": "Avenue des Nymphes 1a, 1170 Bruxelles",
+    "site": ""
   },
   {
     "name": "Royal PC Joli-Bois",
@@ -550,7 +674,9 @@
     "lon": 4.4624487,
     "region": "bruxelles",
     "federation": "FBFP",
-    "commune": "Woluwe-Saint-Pierre - Sint-Pieters-Woluwe"
+    "commune": "Woluwe-Saint-Pierre - Sint-Pieters-Woluwe",
+    "adresse": "Rue Balis, 2 - 1150 Bruxelles",
+    "site": ""
   },
   {
     "name": "Royal Petanque Club De Rivieren",
@@ -558,7 +684,9 @@
     "lon": 4.2999753,
     "region": "bruxelles",
     "federation": "FBFP",
-    "commune": "Ganshoren"
+    "commune": "Ganshoren",
+    "adresse": "rue au bois, 14 - 1083 Ganshoren",
+    "site": ""
   },
   {
     "name": "Royal Petanque Club Le Frankveld ASBL",
@@ -566,7 +694,9 @@
     "lon": 4.3109715,
     "region": "bruxelles",
     "federation": "FBFP",
-    "commune": "Forest - Vorst"
+    "commune": "Forest - Vorst",
+    "adresse": "Bd de la 2ème Armée Britannique, 520 - 1190 Bruxelles (Forest)",
+    "site": ""
   },
   {
     "name": "Royal Petanque Uccle Centre",
@@ -574,7 +704,9 @@
     "lon": 4.3391987,
     "region": "bruxelles",
     "federation": "FBFP",
-    "commune": "Uccle - Ukkel"
+    "commune": "Uccle - Ukkel",
+    "adresse": "rue Robert Scott, 14 - 1180 Uccle",
+    "site": ""
   },
   {
     "name": "Royale P.U.S.",
@@ -582,7 +714,9 @@
     "lon": 4.3193558,
     "region": "bruxelles",
     "federation": "FBFP",
-    "commune": "Uccle - Ukkel"
+    "commune": "Uccle - Ukkel",
+    "adresse": "rue Zwartebeek, 21 - 1180 Bruxelles",
+    "site": ""
   },
   {
     "name": "Blankenbergse PC",
@@ -591,7 +725,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_occidentale",
-    "commune": "Blankenberge"
+    "commune": "Blankenberge",
+    "adresse": "Koning Albert 1 laan 114, 8370 Blankenberge",
+    "site": ""
   },
   {
     "name": "KPC De Bevers",
@@ -600,7 +736,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_occidentale",
-    "commune": "Waregem"
+    "commune": "Waregem",
+    "adresse": "Weversstraat 39, 8790 Waregem",
+    "site": ""
   },
   {
     "name": "Nieuwpoortse PC",
@@ -609,7 +747,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_occidentale",
-    "commune": "Nieuwpoort"
+    "commune": "Nieuwpoort",
+    "adresse": "Dudenhoflaan 2A, 8620 Nieuwpoort",
+    "site": ""
   },
   {
     "name": "Oostendse PC",
@@ -618,7 +758,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_occidentale",
-    "commune": "Oostende"
+    "commune": "Oostende",
+    "adresse": "Steensedijk 2, 8400 Oostende",
+    "site": ""
   },
   {
     "name": "PC De Bouchon",
@@ -627,7 +769,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_occidentale",
-    "commune": "Varsenare"
+    "commune": "Varsenare",
+    "adresse": "Hof Van Straeten 2, 8490 Varsenare",
+    "site": ""
   },
   {
     "name": "PC De Gulden Kamer",
@@ -636,7 +780,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_occidentale",
-    "commune": "Brugge"
+    "commune": "Brugge",
+    "adresse": "Blauwkasteelweg 28A, 8310 Sint-Kruis Brugge",
+    "site": ""
   },
   {
     "name": "PC De Vuurtoren",
@@ -645,7 +791,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_occidentale",
-    "commune": "Knokke-Heist"
+    "commune": "Knokke-Heist",
+    "adresse": "Heistlaan 124, 8301 Knokke-Heist",
+    "site": ""
   },
   {
     "name": "PC De Zeemeermin",
@@ -654,7 +802,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_occidentale",
-    "commune": "Middelkerke"
+    "commune": "Middelkerke",
+    "adresse": "Duinenweg 427, 8430 Middelkerke",
+    "site": ""
   },
   {
     "name": "PC Den Akker",
@@ -663,7 +813,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_occidentale",
-    "commune": "Beernem"
+    "commune": "Beernem",
+    "adresse": "Sportstraat 1, 8730 Oedelem",
+    "site": ""
   },
   {
     "name": "PC Gullegem",
@@ -672,7 +824,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_occidentale",
-    "commune": "Gullegem"
+    "commune": "Gullegem",
+    "adresse": "Kwadries 78, 8560 Gullegem",
+    "site": ""
   },
   {
     "name": "PC Jeanne d'Arc",
@@ -681,7 +835,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_occidentale",
-    "commune": "De Panne"
+    "commune": "De Panne",
+    "adresse": "Veurnestraat 24, 8660 De Panne",
+    "site": ""
   },
   {
     "name": "PC Koksijde",
@@ -690,7 +846,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_occidentale",
-    "commune": "Koksijde"
+    "commune": "Koksijde",
+    "adresse": "Hazebeekstraat 11, 8670 Oostduinkerke",
+    "site": ""
   },
   {
     "name": "PC Kortrijk",
@@ -699,7 +857,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_occidentale",
-    "commune": "Kortrijk"
+    "commune": "Kortrijk",
+    "adresse": "Leynvaalstraat 2, 8501 Kortrijk",
+    "site": ""
   },
   {
     "name": "PC Le Pastis",
@@ -708,7 +868,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_occidentale",
-    "commune": "Brugge"
+    "commune": "Brugge",
+    "adresse": "Lisseweegsesteenweg 102, 8380 Zeebrugge",
+    "site": ""
   },
   {
     "name": "PC Leiemeers",
@@ -717,7 +879,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_occidentale",
-    "commune": "Kuurne"
+    "commune": "Kuurne",
+    "adresse": "Luitenant Gen. Gérardstraat 64, 8520 Kuurne",
+    "site": ""
   },
   {
     "name": "PC Lisseweg",
@@ -726,7 +890,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_occidentale",
-    "commune": "Brugge"
+    "commune": "Brugge",
+    "adresse": "Stationsstraat 9, 8380 Lissewege",
+    "site": ""
   },
   {
     "name": "PC Okapi",
@@ -735,7 +901,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_occidentale",
-    "commune": "Kortrijk"
+    "commune": "Kortrijk",
+    "adresse": "Otegemsestraat 238, 8550 Zwevegem",
+    "site": ""
   },
   {
     "name": "PC Ricard Oostkamp",
@@ -744,7 +912,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_occidentale",
-    "commune": "Oostkamp"
+    "commune": "Oostkamp",
+    "adresse": "Stationsstraat 4, 8020 Oostkamp",
+    "site": ""
   },
   {
     "name": "PC Wijnendale",
@@ -753,7 +923,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_occidentale",
-    "commune": "Torhout"
+    "commune": "Torhout",
+    "adresse": "Baarsstraat 10, 8820 Wijnendale",
+    "site": ""
   },
   {
     "name": "Poperingse Petanquekoppen",
@@ -762,7 +934,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_occidentale",
-    "commune": "Poperinge"
+    "commune": "Poperinge",
+    "adresse": "Duinkerkestraat 157, 8970 Poperinge",
+    "site": ""
   },
   {
     "name": "KP Mistral",
@@ -771,7 +945,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_orientale",
-    "commune": "Heusden"
+    "commune": "Heusden",
+    "adresse": "Bosheidestraat 7, 9070 Heusden",
+    "site": ""
   },
   {
     "name": "KP Verbroedering",
@@ -780,7 +956,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_orientale",
-    "commune": "Melle"
+    "commune": "Melle",
+    "adresse": "Ovenveldstraat 9, 9090 Merelbeke-Melle",
+    "site": ""
   },
   {
     "name": "KPC Alosta",
@@ -789,7 +967,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_orientale",
-    "commune": "Aalst"
+    "commune": "Aalst",
+    "adresse": "Domein Beukenhof, Langestraat 12, 9300 Aalst",
+    "site": ""
   },
   {
     "name": "KPC Schorpioen",
@@ -798,7 +978,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_orientale",
-    "commune": "Gent"
+    "commune": "Gent",
+    "adresse": "Botestraat 98A, 9032 Wondelgem",
+    "site": ""
   },
   {
     "name": "PC Apollo",
@@ -807,7 +989,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_orientale",
-    "commune": "Aalst"
+    "commune": "Aalst",
+    "adresse": "Square J. Geerinckx 1, 9300 Aalst",
+    "site": ""
   },
   {
     "name": "PC Chapoo",
@@ -816,7 +1000,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_orientale",
-    "commune": "Sint-Lievens-Houtem"
+    "commune": "Sint-Lievens-Houtem",
+    "adresse": "Klein Zottegem 42, 9520 Letterhoutem",
+    "site": ""
   },
   {
     "name": "PC Donkmeer",
@@ -825,7 +1011,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_orientale",
-    "commune": "Berlare"
+    "commune": "Berlare",
+    "adresse": "Dendermondsesteenweg 43, 9290 Berlare",
+    "site": ""
   },
   {
     "name": "PC Haeseveld",
@@ -834,7 +1022,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_orientale",
-    "commune": "Heusden"
+    "commune": "Heusden",
+    "adresse": "Wellingstraat 95, 9070 Heusden",
+    "site": ""
   },
   {
     "name": "PC Heirnis",
@@ -843,7 +1033,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_orientale",
-    "commune": "Gent"
+    "commune": "Gent",
+    "adresse": "Snoeckstraat 101, 9000 Gent",
+    "site": ""
   },
   {
     "name": "PC Hof Ter Burst",
@@ -852,7 +1044,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_orientale",
-    "commune": "Lebbeke"
+    "commune": "Lebbeke",
+    "adresse": "Hof Ter Burstlaan 13, 9280 Lebbeke",
+    "site": ""
   },
   {
     "name": "PC Lokeren",
@@ -861,7 +1055,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_orientale",
-    "commune": "Lokeren"
+    "commune": "Lokeren",
+    "adresse": "Nieuwe Heirweg 19, 9180 Lokeren",
+    "site": ""
   },
   {
     "name": "PC Oudenaarde",
@@ -870,7 +1066,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_orientale",
-    "commune": "Oudenaarde"
+    "commune": "Oudenaarde",
+    "adresse": "Galgestraat 75, 9700 Oudenaarde",
+    "site": ""
   },
   {
     "name": "PC Patijntje",
@@ -879,7 +1077,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_orientale",
-    "commune": "Gent"
+    "commune": "Gent",
+    "adresse": "Patijntjestraat 27, 9000 Gent",
+    "site": ""
   },
   {
     "name": "PC Reynaert",
@@ -888,7 +1088,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_orientale",
-    "commune": "Lokeren"
+    "commune": "Lokeren",
+    "adresse": "Oude Bruglaan 49, 9160 Lokeren",
+    "site": ""
   },
   {
     "name": "PC Stekene",
@@ -897,7 +1099,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_orientale",
-    "commune": "Stekene"
+    "commune": "Stekene",
+    "adresse": "Nieuwstraat 60G, 9190 Stekene",
+    "site": ""
   },
   {
     "name": "PC Terheiden",
@@ -906,7 +1110,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_orientale",
-    "commune": "Outer"
+    "commune": "Outer",
+    "adresse": "Kerkstraat 73, 9406 Outer (Ninove)",
+    "site": ""
   },
   {
     "name": "PC Zelzate",
@@ -915,7 +1121,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "flandre_orientale",
-    "commune": "Zelzate"
+    "commune": "Zelzate",
+    "adresse": "Broeder Leopoldstraat, 9060 Zelzate",
+    "site": ""
   },
   {
     "name": "Ernelle Monceau",
@@ -924,7 +1132,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "hainaut",
-    "commune": "Charleroi"
+    "commune": "Charleroi",
+    "adresse": "rue Albert Camus, 20 - 6031 Monceau",
+    "site": ""
   },
   {
     "name": "Kiki Leval PC",
@@ -933,7 +1143,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "hainaut",
-    "commune": "Beaumont"
+    "commune": "Beaumont",
+    "adresse": "rue Jean Leroy, 1 - 6500 Leval-Chaudeville",
+    "site": ""
   },
   {
     "name": "La Fanny Bivort",
@@ -942,7 +1154,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "hainaut",
-    "commune": "Fontaine-l'Évêque"
+    "commune": "Fontaine-l'Évêque",
+    "adresse": "rue de Forchies, 14 - 6140 Fontaine L'Evêque",
+    "site": ""
   },
   {
     "name": "La Petanque Montoise",
@@ -951,7 +1165,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "hainaut",
-    "commune": "Mons"
+    "commune": "Mons",
+    "adresse": "rue de la Boulangerie, 2 - 7000 Mons",
+    "site": ""
   },
   {
     "name": "Les Boules Noires",
@@ -960,7 +1176,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "hainaut",
-    "commune": "Charleroi"
+    "commune": "Charleroi",
+    "adresse": "rue Pont d'Arcole, 65 - 6060 Gilly",
+    "site": ""
   },
   {
     "name": "Les Six Boulettes Elouges",
@@ -969,7 +1187,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "hainaut",
-    "commune": "Dour"
+    "commune": "Dour",
+    "adresse": "Route d'Elouges - 7370 Elouges",
+    "site": ""
   },
   {
     "name": "Masice Ravel Petanque",
@@ -978,7 +1198,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "hainaut",
-    "commune": "Saint-Ghislain"
+    "commune": "Saint-Ghislain",
+    "adresse": "rue des Anglais, 12B - 7333 Tertre",
+    "site": ""
   },
   {
     "name": "PC A.S. Jumet",
@@ -987,7 +1209,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "hainaut",
-    "commune": "Charleroi"
+    "commune": "Charleroi",
+    "adresse": "Rue du Chemin Vert, 25B - 6042 Lodelinsart",
+    "site": ""
   },
   {
     "name": "PC Au Boule'o",
@@ -996,7 +1220,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "hainaut",
-    "commune": "La Louvière"
+    "commune": "La Louvière",
+    "adresse": "Chaussée de Jolimont, 50 - 7100 Haine-Saint-Pierre",
+    "site": ""
   },
   {
     "name": "PC Boussu",
@@ -1005,7 +1231,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "hainaut",
-    "commune": "Saint-Ghislain"
+    "commune": "Saint-Ghislain",
+    "adresse": "rue Zéphirin Caron, 1 - 7333 Tertre",
+    "site": ""
   },
   {
     "name": "PC Chatelet",
@@ -1014,7 +1242,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "hainaut",
-    "commune": "Châtelet"
+    "commune": "Châtelet",
+    "adresse": "rue de Couillet, 146B - 6200 Chatelet",
+    "site": ""
   },
   {
     "name": "PC La Botte",
@@ -1023,7 +1253,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "hainaut",
-    "commune": "Momignies"
+    "commune": "Momignies",
+    "adresse": "rue de la Gendarmerie, 1 - 6590 Momignies",
+    "site": ""
   },
   {
     "name": "PC Le Pays Noir Farciennes",
@@ -1032,7 +1264,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "hainaut",
-    "commune": "Farciennes"
+    "commune": "Farciennes",
+    "adresse": "rue Centrale, 45 - 6240 Pironchamps",
+    "site": ""
   },
   {
     "name": "PC Lessines",
@@ -1041,7 +1275,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "hainaut",
-    "commune": "Lessines"
+    "commune": "Lessines",
+    "adresse": "rue du Pont de pierre, 1 - 7860 Lessines",
+    "site": ""
   },
   {
     "name": "PC Lutosa",
@@ -1050,7 +1286,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "hainaut",
-    "commune": "Leuze"
+    "commune": "Leuze",
+    "adresse": "Avenue des Sports, 1 - 7900 Leuze-En-Hainaut",
+    "site": ""
   },
   {
     "name": "PC Moeskroen",
@@ -1059,7 +1297,9 @@
     "region": "wallonie",
     "federation": "PFV",
     "province": "hainaut",
-    "commune": "Mouscron"
+    "commune": "Mouscron",
+    "adresse": "Av. de la Bourgogne 1, 7700 Mouscron",
+    "site": ""
   },
   {
     "name": "PC Tertre Esperance",
@@ -1068,7 +1308,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "hainaut",
-    "commune": "Saint-Ghislain"
+    "commune": "Saint-Ghislain",
+    "adresse": "rue Zéphirin Caron, 1 - 7333 Tertre",
+    "site": ""
   },
   {
     "name": "PC Thulisien",
@@ -1077,7 +1319,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "hainaut",
-    "commune": "Thuin"
+    "commune": "Thuin",
+    "adresse": "Place de Thuillies, 2 - 6536 Thuillies",
+    "site": ""
   },
   {
     "name": "Petanque Club Le Roux",
@@ -1086,7 +1330,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "hainaut",
-    "commune": "Fosses-la-Ville"
+    "commune": "Fosses-la-Ville",
+    "adresse": "rue de la Maladrie, 9A - 5070 Le Roux",
+    "site": ""
   },
   {
     "name": "Petanque Club Les Marsupilamis",
@@ -1095,7 +1341,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "hainaut",
-    "commune": "Sautin"
+    "commune": "Sautin",
+    "adresse": "rue de Sourenne, 9A - 6470 Sautin (Sivry-Rance)",
+    "site": ""
   },
   {
     "name": "Petanque Frasnoise",
@@ -1104,7 +1352,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "hainaut",
-    "commune": "Frasnes-lez-Gosselies"
+    "commune": "Frasnes-lez-Gosselies",
+    "adresse": "rue Jean-Baptiste Loriaux, 3A - 6210 Les Bons Villiers (Complexe sportif)",
+    "site": ""
   },
   {
     "name": "Royal PC Les Carolos",
@@ -1113,7 +1363,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "hainaut",
-    "commune": "Charleroi"
+    "commune": "Charleroi",
+    "adresse": "Rue du Chemin Vert ,125B - 6042 Lodelinsart",
+    "site": ""
   },
   {
     "name": "Royal Petanque Club Marcinelle",
@@ -1122,7 +1374,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "hainaut",
-    "commune": "Charleroi"
+    "commune": "Charleroi",
+    "adresse": "Av. Eugène Mascaux, 879 - 6001 Marcinelle",
+    "site": ""
   },
   {
     "name": "Tournai Petanque Club (Tpc)",
@@ -1131,7 +1385,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "hainaut",
-    "commune": "Tournai"
+    "commune": "Tournai",
+    "adresse": "Rue Albert 1er ,112 - 7538 Vezon",
+    "site": ""
   },
   {
     "name": "Bocholter Petanque",
@@ -1140,7 +1396,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "limbourg",
-    "commune": "Bocholt"
+    "commune": "Bocholt",
+    "adresse": "Eikenlaan z/n, 3950 Bocholt",
+    "site": ""
   },
   {
     "name": "Inter Lommel Petanque",
@@ -1149,7 +1407,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "limbourg",
-    "commune": "Lommel"
+    "commune": "Lommel",
+    "adresse": "Vreyshorring 143, 3920 Lommel",
+    "site": ""
   },
   {
     "name": "PC Boekt",
@@ -1158,7 +1418,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "limbourg",
-    "commune": "Zolder"
+    "commune": "Zolder",
+    "adresse": "Ubbelstraat 104, 3550 Heusden-Zolder",
+    "site": ""
   },
   {
     "name": "PC De Berk",
@@ -1167,7 +1429,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "limbourg",
-    "commune": "Kampenhout"
+    "commune": "Kampenhout",
+    "adresse": "Valentinusweg 50, 3550 Heusden-Zolder",
+    "site": ""
   },
   {
     "name": "PC De Venne",
@@ -1176,7 +1440,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "limbourg",
-    "commune": "Herk-de-Stad"
+    "commune": "Herk-de-Stad",
+    "adresse": "Hurbroekstraat z/n, 3540 Herk-de-Stad",
+    "site": ""
   },
   {
     "name": "PC Fenix",
@@ -1185,7 +1451,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "limbourg",
-    "commune": "Hasselt"
+    "commune": "Hasselt",
+    "adresse": "Kramerslaan 1A, 3500 Hasselt",
+    "site": ""
   },
   {
     "name": "PC Genenbos",
@@ -1194,7 +1462,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "limbourg",
-    "commune": "Lummen"
+    "commune": "Lummen",
+    "adresse": "Boskesstraat 1, 3560 Lummen",
+    "site": ""
   },
   {
     "name": "PC Genk",
@@ -1203,7 +1473,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "limbourg",
-    "commune": "Genk"
+    "commune": "Genk",
+    "adresse": "Melbergstraat 1 bus 2, 3600 Genk",
+    "site": ""
   },
   {
     "name": "PC Hasselt",
@@ -1212,7 +1484,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "limbourg",
-    "commune": "Hasselt"
+    "commune": "Hasselt",
+    "adresse": "Kramerslaan 1A, 3500 Hasselt",
+    "site": ""
   },
   {
     "name": "PC Kelchteren",
@@ -1221,7 +1495,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "limbourg",
-    "commune": "Houthalen"
+    "commune": "Houthalen",
+    "adresse": "Oudstrijderslaan 44c, 3530 Houthalen-Helchteren",
+    "site": ""
   },
   {
     "name": "PC Maaseik",
@@ -1230,7 +1506,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "limbourg",
-    "commune": "Maaseik"
+    "commune": "Maaseik",
+    "adresse": "Koningin Astridlaan 91, 3680 Maaseik",
+    "site": ""
   },
   {
     "name": "PC Meldert",
@@ -1239,7 +1517,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "limbourg",
-    "commune": "Lummen"
+    "commune": "Lummen",
+    "adresse": "Meldertsebaan 1, 3560 Meldert",
+    "site": ""
   },
   {
     "name": "PC Olympia",
@@ -1248,7 +1528,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "limbourg",
-    "commune": "Heusden-Zolder"
+    "commune": "Heusden-Zolder",
+    "adresse": "Veenderweg 48, 3550 Heusden-Zolder",
+    "site": ""
   },
   {
     "name": "PC Opec",
@@ -1257,7 +1539,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "limbourg",
-    "commune": "Opglabbeek"
+    "commune": "Opglabbeek",
+    "adresse": "Oude Kerkstraat 24B, 3660 Opglabbeek",
+    "site": ""
   },
   {
     "name": "PC Royal Hasselt Yachting Club",
@@ -1266,7 +1550,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "limbourg",
-    "commune": "Hasselt"
+    "commune": "Hasselt",
+    "adresse": "Hoogbrugkaai 91, 3800 Hasselt",
+    "site": ""
   },
   {
     "name": "PC Sparrendal",
@@ -1275,7 +1561,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "limbourg",
-    "commune": "Lanaken"
+    "commune": "Lanaken",
+    "adresse": "Roelerdreef 17, 3620 Lanaken",
+    "site": ""
   },
   {
     "name": "PC St.-Truiden",
@@ -1284,7 +1572,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "limbourg",
-    "commune": "Sint-Truiden"
+    "commune": "Sint-Truiden",
+    "adresse": "Tiensesteenweg 168, 3800 Sint-Truiden",
+    "site": ""
   },
   {
     "name": "PC Terbiest",
@@ -1293,7 +1583,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "limbourg",
-    "commune": "Sint-Truiden"
+    "commune": "Sint-Truiden",
+    "adresse": "Hasseltsesteenweg 103, 3800 Sint-Truiden",
+    "site": ""
   },
   {
     "name": "PC Tongeren",
@@ -1302,7 +1594,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "limbourg",
-    "commune": "Hoeselt"
+    "commune": "Hoeselt",
+    "adresse": "Bilzersteenweg 36A, 3700 Tongeren",
+    "site": ""
   },
   {
     "name": "Pelter PC",
@@ -1311,7 +1605,9 @@
     "region": "flandre",
     "federation": "PFV",
     "province": "limbourg",
-    "commune": "Neerpelt"
+    "commune": "Neerpelt",
+    "adresse": "Sportpark 4, 3910 Pelt",
+    "site": ""
   },
   {
     "name": "Bon Accueil Seresien",
@@ -1320,7 +1616,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Seraing"
+    "commune": "Seraing",
+    "adresse": "rue Colson, 29 - 4100 Seraing",
+    "site": ""
   },
   {
     "name": "C.P.G.H.",
@@ -1329,7 +1627,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Grâce-Hollogne"
+    "commune": "Grâce-Hollogne",
+    "adresse": "rue Adrien Materne, 80 - 4460 Grâce-Hollogne",
+    "site": ""
   },
   {
     "name": "La Blegnytoise",
@@ -1338,7 +1638,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Blegny"
+    "commune": "Blegny",
+    "adresse": "rue d'El Potale, 42 - 4671 Barchon",
+    "site": ""
   },
   {
     "name": "La Boule Anthisnoise ASBL",
@@ -1347,7 +1649,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Anthisnes"
+    "commune": "Anthisnes",
+    "adresse": "rue de la Libération, 1 - 4160 Anthisnes",
+    "site": ""
   },
   {
     "name": "La Boule D'Aaz De Haccourt",
@@ -1356,7 +1660,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Haccourt"
+    "commune": "Haccourt",
+    "adresse": "rue des 7 Bonniers, 25 - 4684 Haccourt",
+    "site": ""
   },
   {
     "name": "La Fanny Pepinster",
@@ -1365,7 +1671,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Pepinster"
+    "commune": "Pepinster",
+    "adresse": "rue Jean Simon, 9 - 4860 Pepinster",
+    "site": ""
   },
   {
     "name": "La Fanny Visetoise",
@@ -1374,7 +1682,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Visé"
+    "commune": "Visé",
+    "adresse": "Porte de Souvré, 18 - 4600 Vise",
+    "site": ""
   },
   {
     "name": "Lam's PC Forever",
@@ -1383,7 +1693,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Haccourt"
+    "commune": "Haccourt",
+    "adresse": "rue des 7 Bonniers, 25 - 4684 Haccourt (Pistes du B09)",
+    "site": ""
   },
   {
     "name": "Le Carreau Hannutois",
@@ -1392,7 +1704,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Hannut"
+    "commune": "Hannut",
+    "adresse": "rue Lambert Mottart, 21 - 4280 Hannut",
+    "site": ""
   },
   {
     "name": "Le Muguet Laminois",
@@ -1401,7 +1715,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Remicourt"
+    "commune": "Remicourt",
+    "adresse": "rue de la Victoire, 64 - 4350 Remicourt",
+    "site": ""
   },
   {
     "name": "Les Boutons D'Or",
@@ -1410,7 +1726,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Flémalle"
+    "commune": "Flémalle",
+    "adresse": "rue du Beau Site, 25 - 4400 Flemalle",
+    "site": ""
   },
   {
     "name": "Les Cigales De Boncelles",
@@ -1419,7 +1737,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Seraing"
+    "commune": "Seraing",
+    "adresse": "rue Victor Yansenne - 4510 Beyne-Heusay (Pistes du B43)",
+    "site": ""
   },
   {
     "name": "Marius Petank's Club Omal",
@@ -1428,7 +1748,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Omal"
+    "commune": "Omal",
+    "adresse": "rue Jules Stiernet, 82 - 4252 Omal",
+    "site": ""
   },
   {
     "name": "P.C. Beyne",
@@ -1437,7 +1759,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Beyne-Heusay"
+    "commune": "Beyne-Heusay",
+    "adresse": "rue Victor Yansenne, 2 - 4610 Beyne-Heusay",
+    "site": ""
   },
   {
     "name": "PC Boulewanis",
@@ -1446,7 +1770,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Berloz"
+    "commune": "Berloz",
+    "adresse": "Rue du Brouck, 12 - 4300 Waremme",
+    "site": ""
   },
   {
     "name": "PC La Romseenne",
@@ -1455,7 +1781,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Fléron"
+    "commune": "Fléron",
+    "adresse": "Avenue Thomas Leclercq, 28b - 4624 Romsee",
+    "site": ""
   },
   {
     "name": "PC Mabotte",
@@ -1464,7 +1792,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Seraing"
+    "commune": "Seraing",
+    "adresse": "rue Waleffe, 86 - 4101 Jemeppe Sur Meuse",
+    "site": ""
   },
   {
     "name": "PC Malmedy",
@@ -1473,7 +1803,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Malmedy"
+    "commune": "Malmedy",
+    "adresse": "rue Frédéric Lang - 4960 Malmedy",
+    "site": ""
   },
   {
     "name": "PC Moha",
@@ -1482,7 +1814,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Wanze"
+    "commune": "Wanze",
+    "adresse": "rue des Bruyères, 500a - 4520 Moha",
+    "site": ""
   },
   {
     "name": "PC Oreye",
@@ -1491,7 +1825,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Oreye"
+    "commune": "Oreye",
+    "adresse": "Grand Route, 132/4 - 4360 Oreye",
+    "site": ""
   },
   {
     "name": "PC Sprimont",
@@ -1500,7 +1836,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Sprimont"
+    "commune": "Sprimont",
+    "adresse": "rue Neronry, 21 - 4140 Sprimont",
+    "site": ""
   },
   {
     "name": "PC Tivoli - Herbesthal",
@@ -1509,7 +1847,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Lontzen"
+    "commune": "Lontzen",
+    "adresse": "rue de la Gare, 20 - 4710 Herbesthal",
+    "site": ""
   },
   {
     "name": "Petanque New Esneux",
@@ -1518,7 +1858,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Esneux"
+    "commune": "Esneux",
+    "adresse": "rue d'Evieux, 51 - 4130 Esneux",
+    "site": ""
   },
   {
     "name": "Pétanque Club La Boule Vottemoise D'Herstal",
@@ -1527,7 +1869,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Herstal"
+    "commune": "Herstal",
+    "adresse": "rue Haute Marexhe, 142 - 4040 Herstal",
+    "site": ""
   },
   {
     "name": "Royal PC Wanze",
@@ -1536,7 +1880,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Wanze"
+    "commune": "Wanze",
+    "adresse": "rue Arthur Galand, 26a - 4520 Wanze",
+    "site": ""
   },
   {
     "name": "Royal Petanque Club Embourg",
@@ -1545,7 +1891,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Vaux-sous-Chèvremont"
+    "commune": "Vaux-sous-Chèvremont",
+    "adresse": "rue des Coquelicots, 2 - 4053 Embourg",
+    "site": ""
   },
   {
     "name": "Royal Petanque Club La Moisson",
@@ -1554,7 +1902,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Beyne-Heusay"
+    "commune": "Beyne-Heusay",
+    "adresse": "rue Victor Yansenne, 2- 4610 Beyne-Heusay",
+    "site": ""
   },
   {
     "name": "Royale Petanque Hutoise",
@@ -1563,7 +1913,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "liege",
-    "commune": "Huy"
+    "commune": "Huy",
+    "adresse": "rue de la Campagne, 36 - 4500 Huy",
+    "site": ""
   },
   {
     "name": "Abc Durbuy PC",
@@ -1572,7 +1924,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "luxembourg",
-    "commune": "Bohon"
+    "commune": "Bohon",
+    "adresse": "Fond Sainte-Anne, 3 - 6940 Durbuy-Bohon",
+    "site": ""
   },
   {
     "name": "Arel Boules Club",
@@ -1581,7 +1935,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "luxembourg",
-    "commune": "Arlon"
+    "commune": "Arlon",
+    "adresse": "La Cova - Chemin de la Hart - 6700 Arlon (Eté) - La Grange - Rue de Schoppach - 6700 Arlon (Hiver)",
+    "site": ""
   },
   {
     "name": "La Boule Bastognarde",
@@ -1590,7 +1946,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "luxembourg",
-    "commune": "Bastogne"
+    "commune": "Bastogne",
+    "adresse": "Rue de la Californie, 42 - 6600 Bastogne",
+    "site": ""
   },
   {
     "name": "La Boule Feodale Latour",
@@ -1599,7 +1957,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "luxembourg",
-    "commune": "Virton"
+    "commune": "Virton",
+    "adresse": "Rue Baillet-Latour , 26A - 6761 Latour",
+    "site": ""
   },
   {
     "name": "La Mechoise",
@@ -1608,7 +1968,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "luxembourg",
-    "commune": "Meix-devant-Virton"
+    "commune": "Meix-devant-Virton",
+    "adresse": "rue de Launoy - 6769 Meix-Devant-Virton",
+    "site": ""
   },
   {
     "name": "Les 3 Frontieres Longeau",
@@ -1617,7 +1979,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "luxembourg",
-    "commune": "Messancy"
+    "commune": "Messancy",
+    "adresse": "rue d'Athus, 8 - 6780 Longeau",
+    "site": ""
   },
   {
     "name": "PC Gouvy",
@@ -1626,7 +1990,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "luxembourg",
-    "commune": "Limerlé"
+    "commune": "Limerlé",
+    "adresse": "rue d'Houffalize, 22 - 6670 Gouvy",
+    "site": ""
   },
   {
     "name": "PC Rochefortois",
@@ -1635,7 +2001,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "luxembourg",
-    "commune": "Jemelle"
+    "commune": "Jemelle",
+    "adresse": "Rue de la Lhomme, 53E - 5580 Jemelle",
+    "site": ""
   },
   {
     "name": "PC Saint-Hubert",
@@ -1644,7 +2012,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "luxembourg",
-    "commune": "Saint-Hubert"
+    "commune": "Saint-Hubert",
+    "adresse": "Avenue des Chasseurs Ardennais, 7 - 6870 Saint-Hubert",
+    "site": ""
   },
   {
     "name": "PC Val D'Attert",
@@ -1653,7 +2023,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "luxembourg",
-    "commune": "Attert"
+    "commune": "Attert",
+    "adresse": "Voie de la Liberté, 115 - 6717 Attert",
+    "site": ""
   },
   {
     "name": "Royal PC Aubange",
@@ -1662,7 +2034,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "luxembourg",
-    "commune": "Aubange"
+    "commune": "Aubange",
+    "adresse": "Rue du Stade - 6790 Aubange",
+    "site": ""
   },
   {
     "name": "ASBL Petanque Beauraing",
@@ -1671,7 +2045,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "namur",
-    "commune": "Beauraing"
+    "commune": "Beauraing",
+    "adresse": "rue Lieutenant Tholomé, 23 Bte 35 - 5570 Baronville (Beauraing)",
+    "site": ""
   },
   {
     "name": "La Fanny Nismoise",
@@ -1680,7 +2056,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "namur",
-    "commune": "Nismes"
+    "commune": "Nismes",
+    "adresse": "Parc communal - 5670 Nismes",
+    "site": ""
   },
   {
     "name": "La Petanque Belgradoise",
@@ -1689,7 +2067,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "namur",
-    "commune": "Namur"
+    "commune": "Namur",
+    "adresse": "rue des Tautis, 1 - 5020 Belgrade",
+    "site": ""
   },
   {
     "name": "Le Cochonnet Mosan",
@@ -1698,7 +2078,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "namur",
-    "commune": "Dinant"
+    "commune": "Dinant",
+    "adresse": "Avenue des Combattants - 5500 Dinant",
+    "site": ""
   },
   {
     "name": "New PC Velainois",
@@ -1707,7 +2089,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "namur",
-    "commune": "Sambreville"
+    "commune": "Sambreville",
+    "adresse": "rue Jules Destrée, 19 - 5060 Velaine-Sur-Sambre",
+    "site": ""
   },
   {
     "name": "PC Les Crayas",
@@ -1716,7 +2100,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "namur",
-    "commune": "Nismes"
+    "commune": "Nismes",
+    "adresse": "Parc communal de Nismes , 1 - 5670 Nismes (Eté) - rue de la Gare, 101 - 5670 Treignes (Hiver)",
+    "site": ""
   },
   {
     "name": "Petanque Club Tamines Sambre",
@@ -1725,7 +2111,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "namur",
-    "commune": "Sambreville"
+    "commune": "Sambreville",
+    "adresse": "rue de l'Ecluse, 1/A - 5060 Tamines (Sambreville)",
+    "site": ""
   },
   {
     "name": "Royal Petanque Club Saint-Servais",
@@ -1734,7 +2122,9 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "namur",
-    "commune": "Namur"
+    "commune": "Namur",
+    "adresse": "Rue du Beau-Vallon, 162 - 5002 Saint-Servais",
+    "site": ""
   },
   {
     "name": "Royal Pitchoun Petanque Club ASBL",
@@ -1743,6 +2133,8 @@
     "region": "wallonie",
     "federation": "FBFP",
     "province": "namur",
-    "commune": "Namur"
+    "commune": "Namur",
+    "adresse": "rue Baivy, 26/28 - 5100 Jambes",
+    "site": ""
   }
 ]

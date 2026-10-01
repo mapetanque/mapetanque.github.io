@@ -211,8 +211,8 @@
 
 /* =====================================================================================
    Notation publique des terrains
-   Deux usages, une seule feuille : la ligne de note des tuiles du carrousel, et le bloc de
-   notation des fiches. Tout est ici, et pas dans style.css, parce que cette feuille est chargée
+   Deux usages, une seule feuille : la ligne de note des tuiles du carrousel, et la fiche terrain
+   (voir « Fiche terrain » en fin de fichier). Tout est ici, et pas dans style.css, parce que cette feuille est chargée
    par TOUTES les pages qui peuvent ouvrir une fiche — accueil, province, région — et par elles
    seules ; style.css reste donc intact, conformément à l'approche additive.
    ===================================================================================== */
@@ -228,97 +228,6 @@
 }
 .note-etoile.vide { color: #c4ccbd; }
 
-/* ---- Bloc de notation dans la fiche ---- */
-/* Marges symétriques : le <br> de fin de bloc photo est retiré côté JS quand ce bloc s'intercale
-   (voir construireContenuPopupTerrain dans script.js), exactement comme pour .popup-description
-   avant lui. L'espacement au-dessus et en dessous est donc porté uniquement par ces marges. */
-.note-bloc { margin: 10px 0 12px; }
-
-.note-resultat,
-.note-vote {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-.note-vote { margin-top: 6px; }
-
-/* Tant que personne n'a voté, la ligne de moyenne est un conteneur vide : masquée, pour ne pas
-   empiler deux rangées d'étoiles grises. Le JS la remplit après le premier vote, sans recharger
-   la fiche. :empty exige un conteneur SANS le moindre espace — construireResultatNote renvoie
-   bien une chaîne vide dans ce cas. */
-.note-resultat:empty { display: none; }
-.note-resultat:empty + .note-vote { margin-top: 0; }
-
-.note-chiffre { font-size: 13.5px; color: #333; }
-.note-aucun,
-.note-vote-label { font-size: 12.5px; color: #888; }
-.note-vote-message { font-size: 12.5px; color: #4a8f36; }
-.note-erreur { color: #b04a3a; }
-
-/* Les étoiles de vote sont de vrais <button> : accessibles au clavier, annoncés comme contrôles,
-   et visuellement distincts de la rangée de résultat au-dessus, qui n'est pas cliquable. */
-.note-vote-etoiles { display: inline-flex; }
-.note-vote-etoile {
-    background: none;
-    border: 0;
-    margin: 0;
-    padding: 0 1px;
-    font-size: 19px;
-    line-height: 1;
-    color: #c4ccbd;
-    cursor: pointer;
-}
-.note-vote-etoile.active { color: #4a8f36; }
-.note-vote-etoile:focus-visible { outline: 2px solid #74C15A; outline-offset: 2px; }
-
-/* ---- Avis des visiteurs dans la fiche (voir brancherAvisPopup dans script.js) ----
-   Sous le bloc de notation, séparé par un filet. Vide tant que les avis ne sont pas chargés :
-   aucune marge dans ce cas, pour que la fiche ne « saute » pas à leur arrivée. */
-.avis-bloc:empty { display: none; }
-.avis-bloc { margin: 0 0 14px; padding-top: 12px; border-top: 1px solid #eee; }
-.avis-titre { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
-.avis-titre b { font-size: 14px; color: #333; }
-.avis-rediger {
-    background: none; border: 0; padding: 0; font: inherit; font-size: 12.5px;
-    color: #56A03D; text-decoration: underline; cursor: pointer; white-space: nowrap;
-}
-.avis { background: #f6f8f3; border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; }
-.avis-texte { margin: 0; font-size: 13.5px; line-height: 1.45; color: #333; overflow-wrap: anywhere; }
-.avis-meta { margin-top: 6px; font-size: 12px; color: #888; }
-.avis-note .note-etoile { font-size: 13px; vertical-align: -1px; }
-.avis-voir-tout {
-    display: block; width: 100%; padding: 8px; border: 1px solid #dfe5d8; border-radius: 8px;
-    background: #fff; color: #4a8f36; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
-}
-.avis-voir-tout:hover { border-color: #74C15A; }
-.avis-vide { margin: 0; font-size: 12.5px; color: #888; }
-
-.avis-form { display: flex; flex-direction: column; gap: 8px; padding: 12px; background: #f6f8f3; border-radius: 10px; }
-.avis-form label { font-size: 12.5px; font-weight: 600; color: #555; }
-.avis-facultatif { font-weight: 400; color: #999; }
-.avis-form textarea,
-.avis-form input[type="text"] {
-    width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1px solid #ddd; border-radius: 8px;
-    background: #fff; font: inherit; font-size: 13.5px; color: #333;
-}
-.avis-form textarea { min-height: 86px; resize: vertical; }
-.avis-form textarea:focus,
-.avis-form input[type="text"]:focus { outline: 2px solid #74C15A; outline-offset: -1px; border-color: #74C15A; }
-.avis-form .avis-piege { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
-.avis-compteur { margin-top: -4px; font-size: 11.5px; color: #888; text-align: right; }
-.avis-compteur.presque { color: #b56a00; font-weight: 600; }
-.avis-lien-note { font-size: 12px; color: #666; }
-.avis-mention { margin: 0; font-size: 11px; line-height: 1.4; color: #999; }
-.avis-info { margin: 0; padding: 8px 10px; border-radius: 8px; background: #eef3fb; color: #1f4e8c; font-size: 12.5px; }
-.avis-erreur { margin: 0; font-size: 12.5px; color: #b04a3a; }
-.avis-boutons { display: flex; justify-content: flex-end; gap: 8px; }
-.avis-btn { padding: 8px 14px; border-radius: 8px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
-.avis-btn-annuler { background: #fff; border: 1px solid #ddd; color: #555; }
-.avis-btn-envoyer { background: #74C15A; border: 1px solid #74C15A; color: #fff; }
-.avis-btn-envoyer:disabled { opacity: 0.5; cursor: default; }
-.avis-merci { padding: 10px 12px; border-radius: 10px; background: #eef7e9; color: #3d7a2a; font-size: 13px; }
-
 /* ---- Ligne de note dans une tuile du carrousel ----
    Occupe exactement la place de .tuile-extrait : même hauteur, même troncature sur une ligne,
    donc aucun décalage dans la géométrie du carrousel. Aucun curseur ni état de survol ici : le
@@ -333,3 +242,313 @@
 .tuile-note .note-etoile { font-size: 14px; }
 .tuile-note-chiffre { font-size: 12.5px; color: #666; }
 .tuile-note-vide { font-size: 12.5px; color: #999; }
+
+
+/* =====================================================================================
+   Fiche terrain (voir construireContenuPopupTerrain et brancherFicheTerrain dans script.js)
+   Ordre : fil d'Ariane, titre, ligne de résumé, photo, trois boutons, panneaux « Noter » et
+   « N avis », critères, pied de fiche. Toutes les tailles de texte tournent autour de 13,5 px.
+   Plusieurs sélecteurs commencent par .fiche : les règles de Leaflet sur les liens et les
+   paragraphes du popup (.leaflet-container a, .leaflet-popup-content p) sont plus spécifiques
+   qu'une classe seule et l'emporteraient (c'était la cause du blanc au-dessus des avis).
+   ===================================================================================== */
+
+.fiche { font-size: 13.5px; line-height: 1.45; color: #333; }
+.fiche p { margin: 0; }
+
+/* Le fil d'Ariane et le titre passent à côté de la croix de fermeture du panneau. */
+.fiche > .popup-breadcrumb,
+.fiche > .fiche-titre { padding-right: 44px; }
+.fiche .popup-breadcrumb { font-size: 12.5px; margin-bottom: 2px; }
+.fiche-titre { font-size: 19px; font-weight: 700; line-height: 1.25; color: #222; }
+
+/* ---- Ligne de résumé : « ★ 4,2 (9) · 2 avis · 1,2 km · Accès public probable » ----
+   Un <span> par morceau : un morceau vide disparaît, et le point de séparation n'est posé que
+   devant un morceau précédé d'un autre morceau non vide. */
+.fiche-resume {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 4px;
+    font-size: 13px;
+    color: #555;
+}
+.fiche-resume > span:empty { display: none; }
+.fiche-resume > span:not(:empty) ~ span:not(:empty)::before { content: "·"; margin: 0 7px; color: #bbb; }
+.fiche-resume .note-etoile { font-size: 14px; vertical-align: -1px; }
+.fiche-lien-avis {
+    background: none; border: 0; padding: 0; margin: 0;
+    font: inherit; color: #3d7a2a; text-decoration: underline; cursor: pointer;
+}
+.fiche-lien-avis[aria-expanded="true"]::after { content: " \25B4"; display: inline-block; margin-left: 3px; }
+
+/* ---- Photo ---- */
+.fiche-photos { margin-top: 12px; }
+.fiche .popup-photo { border-radius: 10px; margin-bottom: 0; }
+.fiche-photos .popup-photo-add-btn { margin-top: 6px; }
+.fiche .popup-description { margin: 10px 0 0; }
+
+/* Sans photo : bandeau bas (dessin recadré et atténué), l'invitation posée dessus. */
+.fiche-sans-photo {
+    position: relative;
+    height: 120px;
+    margin-top: 12px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f4f5f2;
+}
+.fiche-sans-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    opacity: 0.5;
+}
+.fiche .fiche-ajout-photo {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    display: inline-block;
+    width: auto;
+    margin: 0;
+    padding: 7px 12px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1.5px dashed #74C15A;
+    border-radius: 8px;
+    color: #3d7a2a;
+    font-size: 13px;
+}
+.fiche .fiche-ajout-photo:hover { background: #fff; }
+
+/* ---- Trois boutons côte à côte ----
+   Largeur partant de celle du texte (flex 1 1 auto), pas trois tiers égaux : « Noter » est
+   court, et la place qu'il laisse permet à « Itinéraire » de tenir sur un téléphone de 360 px. */
+.fiche-boutons { display: flex; gap: 6px; margin-top: 14px; }
+.fiche .fiche-btn {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    height: 40px;
+    padding: 0 8px;
+    box-sizing: border-box;
+    border: 1.5px solid #74C15A;
+    border-radius: 10px;
+    background: #fff;
+    color: #3d7a2a;
+    font: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.fiche .fiche-btn span { overflow: hidden; text-overflow: ellipsis; }
+.fiche .fiche-btn svg { width: 16px; height: 16px; flex: none; }
+.fiche .fiche-btn:hover { background: #f3f8f0; }
+.fiche .fiche-btn[aria-expanded="true"] { background: #eef5e9; }
+.fiche .fiche-btn-plein,
+.fiche .fiche-btn-plein:hover { background: #74C15A; color: #fff; }
+.fiche .fiche-btn-plein:hover { background: #68b34f; border-color: #68b34f; }
+.fiche .fiche-btn:focus-visible { outline: 2px solid #74C15A; outline-offset: 2px; }
+
+/* ---- Panneaux « Noter » et « N avis », juste sous les boutons ---- */
+.fiche-panneau { margin-top: 10px; padding: 12px 14px; border-radius: 12px; background: #f6f8f3; }
+.fiche-panneau[hidden] { display: none; }
+
+.noter-note { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.noter-libelle { font-size: 13px; color: #666; }
+.noter-libelle.ok { color: #333; font-weight: 600; }
+.note-vote-message { font-size: 12.5px; color: #4a8f36; }
+.note-erreur { color: #b04a3a; }
+
+/* Les étoiles de vote sont de vrais <button> : accessibles au clavier et annoncés comme
+   contrôles. C'est la seule rangée de cinq étoiles de la fiche. */
+.note-vote-etoiles { display: inline-flex; }
+.note-vote-etoile {
+    background: none;
+    border: 0;
+    margin: 0;
+    padding: 0 2px;
+    font-size: 22px;
+    line-height: 1;
+    color: #c4ccbd;
+    cursor: pointer;
+}
+.note-vote-etoile.active { color: #4a8f36; }
+.note-vote-etoile:focus-visible { outline: 2px solid #74C15A; outline-offset: 2px; }
+
+/* Cases des joueurs (après un vote) */
+.noter-criteres { margin-top: 12px; }
+.noter-criteres[hidden] { display: none; }
+.noter-sous-titre { margin-bottom: 8px; font-size: 13px; color: #555; }
+.noter-cases { display: flex; flex-wrap: wrap; gap: 8px; }
+.critere-case {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border: 1px solid #d6dccf;
+    border-radius: 999px;
+    background: #fff;
+    color: #333;
+    font: inherit;
+    font-size: 13px;
+    line-height: 1.2;
+    cursor: pointer;
+}
+.critere-case svg { width: 16px; height: 16px; flex: none; }
+.critere-case[aria-pressed="true"] { background: #74C15A; border-color: #74C15A; color: #fff; }
+.critere-case:disabled { opacity: 0.7; cursor: default; }
+.critere-case:focus-visible { outline: 2px solid #74C15A; outline-offset: 2px; }
+.fiche .noter-erreur { margin-top: 8px; font-size: 12.5px; color: #b04a3a; }
+
+/* Formulaire d'avis : le champ seul à l'ouverture, la suite au premier caractère. */
+.avis-form { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+.avis-suite { display: flex; flex-direction: column; gap: 8px; }
+.avis-suite[hidden] { display: none; }
+.avis-form label { font-size: 13px; font-weight: 600; color: #333; }
+.avis-facultatif { font-size: 11.5px; font-weight: 400; color: #999; }
+.avis-form textarea,
+.avis-form input[type="text"] {
+    width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1px solid #ddd; border-radius: 8px;
+    background: #fff; font: inherit; font-size: 13.5px; color: #333;
+}
+.avis-form textarea { min-height: 86px; resize: vertical; }
+.avis-form textarea:focus,
+.avis-form input[type="text"]:focus { outline: 2px solid #74C15A; outline-offset: -1px; border-color: #74C15A; }
+.avis-form .avis-piege { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.avis-compteur { margin-top: -4px; font-size: 11.5px; color: #888; text-align: right; }
+.avis-compteur.presque { color: #b56a00; font-weight: 600; }
+.fiche .avis-mention { font-size: 11.5px; line-height: 1.4; color: #888; }
+.fiche .avis-info { padding: 8px 10px; border-radius: 8px; background: #eef3fb; color: #1f4e8c; font-size: 12.5px; }
+.fiche .avis-erreur { font-size: 12.5px; color: #b04a3a; }
+.avis-boutons { display: flex; justify-content: flex-end; gap: 8px; }
+.avis-btn { padding: 8px 14px; border-radius: 8px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+.avis-btn-envoyer { background: #74C15A; border: 1px solid #74C15A; color: #fff; }
+.avis-btn-envoyer:disabled { opacity: 0.5; cursor: default; }
+.avis-merci { margin-top: 14px; padding: 10px 12px; border-radius: 10px; background: #eef7e9; color: #3d7a2a; font-size: 13px; }
+
+/* Liste des avis : sans carte grise autour de chaque avis, le panneau suffit. */
+.fiche-panneau-avis .avis { margin-bottom: 12px; }
+.fiche .avis-texte { font-size: 13.5px; line-height: 1.45; color: #333; overflow-wrap: anywhere; }
+.avis-meta { margin-top: 3px; font-size: 12px; color: #888; }
+.avis-note .note-etoile { font-size: 13px; vertical-align: -1px; }
+.fiche-lien-texte {
+    background: none; border: 0; padding: 0; margin: 0;
+    font: inherit; font-size: 13px; font-weight: 600; color: #3d7a2a; cursor: pointer;
+}
+.fiche-lien-texte:hover { text-decoration: underline; }
+
+/* ---- Critères : « Sur place », puis « À proximité » ---- */
+.fiche-criteres:empty { display: none; }
+.criteres-groupe { margin-top: 14px; }
+.criteres-titre {
+    margin-bottom: 6px;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #888;
+}
+.criteres-liste { display: flex; flex-wrap: wrap; gap: 6px; }
+.critere {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 11px;
+    border: 0;
+    border-radius: 999px;
+    background: #eef5e9;
+    color: #3d7a2a;
+    font: inherit;
+    font-size: 12.5px;
+    line-height: 1.2;
+}
+.critere svg { width: 16px; height: 16px; flex: none; }
+.critere-distance { color: #6f9a5f; }
+.critere-joueurs { cursor: pointer; }
+.critere-joueurs[aria-expanded="true"] { box-shadow: inset 0 0 0 1.5px #74C15A; }
+.critere-joueurs:focus-visible { outline: 2px solid #74C15A; outline-offset: 2px; }
+.critere-compteur {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    box-sizing: border-box;
+    border-radius: 999px;
+    background: #fff;
+    color: #3d7a2a;
+    font-size: 11.5px;
+    font-weight: 700;
+}
+.fiche .criteres-detail { margin-top: 8px; font-size: 12.5px; color: #555; }
+
+/* ---- Pied de fiche : « Signaler une erreur », discret ---- */
+.fiche-pied { margin-top: 16px; padding-top: 12px; border-top: 1px solid #eee; }
+.fiche .fiche-pied a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #999;
+    font-size: 12.5px;
+    text-decoration: none;
+}
+.fiche .fiche-pied a:hover { color: #666; text-decoration: underline; }
+.fiche-pied svg { width: 14px; height: 14px; }
+
+
+/* =====================================================================================
+   Fiche club (voir construireContenuPopupClub dans script.js)
+   Même structure et mêmes classes que la fiche terrain ; seul le bleu du marqueur club la
+   distingue au premier coup d'œil (pastille « Club », icône de la fédération).
+   ===================================================================================== */
+
+.fiche-club-pastille {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 6px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: #e8f0fb;
+    color: #1f63b5;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+.fiche-club-pastille svg { width: 14px; height: 14px; }
+
+.fiche-club-adresse { display: flex; align-items: flex-start; gap: 8px; margin-top: 12px; }
+.fiche-club-adresse svg { width: 17px; height: 17px; flex: none; margin-top: 1px; color: #666; }
+
+.fiche .fiche-federation {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid #e3e7df;
+    border-radius: 12px;
+    color: #333;
+    text-decoration: none;
+}
+.fiche .fiche-federation:hover { border-color: #74C15A; }
+.fiche-federation > svg { width: 22px; height: 22px; flex: none; color: #1f63b5; }
+.fiche-federation-texte { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.fiche-federation-texte b { font-weight: 500; line-height: 1.3; }
+.fiche-federation-texte span { font-size: 12px; color: #888; }
+.fiche-federation-lien {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex: none;
+    color: #3d7a2a;
+    font-size: 13px;
+}
+.fiche-federation-lien svg { width: 14px; height: 14px; }

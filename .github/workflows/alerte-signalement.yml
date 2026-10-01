@@ -20,10 +20,10 @@ on:
   workflow_dispatch:
     inputs:
       type:
-        description: "manquant ou erreur"
+        description: "manquant, erreur ou club"
         required: true
       reference:
-        description: "osm_id (erreur, ex. node/7798043008) ou lat,lon (terrain manquant)"
+        description: "osm_id (erreur, ex. node/7798043008) ou lat,lon (terrain manquant, club)"
         required: true
       en_attente:
         description: "Nombre total de signalements à traiter"
@@ -60,6 +60,12 @@ jobs:
           if [ "$TYPE" = "erreur" ]; then
             [[ "$REFERENCE" =~ ^(node|way|relation)/[0-9]{1,16}$ ]] || { echo "osm_id invalide"; exit 1; }
             LIGNE=$(printf 'Erreur signalée sur [%s](https://www.openstreetmap.org/%s).' "$REFERENCE" "$REFERENCE")
+          elif [ "$TYPE" = "club" ]; then
+            # Club : pas d'osm_id, la référence est sa position (lien vers sa fiche).
+            [[ "$REFERENCE" =~ ^-?[0-9]{1,3}\.[0-9]{1,8},-?[0-9]{1,3}\.[0-9]{1,8}$ ]] || { echo "position invalide"; exit 1; }
+            LAT="${REFERENCE%,*}"
+            LON="${REFERENCE#*,}"
+            LIGNE=$(printf 'Erreur signalée sur [un club](https://mapetanque.be/?club=1&lat=%s&lon=%s&z=18).' "$LAT" "$LON")
           elif [ "$TYPE" = "manquant" ]; then
             [[ "$REFERENCE" =~ ^-?[0-9]{1,3}\.[0-9]{1,8},-?[0-9]{1,3}\.[0-9]{1,8}$ ]] || { echo "position invalide"; exit 1; }
             LAT="${REFERENCE%,*}"

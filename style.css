@@ -1056,6 +1056,27 @@ body.fullscreen-lock {
     display: none;
 }
 
+/* Barre de défilement des fiches (quand le panneau « Noter » ou une longue fiche dépasse la
+   hauteur de l'écran) : fine, arrondie, sur fond transparent, comme celle de l'ancien popup plus
+   haut. La barre par défaut, carrée et avec ses flèches, jurait avec les coins arrondis de la
+   fenêtre. La marge du rail la garde à l'écart des coins (navigateurs Chrome/Edge/Safari ;
+   Firefox ne lit que les deux premières propriétés). */
+#mobile-sheet,
+#desktop-modal {
+    scrollbar-width: thin;
+    scrollbar-color: #d6d6d6 transparent;
+}
+#mobile-sheet::-webkit-scrollbar,
+#desktop-modal::-webkit-scrollbar { width: 6px; }
+#mobile-sheet::-webkit-scrollbar-track,
+#desktop-modal::-webkit-scrollbar-track { background: transparent; margin: 20px 0; }
+#mobile-sheet::-webkit-scrollbar-thumb,
+#desktop-modal::-webkit-scrollbar-thumb { background: #d6d6d6; border-radius: 999px; }
+#mobile-sheet::-webkit-scrollbar-thumb:hover,
+#desktop-modal::-webkit-scrollbar-thumb:hover { background: #b8b8b8; }
+#mobile-sheet::-webkit-scrollbar-button,
+#desktop-modal::-webkit-scrollbar-button { display: none; }
+
 /* Fiche terrain en plein écran sur mobile — le petit popup Leaflet reste inchangé (utile pour
    desktop), mais sur mobile son CONTENU est déplacé (pas copié : mêmes nœuds DOM, écouteurs
    d'événements déjà branchés conservés intacts) dans ce panneau séparé, en dehors de toute la
@@ -1115,9 +1136,11 @@ body.fullscreen-lock {
         z-index: 1;
     }
 
+    /* Haut réduit : le fil d'Ariane et le titre de la fiche passent à côté de la croix (ils lui
+       laissent la place, voir .fiche dans style-beaux-terrains.css). */
     #mobile-sheet-content {
         width: 100%;
-        padding: 60px 16px 24px;
+        padding: 22px 16px 20px;
         box-sizing: border-box;
     }
 
@@ -1128,6 +1151,10 @@ body.fullscreen-lock {
     #mobile-sheet-content .leaflet-popup-content {
         margin: 0 !important;
         padding: 0 !important;
+        /* Leaflet peut reposer sa largeur et sa hauteur fixes (maxHeight 320) sur ce nœud après
+           son déplacement, si la carte bouge encore pendant l'ouverture : on les neutralise. */
+        width: auto !important;
+        height: auto !important;
     }
 }
 
@@ -1193,9 +1220,10 @@ body.fullscreen-lock {
         cursor: pointer;
     }
 
+    /* Même haut réduit que #mobile-sheet-content : le titre passe à côté de la croix. */
     #desktop-modal-content {
         width: 100%;
-        padding: 48px 20px 24px;
+        padding: 22px 24px 20px;
         box-sizing: border-box;
     }
 
@@ -1205,6 +1233,8 @@ body.fullscreen-lock {
     #desktop-modal-content .leaflet-popup-content {
         margin: 0 !important;
         padding: 0 !important;
+        width: auto !important;    /* voir #mobile-sheet-content plus haut */
+        height: auto !important;
     }
 }
 
