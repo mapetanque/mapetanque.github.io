@@ -12,5 +12,19 @@
       10,
       2
     ]
+  },
+  {
+    "osm_id": "way/1546238442",
+    "nom": "Rue de la Siroperie",
+    "commune": "Soumagne",
+    "province": "Liège",
+    "region": "Wallonie",
+    "lat": 50.6320804,
+    "lon": 5.7319784,
+    "miniature": "/images/miniatures-carrees/1808804196790439.webp",
+    "votes": [
+      9,
+      2
+    ]
   }
 ]
