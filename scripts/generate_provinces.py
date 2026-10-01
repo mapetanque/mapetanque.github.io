@@ -48,6 +48,10 @@ MARQUEUR_FIN = "<!-- FIN PAGES PROVINCES -->"
 
 LANGUES = ["fr", "nl", "de", "en"]
 
+# Fichiers produits, écrits tous ensemble à la fin de main() : si une page échoue (ex. une
+# commune citée dans une intro a disparu des données), aucune n'est modifiée.
+FICHIERS_A_ECRIRE = []  # [(chemin, contenu), ...]
+
 
 def charger_traductions_js(path):
     """Extrait les paires clé/valeur (chaînes simples uniquement) de chaque bloc de langue
@@ -94,6 +98,26 @@ def calculer_densite(total_terrains, area_km2, langue="fr"):
     valeur = total_terrains / (area_km2 / 100)
     texte = f"{valeur:.1f}"
     return texte if langue == "en" else texte.replace(".", ",")
+
+
+def remplacer_nombres(texte, comptages, contexte):
+    """Remplace chaque {{NB:clé}} d'un texte d'introduction par le nombre de terrains
+    correspondant dans les données du jour : une commune de la province (pages province, ex.
+    {{NB:Gent}}, nom tel qu'il figure dans stats_geo.json) ou une province de la région (pages
+    région, ex. {{NB:liege}}). Écrits en dur, ces chiffres vieillissaient d'une semaine à
+    l'autre et finissaient par contredire la liste des communes affichée juste en dessous."""
+    def nombre(m):
+        cle = m.group(1)
+        if cle not in comptages:
+            raise ValueError(f"{contexte} : {{{{NB:{cle}}}}} introuvable dans data/stats_geo.json")
+        valeur = comptages[cle]
+        return str(valeur["total"] if isinstance(valeur, dict) else valeur)
+    return re.sub(r"\{\{NB:([^}]+)\}\}", nombre, texte)
+
+
+def chaine_js(texte):
+    """Texte inséré entre apostrophes dans un script de la page."""
+    return texte.replace("\\", "\\\\").replace("'", "\\'")
 
 
 def credit_banniere(credit_html, langue):
@@ -215,10 +239,11 @@ def recuperer_stats_region(stats_geo, region_key):
     return region["total"], nb_provinces, nb_communes
 
 
-def construire_liens_provinces_region(region_key, provinces, stats_geo, langue, traductions):
-    """Pastilles de liens vers chaque province de la région, triées par nombre de terrains
-    décroissant, dans le même style visuel que la section "Autres provinces" des pages
-    province — mais seulement les provinces déjà prêtes dans cette langue."""
+def construire_tuiles_provinces_region(region_key, provinces, stats_geo, langue, traductions):
+    """Tuiles photo vers chaque province de la région (mêmes images que « Parcourir par
+    province » sur l'accueil), avec leur nombre de terrains, triées par nombre de terrains
+    décroissant — seulement les provinces déjà prêtes dans cette langue."""
+    tr = traductions[langue]
     pretes = provinces_pretes(provinces, langue)
     entrees = [(cle, cfg) for cle, cfg in pretes.items() if cfg["region_key"] == region_key]
 
@@ -227,11 +252,21 @@ def construire_liens_provinces_region(region_key, provinces, stats_geo, langue, 
 
     entrees.sort(key=lambda t: -total_terrains(t[0]))
 
-    liens = "\n".join(
-        f'            <a href="{url_page(cfg["slug"], langue)}">{nom_traduit_province(cle, langue, traductions)}</a>'
-        for cle, cfg in entrees
-    )
-    return liens
+    tuiles = []
+    for cle, cfg in entrees:
+        image = f"tuile-{cfg['slug']}.webp"
+        if not (BASE_DIR / "images" / "provinces" / image).exists():
+            raise FileNotFoundError(f"images/provinces/{image} introuvable (tuile de {cle})")
+        total = total_terrains(cle)
+        unite = tr["province_terrain_singulier"] if total == 1 else tr["stats_terrains_unit"]
+        tuiles.append(
+            f'            <a href="{url_page(cfg["slug"], langue)}" class="tuile-province" '
+            f"style=\"background-image: url('/images/provinces/{image}');\">\n"
+            f'                <span class="tuile-province-nom">{nom_traduit_province(cle, langue, traductions)}</span>\n'
+            f'                <span class="tuile-province-nombre">{total} {unite}</span>\n'
+            '            </a>'
+        )
+    return "\n".join(tuiles)
 
 
 def provinces_pretes(provinces, langue):
@@ -340,6 +375,7 @@ def generer_page(cle, config, langue, langues_disponibles, other_provinces_block
 
     intro_html = intro_html.replace("{{STAT_TERRAINS}}", str(total_terrains))
     intro_html = intro_html.replace("{{STAT_COMMUNES}}", str(nb_communes))
+    intro_html = remplacer_nombres(intro_html, communes, f"{cle}/{langue}")
 
     # Bruxelles n'a pas de page région dédiée (pas de sous-provinces) : sa tuile région sur la
     # page d'accueil renvoie directement vers cette page province. Le fil d'Ariane fait pareil
@@ -390,6 +426,16 @@ def generer_page(cle, config, langue, langues_disponibles, other_provinces_block
         "{{UI_CLUB_PLURIEL}}": tr["province_clubs_pluriel"],
         "{{UI_META_DESCRIPTION}}": tr["province_meta_description"].format(nom=nom_province),
         "{{OTHER_PROVINCES_BLOCK}}": other_provinces_block,
+        "{{UI_VOIR_TOUTES_COMMUNES}}": tr["province_voir_toutes_communes"],
+        "{{UI_REDUIRE_COMMUNES}}": tr["province_reduire_communes"],
+        "{{UI_RECHERCHER}}": tr["signalement_search_btn"],
+        "{{UI_FERMER}}": tr["close_panel"],
+        # Bruxelles n'est pas une province : message des pages région
+        "{{UI_AUCUN_TERRAIN}}": chaine_js(
+            tr["carte_aucun_terrain_region"] if config["region_key"] == "bruxelles"
+            else tr["carte_aucun_terrain_province"]
+        ),
+        "{{UI_ERREUR_CHARGEMENT}}": chaine_js(tr["carte_erreur_chargement"]),
     }
 
     page = reordonner_stats_et_carte_bruxelles(template) if config["region_key"] == "bruxelles" else template
@@ -401,14 +447,11 @@ def generer_page(cle, config, langue, langues_disponibles, other_provinces_block
         print(f"  [attention] {cle}/{langue}: jetons non remplacés -> {set(jetons_restants)}")
 
     chemin_sortie = OUTPUT_DIR / url_page(config["slug"], langue).lstrip("/")
-    chemin_sortie.parent.mkdir(parents=True, exist_ok=True)
-    chemin_sortie.write_text(page, encoding="utf-8")
+    FICHIERS_A_ECRIRE.append((chemin_sortie, page))
 
     if config["slug"] not in communes_deja_ecrites:
         communes_path = OUTPUT_DIR / "data" / f"communes-{config['slug']}.json"
-        communes_path.write_text(
-            json.dumps(communes, ensure_ascii=False, indent=2), encoding="utf-8"
-        )
+        FICHIERS_A_ECRIRE.append((communes_path, json.dumps(communes, ensure_ascii=False, indent=2)))
         communes_deja_ecrites.add(config["slug"])
 
     extra = f", {densite}/100km²" if densite else ""
@@ -433,8 +476,13 @@ def generer_page_region(cle, config, langue, langues_disponibles, template, stat
     intro_html = intro_html.replace("{{STAT_TERRAINS}}", str(total_terrains))
     intro_html = intro_html.replace("{{STAT_PROVINCES}}", str(nb_provinces))
     intro_html = intro_html.replace("{{STAT_COMMUNES}}", str(nb_communes))
+    intro_html = remplacer_nombres(intro_html, stats_geo[config["region_key"]]["provinces"], f"{cle}/{langue}")
 
-    liens_provinces = construire_liens_provinces_region(
+    densite = calculer_densite(total_terrains, config.get("area_km2"), langue)
+    if densite is None:
+        raise ValueError(f"{cle} : area_km2 manquant dans data/regions.json")
+
+    tuiles_provinces = construire_tuiles_provinces_region(
         config["region_key"], provinces, stats_geo, langue, traductions
     )
 
@@ -446,8 +494,8 @@ def generer_page_region(cle, config, langue, langues_disponibles, template, stat
         "{{BANNER_CREDIT_HTML}}": credit_banniere(config["banner_credit_html"], langue),
         "{{INTRO_HTML}}": intro_html,
         "{{STAT_TERRAINS}}": str(total_terrains),
-        "{{STAT_PROVINCES}}": str(nb_provinces),
         "{{STAT_COMMUNES}}": str(nb_communes),
+        "{{STAT_DENSITE}}": densite,
         "{{STATS_GEO_KEY}}": config["region_key"],
         "{{SLUG}}": config["slug"],
         "{{HOME_URL}}": url_racine_langue(langue),
@@ -461,12 +509,16 @@ def generer_page_region(cle, config, langue, langues_disponibles, template, stat
         "{{URL_EN}}": url_page_region(config["slug"], "en") if "en" in langues_disponibles else url_racine_langue("en"),
         "{{UI_ACCUEIL}}": tr["province_accueil_breadcrumb"],
         "{{UI_TERRAINS_RECENSES}}": tr["province_terrains_recenses"],
-        "{{UI_PROVINCES_COUVERTES}}": tr["region_provinces_couvertes"],
         "{{UI_COMMUNES_COUVERTES}}": tr["province_communes_couvertes"],
+        "{{UI_TERRAINS_100KM2}}": tr["province_terrains_100km2"],
         "{{UI_PROVINCES_DE_LA_REGION}}": tr["region_provinces_de_la_region"].format(nom=nom_region),
         "{{UI_BEAUX_TERRAINS}}": tr["beaux_terrains_titre_court"],
         "{{UI_META_DESCRIPTION}}": tr["region_meta_description"].format(nom=nom_region),
-        "{{PROVINCES_LINKS}}": liens_provinces,
+        "{{PROVINCES_TUILES}}": tuiles_provinces,
+        "{{UI_RECHERCHER}}": tr["signalement_search_btn"],
+        "{{UI_FERMER}}": tr["close_panel"],
+        "{{UI_AUCUN_TERRAIN}}": chaine_js(tr["carte_aucun_terrain_region"]),
+        "{{UI_ERREUR_CHARGEMENT}}": chaine_js(tr["carte_erreur_chargement"]),
     }
 
     page = template
@@ -478,11 +530,10 @@ def generer_page_region(cle, config, langue, langues_disponibles, template, stat
         print(f"  [attention] {cle}/{langue}: jetons non remplacés -> {set(jetons_restants)}")
 
     chemin_sortie = OUTPUT_DIR / url_page_region(config["slug"], langue).lstrip("/")
-    chemin_sortie.parent.mkdir(parents=True, exist_ok=True)
-    chemin_sortie.write_text(page, encoding="utf-8")
+    FICHIERS_A_ECRIRE.append((chemin_sortie, page))
 
     print(f"  [généré]  {cle}/{langue} -> {chemin_sortie.relative_to(OUTPUT_DIR)} "
-          f"({total_terrains} terrains, {nb_provinces} provinces, {nb_communes} communes)")
+          f"({total_terrains} terrains, {nb_provinces} provinces, {nb_communes} communes, {densite}/100km²)")
 
 
 def construire_bloc_sitemap_url(url_absolue, langues_disponibles, url_par_langue):
@@ -617,6 +668,10 @@ def main():
         pages_generees.append((config["slug"], langues_disponibles, url_page_region))
 
     print(f"\n{generees_regions} page(s) région générée(s), {ignorees_regions} ignorée(s) (français incomplet).")
+
+    for chemin, contenu in FICHIERS_A_ECRIRE:
+        chemin.parent.mkdir(parents=True, exist_ok=True)
+        chemin.write_text(contenu, encoding="utf-8")
 
     mettre_a_jour_sitemap(pages_generees)
 

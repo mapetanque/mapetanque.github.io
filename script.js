@@ -138,6 +138,11 @@ function uneDecimale(nombre) {
 // Piste du panneau d'info actuellement ouvert, pour le régénérer si la langue change
 let panneauOuvertActuel = null;
 
+// Vrai sur l'accueil, dans les 4 langues : /, /index.html, /nl/, /nl/index.html, etc.
+function estPageAccueil() {
+    return /^\/((nl|de|en)\/?)?(index\.html)?$/.test(window.location.pathname);
+}
+
 function appliquerTraductions() {
 
     const dict = translations[currentLang];
@@ -146,15 +151,20 @@ function appliquerTraductions() {
 
     // Titre de l'onglet + balise meta description, pour un extrait Google correct
     // dans la langue affichée (au lieu du texte piqué au hasard dans la page).
+    // Accueil uniquement : meta_title/meta_description sont ceux de l'accueil, et les autres pages
+    // (provinces, régions, Comment jouer…) ont déjà leur propre titre dans leur HTML — les écraser
+    // leur donnait à toutes le titre de l'accueil.
     // Garde-fou : si meta_title/meta_description est absent pour une raison quelconque
     // (ex. translations.js et script.js désynchronisés lors d'un déploiement), on laisse
     // la valeur existante plutôt que d'écrire la chaîne littérale "undefined".
-    if (dict.meta_title) {
-        document.title = dict.meta_title;
-    }
-    const metaDescription = document.getElementById('meta-description');
-    if (metaDescription && dict.meta_description) {
-        metaDescription.setAttribute('content', dict.meta_description);
+    if (estPageAccueil()) {
+        if (dict.meta_title) {
+            document.title = dict.meta_title;
+        }
+        const metaDescription = document.getElementById('meta-description');
+        if (metaDescription && dict.meta_description) {
+            metaDescription.setAttribute('content', dict.meta_description);
+        }
     }
 
     // Textes simples
@@ -288,10 +298,8 @@ document.querySelectorAll('.lang-link').forEach(function (btn) {
 // ===================== Carte =====================
 
 // Création de la carte centrée sur la Belgique
-// Molette active dès le chargement, sur toutes les pages (réglage par défaut de Leaflet). Une
-// protection "premier clic" existait auparavant (molette désactivée tant qu'on n'avait pas cliqué
-// sur la carte, pour que le défilement de la page ne zoome pas la carte au passage) : retirée à la
-// demande de l'utilisateur, en connaissance de cause.
+// Molette : voir « Molette sur la carte » juste en dessous (la molette seule fait défiler la page,
+// Ctrl + molette zoome).
 const map = L.map('map', {
     // Sensibilité de la molette : Leaflet accumule le défilement et change de niveau de zoom
     // tous les wheelPxPerZoomLevel pixels équivalents (défaut Leaflet : 60, ce qui faisait sauter
@@ -303,6 +311,37 @@ const map = L.map('map', {
 // fonction). beaux-terrains.js en a besoin (window.map) sur les pages région/Bruxelles pour
 // centrer la carte au clic sur une tuile du carrousel.
 window.map = map;
+
+// ===================== Molette sur la carte =====================
+// La carte occupe presque tout l'écran sous la bannière : avec la molette Leaflet par défaut, le
+// visiteur qui fait défiler la page pour descendre vers les sections du bas zoomait la carte à la
+// place (jusqu'au planisphère). Comme sur Google Maps : la molette seule fait défiler la page et
+// un message l'indique ; Ctrl + molette (⌘ sur Mac, ou le pincement du pavé tactile, qui arrive
+// avec ctrlKey) zoome. En plein écran, la page ne défile plus : la molette zoome directement.
+// Écouteur en phase de capture sur le parent de la carte : stopPropagation empêche l'événement
+// d'atteindre Leaflet, sans preventDefault, donc la page défile normalement.
+(function () {
+    const conteneur = map.getContainer();
+    const estMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
+    const message = document.createElement('div');
+    message.className = 'carte-message-molette';
+    message.setAttribute('aria-hidden', 'true');
+    conteneur.appendChild(message);
+    let minuteur = null;
+
+    conteneur.parentNode.addEventListener('wheel', function (e) {
+        if (e.ctrlKey || e.metaKey) return;
+        if (conteneur.closest('.fullscreen-active')) return;
+        // Popups et contrôles (filtres…) : Leaflet y gère déjà la molette (défilement du contenu)
+        if (e.target.closest('.leaflet-popup, .leaflet-control')) return;
+
+        e.stopPropagation();
+        message.textContent = t('molette_zoom').replace('{touche}', estMac ? '⌘' : t('molette_touche'));
+        message.classList.add('visible');
+        clearTimeout(minuteur);
+        minuteur = setTimeout(function () { message.classList.remove('visible'); }, 1500);
+    }, { capture: true });
+})();
 
 // Emprise de la Belgique [sud-ouest, nord-est] (légère marge incluse : Arlon au sud, pointe du
 // Limbourg à l'est). Utilisée pour cadrer la carte au premier chargement et au retour à l'accueil
@@ -323,6 +362,17 @@ function cadrerSurBelgique() {
     map.setView(emprise.getCenter(), zoomCible);
 }
 cadrerSurBelgique();
+
+// Cadrage sur les terrains d'une province ou d'une région (pages province/région). Leaflet
+// arrondit le zoom au niveau entier inférieur : la province n'occupait alors qu'une petite partie
+// de la carte (Namur : de Lille à l'Allemagne sur ordinateur, toute la Belgique sur mobile). Les
+// quarts de niveau sont permis le temps de ce cadrage seulement ; les zooms suivants (boutons,
+// molette) reviennent aux niveaux entiers.
+function cadrerSurEmprise(emprise, options) {
+    map.options.zoomSnap = 0.25;
+    map.fitBounds(emprise, options);
+    map.options.zoomSnap = 1;
+}
 
 let userPosition = null;
 
@@ -3007,12 +3057,19 @@ let markers;
 // Stats du footer (nombre total de terrains, terrains avec photo) — toujours calculées sur
 // l'ensemble de la Belgique et TOUJOURS exécutées, même sur les pages qui définissent
 // MAPETANQUE_SKIP_DEFAULT_MARKERS (province/région/comment-jouer/compteur) : le footer doit
-// afficher le même total partout, pas un sous-ensemble propre à la page courante. Fetch séparé du
-// bloc juste en dessous (qui, lui, construit les marqueurs de la carte et reste conditionné par
-// MAPETANQUE_SKIP_DEFAULT_MARKERS) pour ne pas avoir à toucher à sa logique, déjà conséquente.
-fetch('/data/terrains.geojson')
-    .then(response => response.json())
+// afficher le même total partout, pas un sous-ensemble propre à la page courante.
+// Un seul téléchargement du fichier (1,3 Mo), partagé par les chiffres du pied de page et par les
+// marqueurs de la carte plus bas (conditionnés, eux, par MAPETANQUE_SKIP_DEFAULT_MARKERS).
+const terrainsGeojson = fetch('/data/terrains.geojson').then(response => response.json());
+
+terrainsGeojson
     .then(data => {
+        // Date écrite dans le fichier par scripts/update_terrains.py (« AAAA-MM-JJ ») ; midi pour
+        // qu'aucun décalage horaire ne la fasse glisser au jour précédent. Sans date, la ligne
+        // « Données mises à jour le … » reste masquée.
+        if (data.mis_a_jour) {
+            lastUpdateRaw = new Date(data.mis_a_jour + 'T12:00:00');
+        }
         afficherNombreTerrains(data.features.length);
         terrainsFeaturesPourPhotos = data.features;
         calculerTerrainsAvecPhoto();
@@ -3083,8 +3140,7 @@ markers = L.markerClusterGroup({
     disableClusteringAtZoom: 16
 });
 
-fetch('/data/terrains.geojson')
-    .then(response => response.json())
+terrainsGeojson
     .then(data => {
 
         // Liste plate de tous les terrains, pour le calcul du plus proche (flèche hors écran)
@@ -4408,10 +4464,11 @@ function construireStatsGeo() {
 
 // Petit état de chargement immédiat, remplacé dès que les données arrivent (ou par un message
 // d'erreur en cas d'échec) — évite un vide silencieux pendant le téléchargement de stats_geo.json
+// Téléchargé seulement si la page affiche cette liste (#stats-geo-tree) : l'accueil et les pages
+// province/région ne l'ont plus.
 const arbreInitial = document.getElementById('stats-geo-tree');
 if (arbreInitial) {
     arbreInitial.innerHTML = '<p class="stats-geo-loading">' + translations[currentLang].stats_geo_loading + '</p>';
-}
 
 fetch('/data/stats_geo.json')
     .then(function (response) {
@@ -4429,6 +4486,7 @@ fetch('/data/stats_geo.json')
             arbreConteneur.innerHTML = '<p class="stats-geo-error">' + translations[currentLang].stats_geo_error + '</p>';
         }
     });
+}
 
 // ===================== Chiffres du pied de page =====================
 
@@ -4485,22 +4543,6 @@ function afficherNombreTerrains(count) {
     mettreAJourStats();
     mettreAJourBandeauStats();
 }
-
-// Date du dernier commit ayant modifié terrains.geojson, via l'API GitHub
-fetch('https://api.github.com/repos/mapetanque/mapetanque.github.io/commits?path=data/terrains.geojson&page=1&per_page=1')
-    .then(function (response) {
-        if (!response.ok) throw new Error('Réponse API GitHub invalide');
-        return response.json();
-    })
-    .then(function (commits) {
-        if (commits.length > 0) {
-            lastUpdateRaw = new Date(commits[0].commit.author.date);
-            mettreAJourStats();
-        }
-    })
-    .catch(function () {
-        // Pas de date : la ligne « Données mises à jour le … » reste simplement masquée
-    });
 
 
 // ===================== Retour à l'accueil (clic sur le logo) =====================

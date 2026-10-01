@@ -28,6 +28,30 @@ body {
     min-height: 300px;
 }
 
+/* Message « Ctrl + molette pour zoomer », affiché brièvement quand on fait défiler la page
+   au-dessus de la carte (voir « Molette sur la carte » dans script.js). */
+.carte-message-molette {
+    position: absolute;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.carte-message-molette.visible {
+    opacity: 1;
+}
+
 /* Bouton plein écran : injecté par script.js comme un vrai contrôle Leaflet (même famille que
    le zoom et le sélecteur Plan/Satellite), donc son positionnement/empilement dans le coin de la
    carte et son style de boîte (fond blanc, bordure) sont déjà gérés par Leaflet lui-même. */

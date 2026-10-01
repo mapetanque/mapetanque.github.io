@@ -32,6 +32,17 @@ jobs:
         run: |
           python scripts/update_terrains.py
 
+      # Pages province et région régénérées avec les chiffres du jour (tuiles, intros, liste des
+      # provinces) : sans cette étape, elles ne suivaient les données que lorsque le générateur
+      # était relancé à la main. Aucun appel réseau, même résultat pour les mêmes données.
+      # continue-on-error : si une commune citée dans une intro ({{NB:…}}) disparaît des données,
+      # le générateur s'arrête ; les pages restent alors celles de la semaine précédente, et la
+      # mise à jour OSM est sauvegardée quand même.
+      - name: Pages province et région
+        continue-on-error: true
+        run: |
+          python scripts/generate_provinces.py
+
       # Pistes voisines regroupées (notes, critères et avis valent pour tout le groupe, voir
       # grouper_terrains.py). Avant la promotion, qui s'en sert pour cumuler les votes.
       - name: Groupes de terrains voisins
@@ -81,6 +92,7 @@ jobs:
           # vide : []) : git add échoue sur un chemin inexistant, et ferait échouer tout ce commit.
           # Même chose pour data/environnement.json (vide : {}).
           git add data/terrains.geojson data/environnement.json data/stats_geo.json data/terrains_promus.json images/miniatures-carrees data/candidats_photos.json data/terrains_apparition.json data/groupes_terrains.json
+          git add province-*.html region-*.html nl/province-*.html nl/region-*.html de/province-*.html de/region-*.html en/province-*.html en/region-*.html sitemap.xml data/communes-*.json
 
           git commit -m "Mise à jour quotidienne OSM" || exit 0
 

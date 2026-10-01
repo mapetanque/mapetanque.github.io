@@ -6,20 +6,9 @@
    géolocalisation, plein écran, langue, footer, panneaux d'info/partage...).
 
    Stratégie :
-   - Les anciens éléments remplacés visuellement (#stats-section, #browseListBtn,
-     .add-terrain-link-wrapper) sont seulement masqués (display:none), jamais supprimés du DOM :
-     tout leur JS continue de fonctionner normalement, en arrière-plan, sans effet visible.
    - .header et .controls sont désormais enveloppés dans un nouveau conteneur .hero-banner
      (ajouté uniquement en HTML, aucun de leurs attributs/ID internes n'a changé).
    ========================================================================================== */
-
-/* ===================== Masquage des éléments remplacés (jamais supprimés) ===================== */
-
-#stats-section,
-#browseListBtn,
-.add-terrain-link-wrapper {
-    display: none;
-}
 
 /* ===================== Bannière photo (.hero-banner) ===================== */
 
@@ -184,7 +173,9 @@
 
 .province-tiles-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    /* 5 colonnes : les 5 provinces flamandes sur la première ligne, les 5 wallonnes sur la
+       seconde (ordre du HTML). En 4 colonnes, Luxembourg et Namur restaient seuls en bas. */
+    grid-template-columns: repeat(5, 1fr);
     gap: 16px;
 }
 
@@ -236,24 +227,6 @@
     text-shadow: 0 1px 4px rgba(0,0,0,0.6);
 }
 
-/* ===================== Ajustements de la barre de navigation ===================== */
-
-/* Icônes retirées à gauche de "Comment jouer" / "Compteur de points" : masquées plutôt que
-   supprimées du HTML (12 fichiers à travers les 3 langues), dans le même esprit que le reste du
-   projet. Ne concerne que la nav de la bannière : le menu burger mobile (.side-menu-game-link)
-   garde ses icônes. */
-.hero-banner .game-nav-link svg {
-    display: none;
-}
-
-/* ===================== Menu burger : même simplification que l'en-tête ===================== */
-
-/* Icônes retirées à gauche de « Comment jouer » et « Compteur de points », comme dans la nav de
-   la bannière. Masquées plutôt que supprimées du HTML, pour ne pas toucher aux 56 fichiers. */
-#side-menu .side-menu-game-link svg {
-    display: none;
-}
-
 /* ===================== Bulle du résultat de recherche ===================== */
 
 /* Cette bulle ne contient qu'une ligne d'adresse, alors que .leaflet-popup-content réserve 40px
@@ -293,9 +266,13 @@
     #map {
         height: 320px;
     }
+}
 
-    .province-tiles-grid {
-        grid-template-columns: repeat(3, 1fr);
+/* Sous 800px, 5 colonnes donneraient des tuiles trop étroites : 2 colonnes (5 lignes pleines).
+   Limité aux provinces : la grille des régions garde ses 3 colonnes jusqu'à 640px. */
+@media (max-width: 800px) {
+    #provinces-section .province-tiles-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 

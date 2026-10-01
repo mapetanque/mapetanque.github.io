@@ -1,18 +1,9 @@
 /* ==========================================================================================
    style-province.css
    Feuille additive chargée APRÈS /style.css — n'en modifie aucune règle existante.
-   Même stratégie que style-accueil-provinces.css (page d'accueil) : les éléments remplacés
-   visuellement (#stats-section, #browseListBtn, .add-terrain-link-wrapper) sont seulement
-   masqués, jamais supprimés — leur JS continue de fonctionner normalement.
+   Pages province et région uniquement (templates/province_template.html et
+   templates/region_template.html).
    ========================================================================================== */
-
-/* ===================== Masquage des éléments remplacés (jamais supprimés) ===================== */
-
-#stats-section,
-#browseListBtn,
-.add-terrain-link-wrapper {
-    display: none;
-}
 
 /* Barre de recherche + "Me localiser" masqués sur les pages province : la carte est déjà
    zoomée automatiquement sur la province au chargement, page plus épurée. Le formulaire reste
@@ -331,6 +322,36 @@
     color: #999;
 }
 
+/* Liste repliée sur ses 10 premières communes (voir le script de province_template.html) */
+.commune-list.repliee .commune-repliee {
+    display: none;
+}
+
+.commune-voir-tout {
+    display: block;
+    margin: 18px auto 0;
+    padding: 9px 20px;
+    background: #f7f9f6;
+    border: 1px solid #e2e6de;
+    border-radius: 20px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    color: #444;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.commune-voir-tout:hover {
+    background: #74C15A;
+    border-color: #74C15A;
+    color: #fff;
+}
+
+.commune-voir-tout[hidden] {
+    display: none;
+}
+
 .commune-no-result {
     text-align: center;
     color: #999;
@@ -398,22 +419,64 @@
     color: #fff;
 }
 
-/* ===================== Ajustements de la barre de navigation ===================== */
+/* ===================== Provinces de la région (tuiles photo) ===================== */
 
-/* Icônes retirées à gauche de "Comment jouer" / "Compteur de points" : masquées plutôt que
-   supprimées du HTML (12 fichiers à travers les 3 langues), dans le même esprit que le reste du
-   projet. Ne concerne que la nav de la bannière : le menu burger mobile (.side-menu-game-link)
-   garde ses icônes. */
-.hero-banner .game-nav-link svg {
-    display: none;
+/* Mêmes tuiles que « Parcourir par province » sur l'accueil (style-accueil-provinces.css, non
+   chargée sur ces pages), avec en plus le nombre de terrains. */
+.tuiles-provinces {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
 }
 
-/* ===================== Menu burger : même simplification que l'en-tête ===================== */
+.tuile-province {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    border-radius: 14px;
+    overflow: hidden;
+    padding-top: 75%;
+    background-size: cover;
+    background-position: center;
+    background-color: #dfe8da;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 2px 10px rgba(30, 50, 20, 0.06);
+}
 
-/* Icônes retirées à gauche de « Comment jouer » et « Compteur de points », comme dans la nav de
-   la bannière. Masquées plutôt que supprimées du HTML, pour ne pas toucher aux 56 fichiers. */
-#side-menu .side-menu-game-link svg {
-    display: none;
+.tuile-province:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(30, 50, 20, 0.14);
+}
+
+/* Dégradé sombre en bas de tuile, pour que le texte reste lisible sur toutes les photos */
+.tuile-province::after {
+    content: "";
+    position: absolute;
+    inset: 40% 0 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.55));
+}
+
+.tuile-province-nom,
+.tuile-province-nombre {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    z-index: 1;
+    color: #fff;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.tuile-province-nom {
+    bottom: 28px;
+    font-weight: 700;
+    font-size: 14.5px;
+    line-height: 1.2;
+}
+
+.tuile-province-nombre {
+    bottom: 10px;
+    font-size: 12.5px;
+    opacity: 0.9;
 }
 
 /* ===================== Bulle du résultat de recherche ===================== */
@@ -480,6 +543,20 @@
     .commune-list {
         grid-template-columns: 1fr;
         column-gap: 0;
+    }
+}
+
+/* Sous 800px : 2 colonnes, la première tuile (province qui compte le plus de terrains) sur
+   toute la largeur — 5 tuiles, sans en laisser une seule sur la dernière ligne. */
+@media (max-width: 800px) {
+    .tuiles-provinces {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .tuiles-provinces .tuile-province:first-child {
+        grid-column: 1 / -1;
+        padding-top: 45%;
     }
 }
 

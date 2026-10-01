@@ -490,12 +490,37 @@ def compter_terrains_precedents(chemin):
         return None
 
 
+def date_mise_a_jour(chemin, nouvelles_features):
+    """
+    Date affichée dans le pied de page du site (« Données mises à jour le … »), écrite dans le
+    fichier lui-même (propriété « mis_a_jour ») pour que le site n'ait pas à interroger l'API
+    GitHub. Date du jour si les terrains ont changé ; sinon la date déjà présente, pour ne pas
+    modifier (et recommiter) le fichier à chaque passage sans changement.
+    """
+    aujourd_hui = date.today().isoformat()
+    if not os.path.exists(chemin):
+        return aujourd_hui
+
+    try:
+        with open(chemin, "r", encoding="utf-8") as f:
+            ancien_geojson = json.load(f)
+    except Exception:
+        return aujourd_hui
+
+    # Aller-retour JSON : compare les données telles qu'elles seront écrites (tuples → listes…)
+    nouvelles = json.loads(json.dumps(nouvelles_features, ensure_ascii=False))
+    if ancien_geojson.get("mis_a_jour") and ancien_geojson.get("features") == nouvelles:
+        return ancien_geojson["mis_a_jour"]
+    return aujourd_hui
+
+
 if PHOTOS_REPRISES:
     print(f"⚠ {len(PHOTOS_REPRISES)} photo(s) Mapillary reprise(s) de la semaine précédente, "
           "l'API n'ayant pas répondu. Si c'est un grand nombre, vérifier le secret MAPILLARY_TOKEN.")
 
 geojson = {
     "type": "FeatureCollection",
+    "mis_a_jour": date_mise_a_jour(CHEMIN_GEOJSON, features),
     "features": features
 }
 
