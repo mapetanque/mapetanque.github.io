@@ -288,10 +288,10 @@
 .fiche-photos .popup-photo-add-btn { margin-top: 6px; }
 .fiche .popup-description { margin: 10px 0 0; }
 
-/* Sans photo : bandeau bas (dessin recadré et atténué), l'invitation posée dessus. */
+/* Sans photo : bandeau (dessin recadré sur le terrain et atténué), l'invitation posée dessus. */
 .fiche-sans-photo {
     position: relative;
-    height: 120px;
+    height: 180px;
     margin-top: 12px;
     border-radius: 12px;
     overflow: hidden;
@@ -302,9 +302,11 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 30%;
+    object-position: center 50%;    /* le banc et un bout du terrain */
     opacity: 0.5;
 }
+/* Fenêtre flottante, bien plus large : un peu plus haut, sinon le dessin est trop recadré. */
+#desktop-modal-content .fiche-sans-photo { height: 230px; }
 .fiche .fiche-ajout-photo {
     position: absolute;
     right: 12px;

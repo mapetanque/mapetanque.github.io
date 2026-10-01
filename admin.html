@@ -139,6 +139,12 @@
     .puce-nouveau { border: 2px solid #c77a1a; background: var(--orange-clair); color: var(--orange); }
     .puce-pistes { border: 2px solid var(--bleu); background: var(--bleu-clair); color: var(--bleu); }
     .puce[aria-pressed="true"] { border: 2px solid var(--vert); background: var(--vert); color: white; }
+    /* Rangée « Critères » (environnement OSM et joueurs), cumulables. */
+    #pucesCriteres { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+    .criteres-ligne { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+    .criteres-ligne-titre { min-width: 150px; font-size: 13px; color: var(--doux); }
+    .puce-critere { min-height: 36px; padding: 0 12px; font-size: 13px; font-weight: 500; }
+    .puce:disabled { opacity: 0.45; cursor: default; }
     #compteur { font-size: 15px; font-weight: 700; }
     #listeVide { padding: 30px 20px; text-align: center; color: var(--doux); }
 
@@ -444,6 +450,7 @@
                 </label>
             </div>
             <div id="puces" role="group" aria-label="Filtres"></div>
+            <div id="pucesCriteres" role="group" aria-label="Critères"></div>
             <div id="compteur" aria-live="polite"></div>
         </div>
         <div id="conteneur"></div>
@@ -566,6 +573,8 @@
     </div>
 </dialog>
 
+<!-- Règles des critères d'environnement, partagées avec le site (filtres de l'onglet Terrains). -->
+<script src="/criteres.js"></script>
 <script>
 /* ============================================================================
    Page admin — revue des candidats photo.
@@ -588,6 +597,10 @@ const URL_WORKER = "https://mapetanque-admin.mapetanque.workers.dev";
 const URL_CANDIDATS = "/data/candidats_photos.json";
 const URL_PHOTOS_EN_LIGNE = "/data/photos_mapillary.json";
 const URL_APPARITIONS = "/data/terrains_apparition.json";
+// Pour les critères de l'onglet Terrains : propriétés des terrains (env, lit, covered…) et
+// critères confirmés par les joueurs (même paquet public que le site, Worker des notes).
+const URL_TERRAINS = "/data/terrains.geojson";
+const URL_CRITERES_JOUEURS = "https://mapetanque-notes.mapetanque.workers.dev/criteres";
 
 // Un terrain est « nouveau » pendant ce nombre de jours après sa première apparition.
 const JOURS_NOUVEAU = 30;
@@ -603,6 +616,9 @@ let APPARITIONS = {};    // osm_id -> date de première apparition (null = déj�
 let TERRAINS = [];       // liste à plat, tirée de DONNEES
 let TERRAINS_PAR_ID = {}; // osm_id -> terrain
 let CARTES = {};         // osm_id -> élément de la carte
+let PROPRIETES = {};     // osm_id -> propriétés du terrain dans terrains.geojson (critères OSM)
+let CRITERES_JOUEURS_TERRAINS = {}; // osm_id -> { ombrage: [nombre, "AAAA-MM"], ... }
+const CRITERES_ACTIFS = new Set();  // critères cochés dans l'onglet Terrains (cumulés : ET)
 
 
 /* ===================== Appels au Worker ===================== */
@@ -1271,6 +1287,92 @@ function correspond(osmId, filtre) {
     }
 }
 
+/* ---- Critères (environnement OSM et joueurs) ----
+   Rangée de puces cumulables (Bancs ET WC), qui s'ajoute au filtre des puces ci-dessus et à la
+   recherche. Mêmes règles et mêmes seuils que les fiches et les filtres du site (/criteres.js).
+   Les critères des joueurs, jamais proposés en filtre sur le site, sont permis ici (outil
+   interne) dès une confirmation, alors que le site attend CONFIRMATIONS_MIN appareils. */
+const LIBELLES_CRITERES = {
+    banc: "Bancs", eclaire: "Éclairé", nature: "Nature", calme: "Au calme", eau: "Au bord de l'eau",
+    abri_pluie: "Abrité", jeux: "Jeux", wc: "WC", eau_potable: "Eau potable", voie_verte: "Voie verte",
+    parking: "Parking", arret: "Bus / tram",
+    j_ombrage: "Ombragé", j_abri_pluie: "Abrité de la pluie", j_plusieurs_pistes: "Plusieurs pistes",
+    j_bien_entretenu: "Bien entretenu"
+};
+const cacheCriteresTerrains = {};
+
+// Critères présents pour un terrain : clés OSM (« banc », « wc »…) et clés des joueurs,
+// préfixées « j_ » pour ne pas confondre l'abri tagué dans OSM et l'abri confirmé par les joueurs.
+function criteresTerrain(osmId) {
+    if (!cacheCriteresTerrains[osmId]) {
+        const props = PROPRIETES[osmId];
+        const criteres = new Set(props ? criteresFiltrables(props) : []);
+        const joueurs = CRITERES_JOUEURS_TERRAINS[osmId] || {};
+        CRITERES_JOUEURS.forEach(cle => {
+            if (joueurs[cle] && joueurs[cle][0] >= 1) criteres.add("j_" + cle);
+        });
+        cacheCriteresTerrains[osmId] = criteres;
+    }
+    return cacheCriteresTerrains[osmId];
+}
+
+function passeCriteres(osmId) {
+    const criteres = criteresTerrain(osmId);
+    for (const cle of CRITERES_ACTIFS) if (!criteres.has(cle)) return false;
+    return true;
+}
+
+// Chiffre d'une puce : le nombre de terrains qui resteraient si on la cochait en plus (avec le
+// filtre des puces du dessus, sans la recherche). Une puce qui ne laisserait rien est désactivée.
+function mettreAJourCriteres() {
+    const zone = document.getElementById("pucesCriteres");
+    zone.innerHTML = "";
+    const retenus = TERRAINS.filter(t => correspond(t.osm_id, FILTRE) && passeCriteres(t.osm_id));
+
+    [
+        ["Environnement (OSM)", FILTRES_SUR_PLACE.concat(FILTRES_PROXIMITE)],
+        ["Joueurs", CRITERES_JOUEURS.map(cle => "j_" + cle)]
+    ].forEach(([titre, cles]) => {
+        const ligne = document.createElement("div");
+        ligne.className = "criteres-ligne";
+        const intitule = document.createElement("span");
+        intitule.className = "criteres-ligne-titre";
+        intitule.textContent = titre;
+        ligne.appendChild(intitule);
+
+        cles.forEach(cle => {
+            const coche = CRITERES_ACTIFS.has(cle);
+            const nombre = coche ? retenus.length : retenus.filter(t => criteresTerrain(t.osm_id).has(cle)).length;
+            const bouton = document.createElement("button");
+            bouton.type = "button";
+            bouton.className = "puce puce-critere";
+            bouton.setAttribute("aria-pressed", coche ? "true" : "false");
+            bouton.disabled = !coche && nombre === 0;
+            bouton.textContent = LIBELLES_CRITERES[cle] + (coche ? "" : " · " + nombre);
+            bouton.addEventListener("click", () => {
+                if (coche) CRITERES_ACTIFS.delete(cle); else CRITERES_ACTIFS.add(cle);
+                mettreAJourCriteres();
+                appliquerFiltres();
+            });
+            ligne.appendChild(bouton);
+        });
+        zone.appendChild(ligne);
+    });
+
+    if (CRITERES_ACTIFS.size) {
+        const effacer = document.createElement("button");
+        effacer.type = "button";
+        effacer.className = "lien-outil";
+        effacer.textContent = "Effacer les critères";
+        effacer.addEventListener("click", () => {
+            CRITERES_ACTIFS.clear();
+            mettreAJourCriteres();
+            appliquerFiltres();
+        });
+        zone.appendChild(effacer);
+    }
+}
+
 function construirePage() {
     TERRAINS = [];
     TERRAINS_PAR_ID = {};
@@ -1333,6 +1435,8 @@ function mettreAJourProgression() {
         zone.appendChild(bouton);
     });
 
+    // Les chiffres des critères dépendent du filtre choisi ci-dessus.
+    mettreAJourCriteres();
     mettreAJourTableauBord();
 }
 
@@ -1343,14 +1447,18 @@ function appliquerFiltres() {
     TERRAINS.forEach(t => {
         const carte = CARTES[t.osm_id];
         const visible = (!recherche || carte.dataset.recherche.includes(recherche))
-            && correspond(t.osm_id, FILTRE);
+            && correspond(t.osm_id, FILTRE)
+            && passeCriteres(t.osm_id);
         carte.hidden = !visible;
         if (visible) affiches++;
     });
 
     const libelle = FILTRES.find(f => f[0] === FILTRE)[1];
+    const criteres = Array.from(CRITERES_ACTIFS).map(cle =>
+        LIBELLES_CRITERES[cle] + (cle.startsWith("j_") ? " (joueurs)" : ""));
     document.getElementById("compteur").textContent = affiches + " terrain(s) affiché(s)"
         + (FILTRE === "tous" ? "" : " — filtre « " + libelle + " »")
+        + (criteres.length ? " — critères « " + criteres.join(", ") + " »" : "")
         + (recherche ? " — recherche « " + recherche + " »" : "");
     document.getElementById("listeVide").hidden = affiches > 0;
 }
@@ -2740,20 +2848,28 @@ async function demarrer() {
     document.getElementById("chargement").style.display = "";
 
     try {
-        const [candidats, etat, enLigne, apparitions] = await Promise.all([
+        const [candidats, etat, enLigne, apparitions, geo, criteresJoueurs] = await Promise.all([
             fetch(URL_CANDIDATS, { cache: "no-store" }).then(r => r.json()),
             appeler("/admin/revue").then(r => r.json()),
             // Le fichier publié sert seulement à afficher « déjà en ligne » ;
             // s'il manque, la revue reste utilisable.
             fetch(URL_PHOTOS_EN_LIGNE, { cache: "no-store" }).then(r => r.json()).catch(() => ({})),
             // Idem pour les dates d'apparition : sans elles, pas de « nouveaux », rien d'autre.
-            fetch(URL_APPARITIONS, { cache: "no-store" }).then(r => r.json()).catch(() => ({}))
+            fetch(URL_APPARITIONS, { cache: "no-store" }).then(r => r.json()).catch(() => ({})),
+            // Idem pour les critères : sans ces fichiers, la rangée « Critères » reste à zéro.
+            fetch(URL_TERRAINS, { cache: "no-store" }).then(r => r.json()).catch(() => null),
+            fetch(URL_CRITERES_JOUEURS).then(r => r.ok ? r.json() : {}).catch(() => ({}))
         ]);
 
         DONNEES = candidats;
         ETAT = etat;
         PHOTOS_EN_LIGNE = enLigne;
         APPARITIONS = apparitions;
+        PROPRIETES = {};
+        ((geo && geo.features) || []).forEach(f => {
+            if (f.properties && f.properties.osm_id) PROPRIETES[f.properties.osm_id] = f.properties;
+        });
+        CRITERES_JOUEURS_TERRAINS = criteresJoueurs || {};
 
         document.getElementById("chargement").style.display = "none";
         document.getElementById("bandeau").style.display = "";

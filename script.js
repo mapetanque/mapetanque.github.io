@@ -588,6 +588,8 @@ function trouverTerrainLePlusProche(lat, lon) {
     let distanceMin = Infinity;
 
     listeTousLesTerrains.forEach(function (t) {
+        // Terrains masqués par les filtres de la carte : ignorés (voir « Filtres de la carte »).
+        if (filtresActifs.size && t.props && !passeLesFiltres(t.props)) return;
         const d = calculDistance(lat, lon, t.lat, t.lon);
         if (d < distanceMin) {
             distanceMin = d;
@@ -663,6 +665,296 @@ function definirPositionUtilisateur(lat, lon) {
     terrainLePlusProche = trouverTerrainLePlusProche(lat, lon);
     mettreAJourFlecheTerrainProche();
 }
+
+
+// ===================== Filtres de la carte (critères OSM) =====================
+// Bouton « Filtres » sur la carte, qui ouvre un panneau de pastilles à cocher : un menu déroulant
+// posé sur la carte sur ordinateur, un panneau montant du bas de l'écran sur mobile. Les critères
+// cochés se cumulent (Bancs ET WC). Seuls les critères OSM servent de filtres, jamais ceux des
+// joueurs. Mêmes règles et mêmes seuils que les pastilles des fiches (voir « Critères des
+// terrains » plus bas) : une seule source de vérité.
+//
+// Les couches filtrées sont les groupes de marqueurs de terrains que chaque page déclare avec
+// window.enregistrerTerrainsFiltrables(groupe) : `markers` sur l'accueil, le groupe propre aux
+// pages province et région (voir leurs gabarits). Chaque marqueur doit porter sa feature
+// (layer.feature, que L.geoJSON pose de lui-même). Tant qu'aucun groupe n'est déclaré, le bouton
+// reste masqué : il n'apparaît donc pas sur les pages sans terrains.
+//
+// Rien n'est mémorisé : les filtres repartent à zéro à chaque page.
+
+const ICON_FILTRES = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18M6 12h12M10 19h4"></path></svg>';
+
+const filtresActifs = new Set();
+const groupesFiltrables = [];            // [{ groupe, couches: [marqueurs portant .feature] }]
+function passeLesFiltres(props, filtres) {
+    const criteres = criteresFiltrables(props);
+    for (const cle of (filtres || filtresActifs)) {
+        if (!criteres.has(cle)) return false;
+    }
+    return true;
+}
+
+function toutesLesCouchesFiltrables() {
+    return groupesFiltrables.reduce(function (liste, g) { return liste.concat(g.couches); }, []);
+}
+
+function formaterNombre(n) {
+    const locale = { fr: 'fr-BE', nl: 'nl-BE', de: 'de-BE', en: 'en-GB' }[currentLang] || 'fr-BE';
+    return n.toLocaleString(locale);
+}
+
+function texteNombreTerrains(n) {
+    return t(n === 1 || (n === 0 && currentLang === 'fr') ? 'filtres_terrains_un' : 'filtres_terrains_n')
+        .replace('%n', formaterNombre(n));
+}
+
+window.enregistrerTerrainsFiltrables = function (groupe) {
+    groupesFiltrables.push({
+        groupe: groupe,
+        couches: groupe.getLayers().filter(function (couche) { return couche.feature; })
+    });
+    if (boutonFiltres) boutonFiltres.parentNode.hidden = false;
+    if (filtresActifs.size) appliquerFiltres();
+};
+
+// Un terrain demandé explicitement (lien de partage, tuile du carrousel) mais masqué par les
+// filtres : on retire les filtres plutôt que de ne rien ouvrir.
+window.mapetanqueRevelerTerrain = function (lat, lon) {
+    if (!filtresActifs.size) return;
+    const masque = toutesLesCouchesFiltrables().some(function (couche) {
+        const pos = couche.getLatLng();
+        return Math.abs(pos.lat - lat) < 0.0001 && Math.abs(pos.lng - lon) < 0.0001
+            && !passeLesFiltres(couche.feature.properties);
+    });
+    if (masque) effacerFiltres();
+};
+
+function appliquerFiltres() {
+    groupesFiltrables.forEach(function (g) {
+        const visibles = filtresActifs.size
+            ? g.couches.filter(function (couche) { return passeLesFiltres(couche.feature.properties); })
+            : g.couches;
+        g.groupe.clearLayers();
+        g.groupe.addLayers(visibles);
+    });
+
+    // La flèche « terrain le plus proche » ne vise que les terrains encore affichés.
+    if (userPosition) {
+        terrainLePlusProche = trouverTerrainLePlusProche(userPosition[0], userPosition[1]);
+        mettreAJourFlecheTerrainProche();
+    }
+
+    majBoutonFiltres();
+    majResumeFiltres();
+    majPanneauFiltres();
+}
+
+function basculerFiltre(cle) {
+    if (filtresActifs.has(cle)) filtresActifs.delete(cle);
+    else filtresActifs.add(cle);
+    appliquerFiltres();
+}
+
+function effacerFiltres() {
+    if (!filtresActifs.size) return;
+    filtresActifs.clear();
+    appliquerFiltres();
+}
+
+// --- Bouton sur la carte ---------------------------------------------------------------------
+// Ajouté après le bouton plein écran et sans clear (voir .filtres-control dans style.css) : il
+// flotte à sa gauche, sur la deuxième rangée, sous « Afficher les clubs ». Sur mobile, la
+// première rangée n'a pas la place d'un troisième contrôle.
+let boutonFiltres = null;
+
+const FiltresControl = L.Control.extend({
+    options: { position: 'topright' },
+    onAdd: function () {
+        const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control filtres-control');
+        container.hidden = !groupesFiltrables.length;
+
+        boutonFiltres = L.DomUtil.create('button', 'filtres-bouton', container);
+        boutonFiltres.type = 'button';
+        boutonFiltres.setAttribute('aria-expanded', 'false');
+        boutonFiltres.setAttribute('aria-controls', 'filtres-panneau');
+        boutonFiltres.innerHTML = ICON_FILTRES
+            + '<span data-i18n="filtres_bouton">' + t('filtres_bouton') + '</span>'
+            + '<span class="filtres-badge" hidden></span>';
+
+        L.DomEvent.disableClickPropagation(container);
+        L.DomEvent.disableScrollPropagation(container);
+        L.DomEvent.on(boutonFiltres, 'click', function (e) {
+            L.DomEvent.stop(e);
+            if (panneauFiltresOuvert()) fermerPanneauFiltres();
+            else ouvrirPanneauFiltres();
+        });
+
+        return container;
+    }
+});
+map.addControl(new FiltresControl());
+
+function majBoutonFiltres() {
+    if (!boutonFiltres) return;
+    const badge = boutonFiltres.querySelector('.filtres-badge');
+    badge.textContent = filtresActifs.size;
+    badge.hidden = !filtresActifs.size;
+    boutonFiltres.classList.toggle('actif', filtresActifs.size > 0);
+}
+
+// --- Rappel sur la carte quand des filtres sont actifs : « 92 terrains · Bancs, WC  Effacer » ---
+const resumeFiltres = document.createElement('div');
+resumeFiltres.id = 'filtres-resume';
+resumeFiltres.hidden = true;
+document.getElementById('map').appendChild(resumeFiltres);
+L.DomEvent.disableClickPropagation(resumeFiltres);
+
+function majResumeFiltres() {
+    resumeFiltres.hidden = !filtresActifs.size;
+    if (!filtresActifs.size) { resumeFiltres.innerHTML = ''; return; }
+
+    const nombre = toutesLesCouchesFiltrables().filter(function (couche) {
+        return passeLesFiltres(couche.feature.properties);
+    }).length;
+    const libelles = FILTRES_SUR_PLACE.concat(FILTRES_PROXIMITE)
+        .filter(function (cle) { return filtresActifs.has(cle); })
+        .map(function (cle) { return t('critere_' + cle); });
+
+    resumeFiltres.innerHTML = '<span class="filtres-resume-texte"><b>' + texteNombreTerrains(nombre) + '</b> · '
+        + libelles.join(', ') + '</span>'
+        + '<button type="button" class="filtres-effacer">' + t('filtres_effacer') + '</button>';
+    resumeFiltres.querySelector('.filtres-effacer').addEventListener('click', effacerFiltres);
+}
+
+// --- Panneau ---------------------------------------------------------------------------------
+// Un seul élément, déplacé selon l'écran : dans le conteneur de la carte sur ordinateur (il suit
+// la carte au défilement et en plein écran), dans <body> sur mobile, avec un voile derrière.
+const panneauFiltres = document.createElement('div');
+panneauFiltres.id = 'filtres-panneau';
+panneauFiltres.setAttribute('role', 'dialog');
+panneauFiltres.hidden = true;
+L.DomEvent.disableClickPropagation(panneauFiltres);
+L.DomEvent.disableScrollPropagation(panneauFiltres);
+
+const voileFiltres = document.createElement('div');
+voileFiltres.id = 'filtres-voile';
+voileFiltres.hidden = true;
+voileFiltres.addEventListener('click', fermerPanneauFiltres);
+
+function panneauFiltresOuvert() {
+    return !panneauFiltres.hidden;
+}
+
+function pastilleFiltreHtml(cle) {
+    return '<button type="button" class="filtre-pastille" data-cle="' + cle + '" aria-pressed="false">'
+        + PICTOS[cle] + '<span>' + t('critere_' + cle) + '</span>'
+        + '<span class="filtre-nombre"></span></button>';
+}
+
+function ouvrirPanneauFiltres() {
+    const mobile = estMobile();
+    panneauFiltres.className = mobile ? 'feuille' : 'deroulant';
+    panneauFiltres.setAttribute('aria-label', t('filtres_titre'));
+
+    // Construit à chaque ouverture : suit la langue affichée et le format (mobile/ordinateur).
+    panneauFiltres.innerHTML =
+        '<div class="filtres-tete">'
+        + '<h2>' + t('filtres_titre') + '</h2>'
+        + '<button type="button" class="filtres-fermer" aria-label="' + t('close_panel') + '">✕</button>'
+        + '</div>'
+        + '<div class="filtres-corps">'
+        + '<div class="filtres-groupe"><div class="criteres-titre">' + t('fiche_sur_place') + '</div>'
+        + '<div class="filtres-liste">' + FILTRES_SUR_PLACE.map(pastilleFiltreHtml).join('') + '</div></div>'
+        + '<div class="filtres-groupe"><div class="criteres-titre">' + t('fiche_a_proximite') + '</div>'
+        + '<div class="filtres-liste">' + FILTRES_PROXIMITE.map(pastilleFiltreHtml).join('') + '</div></div>'
+        + '</div>'
+        + '<div class="filtres-pied">'
+        + (mobile
+            ? '<button type="button" class="filtres-effacer"></button><button type="button" class="filtres-voir"></button>'
+            : '<span class="filtres-compte"></span><button type="button" class="filtres-effacer"></button>')
+        + '</div>';
+
+    panneauFiltres.querySelectorAll('.filtre-pastille').forEach(function (pastille) {
+        pastille.addEventListener('click', function () { basculerFiltre(pastille.getAttribute('data-cle')); });
+    });
+    panneauFiltres.querySelector('.filtres-fermer').addEventListener('click', fermerPanneauFiltres);
+    panneauFiltres.querySelector('.filtres-effacer').addEventListener('click', effacerFiltres);
+    const voir = panneauFiltres.querySelector('.filtres-voir');
+    if (voir) voir.addEventListener('click', fermerPanneauFiltres);
+
+    if (mobile) {
+        document.body.appendChild(voileFiltres);
+        document.body.appendChild(panneauFiltres);
+        voileFiltres.hidden = false;
+    } else {
+        // Sous le bouton, aligné sur le bord droit de la carte.
+        const conteneurCarte = map.getContainer();
+        conteneurCarte.appendChild(panneauFiltres);
+        const haut = boutonFiltres.getBoundingClientRect().bottom - conteneurCarte.getBoundingClientRect().top + 8;
+        panneauFiltres.style.top = haut + 'px';
+        panneauFiltres.style.maxHeight = Math.max(200, conteneurCarte.clientHeight - haut - 12) + 'px';
+    }
+
+    majPanneauFiltres();
+    panneauFiltres.hidden = false;
+    boutonFiltres.setAttribute('aria-expanded', 'true');
+    // Le rappel sur la carte ferait doublon avec le pied du panneau.
+    resumeFiltres.classList.add('masque');
+}
+
+function fermerPanneauFiltres() {
+    panneauFiltres.hidden = true;
+    voileFiltres.hidden = true;
+    if (boutonFiltres) boutonFiltres.setAttribute('aria-expanded', 'false');
+    resumeFiltres.classList.remove('masque');
+}
+
+// Chiffres des pastilles : pour un critère non coché, le nombre de terrains qui resteraient si
+// on le cochait en plus. Un critère qui ne laisserait aucun terrain est désactivé.
+function majPanneauFiltres() {
+    if (panneauFiltres.hidden && !panneauFiltres.firstChild) return;
+
+    const couches = toutesLesCouchesFiltrables();
+    const retenues = couches.filter(function (couche) { return passeLesFiltres(couche.feature.properties); });
+
+    panneauFiltres.querySelectorAll('.filtre-pastille').forEach(function (pastille) {
+        const cle = pastille.getAttribute('data-cle');
+        const coche = filtresActifs.has(cle);
+        const nombre = coche ? retenues.length : retenues.filter(function (couche) {
+            return criteresFiltrables(couche.feature.properties).has(cle);
+        }).length;
+        pastille.setAttribute('aria-pressed', String(coche));
+        pastille.disabled = !coche && nombre === 0;
+        pastille.querySelector('.filtre-nombre').textContent = coche ? '' : formaterNombre(nombre);
+    });
+
+    const effacer = panneauFiltres.querySelector('.filtres-effacer');
+    if (effacer) {
+        effacer.textContent = t('filtres_effacer');
+        effacer.disabled = !filtresActifs.size;
+    }
+    const compte = panneauFiltres.querySelector('.filtres-compte');
+    if (compte) {
+        compte.innerHTML = '<b>' + texteNombreTerrains(retenues.length) + '</b> '
+            + t('filtres_sur_total').replace('%t', formaterNombre(couches.length));
+    }
+    const voir = panneauFiltres.querySelector('.filtres-voir');
+    if (voir) {
+        voir.textContent = retenues.length === 0 ? t('filtres_voir_aucun')
+            : retenues.length === 1 ? t('filtres_voir_un')
+            : t('filtres_voir_n').replace('%n', formaterNombre(retenues.length));
+    }
+}
+
+// Fermeture du menu déroulant (ordinateur) au clic en dehors, et avec Échap partout.
+document.addEventListener('click', function (e) {
+    if (!panneauFiltresOuvert() || panneauFiltres.classList.contains('feuille')) return;
+    if (panneauFiltres.contains(e.target) || (boutonFiltres && boutonFiltres.contains(e.target))) return;
+    fermerPanneauFiltres();
+});
+document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && panneauFiltresOuvert()) fermerPanneauFiltres();
+});
 
 // Icône réutilisée pour marquer une position (localisation ou résultat de recherche)
 const positionIcon = L.divIcon({
@@ -1963,83 +2255,17 @@ function formaterDistanceKm(km) {
 //     dans la propriété `env` de chaque terrain (distances en mètres ; clé absente = rien trouvé
 //     dans le rayon interrogé), plus deux tags du terrain lui-même (éclairage, toit) ;
 //   - les critères confirmés par les joueurs, lus sur le Worker mapetanque-notes (GET /criteres).
-// Les seuils sont appliqués ici, pas dans la collecte : on peut les ajuster sans rien recalculer.
 // On n'affiche que la présence, jamais l'absence (l'absence dans OSM ne prouve rien), et un
 // groupe vide disparaît.
 
-// Routes trop proches pour « Au calme » : distance minimale par type, en mètres. Une route absente
-// de env.routes est assez loin (rien trouvé dans le rayon interrogé).
-const SEUILS_ROUTES_CALME = {
-    motorway: 200, trunk: 200, primary: 100, secondary: 75,
-    tertiary: 50, residential: 20, unclassified: 20
-};
-
-// Plans d'eau retenus pour « Au bord de l'eau » (à 100 m au plus). Les ruisseaux et les petits
-// plans d'eau (suffixe _petit, moins de 0,5 ha) sont exclus : trop nombreux et souvent trompeurs.
-const TYPES_EAU_BORD = ['riviere', 'canal', 'lac', 'etang', 'plan_eau', 'reservoir', 'douves', 'mer', 'plage'];
-
-// « À proximité » : clé de env, seuil en mètres, dans l'ordre d'affichage.
-const CRITERES_PROXIMITE = [
-    { cle: 'jeux', seuil: 100 },
-    { cle: 'wc', seuil: 200 },
-    { cle: 'eau_potable', seuil: 200 },
-    { cle: 'parking', seuil: 300 },
-    { cle: 'arret', seuil: 300 },
-    { cle: 'voie_verte', seuil: 200 }
-];
-
-// Critères des joueurs (liste fermée, voir le Worker), dans l'ordre d'affichage. Une pastille
-// n'apparaît qu'à partir de CONFIRMATIONS_MIN appareils distincts.
-const CRITERES_JOUEURS = ['ombrage', 'abri_pluie', 'plusieurs_pistes', 'bien_entretenu'];
-const CONFIRMATIONS_MIN = 2;
+// Les règles et seuils (SEUILS_ROUTES_CALME, CRITERES_PROXIMITE, CRITERES_JOUEURS,
+// criteresOsmSurPlace, estAbriteOsm…) sont dans /criteres.js, chargé avant ce fichier : la page
+// admin s'en sert aussi.
 
 // "way/123" -> { ombrage: [nombre, "AAAA-MM"], ... } — un seul GET pour tout le site, comme les
 // notes. Vide tant que la réponse n'est pas arrivée ; l'événement mapetanque:criteres redessine
 // alors les fiches ouvertes.
 window.mapetanqueCriteres = {};
-
-// Toit d'après les tags OSM du terrain lui-même.
-function estAbriteOsm(tags) {
-    return tags.covered === 'yes' || tags.covered === 'partial' || tags.indoor === 'yes'
-        || ['yes', 'roof', 'public', 'sports_hall', 'sports_centre'].indexOf(tags.building) !== -1;
-}
-
-// Liste des critères OSM « Sur place » présents, dans l'ordre d'affichage.
-function criteresOsmSurPlace(tags) {
-    const env = tags.env || null;
-    const presents = [];
-
-    if (env && typeof env.banc === 'number' && env.banc <= 10) presents.push('banc');
-    if (tags.lit === 'yes') presents.push('eclaire');
-
-    // Nature : dans un bois, une réserve, ou un parc d'au moins 1 ha (les zones de loisirs, en
-    // pratique des terrains de sport, ne comptent pas).
-    const nature = (env && env.nature) || {};
-    if ('bois' in nature || 'reserve' in nature || (nature.parc || 0) >= 1) presents.push('nature');
-
-    // Au calme : seulement si la collecte a tourné pour ce terrain (sinon on ne sait rien).
-    if (env) {
-        const routes = env.routes || {};
-        const bruyant = Object.keys(SEUILS_ROUTES_CALME).some(function (type) {
-            return typeof routes[type] === 'number' && routes[type] < SEUILS_ROUTES_CALME[type];
-        });
-        if (!bruyant) presents.push('calme');
-    }
-
-    const eau = (env && env.eau) || {};
-    if (TYPES_EAU_BORD.some(function (type) { return typeof eau[type] === 'number' && eau[type] <= 100; })) {
-        presents.push('eau');
-    }
-    return presents;
-}
-
-// Liste des critères OSM « À proximité » présents : [{ cle, distance }].
-function criteresOsmProximite(tags) {
-    const env = tags.env || {};
-    return CRITERES_PROXIMITE
-        .filter(function (c) { return typeof env[c.cle] === 'number' && env[c.cle] <= c.seuil; })
-        .map(function (c) { return { cle: c.cle, distance: env[c.cle] }; });
-}
 
 // Critères des joueurs assez confirmés : [{ cle, nombre, mois }].
 function criteresJoueursConfirmes(osmId) {
@@ -2779,7 +3005,8 @@ fetch('/data/terrains.geojson')
         listeTousLesTerrains = data.features.map(function (feature) {
             return {
                 lat: feature.geometry.coordinates[1],
-                lon: feature.geometry.coordinates[0]
+                lon: feature.geometry.coordinates[0],
+                props: feature.properties
             };
         });
 
@@ -2825,6 +3052,7 @@ fetch('/data/terrains.geojson')
         }).addTo(markers);
 
         map.addLayer(markers);
+        window.enregistrerTerrainsFiltrables(markers);
 
         // Lien de partage d'un terrain précis (?lat=...&lon=...) : centrer et ouvrir son popup.
         // Exclut le cas ?club=1&lat=...&lon=... (lien de partage d'un club, pas d'un terrain —
@@ -3642,6 +3870,7 @@ function trierParLibelleTraduit(cles, prefixe, dict) {
 // trouvé dans les données chargées), puis remonte en haut de page pour voir la carte.
 // Réutilisée à la fois par le lien de partage (?lat=&lon=) et par la page "Liste des terrains".
 function allerVersTerrain(lat, lon) {
+    window.mapetanqueRevelerTerrain(lat, lon);
     let layerCorrespondant = null;
 
     markers.eachLayer(function (layer) {

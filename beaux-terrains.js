@@ -473,6 +473,8 @@
         var groupe = window.beauxTerrainsGroupe;
         var carte = window.map;
         if (groupe && carte) {
+            // Terrain masqué par les filtres de la carte : on les retire (voir script.js).
+            if (typeof window.mapetanqueRevelerTerrain === "function") window.mapetanqueRevelerTerrain(t.lat, t.lon);
             var cible = null;
             groupe.eachLayer(function (layer) {
                 if (cible) return;
