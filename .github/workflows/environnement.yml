@@ -1,0 +1,71 @@
+# Critères d'environnement des terrains (bancs, jeux, eau, routes…), tirés d'OSM.
+#
+# Lance scripts/enrichir_environnement.py, qui écrit data/environnement.json et recopie les
+# critères dans data/terrains.geojson, puis commite ces deux fichiers.
+#
+# - Lancement manuel (onglet Actions) : les terrains pas encore calculés, ou tous si la case
+#   « Recalculer tous les terrains » est cochée (rafraîchissement complet, une ou deux fois
+#   par an : OSM s'enrichit, un banc cartographié plus tard n'apparaîtrait jamais sinon).
+# - Push qui modifie le script ou ce fichier : terrains pas encore calculés seulement (sert au
+#   premier remplissage, et à vérifier une modification du script).
+#
+# La mise à jour hebdomadaire (update-osm.yml) calcule de son côté les nouveaux terrains.
+# Les serveurs Overpass limitent les requêtes : compter environ une heure pour les ~1750
+# terrains. Ce qui est calculé est commité même si le passage s'interrompt, le suivant reprend.
+
+name: Critères d'environnement
+
+on:
+  workflow_dispatch:
+    inputs:
+      tous:
+        description: "Recalculer tous les terrains (rafraîchissement complet)"
+        type: boolean
+        default: false
+  push:
+    paths:
+      - "scripts/enrichir_environnement.py"
+      - ".github/workflows/environnement.yml"
+
+permissions:
+  contents: write
+
+# Jamais deux calculs en même temps (ils écriraient les mêmes fichiers)
+concurrency:
+  group: environnement
+  cancel-in-progress: false
+
+jobs:
+  enrichir:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+
+    steps:
+      - name: Récupération du projet
+        uses: actions/checkout@v4
+
+      - name: Installation de Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installation des dépendances
+        run: pip install requests
+
+      # --minutes : on arrête de lancer des lots avant la limite du job, pour que la
+      # sauvegarde ait toujours lieu
+      - name: Calcul des critères
+        env:
+          TOUS: ${{ inputs.tous && '--tous' || '' }}
+        run: python -u scripts/enrichir_environnement.py $TOUS --minutes 270
+
+      - name: Sauvegarde des changements
+        if: always()
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add data/environnement.json data/terrains.geojson
+          git commit -m "Critères d'environnement des terrains" || exit 0
+          # La mise à jour hebdomadaire et la publication des photos commitent aussi
+          git pull --rebase
+          git push
