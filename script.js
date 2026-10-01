@@ -321,6 +321,24 @@ window.map = map;
 // avec ctrlKey) zoome. En plein écran, la page ne défile plus : la molette zoome directement.
 // Écouteur en phase de capture sur le parent de la carte : stopPropagation empêche l'événement
 // d'atteindre Leaflet, sans preventDefault, donc la page défile normalement.
+//
+// Même problème sur mobile : la carte occupe presque toute la largeur de l'écran, un glissé à un doigt
+// pour descendre dans la page déplaçait la carte. Sur écran tactile, un doigt fait donc défiler
+// la page et deux doigts déplacent/zooment la carte (le pincement de Leaflet déplace aussi la
+// carte). Désactiver le glissement de Leaflet retire sa classe leaflet-touch-drag : son CSS
+// passe alors à « touch-action: pan-x pan-y » et le navigateur fait défiler la page lui-même.
+// En plein écran, le glissement à un doigt est rétabli (voir definirModePleinEcran).
+const ecranTactile = window.matchMedia('(pointer: coarse)').matches;
+
+function ajusterGlissementCarte() {
+    if (!ecranTactile) return;
+    if (map.getContainer().closest('.fullscreen-active')) {
+        map.dragging.enable();
+    } else {
+        map.dragging.disable();
+    }
+}
+
 (function () {
     const conteneur = map.getContainer();
     const estMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
@@ -330,6 +348,18 @@ window.map = map;
     conteneur.appendChild(message);
     let minuteur = null;
 
+    function afficherMessage(texte) {
+        message.textContent = texte;
+        message.classList.add('visible');
+        clearTimeout(minuteur);
+        minuteur = setTimeout(function () { message.classList.remove('visible'); }, 1500);
+    }
+
+    function masquerMessage() {
+        clearTimeout(minuteur);
+        message.classList.remove('visible');
+    }
+
     conteneur.parentNode.addEventListener('wheel', function (e) {
         if (e.ctrlKey || e.metaKey) return;
         if (conteneur.closest('.fullscreen-active')) return;
@@ -337,11 +367,31 @@ window.map = map;
         if (e.target.closest('.leaflet-popup, .leaflet-control')) return;
 
         e.stopPropagation();
-        message.textContent = t('molette_zoom').replace('{touche}', estMac ? '⌘' : t('molette_touche'));
-        message.classList.add('visible');
-        clearTimeout(minuteur);
-        minuteur = setTimeout(function () { message.classList.remove('visible'); }, 1500);
+        afficherMessage(t('molette_zoom').replace('{touche}', estMac ? '⌘' : t('molette_touche')));
     }, { capture: true });
+
+    if (!ecranTactile) return;
+    ajusterGlissementCarte();
+
+    // Message au glissé à un doigt, seulement au-delà de quelques pixels : un simple toucher
+    // (ouvrir un terrain, un bouton) ne doit pas l'afficher.
+    let depart = null;
+    conteneur.addEventListener('touchstart', function (e) {
+        depart = null;
+        if (e.touches.length !== 1) { masquerMessage(); return; }
+        if (conteneur.closest('.fullscreen-active')) return;
+        if (e.target.closest('.leaflet-popup, .leaflet-control')) return;
+        depart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    }, { passive: true });
+
+    conteneur.addEventListener('touchmove', function (e) {
+        if (!depart || e.touches.length !== 1) return;
+        const dx = e.touches[0].clientX - depart.x;
+        const dy = e.touches[0].clientY - depart.y;
+        if (dx * dx + dy * dy < 100) return;
+        depart = null;
+        afficherMessage(t('deux_doigts_carte'));
+    }, { passive: true });
 })();
 
 // Emprise de la Belgique [sud-ouest, nord-est] (légère marge incluse : Arlon au sud, pointe du
@@ -4812,6 +4862,7 @@ const mapView = document.querySelector('.map-view');
 function definirModePleinEcran(actif) {
     mapView.classList.toggle('fullscreen-active', actif);
     document.body.classList.toggle('fullscreen-lock', actif);
+    ajusterGlissementCarte();
 
     const fullscreenBtn = document.getElementById('fullscreenBtn');
     if (fullscreenBtn) {

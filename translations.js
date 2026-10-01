@@ -232,6 +232,8 @@ const translations = {
         // Carte : la molette seule fait défiler la page ({touche} = Ctrl/Strg, ou ⌘ sur Mac)
         molette_zoom: "Utilisez {touche} + molette pour zoomer sur la carte",
         molette_touche: "Ctrl",
+        // Carte sur mobile : un doigt fait défiler la page, deux doigts déplacent la carte
+        deux_doigts_carte: "Utilisez deux doigts pour déplacer la carte",
         pied_explorer: "Explorer",
         pied_le_site: "Le site",
         pied_partager: "Partager",
@@ -475,6 +477,8 @@ const translations = {
         // Carte : la molette seule fait défiler la page ({touche} = Ctrl/Strg, ou ⌘ sur Mac)
         molette_zoom: "Gebruik {touche} + scrollwiel om in te zoomen op de kaart",
         molette_touche: "Ctrl",
+        // Carte sur mobile : un doigt fait défiler la page, deux doigts déplacent la carte
+        deux_doigts_carte: "Gebruik twee vingers om de kaart te verplaatsen",
         pied_explorer: "Verkennen",
         pied_le_site: "De site",
         pied_partager: "Delen",
@@ -718,6 +722,8 @@ const translations = {
         // Carte : la molette seule fait défiler la page ({touche} = Ctrl/Strg, ou ⌘ sur Mac)
         molette_zoom: "Zum Zoomen der Karte {touche} + Mausrad verwenden",
         molette_touche: "Strg",
+        // Carte sur mobile : un doigt fait défiler la page, deux doigts déplacent la carte
+        deux_doigts_carte: "Karte mit zwei Fingern verschieben",
         pied_explorer: "Entdecken",
         pied_le_site: "Die Website",
         pied_partager: "Teilen",
@@ -961,6 +967,8 @@ const translations = {
         // Carte : la molette seule fait défiler la page ({touche} = Ctrl/Strg, ou ⌘ sur Mac)
         molette_zoom: "Use {touche} + scroll to zoom the map",
         molette_touche: "Ctrl",
+        // Carte sur mobile : un doigt fait défiler la page, deux doigts déplacent la carte
+        deux_doigts_carte: "Use two fingers to move the map",
         pied_explorer: "Explore",
         pied_le_site: "The site",
         pied_partager: "Share",
