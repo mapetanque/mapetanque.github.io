@@ -699,9 +699,10 @@ body.fullscreen-lock {
         padding: 14px 15px 8px;
     }
 
-     /* Boule seule, même taille que dans l'admin (et que la zone cliquable du burger) */
+     /* Boule seule. Le logo du menu mobile (.menu-logo) est calé pour que sa boule tombe
+        exactement sur celle-ci : changer cette taille demande d'y reporter le calcul. */
     .logo {
-        height: 40px;
+        height: 34px;
     }
 
     .hero-headline {
@@ -1878,106 +1879,267 @@ body.fullscreen-lock {
     display: block;
 }
 
-/* Menu latéral */
+/* ===================== Menu mobile ===================== */
+/* Plein écran sur fond blanc. Son contenu est construit par construireMenu() dans script.js : les
+   pages n'ont qu'un <nav id="side-menu"> à remplir. Il s'ouvre en cercle depuis le bouton burger,
+   dont le script pose la position (--menu-x, --menu-y) à chaque ouverture, puis les éléments
+   arrivent l'un après l'autre (--delai, posé dans le HTML construit). */
 #side-menu {
+    --menu-x: calc(100% - 30px);
+    --menu-y: 40px;
     position: fixed;
-    top: 0;
-    right: -300px;
-
-    width: 280px;
-    height: 100%;
-    box-sizing: border-box;
-
-    background: white;
+    inset: 0;
     z-index: 1200;
-
-    padding: 25px;
-
-    transition: right 0.3s ease;
-
-    box-shadow: -3px 0 10px rgba(0,0,0,0.2);
+    overflow: hidden;
+    background: #fff;
+    color: #1d2619;
+    visibility: hidden;
+    clip-path: circle(0 at var(--menu-x) var(--menu-y));
+    transition: clip-path 0.45s cubic-bezier(0.65, 0, 0.35, 1), visibility 0s linear 0.45s;
 }
 
 #side-menu.open {
-    right: 0;
+    visibility: visible;
+    clip-path: circle(150vmax at var(--menu-x) var(--menu-y));
+    transition: clip-path 0.6s cubic-bezier(0.65, 0, 0.35, 1), visibility 0s;
 }
 
-#side-menu ul {
-    list-style: none;
-    padding: 50px 0 0;
+/* Le menu n'existe qu'en mobile : s'il était resté ouvert, l'agrandissement de la fenêtre le
+   referme visuellement (le bouton burger disparaît au même seuil). */
+@media (min-width: 1025px) {
+    #side-menu {
+        display: none;
+    }
 }
 
-#side-menu li {
-    margin: 25px 0;
+/* Fond sombre de l'ancien menu latéral : le menu plein écran n'en a plus besoin, mais l'élément
+   est encore dans le HTML des pages. Masqué pour qu'il ne prenne pas de place dans l'en-tête. */
+#menu-overlay {
+    display: none;
 }
 
-#side-menu a {
-    text-decoration: none;
-    color: #333;
-    font-size: 18px;
+/* Page bloquée derrière le menu ouvert */
+html.menu-ouvert,
+html.menu-ouvert body {
+    overflow: hidden;
 }
 
-/* Liens "Comment jouer" / "Compteur de points" en tête du menu burger, même style que les
-   autres liens du menu (#side-menu a), avec juste une petite icône en plus — séparés du reste
-   (À propos/FAQ/Contact) par un léger trait sous le second lien. */
-.side-menu-game-link {
+/* Boule en filigrane, posée sur le menu lui-même (qui ne défile pas) pour ne pas allonger la
+   zone qui défile. */
+.menu-filigrane {
+    position: absolute;
+    right: -90px;
+    bottom: -70px;
+    width: 300px;
+    height: 300px;
+    opacity: 0.08;
+    transform: rotate(-18deg);
+    pointer-events: none;
+}
+
+/* Zone qui défile si l'écran est trop bas (petit téléphone, téléphone couché) */
+.menu-defilement {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
+    /* Haut et droite : la croix tombe pile sur le burger de la bannière (centre à 34px du haut,
+       28px du bord droit). */
+    padding: 12px 6px calc(26px + env(safe-area-inset-bottom)) 20px;
+    overflow-y: auto;
+}
+
+.menu-entete {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 44px;
+}
+
+/* Calé sur la boule de 34px de la bannière (.logo en mobile) pour que les deux se superposent :
+   dans le logo complet, la boule fait 117,88 des 136 unités de haut, d'où 34 × 136 / 117,88 =
+   39,2px ; elle commence à 2px du bord gauche du logo, d'où le retrait de -7px qui la pose à 15px
+   du bord de l'écran, comme dans la bannière. */
+.menu-logo {
+    display: block;
+    height: 39.2px;
+    width: auto;
+    margin-left: -7px;
+}
+
+.menu-fermer {
     display: flex;
     align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    color: #333;
-    font-size: 18px;
-}
-
-.side-menu-game-link svg {
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-    color: #999;
-}
-
-/* Sélecteur de langue discret en bas du menu burger */
-#side-menu-lang {
-    display: flex;
-    gap: 6px;
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-}
-
-#side-menu-lang .lang-link {
-    font-size: 14px;
-    padding: 8px 12px;
-    background: #f5f5f5;
-}
-
-#side-menu-lang .lang-link.active {
-    background: #74C15A;
-    color: white;
-}
-
-/* Bouton fermeture */
-#close-menu {
-    float: right;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
     border: none;
     background: none;
-    font-size: 25px;
+    color: #1d2619;
     cursor: pointer;
 }
 
-/* Fond sombre derrière le menu */
-#menu-overlay {
-    display: none;
-
-    position: fixed;
-    inset: 0;
-
-    background: rgba(0,0,0,0.3);
-    z-index: 1100;
+.menu-fermer svg {
+    width: 26px;
+    height: 26px;
 }
 
-#menu-overlay.visible {
-    display: block;
+.menu-section {
+    max-width: 520px;
+    margin-top: 36px;
+    padding-right: 14px;
+}
+
+.menu-entete + .menu-section {
+    margin-top: 40px;
+}
+
+.menu-titre {
+    margin: 0 0 12px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #56604f;
+}
+
+/* Explorer : régions en pastilles */
+.menu-pastilles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.menu-pastilles a {
+    display: inline-flex;
+    align-items: center;
+    height: 40px;
+    padding: 0 16px;
+    border: 1px solid #d9ded5;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1d2619;
+    text-decoration: none;
+}
+
+.menu-pastilles a:hover,
+.menu-pastilles a[aria-current="page"] {
+    border-color: #74C15A;
+    color: #3d7a2a;
+}
+
+/* Le site : pages en grand, une flèche à droite */
+.menu-section-liens .menu-titre {
+    margin-bottom: 2px;
+}
+
+.menu-liens {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.menu-liens li + li {
+    border-top: 1px solid #e6eae2;
+}
+
+.menu-liens a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 15px 0;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #1d2619;
+    text-decoration: none;
+}
+
+.menu-liens a:hover,
+.menu-liens a[aria-current="page"] {
+    color: #3d7a2a;
+}
+
+.menu-liens svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    color: #3d7a2a;
+}
+
+/* Langues, en bas de l'écran */
+.menu-langues {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    max-width: 520px;
+    margin-top: auto;
+    padding: 28px 14px 0 0;
+}
+
+.menu-langues .menu-titre {
+    margin: 0;
+}
+
+.menu-langues-liste {
+    display: flex;
+    gap: 6px;
+}
+
+.menu-langues-liste a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 44px;
+    box-sizing: border-box;
+    border: 1px solid #d9ded5;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.85);
+    font-size: 15px;
+    font-weight: 700;
+    color: #3b4537;
+    text-decoration: none;
+}
+
+.menu-langues-liste a:hover {
+    border-color: #74C15A;
+}
+
+.menu-langues-liste a[aria-current="true"] {
+    border-color: #74C15A;
+    background: #74C15A;
+    color: #fff;
+}
+
+/* Arrivée échelonnée des éléments à l'ouverture ; à la fermeture, ils partent tous ensemble */
+#side-menu .menu-apparait {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+#side-menu.open .menu-apparait {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.4s ease var(--delai, 0s), transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) var(--delai, 0s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #side-menu,
+    #side-menu.open,
+    #side-menu .menu-apparait,
+    #side-menu.open .menu-apparait {
+        transition: none;
+    }
 }
 
 /* ===================== Pied de page ===================== */
@@ -2550,8 +2712,3 @@ body.fullscreen-lock {
     height: 26px;
 }
 
-/* Le gap de 10px ne sert plus à rien une fois l'icône masquée : sans cela, chaque libellé
-   resterait décalé de 10px vers la droite par rapport aux autres entrées du menu. */
-#side-menu .side-menu-game-link {
-    gap: 0;
-}

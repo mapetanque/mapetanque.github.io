@@ -185,13 +185,14 @@ function appliquerTraductions() {
     // (le tagline sous le H1 a été retiré : remplacé par le grand titre "hero_headline" au-dessus
     // des contrôles, pris en charge automatiquement par la boucle [data-i18n] ci-dessus)
 
-    // Bouton actif dans le sélecteur de langue (nav desktop + menu burger mobile)
+    // Bouton actif dans le sélecteur de langue de la nav desktop
     document.querySelectorAll('.lang-link').forEach(function (btn) {
         btn.classList.toggle('active', btn.dataset.lang === currentLang);
     });
 
-    // Reconstruire le pied de page dans la nouvelle langue, puis y reposer les chiffres
+    // Reconstruire le pied de page et le menu mobile dans la nouvelle langue, puis reposer les chiffres
     construirePied();
+    construireMenu();
     mettreAJourStats();
 
     // Régénérer le bandeau chiffré de la section statistiques
@@ -238,7 +239,7 @@ document.querySelectorAll('.lang-link').forEach(function (btn) {
 // visible (« FR ▾ »), les quatre boutons s'affichent au clic. Le HTML des pages garde ses
 // quatre boutons tels quels (pages générées, une vingtaine de fichiers par langue) : on les
 // range ici dans une liste déroulante, et le libellé du bouton suit .active, posé par
-// appliquerTraductions(). Le menu burger mobile garde ses quatre boutons côte à côte.
+// appliquerTraductions(). Le menu mobile a ses propres liens de langue (construireMenu).
 (function () {
     const selecteur = document.getElementById('lang-switcher-inline');
     if (!selecteur) return;
@@ -4044,27 +4045,127 @@ fetch('/data/clubs.json')
     });
 
 
-// ===================== Menu burger =====================
+// ===================== Menu mobile =====================
+// Comme le pied de page, le contenu du menu est construit ici : les pages n'ont qu'un
+// <nav id="side-menu"> à remplir, que appliquerTraductions() reconstruit à chaque changement de
+// langue. Mise en forme et animation d'ouverture : « Menu mobile » dans style.css.
 
 const menuButton = document.getElementById("menu-button");
 const sideMenu = document.getElementById("side-menu");
-const closeMenu = document.getElementById("close-menu");
-const menuOverlay = document.getElementById("menu-overlay");
 
-menuButton.addEventListener("click", function () {
-    sideMenu.classList.add("open");
-    menuOverlay.classList.add("visible");
-});
+const ICONES_MENU = {
+    fermer: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path></svg>',
+    fleche: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>'
+};
 
-closeMenu.addEventListener("click", function () {
-    sideMenu.classList.remove("open");
-    menuOverlay.classList.remove("visible");
-});
+function construireMenu() {
+    if (!sideMenu) return;
 
-menuOverlay.addEventListener("click", function () {
-    sideMenu.classList.remove("open");
-    menuOverlay.classList.remove("visible");
-});
+    const prefixe = currentLang === 'fr' ? '/' : '/' + currentLang + '/';
+
+    // Lien vers la page en cours : mis en évidence. Pas les ancres (« Toutes les provinces »
+    // mène à une section de l'accueil, pas à une page).
+    function courant(href) {
+        if (href.includes('#')) return '';
+        return new URL(href, window.location.href).pathname === window.location.pathname ? ' aria-current="page"' : '';
+    }
+    function pastille(href, texte) {
+        return `<li><a href="${href}"${courant(href)}>${texte}</a></li>`;
+    }
+    function lienPage(href, texte) {
+        return `<li><a href="${href}"${courant(href)}>${texte}${ICONES_MENU.fleche}</a></li>`;
+    }
+
+    const langues = LANGUES_DISPONIBLES.map(function (langue) {
+        const actif = langue === currentLang ? ' aria-current="true"' : '';
+        return `<a href="${urlPageDansLangue(langue)}" data-lang="${langue}" hreflang="${langue}"${actif}>${langue.toUpperCase()}</a>`;
+    }).join('');
+
+    sideMenu.innerHTML = `
+        <img class="menu-filigrane" src="/images/mapetanque-boule-pleine.svg" alt="">
+        <div class="menu-defilement">
+            <div class="menu-entete">
+                <a href="${prefixe}"><img class="menu-logo" src="/images/mapetanque-logo-fonce.svg" width="226" height="39" alt="Mapetanque"></a>
+                <button type="button" class="menu-fermer" aria-label="${t('close_menu')}">${ICONES_MENU.fermer}</button>
+            </div>
+
+            <div class="menu-section menu-apparait" style="--delai: 0.22s">
+                <h2 class="menu-titre">${t('pied_explorer')}</h2>
+                <ul class="menu-pastilles">
+                    ${pastille(prefixe + 'region-wallonie.html', t('geo_region_wallonie'))}
+                    ${pastille(prefixe + 'region-flandre.html', t('geo_region_flandre'))}
+                    ${pastille(prefixe + 'province-bruxelles.html', t('geo_region_bruxelles'))}
+                    ${pastille(prefixe + '#provinces-section', t('pied_toutes_provinces'))}
+                </ul>
+            </div>
+
+            <div class="menu-section menu-section-liens menu-apparait" style="--delai: 0.3s">
+                <h2 class="menu-titre">${t('pied_le_site')}</h2>
+                <ul class="menu-liens">
+                    ${lienPage(prefixe + 'comment-jouer.html', t('menu_comment_jouer'))}
+                    ${lienPage(prefixe + 'compteur.html', t('menu_compteur'))}
+                    ${lienPage(prefixe + 'la-petanque.html', t('menu_la_petanque'))}
+                    ${lienPage(prefixe + 'a-propos.html', t('menu_about'))}
+                </ul>
+            </div>
+
+            <div class="menu-langues menu-apparait" style="--delai: 0.4s">
+                <span class="menu-titre">${t('pied_langue')}</span>
+                <div class="menu-langues-liste">${langues}</div>
+            </div>
+        </div>`;
+}
+
+function ouvrirMenu() {
+    // Le cercle d'ouverture part du centre du bouton burger
+    const bouton = menuButton.getBoundingClientRect();
+    sideMenu.style.setProperty('--menu-x', (bouton.left + bouton.width / 2) + 'px');
+    sideMenu.style.setProperty('--menu-y', Math.max(0, bouton.top + bouton.height / 2) + 'px');
+
+    sideMenu.classList.add('open');
+    document.documentElement.classList.add('menu-ouvert');
+    menuButton.setAttribute('aria-expanded', 'true');
+    sideMenu.querySelector('.menu-fermer').focus({ preventScroll: true });
+}
+
+function fermerMenu() {
+    if (!sideMenu.classList.contains('open')) return;
+    sideMenu.classList.remove('open');
+    document.documentElement.classList.remove('menu-ouvert');
+    menuButton.setAttribute('aria-expanded', 'false');
+}
+
+if (menuButton && sideMenu) {
+    menuButton.setAttribute('aria-expanded', 'false');
+    menuButton.addEventListener('click', ouvrirMenu);
+
+    sideMenu.addEventListener('click', function (e) {
+        if (e.target.closest('.menu-fermer')) {
+            fermerMenu();
+            menuButton.focus();
+            return;
+        }
+
+        const lien = e.target.closest('a');
+        if (!lien) return;
+
+        // Choix de la langue : mémorisé avant de suivre le lien, comme dans le pied de page
+        if (lien.dataset.lang) {
+            try { localStorage.setItem('mapetanque_lang', lien.dataset.lang); } catch (erreur) {}
+        }
+
+        // Le menu se referme aussi pour les liens vers une section de la page en cours
+        // (« Toutes les provinces » depuis l'accueil), sinon il cacherait le défilement.
+        fermerMenu();
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && sideMenu.classList.contains('open')) {
+            fermerMenu();
+            menuButton.focus();
+        }
+    });
+}
 
 
 // ===================== Section statistiques =====================
@@ -4590,8 +4691,7 @@ function revenirAccueil() {
     if (searchError) searchError.textContent = '';
 
     fermerPartage();
-    sideMenu.classList.remove('open');
-    menuOverlay.classList.remove('visible');
+    if (sideMenu) fermerMenu();
 
     if (typeof definirModePleinEcran === 'function') {
         definirModePleinEcran(false);

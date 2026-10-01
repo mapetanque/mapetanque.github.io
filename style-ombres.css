@@ -37,8 +37,8 @@
 }
 
 /* Menu desktop : « Comment jouer », « Compteur », « La pétanque », « À propos », « FAQ », langues.
-   Ciblés par leurs conteneurs de la bannière pour ne pas toucher le menu latéral mobile
-   (#side-menu, texte foncé sur fond clair), qui se trouve lui aussi dans .hero-banner sur
+   Ciblés par leurs conteneurs de la bannière pour ne pas toucher le menu mobile
+   (#side-menu, texte foncé sur fond blanc), qui se trouve lui aussi dans .hero-banner sur
    l'accueil. */
 #game-nav-inline .game-nav-link,
 #desktop-nav .info-nav-trigger,

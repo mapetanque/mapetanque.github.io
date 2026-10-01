@@ -251,16 +251,7 @@
 
 /* Icônes retirées à gauche de "Comment jouer" / "Compteur de points" : masquées plutôt que
    supprimées du HTML (12 fichiers à travers les 3 langues), dans le même esprit que le reste du
-   projet. Ne concerne que la nav de la bannière : le menu burger mobile (.side-menu-game-link)
-   garde ses icônes. */
+   projet. */
 .hero-banner .game-nav-link svg {
-    display: none;
-}
-
-/* ===================== Menu burger : même simplification que l'en-tête ===================== */
-
-/* Icônes retirées à gauche de « Comment jouer » et « Compteur de points », comme dans la nav de
-   la bannière. Masquées plutôt que supprimées du HTML, pour ne pas toucher aux 56 fichiers. */
-#side-menu .side-menu-game-link svg {
     display: none;
 }
