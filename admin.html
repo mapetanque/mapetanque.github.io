@@ -382,6 +382,7 @@
         <a href="/" class="logo" title="Retour au site"><img src="/images/mapetanque-boule.svg" alt="Mapetanque.be — retour au site"></a>
         <div class="bandeau-titre">Mapetanque — administration</div>
         <button type="button" id="publierMaintenant" class="btn-principal">Publier maintenant</button>
+        <button type="button" id="majOsm" class="btn-discret" title="Relit tout de suite les terrains dans OpenStreetMap">Mettre à jour depuis OSM</button>
         <button type="button" id="deconnexion" class="btn-discret">Se déconnecter</button>
     </div>
     <nav class="onglets" role="tablist" aria-label="Rubriques">
@@ -1566,6 +1567,28 @@ document.getElementById("publierMaintenant").addEventListener("click", async (e)
     } finally {
         // Évite deux lancements par double clic ; GitHub les passerait de toute
         // façon l'un après l'autre.
+        setTimeout(() => { bouton.disabled = false; }, 30000);
+    }
+});
+
+// Lance tout de suite le workflow GitHub de mise à jour OSM (sinon, il passe le
+// lundi à 3 h 17 UTC) : utile après avoir corrigé un terrain dans OpenStreetMap
+// (accès privé, tags building ou lit…). Laisser quelques minutes à Overpass pour
+// recevoir la modification avant de cliquer.
+document.getElementById("majOsm").addEventListener("click", async (e) => {
+    const bouton = e.currentTarget;
+    bouton.disabled = true;
+    try {
+        await appeler("/admin/maj-osm", { method: "POST" });
+        alert("Mise à jour OSM lancée. Elle prend une dizaine de minutes, plus quelques "
+            + "minutes de publication par GitHub Pages (suivi dans l'onglet Actions du dépôt "
+            + "GitHub).\n\nUne modification faite dans OSM il y a moins de quelques minutes "
+            + "peut ne pas encore être visible par Overpass.");
+    } catch (err) {
+        /* le bandeau d'incident affiche déjà la cause */
+    } finally {
+        // Même garde que la publication : le workflow, lui, passe les lancements
+        // rapprochés l'un après l'autre.
         setTimeout(() => { bouton.disabled = false; }, 30000);
     }
 });

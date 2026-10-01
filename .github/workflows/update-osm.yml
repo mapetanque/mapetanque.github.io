@@ -4,11 +4,19 @@ on:
   schedule:
     - cron: "17 3 * * 1"
 
+  # À la demande : onglet Actions de GitHub, ou bouton « Mettre à jour depuis OSM »
+  # de la page admin (via le Worker mapetanque-admin).
   workflow_dispatch:
-  
+
 permissions:
   contents: write
-  
+
+# Deux lancements rapprochés (horaire + bouton « Mettre à jour depuis OSM » de la
+# page admin) passent l'un après l'autre : jamais deux commits concurrents.
+concurrency:
+  group: update-osm
+  cancel-in-progress: false
+
 jobs:
   update-data:
     runs-on: ubuntu-latest
