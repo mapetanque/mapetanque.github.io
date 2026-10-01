@@ -94,11 +94,11 @@
 .tuile-terrain:hover .tuile-photo { box-shadow: 0 6px 18px rgba(30, 50, 20, 0.18); }
 .tuile-terrain:focus-visible { outline: 2px solid #74C15A; outline-offset: 3px; border-radius: 12px; }
 
-/* Carré via padding-bottom:100% (compatible partout) plutôt que aspect-ratio. */
+/* Format 4:3 (paysage) via padding-bottom:75% (compatible partout) plutôt que aspect-ratio. */
 .tuile-photo {
     width: 100%;
     height: 0;
-    padding-bottom: 100%;
+    padding-bottom: 75%;
     border-radius: 12px;
     overflow: hidden;
     background: #eceee9;
