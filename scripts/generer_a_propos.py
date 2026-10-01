@@ -100,7 +100,6 @@ CONTENU = {
                 "alimente. Chaque terrain qui m'est signalé est ajouté à OpenStreetMap, et "
                 "chaque photo reçue est publiée sur Mapillary avant d'être affichée ici. Ce qui "
                 "est collecté pour ce site profite donc à tout le monde.",
-                "Le site est gratuit, sans publicité, et développé sur mon temps libre.",
             ],
         },
         {
@@ -181,7 +180,6 @@ CONTENU = {
                 "terrein dat mij gemeld wordt, voeg ik toe aan OpenStreetMap, en elke foto die "
                 "ik ontvang wordt op Mapillary gepubliceerd voordat ze hier verschijnt. Wat voor "
                 "deze site verzameld wordt, komt dus iedereen ten goede.",
-                "De site is gratis, zonder reclame, en wordt in mijn vrije tijd ontwikkeld.",
             ],
         },
         {
@@ -261,7 +259,6 @@ CONTENU = {
                 "hinzugefügt, und jedes eingesandte Foto wird auf Mapillary veröffentlicht, "
                 "bevor es hier erscheint. Was für diese Website gesammelt wird, kommt also allen "
                 "zugute.",
-                "Die Website ist kostenlos, werbefrei und entsteht in meiner Freizeit.",
             ],
         },
         {
@@ -340,7 +337,6 @@ CONTENU = {
                 "them. Every court reported to me is added to OpenStreetMap, and every photo I "
                 "receive is published on Mapillary before appearing here. What is collected for "
                 "this site therefore benefits everyone.",
-                "The site is free, ad-free, and developed in my spare time.",
             ],
         },
         {
