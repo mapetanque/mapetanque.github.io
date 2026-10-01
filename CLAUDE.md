@@ -2,7 +2,18 @@
 
 ## Branches et tests
 
-- Ne jamais pousser sur `main` : le site est publié depuis `main`. Travailler sur la branche indiquée.
+Le site est publié depuis `main` : tout changement poussé sur `main` est en ligne quelques minutes après.
+
+**En local (VS Code, sur le PC de Rémy)**
+
+- Commencer par `git pull` sur `main`, pour partir de la dernière version (un travail fait dans le
+  cloud a pu être fusionné entre-temps).
+- Modifier les fichiers directement ; Rémy teste avec Live Server.
+- Commiter et pousser seulement quand Rémy le demande, après son test.
+
+**Dans le cloud (claude.ai, téléphone ou tablette)**
+
+- Ne jamais pousser sur `main` : travailler sur la branche indiquée.
 - Pour tout changement visible sur le site, donner à Rémy les commandes pour récupérer la branche et
   la tester en local (VS Code, Live Server) avant toute fusion :
 
@@ -12,7 +23,11 @@
   git pull
   ```
 
-  La fusion dans `main` se fait par une pull request, que Rémy valide après son test.
+  La fusion dans `main` se fait par une pull request, que Rémy valide après son test. Ensuite, sur
+  son PC : `git checkout main` puis `git pull`.
+
+**Dans les deux cas** : une seule session à la fois sur les mêmes fichiers. Une branche du cloud
+pas encore fusionnée doit l'être (ou être abandonnée) avant de reprendre ces fichiers en local.
 
 ## Conventions du projet
 
