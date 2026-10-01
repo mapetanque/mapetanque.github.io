@@ -2023,7 +2023,9 @@ body.fullscreen-lock {
     display: grid;
     grid-template-columns: 1.5fr 1fr 1fr 1.3fr;
     gap: 40px;
-    max-width: 1200px;
+    /* 1180 - 2 x 40 de marge intérieure = 1100px de contenu, la largeur des sections de
+       l'accueil et des pages province (.provinces-container, .province-content) */
+    max-width: 1180px;
     margin: 0 auto;
     padding: 44px 40px 34px;
     box-sizing: border-box;
@@ -2204,7 +2206,7 @@ body.fullscreen-lock {
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 14px 24px;
-    max-width: 1200px;
+    max-width: 1180px;
     margin: 0 auto;
     padding: 18px 40px;
     box-sizing: border-box;

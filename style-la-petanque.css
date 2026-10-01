@@ -138,6 +138,8 @@
     border-radius: 50%;
     border: 2.5px solid #74C15A;
     background: #fff;
+    /* Au-dessus du bout de trait du dernier jalon (::after, peint après lui) */
+    z-index: 1;
 }
 
 .jalon-belge .jalon-contenu::before {

@@ -272,15 +272,16 @@
 
             <section class="apropos-section">
                 <h2>Your data</h2>
-                <p>Mapetanque.be sets no advertising cookies and doesn't share your data with anyone. Your browser only stores your language and display preferences, locally on your device.</p>
-                <p>The ratings you give courts are recorded without your name or IP address. To prevent the same visitor from rating the same court twenty times, the site computes a hashed fingerprint from your IP address, the court concerned and the current month. This fingerprint cannot be traced back to you, and it changes every month.</p>
-                <p>When you send a photo, your browser shrinks it and strips its metadata before uploading: neither your device model nor the original GPS coordinates leave your phone. Only the date the photo was taken is kept, because Mapillary requires it. The location attached to the photo is that of the court, not yours.</p>
-                <p>The photo is then stored on a European server until I've checked it. If I don't keep it, it is deleted immediately. If I haven't checked it within 30 days, it is deleted automatically. If I keep it, it is published on Mapillary under a CC BY-SA licence, as stated next to the checkbox on the form, and then erased from this temporary storage. Mapillary automatically blurs faces and licence plates after publication.</p>
-                <p>When you report a missing court or an error, only the location you give and your comment are stored. The report is kept for as long as it takes to check it and update OpenStreetMap, then deleted within a year at the latest.</p>
-                <p>When you write a review of a court, only its text, your optional first name or nickname and the site language are stored, along with your rating if you gave one. Your browser keeps a random identifier whose only purpose is to let a new review replace your previous one. Reviews are published only after moderation; a rejected or replaced review is deleted 30 days later. You can ask for a published review to be removed by writing to mapetanque@outlook.be.</p>
-                <p>To limit abuse, the site also computes a hashed fingerprint of your IP address. It is only used to count your uploads for the day, and it is erased after a few days.</p>
-                <p>If you enter a first name or nickname, it is only used to credit you. You can ask for a photo you sent to be removed at any time by writing to mapetanque@outlook.be.</p>
-                <p>The site is hosted by GitHub Pages and uploads go through Cloudflare. These providers keep their own technical logs.</p>
+                <p>In short: no advertising cookies, no account, and nothing is passed on to anyone. Your language and display preferences stay on your device.</p>
+                <p>What is stored when you…</p>
+                <ul class="apropos-liste">
+                    <li><strong>rate a court</strong>: the rating alone. A hashed fingerprint (IP address + court + month), which cannot be traced back to you and changes every month, prevents you from rating the same court more than once.</li>
+                    <li><strong>send a photo</strong>: the photo, shrunk and stripped of its metadata (no device model, no GPS; only the date it was taken is kept, because Mapillary requires it). It is placed at the court, not where you are. Your optional first name or nickname is only used to credit you. The photo waits on a European server for me to check it, for 30 days at most. If I keep it, it is published on Mapillary under a CC BY-SA licence, with faces and licence plates blurred. Otherwise, it is deleted.</li>
+                    <li><strong>write a review</strong>: the text, your optional first name or nickname, the site language and your rating. A random identifier kept by your browser lets a new review replace your previous one. Reviews are published after moderation; a rejected or replaced review is deleted after 30 days.</li>
+                    <li><strong>report a court or an error</strong>: the location and your comment, deleted within a year at the latest.</li>
+                </ul>
+                <p>To limit abuse, a hashed fingerprint of your IP address counts your uploads for the day; it is erased after a few days.</p>
+                <p>The site is hosted by GitHub Pages and uploads go through Cloudflare, which keep their own technical logs. To have a photo or review removed: mapetanque@outlook.be.</p>
             </section>
 
             <section class="apropos-section">

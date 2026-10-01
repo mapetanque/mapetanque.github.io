@@ -106,43 +106,39 @@ CONTENU = {
         {
             "titre": "Vos données",
             "paragraphes": [
-                "Mapetanque.be ne dépose aucun cookie publicitaire et ne transmet vos données à "
-                "personne. Votre navigateur conserve seulement, en local sur votre appareil, votre "
-                "langue et vos préférences d'affichage.",
-                "Les notes que vous donnez aux terrains sont enregistrées sans votre nom ni "
-                "votre adresse IP. Pour éviter qu'un même visiteur note vingt fois le même "
-                "terrain, le site calcule une empreinte chiffrée à partir de votre adresse IP, "
-                "du terrain concerné et du mois en cours. Cette empreinte ne permet pas de "
-                "remonter à vous, et elle change chaque mois.",
-                "Quand vous envoyez une photo, votre navigateur la réduit et efface ses "
-                "métadonnées avant l'envoi : ni le modèle de votre appareil, ni les coordonnées "
-                "GPS d'origine ne quittent votre téléphone. Seule la date de prise de vue est "
-                "conservée, car Mapillary l'exige. La position associée à la photo est celle du "
-                "terrain, pas la vôtre.",
-                "La photo est ensuite stockée sur un serveur européen le temps que je la "
-                "vérifie. Si je ne la retiens pas, elle est supprimée immédiatement. Si je ne l'ai "
-                "pas vérifiée dans les 30 jours, elle est supprimée automatiquement. Si je la "
-                "retiens, elle est publiée sur Mapillary sous licence CC BY-SA, comme la case du "
-                "formulaire vous l'indique, puis effacée de ce stockage temporaire. Mapillary "
-                "floute automatiquement les visages et les plaques d'immatriculation après "
-                "publication.",
-                "Quand vous signalez un terrain manquant ou une erreur, seuls l'emplacement indiqué et "
-                "votre commentaire sont enregistrés. Le signalement est conservé le temps de le vérifier "
-                "et de corriger OpenStreetMap, puis supprimé au plus tard un an après.",
-                "Quand vous rédigez un avis sur un terrain, seuls son texte, le prénom ou pseudo "
-                "éventuel et la langue du site sont enregistrés, avec votre note si vous en avez "
-                "donné une. Votre navigateur garde un identifiant aléatoire, qui sert seulement à ce "
-                "qu'un nouvel avis remplace le précédent. L'avis n'est publié qu'après relecture ; "
-                "un avis refusé ou remplacé est supprimé 30 jours plus tard. Vous pouvez demander le "
-                "retrait d'un avis publié en écrivant à mapetanque@outlook.be.",
-                "Pour limiter les envois abusifs, le site calcule aussi une empreinte chiffrée de "
-                "votre adresse IP. Elle sert seulement à compter vos envois de la journée, et elle "
-                "est effacée au bout de quelques jours.",
-                "Si vous indiquez un prénom ou un pseudonyme, il ne sert qu'à vous créditer. "
-                "Vous pouvez à tout moment demander le retrait d'une photo que vous avez "
-                "envoyée, en écrivant à mapetanque@outlook.be.",
-                "Le site est hébergé par GitHub Pages et les envois transitent par Cloudflare. "
-                "Ces prestataires conservent des journaux techniques qui leur sont propres.",
+                "En bref : pas de cookie publicitaire, pas de compte, et rien n'est transmis à "
+                "qui que ce soit. Votre langue et vos préférences d'affichage restent sur "
+                "votre appareil.",
+                "Ce qui est enregistré quand vous…",
+            ],
+            # Une puce par action : l'action en gras, puis ce qui est enregistré.
+            "liste": [
+                ("notez un terrain",
+                 " : la note seule. Une empreinte chiffrée (adresse IP + terrain + mois), qui "
+                 "ne permet pas de vous identifier et change chaque mois, empêche de noter "
+                 "plusieurs fois le même terrain."),
+                ("envoyez une photo",
+                 " : la photo, réduite et débarrassée de ses métadonnées (ni modèle "
+                 "d'appareil, ni GPS ; seule la date est gardée, car Mapillary l'exige). Elle "
+                 "est placée sur le terrain, pas là où vous êtes. Votre prénom ou pseudo "
+                 "éventuel sert seulement à vous créditer. Elle attend ma vérification sur un "
+                 "serveur européen, 30 jours au plus. Si je la retiens, elle est publiée sur "
+                 "Mapillary sous licence CC BY-SA, avec les visages et les plaques floutés. "
+                 "Sinon, elle est supprimée."),
+                ("rédigez un avis",
+                 " : le texte, votre prénom ou pseudo éventuel, la langue et votre note. Un "
+                 "identifiant aléatoire gardé par votre navigateur permet à un nouvel avis de "
+                 "remplacer l'ancien. L'avis est publié après relecture ; refusé ou remplacé, "
+                 "il est supprimé au bout de 30 jours."),
+                ("signalez un terrain ou une erreur",
+                 " : l'emplacement et votre commentaire, supprimés au plus tard un an après."),
+            ],
+            "paragraphes_apres": [
+                "Pour limiter les abus, une empreinte chiffrée de votre adresse IP compte vos "
+                "envois de la journée ; elle est effacée au bout de quelques jours.",
+                "Le site est hébergé par GitHub Pages et les envois passent par Cloudflare, "
+                "qui tiennent leurs propres journaux techniques. Pour faire retirer une photo "
+                "ou un avis : mapetanque@outlook.be.",
             ],
         },
         {
@@ -191,43 +187,38 @@ CONTENU = {
         {
             "titre": "Je gegevens",
             "paragraphes": [
-                "Mapetanque.be plaatst geen reclamecookies en geeft je gegevens aan niemand door. "
-                "Je browser bewaart alleen, lokaal op je toestel, je taal en je "
-                "weergavevoorkeuren.",
-                "De punten die je aan terreinen geeft, worden opgeslagen zonder je naam of je "
-                "IP-adres. Om te vermijden dat dezelfde bezoeker twintig keer hetzelfde terrein "
-                "beoordeelt, berekent de site een versleutelde vingerafdruk op basis van je "
-                "IP-adres, het betrokken terrein en de lopende maand. Die vingerafdruk leidt "
-                "niet naar jou terug, en ze verandert elke maand.",
-                "Wanneer je een foto verstuurt, verkleint je browser ze en wist hij de "
-                "metagegevens vóór het versturen: noch het model van je toestel, noch de "
-                "oorspronkelijke GPS-coördinaten verlaten je telefoon. Alleen de opnamedatum "
-                "blijft bewaard, omdat Mapillary die vereist. De positie die aan de foto "
-                "gekoppeld wordt, is die van het terrein, niet de jouwe.",
-                "De foto wordt vervolgens op een Europese server bewaard zolang ik ze nog moet "
-                "nakijken. Als ik ze niet weerhoud, wordt ze onmiddellijk verwijderd. Als ik ze "
-                "niet binnen 30 dagen heb nagekeken, wordt ze automatisch verwijderd. Als ik ze "
-                "wel weerhoud, wordt ze op Mapillary gepubliceerd onder de CC BY-SA-licentie, "
-                "zoals het vakje in het formulier aangeeft, en daarna uit die tijdelijke opslag "
-                "gewist. Mapillary maakt gezichten en nummerplaten na publicatie automatisch "
-                "onherkenbaar.",
-                "Als je een ontbrekend terrein of een fout meldt, worden alleen de aangeduide plaats en "
-                "je opmerking bewaard. De melding blijft bewaard zolang nodig is om ze te controleren en "
-                "OpenStreetMap te verbeteren, en wordt uiterlijk na een jaar verwijderd.",
-                "Als je een recensie over een terrein schrijft, worden alleen de tekst, je eventuele "
-                "voornaam of bijnaam en de taal van de site bewaard, samen met je beoordeling als je "
-                "er een gaf. Je browser bewaart een willekeurige code die alleen dient om een nieuwe "
-                "recensie de vorige te laten vervangen. Een recensie verschijnt pas na controle; een "
-                "geweigerde of vervangen recensie wordt 30 dagen later verwijderd. Je kan vragen om "
-                "een gepubliceerde recensie te verwijderen via mapetanque@outlook.be.",
-                "Om misbruik te beperken, berekent de site ook een versleutelde vingerafdruk van "
-                "je IP-adres. Die dient alleen om je verzendingen van de dag te tellen en wordt "
-                "na enkele dagen gewist.",
-                "Als je een voornaam of een pseudoniem opgeeft, dient dat alleen voor de "
-                "naamsvermelding. Je kan op elk moment vragen om een foto die je hebt verstuurd "
-                "te verwijderen, via mapetanque@outlook.be.",
-                "De site wordt gehost door GitHub Pages en de verzendingen lopen via Cloudflare. "
-                "Die dienstverleners houden hun eigen technische logboeken bij.",
+                "Kort gezegd: geen reclamecookies, geen account, en niets wordt aan wie dan "
+                "ook doorgegeven. Je taal en je weergavevoorkeuren blijven op je toestel.",
+                "Wat er wordt opgeslagen wanneer je…",
+            ],
+            # Une puce par action : l'action en gras, puis ce qui est enregistré.
+            "liste": [
+                ("een terrein beoordeelt",
+                 ": alleen de beoordeling. Een versleutelde vingerafdruk (IP-adres + terrein + "
+                 "maand), die niet naar jou terugleidt en elke maand verandert, voorkomt dat "
+                 "je hetzelfde terrein meermaals beoordeelt."),
+                ("een foto verstuurt",
+                 ": de foto, verkleind en ontdaan van metagegevens (geen toestelmodel, geen "
+                 "GPS; alleen de opnamedatum blijft, omdat Mapillary die vereist). Ze wordt op "
+                 "het terrein geplaatst, niet waar jij bent. Je eventuele voornaam of bijnaam "
+                 "dient alleen voor de naamsvermelding. De foto wacht op een Europese server "
+                 "tot ik ze nakijk, hoogstens 30 dagen. Als ik ze weerhoud, wordt ze op "
+                 "Mapillary gepubliceerd onder de CC BY-SA-licentie, met gezichten en "
+                 "nummerplaten onherkenbaar gemaakt. Anders wordt ze verwijderd."),
+                ("een recensie schrijft",
+                 ": de tekst, je eventuele voornaam of bijnaam, de taal en je beoordeling. Een "
+                 "willekeurige code die je browser bewaart, laat een nieuwe recensie de "
+                 "vorige vervangen. De recensie verschijnt na controle; een geweigerde of "
+                 "vervangen recensie wordt na 30 dagen verwijderd."),
+                ("een terrein of een fout meldt",
+                 ": de plaats en je opmerking, uiterlijk na een jaar verwijderd."),
+            ],
+            "paragraphes_apres": [
+                "Om misbruik te beperken, telt een versleutelde vingerafdruk van je IP-adres "
+                "je verzendingen van de dag; die wordt na enkele dagen gewist.",
+                "De site wordt gehost door GitHub Pages en de verzendingen lopen via "
+                "Cloudflare, die hun eigen technische logboeken bijhouden. Om een foto of "
+                "recensie te laten verwijderen: mapetanque@outlook.be.",
             ],
         },
         {
@@ -276,44 +267,39 @@ CONTENU = {
         {
             "titre": "Ihre Daten",
             "paragraphes": [
-                "Mapetanque.be setzt keine Werbe-Cookies und gibt Ihre Daten an niemanden weiter. "
-                "Ihr Browser speichert lediglich, lokal auf Ihrem Gerät, Ihre Sprache und Ihre "
-                "Anzeigeeinstellungen.",
-                "Die Bewertungen, die Sie für Plätze abgeben, werden ohne Ihren Namen und ohne "
-                "Ihre IP-Adresse gespeichert. Damit nicht derselbe Besucher denselben Platz "
-                "zwanzigmal bewertet, berechnet die Website einen verschlüsselten Fingerabdruck "
-                "aus Ihrer IP-Adresse, dem betreffenden Platz und dem laufenden Monat. Dieser "
-                "Fingerabdruck lässt keinen Rückschluss auf Sie zu und ändert sich jeden Monat.",
-                "Wenn Sie ein Foto einsenden, verkleinert Ihr Browser es und löscht seine "
-                "Metadaten vor dem Versand: weder das Modell Ihres Geräts noch die "
-                "ursprünglichen GPS-Koordinaten verlassen Ihr Telefon. Nur das Aufnahmedatum "
-                "bleibt erhalten, weil Mapillary es verlangt. Die dem Foto zugeordnete Position "
-                "ist die des Platzes, nicht Ihre.",
-                "Das Foto wird anschließend auf einem europäischen Server gespeichert, solange "
-                "ich es noch prüfen muss. Nehme ich es nicht an, wird es sofort gelöscht. Habe ich "
-                "es nicht innerhalb von 30 Tagen geprüft, wird es automatisch gelöscht. Nehme "
-                "ich es an, wird es unter der CC-BY-SA-Lizenz auf Mapillary veröffentlicht, wie "
-                "es das Kästchen im Formular angibt, und danach aus diesem Zwischenspeicher "
-                "entfernt. Mapillary macht Gesichter und Kennzeichen nach der Veröffentlichung "
-                "automatisch unkenntlich.",
-                "Wenn Sie einen fehlenden Platz oder einen Fehler melden, werden nur der angegebene Ort "
-                "und Ihr Kommentar gespeichert. Die Meldung wird so lange aufbewahrt, wie es für die "
-                "Prüfung und die Korrektur in OpenStreetMap nötig ist, und spätestens nach einem Jahr gelöscht.",
-                "Wenn Sie eine Rezension zu einem Platz schreiben, werden nur der Text, Ihr "
-                "eventueller Vorname oder Spitzname und die Sprache der Website gespeichert, dazu "
-                "Ihre Bewertung, falls Sie eine abgegeben haben. Ihr Browser speichert eine zufällige "
-                "Kennung, die nur dazu dient, dass eine neue Rezension die vorherige ersetzt. Die "
-                "Rezension erscheint erst nach Prüfung; eine abgelehnte oder ersetzte Rezension wird "
-                "30 Tage später gelöscht. Sie können die Entfernung einer veröffentlichten Rezension "
-                "unter mapetanque@outlook.be verlangen.",
-                "Um Missbrauch zu begrenzen, berechnet die Website außerdem einen verschlüsselten "
-                "Fingerabdruck Ihrer IP-Adresse. Er dient nur dazu, Ihre Einsendungen des Tages zu "
-                "zählen, und wird nach einigen Tagen gelöscht.",
-                "Wenn Sie einen Vornamen oder ein Pseudonym angeben, dient dies allein der "
-                "Namensnennung. Sie können jederzeit die Entfernung eines von Ihnen gesendeten "
-                "Fotos verlangen, unter mapetanque@outlook.be.",
+                "Kurz gesagt: keine Werbe-Cookies, kein Konto, und nichts wird an Dritte "
+                "weitergegeben. Ihre Sprache und Ihre Anzeigeeinstellungen bleiben auf Ihrem "
+                "Gerät.",
+                "Was gespeichert wird, wenn Sie …",
+            ],
+            # Une puce par action : l'action en gras, puis ce qui est enregistré.
+            "liste": [
+                ("einen Platz bewerten",
+                 ": nur die Bewertung. Ein verschlüsselter Fingerabdruck (IP-Adresse + Platz + "
+                 "Monat), der keinen Rückschluss auf Sie zulässt und sich jeden Monat ändert, "
+                 "verhindert, dass Sie denselben Platz mehrfach bewerten."),
+                ("ein Foto einsenden",
+                 ": das Foto, verkleinert und ohne Metadaten (weder Gerätemodell noch GPS; nur "
+                 "das Aufnahmedatum bleibt, weil Mapillary es verlangt). Es wird dem Platz "
+                 "zugeordnet, nicht Ihrem Standort. Ihr eventueller Vorname oder Spitzname "
+                 "dient allein der Namensnennung. Das Foto wartet auf einem europäischen "
+                 "Server auf meine Prüfung, höchstens 30 Tage. Nehme ich es an, wird es unter "
+                 "der CC-BY-SA-Lizenz auf Mapillary veröffentlicht, mit unkenntlich gemachten "
+                 "Gesichtern und Kennzeichen. Andernfalls wird es gelöscht."),
+                ("eine Rezension schreiben",
+                 ": der Text, Ihr eventueller Vorname oder Spitzname, die Sprache und Ihre "
+                 "Bewertung. Eine zufällige Kennung in Ihrem Browser sorgt dafür, dass eine "
+                 "neue Rezension die vorherige ersetzt. Die Rezension erscheint nach Prüfung; "
+                 "eine abgelehnte oder ersetzte Rezension wird nach 30 Tagen gelöscht."),
+                ("einen Platz oder einen Fehler melden",
+                 ": der Ort und Ihr Kommentar, spätestens nach einem Jahr gelöscht."),
+            ],
+            "paragraphes_apres": [
+                "Um Missbrauch zu begrenzen, zählt ein verschlüsselter Fingerabdruck Ihrer IP-"
+                "Adresse Ihre Einsendungen des Tages; er wird nach einigen Tagen gelöscht.",
                 "Die Website wird von GitHub Pages gehostet, und die Einsendungen laufen über "
-                "Cloudflare. Diese Anbieter führen ihre eigenen technischen Protokolle.",
+                "Cloudflare; diese Anbieter führen ihre eigenen technischen Protokolle. Um ein "
+                "Foto oder eine Rezension entfernen zu lassen: mapetanque@outlook.be.",
             ],
         },
         {
@@ -360,41 +346,38 @@ CONTENU = {
         {
             "titre": "Your data",
             "paragraphes": [
-                "Mapetanque.be sets no advertising cookies and doesn't share your data with "
-                "anyone. Your browser only stores your language and display preferences, locally "
-                "on your device.",
-                "The ratings you give courts are recorded without your name or IP address. To "
-                "prevent the same visitor from rating the same court twenty times, the site "
-                "computes a hashed fingerprint from your IP address, the court concerned and the "
-                "current month. This fingerprint cannot be traced back to you, and it changes "
-                "every month.",
-                "When you send a photo, your browser shrinks it and strips its metadata before "
-                "uploading: neither your device model nor the original GPS coordinates leave your "
-                "phone. Only the date the photo was taken is kept, because Mapillary requires it. "
-                "The location attached to the photo is that of the court, not yours.",
-                "The photo is then stored on a European server until I've checked it. If I don't "
-                "keep it, it is deleted immediately. If I haven't checked it within 30 days, it is "
-                "deleted automatically. If I keep it, it is published on Mapillary under a CC BY-SA "
-                "licence, as stated next to the checkbox on the form, and then erased from this "
-                "temporary storage. Mapillary automatically blurs faces and licence plates after "
-                "publication.",
-                "When you report a missing court or an error, only the location you give and your "
-                "comment are stored. The report is kept for as long as it takes to check it and update "
-                "OpenStreetMap, then deleted within a year at the latest.",
-                "When you write a review of a court, only its text, your optional first name or "
-                "nickname and the site language are stored, along with your rating if you gave one. "
-                "Your browser keeps a random identifier whose only purpose is to let a new review "
-                "replace your previous one. Reviews are published only after moderation; a rejected "
-                "or replaced review is deleted 30 days later. You can ask for a published review to "
-                "be removed by writing to mapetanque@outlook.be.",
-                "To limit abuse, the site also computes a hashed fingerprint of your IP address. "
-                "It is only used to count your uploads for the day, and it is erased after a few "
-                "days.",
-                "If you enter a first name or nickname, it is only used to credit you. You can ask "
-                "for a photo you sent to be removed at any time by writing to "
+                "In short: no advertising cookies, no account, and nothing is passed on to "
+                "anyone. Your language and display preferences stay on your device.",
+                "What is stored when you…",
+            ],
+            # Une puce par action : l'action en gras, puis ce qui est enregistré.
+            "liste": [
+                ("rate a court",
+                 ": the rating alone. A hashed fingerprint (IP address + court + month), which "
+                 "cannot be traced back to you and changes every month, prevents you from "
+                 "rating the same court more than once."),
+                ("send a photo",
+                 ": the photo, shrunk and stripped of its metadata (no device model, no GPS; "
+                 "only the date it was taken is kept, because Mapillary requires it). It is "
+                 "placed at the court, not where you are. Your optional first name or nickname "
+                 "is only used to credit you. The photo waits on a European server for me to "
+                 "check it, for 30 days at most. If I keep it, it is published on Mapillary "
+                 "under a CC BY-SA licence, with faces and licence plates blurred. Otherwise, "
+                 "it is deleted."),
+                ("write a review",
+                 ": the text, your optional first name or nickname, the site language and your "
+                 "rating. A random identifier kept by your browser lets a new review replace "
+                 "your previous one. Reviews are published after moderation; a rejected or "
+                 "replaced review is deleted after 30 days."),
+                ("report a court or an error",
+                 ": the location and your comment, deleted within a year at the latest."),
+            ],
+            "paragraphes_apres": [
+                "To limit abuse, a hashed fingerprint of your IP address counts your uploads "
+                "for the day; it is erased after a few days.",
+                "The site is hosted by GitHub Pages and uploads go through Cloudflare, which "
+                "keep their own technical logs. To have a photo or review removed: "
                 "mapetanque@outlook.be.",
-                "The site is hosted by GitHub Pages and uploads go through Cloudflare. These "
-                "providers keep their own technical logs.",
             ],
         },
         {
@@ -456,6 +439,14 @@ def bloc_contenu(langue):
                     f'<a href="{s["url"]}" target="_blank" rel="noopener">{echap(s["nom"])}</a> '
                     f"{echap(role)}</span>\n"
                     "                    </li>"
+                )
+            morceaux.append("                </ul>")
+
+        if section.get("liste"):
+            morceaux.append('                <ul class="apropos-liste">')
+            for tete, suite in section["liste"]:
+                morceaux.append(
+                    f"                    <li><strong>{echap(tete)}</strong>{echap(suite)}</li>"
                 )
             morceaux.append("                </ul>")
 

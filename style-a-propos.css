@@ -78,6 +78,28 @@
     text-decoration: underline;
 }
 
+/* --- « Vos données » : une puce par action, l'action en gras --- */
+
+.apropos-liste {
+    margin: -6px 0 18px;
+    padding-left: 20px;
+}
+
+.apropos-liste li {
+    font-size: 15px;
+    line-height: 1.65;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.apropos-liste li::marker {
+    color: #74C15A;
+}
+
+.apropos-liste strong {
+    color: #333;
+}
+
 /* --- Bloc de contact, en fin de page --- */
 
 .apropos-contact {
@@ -122,6 +144,7 @@
     }
 
     .apropos-section p,
+    .apropos-liste li,
     .apropos-source-texte {
         font-size: 14.5px;
     }
