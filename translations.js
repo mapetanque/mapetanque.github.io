@@ -217,11 +217,21 @@ const translations = {
         filtres_terrains_un: "%n terrain",
         filtres_sur_total: "sur %t",
 
-        stats_loading: "Chargement des statistiques…",
-        stats_unavailable: "Statistiques indisponibles",
-        stats_count: (n) => `${n} terrain${n > 1 ? "s" : ""} recensé${n > 1 ? "s" : ""}`,
-        stats_photo_count: (n) => `${n} terrain${n > 1 ? "s" : ""} avec photo`,
-        stats_last_update: "Mise à jour",
+        // Pied de page (construit par construirePied() dans script.js)
+        pied_accroche: "La carte collaborative des terrains de pétanque en Belgique.",
+        pied_terrains: "terrains recensés",
+        pied_photos: "avec photo",
+        pied_maj: (date) => `Données mises à jour le ${date}`,
+        pied_explorer: "Explorer",
+        pied_le_site: "Le site",
+        pied_partager: "Partager",
+        pied_partage_texte: "Faites découvrir la carte à vos amis.",
+        pied_toutes_provinces: "Toutes les provinces",
+        pied_signaler: "Signaler un terrain",
+        pied_contact: "Contact",
+        pied_donnees: "Données",
+        pied_credits_photos: "Photos",
+        pied_langue: "Langue",
     },
 
     nl: {
@@ -440,11 +450,21 @@ const translations = {
         filtres_terrains_un: "%n terrein",
         filtres_sur_total: "van %t",
 
-        stats_loading: "Statistieken laden…",
-        stats_unavailable: "Statistieken niet beschikbaar",
-        stats_count: (n) => `${n} terrein${n > 1 ? "en" : ""} geregistreerd`,
-        stats_photo_count: (n) => `${n} terrein${n > 1 ? "en" : ""} met foto`,
-        stats_last_update: "Update",
+        // Pied de page (construit par construirePied() dans script.js)
+        pied_accroche: "De collaboratieve kaart van de petanqueterreinen in België.",
+        pied_terrains: "terreinen geregistreerd",
+        pied_photos: "met foto",
+        pied_maj: (date) => `Gegevens bijgewerkt op ${date}`,
+        pied_explorer: "Verkennen",
+        pied_le_site: "De site",
+        pied_partager: "Delen",
+        pied_partage_texte: "Laat je vrienden de kaart ontdekken.",
+        pied_toutes_provinces: "Alle provincies",
+        pied_signaler: "Een terrein melden",
+        pied_contact: "Contact",
+        pied_donnees: "Gegevens",
+        pied_credits_photos: "Foto's",
+        pied_langue: "Taal",
     },
 
     de: {
@@ -663,11 +683,21 @@ const translations = {
         filtres_terrains_un: "%n Platz",
         filtres_sur_total: "von %t",
 
-        stats_loading: "Statistiken werden geladen…",
-        stats_unavailable: "Statistiken nicht verfügbar",
-        stats_count: (n) => `${n} ${n > 1 ? "Plätze" : "Platz"} erfasst`,
-        stats_photo_count: (n) => `${n} ${n > 1 ? "Plätze" : "Platz"} mit Foto`,
-        stats_last_update: "Aktualisiert",
+        // Pied de page (construit par construirePied() dans script.js)
+        pied_accroche: "Die gemeinsame Karte der Pétanque-Plätze in Belgien.",
+        pied_terrains: "Plätze erfasst",
+        pied_photos: "mit Foto",
+        pied_maj: (date) => `Daten aktualisiert am ${date}`,
+        pied_explorer: "Entdecken",
+        pied_le_site: "Die Website",
+        pied_partager: "Teilen",
+        pied_partage_texte: "Zeigen Sie die Karte Ihren Freunden.",
+        pied_toutes_provinces: "Alle Provinzen",
+        pied_signaler: "Einen Platz melden",
+        pied_contact: "Kontakt",
+        pied_donnees: "Daten",
+        pied_credits_photos: "Fotos",
+        pied_langue: "Sprache",
     },
 
     en: {
@@ -886,11 +916,21 @@ const translations = {
         filtres_terrains_un: "%n court",
         filtres_sur_total: "of %t",
 
-        stats_loading: "Loading statistics…",
-        stats_unavailable: "Statistics unavailable",
-        stats_count: (n) => `${n} court${n === 1 ? "" : "s"} listed`,
-        stats_photo_count: (n) => `${n} court${n === 1 ? "" : "s"} with a photo`,
-        stats_last_update: "Updated",
+        // Pied de page (construit par construirePied() dans script.js)
+        pied_accroche: "The collaborative map of pétanque courts in Belgium.",
+        pied_terrains: "courts listed",
+        pied_photos: "with a photo",
+        pied_maj: (date) => `Data updated on ${date}`,
+        pied_explorer: "Explore",
+        pied_le_site: "The site",
+        pied_partager: "Share",
+        pied_partage_texte: "Show the map to your friends.",
+        pied_toutes_provinces: "All provinces",
+        pied_signaler: "Report a court",
+        pied_contact: "Contact",
+        pied_donnees: "Data",
+        pied_credits_photos: "Photos",
+        pied_langue: "Language",
     }
 
 };

@@ -4,11 +4,7 @@ const ICON_ROUTE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" s
 const ICON_SHARE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>';
 const ICON_FLAG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>';
 const ICON_MAP_PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>';
-const ICON_CLOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>';
-// Icône appareil photo (même famille Feather que les deux ci-dessus — coins arrondis,
-// stroke-width 2, currentColor) pour le compteur "terrains avec photo" du footer.
-const ICON_PHOTO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>';
-// Roue dentée de la même famille Feather, pour le lien discret vers la page admin du footer.
+// Roue dentée de la même famille Feather, pour le lien discret vers la page admin du pied de page.
 // Remplace le caractère ⚙, que l'iPad affichait en emoji en relief, jurant avec le reste.
 const ICON_REGLAGES = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>';
 const ICON_MAXIMIZE = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>';
@@ -179,14 +175,13 @@ function appliquerTraductions() {
     // (le tagline sous le H1 a été retiré : remplacé par le grand titre "hero_headline" au-dessus
     // des contrôles, pris en charge automatiquement par la boucle [data-i18n] ci-dessus)
 
-    // (le crédit OpenStreetMap a été retiré du footer, pour tenir sur une seule ligne en mobile)
-
     // Bouton actif dans le sélecteur de langue (nav desktop + menu burger mobile)
     document.querySelectorAll('.lang-link').forEach(function (btn) {
         btn.classList.toggle('active', btn.dataset.lang === currentLang);
     });
 
-    // Régénérer les statistiques du footer
+    // Reconstruire le pied de page dans la nouvelle langue, puis y reposer les chiffres
+    construirePied();
     mettreAJourStats();
 
     // Régénérer le bandeau chiffré de la section statistiques
@@ -195,11 +190,6 @@ function appliquerTraductions() {
     // Reconstruire l'entonnoir région/province/commune dans la nouvelle langue (sans re-télécharger
     // les données, déjà en cache dans statsGeoData ; ne fait rien si le fetch n'est pas encore arrivé)
     construireStatsGeo();
-
-    // Actualiser les liens de partage du site dans le footer (texte traduit)
-    if (typeof actualiserLiensPartageFooter === 'function') {
-        actualiserLiensPartageFooter();
-    }
 
     // Régénérer le titre par défaut d'un éventuel marqueur de recherche déjà ouvert
     if (typeof searchMarker !== 'undefined' && searchMarker && searchMarker.isPopupOpen()) {
@@ -2176,50 +2166,146 @@ window.partagerTerrain = function (lat, lon, titre) {
 };
 
 
-// ===================== Icônes de partage du site (footer) =====================
+// ===================== Pied de page =====================
 
-const footerShareWhatsapp = document.getElementById('footer-share-whatsapp');
-const footerShareFacebook = document.getElementById('footer-share-facebook');
-const footerShareTwitter = document.getElementById('footer-share-twitter');
-const footerShareEmail = document.getElementById('footer-share-email');
-const footerShareCopy = document.getElementById('footer-share-copy');
+// Le pied de page est construit ici, à partir des traductions, plutôt que recopié dans chacune
+// des quelque 80 pages (4 langues, gabarits province et région compris) : les pages ne contiennent
+// qu'un <footer class="pied"></footer> vide. appliquerTraductions() le reconstruit à chaque
+// changement de langue ; mettreAJourStats() y pose ensuite les chiffres et la date.
 
-function actualiserLiensPartageFooter() {
+const piedEl = document.querySelector('footer.pied');
 
-    const url = window.location.origin + window.location.pathname;
-    const urlEncodee = encodeURIComponent(url);
-    const texteEncode = encodeURIComponent(t('share_site_title'));
+const ICONES_PIED = {
+    whatsapp: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>',
+    facebook: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>',
+    // Le vrai logo X : l'ancienne icône était une simple croix, qu'on prenait pour « fermer »
+    x: '<svg class="pied-icone-x" viewBox="0 0 24 24" fill="currentColor"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path></svg>',
+    email: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>',
+    lien: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>',
+    ajouter: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>'
+};
 
-    footerShareWhatsapp.href = `https://wa.me/?text=${texteEncode}%20${urlEncodee}`;
-    footerShareFacebook.href = `https://www.facebook.com/sharer/sharer.php?u=${urlEncodee}`;
-    footerShareTwitter.href = `https://twitter.com/intent/tweet?url=${urlEncodee}&text=${texteEncode}`;
-    footerShareEmail.href = `mailto:?subject=${texteEncode}&body=${urlEncodee}`;
+// Adresse de la page courante dans une autre langue, d'après ses balises hreflang. On ne garde que
+// le chemin, pour que le lien reste sur le même site (utile aussi en local avec Live Server). Sans
+// balise pour cette langue (page pas encore traduite) : accueil de la langue.
+function urlPageDansLangue(langue) {
+    const alternative = document.querySelector(`link[rel="alternate"][hreflang="${langue}"]`);
+    if (alternative) return new URL(alternative.href).pathname;
+    return langue === 'fr' ? '/' : '/' + langue + '/';
 }
 
-const copyTooltip = document.getElementById('copy-tooltip');
-let copyTooltipTimeout = null;
+function construirePied() {
+    if (!piedEl) return;
 
-footerShareCopy.addEventListener('click', function () {
+    const prefixe = currentLang === 'fr' ? '/' : '/' + currentLang + '/';
+    const urlEncodee = encodeURIComponent(window.location.origin + window.location.pathname);
+    const texteEncode = encodeURIComponent(t('share_site_title'));
 
-    const url = window.location.origin + window.location.pathname;
+    const langues = LANGUES_DISPONIBLES.map(function (langue) {
+        const actif = langue === currentLang ? ' aria-current="true"' : '';
+        return `<a href="${urlPageDansLangue(langue)}" data-lang="${langue}" hreflang="${langue}"${actif}>${langue.toUpperCase()}</a>`;
+    }).join('');
 
-    navigator.clipboard.writeText(url).then(function () {
-        footerShareCopy.classList.add('footer-share-copied');
+    piedEl.innerHTML = `
+        <img class="pied-filigrane" src="/images/mapetanque-boule.svg" alt="">
+        <div class="pied-haut">
+            <div class="pied-marque">
+                <a href="${prefixe}" class="pied-logo-lien"><img class="pied-logo" src="/images/mapetanque-logo.svg" width="173" height="30" alt="Mapetanque"></a>
+                <p class="pied-accroche">${t('pied_accroche')}</p>
+                <ul class="pied-chiffres">
+                    <li><strong id="pied-nb-terrains">…</strong><span>${t('pied_terrains')}</span></li>
+                    <li><strong id="pied-nb-photos">…</strong><span>${t('pied_photos')}</span></li>
+                </ul>
+                <p class="pied-maj" id="pied-maj" hidden></p>
+            </div>
 
-        copyTooltip.textContent = t('share_copied');
-        copyTooltip.classList.add('visible');
+            <nav class="pied-col">
+                <h2 class="pied-titre">${t('pied_explorer')}</h2>
+                <ul class="pied-liens">
+                    <li><a href="${prefixe}region-wallonie.html">${t('geo_region_wallonie')}</a></li>
+                    <li><a href="${prefixe}region-flandre.html">${t('geo_region_flandre')}</a></li>
+                    <li><a href="${prefixe}province-bruxelles.html">${t('geo_region_bruxelles')}</a></li>
+                    <li><a href="${prefixe}#provinces-section">${t('pied_toutes_provinces')}</a></li>
+                    <li><a href="${prefixe}a-propos.html#contact" class="pied-lien-accent">${ICONES_PIED.ajouter}${t('pied_signaler')}</a></li>
+                </ul>
+            </nav>
 
-        clearTimeout(copyTooltipTimeout);
-        copyTooltipTimeout = setTimeout(function () {
-            footerShareCopy.classList.remove('footer-share-copied');
-            copyTooltip.classList.remove('visible');
-        }, 2000);
+            <nav class="pied-col">
+                <h2 class="pied-titre">${t('pied_le_site')}</h2>
+                <ul class="pied-liens">
+                    <li><a href="${prefixe}comment-jouer.html">${t('menu_comment_jouer')}</a></li>
+                    <li><a href="${prefixe}compteur.html">${t('menu_compteur')}</a></li>
+                    <li><a href="${prefixe}la-petanque.html">${t('menu_la_petanque')}</a></li>
+                    <li><a href="${prefixe}a-propos.html">${t('menu_about')}</a></li>
+                    <li><a href="${prefixe}a-propos.html#contact">${t('pied_contact')}</a></li>
+                </ul>
+            </nav>
 
-    }).catch(function () {
-        // Navigateur trop ancien ou contexte non sécurisé : on sélectionne le texte via un prompt de secours
-        window.prompt('Ctrl+C / Cmd+C :', url);
+            <div class="pied-col-partage">
+                <h2 class="pied-titre">${t('pied_partager')}</h2>
+                <p class="pied-partage-texte">${t('pied_partage_texte')}</p>
+                <div class="pied-partage">
+                    <a class="pied-bouton" href="https://wa.me/?text=${texteEncode}%20${urlEncodee}" target="_blank" rel="noopener" title="${t('share_whatsapp')}" aria-label="${t('share_whatsapp')}">${ICONES_PIED.whatsapp}</a>
+                    <a class="pied-bouton" href="https://www.facebook.com/sharer/sharer.php?u=${urlEncodee}" target="_blank" rel="noopener" title="${t('share_facebook')}" aria-label="${t('share_facebook')}">${ICONES_PIED.facebook}</a>
+                    <a class="pied-bouton" href="https://twitter.com/intent/tweet?url=${urlEncodee}&amp;text=${texteEncode}" target="_blank" rel="noopener" title="${t('share_twitter')}" aria-label="${t('share_twitter')}">${ICONES_PIED.x}</a>
+                    <a class="pied-bouton" href="mailto:?subject=${texteEncode}&amp;body=${urlEncodee}" title="${t('share_email')}" aria-label="${t('share_email')}">${ICONES_PIED.email}</a>
+                    <button type="button" class="pied-bouton pied-copier">${ICONES_PIED.lien}<span>${t('share_copy')}</span></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="pied-bas">
+            <nav class="pied-langues" aria-label="${t('pied_langue')}">${langues}</nav>
+            <div class="pied-credits">
+                ${t('pied_donnees')}
+                <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener"><img src="/images/logo-openstreetmap.webp" alt="">OpenStreetMap</a>
+                · ${t('pied_credits_photos')}
+                <a href="https://www.mapillary.com" target="_blank" rel="noopener"><img src="/images/logo-mapillary.webp" alt="">Mapillary</a>
+            </div>
+            <div class="pied-droite">
+                <span>© ${new Date().getFullYear()} mapetanque.be</span>
+                <!-- Raccourci vers l'admin : la page ne donne accès à rien sans mot de passe, et
+                     robots.txt l'exclut de l'indexation. -->
+                <a class="pied-admin" href="/admin.html" rel="nofollow" title="Administration" aria-label="Administration">${ICON_REGLAGES}</a>
+            </div>
+        </div>`;
+}
+
+if (piedEl) {
+    // Écouteurs posés une seule fois sur le <footer> lui-même : son contenu est remplacé à
+    // chaque changement de langue, mais lui reste en place.
+    let minuterieCopie = null;
+
+    piedEl.addEventListener('click', function (e) {
+
+        // Copier le lien de la page : le libellé du bouton devient « Lien copié ! » 2 secondes
+        const boutonCopier = e.target.closest('.pied-copier');
+        if (boutonCopier) {
+            const url = window.location.origin + window.location.pathname;
+            navigator.clipboard.writeText(url).then(function () {
+                const libelle = boutonCopier.querySelector('span');
+                boutonCopier.classList.add('pied-copie-faite');
+                libelle.textContent = t('share_copied');
+                clearTimeout(minuterieCopie);
+                minuterieCopie = setTimeout(function () {
+                    boutonCopier.classList.remove('pied-copie-faite');
+                    libelle.textContent = t('share_copy');
+                }, 2000);
+            }).catch(function () {
+                // Navigateur trop ancien ou contexte non sécurisé : on propose le texte à copier
+                window.prompt('Ctrl+C / Cmd+C :', url);
+            });
+            return;
+        }
+
+        // Choix de la langue : on la mémorise avant de suivre le lien, sinon l'accueil français
+        // (« / ») rouvrirait dans la langue gardée en mémoire (voir detecterLanguePreferee).
+        const lienLangue = e.target.closest('.pied-langues a[data-lang]');
+        if (lienLangue) {
+            try { localStorage.setItem('mapetanque_lang', lienLangue.dataset.lang); } catch (erreur) {}
+        }
     });
-});
+}
 
 
 // ===================== Calcul de distance =====================
@@ -4218,14 +4304,12 @@ fetch('/data/stats_geo.json')
         }
     });
 
-// ===================== Statistiques du footer =====================
+// ===================== Chiffres du pied de page =====================
 
 let terrainsCount = null;
 let lastUpdateRaw = null; // objet Date brut, reformaté selon la langue active
-let comptageTermine = false;
-let dateTermine = false;
 
-// Nombre de terrains avec au moins une photo (footer) — dépend de deux chargements distincts
+// Nombre de terrains avec au moins une photo (pied de page) — dépend de deux chargements distincts
 // (terrains.geojson ET data/photos_mapillary.json, voir plus bas dans ce fichier), qui peuvent
 // se terminer dans n'importe quel ordre : on ne calcule qu'une fois les deux disponibles.
 let terrainsAvecPhotoCount = null;
@@ -4246,43 +4330,32 @@ function calculerTerrainsAvecPhoto() {
     mettreAJourStats();
 }
 
+// Pose les chiffres dans le pied de page construit par construirePied(). Les « … » d'attente y
+// restent tant qu'un chargement n'a pas abouti ; la ligne de date reste masquée sans date.
 function mettreAJourStats() {
-    const statsEl = document.getElementById('site-stats');
-    if (!statsEl) return;
-
-    let parts = [];
+    const nbTerrains = document.getElementById('pied-nb-terrains');
+    if (!nbTerrains) return;
 
     if (terrainsCount !== null) {
-        parts.push(`<span class="footer-stats-icon">${ICON_MAP_PIN}</span> ${t('stats_count')(terrainsCount)}`);
+        nbTerrains.textContent = formaterNombre(terrainsCount);
     }
-
     if (terrainsAvecPhotoCount !== null) {
-        parts.push(`<span class="footer-stats-icon">${ICON_PHOTO}</span> ${t('stats_photo_count')(terrainsAvecPhotoCount)}`);
+        document.getElementById('pied-nb-photos').textContent = formaterNombre(terrainsAvecPhotoCount);
     }
 
     if (lastUpdateRaw !== null) {
-        // Format compact JJ-MM-AA (plutôt que le format long "6 août 2026"), pour que la ligne
-        // tienne sur un seul écran de smartphone. Volontairement identique dans les 3 langues :
-        // un format numérique court reste lisible sans ambiguïté, inutile de le localiser.
-        const jour = String(lastUpdateRaw.getDate()).padStart(2, '0');
-        const mois = String(lastUpdateRaw.getMonth() + 1).padStart(2, '0');
-        const annee = String(lastUpdateRaw.getFullYear()).slice(-2);
-        const dateFormatee = `${jour}-${mois}-${annee}`;
-        parts.push(`<span class="footer-stats-icon">${ICON_CLOCK}</span> ${t('stats_last_update')} : ${dateFormatee}`);
-    }
-
-    if (parts.length > 0) {
-        statsEl.innerHTML = parts.join(' · ');
-    } else if (!comptageTermine && !dateTermine) {
-        statsEl.textContent = t('stats_loading');
-    } else {
-        statsEl.textContent = t('stats_unavailable');
+        const locale = { fr: 'fr-BE', nl: 'nl-BE', de: 'de-BE', en: 'en-GB' }[currentLang] || 'fr-BE';
+        let date = lastUpdateRaw.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
+        // « 1er octobre » plutôt que « 1 octobre » en français
+        if (currentLang === 'fr' && lastUpdateRaw.getDate() === 1) date = date.replace(/^1 /, '1er ');
+        const maj = document.getElementById('pied-maj');
+        maj.textContent = t('pied_maj')(date);
+        maj.hidden = false;
     }
 }
 
 function afficherNombreTerrains(count) {
     terrainsCount = count;
-    comptageTermine = true;
     mettreAJourStats();
     mettreAJourBandeauStats();
 }
@@ -4296,44 +4369,12 @@ fetch('https://api.github.com/repos/mapetanque/mapetanque.github.io/commits?path
     .then(function (commits) {
         if (commits.length > 0) {
             lastUpdateRaw = new Date(commits[0].commit.author.date);
+            mettreAJourStats();
         }
-        dateTermine = true;
-        mettreAJourStats();
     })
     .catch(function () {
-        dateTermine = true;
-        mettreAJourStats();
+        // Pas de date : la ligne « Données mises à jour le … » reste simplement masquée
     });
-
-
-// ===================== Footer toujours visible (position fixed) =====================
-
-// Le footer est en position fixed ; on mesure sa hauteur réelle pour que .map-view et le bas de
-// page lui réservent toujours exactement la bonne place (variable CSS --footer-height).
-// ResizeObserver capte tous les cas qui changent cette hauteur : chargement, redimensionnement de
-// la fenêtre, changement de langue (texte plus ou moins long), passage à la ligne du contenu, etc.
-const footerEl = document.querySelector('footer');
-if (footerEl) {
-    if (window.ResizeObserver) {
-        new ResizeObserver(function (entries) {
-            for (const entry of entries) {
-                document.documentElement.style.setProperty('--footer-height', entry.contentRect.height + 'px');
-                // La hauteur de .map-view dépend de --footer-height : Leaflet doit recalculer
-                // ses dimensions internes à chaque fois qu'elle change (sinon les tuiles/contrôles
-                // peuvent rester positionnés sur l'ancienne taille du conteneur).
-                map.invalidateSize();
-            }
-        }).observe(footerEl);
-    } else {
-        // Repli pour les navigateurs sans ResizeObserver
-        const ajusterHauteurFooter = function () {
-            document.documentElement.style.setProperty('--footer-height', footerEl.offsetHeight + 'px');
-            map.invalidateSize();
-        };
-        ajusterHauteurFooter();
-        window.addEventListener('resize', ajusterHauteurFooter);
-    }
-}
 
 
 // ===================== Retour à l'accueil (clic sur le logo) =====================
@@ -4415,27 +4456,3 @@ document.addEventListener('keydown', function (e) {
 // ===================== Initialisation =====================
 
 appliquerTraductions();
-
-
-// ===================== Accès admin (footer) =====================
-
-// Lien discret vers la page d'administration, injecté ici plutôt que dans les 17 pages qui ont un
-// pied de page (gabarits province et région compris) : une seule source, rien à propager à la
-// génération. La page elle-même ne donne accès à rien sans mot de passe, et robots.txt l'exclut de
-// l'indexation — ce lien n'est qu'un raccourci.
-//
-// Placé à la suite des statistiques, dans le bloc de gauche, pour ne pas s'intercaler entre le
-// texte et les icônes de partage (qui restent tout à droite).
-const zoneStatsFooter = document.querySelector('.footer-small');
-
-if (zoneStatsFooter) {
-    const lienAdmin = document.createElement('a');
-    lienAdmin.href = '/admin.html';
-    lienAdmin.className = 'footer-admin';
-    lienAdmin.rel = 'nofollow';
-    lienAdmin.title = 'Administration';
-    lienAdmin.setAttribute('aria-label', 'Administration');
-    // Même habillage que les icônes des statistiques juste avant : 13 px, gris, trait fin.
-    lienAdmin.innerHTML = `<span class="footer-stats-icon">${ICON_REGLAGES}</span>`;
-    zoneStatsFooter.appendChild(lienAdmin);
-}

@@ -24,7 +24,7 @@
 /* ===================== Bannière photo (.hero-banner) ===================== */
 
 .map-view {
-    /* Remplace la règle de style.css (height: calc(100vh - footer)) : la page n'a plus besoin
+    /* Remplace la règle de style.css (height: 100vh) : la page n'a plus besoin
        de remplir tout le viewport au chargement, elle prend sa hauteur naturelle. Uniquement
        actif en dehors du mode plein écran (voir plus bas pour fullscreen-active). */
     height: auto;
@@ -271,17 +271,6 @@
    que de flotter au-dessus. */
 .leaflet-popup.popup-adresse .leaflet-popup-close-button {
     top: 6px !important;
-}
-
-/* ===================== Footer : plus fixe, suit le flux normal de page ===================== */
-
-footer {
-    position: static;
-}
-
-body {
-    /* Plus besoin de réserver la place du footer fixe (voir --footer-height dans style.css) */
-    padding-bottom: 0;
 }
 
 /* ===================== Responsive (même palier que style.css : 1024px) ===================== */

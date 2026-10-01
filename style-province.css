@@ -435,16 +435,6 @@
     top: 6px !important;
 }
 
-/* ===================== Footer : plus fixe, suit le flux normal de page ===================== */
-
-footer {
-    position: static;
-}
-
-body {
-    padding-bottom: 0;
-}
-
 /* ===================== Responsive (même palier que style.css : 1024px) ===================== */
 
 @media (max-width: 1024px) {
