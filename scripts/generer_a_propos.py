@@ -489,9 +489,9 @@ for langue, meta in META.items():
         feuilles_sup=("/style-a-propos.css",),
         banniere="/images/banniere-a-propos.webp",
         credit=(
-            'Photo : Marianne Casamance, '
-            '<a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" '
-            'rel="noopener">CC BY-SA 4.0</a>'
+            'Photo : jackmac34, '
+            '<a href="https://pixabay.com/fr/photos/p%C3%A9tanque-boules-jeu-mains-adresse-3629216/" '
+            'target="_blank" rel="noopener">Pixabay</a>'
         ),
     )
     print(f"{meta['prefixe']}a-propos.html : {taille} octets, {len(CONTENU[langue])} sections")

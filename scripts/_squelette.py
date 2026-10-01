@@ -122,7 +122,8 @@ def construire_page(
         src = src.replace(
             "url('/images/banniere-comment-jouer.webp')", f"url('{banniere}')", 1
         )
-    if credit:
+    # Une chaîne vide retire le crédit hérité de comment-jouer.html (photo sans crédit à afficher).
+    if credit is not None:
         # Typographie anglaise : pas d'espace avant le deux-points (« Photo: … »).
         if prefixe == "en/":
             credit = credit.replace("Photo : ", "Photo: ")
