@@ -2263,7 +2263,7 @@ function construirePied() {
     }).join('');
 
     piedEl.innerHTML = `
-        <img class="pied-filigrane" src="/images/mapetanque-boule.svg" alt="">
+        <img class="pied-filigrane" src="/images/mapetanque-boule-pleine.svg" alt="">
         <div class="pied-haut">
             <div class="pied-marque">
                 <a href="${prefixe}" class="pied-logo-lien"><img class="pied-logo" src="/images/mapetanque-logo.svg" width="173" height="30" alt="Mapetanque"></a>

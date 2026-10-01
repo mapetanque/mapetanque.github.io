@@ -2015,6 +2015,9 @@ body.fullscreen-lock {
     width: 380px;
     height: 380px;
     opacity: 0.05;
+    /* Légèrement inclinée, comme dans la maquette du menu mobile : on voit davantage la boule
+       que le creux réservé au cochonnet. */
+    transform: rotate(-18deg);
     pointer-events: none;
 }
 
