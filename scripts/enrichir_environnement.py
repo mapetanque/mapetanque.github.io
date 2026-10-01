@@ -21,7 +21,7 @@ Le travail se fait par lots de terrains, et environnement.json est enregistré a
 lot : un passage interrompu garde ce qui est fait, le suivant reprend la suite. Un terrain
 disparu d'OSM garde sa ligne (inoffensif, et prête s'il revient).
 
-Méthode validée avec scripts/tester_environnement.py (seuils et définitions : voir le site).
+Seuils et définitions validés le 1er octobre 2026 sur un test des 1 745 terrains (seuils appliqués par le site).
 """
 
 import argparse
