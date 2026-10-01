@@ -1842,11 +1842,17 @@ function preparerMiniCarteSignalement() {
     }
 
     // Démarre sur la vue de la carte principale : si le visiteur a déjà cherché une commune ou
-    // s'est localisé, il tombe directement au bon endroit.
-    const centre = map.getCenter();
-    const zoom = map.getZoom();
-    miniCarteSignalement.setView(centre, zoom, { animate: false });
+    // s'est localisé, il tombe directement au bon endroit. Sur les pages sans carte visible
+    // (À propos, Comment jouer… : formulaire ouvert depuis le pied de page), la carte principale
+    // cachée n'a pas de taille et son zoom ne veut rien dire : on montre alors toute la Belgique.
     miniCarteSignalement.invalidateSize();
+    if (map.getContainer().offsetWidth > 0) {
+        miniCarteSignalement.setView(map.getCenter(), map.getZoom(), { animate: false });
+    } else {
+        miniCarteSignalement.fitBounds(BELGIQUE_BOUNDS, { animate: false });
+    }
+    const centre = miniCarteSignalement.getCenter();
+    const zoom = miniCarteSignalement.getZoom();
     epingleSignalement.setLatLng(centre);
     zoomPlacementSignalement = zoom;
     mettreAJourLienOsmSignalement();
@@ -2276,7 +2282,7 @@ function construirePied() {
                     <li><a href="${prefixe}region-flandre.html">${t('geo_region_flandre')}</a></li>
                     <li><a href="${prefixe}province-bruxelles.html">${t('geo_region_bruxelles')}</a></li>
                     <li><a href="${prefixe}#provinces-section">${t('pied_toutes_provinces')}</a></li>
-                    <li><a href="${prefixe}a-propos.html#contact" class="pied-lien-accent">${ICONES_PIED.ajouter}${t('pied_signaler')}</a></li>
+                    <li><a href="${prefixe}a-propos.html#contact" class="pied-lien-accent pied-signaler">${ICONES_PIED.ajouter}${t('pied_signaler')}</a></li>
                 </ul>
             </nav>
 
@@ -2345,6 +2351,14 @@ if (piedEl) {
                 // Navigateur trop ancien ou contexte non sécurisé : on propose le texte à copier
                 window.prompt('Ctrl+C / Cmd+C :', url);
             });
+            return;
+        }
+
+        // « Signaler un terrain » : même formulaire que le lien de la bannière d'accueil. Le href
+        // vers le contact de l'À propos ne sert que si le script ne tourne pas.
+        if (e.target.closest('.pied-signaler')) {
+            e.preventDefault();
+            ouvrirModaleSignalement({ type: 'manquant' });
             return;
         }
 
