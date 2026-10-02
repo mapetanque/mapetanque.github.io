@@ -1,3 +1,14 @@
+// ===================== Application installable (PWA) =====================
+
+// Enregistre le service worker (/sw.js) : il permet d'installer le site comme une application
+// sur téléphone et ordinateur, et de revoir hors connexion les pages déjà consultées.
+// Placé en tête du fichier pour ne dépendre d'aucune autre partie du script.
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js').catch(function () {});
+    });
+}
+
 // ===================== Icônes SVG réutilisables (popups des terrains) =====================
 
 const ICON_ROUTE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>';
@@ -2359,7 +2370,8 @@ const ICONES_PIED = {
     x: '<svg class="pied-icone-x" viewBox="0 0 24 24" fill="currentColor"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path></svg>',
     email: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>',
     lien: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>',
-    ajouter: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>'
+    ajouter: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>',
+    telephone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>'
 };
 
 // Adresse de la page courante dans une autre langue, d'après ses balises hreflang. On ne garde que
@@ -2415,6 +2427,10 @@ function construirePied() {
                     <li><a href="${prefixe}la-petanque.html">${t('menu_la_petanque')}</a></li>
                     <li><a href="${prefixe}a-propos.html">${t('menu_about')}</a></li>
                     <li><a href="${prefixe}a-propos.html#contact">${t('pied_contact')}</a></li>
+                    <li class="pied-installer" data-installer hidden>
+                        <button type="button" class="pied-lien-accent">${ICONES_PIED.telephone}${t('pied_installer')}</button>
+                        <p class="pied-installer-aide" hidden>${texteAideInstallation()}</p>
+                    </li>
                 </ul>
             </nav>
 
@@ -2446,7 +2462,69 @@ function construirePied() {
                 <a class="pied-admin" href="/admin.html" rel="nofollow" title="Administration" aria-label="Administration">${ICON_REGLAGES}</a>
             </div>
         </div>`;
+
+    afficherLienInstallation();
 }
+
+// ----- « Installer l'application » (PWA, voir /sw.js et /manifest.webmanifest) -----
+
+// Deux emplacements : le pied de page et le haut du menu mobile. Chacun est un bloc marqué
+// data-installer, qui contient un bouton et un texte d'aide caché (classe « …-aide »).
+//
+// Chrome, Edge et Android proposent leur propre fenêtre d'installation : le navigateur l'annonce
+// par l'événement « beforeinstallprompt », qu'on garde de côté pour l'ouvrir au clic sur le bouton.
+// Safari (iPhone, iPad) et Firefox n'ont pas cette fenêtre : le bouton affiche alors la marche à
+// suivre dans leur menu.
+let invitationInstallation = null;
+
+function texteAideInstallation() {
+    const appareilApple = /iPad|iPhone|iPod/.test(navigator.userAgent)
+        || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // iPad récent
+    return t(appareilApple ? 'pied_installer_aide_ios' : 'pied_installer_aide');
+}
+
+// Les boutons n'apparaissent que s'ils peuvent servir : jamais dans l'application déjà installée ;
+// sur ordinateur, seulement si le navigateur sait installer (sinon il n'y a rien à expliquer).
+function afficherLienInstallation() {
+    const dejaInstallee = window.matchMedia('(display-mode: standalone)').matches
+        || window.navigator.standalone === true;
+    const tactile = window.matchMedia('(pointer: coarse)').matches;
+    const visible = !dejaInstallee && Boolean(invitationInstallation || tactile);
+    document.querySelectorAll('[data-installer]').forEach(function (bloc) {
+        bloc.hidden = !visible;
+    });
+}
+
+window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault(); // pas de bandeau automatique : ce sont nos boutons qui l'ouvrent
+    invitationInstallation = e;
+    afficherLienInstallation();
+});
+
+window.addEventListener('appinstalled', function () {
+    invitationInstallation = null;
+    document.querySelectorAll('[data-installer]').forEach(function (bloc) { bloc.hidden = true; });
+});
+
+// Clic sur l'un des boutons : fenêtre du navigateur si elle existe, sinon la marche à suivre
+// s'affiche (ou se replie) sous le bouton.
+document.addEventListener('click', function (e) {
+    const bouton = e.target.closest('[data-installer] button');
+    if (!bouton) return;
+
+    if (invitationInstallation) {
+        invitationInstallation.prompt();
+        invitationInstallation.userChoice.then(function () {
+            // L'invitation ne sert qu'une fois ; le navigateur en renverra une autre
+            // (beforeinstallprompt) si la personne a refusé.
+            invitationInstallation = null;
+            afficherLienInstallation();
+        });
+    } else {
+        const aide = bouton.closest('[data-installer]').querySelector('[class$="-aide"]');
+        aide.hidden = !aide.hidden;
+    }
+});
 
 if (piedEl) {
     // Écouteurs posés une seule fois sur le <footer> lui-même : son contenu est remplacé à
@@ -4203,7 +4281,8 @@ const sideMenu = document.getElementById("side-menu");
 
 const ICONES_MENU = {
     fermer: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path></svg>',
-    fleche: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>'
+    fleche: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>',
+    telephone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>'
 };
 
 function construireMenu() {
@@ -4237,6 +4316,11 @@ function construireMenu() {
                 <button type="button" class="menu-fermer" aria-label="${t('close_menu')}">${ICONES_MENU.fermer}</button>
             </div>
 
+            <div class="menu-installer menu-apparait" data-installer hidden style="--delai: 0.16s">
+                <button type="button" class="menu-installer-bouton">${ICONES_MENU.telephone}${t('pied_installer')}</button>
+                <p class="menu-installer-aide" hidden>${texteAideInstallation()}</p>
+            </div>
+
             <div class="menu-section menu-apparait" style="--delai: 0.22s">
                 <h2 class="menu-titre">${t('pied_explorer')}</h2>
                 <ul class="menu-pastilles">
@@ -4262,6 +4346,8 @@ function construireMenu() {
                 <div class="menu-langues-liste">${langues}</div>
             </div>
         </div>`;
+
+    afficherLienInstallation();
 }
 
 function ouvrirMenu() {

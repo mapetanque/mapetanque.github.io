@@ -244,6 +244,9 @@ const translations = {
         pied_donnees: "Données",
         pied_credits_photos: "Photos",
         pied_langue: "Langue",
+        pied_installer: "Installer l'application",
+        pied_installer_aide: "Ouvrez le menu de votre navigateur (⋮) et choisissez « Installer l'application » ou « Ajouter à l'écran d'accueil ».",
+        pied_installer_aide_ios: "Dans Safari, touchez le bouton Partager, puis « Sur l'écran d'accueil ».",
     },
 
     nl: {
@@ -489,6 +492,9 @@ const translations = {
         pied_donnees: "Gegevens",
         pied_credits_photos: "Foto's",
         pied_langue: "Taal",
+        pied_installer: "De app installeren",
+        pied_installer_aide: "Open het menu van je browser (⋮) en kies ‘App installeren’ of ‘Toevoegen aan startscherm’.",
+        pied_installer_aide_ios: "Tik in Safari op de deelknop en kies dan ‘Zet op beginscherm’.",
     },
 
     de: {
@@ -734,6 +740,9 @@ const translations = {
         pied_donnees: "Daten",
         pied_credits_photos: "Fotos",
         pied_langue: "Sprache",
+        pied_installer: "App installieren",
+        pied_installer_aide: "Öffnen Sie das Menü Ihres Browsers (⋮) und wählen Sie „App installieren“ oder „Zum Startbildschirm hinzufügen“.",
+        pied_installer_aide_ios: "Tippen Sie in Safari auf „Teilen“ und dann auf „Zum Home-Bildschirm“.",
     },
 
     en: {
@@ -979,6 +988,9 @@ const translations = {
         pied_donnees: "Data",
         pied_credits_photos: "Photos",
         pied_langue: "Language",
+        pied_installer: "Install the app",
+        pied_installer_aide: "Open your browser menu (⋮) and choose “Install app” or “Add to Home screen”.",
+        pied_installer_aide_ios: "In Safari, tap the Share button, then “Add to Home Screen”.",
     }
 
 };
