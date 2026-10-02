@@ -2370,7 +2370,8 @@ const ICONES_PIED = {
     x: '<svg class="pied-icone-x" viewBox="0 0 24 24" fill="currentColor"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path></svg>',
     email: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>',
     lien: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>',
-    ajouter: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>'
+    ajouter: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>',
+    telephone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>'
 };
 
 // Adresse de la page courante dans une autre langue, d'après ses balises hreflang. On ne garde que
@@ -2426,6 +2427,10 @@ function construirePied() {
                     <li><a href="${prefixe}la-petanque.html">${t('menu_la_petanque')}</a></li>
                     <li><a href="${prefixe}a-propos.html">${t('menu_about')}</a></li>
                     <li><a href="${prefixe}a-propos.html#contact">${t('pied_contact')}</a></li>
+                    <li class="pied-installer" hidden>
+                        <button type="button" class="pied-lien-accent pied-installer-bouton">${ICONES_PIED.telephone}${t('pied_installer')}</button>
+                        <p class="pied-installer-aide" hidden>${t(estAppareilApple() ? 'pied_installer_aide_ios' : 'pied_installer_aide')}</p>
+                    </li>
                 </ul>
             </nav>
 
@@ -2457,7 +2462,45 @@ function construirePied() {
                 <a class="pied-admin" href="/admin.html" rel="nofollow" title="Administration" aria-label="Administration">${ICON_REGLAGES}</a>
             </div>
         </div>`;
+
+    afficherLienInstallation();
 }
+
+// ----- « Installer l'application » (PWA, voir /sw.js et /manifest.webmanifest) -----
+
+// Chrome, Edge et Android proposent leur propre fenêtre d'installation : le navigateur l'annonce
+// par l'événement « beforeinstallprompt », qu'on garde de côté pour l'ouvrir au clic sur le lien.
+// Safari (iPhone, iPad) et Firefox n'ont pas cette fenêtre : le lien affiche alors la marche à
+// suivre dans leur menu.
+let invitationInstallation = null;
+
+function estAppareilApple() {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent)
+        || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // iPad récent
+}
+
+// Le lien n'apparaît que s'il peut servir : jamais dans l'application déjà installée ; sur
+// ordinateur, seulement si le navigateur sait installer (sinon il n'y a rien à expliquer).
+function afficherLienInstallation() {
+    const element = piedEl && piedEl.querySelector('.pied-installer');
+    if (!element) return;
+    const dejaInstallee = window.matchMedia('(display-mode: standalone)').matches
+        || window.navigator.standalone === true;
+    const tactile = window.matchMedia('(pointer: coarse)').matches;
+    element.hidden = dejaInstallee || !(invitationInstallation || tactile);
+}
+
+window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault(); // pas de bandeau automatique : c'est le lien du pied de page qui l'ouvre
+    invitationInstallation = e;
+    afficherLienInstallation();
+});
+
+window.addEventListener('appinstalled', function () {
+    invitationInstallation = null;
+    const element = piedEl && piedEl.querySelector('.pied-installer');
+    if (element) element.hidden = true;
+});
 
 if (piedEl) {
     // Écouteurs posés une seule fois sur le <footer> lui-même : son contenu est remplacé à
@@ -2483,6 +2526,24 @@ if (piedEl) {
                 // Navigateur trop ancien ou contexte non sécurisé : on propose le texte à copier
                 window.prompt('Ctrl+C / Cmd+C :', url);
             });
+            return;
+        }
+
+        // « Installer l'application » : fenêtre du navigateur si elle existe, sinon la marche à
+        // suivre s'affiche (ou se replie) sous le lien.
+        if (e.target.closest('.pied-installer-bouton')) {
+            if (invitationInstallation) {
+                invitationInstallation.prompt();
+                invitationInstallation.userChoice.then(function () {
+                    // L'invitation ne sert qu'une fois ; le navigateur en renverra une autre
+                    // (beforeinstallprompt) si la personne a refusé.
+                    invitationInstallation = null;
+                    afficherLienInstallation();
+                });
+            } else {
+                const aide = piedEl.querySelector('.pied-installer-aide');
+                aide.hidden = !aide.hidden;
+            }
             return;
         }
 

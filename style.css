@@ -2333,6 +2333,28 @@ html.menu-ouvert body {
     height: 14px;
 }
 
+/* « Installer l'application » : un bouton (il déclenche une action), habillé comme le lien
+   « Signaler un terrain ». La marche à suivre s'affiche dessous quand le navigateur n'a pas de
+   fenêtre d'installation (Safari sur iPhone/iPad, Firefox). */
+.pied-installer[hidden],
+.pied-installer-aide[hidden] { display: none; }
+
+.pied .pied-installer-bouton {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    cursor: pointer;
+}
+
+.pied-installer-aide {
+    max-width: 240px;
+    margin: 8px 0 0;
+    color: var(--pied-discret);
+    font-size: 13px;
+    line-height: 1.45;
+}
+
 /* Partage */
 .pied-partage-texte {
     margin: 0 0 14px;
