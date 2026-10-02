@@ -29,7 +29,8 @@ Six phases, dans cet ordre. Une phase qui échoue n'empêche pas les suivantes
      propre fichier, et un épinglé du carrousel peut pointer sur l'un d'eux.
   4. Export. Le Worker fusionne toutes les décisions (revue des candidats,
      photos manuelles, photos de visiteurs rattachées, vues 360° générées) sur
-     le data/photos_mapillary.json du dépôt, qui est réécrit.
+     le data/photos_mapillary.json du dépôt, puis applique l'ordre et les
+     suppressions choisis dans la page admin. Le fichier est réécrit.
   5. Miniatures plates. Sur le photos_mapillary.json tout juste réécrit (et
      pour les tags OSM mapillary= de terrains.geojson), génère la miniature de
      chaque photo plate qui n'en a pas encore (images/mapillary-plates/, par
@@ -500,10 +501,20 @@ def phase_export(simulation):
     brut = appel_worker("POST", "/workflow/export", socle, brut=True)
     fusion = json.loads(brut.decode("utf-8"))
 
-    # Garde-fou : le Worker ne fait qu'ajouter. Un résultat qui aurait perdu un
-    # terrain ou une photo trahit un problème : on n'écrit rien.
+    # Garde-fou : le Worker ajoute et réordonne, et ne retire que les photos
+    # supprimées dans la page admin (panneau « Photos du terrain »). Toute autre
+    # photo perdue trahit un problème : on n'écrit rien.
+    try:
+        reglages = appel_worker("GET", "/workflow/photos-ordre")
+    except urllib.error.HTTPError as e:
+        if e.code != 404:
+            raise
+        reglages = {}   # Worker sans cette route : aucun retrait admis
     for osm_id, liste in socle.items():
-        if len(fusion.get(osm_id, [])) < len(liste):
+        retirees = {str(i) for i in (reglages.get(osm_id) or {}).get("retirees", [])}
+        attendues = {str(e.get("mapillary_id")) for e in liste} - retirees
+        restantes = {str(e.get("mapillary_id")) for e in fusion.get(osm_id, [])}
+        if attendues - restantes:
             raise RuntimeError(f"l'export a perdu des photos sur {osm_id}, fichier non modifié")
 
     avant = sum(len(v) for v in socle.values())

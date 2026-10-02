@@ -125,7 +125,6 @@
         font-size: 15px; background: white; color: var(--encre); box-sizing: border-box;
     }
     #recherche { width: min(360px, 80vw); }
-    .outils-secondaires { margin-left: auto; display: flex; gap: 6px; flex-wrap: wrap; }
     .lien-outil {
         min-height: 44px; padding: 0 10px; border: none; background: transparent;
         color: var(--bleu); font-size: 14px; font-weight: 600; cursor: pointer;
@@ -168,7 +167,7 @@
         background: #dcdfd6; color: var(--doux); font-size: 13px; text-align: center;
         display: flex; align-items: center; justify-content: center; padding: 0 12px; box-sizing: border-box;
     }
-    .vignette iframe { width: 100%; height: 100%; border: 0; display: block; }
+    .vignette iframe, .vignette canvas { width: 100%; height: 100%; border: 0; display: block; }
     /* Plusieurs photos : flèches et compteur par-dessus la vignette, qui reste un lien. */
     .vignette-nav { position: relative; flex-shrink: 0; }
     .vignette-fleche {
@@ -222,23 +221,48 @@
         border: 1px solid #c8cbc2; background: white; color: var(--encre);
     }
     .champ-pano { border-style: dashed; }
-    .chip {
-        display: inline-flex; align-items: center; gap: 6px; margin: 0 4px 0 0;
-        padding: 3px 4px 3px 10px; border-radius: 999px; font-size: 13px; background: #ecede8;
-    }
-    .chip.chip-pano { background: #efe6f3; }
-    .chip-remove {
-        border: none; background: none; cursor: pointer; font-size: 18px; line-height: 1;
-        color: var(--doux); min-width: 32px; min-height: 32px;
-    }
 
-    /* --- Vues 360° et panneau de cadrage ---------------------------------- */
-    .pano {
-        display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; margin: 0 6px 4px 0;
-        padding: 4px 4px 4px 12px; border-radius: 10px; font-size: 13px; background: #efe6f3;
+    /* --- Panneau « Photos du terrain » ------------------------------------ */
+    #galerie { border: none; border-radius: 14px; padding: 0; width: min(1040px, 96vw); max-height: 94vh; }
+    #galerie::backdrop { background: rgba(0, 0, 0, 0.55); }
+    .galerie-liste { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+    .galerie-photo {
+        display: flex; flex-direction: column; gap: 8px; padding: 10px; border-radius: 12px;
+        border: 2px solid var(--bord); background: var(--surface); font-size: 13px;
     }
-    .pano .etat-pano { font-weight: 700; }
-    .pano .btn { min-height: 36px; padding: 0 12px; font-size: 13px; }
+    .galerie-photo .vignette { width: 100%; height: auto; aspect-ratio: 16 / 9; }
+    .galerie-cadre { position: relative; }
+    .galerie-rang {
+        position: absolute; left: 6px; top: 6px; min-width: 28px; height: 28px; padding: 0 8px; box-sizing: border-box;
+        border-radius: 999px; background: var(--encre); color: white; font-weight: 750; font-size: 14px;
+        display: flex; align-items: center; justify-content: center; pointer-events: none;
+    }
+    .galerie-texte { display: flex; flex-direction: column; gap: 2px; color: var(--doux); }
+    .galerie-texte b { color: var(--encre); font-size: 14px; }
+    .galerie-etat-attente { color: var(--orange); font-weight: 600; }
+    .galerie-etat-ligne { color: var(--vert); font-weight: 600; }
+    .galerie-actions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: auto; }
+    .galerie-actions .btn { min-height: 40px; padding: 0 12px; font-size: 13px; }
+    .galerie-actions .btn:disabled { opacity: 0.4; cursor: default; }
+    .galerie-actions .fleche { min-width: 44px; justify-content: center; font-size: 17px; }
+    .galerie-actions .supprimer { margin-left: auto; color: var(--rouge); border-color: #d9b3ad; }
+    .galerie-note { font-size: 12.5px; color: var(--doux); font-style: italic; }
+    /* Photo marquée pour suppression : écrit en toutes lettres, la couleur n'est qu'un repère. */
+    .galerie-photo.a-supprimer { border-color: var(--rouge); background: var(--rouge-clair); }
+    .galerie-photo.a-supprimer .galerie-cadre { opacity: 0.45; }
+    .galerie-marque-suppression { display: none; color: var(--rouge); font-weight: 750; }
+    .galerie-photo.a-supprimer .galerie-marque-suppression { display: block; }
+    .galerie-avertissement { padding: 10px 12px; border-radius: 8px; background: var(--orange-clair); color: var(--orange); font-size: 14px; }
+    .galerie-avertissement[hidden] { display: none; }
+    #galerieEnregistrer:disabled { opacity: 0.45; cursor: default; }
+    /* Boutons toujours visibles, même avec beaucoup de photos (téléphone). */
+    #galerie .cadrage-actions {
+        position: sticky; bottom: 0; margin: 0 -22px -20px; padding: 12px 22px;
+        background: var(--surface); border-top: 1px solid var(--bord);
+    }
+    .galerie-bilan { margin-right: auto; align-self: center; font-size: 14px; font-weight: 600; }
+
+    /* --- Panneau de cadrage des vues 360° --------------------------------- */
     #cadrage { border: none; border-radius: 14px; padding: 0; width: min(760px, 96vw); max-height: 96vh; }
     #cadrage::backdrop { background: rgba(0, 0, 0, 0.55); }
     .cadrage-corps { padding: 20px 22px; display: flex; flex-direction: column; gap: 12px; }
@@ -379,7 +403,6 @@
         .vignette, .moderation-carte img { width: 100%; height: 200px; }
         .vignette-nav { width: 100%; }
         .piste, .piste .vignette { width: 100%; }
-        .outils-secondaires { margin-left: 0; }
     }
 </style>
 </head>
@@ -456,9 +479,6 @@
         <div class="barre-outils">
             <div class="ligne-outils">
                 <h2 id="titreTerrains" style="align-self:center">Terrains</h2>
-                <div class="outils-secondaires">
-                    <button type="button" id="telechargerPhotos" class="lien-outil">Télécharger photos_mapillary.json</button>
-                </div>
             </div>
             <div class="ligne-outils">
                 <label>Rechercher une commune ou un terrain
@@ -579,6 +599,23 @@
 
 </main>
 
+<dialog id="galerie" aria-labelledby="galerieTitre">
+    <div class="cadrage-corps">
+        <h2 id="galerieTitre">Photos du terrain</h2>
+        <div class="terrain-meta" id="galerieSousTitre"></div>
+        <div class="terrain-meta">Dans l'ordre du site : la n° 1 est celle de la fiche et des vignettes.
+            L'ordre et les suppressions sont appliqués à la prochaine publication (chaque nuit, ou « Publier maintenant »).
+            Le cadrage d'une vue 360° est enregistré tout de suite.</div>
+        <div class="galerie-avertissement" id="galerieAvertissement" hidden></div>
+        <div class="galerie-liste" id="galerieListe"></div>
+        <div class="cadrage-actions">
+            <span class="galerie-bilan" id="galerieBilan"></span>
+            <button type="button" class="btn" id="galerieAnnuler">Annuler</button>
+            <button type="button" class="btn btn-valider" id="galerieEnregistrer">Enregistrer</button>
+        </div>
+    </div>
+</dialog>
+
 <dialog id="cadrage" aria-labelledby="cadrageTitre">
     <div class="cadrage-corps">
         <h2 id="cadrageTitre">Cadrage de la vue 360°</h2>
@@ -622,6 +659,7 @@ const URL_WORKER = "https://mapetanque-admin.mapetanque.workers.dev";
 const URL_CANDIDATS = "/data/candidats_photos.json";
 const URL_PHOTOS_EN_LIGNE = "/data/photos_mapillary.json";
 const URL_APPARITIONS = "/data/terrains_apparition.json";
+const URL_MINIATURES_PLATES = "/data/miniatures_plates.json";
 // Pour les critères de l'onglet Terrains : propriétés des terrains (env, lit, covered…) et
 // critères confirmés par les joueurs (même paquet public que le site, Worker des notes).
 const URL_TERRAINS = "/data/terrains.geojson";
@@ -642,7 +680,10 @@ const CLE_JETON = "mapetanque_admin_jeton";
 let DONNEES = [];        // candidats, groupés par commune
 let ETAT = {};           // osm_id -> { statut, candidat_id, maj, photos: [...] }
 let PHOTOS_EN_LIGNE = {};
-let APPARITIONS = {};    // osm_id -> date de première apparition (null = déjà là avant le suivi)
+let REGLAGES_PHOTOS = {};  // osm_id -> { ordre, retirees } (voir reglagesPhotos)
+let REGLAGES_PHOTOS_DISPONIBLES = false;  // false : Worker sans la route /admin/photos/ordre
+let MINIATURES_PLATES = {}; // identifiant Mapillary -> { auteur, cadrage | vue_360 } (data/miniatures_plates.json)
+let APPARITIONS = {};   // osm_id -> date de première apparition (null = déjà là avant le suivi)
 let TERRAINS = [];       // liste à plat, tirée de DONNEES
 let TERRAINS_PAR_ID = {}; // osm_id -> terrain
 let CARTES = {};         // osm_id -> élément de la carte
@@ -743,10 +784,6 @@ function etatDe(osmId) {
     return ETAT[osmId];
 }
 
-function photosDe(osmId, origine) {
-    return etatDe(osmId).photos.filter(p => p.origine === origine);
-}
-
 // Vignette d'une photo plate, quand on en connaît une : l'aperçu de la première photo en
 // ligne (fourni par le workflow hebdomadaire) ou celle du candidat.
 function vignettePlate(terrain, id) {
@@ -756,56 +793,120 @@ function vignettePlate(terrain, id) {
     return null;
 }
 
+// Ordre et retraits choisis dans le panneau « Photos du terrain », enregistrés par le Worker
+// (table photos_terrain) et appliqués par lui à l'export de photos_mapillary.json.
+//   ordre    : clés des photos dans l'ordre voulu (identifiant Mapillary, ou « visiteur-N »
+//              pour une photo de visiteur pas encore publiée). Les autres suivent.
+//   retirees : identifiants Mapillary à ne plus publier sur ce terrain.
+function reglagesPhotos(osmId) {
+    return REGLAGES_PHOTOS[osmId] || { ordre: [], retirees: [] };
+}
+
+// Miniature locale d'une photo plate, celle que montre le site, quand le workflow l'a faite.
+function miniaturePlate(id) {
+    const info = MINIATURES_PLATES[id];
+    return info && info.cadrage ? "/images/mapillary-plates/" + id + ".webp" : null;
+}
+
 // Toutes les photos d'un terrain, dans l'ordre d'affichage du site : d'abord la photo du
-// tag OSM, puis celles de photos_mapillary.json, puis celles validées ici mais pas encore
-// publiées (le workflow de publication passe chaque nuit). Chaque photo n'est comptée
-// qu'une fois. Définition unique, partagée par les puces, les compteurs et la vignette,
-// pour qu'ils ne puissent pas se contredire.
-//   liste : [{ type: "plate" | "360", enLigne, image, lien, legende, mapillaryId, visiteurId }]
-//   (mapillaryId et visiteurId servent aux flèches de la vignette, quand il n'y a pas d'image.)
+// tag OSM (toujours en tête sur le site), puis celles de photos_mapillary.json et celles
+// validées ici mais pas encore publiées (le workflow de publication passe chaque nuit),
+// rangées selon l'ordre choisi dans le panneau « Photos du terrain ». Les photos retirées
+// n'y sont plus. Chaque photo n'est comptée qu'une fois. Définition unique, partagée par
+// les puces, les compteurs, la vignette et le panneau, pour qu'ils ne puissent pas se
+// contredire.
+//   liste : [{ cle, type: "plate" | "360", enLigne, image, lien, legende, origine,
+//              mapillaryId, visiteurId, cleVisiteur, ligne, candidat, recadrageEnAttente }]
+//   (mapillaryId et visiteurId servent aux flèches de la vignette, quand il n'y a pas d'image ;
+//   ligne est la photo enregistrée dans D1, s'il y en a une : cadrage et suppression.)
 function photosTerrain(osmId) {
     const terrain = TERRAINS_PAR_ID[osmId];
     const etat = etatDe(osmId);
+    const reglages = reglagesPhotos(osmId);
+    const retirees = new Set(reglages.retirees.map(String));
     const vues = new Map();
     const lienPhoto = id => "https://www.mapillary.com/app/?pKey=" + id + "&focus=photo";
 
-    if (terrain && terrain.photo_osm) {
-        vues.set("osm", { type: "plate", enLigne: true, image: terrain.photo_osm,
-                          lien: terrain.photo_osm, legende: "Photo OSM en ligne" });
-    }
     (PHOTOS_EN_LIGNE[osmId] || []).forEach(e => {
         const id = String(e.mapillary_id);
-        if (vues.has(id)) return;
+        if (vues.has(id) || retirees.has(id)) return;
         vues.set(id, e.miniature_locale
-            ? { type: "360", enLigne: true, image: e.miniature_locale, lien: e.credit_url || lienPhoto(id),
-                legende: "Vue 360° en ligne", mapillaryId: id }
-            : { type: "plate", enLigne: true, image: vignettePlate(terrain, id), lien: lienPhoto(id),
-                legende: "Photo en ligne", mapillaryId: id });
+            ? { cle: id, type: "360", enLigne: true, image: e.miniature_locale, lien: e.credit_url || lienPhoto(id),
+                legende: "Vue 360° en ligne", origine: "Photo retenue", mapillaryId: id }
+            : { cle: id, type: "plate", enLigne: true, image: miniaturePlate(id) || vignettePlate(terrain, id),
+                lien: lienPhoto(id), legende: "Photo en ligne", origine: "Photo retenue", mapillaryId: id });
     });
 
     const enAttente = (type, id, image) => {
-        if (!vues.has(id)) {
+        if (!vues.has(id) && !retirees.has(id)) {
             const visiteur = id.startsWith("visiteur-");
-            vues.set(id, { type: type, enLigne: false, image: image, lien: visiteur ? null : lienPhoto(id),
-                           legende: "En attente de publication",
+            vues.set(id, { cle: id, type: type, enLigne: false, image: image, lien: visiteur ? null : lienPhoto(id),
+                           legende: "En attente de publication", origine: "Photo retenue",
                            mapillaryId: visiteur ? null : id, visiteurId: visiteur ? id.slice(9) : null });
         }
+        return vues.get(id);
     };
     if (etat.statut === "accepte") {
         const id = String(etat.candidat_id || (terrain && terrain.candidat && terrain.candidat.id) || "");
-        if (id) enAttente("plate", id, vignettePlate(terrain, id));
+        const vue = id ? enAttente("plate", id, vignettePlate(terrain, id)) : null;
+        if (vue) {
+            vue.candidat = true;
+            vue.origine = "Candidat accepté";
+        }
     }
     etat.photos.forEach(p => {
-        if (p.origine === "pano360" && p.mapillary_id) enAttente("360", String(p.mapillary_id), null);
-        if (p.origine === "manuelle" && p.mapillary_id) enAttente("plate", String(p.mapillary_id), null);
+        let vue = null;
+        if (p.origine === "pano360" && p.mapillary_id) {
+            vue = enAttente("360", String(p.mapillary_id), null);
+            if (vue) {
+                vue.origine = "Vue 360° choisie ici";
+                // Recadrée depuis sa publication : le site montre encore l'ancien cadrage.
+                vue.recadrageEnAttente = vue.enLigne && p.statut === "a_generer";
+            }
+        }
+        if (p.origine === "manuelle" && p.mapillary_id) {
+            vue = enAttente("plate", String(p.mapillary_id), null);
+            if (vue) vue.origine = "Ajoutée à la main";
+        }
         // Photo de visiteur : comptée dès qu'elle est validée. En attente de modération,
         // elle n'est encore rien.
         if (p.origine === "visiteur" && ["validee", "envoyee", "rattachee"].includes(p.statut)) {
-            enAttente("plate", p.mapillary_id ? String(p.mapillary_id) : "visiteur-" + p.id, null);
+            vue = enAttente("plate", p.mapillary_id ? String(p.mapillary_id) : "visiteur-" + p.id, null);
+            if (vue) {
+                vue.origine = "Envoyée par un visiteur" + (p.credit_nom ? " (" + p.credit_nom + ")" : "");
+                // Clé de la photo avant sa publication : l'ordre a pu être choisi avec elle.
+                vue.cleVisiteur = "visiteur-" + p.id;
+            }
         }
+        if (vue && p.id) vue.ligne = p;
     });
 
-    const liste = Array.from(vues.values());
+    // Ordre choisi dans le panneau ; les photos qu'il ne cite pas suivent, dans l'ordre ci-dessus.
+    const rang = vue => {
+        const positions = [vue.cle, vue.cleVisiteur]
+            .map(c => c ? reglages.ordre.indexOf(c) : -1)
+            .filter(i => i >= 0);
+        return positions.length ? Math.min(...positions) : Infinity;
+    };
+    const liste = Array.from(vues.values())
+        .map((vue, i) => ({ vue: vue, rang: rang(vue), i: i }))
+        .sort((a, b) => (a.rang - b.rang) || (a.i - b.i))
+        .map(x => x.vue);
+
+    // Photo du tag OSM : en tête, comme sur le site, sauf si c'est une photo Mapillary déjà
+    // publiée parmi les photos retenues (le site ne la montre alors qu'une fois, à leur place).
+    if (terrain && terrain.photo_osm) {
+        const proprietes = PROPRIETES[osmId] || {};
+        const idTag = proprietes.photo_source === "mapillary" ? String(proprietes.mapillary || "").trim() : "";
+        const dejaRetenue = idTag && vues.has(idTag) && vues.get(idTag).enLigne;
+        if (!dejaRetenue) {
+            liste.unshift({ cle: "osm", type: "plate", enLigne: true,
+                            image: (idTag && miniaturePlate(idTag)) || terrain.photo_osm,
+                            lien: idTag ? lienPhoto(idTag) : terrain.photo_osm,
+                            legende: "Photo OSM en ligne", origine: "Tag OSM du terrain" });
+        }
+    }
+
     return {
         liste: liste,
         total: liste.length,
@@ -885,22 +986,6 @@ function analyserUrl360(texte) {
         pano_zoom: zoom ? parseFloat(zoom[1]) : null,
         pano_url: texte.trim()
     };
-}
-
-function rendreChip(texte, surRetrait, classeSupp) {
-    const chip = document.createElement("span");
-    chip.className = "chip" + (classeSupp ? " " + classeSupp : "");
-    const span = document.createElement("span");
-    span.textContent = texte;
-    chip.appendChild(span);
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "chip-remove";
-    btn.textContent = "×";
-    btn.title = "Retirer";
-    btn.addEventListener("click", surRetrait);
-    chip.appendChild(btn);
-    return chip;
 }
 
 // Vignette d'une carte : l'élément <a> (ou <div> s'il n'y a pas de lien) et sa légende.
@@ -1026,12 +1111,11 @@ function construireCarte(terrain) {
         </div>
         <div class="terrain-deja-en-ligne"></div>
         <div class="terrain-attente"></div>
-        <div class="liste-alternatives"></div>
+        <button type="button" class="btn btn-galerie" style="align-self:flex-start" hidden></button>
         <label class="champ-libelle">Autre photo : lien ou identifiant Mapillary, puis Entrée
             <input type="text" class="champ champ-alternative" autocomplete="off" enterkeyhint="done"
                    placeholder="https://www.mapillary.com/app/?pKey=…">
         </label>
-        <div class="liste-panos"></div>
         <label class="champ-libelle">Vue 360° : lien complet de l'app Mapillary, puis Entrée
             <input type="text" class="champ champ-pano" autocomplete="off" enterkeyhint="done"
                    placeholder="https://www.mapillary.com/app/?pKey=…&x=…&y=…">
@@ -1040,8 +1124,7 @@ function construireCarte(terrain) {
 
     const zonePistes = zoneExtra.querySelector(".pistes");
     const listePistes = zoneExtra.querySelector(".pistes-liste");
-    const listeAlternatives = zoneExtra.querySelector(".liste-alternatives");
-    const listePanos = zoneExtra.querySelector(".liste-panos");
+    const btnGalerie = zoneExtra.querySelector(".btn-galerie");
     const champAlternative = zoneExtra.querySelector(".champ-alternative");
     const champPano = zoneExtra.querySelector(".champ-pano");
 
@@ -1200,27 +1283,20 @@ function construireCarte(terrain) {
         zoneExtra.querySelector(".terrain-attente").textContent =
             attente.length ? "En attente de publication : " + decrire(attente) : "";
 
+        // Toutes les photos, avec ordre, suppression et cadrage : dans le panneau.
+        btnGalerie.hidden = bilan.total === 0;
+        btnGalerie.textContent = bilan.total > 1
+            ? "Voir et gérer les " + bilan.total + " photos"
+            : "Voir et gérer la photo";
+
         rendrePistes();
-
-        listeAlternatives.innerHTML = "";
-        photosDe(cle, "manuelle").forEach(photo => {
-            listeAlternatives.appendChild(rendreChip(photo.mapillary_id, () => retirerPhoto(photo)));
-        });
-
-        listePanos.innerHTML = "";
-        photosDe(cle, "pano360").forEach(photo => {
-            listePanos.appendChild(rendrePano(photo, () => retirerPhoto(photo),
-                () => ouvrirCadrage(photo, terrain.nom + " — " + terrain.commune, rafraichir)));
-        });
     }
 
-    function retirerPhoto(photo) {
-        const etat = etatDe(cle);
-        etat.photos = etat.photos.filter(p => p !== photo);
+    btnGalerie.addEventListener("click", () => ouvrirGalerie(terrain, apresGalerie));
+    function apresGalerie() {
         rafraichir();
         mettreAJourProgression();
         appliquerFiltres();
-        ecrire("/admin/photos/supprimer", { id: photo.id });
     }
 
     // Le Worker met à jour maj à chaque enregistrement de statut : on fait de même ici,
@@ -1231,6 +1307,7 @@ function construireCarte(terrain) {
         etat.statut = nouveau;
         etat.maj = maintenantUtc();
         if (c) etat.candidat_id = String(c.id);
+        if (c && nouveau === "accepte") reprendrePhoto(cle, c.id);
         rafraichir();
         mettreAJourProgression();
         appliquerFiltres();
@@ -1259,6 +1336,7 @@ function construireCarte(terrain) {
         const etat = etatDe(cle);
         const provisoire = Object.assign({ id: null, osm_id: cle, origine: origine }, charge);
         etat.photos.push(provisoire);
+        reprendrePhoto(cle, charge.mapillary_id);
         rafraichir();
         mettreAJourProgression();
         appliquerFiltres();
@@ -1632,26 +1710,6 @@ ONGLETS.forEach(o => {
 });
 
 
-/* ===================== Téléchargements ===================== */
-
-function telecharger(nom, texte) {
-    const url = URL.createObjectURL(new Blob([texte], { type: "application/json" }));
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = nom;
-    a.click();
-    URL.revokeObjectURL(url);
-}
-
-document.getElementById("telechargerPhotos").addEventListener("click", async () => {
-    try {
-        const reponse = await appeler("/admin/export/photos-mapillary");
-        const ajoutees = reponse.headers.get("X-Photos-Ajoutees") || "?";
-        telecharger("photos_mapillary.json", await reponse.text());
-        alert(ajoutees + " photo(s) ajoutée(s) par-dessus le fichier actuellement en ligne.");
-    } catch (e) { /* le bandeau d'incident affiche déjà la cause */ }
-});
-
 /* ===================== Publication ===================== */
 
 // Lance tout de suite le workflow GitHub de publication (sinon, il passe chaque
@@ -1878,37 +1936,274 @@ document.getElementById("moderationTitre").addEventListener("click", () => {
 });
 
 
-/* ===================== Vues 360° : cadrage ===================== */
+/* ===================== Photos du terrain : ordre, suppression, cadrage ===================== */
 
-function rendrePano(photo, surRetrait, surCadrage) {
-    const bloc = document.createElement("span");
-    bloc.className = "pano";
+// Enregistre l'ordre et les retraits d'un terrain. Mis à jour ici tout de suite, comme les
+// autres écritures ; le Worker les applique à l'export de photos_mapillary.json.
+function enregistrerReglagesPhotos(osmId, ordre, retirees) {
+    REGLAGES_PHOTOS[osmId] = { ordre: ordre, retirees: retirees };
+    return ecrire("/admin/photos/ordre", { osm_id: osmId, ordre: ordre, retirees: retirees });
+}
 
-    const texte = document.createElement("span");
-    texte.textContent = "360° " + photo.mapillary_id + " — ";
-    const etat = document.createElement("span");
-    etat.className = "etat-pano";
-    etat.textContent = photo.statut === "rattachee" ? "en ligne" : "à générer";
-    texte.appendChild(etat);
-    bloc.appendChild(texte);
+// Une photo de nouveau retenue (ajoutée à la main, candidat réaccepté) sort des retraits :
+// sans cela, l'export la retirerait aussitôt.
+function reprendrePhoto(osmId, mapillaryId) {
+    const reglages = reglagesPhotos(osmId);
+    const id = String(mapillaryId || "");
+    if (!id || !reglages.retirees.map(String).includes(id)) return;
+    enregistrerReglagesPhotos(osmId, reglages.ordre, reglages.retirees.filter(r => String(r) !== id));
+}
 
-    const cadrer = document.createElement("button");
-    cadrer.type = "button";
-    cadrer.className = "btn";
-    cadrer.textContent = "Cadrage";
-    cadrer.disabled = !photo.id;   // pas encore enregistrée en base
-    cadrer.addEventListener("click", surCadrage);
-    bloc.appendChild(cadrer);
+// Le panneau travaille sur une copie de la liste : rien n'est écrit avant « Enregistrer ».
+// Les cartes sont construites une fois ; un déplacement ne change que leur propriété CSS
+// order, sans les déplacer dans la page : un embed Mapillary déplacé se rechargerait.
+const GALERIE = { terrain: null, apres: null, liste: [], suppressions: new Set(), cartes: new Map(), ordreInitial: [] };
 
-    const retirer = document.createElement("button");
-    retirer.type = "button";
-    retirer.className = "chip-remove";
-    retirer.textContent = "×";
-    retirer.title = "Retirer";
-    retirer.addEventListener("click", surRetrait);
-    bloc.appendChild(retirer);
+function clesGalerie() {
+    return GALERIE.liste.filter(v => v.cle !== "osm" && !GALERIE.suppressions.has(v.cle)).map(v => v.cle);
+}
+
+function decrirePhoto(vue) {
+    return (vue.type === "360" ? "Vue 360°" : "Photo plate") + " · " + vue.origine;
+}
+
+// Ce qui empêche de supprimer une photo d'ici, ou null.
+function obstacleSuppression(vue) {
+    if (vue.cle === "osm") return "Photo du tag OSM : elle se change ou se retire dans OpenStreetMap.";
+    if (vue.ligne && vue.ligne.origine === "visiteur" && !vue.mapillaryId && vue.ligne.statut === "envoyee") {
+        return "Déjà envoyée à Mapillary : supprimable une fois publiée.";
+    }
+    if (vue.enLigne && !REGLAGES_PHOTOS_DISPONIBLES) return "Photo en ligne : suppression possible une fois le Worker mis à jour.";
+    return null;
+}
+
+// Aperçu d'une vue 360° sans miniature à jour (pas encore publiée, ou recadrée depuis) :
+// la même reprojection que le panneau de cadrage, donc la miniature qui sera publiée.
+function apercu360(vue) {
+    const bloc = elementVignette(null, vue.lien, null, "Chargement de la vue 360°…", "");
+    const ligne = vue.ligne || {};
+    chargerImage360(vue.mapillaryId).then(source => {
+        const canvas = document.createElement("canvas");
+        canvas.width = 384;
+        canvas.height = 216;
+        const ctx = canvas.getContext("2d");
+        const sortie = ctx.createImageData(canvas.width, canvas.height);
+        reprojeter(source.donnees, source.largeur, source.hauteur, sortie.data, canvas.width, canvas.height,
+                   ligne.pano_x != null ? Number(ligne.pano_x) : 0.5,
+                   ligne.pano_y != null ? Number(ligne.pano_y) : 0.5,
+                   champVision(Number(ligne.pano_zoom || 0)), source.haut);
+        ctx.putImageData(sortie, 0, 0);
+        bloc.classList.remove("vignette-vide");
+        bloc.textContent = "";
+        bloc.appendChild(canvas);
+    }).catch(() => { bloc.textContent = "Vue 360° : aperçu indisponible"; });
     return bloc;
 }
+
+function vignetteGalerie(vue) {
+    if (vue.type === "360" && vue.mapillaryId && vue.ligne && (!vue.image || vue.recadrageEnAttente)) {
+        return apercu360(vue);
+    }
+    return vignettePhoto(vue, true);
+}
+
+function construirePhotoGalerie(vue) {
+    const carte = document.createElement("div");
+    carte.className = "galerie-photo";
+
+    const cadre = document.createElement("div");
+    cadre.className = "galerie-cadre";
+    cadre.appendChild(vignetteGalerie(vue));
+    const rang = document.createElement("span");
+    rang.className = "galerie-rang";
+    cadre.appendChild(rang);
+    carte.appendChild(cadre);
+
+    const texte = document.createElement("div");
+    texte.className = "galerie-texte";
+    const titre = document.createElement("b");
+    titre.textContent = decrirePhoto(vue);
+    const etat = document.createElement("span");
+    const majEtat = () => {
+        etat.className = vue.enLigne && !vue.recadrageEnAttente ? "galerie-etat-ligne" : "galerie-etat-attente";
+        etat.textContent = vue.recadrageEnAttente ? "En ligne — nouveau cadrage en attente de publication"
+            : vue.enLigne ? "✓ En ligne" : "En attente de publication";
+    };
+    majEtat();
+    texte.append(titre, etat);
+    if (vue.mapillaryId) {
+        const id = document.createElement("span");
+        id.textContent = "Mapillary " + vue.mapillaryId;
+        texte.appendChild(id);
+    }
+    const marque = document.createElement("span");
+    marque.className = "galerie-marque-suppression";
+    marque.textContent = "Sera supprimée à l'enregistrement";
+    texte.appendChild(marque);
+    carte.appendChild(texte);
+
+    const actions = document.createElement("div");
+    actions.className = "galerie-actions";
+    const bouton = (libelle, titreBouton, classe, surClic) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "btn" + (classe ? " " + classe : "");
+        b.textContent = libelle;
+        if (titreBouton) {
+            b.title = titreBouton;
+            b.setAttribute("aria-label", titreBouton);
+        }
+        b.addEventListener("click", surClic);
+        actions.appendChild(b);
+        return b;
+    };
+
+    const elements = { carte: carte, rang: rang, avant: null, apres: null, supprimer: null };
+    if (vue.cle !== "osm") {
+        elements.avant = bouton("◀", "Mettre avant", "fleche", () => deplacerGalerie(vue, -1));
+        elements.apres = bouton("▶", "Mettre après", "fleche", () => deplacerGalerie(vue, 1));
+    }
+    if (vue.type === "360" && vue.ligne && vue.ligne.id) {
+        bouton("Cadrer", null, null, () => {
+            const t = GALERIE.terrain;
+            ouvrirCadrage(vue.ligne, t.nom + " — " + t.commune, () => {
+                // Nouveau cadrage enregistré : l'aperçu et l'état suivent.
+                vue.recadrageEnAttente = vue.enLigne;
+                cadre.replaceChild(apercu360(vue), cadre.firstChild);
+                majEtat();
+                if (GALERIE.apres) GALERIE.apres();
+            });
+        });
+    }
+    const obstacle = obstacleSuppression(vue);
+    if (obstacle) {
+        const note = document.createElement("div");
+        note.className = "galerie-note";
+        note.textContent = obstacle;
+        carte.appendChild(actions);
+        carte.appendChild(note);
+    } else {
+        elements.supprimer = bouton("Supprimer", null, "supprimer", () => {
+            if (GALERIE.suppressions.has(vue.cle)) GALERIE.suppressions.delete(vue.cle);
+            else GALERIE.suppressions.add(vue.cle);
+            majGalerie();
+        });
+        carte.appendChild(actions);
+    }
+    return elements;
+}
+
+function deplacerGalerie(vue, pas) {
+    const liste = GALERIE.liste;
+    const i = liste.indexOf(vue), j = i + pas;
+    if (j < 0 || j >= liste.length || liste[j].cle === "osm") return;
+    [liste[i], liste[j]] = [liste[j], liste[i]];
+    majGalerie();
+}
+
+// Rangs, flèches, marques de suppression et bilan, d'après l'état du panneau.
+function majGalerie() {
+    const premiere = GALERIE.liste.findIndex(v => v.cle !== "osm");
+    let numero = 0;
+    GALERIE.liste.forEach((vue, i) => {
+        const e = GALERIE.cartes.get(vue.cle);
+        const supprimee = GALERIE.suppressions.has(vue.cle);
+        e.carte.style.order = i;
+        e.carte.classList.toggle("a-supprimer", supprimee);
+        e.rang.textContent = supprimee ? "✕" : String(++numero);
+        if (e.avant) {
+            e.avant.disabled = !REGLAGES_PHOTOS_DISPONIBLES || i <= premiere;
+            e.apres.disabled = !REGLAGES_PHOTOS_DISPONIBLES || i === GALERIE.liste.length - 1;
+        }
+        if (e.supprimer) e.supprimer.textContent = supprimee ? "Garder" : "Supprimer";
+    });
+
+    // Ordre comparé sur les photos gardées : une suppression seule ne change pas l'ordre.
+    const n = GALERIE.suppressions.size;
+    const ordreChange = clesGalerie().join(",")
+        !== GALERIE.ordreInitial.filter(c => !GALERIE.suppressions.has(c)).join(",");
+    const morceaux = [];
+    if (n) morceaux.push(n + (n > 1 ? " photos à supprimer" : " photo à supprimer"));
+    if (ordreChange) morceaux.push("ordre modifié");
+    document.getElementById("galerieBilan").textContent = morceaux.join(" · ");
+    document.getElementById("galerieEnregistrer").disabled = !n && !ordreChange;
+}
+
+function ouvrirGalerie(terrain, apres) {
+    GALERIE.terrain = terrain;
+    GALERIE.apres = apres;
+    GALERIE.liste = photosTerrain(terrain.osm_id).liste.slice();
+    GALERIE.suppressions = new Set();
+    GALERIE.ordreInitial = clesGalerie();
+    GALERIE.cartes = new Map();
+
+    document.getElementById("galerieSousTitre").textContent = terrain.nom + " — " + terrain.commune;
+    const avertissement = document.getElementById("galerieAvertissement");
+    avertissement.hidden = REGLAGES_PHOTOS_DISPONIBLES;
+    avertissement.textContent = "Le Worker ne connaît pas encore l'ordre des photos (route /admin/photos/ordre) : "
+        + "l'ordre ne peut pas être changé, ni une photo déjà en ligne supprimée.";
+
+    const conteneur = document.getElementById("galerieListe");
+    conteneur.innerHTML = "";
+    GALERIE.liste.forEach(vue => {
+        const elements = construirePhotoGalerie(vue);
+        GALERIE.cartes.set(vue.cle, elements);
+        conteneur.appendChild(elements.carte);
+    });
+    majGalerie();
+    document.getElementById("galerie").showModal();
+}
+
+document.getElementById("galerieAnnuler").addEventListener("click", () => {
+    document.getElementById("galerie").close();
+});
+
+document.getElementById("galerieEnregistrer").addEventListener("click", () => {
+    const terrain = GALERIE.terrain;
+    const osmId = terrain.osm_id;
+    const supprimees = GALERIE.liste.filter(v => GALERIE.suppressions.has(v.cle));
+    if (supprimees.length) {
+        const liste = supprimees.map(v => "– " + decrirePhoto(v) + (v.mapillaryId ? " (" + v.mapillaryId + ")" : "")).join("\n");
+        const question = supprimees.length > 1 ? "Supprimer ces " + supprimees.length + " photos du terrain ?" : "Supprimer cette photo du terrain ?";
+        if (!confirm(question + "\n\n" + liste)) return;
+    }
+
+    const etat = etatDe(osmId);
+    const reglages = reglagesPhotos(osmId);
+    const retirees = new Set(reglages.retirees.map(String));
+    let visiteurRefuse = false;
+    supprimees.forEach(vue => {
+        // Retirée de l'export : seule façon d'enlever une photo déjà publiée.
+        if (vue.mapillaryId && REGLAGES_PHOTOS_DISPONIBLES) retirees.add(vue.mapillaryId);
+        const ligne = vue.ligne;
+        if (ligne && (ligne.origine === "manuelle" || ligne.origine === "pano360")) {
+            etat.photos = etat.photos.filter(p => p !== ligne);
+            ecrire("/admin/photos/supprimer", { id: ligne.id });
+        } else if (ligne && ligne.origine === "visiteur" && !vue.mapillaryId) {
+            // Validée mais pas encore envoyée : refusée comme dans la modération (fichier effacé).
+            etat.photos = etat.photos.filter(p => p !== ligne);
+            ecrire("/admin/moderation", { id: ligne.id, decision: "refuser" });
+            visiteurRefuse = true;
+        }
+        if (vue.candidat) {
+            etat.statut = "rejete";
+            etat.maj = maintenantUtc();
+            ecrire("/admin/revue", {
+                osm_id: osmId,
+                statut: "rejete",
+                candidat_id: terrain.candidat ? String(terrain.candidat.id) : (etat.candidat_id || null)
+            });
+        }
+    });
+    if (REGLAGES_PHOTOS_DISPONIBLES) enregistrerReglagesPhotos(osmId, clesGalerie(), Array.from(retirees));
+
+    document.getElementById("galerie").close();
+    if (GALERIE.apres) GALERIE.apres();
+    if (visiteurRefuse) chargerModeration();
+});
+
+
+/* ===================== Vues 360° : cadrage ===================== */
 
 // Sens de lecture de computed_rotation : STRICTEMENT la même valeur que SENS_ROTATION dans
 // scripts/miniature_360.py. Si l'aperçu penche deux fois plus au lieu d'être droit, passer à -1
@@ -3059,7 +3354,7 @@ async function demarrer() {
     document.getElementById("chargement").style.display = "";
 
     try {
-        const [candidats, etat, enLigne, apparitions, geo, criteresJoueurs, groupes] = await Promise.all([
+        const [candidats, etat, enLigne, apparitions, geo, criteresJoueurs, groupes, reglages, miniatures] = await Promise.all([
             fetch(URL_CANDIDATS, { cache: "no-store" }).then(r => r.json()),
             appeler("/admin/revue").then(r => r.json()),
             // Le fichier publié sert seulement à afficher « déjà en ligne » ;
@@ -3070,12 +3365,21 @@ async function demarrer() {
             // Idem pour les critères : sans ces fichiers, la rangée « Critères » reste à zéro.
             fetch(URL_TERRAINS, { cache: "no-store" }).then(r => r.json()).catch(() => null),
             fetch(URL_CRITERES_JOUEURS).then(r => r.ok ? r.json() : {}).catch(() => ({})),
-            fetch(URL_GROUPES, { cache: "no-store" }).then(r => r.json()).catch(() => [])
+            fetch(URL_GROUPES, { cache: "no-store" }).then(r => r.json()).catch(() => []),
+            // Ordre et retraits des photos. Sans passer par appeler() : un Worker pas encore
+            // à jour (404) ne doit pas allumer le bandeau rouge, seulement figer le panneau.
+            fetch(URL_WORKER + "/admin/photos/ordre", { headers: { "Authorization": "Bearer " + jeton() } })
+                .then(r => r.ok ? r.json() : null).catch(() => null),
+            // Miniatures des photos plates : le panneau des photos montre celles du site.
+            fetch(URL_MINIATURES_PLATES, { cache: "no-store" }).then(r => r.json()).catch(() => ({}))
         ]);
 
         DONNEES = candidats;
         ETAT = etat;
         PHOTOS_EN_LIGNE = enLigne;
+        REGLAGES_PHOTOS = reglages || {};
+        REGLAGES_PHOTOS_DISPONIBLES = !!reglages;
+        MINIATURES_PLATES = miniatures;
         APPARITIONS = apparitions;
         PROPRIETES = {};
         ((geo && geo.features) || []).forEach(f => {
