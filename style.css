@@ -2022,8 +2022,62 @@ html.menu-ouvert body {
     padding-right: 14px;
 }
 
-.menu-entete + .menu-section {
+.menu-entete + .menu-section,
+.menu-installer[hidden] + .menu-section {
     margin-top: 40px;
+}
+
+/* « Installer l'application » : grand bouton sous l'en-tête, sombre comme le pied de page, avec
+   le téléphone dans le vert du site. La marche à suivre s'affiche dessous quand le navigateur n'a
+   pas de fenêtre d'installation (Safari sur iPhone/iPad, Firefox). */
+.menu-installer {
+    max-width: 520px;
+    margin-top: 28px;
+    padding-right: 14px;
+}
+
+.menu-installer[hidden],
+.menu-installer-aide[hidden] { display: none; }
+
+.menu-installer-bouton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    height: 54px;
+    padding: 0 20px;
+    border: none;
+    border-radius: 27px;
+    background: #1d2619;
+    font: inherit;
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+}
+
+.menu-installer-bouton:hover {
+    background: #2c3a26;
+}
+
+.menu-installer-bouton svg {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    color: #74C15A;
+}
+
+.menu-installer-aide {
+    margin: 12px 4px 0;
+    font-size: 14px;
+    line-height: 1.45;
+    color: #56604f;
+    text-align: center;
+}
+
+.menu-installer + .menu-section {
+    margin-top: 32px;
 }
 
 .menu-titre {
@@ -2339,7 +2393,7 @@ html.menu-ouvert body {
 .pied-installer[hidden],
 .pied-installer-aide[hidden] { display: none; }
 
-.pied .pied-installer-bouton {
+.pied .pied-installer button {
     padding: 0;
     border: 0;
     background: none;

@@ -2427,9 +2427,9 @@ function construirePied() {
                     <li><a href="${prefixe}la-petanque.html">${t('menu_la_petanque')}</a></li>
                     <li><a href="${prefixe}a-propos.html">${t('menu_about')}</a></li>
                     <li><a href="${prefixe}a-propos.html#contact">${t('pied_contact')}</a></li>
-                    <li class="pied-installer" hidden>
-                        <button type="button" class="pied-lien-accent pied-installer-bouton">${ICONES_PIED.telephone}${t('pied_installer')}</button>
-                        <p class="pied-installer-aide" hidden>${t(estAppareilApple() ? 'pied_installer_aide_ios' : 'pied_installer_aide')}</p>
+                    <li class="pied-installer" data-installer hidden>
+                        <button type="button" class="pied-lien-accent">${ICONES_PIED.telephone}${t('pied_installer')}</button>
+                        <p class="pied-installer-aide" hidden>${texteAideInstallation()}</p>
                     </li>
                 </ul>
             </nav>
@@ -2468,38 +2468,62 @@ function construirePied() {
 
 // ----- « Installer l'application » (PWA, voir /sw.js et /manifest.webmanifest) -----
 
+// Deux emplacements : le pied de page et le haut du menu mobile. Chacun est un bloc marqué
+// data-installer, qui contient un bouton et un texte d'aide caché (classe « …-aide »).
+//
 // Chrome, Edge et Android proposent leur propre fenêtre d'installation : le navigateur l'annonce
-// par l'événement « beforeinstallprompt », qu'on garde de côté pour l'ouvrir au clic sur le lien.
-// Safari (iPhone, iPad) et Firefox n'ont pas cette fenêtre : le lien affiche alors la marche à
+// par l'événement « beforeinstallprompt », qu'on garde de côté pour l'ouvrir au clic sur le bouton.
+// Safari (iPhone, iPad) et Firefox n'ont pas cette fenêtre : le bouton affiche alors la marche à
 // suivre dans leur menu.
 let invitationInstallation = null;
 
-function estAppareilApple() {
-    return /iPad|iPhone|iPod/.test(navigator.userAgent)
+function texteAideInstallation() {
+    const appareilApple = /iPad|iPhone|iPod/.test(navigator.userAgent)
         || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // iPad récent
+    return t(appareilApple ? 'pied_installer_aide_ios' : 'pied_installer_aide');
 }
 
-// Le lien n'apparaît que s'il peut servir : jamais dans l'application déjà installée ; sur
-// ordinateur, seulement si le navigateur sait installer (sinon il n'y a rien à expliquer).
+// Les boutons n'apparaissent que s'ils peuvent servir : jamais dans l'application déjà installée ;
+// sur ordinateur, seulement si le navigateur sait installer (sinon il n'y a rien à expliquer).
 function afficherLienInstallation() {
-    const element = piedEl && piedEl.querySelector('.pied-installer');
-    if (!element) return;
     const dejaInstallee = window.matchMedia('(display-mode: standalone)').matches
         || window.navigator.standalone === true;
     const tactile = window.matchMedia('(pointer: coarse)').matches;
-    element.hidden = dejaInstallee || !(invitationInstallation || tactile);
+    const visible = !dejaInstallee && Boolean(invitationInstallation || tactile);
+    document.querySelectorAll('[data-installer]').forEach(function (bloc) {
+        bloc.hidden = !visible;
+    });
 }
 
 window.addEventListener('beforeinstallprompt', function (e) {
-    e.preventDefault(); // pas de bandeau automatique : c'est le lien du pied de page qui l'ouvre
+    e.preventDefault(); // pas de bandeau automatique : ce sont nos boutons qui l'ouvrent
     invitationInstallation = e;
     afficherLienInstallation();
 });
 
 window.addEventListener('appinstalled', function () {
     invitationInstallation = null;
-    const element = piedEl && piedEl.querySelector('.pied-installer');
-    if (element) element.hidden = true;
+    document.querySelectorAll('[data-installer]').forEach(function (bloc) { bloc.hidden = true; });
+});
+
+// Clic sur l'un des boutons : fenêtre du navigateur si elle existe, sinon la marche à suivre
+// s'affiche (ou se replie) sous le bouton.
+document.addEventListener('click', function (e) {
+    const bouton = e.target.closest('[data-installer] button');
+    if (!bouton) return;
+
+    if (invitationInstallation) {
+        invitationInstallation.prompt();
+        invitationInstallation.userChoice.then(function () {
+            // L'invitation ne sert qu'une fois ; le navigateur en renverra une autre
+            // (beforeinstallprompt) si la personne a refusé.
+            invitationInstallation = null;
+            afficherLienInstallation();
+        });
+    } else {
+        const aide = bouton.closest('[data-installer]').querySelector('[class$="-aide"]');
+        aide.hidden = !aide.hidden;
+    }
 });
 
 if (piedEl) {
@@ -2526,24 +2550,6 @@ if (piedEl) {
                 // Navigateur trop ancien ou contexte non sécurisé : on propose le texte à copier
                 window.prompt('Ctrl+C / Cmd+C :', url);
             });
-            return;
-        }
-
-        // « Installer l'application » : fenêtre du navigateur si elle existe, sinon la marche à
-        // suivre s'affiche (ou se replie) sous le lien.
-        if (e.target.closest('.pied-installer-bouton')) {
-            if (invitationInstallation) {
-                invitationInstallation.prompt();
-                invitationInstallation.userChoice.then(function () {
-                    // L'invitation ne sert qu'une fois ; le navigateur en renverra une autre
-                    // (beforeinstallprompt) si la personne a refusé.
-                    invitationInstallation = null;
-                    afficherLienInstallation();
-                });
-            } else {
-                const aide = piedEl.querySelector('.pied-installer-aide');
-                aide.hidden = !aide.hidden;
-            }
             return;
         }
 
@@ -4275,7 +4281,8 @@ const sideMenu = document.getElementById("side-menu");
 
 const ICONES_MENU = {
     fermer: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path></svg>',
-    fleche: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>'
+    fleche: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>',
+    telephone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>'
 };
 
 function construireMenu() {
@@ -4309,6 +4316,11 @@ function construireMenu() {
                 <button type="button" class="menu-fermer" aria-label="${t('close_menu')}">${ICONES_MENU.fermer}</button>
             </div>
 
+            <div class="menu-installer menu-apparait" data-installer hidden style="--delai: 0.16s">
+                <button type="button" class="menu-installer-bouton">${ICONES_MENU.telephone}${t('pied_installer')}</button>
+                <p class="menu-installer-aide" hidden>${texteAideInstallation()}</p>
+            </div>
+
             <div class="menu-section menu-apparait" style="--delai: 0.22s">
                 <h2 class="menu-titre">${t('pied_explorer')}</h2>
                 <ul class="menu-pastilles">
@@ -4334,6 +4346,8 @@ function construireMenu() {
                 <div class="menu-langues-liste">${langues}</div>
             </div>
         </div>`;
+
+    afficherLienInstallation();
 }
 
 function ouvrirMenu() {
