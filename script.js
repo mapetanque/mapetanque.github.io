@@ -413,6 +413,10 @@ function ajusterGlissementCarte() {
 // fitBounds recalcule le zoom optimal à chaque chargement, quelle que soit la taille de la fenêtre.
 const BELGIQUE_BOUNDS = [[49.50, 2.54], [51.51, 6.41]];
 
+// Zoom du cadrage de la page (Belgique, province ou région) : le recadrage après un changement de
+// filtres ne dézoome pas au-delà (voir voirTerrainsFiltres).
+let zoomDeLaPage = null;
+
 function cadrerSurBelgique() {
     const emprise = L.latLngBounds(BELGIQUE_BOUNDS);
     // Zoom calculé directement (indépendamment du zoom courant de la carte), plutôt que
@@ -421,6 +425,7 @@ function cadrerSurBelgique() {
     // le logo, getZoom() pouvait donc retourner une valeur intermédiaire et le "+1" s'accumulait
     // à chaque clic au lieu de repartir de la même base.
     const zoomCible = map.getBoundsZoom(emprise, false, L.point(20, 20)) + 1;
+    zoomDeLaPage = zoomCible;
     map.setView(emprise.getCenter(), zoomCible);
 }
 cadrerSurBelgique();
@@ -432,6 +437,8 @@ cadrerSurBelgique();
 // molette) reviennent aux niveaux entiers.
 function cadrerSurEmprise(emprise, options) {
     map.options.zoomSnap = 0.25;
+    const marge = L.point((options && options.padding) || [0, 0]).multiplyBy(2);
+    zoomDeLaPage = map.getBoundsZoom(emprise, false, marge);
     map.fitBounds(emprise, options);
     map.options.zoomSnap = 1;
 }
@@ -990,7 +997,7 @@ function ouvrirPanneauFiltres() {
     panneauFiltres.querySelector('.filtres-fermer').addEventListener('click', fermerPanneauFiltres);
     panneauFiltres.querySelector('.filtres-effacer').addEventListener('click', effacerFiltres);
     const voir = panneauFiltres.querySelector('.filtres-voir');
-    if (voir) voir.addEventListener('click', fermerPanneauFiltres);
+    if (voir) voir.addEventListener('click', voirTerrainsFiltres);
 
     if (mobile) {
         document.body.appendChild(voileFiltres);
@@ -1005,11 +1012,43 @@ function ouvrirPanneauFiltres() {
         panneauFiltres.style.maxHeight = Math.max(200, conteneurCarte.clientHeight - haut - 12) + 'px';
     }
 
+    filtresALOuverture = Array.from(filtresActifs).sort().join(',');
     majPanneauFiltres();
     panneauFiltres.hidden = false;
     boutonFiltres.setAttribute('aria-expanded', 'true');
     // Le rappel sur la carte ferait doublon avec le pied du panneau.
     resumeFiltres.classList.add('masque');
+}
+
+// Bouton « Voir les x terrains » (mobile) : si la sélection a changé depuis l'ouverture du
+// panneau, la carte se recadre sur les terrains restants (zoom avant ou arrière selon leur
+// étendue), sans dézoomer au-delà du cadrage de la page : sur une carte de téléphone, des
+// terrains répartis dans tout le pays réduiraient sinon la Belgique à un timbre-poste.
+// Sans changement de filtres, la vue est laissée telle quelle.
+let filtresALOuverture = '';
+
+function voirTerrainsFiltres() {
+    fermerPanneauFiltres();
+    if (Array.from(filtresActifs).sort().join(',') === filtresALOuverture) return;
+
+    const positions = toutesLesCouchesFiltrables()
+        .filter(function (couche) { return passeLesFiltres(couche.feature.properties); })
+        .map(function (couche) { return couche.getLatLng(); });
+    if (!positions.length) return;
+
+    // Marges larges en haut (deux rangées de boutons) et en bas (rappel des filtres) pour
+    // qu'aucun terrain ne se cache dessous. maxZoom évite de zoomer jusqu'au pavé quand il ne
+    // reste qu'un terrain. Quarts de niveau permis, comme dans cadrerSurEmprise.
+    const emprise = L.latLngBounds(positions);
+    const margeHaut = L.point(30, 110);
+    const margeBas = L.point(30, 90);
+    map.options.zoomSnap = 0.25;
+    if (zoomDeLaPage !== null && map.getBoundsZoom(emprise, false, margeHaut.add(margeBas)) < zoomDeLaPage) {
+        map.setView(emprise.getCenter(), zoomDeLaPage);
+    } else {
+        map.fitBounds(emprise, { paddingTopLeft: margeHaut, paddingBottomRight: margeBas, maxZoom: 16 });
+    }
+    map.options.zoomSnap = 1;
 }
 
 function fermerPanneauFiltres() {
