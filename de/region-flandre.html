@@ -208,15 +208,21 @@
 </div>
 
 
-<!-- Deux bandes pleine largeur, sur le modèle de l'accueil. Bande grise : barre de recherche,
-     carte, carrousel (pages région et Bruxelles) et tuiles de statistiques. Elle reste dans
+<!-- Deux bandes pleine largeur, sur le modèle de l'accueil. Bande grise : carte, barre de
+     recherche, carrousel (pages région et Bruxelles) et tuiles de statistiques. Elle reste dans
      .map-view, nécessaire pour que le mode plein écran fonctionne sur #map. -->
 <div class="province-bande-carte">
 
     <div class="province-map-inline-wrapper" style="position: relative;">
-        <!-- Barre « Me localiser » + recherche d'adresse, juste au-dessus de la carte : la carte
-             est plus bas dans la page qu'à l'accueil, une recherche depuis la bannière aurait
-             donné un résultat hors de vue. Mêmes identifiants qu'à l'accueil (voir script.js). -->
+        <!-- Cadre positionné : le toast reste posé en bas de la carte, et non sur la barre
+             qui la suit. -->
+        <div class="province-map-cadre">
+            <div id="map"></div>
+            <div class="map-toast" id="mapToast"></div>
+        </div>
+        <!-- Barre « Me localiser » + recherche d'adresse, juste sous la carte : la carte est
+             plus bas dans la page qu'à l'accueil, une recherche depuis la bannière aurait donné
+             un résultat hors de vue. Mêmes identifiants qu'à l'accueil (voir script.js). -->
         <div class="controls">
             <button id="locateBtn" data-i18n-aria="locate_btn">
                 <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
@@ -236,8 +242,6 @@
             </form>
         </div>
         <p id="searchError" class="search-error"></p>
-        <div id="map"></div>
-        <div class="map-toast" id="mapToast"></div>
     </div>
 
     <!-- Section "Les plus beaux terrains", entre la carte et les tuiles de statistiques. Remplie
