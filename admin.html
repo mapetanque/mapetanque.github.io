@@ -168,6 +168,20 @@
         background: #dcdfd6; color: var(--doux); font-size: 13px; text-align: center;
         display: flex; align-items: center; justify-content: center; padding: 0 12px; box-sizing: border-box;
     }
+    .vignette iframe { width: 100%; height: 100%; border: 0; display: block; }
+    /* Plusieurs photos : flèches et compteur par-dessus la vignette, qui reste un lien. */
+    .vignette-nav { position: relative; flex-shrink: 0; }
+    .vignette-fleche {
+        position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 44px;
+        border: none; border-radius: 8px; background: rgba(20, 20, 20, 0.65); color: white;
+        font-size: 26px; line-height: 1; cursor: pointer;
+    }
+    .vignette-fleche.precedente { left: 4px; }
+    .vignette-fleche.suivante { right: 4px; }
+    .vignette-compteur {
+        position: absolute; right: 6px; top: 6px; padding: 3px 9px; border-radius: 999px;
+        font-size: 12px; font-weight: 700; background: rgba(20, 20, 20, 0.8); color: white;
+    }
     .terrain-info { flex: 1; font-size: 14px; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
     .terrain-info b { font-size: 17px; }
     .etiquettes:empty, .etat-decision:empty { display: none; }
@@ -240,7 +254,6 @@
     .cadrage-zoom { display: flex; align-items: center; gap: 12px; font-size: 14px; }
     .cadrage-zoom input { flex: 1; min-height: 44px; }
     .cadrage-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
-
     /* --- Onglet Signalements ------------------------------------------- */
     #signalementsPuces { display: flex; gap: 8px; flex-wrap: wrap; padding: 18px 20px 14px; border-bottom: 1px solid var(--bord); }
     .signalement-carte { padding: 16px 20px; border-bottom: 1px solid var(--bord); display: flex; flex-direction: column; gap: 8px; }
@@ -346,6 +359,13 @@
     .avis-publie { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 10px 20px; border-bottom: 1px solid var(--bord); font-size: 14px; }
     .avis-publie:last-child { border-bottom: none; }
     .avis-publie .avis-lieu { margin-top: 2px; }
+    /* Terrains notés ou commentés, en bas de l'onglet. */
+    .terrain-actif { display: flex; flex-direction: column; gap: 4px; padding: 12px 20px; border-bottom: 1px solid var(--bord); font-size: 14px; }
+    .terrain-actif:last-child { border-bottom: none; }
+    .terrain-actif blockquote {
+        margin: 4px 0 0; padding: 4px 10px; border-left: 3px solid #c8d8bd; background: #fafbf8;
+        line-height: 1.4; overflow-wrap: anywhere;
+    }
     @media (max-width: 1100px) { .kpis-compacts { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
     /* --- Écrans étroits (iPad en portrait, téléphone) --------------------- */
@@ -357,6 +377,7 @@
         #page { padding: 14px 10px 40px; }
         .terrain-carte, .moderation-carte { flex-direction: column; }
         .vignette, .moderation-carte img { width: 100%; height: 200px; }
+        .vignette-nav { width: 100%; }
         .piste, .piste .vignette { width: 100%; }
         .outils-secondaires { margin-left: 0; }
     }
@@ -495,6 +516,10 @@
             <div class="panneau bloc"><h2>Répartition des notes</h2><div class="barres-h" id="notesRepartition"></div></div>
         </div>
     </div>
+    <div class="panneau file-avis" id="terrainsActifsBloc" hidden>
+        <div class="file-avis-titre"><span id="terrainsActifsTitre">Terrains notés ou commentés</span><span class="file-avis-aide">du plus noté au moins noté</span></div>
+        <div id="terrainsActifsListe"></div>
+    </div>
 </section>
 
 <section id="panneau-visites" role="tabpanel" aria-labelledby="onglet-visites" hidden>
@@ -573,7 +598,6 @@
         </div>
     </div>
 </dialog>
-
 <!-- Règles des critères d'environnement, partagées avec le site (filtres de l'onglet Terrains). -->
 <script src="/criteres.js"></script>
 <script>
@@ -602,6 +626,8 @@ const URL_APPARITIONS = "/data/terrains_apparition.json";
 // critères confirmés par les joueurs (même paquet public que le site, Worker des notes).
 const URL_TERRAINS = "/data/terrains.geojson";
 const URL_CRITERES_JOUEURS = "https://mapetanque-notes.mapetanque.workers.dev/criteres";
+// Moyennes des terrains (même paquet public que le site) : osm_id -> [somme, nombre].
+const URL_NOTES_PUBLIQUES = "https://mapetanque-notes.mapetanque.workers.dev/notes";
 // Pistes voisines (scripts/grouper_terrains.py) : un critère des joueurs vaut pour tout le
 // groupe, comme sur le site.
 const URL_GROUPES = "/data/groupes_terrains.json";
@@ -735,7 +761,8 @@ function vignettePlate(terrain, id) {
 // publiées (le workflow de publication passe chaque nuit). Chaque photo n'est comptée
 // qu'une fois. Définition unique, partagée par les puces, les compteurs et la vignette,
 // pour qu'ils ne puissent pas se contredire.
-//   liste : [{ type: "plate" | "360", enLigne, image, lien, legende }]
+//   liste : [{ type: "plate" | "360", enLigne, image, lien, legende, mapillaryId, visiteurId }]
+//   (mapillaryId et visiteurId servent aux flèches de la vignette, quand il n'y a pas d'image.)
 function photosTerrain(osmId) {
     const terrain = TERRAINS_PAR_ID[osmId];
     const etat = etatDe(osmId);
@@ -751,15 +778,17 @@ function photosTerrain(osmId) {
         if (vues.has(id)) return;
         vues.set(id, e.miniature_locale
             ? { type: "360", enLigne: true, image: e.miniature_locale, lien: e.credit_url || lienPhoto(id),
-                legende: "Vue 360° en ligne" }
+                legende: "Vue 360° en ligne", mapillaryId: id }
             : { type: "plate", enLigne: true, image: vignettePlate(terrain, id), lien: lienPhoto(id),
-                legende: "Photo en ligne" });
+                legende: "Photo en ligne", mapillaryId: id });
     });
 
     const enAttente = (type, id, image) => {
         if (!vues.has(id)) {
-            vues.set(id, { type: type, enLigne: false, image: image, lien: id.startsWith("visiteur-") ? null : lienPhoto(id),
-                           legende: "En attente de publication" });
+            const visiteur = id.startsWith("visiteur-");
+            vues.set(id, { type: type, enLigne: false, image: image, lien: visiteur ? null : lienPhoto(id),
+                           legende: "En attente de publication",
+                           mapillaryId: visiteur ? null : id, visiteurId: visiteur ? id.slice(9) : null });
         }
     };
     if (etat.statut === "accepte") {
@@ -901,6 +930,52 @@ function elementVignette(image, lien, legende, texteSansImage, alt) {
     return bloc;
 }
 
+// Vignette d'une photo retenue. Sans image connue (photo Mapillary sans aperçu, photo
+// validée pas encore publiée), un cadre gris l'explique. Avec charger (on navigue entre les
+// photos du terrain avec les flèches), on va chercher de quoi la montrer : l'embed
+// Mapillary, comme sur le site, ou le fichier du visiteur, demandé avec le jeton. Jamais
+// d'office : des centaines d'embeds au chargement ralentiraient toute la page.
+const IMAGES_VISITEURS = new Map();   // id de la photo -> promesse de son URL en mémoire
+
+function vignettePhoto(photo, charger) {
+    const sansImage = photo.type === "360"
+        ? "Vue 360° : miniature en préparation"
+        : (photo.enLigne ? "Aperçu indisponible" : "Photo validée, en attente de publication");
+    if (photo.image || !charger || !(photo.mapillaryId || photo.visiteurId)) {
+        return elementVignette(photo.image, photo.lien, photo.legende, sansImage, "Photo retenue pour ce terrain");
+    }
+
+    // Pas de lien autour : l'embed a le sien, et doit recevoir les clics.
+    const bloc = elementVignette(null, null, photo.legende, "Chargement…", "");
+    const remplacerTexte = element => {
+        bloc.classList.remove("vignette-vide");
+        bloc.replaceChild(element, bloc.firstChild);   // le texte « Chargement… »
+    };
+    if (photo.mapillaryId) {
+        const iframe = document.createElement("iframe");
+        iframe.src = "https://www.mapillary.com/embed?image_key=" + encodeURIComponent(photo.mapillaryId) + "&style=photo";
+        iframe.title = "Photo Mapillary " + photo.mapillaryId;
+        remplacerTexte(iframe);
+        return bloc;
+    }
+    const id = photo.visiteurId;
+    if (!IMAGES_VISITEURS.has(id)) {
+        IMAGES_VISITEURS.set(id, appeler("/admin/moderation/fichier?id=" + encodeURIComponent(id))
+            .then(r => r.blob())
+            .then(blob => URL.createObjectURL(blob))
+            .catch(e => { IMAGES_VISITEURS.delete(id); throw e; }));   // réessayé la fois suivante
+    }
+    IMAGES_VISITEURS.get(id)
+        .then(url => {
+            const img = document.createElement("img");
+            img.src = url;
+            img.alt = "Photo envoyée par un visiteur";
+            remplacerTexte(img);
+        })
+        .catch(() => { bloc.firstChild.textContent = "Image indisponible"; });
+    return bloc;
+}
+
 function construireCarte(terrain) {
     const cle = terrain.osm_id;
     const c = terrain.candidat;
@@ -975,17 +1050,39 @@ function construireCarte(terrain) {
     const btnAucune = div.querySelector(".btn-aucune");
 
     // Vignette : pour un terrain sans photo, le candidat (s'il y en a un) ; dès qu'une
-    // photo est retenue, la première, comme sur le site. Une photo validée mais pas encore
-    // publiée n'a pas toujours d'image : un cadre gris le dit.
+    // photo est retenue, la première, comme sur le site. Avec plusieurs photos, des flèches
+    // passent de l'une à l'autre (voir vignettePhoto pour celles sans image connue).
+    let indexPhoto = 0, navigue = false;
     function vignetteCourante() {
         const bilan = photosTerrain(cle);
         if (bilan.total > 0) {
-            const premiere = bilan.liste[0];
-            const sansImage = premiere.type === "360"
-                ? "Vue 360° : miniature en préparation"
-                : (premiere.enLigne ? "Aperçu indisponible" : "Photo validée, en attente de publication");
-            return elementVignette(premiere.image, premiere.lien, premiere.legende, sansImage,
-                                   "Photo retenue pour ce terrain");
+            indexPhoto = Math.min(indexPhoto, bilan.total - 1);
+            const vignette = vignettePhoto(bilan.liste[indexPhoto], navigue);
+            if (bilan.total === 1) return vignette;
+
+            const bloc = document.createElement("div");
+            bloc.className = "vignette-nav";
+            bloc.appendChild(vignette);
+            const compteur = document.createElement("span");
+            compteur.className = "vignette-compteur";
+            compteur.textContent = (indexPhoto + 1) + "/" + bilan.total;
+            bloc.appendChild(compteur);
+            [["precedente", "‹", -1, "Photo précédente"], ["suivante", "›", 1, "Photo suivante"]]
+                .forEach(([classe, signe, pas, titre]) => {
+                    const fleche = document.createElement("button");
+                    fleche.type = "button";
+                    fleche.className = "vignette-fleche " + classe;
+                    fleche.textContent = signe;
+                    fleche.title = titre;
+                    fleche.setAttribute("aria-label", titre);
+                    fleche.addEventListener("click", () => {
+                        indexPhoto = (indexPhoto + pas + bilan.total) % bilan.total;
+                        navigue = true;
+                        div.replaceChild(vignetteCourante(), div.firstElementChild);
+                    });
+                    bloc.appendChild(fleche);
+                });
+            return bloc;
         }
         if (c) {
             return elementVignette(c.thumbnail, c.lien, "Candidat", "Aperçu indisponible",
@@ -2415,6 +2512,8 @@ function dessinerAvis() {
     listePublies.hidden = !AVIS_PUBLIES_OUVERTS;
     listePublies.innerHTML = "";
     if (AVIS_PUBLIES_OUVERTS) publies.forEach(a => listePublies.appendChild(ligneAvisPublie(a)));
+
+    dessinerTerrainsActifs();   // les avis y figurent aussi
 }
 
 document.getElementById("avisPubliesTitre").addEventListener("click", () => {
@@ -2437,7 +2536,68 @@ function modererAvis(a, decision) {
     ecrire("/admin/avis", { id: a.id, decision: decision }).then(() => chargerAvis());
 }
 
+// Terrains notés ou commentés, en bas de l'onglet : moyenne et nombre de notes (paquet public
+// des notes, piste par piste, sans le cumul des pistes voisines que fait le site), puis les avis
+// reçus, publiés ou en attente. Du terrain qui a reçu le plus de notes et d'avis au moins actif.
+let NOTES_PUBLIQUES = null;   // osm_id -> [somme, nombre]
+
+function dessinerTerrainsActifs() {
+    if (!NOTES_PUBLIQUES && !AVIS) return;
+
+    const parTerrain = {};
+    const terrainDe = osmId => parTerrain[osmId] || (parTerrain[osmId] = { osm_id: osmId, somme: 0, votes: 0, avis: [] });
+    Object.entries(NOTES_PUBLIQUES || {}).forEach(([osmId, brut]) => {
+        if (!Array.isArray(brut) || !brut[1]) return;
+        const t = terrainDe(osmId);
+        t.somme = Number(brut[0]);
+        t.votes = Number(brut[1]);
+    });
+    if (AVIS) {
+        AVIS.en_attente.map(a => Object.assign({ en_attente: true }, a)).concat(AVIS.publies)
+            .forEach(a => terrainDe(a.osm_id).avis.push(a));
+    }
+    const terrains = Object.values(parTerrain).sort((a, b) =>
+        (b.votes + b.avis.length) - (a.votes + a.avis.length)
+        || String(terrainAvis(a.osm_id).nom).localeCompare(String(terrainAvis(b.osm_id).nom), "fr"));
+
+    document.getElementById("terrainsActifsBloc").hidden = terrains.length === 0;
+    document.getElementById("terrainsActifsTitre").textContent = "Terrains notés ou commentés (" + terrains.length + ")";
+    const liste = document.getElementById("terrainsActifsListe");
+    liste.innerHTML = "";
+    terrains.forEach(t => {
+        const ligne = document.createElement("div");
+        ligne.className = "terrain-actif";
+        ligne.appendChild(enteteAvis(t));
+
+        const enAttente = t.avis.filter(a => a.en_attente).length;
+        const resume = document.createElement("div");
+        resume.innerHTML = '<span class="avis-etoile">★</span> ';
+        resume.appendChild(document.createTextNode([
+            t.votes ? String(Math.round(t.somme / t.votes * 10) / 10).replace(".", ",") + " / 5 · "
+                      + t.votes + (t.votes > 1 ? " notes" : " note") : "aucune note",
+            t.avis.length ? t.avis.length + " avis" + (enAttente ? " (dont " + enAttente + " en attente)" : "") : ""
+        ].filter(Boolean).join(" · ")));
+        ligne.appendChild(resume);
+
+        t.avis.forEach(a => {
+            const texte = document.createElement("blockquote");
+            texte.textContent = a.texte;
+            ligne.appendChild(texte);
+            const meta = document.createElement("div");
+            meta.className = "avis-lieu";
+            meta.textContent = [a.pseudo || "Anonyme", a.note ? "★ " + a.note : "",
+                                a.en_attente ? "en attente de validation" : "publié",
+                                a.cree ? "reçu le " + dateCourte(a.cree) : ""].filter(Boolean).join(" · ");
+            ligne.appendChild(meta);
+        });
+        liste.appendChild(ligne);
+    });
+}
+
 async function chargerNotes() {
+    // Moyennes par terrain, à part : un échec laisse simplement la liste sans notes.
+    fetch(URL_NOTES_PUBLIQUES).then(r => r.ok ? r.json() : {}).catch(() => ({}))
+        .then(notes => { NOTES_PUBLIQUES = notes || {}; dessinerTerrainsActifs(); });
     try {
         STATS_NOTES = await appeler("/admin/stats/notes").then(r => r.json());
     } catch (e) {
