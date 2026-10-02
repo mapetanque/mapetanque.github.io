@@ -1472,6 +1472,10 @@ function preparerChoixPhotos(champPhoto) {
     boutonRetirer.className = 'add-photo-pick-clear';
     resume.append(nombre, ' ', motPhotos, ' · ', boutonRetirer);
 
+    // Le titre "Votre photo" au-dessus du champ fait doublon avec le libellé du bouton.
+    const titre = champPhoto.previousElementSibling;
+    if (titre && titre.classList.contains('add-photo-field-label')) titre.remove();
+
     const bloc = document.createElement('div');
     bloc.className = 'add-photo-pick';
     champPhoto.before(bloc);
