@@ -5,13 +5,19 @@
    templates/region_template.html).
    ========================================================================================== */
 
-/* Barre « Me localiser » + recherche d'adresse, centrée juste au-dessus de la carte (et non dans
-   la bannière comme à l'accueil : la carte est plus bas dans la page, le résultat aurait été hors
+/* Barre « Me localiser » + recherche d'adresse, centrée juste sous la carte (et non dans la
+   bannière comme à l'accueil : la carte est plus bas dans la page, le résultat aurait été hors
    de vue). Mêmes identifiants qu'à l'accueil, script.js s'en occupe de la même façon ; sur
    mobile, « Me localiser » se réduit à son icône (voir .controls dans style.css). */
 .province-map-inline-wrapper .controls {
-    margin: 0 0 10px;
+    margin: 14px 0 0;
     padding: 0;
+}
+
+/* Cadre de la carte : sert de repère au toast (position: absolute), qui reste ainsi en bas de
+   la carte et non sur la barre placée dessous. */
+.province-map-cadre {
+    position: relative;
 }
 
 .province-map-inline-wrapper #locateBtn {
@@ -35,7 +41,7 @@
 /* Message sous la barre (aucun résultat, lieu hors de la carte), sans place réservée tant
    qu'il est vide. */
 .province-map-inline-wrapper .search-error {
-    margin: -2px 0 10px;
+    margin: 8px 0 0;
     min-height: 0;
 }
 
@@ -237,7 +243,7 @@
 /* ===================== Compatibilité mode plein écran ===================== */
 
 /* Plus rien à montrer dans la bannière en plein écran (titre et fil d'Ariane masqués, la
-   recherche est au-dessus de la carte) : elle disparaît. */
+   recherche est sous la carte) : elle disparaît. */
 .map-view.fullscreen-active .hero-banner {
     display: none;
 }
@@ -263,9 +269,10 @@
 }
 
 /* #map n'est pas lui-même un enfant flex de .province-bande-carte (il est imbriqué dans
-   .province-map-inline-wrapper) : donner du "flex: 1 1 auto" à #map directement n'avait donc
-   aucun effet, et la carte restait coincée à sa hauteur normale (420px) avec beaucoup de vide en
-   dessous. C'est le wrapper qui doit grandir ; #map n'a plus qu'à occuper 100% de sa hauteur. */
+   .province-map-inline-wrapper puis .province-map-cadre) : donner du "flex: 1 1 auto" à #map
+   directement n'avait donc aucun effet, et la carte restait coincée à sa hauteur normale (420px)
+   avec beaucoup de vide en dessous. Ce sont le wrapper puis le cadre qui doivent grandir ; #map
+   n'a plus qu'à occuper toute leur hauteur. */
 .map-view.fullscreen-active .province-map-inline-wrapper {
     flex: 1 1 auto;
     width: 100%;
@@ -276,7 +283,15 @@
     min-height: 0;
 }
 
-/* La barre de recherche reste au-dessus de la carte : #map prend la hauteur restante. */
+/* La barre de recherche reste sous la carte : le cadre, puis #map, prennent la hauteur
+   restante. */
+.map-view.fullscreen-active .province-map-cadre {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
 .map-view.fullscreen-active #map {
     flex: 1 1 auto;
     height: auto;
@@ -286,14 +301,16 @@
 }
 
 .map-view.fullscreen-active .province-map-inline-wrapper .controls {
-    padding: 10px 15px 0;
+    margin: 0;
+    padding: 10px 15px;
 }
 
 /* style.css masque le message de recherche en plein écran ; ici il reste utile (lieu hors de
    la carte). */
 .map-view.fullscreen-active .province-map-inline-wrapper .search-error:not(:empty) {
     display: block;
-    padding: 0 15px;
+    margin: 0;
+    padding: 0 15px 10px;
 }
 
 /* ===================== Contenu ===================== */
