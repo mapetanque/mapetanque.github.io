@@ -830,21 +830,27 @@ function formaterDate(captureMs) {
         .toLocaleDateString("fr-BE", { day: "2-digit", month: "2-digit", year: "numeric" });
 }
 
-// Accepte aussi bien un identifiant collé seul qu'un lien complet.
+// Accepte aussi bien un identifiant collé seul qu'un lien complet. Dans un lien, le paramètre
+// pKey= (app), image_key= (embed) ou le chemin /map/im/ID priment. À défaut, une suite d'au moins
+// 10 chiffres qui ne suit ni un chiffre ni un point : sans cette précaution, un lien de l'app
+// collé sans pKey= (?lat=50.621833899999984&lng=…) donnait les décimales de la latitude,
+// enregistrées comme identifiant — photo noire sur le site.
 function extraireIdMapillary(texte) {
-    const trouve = texte.match(/(\d{10,})/);
+    const trouve = texte.match(/[?&](?:pKey|image_key)=(\d+)/)
+        || texte.match(/\/im\/(\d+)/)
+        || texte.match(/(?<![\d.])(\d{10,})/);
     return trouve ? trouve[1] : texte.trim();
 }
 
 // Extrait identifiant + direction de visée depuis une URL de l'app Mapillary.
 function analyserUrl360(texte) {
-    const id = texte.match(/pKey=(\d+)/) || texte.match(/(\d{10,})/);
-    if (!id) return null;
+    const id = extraireIdMapillary(texte);
+    if (!/^\d{6,}$/.test(id)) return null;
     const x = texte.match(/[?&]x=([0-9.]+)/);
     const y = texte.match(/[?&]y=([0-9.]+)/);
     const zoom = texte.match(/[?&]zoom=([0-9.]+)/);
     return {
-        mapillary_id: id[1],
+        mapillary_id: id,
         pano_x: x ? parseFloat(x[1]) : null,
         pano_y: y ? parseFloat(y[1]) : null,
         pano_zoom: zoom ? parseFloat(zoom[1]) : null,
