@@ -67,13 +67,12 @@ jobs:
           python scripts/enrichir_environnement.py --limite 250 --minutes 20
 
       # Promotion des terrains bien notés vers le carrousel : lit les votes sur le Worker
-      # Cloudflare, génère les miniatures carrées manquantes, écrit data/terrains_promus.json.
-      # continue-on-error : un souci de notation (Worker injoignable, API Mapillary en panne) ne
-      # doit JAMAIS empêcher la sauvegarde de la mise à jour OSM à l'étape suivante.
+      # Cloudflare, reprend les miniatures 16:9 déjà dans le dépôt (faites par le workflow de
+      # publication des photos), écrit data/terrains_promus.json.
+      # continue-on-error : un souci de notation (Worker injoignable) ne doit JAMAIS empêcher la
+      # sauvegarde de la mise à jour OSM à l'étape suivante.
       - name: Promotion des terrains bien notés
         continue-on-error: true
-        env:
-          MAPILLARY_TOKEN: ${{ secrets.MAPILLARY_TOKEN }}
         run: |
           python scripts/promouvoir_terrains.py
 
@@ -99,7 +98,7 @@ jobs:
           # data/terrains_promus.json doit exister dans le dépôt AVANT le premier passage (même
           # vide : []) : git add échoue sur un chemin inexistant, et ferait échouer tout ce commit.
           # Même chose pour data/environnement.json (vide : {}).
-          git add data/terrains.geojson data/environnement.json data/stats_geo.json data/terrains_promus.json images/miniatures-carrees data/candidats_photos.json data/terrains_apparition.json data/groupes_terrains.json
+          git add data/terrains.geojson data/environnement.json data/stats_geo.json data/terrains_promus.json data/candidats_photos.json data/terrains_apparition.json data/groupes_terrains.json
           git add province-*.html region-*.html nl/province-*.html nl/region-*.html de/province-*.html de/region-*.html en/province-*.html en/region-*.html sitemap.xml data/communes-*.json
 
           git commit -m "Mise à jour quotidienne OSM" || exit 0

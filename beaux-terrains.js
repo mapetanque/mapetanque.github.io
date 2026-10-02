@@ -410,7 +410,7 @@
         for (var i = 0; i < items.length; i++) {
             var t = items[i];
             var photo = t.miniature
-                ? '<img src="' + echapper(t.miniature) + '" alt="" loading="lazy" width="500" height="500">'
+                ? '<img src="' + echapper(t.miniature) + '" alt="" loading="lazy" width="800" height="450">'
                 : '<div class="tuile-photo-placeholder">' + echapper(traduire("beaux_terrains_photo_a_venir", "photo \u00e0 venir")) + '</div>';
             var extrait = "";
             if (AFFICHER_EXTRAIT) {

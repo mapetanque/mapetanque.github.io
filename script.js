@@ -2765,11 +2765,13 @@ function construireContenuPopupTerrain(feature, layer) {
     // Photo(s) du terrain — deux sources possibles, combinées :
     // 1) Un tag OSM image=/wikimedia_commons=/mapillary= renseigné par un mappeur (résolu par
     //    resoudre_photo() dans update_terrains.py) — affichée en <img> classique.
-    // 2) Une entrée dans data/photos_mapillary.json (validée manuellement via l'outil de revue,
-    //    voir generer_revue_photos.py) — affichée via l'embed officiel Mapillary
-    //    (mapillary.com/embed?image_key=...), plutôt qu'une URL d'image directe : les URLs de
-    //    vignettes Mapillary expirent au bout d'un moment, l'embed évite ce problème et ne
-    //    nécessite aucun token côté client.
+    // 2) Une entrée dans data/photos_mapillary.json (photos retenues dans la page admin). Elle
+    //    s'affiche en miniature locale : images/mapillary-360/ pour une vue 360°,
+    //    images/mapillary-plates/ pour une photo plate (voir data/miniatures_plates.json et
+    //    scripts/miniature_plate.py). Notre habillage (pastille « Voir sur Mapillary ↗ » et ligne
+    //    de crédit CC BY-SA) remplace celui de Mapillary. Une photo plate dont la miniature n'est
+    //    pas encore faite garde l'embed officiel Mapillary (mapillary.com/embed?image_key=...), en
+    //    secours : il ne demande aucun jeton et ses adresses n'expirent pas.
     // Remarque : pas de détection de doublon entre les deux sources pour l'instant (cas rare vu
     // qu'aucun terrain n'a aujourd'hui de tag mapillary= OSM ET une entrée validée à la fois) —
     // à revoir si ça devient un cas fréquent.
@@ -2800,35 +2802,47 @@ function construireContenuPopupTerrain(feature, layer) {
         ? (window.photosMapillaryParOsmId[tags.osm_id] || [])
         : [];
     photosValidees.forEach(function (entree) {
+        // Auteur et miniature plate éventuelle (data/miniatures_plates.json). Pour une photo
+        // envoyée par un visiteur, le crédit va à son prénom ou pseudo, pas au compte
+        // « mapetanque » qui l'a publiée sur Mapillary.
+        const info = (window.miniaturesPlates || {})[entree.mapillary_id] || {};
+        const auteur = entree.credit_nom || info.auteur || "";
+        // Lien vers la photo en plein cadre : focus=photo donne directement la bonne vue
+        // (entree.credit_url, mapillary.com/map/im/ID, ouvre la carte avec la photo en vignette).
+        const lienPhoto = `https://www.mapillary.com/app/?pKey=${entree.mapillary_id}&lat=${terrainLat}&lng=${terrainLon}&z=17&focus=photo`;
+
         if (entree.miniature_locale) {
-            // Photo 360° reprojetée en image plate statique par generer_miniature_360.py /
-            // generer_miniatures_360_batch.py (voir data/photos_mapillary.json) — contrairement
-            // à l'embed Mapillary classique ci-dessous (qui ignore le cadrage x/y/zoom qu'on
-            // avait repéré à la main), cette image est déjà pré-recadrée dans le bon angle une
-            // fois pour toutes, donc une <img> classique suffit, pas besoin d'iframe.
+            // Vue 360° reprojetée en image plate, déjà recadrée dans le bon angle (voir
+            // scripts/miniature_360.py) : une <img> classique suffit.
             diapositives.push({
                 type: 'img',
-                panoStatique: true,
+                mapillary: true,
                 html: `<img src="${entree.miniature_locale}" alt="" class="popup-photo" loading="lazy">`,
-                // entree.credit_url (généré avec x/y/zoom par generer_miniatures_360_batch.py)
-                // amène directement au bon cadrage repéré dans l'outil de revue. Repli sur un
-                // lien générique (sans orientation) uniquement pour d'anciennes entrées produites
-                // avant l'ajout de x/y/zoom au batch — mieux qu'un lien cassé, mais atterrit alors
-                // sur le cadrage par défaut de Mapillary, pas le bon angle.
-                creditUrl: entree.credit_url
-                    || `https://www.mapillary.com/app/?pKey=${entree.mapillary_id}&lat=${terrainLat}&lng=${terrainLon}&z=17&focus=photo`,
-                creditLabel: t('popup_photo_credit_mapillary'),
+                // entree.credit_url (avec x/y/zoom) amène au cadrage choisi dans la page admin.
+                // Repli sur le lien générique pour d'anciennes entrées qui n'en ont pas.
+                creditUrl: entree.credit_url || lienPhoto,
+                pastille: t('popup_photo_explorer_360'),
+                auteur: auteur,
             });
             return;
         }
+        if (info.cadrage) {
+            diapositives.push({
+                type: 'img',
+                mapillary: true,
+                html: `<img src="/images/mapillary-plates/${entree.mapillary_id}.webp" alt="" class="popup-photo" loading="lazy">`,
+                creditUrl: lienPhoto,
+                pastille: t('popup_photo_voir_mapillary'),
+                auteur: auteur,
+            });
+            return;
+        }
+        // Miniature pas encore faite : l'embed Mapillary, qui porte son propre habillage.
         diapositives.push({
             type: 'iframe',
+            mapillary: true,
             html: `<iframe src="https://www.mapillary.com/embed?image_key=${entree.mapillary_id}&style=photo" class="popup-photo popup-photo-iframe" loading="lazy" frameborder="0" scrolling="no"></iframe>`,
-            // Construit ici plutôt que réutiliser entree.credit_url tel quel : ce dernier
-            // (mapillary.com/map/im/ID) ouvre la vue carte avec la photo en vignette, pas la
-            // photo en plein cadre — focus=photo donne directement la bonne vue.
-            creditUrl: `https://www.mapillary.com/app/?pKey=${entree.mapillary_id}&lat=${terrainLat}&lng=${terrainLon}&z=17&focus=photo`,
-            creditLabel: t('popup_photo_credit_mapillary'),
+            creditUrl: lienPhoto,
             // Prénom ou pseudo d'un visiteur qui a envoyé la photo (voir creditVisiteur plus bas).
             creditVisiteur: entree.credit_nom || null,
         });
@@ -2840,22 +2854,25 @@ function construireContenuPopupTerrain(feature, layer) {
     // bloque toute interaction depuis notre page — voir la discussion sur le same-origin plus
     // haut dans nos échanges). La petite icône ⤢ dans le coin reste comme indice visuel, mais
     // toute la zone .popup-photo-expand-zone est cliquable, pas seulement l'icône elle-même.
-    function avecBoutonAgrandir(d) {
-        return `<div class="popup-photo-wrap">${d.html}<a href="${d.creditUrl}" target="_blank" rel="noopener" class="popup-photo-expand-zone" aria-label="${t('popup_photo_expand')}"></a></div>`;
+    // Par-dessus la photo : la pastille « Voir sur Mapillary ↗ » (miniatures locales seulement,
+    // l'embed a son propre habillage) et, dans un carrousel, les points de pagination (posés
+    // dans chaque diapositive, sur la photo, pour ne pas tomber sur la ligne de crédit dessous).
+    function avecBoutonAgrandir(d, points) {
+        const pastille = d.pastille
+            ? `<span class="popup-photo-pastille"><img src="/images/logo-mapillary.webp" alt="">${d.pastille}</span>`
+            : "";
+        const lien = d.creditUrl
+            ? `<a href="${d.creditUrl}" target="_blank" rel="noopener" class="popup-photo-expand-zone" aria-label="${t('popup_photo_expand')}"></a>`
+            : "";
+        return `<div class="popup-photo-wrap">${d.html}${pastille}${points || ""}${lien}</div>`;
     }
 
-    // Sous chaque photo : crédit classique pour une <img> (Wikimedia, ou Mapillary résolu via
-    // tag OSM — aucun des deux n'affiche d'habillage propre, contrairement à l'iframe ci-dessous,
-    // donc le crédit y reste nécessaire). Pour l'embed Mapillary (type 'iframe') ET pour une
-    // miniature 360° statique (panoStatique) : l'habillage Mapillary (pour l'iframe) ou le fait
-    // que la photo soit déjà de notre propre pipeline (pour la 360°) rendent ce crédit redondant
-    // — rien n'est affiché ici pour ces deux cas, le bouton "Ajouter une photo ?" prend le relais
-    // séparément (voir boutonAjouterPhoto() plus bas, rendu une seule fois sous le carrousel, pas
-    // par diapositive — sinon il apparaissait autant de fois qu'il y a de photos de ce type, en
-    // plus de gonfler la hauteur du carrousel et de désaligner les points de pagination posés
-    // par-dessus).
+    // Photos Mapillary (photos_mapillary.json) : le bouton « Ajouter une photo ? » est proposé
+    // sous la photo ou sous le carrousel (voir boutonAjouterPhoto() plus bas, rendu une seule
+    // fois sous le carrousel, pas par diapositive — sinon il apparaissait autant de fois qu'il y
+    // a de photos de ce type). Une photo venue d'un tag OSM ne le propose pas.
     function proposeAjouterPhoto(d) {
-        return d.type === 'iframe' || d.panoStatique;
+        return !!d.mapillary;
     }
 
     // Photo envoyée par un visiteur : son prénom ou pseudo, s'il en a donné un, s'affiche sous la
@@ -2876,9 +2893,20 @@ function construireContenuPopupTerrain(feature, layer) {
         return `<span class="popup-photo-credit" style="display:block;margin-top:2px;">${t('popup_photo_envoyee_par')(echapperHtml(d.creditVisiteur))}</span>`;
     }
 
+    // Sous chaque photo, son crédit :
+    //  - miniature locale d'une photo Mapillary : « Photo : auteur · Mapillary · CC BY-SA 4.0 »,
+    //    exigé par la licence des photos Mapillary ;
+    //  - embed Mapillary (secours) : il affiche lui-même l'auteur ; seul le prénom d'un visiteur
+    //    s'ajoute dessous ;
+    //  - photo d'un tag OSM : le crédit de sa source.
+    const LICENCE_MAPILLARY = `<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>`;
+
     function sousLaPhoto(d) {
-        if (proposeAjouterPhoto(d)) return creditVisiteur(d);
-        return d.creditLabel
+        if (d.pastille) {
+            return `<span class="popup-photo-credit popup-photo-licence">${t('popup_photo_credit_auteur')(d.auteur ? echapperHtml(d.auteur) : "")} · ${LICENCE_MAPILLARY}</span>`;
+        }
+        if (d.type === 'iframe') return creditVisiteur(d);
+        return d.creditLabel && d.creditUrl
             ? `<a href="${d.creditUrl}" target="_blank" rel="noopener" class="popup-photo-credit">${d.creditLabel}</a>`
             : "";
     }
@@ -2899,13 +2927,15 @@ function construireContenuPopupTerrain(feature, layer) {
         </div>`;
     } else if (diapositives.length === 1) {
         const d = diapositives[0];
-        photo = `<div class="fiche-photos">${avecBoutonAgrandir(d)}${proposeAjouterPhoto(d) ? creditVisiteur(d) + boutonAjouterPhoto() : sousLaPhoto(d)}</div>`;
+        photo = `<div class="fiche-photos">${avecBoutonAgrandir(d)}${sousLaPhoto(d)}${proposeAjouterPhoto(d) ? boutonAjouterPhoto() : ""}</div>`;
     } else {
         // Plusieurs photos : petit carrousel (flèches précédent/suivant), en JS natif — voir
-        // brancherCarrouselPhotos(), appelée juste après l'ouverture de la popup plus bas.
+        // brancherPhotosPopup(), appelée juste après l'ouverture de la popup plus bas. Chaque
+        // diapositive porte ses propres points, celui de sa position allumé.
+        const points = i => `<div class="popup-photo-dots">${diapositives.map((_, j) => `<span class="popup-photo-dot${j === i ? ' active' : ''}"></span>`).join('')}</div>`;
         const diapositivesHtml = diapositives.map((d, i) => `
             <div class="popup-photo-slide" data-index="${i}" style="${i === 0 ? '' : 'display:none;'}">
-                ${avecBoutonAgrandir(d)}
+                ${avecBoutonAgrandir(d, points(i))}
                 ${sousLaPhoto(d)}
             </div>`).join('');
         const auMoinsUneAvecBouton = diapositives.some(proposeAjouterPhoto);
@@ -2915,7 +2945,6 @@ function construireContenuPopupTerrain(feature, layer) {
             ${diapositivesHtml}
             <button type="button" class="popup-photo-nav prev" aria-label="${t('popup_photo_prev')}">‹</button>
             <button type="button" class="popup-photo-nav next" aria-label="${t('popup_photo_next')}">›</button>
-            <div class="popup-photo-dots">${diapositives.map((_, i) => `<span class="popup-photo-dot${i === 0 ? ' active' : ''}"></span>`).join('')}</div>
         </div>
         ${auMoinsUneAvecBouton ? boutonAjouterPhoto() : ""}
         </div>`;
@@ -3032,12 +3061,11 @@ function brancherPhotosPopup(e) {
     const carrousel = conteneur.querySelector('.popup-photo-carousel');
     if (carrousel) {
         const diapositives = carrousel.querySelectorAll('.popup-photo-slide');
-        const points = carrousel.querySelectorAll('.popup-photo-dot');
         let indexActuel = 0;
 
+        // Les points de pagination suivent : chaque diapositive porte les siens.
         function afficherDiapositive(index) {
             diapositives.forEach((d, i) => { d.style.display = i === index ? '' : 'none'; });
-            points.forEach((p, i) => p.classList.toggle('active', i === index));
             indexActuel = index;
         }
 
@@ -3467,6 +3495,16 @@ if (searchForm || locateBtn) {
 // (voir club/generer_revue_photos.py côté scripts). Fichier optionnel : son absence (site tout
 // juste mis à jour, avant le premier dépôt de ce fichier) ne doit rien casser.
 window.photosMapillaryParOsmId = {};
+
+// Miniatures locales des photos plates et auteurs des photos (scripts/miniature_plate.py) :
+// mapillary_id -> {auteur, cadrage} ou {auteur, vue_360}. Sans ce fichier, les photos plates
+// gardent l'embed Mapillary.
+window.miniaturesPlates = {};
+fetch('/data/miniatures_plates.json')
+    .then(response => response.ok ? response.json() : {})
+    .then(data => { window.miniaturesPlates = data || {}; })
+    .catch(() => { });
+
 fetch('/data/photos_mapillary.json')
     .then(response => response.json())
     .then(data => {

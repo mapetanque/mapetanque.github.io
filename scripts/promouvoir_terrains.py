@@ -13,38 +13,34 @@ pistes voisines cumulés (data/groupes_terrains.json, voir grouper_terrains.py) 
   - garde ceux qui ont au moins NB_VOTES_MIN votes et une moyenne d'au moins MOYENNE_MIN ;
   - exige une photo validée dans data/photos_mapillary.json (la première de la liste) ; une seule
     piste par groupe est promue, la plus notée parmi celles qui ont une photo ;
-  - génère sa miniature carrée si elle n'existe pas encore :
-      * photo classique : téléchargée via l'API Mapillary et recadrée, exactement comme
-        generer_miniatures_carrees.py — ses fonctions sont réutilisées telles quelles ;
-      * photo 360° (champ miniature_locale) : la vue déjà reprojetée, présente dans le dépôt,
-        est simplement recadrée en carré — aucun appel réseau ;
+  - reprend sa miniature 16:9, déjà dans le dépôt :
+      * photo 360° : sa miniature_locale (images/mapillary-360/) ;
+      * photo plate : images/mapillary-plates/<id>.webp, générée par le workflow quotidien de
+        publication des photos (voir miniature_plate.py). Pas encore faite : terrain ignoré
+        cette semaine, repris la suivante.
+    Les tuiles du carrousel sont en 4:3 : elles coupent les bords de la miniature
+    (object-fit: cover dans style-beaux-terrains.css) ;
   - écrit TOUS les terrains retenus dans data/terrains_promus.json, SANS plafond.
 
 Le plafond (18 par région), le départage avec les épinglés et le retrait d'un terrain dont la
 moyenne est retombée sont faits par beaux-terrains.js au chargement de la page, avec les notes du
 moment : ce fichier n'est qu'une liste de candidats, pas l'affichage final.
 
-Recadrage centré, sans retouche. Pour corriger un cadrage raté, ajouter focal_x / focal_y et
-"forcer": true pour ce terrain dans une liste passée à generer_miniatures_carrees.py, comme pour
-les épinglés : le fichier régénéré porte le même nom et remplace l'automatique.
+Pour corriger un cadrage raté : voir les réglages manuels décrits dans miniature_plate.py.
 
-Échecs tolérés : Worker injoignable = fichier laissé tel quel ; photo qui ne se télécharge pas =
-terrain ignoré cette semaine, retenté à la suivante. Rien ici ne doit bloquer la mise à jour OSM.
+Échecs tolérés : Worker injoignable = fichier laissé tel quel. Rien ici ne doit bloquer la mise à
+jour OSM. Aucun appel à l'API Mapillary : ce script n'écrit aucune image.
 """
 import json
 import sys
-import time
 import pathlib
 
 import requests
-from PIL import Image
 
-# Réutilisation directe du script existant plutôt qu'une copie : même taille de sortie, même
-# algorithme de recadrage, même dossier. Importable grâce à son garde if __name__ == "__main__".
-# Python ajoute le dossier du script lancé (scripts/) à sys.path, donc l'import fonctionne depuis
-# la racine du dépôt comme depuis scripts/.
-from generer_miniatures_carrees import telecharger_photo, recadrer_carre, DOSSIER_SORTIE
+# Python ajoute le dossier du script lancé (scripts/) à sys.path, donc ces imports fonctionnent
+# depuis la racine du dépôt comme depuis scripts/.
 from grouper_terrains import charger_groupes
+from miniature_plate import chemin_miniature, chemin_web
 
 RACINE = pathlib.Path(__file__).resolve().parent.parent
 CHEMIN_TERRAINS = RACINE / "data" / "terrains.geojson"
@@ -59,8 +55,6 @@ NB_VOTES_MIN = 2
 MOYENNE_MIN = 4.0
 NOTE_A_PRIORI = 4.0   # moyenne pondérée : (somme + NOTE_A_PRIORI × POIDS) / (nombre + POIDS)
 POIDS_A_PRIORI = 5
-
-PAUSE_ENTRE_APPELS_S = 1.0   # vers l'API Mapillary, par politesse (même valeur que l'autre script)
 
 # terrains.geojson porte des identifiants ("flandre_orientale"), beaux_terrains.json des noms
 # lisibles ("Flandre orientale") : les promus prennent le format des épinglés, pour que
@@ -83,34 +77,16 @@ def score_pondere(somme, nombre):
     return (somme + NOTE_A_PRIORI * POIDS_A_PRIORI) / (nombre + POIDS_A_PRIORI)
 
 
-def assurer_miniature(photo):
-    """Retourne le chemin web de la miniature carrée, en la générant si besoin. None en cas
-    d'échec : le terrain est alors simplement ignoré cette semaine."""
-    mapillary_id = photo["mapillary_id"]
-    chemin_disque = pathlib.Path(DOSSIER_SORTIE) / f"{mapillary_id}.webp"
-    chemin_web = f"/images/miniatures-carrees/{mapillary_id}.webp"
-
-    # Déjà présente (générée une semaine précédente, ou à la main pour un ancien épinglé) :
-    # on ne la touche pas — c'est aussi ce qui protège un recadrage corrigé à la main.
-    if chemin_disque.exists():
-        return chemin_web
-
-    try:
-        if photo.get("miniature_locale"):
-            source = RACINE / photo["miniature_locale"].lstrip("/")
-            img = Image.open(source).convert("RGB")
-        else:
-            img = telecharger_photo(mapillary_id)
-            time.sleep(PAUSE_ENTRE_APPELS_S)
-
-        chemin_disque.parent.mkdir(parents=True, exist_ok=True)
-        recadrer_carre(img).save(chemin_disque, quality=88)
-        print(f"  + miniature générée : {chemin_web}")
-        return chemin_web
-
-    except Exception as e:
-        print(f"  ! miniature impossible pour {mapillary_id} : {e}")
-        return None
+def miniature_de(photo):
+    """Chemin web de la miniature 16:9 de la photo, ou None si elle n'est pas encore dans le
+    dépôt : le terrain est alors simplement ignoré cette semaine."""
+    if photo.get("miniature_locale"):
+        if (RACINE / photo["miniature_locale"].lstrip("/")).exists():
+            return photo["miniature_locale"]
+    elif chemin_miniature(photo["mapillary_id"]).exists():
+        return chemin_web(photo["mapillary_id"])
+    print(f"  ! pas encore de miniature pour la photo {photo['mapillary_id']}")
+    return None
 
 
 def main():
@@ -164,7 +140,7 @@ def main():
         feature = terrains[osm_id]
         liste_photos = photos[osm_id]
 
-        miniature = assurer_miniature(liste_photos[0])
+        miniature = miniature_de(liste_photos[0])
         if not miniature:
             continue
 

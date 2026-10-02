@@ -7,7 +7,7 @@ Lancé par .github/workflows/publier-photos.yml, chaque jour et à la demande
 (bouton « Publier maintenant » de la page admin). Remplace
 scripts/tester_envoi_mapillary.py, dont il reprend la préparation des EXIF.
 
-Cinq phases, dans cet ordre. Une phase qui échoue n'empêche pas les suivantes
+Six phases, dans cet ordre. Une phase qui échoue n'empêche pas les suivantes
 (sauf le ménage, qui n'a lieu qu'après un export réussi) :
 
   1. Rattachement. Pour les photos envoyées lors d'un passage précédent, cherche
@@ -30,9 +30,15 @@ Cinq phases, dans cet ordre. Une phase qui échoue n'empêche pas les suivantes
   4. Export. Le Worker fusionne toutes les décisions (revue des candidats,
      photos manuelles, photos de visiteurs rattachées, vues 360° générées) sur
      le data/photos_mapillary.json du dépôt, qui est réécrit.
-  5. Ménage 360°. Supprime de images/mapillary-360/ les fichiers que plus rien
-     ne cite : ni photos_mapillary.json (tout juste réécrit), ni
-     beaux_terrains.json, ni terrains_promus.json. N'a lieu que si l'export a
+  5. Miniatures plates. Sur le photos_mapillary.json tout juste réécrit,
+     génère la miniature de chaque photo plate qui n'en a pas encore
+     (images/mapillary-plates/, par scripts/miniature_plate.py) et relève son
+     auteur, ainsi que celui des vues 360°, dans data/miniatures_plates.json.
+     Ce fichier n'est jamais touché par le Worker.
+  6. Ménage. Supprime de images/mapillary-360/ et de images/mapillary-plates/
+     les fichiers que plus rien ne cite : ni photos_mapillary.json (tout juste
+     réécrit), ni beaux_terrains.json, ni terrains_promus.json. Retire aussi de
+     miniatures_plates.json les photos disparues. N'a lieu que si l'export a
      réussi : sur un fichier pas à jour, les miniatures du passage seraient
      prises pour des orphelines.
 
@@ -511,18 +517,26 @@ def phase_export(simulation):
     CHEMIN_PHOTOS.write_bytes(brut)
 
 
-def miniatures_citees():
+def phase_miniatures_plates(token, simulation):
+    import miniature_plate   # Pillow n'est chargé que si cette phase tourne
+
+    with open(CHEMIN_PHOTOS, encoding="utf-8") as f:
+        plates, vues_360 = miniature_plate.ids_de_photos_mapillary(json.load(f))
+    miniature_plate.completer(token, plates, vues_360, simulation=simulation)
+
+
+def miniatures_citees(prefixe):
     """
-    Noms des fichiers de DOSSIER_360 que le site utilise encore. Les trois fichiers
-    sont parcourus en entier, quel que soit leur format : toute chaîne qui commence
-    par PREFIXE_360 compte, où qu'elle se trouve.
+    Noms des fichiers désignés par prefixe ("/images/mapillary-360/…") que le site
+    utilise encore. Les trois fichiers sont parcourus en entier, quel que soit leur
+    format : toute chaîne qui commence par le préfixe compte, où qu'elle se trouve.
     """
     noms = set()
 
     def parcourir(valeur):
         if isinstance(valeur, str):
-            if valeur.startswith(PREFIXE_360):
-                noms.add(valeur[len(PREFIXE_360):])
+            if valeur.startswith(prefixe):
+                noms.add(valeur[len(prefixe):])
         elif isinstance(valeur, dict):
             for v in valeur.values():
                 parcourir(v)
@@ -538,7 +552,7 @@ def miniatures_citees():
 
 
 def phase_menage_360(simulation):
-    citees = miniatures_citees()
+    citees = miniatures_citees(PREFIXE_360)
     # Garde-fou : un fichier illisible ou vidé ne doit jamais faire tout effacer.
     if not citees:
         print("Aucune miniature 360° citée nulle part : ménage annulé par prudence.")
@@ -557,6 +571,16 @@ def phase_menage_360(simulation):
             print(f"  supprimée : {fichier.name}")
     print(f"{len(orphelines)} miniature(s) 360° orpheline(s)"
           + (" repérée(s)." if simulation else " supprimée(s)."))
+
+
+def phase_menage_plates(simulation):
+    import miniature_plate
+
+    # Identifiants encore utilisés : toutes les photos de photos_mapillary.json, plus les
+    # miniatures plates citées par les épinglés et les promus du carrousel.
+    cites = set(ids_du_fichier())
+    cites |= {nom[:-len(".webp")] for nom in miniatures_citees(miniature_plate.PREFIXE_WEB)}
+    miniature_plate.menage(cites, simulation)
 
 
 # ---------------------------------------------------------------- Principal
@@ -582,6 +606,7 @@ def main():
         ("Envoi", lambda: phase_envoi(terrains, args.simulation)),
         ("Miniatures 360°", lambda: phase_panos(token, args.simulation)),
         ("Export", lambda: phase_export(args.simulation)),
+        ("Miniatures plates", lambda: phase_miniatures_plates(token, args.simulation)),
     ]
 
     echecs = []
@@ -593,16 +618,17 @@ def main():
             print(f"Échec de la phase {nom} : {detail_erreur(e)}")
             echecs.append(nom)
 
-    # Ménage seulement sur un photos_mapillary.json à jour (voir la phase 5).
-    print("\n=== Ménage 360° ===")
-    if "Export" in echecs:
-        print("Export en échec : ménage reporté au prochain passage.")
-    else:
+    # Ménage seulement sur un photos_mapillary.json à jour (voir la phase 6).
+    for nom, menage in (("Ménage 360°", phase_menage_360), ("Ménage plates", phase_menage_plates)):
+        print(f"\n=== {nom} ===")
+        if "Export" in echecs:
+            print("Export en échec : ménage reporté au prochain passage.")
+            continue
         try:
-            phase_menage_360(args.simulation)
+            menage(args.simulation)
         except Exception as e:
-            print(f"Échec de la phase Ménage 360° : {e}")
-            echecs.append("Ménage 360°")
+            print(f"Échec de la phase {nom} : {e}")
+            echecs.append(nom)
 
     # Un échec rend le lancement rouge dans l'onglet Actions : GitHub prévient
     # alors par mail. Le fichier déjà écrit est tout de même sauvegardé.
