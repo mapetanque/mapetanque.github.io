@@ -5895,5 +5895,25 @@
       "mapillary_id": "936665893785227",
       "credit_url": "https://www.mapillary.com/map/im/936665893785227"
     }
+  ],
+  "way/1264100207": [
+    {
+      "mapillary_id": "1794331021594126",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1794331021594126&focus=photo&x=0.24663723094164958&y=0.5078710830948249&zoom=0.4",
+      "miniature_locale": "/images/mapillary-360/1794331021594126-20261002232820.webp"
+    }
+  ],
+  "way/498226276": [
+    {
+      "mapillary_id": "713377047789209",
+      "credit_url": "https://www.mapillary.com/app/?pKey=713377047789209&focus=photo&x=0.47118755390355593&y=0.48686297308615445&zoom=0",
+      "miniature_locale": "/images/mapillary-360/713377047789209-20261002232930.webp"
+    }
+  ],
+  "way/607718229": [
+    {
+      "mapillary_id": "525150345322944",
+      "credit_url": "https://www.mapillary.com/map/im/525150345322944"
+    }
   ]
 }
