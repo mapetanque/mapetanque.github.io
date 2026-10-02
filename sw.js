@@ -1,11 +1,18 @@
 // Service worker de l'application Mapetanque (PWA).
 //
-// Stratégie « le réseau d'abord » : chaque fichier du site est toujours redemandé au serveur,
-// et la copie gardée en cache ne sert que si le réseau ne répond pas (pas de connexion). Le site
-// installé reste donc toujours à jour, sans numéro de version à changer à chaque publication.
+// Stratégie « le cache d'abord, mis à jour en arrière-plan » (stale-while-revalidate) : un fichier
+// déjà vu est servi tout de suite depuis le cache, et redemandé au serveur en même temps pour
+// remplacer la copie. L'application s'ouvre ainsi sans attendre le réseau ; une nouvelle version
+// publiée apparaît à l'ouverture suivante, sans numéro de version à changer à chaque publication.
+// Un fichier jamais vu part au réseau ; sans connexion, une page jamais visitée affiche
+// PAGE_HORS_LIGNE.
 //
-// Seuls les fichiers du site lui-même passent par ici : fonds de carte, Leaflet (unpkg), Nominatim,
-// Mapillary et Worker Cloudflare vont directement au réseau, sans être touchés.
+// Exceptions, toujours redemandées au serveur (le cache ne sert que sans connexion) :
+//   - le site servi en local (Live Server) : les tests doivent montrer la dernière modification ;
+//   - la page d'administration et tout ce qu'elle charge : on y veut des données fraîches.
+//
+// Seuls les fichiers du site lui-même passent par ici (Leaflet compris, hébergé dans /lib/) : fonds
+// de carte, Nominatim, Mapillary et Worker Cloudflare vont directement au réseau, sans être touchés.
 //
 // Ce fichier doit rester à la racine du site : un service worker ne contrôle que les pages situées
 // dans son dossier et en dessous.
@@ -63,6 +70,47 @@ self.addEventListener('activate', function (evenement) {
     );
 });
 
+const EN_LOCAL = ['localhost', '127.0.0.1'].indexOf(self.location.hostname) !== -1;
+
+function estAdmin(chemin) {
+    return chemin.indexOf('/admin') === 0;
+}
+
+// Va chercher la réponse au serveur et en garde une copie pour la prochaine fois.
+// `cle` : adresse sous laquelle la ranger (voir cleDeCache). L'écriture dans le cache est
+// rattachée à l'événement : le navigateur ne doit pas arrêter le service worker avant qu'elle
+// soit finie, mais la réponse, elle, n'a pas à l'attendre.
+function telechargerEtGarder(evenement, requete, cle) {
+    return fetch(requete).then(function (reponse) {
+        if (reponse.ok && reponse.type === 'basic') {
+            const copie = reponse.clone();
+            evenement.waitUntil(caches.open(CACHE)
+                .then(function (cache) { return cache.put(cle, copie); })
+                .catch(function () {}));
+        }
+        return reponse;
+    });
+}
+
+// Une page est rangée sans ses paramètres d'adresse (?lat=…&lon=… d'un lien partagé) : c'est le
+// script qui les lit, la page elle-même est la même. Sans ça, chaque lien partagé ouvert
+// ajouterait une copie de la page au cache.
+function cleDeCache(requete) {
+    if (requete.mode !== 'navigate') return requete;
+    const url = new URL(requete.url);
+    url.search = '';
+    return url.href;
+}
+
+function horsLigne(requete) {
+    if (requete.mode === 'navigate') {
+        return new Response(PAGE_HORS_LIGNE, {
+            headers: { 'Content-Type': 'text/html; charset=utf-8' }
+        });
+    }
+    return Response.error();
+}
+
 self.addEventListener('fetch', function (evenement) {
     const requete = evenement.request;
     const url = new URL(requete.url);
@@ -70,28 +118,32 @@ self.addEventListener('fetch', function (evenement) {
     // Ne s'occupe que des lectures (GET) de fichiers du site ; le reste suit son cours normal.
     if (requete.method !== 'GET' || url.origin !== self.location.origin) return;
 
-    evenement.respondWith(
-        fetch(requete)
-            .then(function (reponse) {
-                // Garde une copie des réponses valides pour pouvoir les resservir hors ligne.
-                if (reponse.ok && reponse.type === 'basic') {
-                    const copie = reponse.clone();
-                    caches.open(CACHE).then(function (cache) { cache.put(requete, copie); });
-                }
-                return reponse;
-            })
-            .catch(function () {
-                // Pour une page, ignore les paramètres d'adresse (?lat=…&lon=… d'un lien partagé) :
-                // la page déjà visitée sans eux fait l'affaire.
-                return caches.match(requete, { ignoreSearch: requete.mode === 'navigate' }).then(function (enCache) {
-                    if (enCache) return enCache;
-                    if (requete.mode === 'navigate') {
-                        return new Response(PAGE_HORS_LIGNE, {
-                            headers: { 'Content-Type': 'text/html; charset=utf-8' }
-                        });
-                    }
-                    return Response.error();
+    const cle = cleDeCache(requete);
+    const depuisAdmin = estAdmin(url.pathname)
+        || (requete.referrer && estAdmin(new URL(requete.referrer).pathname));
+
+    // Le réseau d'abord : le cache ne sert que si le réseau ne répond pas.
+    if (EN_LOCAL || depuisAdmin) {
+        evenement.respondWith(
+            telechargerEtGarder(evenement, requete, cle).catch(function () {
+                return caches.match(cle).then(function (enCache) {
+                    return enCache || horsLigne(requete);
                 });
             })
+        );
+        return;
+    }
+
+    // Le cache d'abord, mis à jour en arrière-plan.
+    const reseau = telechargerEtGarder(evenement, requete, cle);
+    // Garde le service worker en vie jusqu'à la fin de la mise à jour, même une fois la copie
+    // du cache déjà servie ; une erreur réseau ici est sans conséquence.
+    evenement.waitUntil(reseau.then(function () {}, function () {}));
+
+    evenement.respondWith(
+        caches.match(cle).then(function (enCache) {
+            if (enCache) return enCache;
+            return reseau.catch(function () { return horsLigne(requete); });
+        })
     );
 });
