@@ -2747,6 +2747,63 @@ window.construireFilAriane = function (source) {
 // Extrait en fonction autonome (au lieu d'être imbriquée dans onEachFeature) pour pouvoir être
 // réutilisée telle quelle par les pages provinces, qui affichent leur propre sous-ensemble de
 // terrains sans passer par le clustering de la page d'accueil.
+// <img> d'une photo de fiche. onerror : une photo qui ne charge pas (adresse expirée, fichier
+// retiré par sa source) est masquée, voir photoIntrouvable.
+function imgPhoto(src) {
+    const adresse = String(src).replace(/"/g, '&quot;');
+    return `<img src="${adresse}" alt="" class="popup-photo" loading="lazy" onerror="photoIntrouvable(this)">`;
+}
+
+// Terrain sans photo : un bandeau bas (le dessin recadré et atténué) plutôt que le grand dessin,
+// qui occupait près de la moitié de la fiche. L'invitation à proposer une photo est posée dessus ;
+// elle ouvre la modale #add-photo-modal (voir brancherPhotosPopup).
+function htmlSansPhoto(osmId, titre) {
+    return `
+        <div class="fiche-sans-photo">
+            <img src="/images/pas-de-photo.webp" alt="" loading="lazy">
+            <button type="button" class="popup-photo-add-btn fiche-ajout-photo" data-osm-id="${osmId || ''}" data-terrain-titre="${String(titre).replace(/"/g, '&quot;')}">${t('fiche_ajouter_photo')}</button>
+        </div>`;
+}
+
+// Photo qui ne charge pas : sa diapositive disparaît. S'il n'en reste aucune, le bloc photo
+// devient celui d'un terrain sans photo ; s'il en reste une seule, les flèches et les points
+// disparaissent aussi.
+window.photoIntrouvable = function (img) {
+    const bloc = img.closest('.fiche-photos');
+    if (!bloc) return;
+    const diapositive = img.closest('.popup-photo-slide');
+    if (diapositive) diapositive.remove();
+
+    const restantes = bloc.querySelectorAll('.popup-photo-slide');
+    if (!diapositive || restantes.length === 0) {
+        const gabarit = document.createElement('div');
+        gabarit.innerHTML = htmlSansPhoto(bloc.dataset.osmId, bloc.dataset.terrainTitre || '');
+        const remplacant = gabarit.firstElementChild;
+        bloc.replaceWith(remplacant);
+        const bouton = remplacant.querySelector('.popup-photo-add-btn');
+        bouton.addEventListener('click', function (evt) {
+            evt.preventDefault();
+            window.ouvrirModaleAjoutPhoto(bouton.dataset.osmId, bouton.dataset.terrainTitre);
+        });
+        return;
+    }
+
+    // Carrousel : on montre la première restante et on renumérote les points.
+    restantes.forEach(function (d, i) {
+        d.style.display = i === 0 ? '' : 'none';
+        const points = d.querySelector('.popup-photo-dots');
+        if (points) {
+            points.innerHTML = Array.prototype.map.call(restantes, function (_, j) {
+                return '<span class="popup-photo-dot' + (j === i ? ' active' : '') + '"></span>';
+            }).join('');
+            points.hidden = restantes.length < 2;
+        }
+    });
+    if (restantes.length < 2) {
+        bloc.querySelectorAll('.popup-photo-nav').forEach(function (b) { b.hidden = true; });
+    }
+};
+
 function construireContenuPopupTerrain(feature, layer) {
 
     let tags = feature.properties;
@@ -2772,26 +2829,53 @@ function construireContenuPopupTerrain(feature, layer) {
     //    de crédit CC BY-SA) remplace celui de Mapillary. Une photo plate dont la miniature n'est
     //    pas encore faite garde l'embed officiel Mapillary (mapillary.com/embed?image_key=...), en
     //    secours : il ne demande aucun jeton et ses adresses n'expirent pas.
-    // Remarque : pas de détection de doublon entre les deux sources pour l'instant (cas rare vu
-    // qu'aucun terrain n'a aujourd'hui de tag mapillary= OSM ET une entrée validée à la fois) —
-    // à revoir si ça devient un cas fréquent.
+    // Une même photo Mapillary présente dans les deux sources n'est montrée qu'une fois.
     const diapositives = [];
     const terrainLat = layer.getLatLng().lat;
     const terrainLon = layer.getLatLng().lng;
 
+    // Photo d'un tag OSM, avec une pastille selon sa source :
+    //  - mapillary=<id> : miniature locale dès que le workflow quotidien l'a faite (voir
+    //    data/miniatures_plates.json), sinon l'adresse donnée par l'API (elle expire au bout de
+    //    quelques semaines, d'où la miniature) ; même habillage que les autres photos Mapillary ;
+    //  - wikimedia_commons= : affichée directement, crédit vers la page du fichier ;
+    //  - image=<url> : affichée directement (licence inconnue, jamais copiée chez nous), pastille
+    //    « Voir la source » vers l'image elle-même.
+    // Une photo du tag mapillary= déjà retenue dans photos_mapillary.json n'est montrée qu'une fois,
+    // avec les photos retenues (plus bas).
+    const idsRetenus = ((window.photosMapillaryParOsmId || {})[tags.osm_id] || [])
+        .map(function (entree) { return String(entree.mapillary_id); });
     if (tags.photo_url) {
-        let credit = "";
-        if (tags.photo_source === 'wikimedia_commons') {
-            credit = t('popup_photo_credit_wikimedia');
+        const id = String(tags.mapillary || '').trim();
+        if (tags.photo_source === 'mapillary' && idsRetenus.indexOf(id) !== -1) {
+            // déjà parmi les photos retenues
         } else if (tags.photo_source === 'mapillary') {
-            credit = t('popup_photo_credit_mapillary');
+            const info = (window.miniaturesPlates || {})[id] || {};
+            diapositives.push({
+                type: 'img',
+                html: imgPhoto(info.cadrage ? `/images/mapillary-plates/${id}.webp` : tags.photo_url),
+                creditUrl: id ? `https://www.mapillary.com/app/?pKey=${encodeURIComponent(id)}&focus=photo` : tags.photo_credit_url,
+                pastille: t('popup_photo_voir_mapillary'),
+                logoMapillary: true,
+                licenceMapillary: true,
+                auteur: info.auteur || "",
+            });
+        } else if (tags.photo_source === 'wikimedia_commons') {
+            diapositives.push({
+                type: 'img',
+                html: imgPhoto(tags.photo_url),
+                creditUrl: tags.photo_credit_url,
+                pastille: t('popup_photo_voir_wikimedia'),
+                creditLabel: t('popup_photo_credit_wikimedia'),
+            });
+        } else {
+            diapositives.push({
+                type: 'img',
+                html: imgPhoto(tags.photo_url),
+                creditUrl: tags.photo_url,
+                pastille: t('popup_photo_voir_source'),
+            });
         }
-        diapositives.push({
-            type: 'img',
-            html: `<img src="${tags.photo_url}" alt="" class="popup-photo" loading="lazy">`,
-            creditUrl: tags.photo_credit_url,
-            creditLabel: credit,
-        });
     }
 
     // Photos validées manuellement (une ou plusieurs — voir data/photos_mapillary.json, qui
@@ -2816,12 +2900,14 @@ function construireContenuPopupTerrain(feature, layer) {
             // scripts/miniature_360.py) : une <img> classique suffit.
             diapositives.push({
                 type: 'img',
-                mapillary: true,
-                html: `<img src="${entree.miniature_locale}" alt="" class="popup-photo" loading="lazy">`,
+                ajoutPhoto: true,
+                html: imgPhoto(entree.miniature_locale),
                 // entree.credit_url (avec x/y/zoom) amène au cadrage choisi dans la page admin.
                 // Repli sur le lien générique pour d'anciennes entrées qui n'en ont pas.
                 creditUrl: entree.credit_url || lienPhoto,
                 pastille: t('popup_photo_explorer_360'),
+                logoMapillary: true,
+                licenceMapillary: true,
                 auteur: auteur,
             });
             return;
@@ -2829,10 +2915,12 @@ function construireContenuPopupTerrain(feature, layer) {
         if (info.cadrage) {
             diapositives.push({
                 type: 'img',
-                mapillary: true,
-                html: `<img src="/images/mapillary-plates/${entree.mapillary_id}.webp" alt="" class="popup-photo" loading="lazy">`,
+                ajoutPhoto: true,
+                html: imgPhoto(`/images/mapillary-plates/${entree.mapillary_id}.webp`),
                 creditUrl: lienPhoto,
                 pastille: t('popup_photo_voir_mapillary'),
+                logoMapillary: true,
+                licenceMapillary: true,
                 auteur: auteur,
             });
             return;
@@ -2840,7 +2928,7 @@ function construireContenuPopupTerrain(feature, layer) {
         // Miniature pas encore faite : l'embed Mapillary, qui porte son propre habillage.
         diapositives.push({
             type: 'iframe',
-            mapillary: true,
+            ajoutPhoto: true,
             html: `<iframe src="https://www.mapillary.com/embed?image_key=${entree.mapillary_id}&style=photo" class="popup-photo popup-photo-iframe" loading="lazy" frameborder="0" scrolling="no"></iframe>`,
             creditUrl: lienPhoto,
             // Prénom ou pseudo d'un visiteur qui a envoyé la photo (voir creditVisiteur plus bas).
@@ -2854,12 +2942,14 @@ function construireContenuPopupTerrain(feature, layer) {
     // bloque toute interaction depuis notre page — voir la discussion sur le same-origin plus
     // haut dans nos échanges). La petite icône ⤢ dans le coin reste comme indice visuel, mais
     // toute la zone .popup-photo-expand-zone est cliquable, pas seulement l'icône elle-même.
-    // Par-dessus la photo : la pastille « Voir sur Mapillary ↗ » (miniatures locales seulement,
-    // l'embed a son propre habillage) et, dans un carrousel, les points de pagination (posés
-    // dans chaque diapositive, sur la photo, pour ne pas tomber sur la ligne de crédit dessous).
+    // Par-dessus la photo : la pastille de sa source (« Voir sur Mapillary ↗ »… ; pas pour l'embed,
+    // qui a son propre habillage) et, dans un carrousel, les points de pagination (posés dans
+    // chaque diapositive, sur la photo, pour ne pas tomber sur la ligne de crédit dessous). Sans
+    // lien de source, ni pastille ni zone cliquable : jamais de href="undefined".
     function avecBoutonAgrandir(d, points) {
-        const pastille = d.pastille
-            ? `<span class="popup-photo-pastille"><img src="/images/logo-mapillary.webp" alt="">${d.pastille}</span>`
+        const logo = d.logoMapillary ? `<img src="/images/logo-mapillary.webp" alt="">` : "";
+        const pastille = d.pastille && d.creditUrl
+            ? `<span class="popup-photo-pastille">${logo}${d.pastille}</span>`
             : "";
         const lien = d.creditUrl
             ? `<a href="${d.creditUrl}" target="_blank" rel="noopener" class="popup-photo-expand-zone" aria-label="${t('popup_photo_expand')}"></a>`
@@ -2867,12 +2957,12 @@ function construireContenuPopupTerrain(feature, layer) {
         return `<div class="popup-photo-wrap">${d.html}${pastille}${points || ""}${lien}</div>`;
     }
 
-    // Photos Mapillary (photos_mapillary.json) : le bouton « Ajouter une photo ? » est proposé
-    // sous la photo ou sous le carrousel (voir boutonAjouterPhoto() plus bas, rendu une seule
-    // fois sous le carrousel, pas par diapositive — sinon il apparaissait autant de fois qu'il y
-    // a de photos de ce type). Une photo venue d'un tag OSM ne le propose pas.
+    // Photos de photos_mapillary.json : le bouton « Ajouter une photo ? » est proposé sous la
+    // photo ou sous le carrousel (voir boutonAjouterPhoto() plus bas, rendu une seule fois sous
+    // le carrousel, pas par diapositive — sinon il apparaissait autant de fois qu'il y a de photos
+    // de ce type). Une photo venue d'un tag OSM ne le propose pas.
     function proposeAjouterPhoto(d) {
-        return !!d.mapillary;
+        return !!d.ajoutPhoto;
     }
 
     // Photo envoyée par un visiteur : son prénom ou pseudo, s'il en a donné un, s'affiche sous la
@@ -2902,7 +2992,7 @@ function construireContenuPopupTerrain(feature, layer) {
     const LICENCE_MAPILLARY = `<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>`;
 
     function sousLaPhoto(d) {
-        if (d.pastille) {
+        if (d.licenceMapillary) {
             return `<span class="popup-photo-credit popup-photo-licence">${t('popup_photo_credit_auteur')(d.auteur ? echapperHtml(d.auteur) : "")} · ${LICENCE_MAPILLARY}</span>`;
         }
         if (d.type === 'iframe') return creditVisiteur(d);
@@ -2915,19 +3005,19 @@ function construireContenuPopupTerrain(feature, layer) {
         return `<button type="button" class="popup-photo-add-btn" data-osm-id="${tags.osm_id || ''}" data-terrain-titre="${titre.replace(/"/g, '&quot;')}">${t('popup_photo_add')}</button>`;
     }
 
+    // Terrain de la fiche, pour photoIntrouvable() : si aucune photo ne charge, le bloc devient
+    // celui d'un terrain sans photo, avec son bouton « Ajouter une photo ».
+    const attributsTerrain = `data-osm-id="${tags.osm_id || ''}" data-terrain-titre="${titre.replace(/"/g, '&quot;')}"`;
+
     let photo = "";
     if (diapositives.length === 0) {
         // Aucune photo : un bandeau bas (le dessin recadré et atténué) plutôt que le grand dessin,
         // qui occupait près de la moitié de la fiche. L'invitation à proposer une photo est posée
         // dessus ; elle ouvre la modale #add-photo-modal (voir brancherPhotosPopup).
-        photo = `
-        <div class="fiche-sans-photo">
-            <img src="/images/pas-de-photo.webp" alt="" loading="lazy">
-            <button type="button" class="popup-photo-add-btn fiche-ajout-photo" data-osm-id="${tags.osm_id || ''}" data-terrain-titre="${titre.replace(/"/g, '&quot;')}">${t('fiche_ajouter_photo')}</button>
-        </div>`;
+        photo = htmlSansPhoto(tags.osm_id, titre);
     } else if (diapositives.length === 1) {
         const d = diapositives[0];
-        photo = `<div class="fiche-photos">${avecBoutonAgrandir(d)}${sousLaPhoto(d)}${proposeAjouterPhoto(d) ? boutonAjouterPhoto() : ""}</div>`;
+        photo = `<div class="fiche-photos" ${attributsTerrain}>${avecBoutonAgrandir(d)}${sousLaPhoto(d)}${proposeAjouterPhoto(d) ? boutonAjouterPhoto() : ""}</div>`;
     } else {
         // Plusieurs photos : petit carrousel (flèches précédent/suivant), en JS natif — voir
         // brancherPhotosPopup(), appelée juste après l'ouverture de la popup plus bas. Chaque
@@ -2940,7 +3030,7 @@ function construireContenuPopupTerrain(feature, layer) {
             </div>`).join('');
         const auMoinsUneAvecBouton = diapositives.some(proposeAjouterPhoto);
         photo = `
-        <div class="fiche-photos">
+        <div class="fiche-photos" ${attributsTerrain}>
         <div class="popup-photo-carousel" data-total="${diapositives.length}">
             ${diapositivesHtml}
             <button type="button" class="popup-photo-nav prev" aria-label="${t('popup_photo_prev')}">‹</button>
@@ -3060,23 +3150,26 @@ function brancherPhotosPopup(e) {
     // Carrousel (2 photos ou plus)
     const carrousel = conteneur.querySelector('.popup-photo-carousel');
     if (carrousel) {
-        const diapositives = carrousel.querySelectorAll('.popup-photo-slide');
-        let indexActuel = 0;
-
-        // Les points de pagination suivent : chaque diapositive porte les siens.
-        function afficherDiapositive(index) {
-            diapositives.forEach((d, i) => { d.style.display = i === index ? '' : 'none'; });
-            indexActuel = index;
+        // Les points de pagination suivent : chaque diapositive porte les siens. Diapositives
+        // relues à chaque clic : une photo qui ne charge pas a pu être retirée entre-temps
+        // (voir photoIntrouvable).
+        function decaler(pas) {
+            const diapositives = carrousel.querySelectorAll('.popup-photo-slide');
+            const total = diapositives.length;
+            if (!total) return;
+            let visible = Array.prototype.findIndex.call(diapositives, d => d.style.display !== 'none');
+            if (visible < 0) visible = 0;
+            const suivante = (visible + pas + total) % total;
+            diapositives.forEach((d, i) => { d.style.display = i === suivante ? '' : 'none'; });
         }
 
-        const total = diapositives.length;
         carrousel.querySelector('.popup-photo-nav.prev').addEventListener('click', function (evt) {
             evt.preventDefault();
-            afficherDiapositive((indexActuel - 1 + total) % total);
+            decaler(-1);
         });
         carrousel.querySelector('.popup-photo-nav.next').addEventListener('click', function (evt) {
             evt.preventDefault();
-            afficherDiapositive((indexActuel + 1) % total);
+            decaler(1);
         });
     }
 

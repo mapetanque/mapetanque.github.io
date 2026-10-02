@@ -1,6 +1,7 @@
 """
 Miniatures locales des photos Mapillary plates (les 360° ont leur propre circuit, voir
-miniature_360.py), partagées par :
+miniature_360.py) : celles de data/photos_mapillary.json et celles des tags OSM mapillary=<id>.
+Partagées par :
   - scripts/generer_miniatures_plates.py (rattrapage sur le PC, et tests) ;
   - scripts/publier_photos.py (phase « Miniatures plates » du workflow quotidien).
 
@@ -182,6 +183,20 @@ def ids_de_photos_mapillary(photos):
                 continue
             (vues_360 if entree.get("miniature_locale") else plates).add(mapillary_id)
     return plates - vues_360, vues_360
+
+
+def ids_de_tags_osm():
+    """Identifiants des photos venues d'un tag OSM mapillary=<id> (data/terrains.geojson), quand
+    c'est bien cette photo que le site affiche (photo_source « mapillary » : un tag image= ou
+    wikimedia_commons= passe avant). Leur miniature est faite par le même circuit que celles de
+    photos_mapillary.json ; en attendant, le site montre l'adresse donnée par l'API."""
+    chemin = RACINE / "data" / "terrains.geojson"
+    if not chemin.exists():
+        return set()
+    with open(chemin, encoding="utf-8") as f:
+        geo = json.load(f)
+    return {str(p["mapillary"]).strip() for p in (f["properties"] for f in geo["features"])
+            if p.get("photo_source") == "mapillary" and str(p.get("mapillary") or "").strip()}
 
 
 def completer(token, plates, vues_360, limite=None, refaire=(), simulation=False, pause=1.0):

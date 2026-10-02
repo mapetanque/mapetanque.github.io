@@ -202,9 +202,9 @@ def resoudre_wikimedia_commons(valeur):
 def resoudre_mapillary(image_id):
     """
     Résout un tag mapillary=<id> (photo choisie manuellement par un mappeur, pas une recherche
-    de proximité) en URL de vignette, via l'API Mapillary. Le lien de crédit pointe vers la page
-    d'accueil Mapillary : leurs conditions d'utilisation exigent d'attribuer visiblement la source
-    dès que leurs données/images sont affichées.
+    de proximité) en URL de vignette, via l'API Mapillary. Le lien de crédit (voir
+    resoudre_photo) ouvre la photo sur Mapillary : leurs conditions d'utilisation exigent
+    d'attribuer visiblement la source dès que leurs données/images sont affichées.
 
     Renvoie (statut, url), statut valant :
       "ok"       — url est l'adresse de la vignette ;
@@ -262,17 +262,20 @@ def resoudre_photo(tags, precedente=None):
         return url_image, "wikimedia_commons", url_credit
 
     if tags.get("mapillary"):
+        # Adresse de la vignette donnée par l'API : elle expire au bout de quelques semaines.
+        # Le site ne s'en sert qu'en attendant la miniature locale, faite par le workflow
+        # quotidien de publication des photos (voir scripts/miniature_plate.py).
         statut, url = resoudre_mapillary(tags["mapillary"])
+        lien = f"https://www.mapillary.com/app/?pKey={urllib.parse.quote(str(tags['mapillary']).strip())}&focus=photo"
         if statut == "ok":
-            return url, "mapillary", "https://www.mapillary.com/"
+            return url, "mapillary", lien
 
         if (statut == "erreur" and precedente
                 and precedente.get("photo_source") == "mapillary"
                 and precedente.get("mapillary") == tags["mapillary"]
                 and precedente.get("photo_url")):
             PHOTOS_REPRISES.append(tags["mapillary"])
-            return (precedente["photo_url"], "mapillary",
-                    precedente.get("photo_credit_url") or "https://www.mapillary.com/")
+            return precedente["photo_url"], "mapillary", lien
 
     return None, None, None
 

@@ -1461,6 +1461,11 @@ body.fullscreen-lock {
     pointer-events: none;
 }
 
+/* Plus qu'une photo après le retrait d'une photo introuvable (voir photoIntrouvable). */
+.popup-photo-dots[hidden] {
+    display: none;
+}
+
 .popup-photo-dot {
     width: 6px;
     height: 6px;

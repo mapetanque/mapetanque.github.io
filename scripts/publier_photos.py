@@ -30,14 +30,16 @@ Six phases, dans cet ordre. Une phase qui échoue n'empêche pas les suivantes
   4. Export. Le Worker fusionne toutes les décisions (revue des candidats,
      photos manuelles, photos de visiteurs rattachées, vues 360° générées) sur
      le data/photos_mapillary.json du dépôt, qui est réécrit.
-  5. Miniatures plates. Sur le photos_mapillary.json tout juste réécrit,
-     génère la miniature de chaque photo plate qui n'en a pas encore
-     (images/mapillary-plates/, par scripts/miniature_plate.py) et relève son
-     auteur, ainsi que celui des vues 360°, dans data/miniatures_plates.json.
-     Ce fichier n'est jamais touché par le Worker.
+  5. Miniatures plates. Sur le photos_mapillary.json tout juste réécrit (et
+     pour les tags OSM mapillary= de terrains.geojson), génère la miniature de
+     chaque photo plate qui n'en a pas encore (images/mapillary-plates/, par
+     scripts/miniature_plate.py) et relève son auteur, ainsi que celui des vues
+     360°, dans data/miniatures_plates.json. Ce fichier n'est jamais touché par
+     le Worker, ni par le workflow OSM : un seul workflow l'écrit.
   6. Ménage. Supprime de images/mapillary-360/ et de images/mapillary-plates/
      les fichiers que plus rien ne cite : ni photos_mapillary.json (tout juste
-     réécrit), ni beaux_terrains.json, ni terrains_promus.json. Retire aussi de
+     réécrit), ni beaux_terrains.json, ni terrains_promus.json, ni (pour les
+     photos plates) un tag OSM mapillary=. Retire aussi de
      miniatures_plates.json les photos disparues. N'a lieu que si l'export a
      réussi : sur un fichier pas à jour, les miniatures du passage seraient
      prises pour des orphelines.
@@ -522,6 +524,7 @@ def phase_miniatures_plates(token, simulation):
 
     with open(CHEMIN_PHOTOS, encoding="utf-8") as f:
         plates, vues_360 = miniature_plate.ids_de_photos_mapillary(json.load(f))
+    plates |= miniature_plate.ids_de_tags_osm() - vues_360
     miniature_plate.completer(token, plates, vues_360, simulation=simulation)
 
 
@@ -576,9 +579,9 @@ def phase_menage_360(simulation):
 def phase_menage_plates(simulation):
     import miniature_plate
 
-    # Identifiants encore utilisés : toutes les photos de photos_mapillary.json, plus les
-    # miniatures plates citées par les épinglés et les promus du carrousel.
-    cites = set(ids_du_fichier())
+    # Identifiants encore utilisés : toutes les photos de photos_mapillary.json, celles des
+    # tags OSM mapillary=, plus les miniatures citées par les épinglés et les promus.
+    cites = set(ids_du_fichier()) | miniature_plate.ids_de_tags_osm()
     cites |= {nom[:-len(".webp")] for nom in miniatures_citees(miniature_plate.PREFIXE_WEB)}
     miniature_plate.menage(cites, simulation)
 

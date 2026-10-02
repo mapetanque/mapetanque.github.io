@@ -1,8 +1,9 @@
 """
-Rattrapage des miniatures des photos Mapillary plates : génère d'un coup celles qui manquent
-(images/mapillary-plates/) et relève l'auteur de chaque photo, plates et vues 360°, dans
-data/miniatures_plates.json. Le travail est fait par miniature_plate.py, le même module que la
-phase « Miniatures plates » du workflow quotidien (publier_photos.py).
+Rattrapage des miniatures des photos Mapillary plates (photos_mapillary.json et tags OSM
+mapillary=) : génère d'un coup celles qui manquent (images/mapillary-plates/) et relève l'auteur
+de chaque photo, plates et vues 360°, dans data/miniatures_plates.json. Le travail est fait par
+miniature_plate.py, le même module que la phase « Miniatures plates » du workflow quotidien
+(publier_photos.py).
 
 Reprend là où il s'est arrêté : une photo déjà faite est ignorée, sauf avec --refaire.
 
@@ -42,10 +43,11 @@ def main():
 
     with open(CHEMIN_PHOTOS, encoding="utf-8") as f:
         plates, vues_360 = miniature_plate.ids_de_photos_mapillary(json.load(f))
+    plates |= miniature_plate.ids_de_tags_osm() - vues_360
 
     inconnus = [i for i in args.refaire if i not in plates]
     if inconnus:
-        print("Pas des photos plates de photos_mapillary.json, ignorés : " + ", ".join(inconnus))
+        print("Pas des photos plates du site, ignorés : " + ", ".join(inconnus))
 
     faites, echecs = miniature_plate.completer(token, plates, vues_360, limite=args.limite,
                                                refaire=args.refaire, simulation=args.simulation)
