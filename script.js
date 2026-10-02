@@ -436,6 +436,14 @@ function cadrerSurEmprise(emprise, options) {
     map.options.zoomSnap = 1;
 }
 
+// Rayon de regroupement des amas (pages province/région), proportionnel à la largeur de la carte.
+// Le rayon par défaut de Leaflet.markercluster (80 px) convient à une grande carte, mais sur
+// téléphone (~380 px de large) toute la Wallonie tenait en 4 amas, contre 11 sur tablette.
+// Un dixième de la largeur, entre 40 et 80 px, donne à peu près le même découpage partout.
+function rayonAmas() {
+    return Math.max(40, Math.min(80, Math.round(map.getSize().x / 10)));
+}
+
 let userPosition = null;
 
 // Fond OpenStreetMap

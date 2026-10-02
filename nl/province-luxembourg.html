@@ -385,7 +385,7 @@
             // plus bas, fitBounds({maxZoom:16}) zoome exactement jusqu'à ce seuil, où le
             // regroupement est déjà désactivé — le marqueur est donc bien individualisé avant
             // l'appel à openPopup() juste après, sans changement nécessaire à cette logique.
-            const groupe = L.markerClusterGroup({ disableClusteringAtZoom: 16 });
+            const groupe = L.markerClusterGroup({ disableClusteringAtZoom: 16, maxClusterRadius: rayonAmas() });
             const layersParCommune = {};
 
             featuresProvince.forEach(function (feature) {

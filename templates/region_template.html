@@ -341,7 +341,7 @@
         toastTimeout = setTimeout(function () { toast.classList.remove('visible'); }, 2800);
     }
 
-    const groupe = L.markerClusterGroup({ disableClusteringAtZoom: 16 });
+    const groupe = L.markerClusterGroup({ disableClusteringAtZoom: 16, maxClusterRadius: rayonAmas() });
 
     // terrainsGeojson : téléchargement unique du fichier, lancé par script.js (pied de page)
     terrainsGeojson
