@@ -1393,7 +1393,10 @@ window.ouvrirModaleAjoutPhoto = function (osmId, terrainTitre) {
 // ces quelques ajustements sont faits ici pour n'avoir qu'une seule source à maintenir.
 if (addPhotoForm) {
     const champPhoto = addPhotoForm.querySelector('[name="fi-file-photo"]');
-    if (champPhoto) champPhoto.multiple = true;
+    if (champPhoto) {
+        champPhoto.multiple = true;
+        preparerChoixPhotos(champPhoto);
+    }
 
     // L'ancien champ e-mail devient le prénom ou pseudo à créditer : c'est ce que la case de
     // licence promet déjà, et un pseudo est bien moins sensible qu'une adresse.
@@ -1410,6 +1413,150 @@ if (addPhotoForm) {
             etiquette.textContent = t('add_photo_field_credit_label');
         }
     }
+}
+
+// --- Bouton "Ajouter des photos" -----------------------------------------------------------
+// Avec un champ à sélection multiple, Chrome sur Android ouvre directement la galerie, sans
+// proposer l'appareil photo. Le champ natif est donc remplacé, visuellement, par un bouton :
+//   - téléphone ou tablette Android avec caméra : petit menu "Prendre une photo" / "Choisir dans
+//     la galerie" ; la première option passe par un second champ caché, en capture="environment" ;
+//   - iPhone / iPad : le système propose déjà lui-même ce choix, le bouton ouvre le champ natif ;
+//   - ordinateur ou appareil sans caméra : le bouton ouvre directement le choix de fichiers.
+//
+// Les photos s'additionnent d'un ajout à l'autre (cinq au maximum, vérifié à l'envoi) : la liste
+// est recopiée dans le champ natif, si bien que la validation (required) et l'envoi restent
+// inchangés. Le champ natif reste dans la page, invisible, pour que le navigateur puisse y
+// accrocher son message "veuillez sélectionner un fichier".
+function preparerChoixPhotos(champPhoto) {
+    if (typeof DataTransfer !== 'function') return;   // navigateur trop ancien : champ natif seul
+
+    function libelle(balise, cle) {
+        const el = document.createElement(balise);
+        el.dataset.i18n = cle;
+        el.textContent = t(cle);
+        return el;
+    }
+
+    function bouton(classe, icone, cle) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = classe;
+        b.append(icone + ' ', libelle('span', cle));
+        return b;
+    }
+
+    const champAppareil = document.createElement('input');
+    champAppareil.type = 'file';
+    champAppareil.accept = 'image/*';
+    champAppareil.setAttribute('capture', 'environment');
+    champAppareil.hidden = true;
+
+    const boutonAjouter = bouton('add-photo-pick-btn', '📷', 'add_photo_add_btn');
+
+    const menu = document.createElement('div');
+    menu.className = 'add-photo-pick-menu';
+    menu.hidden = true;
+    const boutonAppareil = bouton('add-photo-pick-option', '📸', 'add_photo_take');
+    const boutonGalerie = bouton('add-photo-pick-option', '🖼️', 'add_photo_gallery');
+    menu.append(boutonAppareil, boutonGalerie);
+
+    // "3 photos sélectionnées · Retirer" : le nombre à part, pour que le reste suive le
+    // changement de langue via data-i18n.
+    const resume = document.createElement('div');
+    resume.className = 'add-photo-pick-summary';
+    resume.hidden = true;
+    const nombre = document.createElement('strong');
+    const motPhotos = libelle('span', 'add_photo_selected_many');
+    const boutonRetirer = libelle('button', 'add_photo_clear');
+    boutonRetirer.type = 'button';
+    boutonRetirer.className = 'add-photo-pick-clear';
+    resume.append(nombre, ' ', motPhotos, ' · ', boutonRetirer);
+
+    const bloc = document.createElement('div');
+    bloc.className = 'add-photo-pick';
+    champPhoto.before(bloc);
+    bloc.append(boutonAjouter, menu, resume, champPhoto, champAppareil);
+    champPhoto.classList.add('add-photo-file-input-cache');
+    champPhoto.tabIndex = -1;
+
+    // Menu proposé seulement sur un appareil tactile (hors iOS) qui a une caméra. Calculé une
+    // fois au chargement : ouvrir un sélecteur de fichiers doit se faire dans le clic lui-même,
+    // sans attendre une réponse asynchrone (Safari refuse sinon).
+    let proposerMenu = false;
+    const tactile = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+    const ios = /iPad|iPhone|iPod/.test(navigator.userAgent)
+        || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    if (tactile && !ios) {
+        if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
+            navigator.mediaDevices.enumerateDevices()
+                .then(function (appareils) {
+                    proposerMenu = appareils.some(function (a) { return a.kind === 'videoinput'; });
+                })
+                .catch(function () { proposerMenu = true; });
+        } else {
+            proposerMenu = true;   // page hors HTTPS : liste indisponible, un téléphone a une caméra
+        }
+    }
+
+    boutonAjouter.addEventListener('click', function () {
+        if (proposerMenu) {
+            menu.hidden = !menu.hidden;
+        } else {
+            champPhoto.click();
+        }
+    });
+    boutonAppareil.addEventListener('click', function () {
+        menu.hidden = true;
+        champAppareil.click();
+    });
+    boutonGalerie.addEventListener('click', function () {
+        menu.hidden = true;
+        champPhoto.click();
+    });
+
+    let choisies = [];
+
+    function afficher() {
+        const liste = new DataTransfer();
+        choisies.forEach(function (f) { liste.items.add(f); });
+        champPhoto.files = liste.files;
+
+        resume.hidden = choisies.length === 0;
+        nombre.textContent = choisies.length;
+        const cle = choisies.length > 1 ? 'add_photo_selected_many' : 'add_photo_selected_one';
+        motPhotos.dataset.i18n = cle;
+        motPhotos.textContent = t(cle);
+    }
+
+    // Ajoute les fichiers d'un champ à la liste, sans doublon si la même photo est rechoisie.
+    function ajouter(fichiers) {
+        Array.from(fichiers).forEach(function (f) {
+            const dejaLa = choisies.some(function (c) {
+                return c.name === f.name && c.size === f.size && c.lastModified === f.lastModified;
+            });
+            if (!dejaLa) choisies.push(f);
+        });
+        afficher();
+    }
+
+    // Le champ natif ne contient, juste après un choix, que la nouvelle sélection.
+    champPhoto.addEventListener('change', function () { ajouter(champPhoto.files); });
+    champAppareil.addEventListener('change', function () {
+        ajouter(champAppareil.files);
+        champAppareil.value = '';
+    });
+
+    boutonRetirer.addEventListener('click', function () {
+        choisies = [];
+        afficher();
+    });
+
+    // addPhotoForm.reset(), à chaque ouverture de la modale, vide déjà le champ natif.
+    champPhoto.form.addEventListener('reset', function () {
+        choisies = [];
+        menu.hidden = true;
+        resume.hidden = true;
+    });
 }
 
 // --- Astuce "format paysage" animée -------------------------------------------------------
