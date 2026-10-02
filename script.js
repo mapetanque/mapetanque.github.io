@@ -2495,8 +2495,9 @@ function afficherLienInstallation() {
     });
 }
 
+// Pas de preventDefault() : Chrome sur Android garde son propre bandeau « Ajouter à l'écran
+// d'accueil », affiché quand il le juge utile, en plus de nos boutons.
 window.addEventListener('beforeinstallprompt', function (e) {
-    e.preventDefault(); // pas de bandeau automatique : ce sont nos boutons qui l'ouvrent
     invitationInstallation = e;
     afficherLienInstallation();
 });
