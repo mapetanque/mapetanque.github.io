@@ -2406,6 +2406,10 @@ function construirePied() {
                     <li><strong id="pied-nb-photos">…</strong><span>${t('pied_photos')}</span></li>
                 </ul>
                 <p class="pied-maj" id="pied-maj" hidden></p>
+                <div class="pied-installer" data-installer hidden>
+                    <button type="button" class="pied-bouton pied-bouton-texte">${ICONES_PIED.telephone}<span>${t('pied_installer')}</span></button>
+                    <p class="pied-installer-aide" hidden>${texteAideInstallation()}</p>
+                </div>
             </div>
 
             <nav class="pied-col">
@@ -2427,10 +2431,6 @@ function construirePied() {
                     <li><a href="${prefixe}la-petanque.html">${t('menu_la_petanque')}</a></li>
                     <li><a href="${prefixe}a-propos.html">${t('menu_about')}</a></li>
                     <li><a href="${prefixe}a-propos.html#contact">${t('pied_contact')}</a></li>
-                    <li class="pied-installer" data-installer hidden>
-                        <button type="button" class="pied-lien-accent">${ICONES_PIED.telephone}${t('pied_installer')}</button>
-                        <p class="pied-installer-aide" hidden>${texteAideInstallation()}</p>
-                    </li>
                 </ul>
             </nav>
 
@@ -2442,7 +2442,7 @@ function construirePied() {
                     <a class="pied-bouton" href="https://www.facebook.com/sharer/sharer.php?u=${urlEncodee}" target="_blank" rel="noopener" title="${t('share_facebook')}" aria-label="${t('share_facebook')}">${ICONES_PIED.facebook}</a>
                     <a class="pied-bouton" href="https://twitter.com/intent/tweet?url=${urlEncodee}&amp;text=${texteEncode}" target="_blank" rel="noopener" title="${t('share_twitter')}" aria-label="${t('share_twitter')}">${ICONES_PIED.x}</a>
                     <a class="pied-bouton" href="mailto:?subject=${texteEncode}&amp;body=${urlEncodee}" title="${t('share_email')}" aria-label="${t('share_email')}">${ICONES_PIED.email}</a>
-                    <button type="button" class="pied-bouton pied-copier">${ICONES_PIED.lien}<span>${t('share_copy')}</span></button>
+                    <button type="button" class="pied-bouton pied-bouton-texte pied-copier">${ICONES_PIED.lien}<span>${t('share_copy')}</span></button>
                 </div>
             </div>
         </div>

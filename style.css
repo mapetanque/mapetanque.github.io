@@ -2387,23 +2387,19 @@ html.menu-ouvert body {
     height: 14px;
 }
 
-/* « Installer l'application » : un bouton (il déclenche une action), habillé comme le lien
-   « Signaler un terrain ». La marche à suivre s'affiche dessous quand le navigateur n'a pas de
-   fenêtre d'installation (Safari sur iPhone/iPad, Firefox). */
+/* « Installer l'application » : sous les chiffres, même bouton que « Copier le lien ». La marche
+   à suivre s'affiche dessous quand le navigateur n'a pas de fenêtre d'installation (Safari sur
+   iPhone/iPad, Firefox). */
+.pied-installer {
+    margin-top: 18px;
+}
+
 .pied-installer[hidden],
 .pied-installer-aide[hidden] { display: none; }
 
-.pied .pied-installer button {
-    padding: 0;
-    border: 0;
-    background: none;
-    font: inherit;
-    cursor: pointer;
-}
-
 .pied-installer-aide {
-    max-width: 240px;
-    margin: 8px 0 0;
+    max-width: 300px;
+    margin: 10px 0 0;
     color: var(--pied-discret);
     font-size: 13px;
     line-height: 1.45;
@@ -2455,7 +2451,8 @@ html.menu-ouvert body {
     height: 15px;
 }
 
-.pied .pied-copier {
+/* Boutons avec texte : « Copier le lien » et « Installer l'application » */
+.pied .pied-bouton-texte {
     width: auto;
     padding: 0 14px;
     gap: 8px;
@@ -2463,7 +2460,7 @@ html.menu-ouvert body {
     font-size: 13px;
 }
 
-.pied-copier svg {
+.pied-bouton-texte svg {
     width: 16px;
     height: 16px;
 }
@@ -2583,8 +2580,8 @@ html.menu-ouvert body {
         height: 44px;
     }
 
-    .pied .pied-copier {
-        flex: 1 0 100%;
+    .pied .pied-bouton-texte {
+        width: auto;
     }
 
     .pied-bas {
