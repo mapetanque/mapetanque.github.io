@@ -1,0 +1,32 @@
+{
+    "id": "/",
+    "name": "Mapetanque — terrains de pétanque en Belgique",
+    "short_name": "Mapetanque",
+    "description": "Carte des terrains de pétanque accessibles au public en Belgique.",
+    "lang": "fr",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "background_color": "#f7f9f6",
+    "theme_color": "#74c15a",
+    "icons": [
+        {
+            "src": "/images/icone-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/images/icone-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/images/icone-masquable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}

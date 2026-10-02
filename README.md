@@ -97,6 +97,12 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 - Génération des données terrains via `scripts/update_terrains.py`, à exécuter manuellement ou via tâche planifiée (~30 min d'exécution à cause de la limite Nominatim d'1 requête/seconde) — produit `data/terrains.geojson` et `data/stats_geo.json`
 - Génération des pages province/région via `scripts/generate_provinces.py`, à relancer après toute modification de `data/provinces.json`, `data/regions.json`, `templates/province_template.html`, `templates/region_template.html` ou `translations.js`
 
+## 📲 Application installable (PWA)
+
+- Le site s'installe comme une application (icône sur l'écran d'accueil, ouverture en plein écran sans barre d'adresse) : Android/Chrome propose « Installer l'application » ; sur iPhone/iPad, Safari → Partager → « Sur l'écran d'accueil »
+- `manifest.webmanifest` : nom, couleurs et icônes de l'application (`images/icone-192.png`, `images/icone-512.png`, `images/icone-masquable-512.png` pour les icônes rondes d'Android), lié depuis le `<head>` de chaque page
+- `sw.js` (service worker, enregistré en tête de `script.js`) : « le réseau d'abord ». Tout est toujours redemandé au serveur, la copie en cache ne sert qu'hors connexion : l'application reste à jour sans rien faire à chaque publication. Sans connexion, les pages déjà consultées restent lisibles (la carte, elle, a besoin du réseau) ; une page jamais vue affiche « Pas de connexion internet » en 4 langues
+
 ---
 
 ## 🔎 Référencement (SEO)
@@ -149,6 +155,8 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 ├── translations.js                   # Textes du site en FR / NL / DE (source unique)
 ├── sitemap.xml                       # Plan du site (accueil + provinces + régions)
 ├── robots.txt                        # Référence le sitemap pour les robots d'indexation
+├── manifest.webmanifest              # Fiche de l'application installable (PWA)
+├── sw.js                             # Service worker de l'application (doit rester à la racine)
 ├── images/
 │   ├── mapetanque-logo-blanc.svg     # Logo complet (boule + texte vectorisé), en-tête sur bannière
 │   ├── mapetanque-boule.svg          # Boule seule (en-tête mobile, favicon SVG, page admin)

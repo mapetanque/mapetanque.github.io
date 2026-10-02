@@ -1,3 +1,14 @@
+// ===================== Application installable (PWA) =====================
+
+// Enregistre le service worker (/sw.js) : il permet d'installer le site comme une application
+// sur téléphone et ordinateur, et de revoir hors connexion les pages déjà consultées.
+// Placé en tête du fichier pour ne dépendre d'aucune autre partie du script.
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js').catch(function () {});
+    });
+}
+
 // ===================== Icônes SVG réutilisables (popups des terrains) =====================
 
 const ICON_ROUTE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>';
