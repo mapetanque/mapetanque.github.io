@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta name="robots" content="noindex">
+    <meta charset="UTF-8">
+    <title>MAQUETTE — Terrains de pétanque à La Louvière — Mapetanque.be</title>
+    <meta name="description" id="meta-description" content="Terrains de pétanque publics en province Hainaut : carte interactive, liste par commune, recherche par ville sur Mapetanque.be.">
+    <link rel="icon" type="image/svg+xml" href="/images/mapetanque-boule-pleine.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png?v=4">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=4">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="apple-mobile-web-app-title" content="Mapetanque">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Open Graph : aperçu affiché lors du partage du lien (WhatsApp, Facebook, etc.) -->
+    <meta property="og:title" content="Terrains de pétanque en province d'Hainaut — Mapetanque.be">
+    <meta property="og:description" content="Terrains de pétanque publics en province Hainaut : carte interactive, liste par commune, recherche par ville sur Mapetanque.be.">
+    <meta property="og:image" content="https://mapetanque.be/images/mapetanque-partage.png?v=2">
+    <meta property="og:url" content="https://mapetanque.be/province-hainaut.html">
+    <meta property="og:type" content="website">
+    <!-- Versions par langue de cette même page province, uniquement quand elles existent
+         réellement (le générateur ne les inclut que si la traduction correspondante est prête). -->
+
+    <!-- Bibliothèque Leaflet -->
+    <link rel="stylesheet" href="/lib/leaflet-1.9.4/leaflet.css" />
+    <link rel="stylesheet" href="/lib/leaflet.markercluster-1.5.3/MarkerCluster.css" />
+    <link rel="stylesheet" href="/lib/leaflet.markercluster-1.5.3/MarkerCluster.Default.css" />
+
+    <!-- Feuille de style du site (chemin absolu : cette page est aussi servie depuis /nl/ et
+         /de/, un chemin relatif irait chercher un mauvais dossier et casserait tout) -->
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style-chargeur-photo.css">
+
+    <!-- Bannière photo + contenu province : ajouts additifs uniquement, aucune règle de
+         /style.css n'est modifiée par ce fichier. -->
+    <link rel="stylesheet" href="/style-province.css">
+    <link rel="stylesheet" href="/style-beaux-terrains.css">
+    <link rel="stylesheet" href="/style-ombres.css">
+
+    <!-- MAQUETTE : styles qui iraient dans style-commune.css -->
+    <style>
+    .commune-section { margin: 0 0 48px; }
+    .commune-section h2 { font-size: 26px; color: #333; margin: 0 0 20px; }
+    .commune-terrains { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+    .commune-terrain { display: flex; flex-direction: column; border: 1px solid #e2e6de; border-radius: 14px; overflow: hidden; background: #fff; }
+    .commune-terrain-photo img { display: block; width: 100%; height: 180px; object-fit: cover; background: #f0f2ee; }
+    .commune-terrain-texte { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+    .commune-terrain h3 { margin: 0; font-size: 17px; color: #333; }
+    .commune-terrain-details { margin: 0; color: #777; font-size: 14px; }
+    .commune-pastilles { display: flex; flex-wrap: wrap; gap: 6px; }
+    .commune-pastille { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border: 1px solid #d6dccf; border-radius: 999px; font-size: 13px; color: #444; background: #fff; }
+    .commune-pastille svg { width: 15px; height: 15px; color: #3d7a2a; }
+    .commune-terrain-lien { margin-top: auto; padding-top: 4px; color: #3d7a2a; font-weight: 600; font-size: 14.5px; text-decoration: none; }
+    .commune-terrain-lien:hover { color: #74C15A; }
+    .commune-club { display: flex; gap: 14px; align-items: flex-start; padding: 16px; border: 1px solid #e2e6de; border-radius: 14px; color: #444; line-height: 1.5; max-width: 520px; }
+    .commune-club-icone svg { width: 28px; height: 28px; color: #3d7a2a; }
+    .commune-club-federation { color: #888; font-size: 14px; }
+    .commune-voisines { display: grid; grid-template-columns: 1fr 1fr; column-gap: 60px; }
+    .commune-voisines a { display: flex; justify-content: space-between; padding: 11px 2px; border-bottom: 1px solid #f0f2ee; text-decoration: none; color: #444; font-weight: 600; font-size: 14.5px; }
+    .commune-voisines a span { font-weight: 400; color: #999; }
+    .commune-voisines a:hover { color: #74C15A; }
+    @media (max-width: 700px) {
+        .commune-terrains { grid-template-columns: 1fr; }
+        .commune-voisines { grid-template-columns: 1fr; }
+        .commune-section h2 { font-size: 22px; }
+    }
+    </style>
+</head>
+
+<body>
+
+<div class="map-view" id="top">
+
+<div class="hero-banner" style="background-image: url('/images/provinces/banniere-hainaut.webp');">
+
+<div class="header">
+
+    <div class="header-top-row">
+        <a href="/" class="brand-link">
+            <picture>
+                <source media="(max-width: 1024px)" srcset="/images/mapetanque-boule-pleine.svg" width="32" height="32">
+                <img src="/images/mapetanque-logo.svg" class="logo" width="196" height="34" alt="Mapetanque">
+            </picture>
+        </a>
+
+        <!-- Navigation desktop : liens directs vers le panneau d'info + sélecteur de langue discret -->
+        <div class="header-nav-group">
+        <span id="game-nav-inline">
+            <a href="/comment-jouer.html" class="game-nav-link jouer"><span data-i18n="menu_comment_jouer">Comment jouer</span></a>
+            <a href="/compteur.html" class="game-nav-link compteur"><span data-i18n="menu_compteur">Compteur de points</span></a>
+            <a href="/la-petanque.html" class="game-nav-link petanque"><span data-i18n="menu_la_petanque">La pétanque</span></a>
+        </span>
+        <nav id="desktop-nav">
+            <a href="/a-propos.html" class="info-nav-trigger" data-i18n="menu_about">À propos</a>
+
+            <span id="lang-switcher-inline">
+                <button type="button" class="lang-link" data-lang="fr" data-lang-url="/province-hainaut.html">FR</button>
+                <button type="button" class="lang-link" data-lang="nl" data-lang-url="/nl/province-hainaut.html">NL</button>
+                <button type="button" class="lang-link" data-lang="de" data-lang-url="/de/province-hainaut.html">DE</button>
+                <button type="button" class="lang-link" data-lang="en" data-lang-url="/en/province-hainaut.html">EN</button>
+            </span>
+        </nav>
+        </div>
+
+        <!-- Menu burger (mobile uniquement) : la fenêtre elle-même (#side-menu) et son voile
+             (#menu-overlay) vivent hors de .hero-banner (voir plus bas), pour ne jamais être
+             tronqués ou empilés sous d'autres éléments à cause de l'overflow/position de la
+             bannière — le bouton qui l'ouvre, lui, reste ici avec le reste de la nav. -->
+        <button id="menu-button" aria-label="Menu" data-i18n-aria="open_menu">
+            <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+        </button>
+    </div>
+
+    <div class="province-breadcrumb">
+        <a href="/">Accueil</a>
+        <span class="sep">›</span>
+        <a href="/region-wallonie.html">Wallonie</a>
+        <span class="sep">›</span>
+        <a href="/province-hainaut.html">Hainaut</a>
+        <span class="sep">›</span>
+        <span class="current">La Louvière</span>
+    </div>
+    <h1 class="hero-headline">Terrains de pétanque à La Louvière</h1>
+
+</div>
+
+<!-- Crédit photo bannière -->
+<div class="hero-banner-credit">
+    Photo : Jean-Pol Grandmont, <a href="https://commons.wikimedia.org/w/index.php?curid=63955403" target="_blank" rel="noopener">CC BY 3.0</a>
+</div>
+
+</div><!-- /.hero-banner -->
+
+<!-- Fenêtre du menu burger + voile, hors de .hero-banner (voir commentaire plus haut) -->
+<nav id="side-menu">
+    <button id="close-menu" data-i18n-aria="close_menu">
+        ✕
+    </button>
+
+    <ul>
+        <li><a href="/comment-jouer.html" class="side-menu-game-link jouer"><span data-i18n="menu_comment_jouer">Comment jouer</span></a></li>
+                <li><a href="/compteur.html" class="side-menu-game-link compteur"><span data-i18n="menu_compteur">Compteur de points</span></a></li>
+                <li><a href="/la-petanque.html" class="side-menu-game-link petanque"><span data-i18n="menu_la_petanque">La pétanque</span></a></li>
+                <li><a href="/a-propos.html" data-i18n="menu_about">À propos</a></li>
+
+    </ul>
+
+    <div id="side-menu-lang">
+        <button type="button" class="lang-link" data-lang="fr" data-lang-url="/province-hainaut.html">FR</button>
+        <button type="button" class="lang-link" data-lang="nl" data-lang-url="/nl/province-hainaut.html">NL</button>
+        <button type="button" class="lang-link" data-lang="de" data-lang-url="/de/province-hainaut.html">DE</button>
+        <button type="button" class="lang-link" data-lang="en" data-lang-url="/en/province-hainaut.html">EN</button>
+    </div>
+</nav>
+
+<div id="menu-overlay"></div>
+
+<!-- Panneau de partage réutilisable (site ou terrain précis) -->
+<div id="share-overlay"></div>
+
+<!-- Fiche terrain plein écran sur mobile — voir le commentaire dans style.css et
+     ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. Vide par défaut, son
+     contenu est déplacé ici (pas copié) depuis le popup Leaflet correspondant à l'ouverture. -->
+<div id="mobile-sheet-overlay"></div>
+<div id="mobile-sheet">
+    <button id="mobile-sheet-close" aria-label="Fermer" data-i18n-aria="close_panel">&#10005;</button>
+    <div id="mobile-sheet-content"></div>
+</div>
+
+<!-- Fiche terrain en fenêtre flottante centrée sur desktop — même mécanisme que le panneau plein écran mobile ci-dessus, voir le commentaire dans style.css et ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js. -->
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="Fermer" data-i18n-aria="close_panel">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
+<div id="share-panel">
+    <button id="share-close" data-i18n-aria="close_panel">✕</button>
+    <p id="share-title" class="share-title"></p>
+
+    <div class="share-links">
+        <a id="share-whatsapp" class="share-link" target="_blank" rel="noopener">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></span><span data-i18n="share_whatsapp">WhatsApp</span>
+        </a>
+        <a id="share-facebook" class="share-link" target="_blank" rel="noopener">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></span><span data-i18n="share_facebook">Facebook</span>
+        </a>
+        <a id="share-twitter" class="share-link" target="_blank" rel="noopener">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><span data-i18n="share_twitter">X (Twitter)</span>
+        </a>
+        <a id="share-email" class="share-link">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span><span data-i18n="share_email">E-mail</span>
+        </a>
+        <button type="button" id="share-copy" class="share-link">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></span><span id="share-copy-label" data-i18n="share_copy">Copier le lien</span>
+        </button>
+    </div>
+</div>
+
+<!-- Modale "Ajouter une photo", ouverte depuis le bouton correspondant dans une popup de
+     terrain sans photo (voir brancherPhotosPopup dans script.js). Structure calquée sur
+     #share-panel/#share-overlay ci-dessus. -->
+<div id="add-photo-overlay"></div>
+<div id="add-photo-modal">
+    <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
+    <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
+    <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
+
+    <div id="add-photo-form-zone">
+        <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <p class="add-photo-tip"><strong data-i18n="add_photo_tip_label">Astuce :</strong> <span data-i18n="add_photo_tip">Prenez votre photo au format paysage (téléphone à l'horizontale), pour coller au format des photos Mapillary.</span> <a href="https://www.mapillary.com" target="_blank" rel="noopener" data-i18n="add_photo_tip_link">En savoir plus sur Mapillary</a></p><label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
+    </div>
+</div>
+
+
+<!-- Deux bandes pleine largeur, sur le modèle de l'accueil. Bande grise : carte, barre de
+     recherche, carrousel (pages région et Bruxelles) et tuiles de statistiques. Elle reste dans
+     .map-view, nécessaire pour que le mode plein écran fonctionne sur #map. -->
+<div class="province-bande-carte">
+
+    <div class="province-map-inline-wrapper" style="position: relative;">
+        <!-- Cadre positionné : le toast reste posé en bas de la carte, et non sur la barre
+             qui la suit. -->
+        <div class="province-map-cadre">
+            <div id="map"></div>
+            <div class="map-toast" id="mapToast"></div>
+        </div>
+        <!-- Barre « Me localiser » + recherche d'adresse, juste sous la carte : la carte est
+             plus bas dans la page qu'à l'accueil, une recherche depuis la bannière aurait donné
+             un résultat hors de vue. Mêmes identifiants qu'à l'accueil (voir script.js). -->
+        <div class="controls">
+            <button id="locateBtn" data-i18n-aria="locate_btn">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <span data-i18n="locate_btn">Me localiser</span>
+            </button>
+
+            <form id="searchForm" class="search-form">
+                <input
+                    type="text"
+                    id="searchInput"
+                    data-i18n-placeholder="search_placeholder"
+                    autocomplete="off"
+                >
+                <button type="submit" id="searchBtn" aria-label="Rechercher" data-i18n-aria="signalement_search_btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+            </form>
+        </div>
+        <p id="searchError" class="search-error"></p>
+    </div>
+
+    <div class="province-stats-tiles">
+        <div class="province-stat-tile"><span class="province-stat-tile-number">7</span><span class="province-stat-tile-label">terrains recensés</span></div>
+        <div class="province-stat-tile"><span class="province-stat-tile-number">6</span><span class="province-stat-tile-label">lieux</span></div>
+        <div class="province-stat-tile"><span class="province-stat-tile-number">1</span><span class="province-stat-tile-label">club</span></div>
+    </div>
+
+</div>
+
+</div><!-- /.map-view -->
+
+<!-- Bande blanche : texte, liste des communes et rebond, comme « Parcourir par région /
+     province » sur l'accueil. -->
+<div class="province-bande-texte">
+<div class="province-bande-interieur">
+
+    <p class="province-intro">
+        La Louvière compte <strong>7 terrains de pétanque</strong> accessibles au public, répartis sur <strong>6 lieux</strong>. Tous sont à moins de 300 m d'un arrêt de bus ou de tram, et 2 se trouvent au bord de l'eau. La commune compte aussi 1 club affilié à une fédération.
+    </p>
+
+    <section class="commune-section">
+        <h2>Les terrains de La Louvière</h2>
+        <div class="commune-terrains">
+            <article class="commune-terrain">
+                <a class="commune-terrain-photo" href="/?lat=50.4647779&amp;lon=4.2094081" data-osm="way/445373176"><img src="/images/mapillary-360/9614019292016365-20260928184359.webp" alt="" loading="lazy" width="320" height="180"></a>
+                <div class="commune-terrain-texte">
+                    <h3>Terrain Rue de la Poterie Monseu</h3>
+                    <p class="commune-terrain-details">2 pistes</p>
+                    <div class="commune-pastilles"><span class="commune-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></svg>Au calme</span><span class="commune-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>Parking · 5 m</span><span class="commune-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6 2 7"/><path d="M10 6h4"/><path d="m22 7-2-1"/><rect width="16" height="16" x="4" y="3" rx="2"/><path d="M4 11h16"/><path d="M8 15h.01"/><path d="M16 15h.01"/><path d="M6 19v2"/><path d="M18 21v-2"/></svg>Bus / tram · 247 m</span></div>
+                    <a class="commune-terrain-lien" href="/?lat=50.4647779&amp;lon=4.2094081" data-osm="way/445373176">Voir sur la carte →</a>
+                </div>
+            </article>
+            <article class="commune-terrain">
+                <a class="commune-terrain-photo" href="/?lat=50.4641333&amp;lon=4.2084744" data-osm="way/445373182"><img src="/images/mapillary-360/9614019292016365-20260928184426.webp" alt="" loading="lazy" width="320" height="180"></a>
+                <div class="commune-terrain-texte">
+                    <h3>Terrain Rue de la Poterie Monseu</h3>
+                    
+                    <div class="commune-pastilles"><span class="commune-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>Parking · 29 m</span><span class="commune-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6 2 7"/><path d="M10 6h4"/><path d="m22 7-2-1"/><rect width="16" height="16" x="4" y="3" rx="2"/><path d="M4 11h16"/><path d="M8 15h.01"/><path d="M16 15h.01"/><path d="M6 19v2"/><path d="M18 21v-2"/></svg>Bus / tram · 269 m</span></div>
+                    <a class="commune-terrain-lien" href="/?lat=50.4641333&amp;lon=4.2084744" data-osm="way/445373182">Voir sur la carte →</a>
+                </div>
+            </article>
+            <article class="commune-terrain">
+                <a class="commune-terrain-photo" href="/?lat=50.458449&amp;lon=4.1157429" data-osm="way/732137840"><img src="/images/mapillary-360/499219266398418-20260928184558.webp" alt="" loading="lazy" width="320" height="180"></a>
+                <div class="commune-terrain-texte">
+                    <h3>Terrain Rue Saint-Martin</h3>
+                    
+                    <div class="commune-pastilles"><span class="commune-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></svg>Au calme</span><span class="commune-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg>Au bord de l'eau</span><span class="commune-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>Parking · 184 m</span><span class="commune-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6 2 7"/><path d="M10 6h4"/><path d="m22 7-2-1"/><rect width="16" height="16" x="4" y="3" rx="2"/><path d="M4 11h16"/><path d="M8 15h.01"/><path d="M16 15h.01"/><path d="M6 19v2"/><path d="M18 21v-2"/></svg>Bus / tram · 134 m</span></div>
+                    <a class="commune-terrain-lien" href="/?lat=50.458449&amp;lon=4.1157429" data-osm="way/732137840">Voir sur la carte →</a>
+                </div>
+            </article>
+            <article class="commune-terrain">
+                <a class="commune-terrain-photo" href="/?lat=50.4724743&amp;lon=4.1782731" data-osm="way/1118791982"><img src="/images/pas-de-photo.webp" alt="" loading="lazy" width="320" height="180" class="sans-photo"></a>
+                <div class="commune-terrain-texte">
+                    <h3>Terrain Cité du Bocage</h3>
+                    
+                    <div class="commune-pastilles"><span class="commune-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16"/><path d="M6 7v6M18 7v6"/><path d="M3 13h18"/><path d="M5 13v6M19 13v6"/></svg>Bancs</span><span class="commune-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>Parking · 132 m</span><span class="commune-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6 2 7"/><path d="M10 6h4"/><path d="m22 7-2-1"/><rect width="16" height="16" x="4" y="3" rx="2"/><path d="M4 11h16"/><path d="M8 15h.01"/><path d="M16 15h.01"/><path d="M6 19v2"/><path d="M18 21v-2"/></svg>Bus / tram · 262 m</span></div>
+                    <a class="commune-terrain-lien" href="/?lat=50.4724743&amp;lon=4.1782731" data-osm="way/1118791982">Voir sur la carte →</a>
+                </div>
+            </article>
+            <article class="commune-terrain">
+                <a class="commune-terrain-photo" href="/?lat=50.4563285&amp;lon=4.0909916" data-osm="way/1341143906"><img src="/images/mapillary-360/1133903077889210-20260928184206.webp" alt="" loading="lazy" width="320" height="180"></a>
+                <div class="commune-terrain-texte">
+                    <h3>Terrain Rue de l&#x27;Entraide</h3>
+                    <p class="commune-terrain-details">sable</p>
+                    <div class="commune-pastilles"><span class="commune-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>Parking · 24 m</span><span class="commune-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6 2 7"/><path d="M10 6h4"/><path d="m22 7-2-1"/><rect width="16" height="16" x="4" y="3" rx="2"/><path d="M4 11h16"/><path d="M8 15h.01"/><path d="M16 15h.01"/><path d="M6 19v2"/><path d="M18 21v-2"/></svg>Bus / tram · 167 m</span></div>
+                    <a class="commune-terrain-lien" href="/?lat=50.4563285&amp;lon=4.0909916" data-osm="way/1341143906">Voir sur la carte →</a>
+                </div>
+            </article>
+            <article class="commune-terrain">
+                <a class="commune-terrain-photo" href="/?lat=50.4551187&amp;lon=4.1587981" data-osm="way/1547545637"><img src="/images/mapillary-360/685378880544342-20260928184123.webp" alt="" loading="lazy" width="320" height="180"></a>
+                <div class="commune-terrain-texte">
+                    <h3>Terrain Pré-RAVeL</h3>
+                    <p class="commune-terrain-details">terre battue</p>
+                    <div class="commune-pastilles"><span class="commune-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16"/><path d="M6 7v6M18 7v6"/><path d="M3 13h18"/><path d="M5 13v6M19 13v6"/></svg>Bancs</span><span class="commune-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></svg>Au calme</span><span class="commune-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg>Au bord de l'eau</span><span class="commune-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>Parking · 95 m</span><span class="commune-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6 2 7"/><path d="M10 6h4"/><path d="m22 7-2-1"/><rect width="16" height="16" x="4" y="3" rx="2"/><path d="M4 11h16"/><path d="M8 15h.01"/><path d="M16 15h.01"/><path d="M6 19v2"/><path d="M18 21v-2"/></svg>Bus / tram · 159 m</span><span class="commune-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg>Voie verte · 4 m</span></div>
+                    <a class="commune-terrain-lien" href="/?lat=50.4551187&amp;lon=4.1587981" data-osm="way/1547545637">Voir sur la carte →</a>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="commune-section">
+        <h2>Club de pétanque</h2>
+        <div class="commune-club">
+            <span class="commune-club-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+            <div><strong>PC Au Boule&#x27;o</strong><br>Chaussée de Jolimont, 50 - 7100 Haine-Saint-Pierre<br><span class="commune-club-federation">Fédération FBFP</span></div>
+        </div>
+    </section>
+
+    <section class="commune-section">
+        <h2>Autour de La Louvière</h2>
+        <div class="commune-voisines">
+            <a href="#">Binche <span>8 terrains · 6 km</span></a><a href="#">Ville-sur-Haine <span>2 terrains · 7 km</span></a><a href="#">Écaussinnes <span>2 terrains · 11 km</span></a><a href="#">Courcelles <span>2 terrains · 12 km</span></a><a href="#">Thuin <span>1 terrain · 17 km</span></a><a href="#">Hantes-Wihéries <span>1 terrain · 17 km</span></a>
+        </div>
+    </section>
+
+    <div class="other-provinces-section">
+        <h2>Ailleurs dans le Hainaut</h2>
+        <div class="tuiles-provinces tuiles-deux">
+            <a href="/province-hainaut.html" class="tuile-province" style="background-image: url('/images/provinces/tuile-hainaut.webp');">
+                <span class="tuile-province-nom">Hainaut</span>
+                <span class="tuile-province-nombre">97 terrains</span>
+            </a>
+            <a href="/region-wallonie.html" class="tuile-province" style="background-image: url('/images/provinces/tuile-wallonie.webp');">
+                <span class="tuile-province-nom">Wallonie</span>
+                <span class="tuile-province-nombre">437 terrains</span>
+            </a>
+        </div>
+    </div>
+    <div hidden><input id="communeSearch"><div id="communeList"></div><p id="communeNoResult"></p><button id="communeVoirTout" hidden></button></div>
+
+</div>
+</div>
+
+<!-- Panneau d'info coulissant -->
+
+<!-- Pied de page : construit par construirePied() dans script.js -->
+<footer class="pied"></footer>
+
+<!-- Bibliothèque Leaflet -->
+<script src="/lib/leaflet-1.9.4/leaflet.js"></script>
+<script src="/lib/leaflet.markercluster-1.5.3/leaflet.markercluster.js"></script>
+
+<!-- Traductions -->
+<script src="/translations.js"></script>
+
+<!-- Empêche script.js de charger/afficher son jeu de marqueurs par défaut (tous les terrains de
+     Belgique, avec clustering) : cette page construit son propre sous-ensemble juste après. -->
+<script>window.MAPETANQUE_SKIP_DEFAULT_MARKERS = true;</script>
+
+<!-- Restreint la couche clubs (chargée par script.js, voir plus bas) à cette province — même
+     clé que celle utilisée juste après pour filtrer les terrains, hainaut valant soit
+     le slug de la province, soit celui de la région pour Bruxelles (pas de province dédiée). -->
+<script>window.MAPETANQUE_STATS_GEO_KEY = 'hainaut';</script>
+
+<!-- Script du site -->
+<script src="/chargeur-photo.js"></script>
+    <script src="/criteres.js"></script>
+    <script src="/script.js"></script>
+<script src="/beaux-terrains.js"></script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
+
+<!-- ===================== Comportement propre à la page province ===================== -->
+<!-- Réutilise les briques de script.js (icône des terrains, contenu des popups, calcul de
+     distance, etc. — voir window.MAPETANQUE_SKIP_DEFAULT_MARKERS plus haut) mais charge et
+     affiche uniquement les terrains de cette province, sans regroupement (clustering) puisque
+     le sous-ensemble est déjà restreint. -->
+<script>
+(function () {
+
+    // Sécurité : force Leaflet à recalculer la taille de son conteneur avant tout calcul de
+    // cadrage, pour que fitBounds() s'appuie sur une carte déjà correctement dimensionnée.
+    if (typeof map !== 'undefined') {
+        map.invalidateSize();
+    }
+
+    function appartientALaProvince(props) {
+        if (props.commune !== "La Louvi\u00e8re") return false;
+        if (props.province) return props.province === 'hainaut';
+        return props.region === 'hainaut'; // cas particulier Bruxelles (pas de province)
+    }
+
+    let toastTimeout = null;
+    function afficherToast(texte) {
+        const toast = document.getElementById('mapToast');
+        if (!toast) return;
+        toast.textContent = texte;
+        toast.classList.add('visible');
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(function () { toast.classList.remove('visible'); }, 2800);
+    }
+
+    // Marqueurs de chaque commune, remplis à l'arrivée des terrains : lus au clic sur une
+    // commune de la liste (plus bas).
+    const layersParCommune = {};
+
+    // terrainsGeojson : téléchargement unique du fichier, lancé par script.js (pied de page)
+    terrainsGeojson
+        .then(function (data) {
+
+            const featuresProvince = data.features.filter(function (f) {
+                return appartientALaProvince(f.properties);
+            });
+
+            if (featuresProvince.length === 0) {
+                afficherToast('Aucun terrain chargé pour cette province');
+                return;
+            }
+
+            // Regroupement (clustering) des terrains, comme sur la page d'accueil et les pages
+            // région — jusqu'ici cette page utilisait un simple L.layerGroup (pas de
+            // regroupement), ce qui pouvait ralentir sensiblement le pan/zoom sur mobile pour les
+            // provinces comptant beaucoup de terrains. Même seuil que partout ailleurs sur le site
+            // (disableClusteringAtZoom: 16) : au clic sur une commune n'ayant qu'un seul terrain
+            // plus bas, fitBounds({maxZoom:16}) zoome exactement jusqu'à ce seuil, où le
+            // regroupement est déjà désactivé — le marqueur est donc bien individualisé avant
+            // l'appel à openPopup() juste après, sans changement nécessaire à cette logique.
+            const groupe = L.markerClusterGroup({ disableClusteringAtZoom: 16, maxClusterRadius: rayonAmas() });
+
+            featuresProvince.forEach(function (feature) {
+                const coords = feature.geometry.coordinates; // [lon, lat]
+                const latlng = [coords[1], coords[0]];
+                const layer = L.marker(latlng, { icon: terrainMarkerIcon });
+                layer.feature = feature;   // lu par les filtres de la carte (script.js)
+
+                window.brancherPopupTerrain(layer, feature);
+
+                layer.addTo(groupe);
+
+                const commune = feature.properties.commune;
+                if (commune) {
+                    if (!layersParCommune[commune]) layersParCommune[commune] = [];
+                    layersParCommune[commune].push(layer);
+                }
+            });
+
+            groupe.addTo(map);
+            window.enregistrerTerrainsFiltrables(groupe);
+
+            // Exposée pour /beaux-terrains.js (page Bruxelles) : lui permet d'ouvrir la popup du
+            // bon marqueur au clic sur une tuile du carrousel. Nécessaire ici car script.js ne
+            // crée pas sa couche `markers` sur ces pages (MAPETANQUE_SKIP_DEFAULT_MARKERS), donc
+            // allerVersTerrain() n'y existe pas.
+            window.beauxTerrainsGroupe = groupe;
+
+            const bounds = L.latLngBounds(featuresProvince.map(function (f) {
+                return [f.geometry.coordinates[1], f.geometry.coordinates[0]];
+            }));
+            cadrerSurEmprise(bounds, { padding: [30, 30] });
+        })
+        .catch(function () {
+            afficherToast('Impossible de charger les terrains pour le moment');
+        });
+
+    // Liste des communes : écrite dans la page par generate_provinces.py, à partir du même
+    // fichier terrains.geojson que la carte, triée par nombre de terrains décroissant. Ici, on
+    // ne fait que la rendre interactive : clic vers la carte, recherche, repli, clubs.
+    const listeCommunes = document.getElementById('communeList');
+    const boutonCommunes = document.getElementById('communeVoirTout');
+
+    // Référence conservée vers le <span> de comptage de chaque commune, pour pouvoir
+    // ajouter/retirer le nombre de clubs (voir mettreAJourComptagesCommunes plus bas, appelée au
+    // chargement de data/clubs.json et à chaque bascule de la couche clubs — voir
+    // clubsParCommune/ClubsToggleControl dans script.js).
+    const spansComptageParCommune = {};
+    const nbTerrainsParCommune = {};
+
+    // Construit le texte "x terrains" ou "x terrains, x clubs" (ce dernier uniquement si la
+    // couche clubs est actuellement affichée sur la carte) pour une commune donnée.
+    function texteComptageCommune(nom) {
+        const nbTerrains = nbTerrainsParCommune[nom];
+        const uniteTerrain = nbTerrains > 1 ? 'terrains' : 'terrain';
+        let texte = nbTerrains + ' ' + uniteTerrain;
+
+        // Clubs mentionnés seulement s'il y en a : « 0 club » sur la plupart des lignes
+        // n'apportait rien.
+        const clubsAffiches = typeof clubsLayer !== 'undefined' && map.hasLayer(clubsLayer);
+        const nbClubs = (window.clubsParCommune && window.clubsParCommune[nom]) || 0;
+        if (clubsAffiches && nbClubs > 0) {
+            const uniteClub = nbClubs > 1 ? 'clubs' : 'club';
+            texte += ', ' + nbClubs + ' ' + uniteClub;
+        }
+
+        return texte;
+    }
+
+    function mettreAJourComptagesCommunes() {
+        Object.keys(spansComptageParCommune).forEach(function (nom) {
+            spansComptageParCommune[nom].textContent = '(' + texteComptageCommune(nom) + ')';
+        });
+    }
+
+    listeCommunes.querySelectorAll('.commune-item').forEach(function (item) {
+        const nom = item.dataset.commune;
+        spansComptageParCommune[nom] = item.querySelector('.commune-count');
+        nbTerrainsParCommune[nom] = Number(item.dataset.terrains);
+
+        item.querySelector('a').addEventListener('click', function (e) {
+            e.preventDefault();
+            const layersCommune = layersParCommune[nom];
+            // Terrains pas encore arrivés (ou commune absente des données chargées) : on se
+            // contente de descendre jusqu'à la carte.
+            if (layersCommune) {
+                const boundsCommune = L.latLngBounds(layersCommune.map(function (l) { return l.getLatLng(); }));
+                map.fitBounds(boundsCommune, { padding: [40, 40], maxZoom: 16 });
+                if (layersCommune.length === 1) {
+                    layersCommune[0].openPopup();
+                }
+            }
+            document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+    });
+
+    // Réagit à l'arrivée de data/clubs.json et à chaque coche/décoche de "Afficher les clubs"
+    // (voir script.js) pour compléter ou retirer le comptage de clubs de chaque commune.
+    window.addEventListener('clubsChargees', mettreAJourComptagesCommunes);
+    window.addEventListener('clubsAffichageChange', mettreAJourComptagesCommunes);
+
+    // Liste repliée (10 premières communes) ou complète : le bouton bascule entre les deux.
+    // La page arrive repliée (classe "repliee" et bouton visible, écrits par le générateur).
+    // Pendant une recherche, toutes les communes correspondantes s'affichent et le bouton
+    // disparaît ; le champ vidé, la liste reprend l'état choisi avec le bouton.
+    const listeLongue = !boutonCommunes.hidden;   // plus de 10 communes : sinon, ni repli ni bouton
+    let listeDepliee = false;
+
+    function afficherListeCommunes(depliee) {
+        listeDepliee = depliee;
+        listeCommunes.classList.toggle('repliee', !depliee);
+        boutonCommunes.textContent = depliee ? boutonCommunes.dataset.reduire : boutonCommunes.dataset.voir;
+    }
+
+    boutonCommunes.addEventListener('click', function () {
+        afficherListeCommunes(!listeDepliee);
+        // Repliée depuis le bas d'une longue liste, la page remonte d'un coup : on garde le
+        // bouton à l'écran pour ne pas perdre le visiteur.
+        if (!listeDepliee) boutonCommunes.scrollIntoView({ block: 'center' });
+    });
+
+    document.getElementById('communeSearch').addEventListener('input', function (e) {
+        const q = e.target.value.trim().toLowerCase();
+        if (listeLongue) {
+            listeCommunes.classList.toggle('repliee', !q && !listeDepliee);
+            boutonCommunes.hidden = !!q;
+        }
+        const items = document.querySelectorAll('.commune-item');
+        let visibleCount = 0;
+        items.forEach(function (item) {
+            const match = item.dataset.rechercheClef.includes(q);
+            item.style.display = match ? '' : 'none';
+            if (match) visibleCount++;
+        });
+        document.getElementById('communeNoResult').style.display = visibleCount === 0 ? 'block' : 'none';
+    });
+
+    // Sélecteur de langue : script.js (non modifié) renvoie toujours vers la racine de la
+    // langue choisie (/nl/, /de/) et ne traduit que les menus/boutons partagés, pas le contenu
+    // spécifique à cette page. On surcharge la navigation pour aller vers la vraie page province
+    // équivalente quand elle existe (repli sur la racine de la langue sinon, comme avant).
+    document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const cible = btn.dataset.langUrl;
+            if (cible) {
+                window.location.href = cible;
+            }
+        });
+    });
+})();
+</script>
+
+<script>
+document.querySelectorAll('[data-osm]').forEach(function (lien) {
+    lien.addEventListener('click', function (e) {
+        const groupe = window.beauxTerrainsGroupe;
+        if (!groupe) return;  // carte pas encore prête : le lien mène à la carte principale
+        let cible = null;
+        groupe.eachLayer(function (l) { if (l.feature && l.feature.properties.osm_id === lien.dataset.osm) cible = l; });
+        if (!cible) return;
+        e.preventDefault();
+        document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        groupe.zoomToShowLayer(cible, function () { cible.openPopup(); });
+    });
+});
+</script>
+</body>
+</html>
