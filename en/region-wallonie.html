@@ -254,8 +254,8 @@
 
 
 <!-- Deux bandes pleine largeur, sur le modèle de l'accueil. Bande grise : carte, barre de
-     recherche, carrousel (pages région et Bruxelles) et tuiles de statistiques. Elle reste dans
-     .map-view, nécessaire pour que le mode plein écran fonctionne sur #map. -->
+     recherche et carrousel (pages région et Bruxelles). Elle reste dans .map-view, nécessaire
+     pour que le mode plein écran fonctionne sur #map. -->
 <div class="province-bande-carte">
 
     <div class="province-map-inline-wrapper" style="position: relative;">
@@ -289,7 +289,7 @@
         <p id="searchError" class="search-error"></p>
     </div>
 
-    <!-- Section "Les plus beaux terrains", entre la carte et les tuiles de statistiques. Remplie
+    <!-- Section "Les plus beaux terrains", sous la carte. Remplie
          par /beaux-terrains.js à partir de /data/beaux_terrains.json, restreinte à cette région
          via data-region : la clé
          wallonie ("flandre"/"wallonie"/"bruxelles") est la même que celle utilisée plus
@@ -302,21 +302,6 @@
             <div class="beaux-terrains-scroller"></div>
         </div>
     </section>
-
-    <div class="province-stats-tiles">
-        <div class="province-stat-tile">
-            <span class="province-stat-tile-number">437</span>
-            <span class="province-stat-tile-label">courts listed</span>
-        </div>
-        <div class="province-stat-tile">
-            <span class="province-stat-tile-number">157</span>
-            <span class="province-stat-tile-label">municipalities covered</span>
-        </div>
-        <div class="province-stat-tile">
-            <span class="province-stat-tile-number">2.6</span>
-            <span class="province-stat-tile-label">courts per 100 km²</span>
-        </div>
-    </div>
 
 </div>
 

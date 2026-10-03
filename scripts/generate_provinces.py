@@ -99,15 +99,6 @@ def recuperer_communes(stats_geo, region_key, province_key):
     return province["communes"], province["total"]
 
 
-def calculer_densite(total_terrains, area_km2, langue="fr"):
-    """Densité à une décimale : virgule en français, néerlandais et allemand, point en anglais."""
-    if not area_km2:
-        return None
-    valeur = total_terrains / (area_km2 / 100)
-    texte = f"{valeur:.1f}"
-    return texte if langue == "en" else texte.replace(".", ",")
-
-
 def remplacer_nombres(texte, comptages, contexte):
     """Remplace chaque {{NB:clé}} d'un texte d'introduction par le nombre de terrains
     correspondant dans les données du jour : une commune de la province (pages province, ex.
@@ -280,17 +271,6 @@ def construire_bloc_beaux_terrains(config, tr):
     )
 
 
-def construire_bloc_densite(densite, label_100km2):
-    if densite is None:
-        return ""
-    return (
-        '        <div class="province-stat-tile">\n'
-        f'            <span class="province-stat-tile-number">{densite}</span>\n'
-        f'            <span class="province-stat-tile-label">{label_100km2}</span>\n'
-        '        </div>\n'
-    )
-
-
 def url_page(slug, langue):
     prefixe = "" if langue == "fr" else f"{langue}/"
     return f"/{prefixe}province-{slug}.html"
@@ -451,13 +431,12 @@ def generer_page(cle, config, langue, langues_disponibles, other_provinces_block
     _, total_terrains = recuperer_communes(
         stats_geo, config["stats_geo_region"], config["stats_geo_province"]
     )
-    # Communes officielles de la page (voir communes_officielles plus haut) : la liste, la
-    # tuile « communes couvertes » et les {{NB:…}} des intros comptent les mêmes communes.
+    # Communes officielles de la page (voir communes_officielles plus haut) : la liste et les
+    # {{NB:…}} des intros comptent les mêmes communes.
     communes_off, par_page = officielles
     entrees = par_page[config["stats_geo_province"] or config["stats_geo_region"]]
     communes = comptages_communes(entrees)
     nb_communes = len(communes)
-    densite = calculer_densite(total_terrains, config.get("area_km2"), langue)
 
     nom_province = nom_traduit_province(cle, langue, traductions)
     nom_region = tr[f"geo_region_{config['region_key']}"]
@@ -500,9 +479,6 @@ def generer_page(cle, config, langue, langues_disponibles, other_provinces_block
         "{{PROVINCE_NAME}}": nom_province,
         "{{BANNER_CREDIT_HTML}}": credit_banniere(config["banner_credit_html"], langue),
         "{{INTRO_HTML}}": intro_html,
-        "{{STAT_TERRAINS}}": str(total_terrains),
-        "{{STAT_COMMUNES}}": str(nb_communes),
-        "{{DENSITY_TILE_BLOCK}}": construire_bloc_densite(densite, tr["province_terrains_100km2"]),
         "{{BEAUX_TERRAINS_SECTION}}": construire_bloc_beaux_terrains(config, tr),
         "{{PROVINCE_NOMINATIM_QUERY}}": nominatim_query,
         "{{STATS_GEO_KEY}}": config["stats_geo_province"] or config["stats_geo_region"],
@@ -517,8 +493,6 @@ def generer_page(cle, config, langue, langues_disponibles, other_provinces_block
         "{{URL_DE}}": url_page(config["slug"], "de") if "de" in langues_disponibles else url_racine_langue("de"),
         "{{URL_EN}}": url_page(config["slug"], "en") if "en" in langues_disponibles else url_racine_langue("en"),
         "{{UI_ACCUEIL}}": tr["province_accueil_breadcrumb"],
-        "{{UI_TERRAINS_RECENSES}}": tr["province_terrains_recenses"],
-        "{{UI_COMMUNES_COUVERTES}}": tr["province_communes_couvertes"],
         "{{UI_COMMUNES_DE_LA_PROVINCE}}": (
             tr["province_communes_de_la_region_bruxelles"]
             if config["region_key"] == "bruxelles"
@@ -555,9 +529,8 @@ def generer_page(cle, config, langue, langues_disponibles, other_provinces_block
     chemin_sortie = OUTPUT_DIR / url_page(config["slug"], langue).lstrip("/")
     FICHIERS_A_ECRIRE.append((chemin_sortie, page))
 
-    extra = f", {densite}/100km²" if densite else ""
     print(f"  [généré]  {cle}/{langue} -> {chemin_sortie.relative_to(OUTPUT_DIR)} "
-          f"({total_terrains} terrains, {nb_communes} communes{extra})")
+          f"({total_terrains} terrains, {nb_communes} communes)")
 
 
 def generer_page_region(cle, config, langue, langues_disponibles, template, stats_geo,
@@ -580,10 +553,6 @@ def generer_page_region(cle, config, langue, langues_disponibles, template, stat
     intro_html = intro_html.replace("{{STAT_COMMUNES}}", str(nb_communes))
     intro_html = remplacer_nombres(intro_html, stats_geo[config["region_key"]]["provinces"], f"{cle}/{langue}")
 
-    densite = calculer_densite(total_terrains, config.get("area_km2"), langue)
-    if densite is None:
-        raise ValueError(f"{cle} : area_km2 manquant dans data/regions.json")
-
     tuiles_provinces = "\n".join(construire_tuiles_provinces_region(
         config["region_key"], provinces, stats_geo, langue, traductions
     ))
@@ -595,9 +564,6 @@ def generer_page_region(cle, config, langue, langues_disponibles, template, stat
         "{{REGION_NAME}}": nom_region,
         "{{BANNER_CREDIT_HTML}}": credit_banniere(config["banner_credit_html"], langue),
         "{{INTRO_HTML}}": intro_html,
-        "{{STAT_TERRAINS}}": str(total_terrains),
-        "{{STAT_COMMUNES}}": str(nb_communes),
-        "{{STAT_DENSITE}}": densite,
         "{{STATS_GEO_KEY}}": config["region_key"],
         "{{SLUG}}": config["slug"],
         "{{HOME_URL}}": url_racine_langue(langue),
@@ -610,9 +576,6 @@ def generer_page_region(cle, config, langue, langues_disponibles, template, stat
         "{{URL_DE}}": url_page_region(config["slug"], "de") if "de" in langues_disponibles else url_racine_langue("de"),
         "{{URL_EN}}": url_page_region(config["slug"], "en") if "en" in langues_disponibles else url_racine_langue("en"),
         "{{UI_ACCUEIL}}": tr["province_accueil_breadcrumb"],
-        "{{UI_TERRAINS_RECENSES}}": tr["province_terrains_recenses"],
-        "{{UI_COMMUNES_COUVERTES}}": tr["province_communes_couvertes"],
-        "{{UI_TERRAINS_100KM2}}": tr["province_terrains_100km2"],
         "{{UI_PROVINCES_DE_LA_REGION}}": tr["region_provinces_de_la_region"].format(nom=nom_region),
         "{{UI_BEAUX_TERRAINS}}": tr["beaux_terrains_titre_court"],
         "{{UI_META_DESCRIPTION}}": tr["region_meta_description"].format(nom=nom_region),
@@ -635,7 +598,7 @@ def generer_page_region(cle, config, langue, langues_disponibles, template, stat
     FICHIERS_A_ECRIRE.append((chemin_sortie, page))
 
     print(f"  [généré]  {cle}/{langue} -> {chemin_sortie.relative_to(OUTPUT_DIR)} "
-          f"({total_terrains} terrains, {nb_provinces} provinces, {nb_communes} communes, {densite}/100km²)")
+          f"({total_terrains} terrains, {nb_provinces} provinces, {nb_communes} communes)")
 
 
 def main():
