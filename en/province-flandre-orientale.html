@@ -261,40 +261,17 @@
 </div>
 
 
-<!-- Deux bandes pleine largeur, sur le modèle de l'accueil. Bande grise : carte, barre de
-     recherche et carrousel (pages région et Bruxelles). Elle reste dans .map-view, nécessaire
-     pour que le mode plein écran fonctionne sur #map. -->
+<!-- Deux bandes pleine largeur, sur le modèle de l'accueil. Bande grise : carte et carrousel
+     (pages région et Bruxelles). Elle reste dans .map-view, nécessaire pour que le mode plein
+     écran fonctionne sur #map. -->
 <div class="province-bande-carte">
 
     <div class="province-map-inline-wrapper" style="position: relative;">
-        <!-- Cadre positionné : le toast reste posé en bas de la carte, et non sur la barre
-             qui la suit. -->
+        <!-- Cadre positionné : repère du toast, posé en bas de la carte. -->
         <div class="province-map-cadre">
             <div id="map"></div>
             <div class="map-toast" id="mapToast"></div>
         </div>
-        <!-- Barre « Me localiser » + recherche d'adresse, juste sous la carte : la carte est
-             plus bas dans la page qu'à l'accueil, une recherche depuis la bannière aurait donné
-             un résultat hors de vue. Mêmes identifiants qu'à l'accueil (voir script.js). -->
-        <div class="controls">
-            <button id="locateBtn" data-i18n-aria="locate_btn">
-                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                <span data-i18n="locate_btn">Me localiser</span>
-            </button>
-
-            <form id="searchForm" class="search-form">
-                <input
-                    type="text"
-                    id="searchInput"
-                    data-i18n-placeholder="search_placeholder"
-                    autocomplete="off"
-                >
-                <button type="submit" id="searchBtn" aria-label="Search" data-i18n-aria="signalement_search_btn">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                </button>
-            </form>
-        </div>
-        <p id="searchError" class="search-error"></p>
     </div>
 
 

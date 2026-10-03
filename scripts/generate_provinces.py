@@ -507,7 +507,6 @@ def generer_page(cle, config, langue, langues_disponibles, other_provinces_block
         "{{UI_META_DESCRIPTION}}": tr["province_meta_description"].format(nom=nom_province),
         "{{OTHER_PROVINCES_BLOCK}}": other_provinces_block,
         "{{UI_REDUIRE_COMMUNES}}": tr["province_reduire_communes"],
-        "{{UI_RECHERCHER}}": tr["signalement_search_btn"],
         "{{UI_FERMER}}": tr["close_panel"],
         # Bruxelles n'est pas une province : message des pages région
         "{{UI_AUCUN_TERRAIN}}": chaine_js(
@@ -580,7 +579,6 @@ def generer_page_region(cle, config, langue, langues_disponibles, template, stat
         "{{UI_BEAUX_TERRAINS}}": tr["beaux_terrains_titre_court"],
         "{{UI_META_DESCRIPTION}}": tr["region_meta_description"].format(nom=nom_region),
         "{{PROVINCES_TUILES}}": tuiles_provinces,
-        "{{UI_RECHERCHER}}": tr["signalement_search_btn"],
         "{{UI_FERMER}}": tr["close_panel"],
         "{{UI_AUCUN_TERRAIN}}": chaine_js(tr["carte_aucun_terrain_region"]),
         "{{UI_ERREUR_CHARGEMENT}}": chaine_js(tr["carte_erreur_chargement"]),

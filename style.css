@@ -648,6 +648,22 @@ body.fullscreen-lock {
     font-weight: 400;
 }
 
+/* « Afficher N de plus » (et « Réduire » une fois déplié), sous les terrains d'une commune ou
+   d'un village */
+.search-suggestion-plus {
+    padding-left: 41px;
+    color: #3d7a2a;
+}
+
+.search-suggestion-plus .search-suggestion-nom {
+    font-size: 13.5px;
+}
+
+.search-suggestion-plus .search-suggestion-picto {
+    width: 14px;
+    height: 14px;
+}
+
 .search-suggestion-indication {
     padding: 14px 16px;
     font-size: 14px;

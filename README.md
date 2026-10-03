@@ -27,7 +27,7 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 - Zoom automatiquement adapté à la nature du résultat trouvé (adresse précise → zoom serré ; ville/région → `fitBounds` sur toute la zone)
 - Calcul de distance (formule de Haversine) affiché dans chaque fiche terrain une fois la position de l'utilisateur connue
 - Flèche de proximité : si le terrain le plus proche n'est pas visible à l'écran après localisation/recherche, une flèche apparaît en bordure de carte, orientée vers ce terrain, et disparaît dès qu'il entre dans le champ visible ; cliquer dessus centre la carte dessus
-- Recherche et géolocalisation masquées sur les pages province/région (la carte y est déjà centrée sur la bonne zone), mais toujours fonctionnelles en coulisses
+- Recherche et géolocalisation sur l'accueil seulement : la carte des pages province et région est déjà centrée sur sa zone, et leur liste de communes a son propre filtre
 
 ## 📋 Fiche d'un terrain (popup au clic sur un marqueur)
 
@@ -74,7 +74,7 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 ## 🏘️ Pages provinces et régions
 
 - 11 pages province (`province-<slug>.html`) + 2 pages région (`region-flandre.html`, `region-wallonie.html`) — Bruxelles n'a pas de page région dédiée (pas de sous-provinces), sa tuile région renvoie directement vers sa page province
-- Structure commune : bannière photo (Wikimedia Commons, crédit affiché en toutes lettres), fil d'Ariane cliquable, tuiles chiffres, texte d'intro rédigé et vérifié individuellement (recherche de faits, sources citées), carte, liste des communes officielles (pages province : lien vers la page commune, ou fiche sur la carte pour une commune à un seul lieu ; une commune sans terrain n'apparaît qu'à la recherche, avec le terrain le plus proche) ou des provinces (pages région) en pastilles cliquables
+- Structure commune : bannière photo (Wikimedia Commons, crédit affiché en toutes lettres), fil d'Ariane cliquable, texte d'intro rédigé et vérifié individuellement (recherche de faits, sources citées), carte, liste des communes officielles (pages province : lien vers la page commune, ou fiche sur la carte pour une commune à un seul lieu ; une commune sans terrain n'apparaît qu'à la recherche, avec le terrain le plus proche) ou des provinces (pages région) en pastilles cliquables
 - Textes d'intro jamais inventés : chaque chiffre, anecdote ou fait historique mentionné a été vérifié par recherche avant d'être écrit
 - Génération via `scripts/generate_provinces.py`, qui lit `data/provinces.json` / `data/regions.json`, les templates `templates/province_template.html` / `templates/region_template.html`, `translations.js` et `data/terrains.geojson` (liste des communes écrite dans la page, lisible sans JavaScript), puis lance `scripts/generer_referencement.py` (voir Référencement)
 - Page d'accueil : grille "Parcourir par province" (10 tuiles photo, sans Bruxelles) puis "Parcourir par région" (Flandre, Wallonie, Bruxelles)
@@ -88,7 +88,7 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 - Noms : nom local, comme sur le reste du site, sauf une courte liste de noms traduits d'usage courant (Anvers, Gand, Luik, Lüttich…, voir EXONYMES dans `scripts/communes_officielles.py`)
 - Génération via `scripts/generer_communes.py` (squelette de `comment-jouer.html`, voir `scripts/_squelette.py`), chaque semaine par le workflow OSM ; une commune passée sous deux lieux perd sa page
 - Liens depuis les fiches terrain et club : le fil d'Ariane se termine sur la commune officielle, en lien vers sa page, et un lien « Voir les N terrains de … » est ajouté au bas de la fiche ; `generer_communes.py` écrit pour cela `data/communes_liens.json` (commune de chaque terrain et club, noms dans les quatre langues, existence de la page)
-- Propositions de la barre de recherche (accueil, pages province et région) : dès deux lettres, communes, villages et terrains, comme sur Komoot ; une commune mène à sa page, un village à son sous-titre sur la page de sa commune, un terrain à sa fiche sur la carte. Plein écran sur téléphone. Tiré de `data/recherche.json`, écrit par `generer_communes.py` et téléchargé au premier caractère tapé : Nominatim interdit l'autocomplétion, il ne sert qu'à la touche Entrée (recherche d'adresse)
+- Propositions de la barre de recherche de l'accueil : dès deux lettres, communes, villages et terrains, comme sur Komoot ; une commune mène à sa page, un village à son sous-titre sur la page de sa commune, un terrain à sa fiche sur la carte. Plein écran sur téléphone. Tiré de `data/recherche.json`, écrit par `generer_communes.py` et téléchargé au premier caractère tapé : Nominatim interdit l'autocomplétion, il ne sert qu'à la touche Entrée (recherche d'adresse)
 
 ## 🎨 Identité visuelle et confort d'usage
 

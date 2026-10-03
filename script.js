@@ -1104,8 +1104,6 @@ if (locateBtn) {
                 .bindPopup(function () { return t('popup_here'); })
                 .openPopup();
 
-                signalerSiHorsZone(lat, lon, '?localiser=1');
-
             }, function() {
                 alert(t('geoloc_error'));
             });
@@ -1130,60 +1128,13 @@ function estDansLaZone(props) {
     return !cle || props.province === cle || props.region === cle;
 }
 
-// Recherche biaisée vers la zone de la page, sans l'exclure strictement (utile pour les communes
-// frontalières) : la Belgique sur l'accueil, l'emprise des terrains de la province ou de la région
-// ailleurs, pour que le Saint-Gérard de la province passe avant ses homonymes.
-function viewboxRecherche() {
-    if (!window.MAPETANQUE_STATS_GEO_KEY) return Promise.resolve('2.5,51.6,6.5,49.4');
-    return terrainsGeojson.then(function (data) {
-        let ouest = 180, est = -180, sud = 90, nord = -90;
-        data.features.forEach(function (f) {
-            if (!estDansLaZone(f.properties)) return;
-            const c = f.geometry.coordinates; // [lon, lat]
-            ouest = Math.min(ouest, c[0]);
-            est = Math.max(est, c[0]);
-            sud = Math.min(sud, c[1]);
-            nord = Math.max(nord, c[1]);
-        });
-        return [ouest, nord, est, sud].join(',');
-    });
-}
+// Recherche biaisée vers la Belgique, sans l'exclure strictement (utile près des frontières).
+const VIEWBOX_BELGIQUE = '2.5,51.6,6.5,49.4';
 
 function effacerMessageRecherche() {
     const errorEl = document.getElementById('searchError');
     if (!errorEl) return;
     errorEl.textContent = '';
-    errorEl.classList.remove('search-info');
-}
-
-// Pages province et région : un lieu (recherche ou géolocalisation) hors de la zone de la page
-// tombe sur une carte vide. Il est jugé hors zone quand le terrain le plus proche, tous terrains
-// de Belgique confondus, n'en fait pas partie ; on propose alors la carte de Belgique, qui
-// reprend la recherche ou la géolocalisation (suiteUrl, voir la fin de « Chargement des
-// terrains » plus bas).
-function signalerSiHorsZone(lat, lon, suiteUrl) {
-    if (!window.MAPETANQUE_STATS_GEO_KEY) return;
-    terrainsGeojson.then(function (data) {
-        let plusProche = null;
-        let distanceMin = Infinity;
-        data.features.forEach(function (f) {
-            const c = f.geometry.coordinates;
-            const d = calculDistance(lat, lon, c[1], c[0]);
-            if (d < distanceMin) {
-                distanceMin = d;
-                plusProche = f;
-            }
-        });
-        if (!plusProche || estDansLaZone(plusProche.properties)) return;
-
-        const errorEl = document.getElementById('searchError');
-        const lien = document.createElement('a');
-        lien.href = (currentLang === 'fr' ? '/' : '/' + currentLang + '/') + suiteUrl;
-        lien.textContent = t('hors_zone_lien');
-        errorEl.textContent = t('hors_zone') + ' ';
-        errorEl.appendChild(lien);
-        errorEl.classList.add('search-info');
-    });
 }
 
 // Même principe que locateBtn ci-dessus : optionnel, absent sur les pages sans recherche.
@@ -1207,15 +1158,12 @@ if (searchForm) {
     // fiable que dans le contexte du geste utilisateur, pas depuis une callback asynchrone.
     input.blur();
 
-    viewboxRecherche()
-        .then(function (viewbox) {
-            return fetch('https://nominatim.openstreetmap.org/search'
-                + '?format=jsonv2'
-                + '&q=' + encodeURIComponent(query)
-                + '&limit=1'
-                + '&viewbox=' + viewbox
-                + '&bounded=0');
-        })
+    fetch('https://nominatim.openstreetmap.org/search'
+        + '?format=jsonv2'
+        + '&q=' + encodeURIComponent(query)
+        + '&limit=1'
+        + '&viewbox=' + VIEWBOX_BELGIQUE
+        + '&bounded=0')
         .then(function (response) {
             if (!response.ok) throw new Error('Réponse Nominatim invalide');
             return response.json();
@@ -1231,7 +1179,7 @@ if (searchForm) {
             // Zoom adapté à la nature du résultat (adresse précise, ville, région...)
             const bbox = resultat.boundingbox ? resultat.boundingbox.map(parseFloat) : null;
             montrerLieuRecherche(parseFloat(resultat.lat), parseFloat(resultat.lon), resultat.display_name,
-                bbox ? [[bbox[0], bbox[2]], [bbox[1], bbox[3]]] : null, query);
+                bbox ? [[bbox[0], bbox[2]], [bbox[1], bbox[3]]] : null);
 
         })
         .catch(function () {
@@ -1243,9 +1191,8 @@ if (searchForm) {
 
 // Lieu trouvé (adresse de Nominatim, ou commune sans terrain choisie dans les propositions) :
 // marqueur de position, carte cadrée dessus, flèche vers le terrain le plus proche.
-// emprise : [[sud, ouest], [nord, est]], ou null pour un zoom fixe. requete : reprise par le
-// lien « carte de Belgique » quand le lieu est hors de la zone d'une page province.
-function montrerLieuRecherche(lat, lon, libelle, emprise, requete) {
+// emprise : [[sud, ouest], [nord, est]], ou null pour un zoom fixe.
+function montrerLieuRecherche(lat, lon, libelle, emprise) {
     // Le point trouvé devient la référence pour le calcul de distance dans les popups des terrains
     definirPositionUtilisateur(lat, lon);
 
@@ -1269,8 +1216,6 @@ function montrerLieuRecherche(lat, lon, libelle, emprise, requete) {
         .openPopup();
 
     searchMarker._displayName = libelle;
-
-    signalerSiHorsZone(lat, lon, '?recherche=' + encodeURIComponent(requete));
 }
 
 
@@ -1381,9 +1326,16 @@ function lieuxDeLaProposition(index, place) {
     return place.genre === 'commune' ? lieux : lieux.filter(function (l) { return l.l === place.nomBrut; });
 }
 
+function cleProposition(place) {
+    return place.genre + ':' + place.commune.s + ':' + (place.nomBrut || '');
+}
+
 // Lignes du menu : lieux (communes et localités), chacun des deux premiers suivi de ses
-// premiers terrains, puis les terrains trouvés par leur rue, puis la recherche d'adresse.
-function propositionsRecherche(index, texte) {
+// premiers terrains et d'une ligne « Afficher N de plus » (« Réduire » une fois déplié), puis
+// les terrains trouvés par leur
+// rue, puis la recherche d'adresse. deplies : clés (cleProposition) des lieux dont on a demandé
+// tous les terrains ; ceux-là dépassent la limite de lignes, le menu défile.
+function propositionsRecherche(index, texte, deplies) {
     const requete = cleRecherche(texte.trim()).replace(/\s+/g, ' ');
     const lignes = [];
     if (requete.length < 2) return lignes;
@@ -1412,23 +1364,34 @@ function propositionsRecherche(index, texte) {
     });
 
     const dejaProposes = new Set();
+    let enPlus = 0;   // terrains dépliés au-delà des premiers : hors de la limite de lignes
+    const pleines = function () { return lignes.length - enPlus >= MAX_LIGNES_PROPOSITIONS - 1; };
     places.slice(0, 5).forEach(function (place, rang) {
-        if (lignes.length >= MAX_LIGNES_PROPOSITIONS - 1) return;
+        if (pleines()) return;
         lignes.push({ genre: 'place', place: place, longueur: requete.length });
         const nbTerrains = rang === 0 ? 3 : rang === 1 ? 2 : 0;
-        lieuxDeLaProposition(index, place).slice(0, nbTerrains).forEach(function (l) {
-            if (lignes.length >= MAX_LIGNES_PROPOSITIONS - 1) return;
+        if (!nbTerrains) return;
+        const lieux = lieuxDeLaProposition(index, place);
+        const deplie = deplies && deplies.has(cleProposition(place));
+        let montres = 0;
+        lieux.forEach(function (l, i) {
+            const auDela = i >= nbTerrains || pleines();
+            if (auDela && !deplie) return;
             lignes.push({ genre: 'terrain', lieu: l });
             dejaProposes.add(l);
+            montres++;
+            if (auDela) enPlus++;
         });
+        if (montres < lieux.length) lignes.push({ genre: 'plus', place: place, reste: lieux.length - montres });
+        else if (deplie && enPlus) lignes.push({ genre: 'moins', place: place });
     });
 
-    if (requete.length >= 3 && lignes.length < MAX_LIGNES_PROPOSITIONS - 2) {
+    if (requete.length >= 3 && lignes.length - enPlus < MAX_LIGNES_PROPOSITIONS - 2) {
         const parRue = index.lieux
             .map(function (l) { return { lieu: l, trouve: l.r ? correspondanceRecherche(l.r, requete) : null }; })
             .filter(function (x) { return x.trouve && !dejaProposes.has(x.lieu); })
             .sort(function (a, b) { return a.trouve.qualite - b.trouve.qualite || b.lieu.p - a.lieu.p; })
-            .slice(0, Math.min(3, MAX_LIGNES_PROPOSITIONS - 2 - lignes.length));
+            .slice(0, Math.min(3, MAX_LIGNES_PROPOSITIONS - 2 - (lignes.length - enPlus)));
         if (parRue.length) {
             lignes.push({ genre: 'titre' });
             parRue.forEach(function (x) {
@@ -1443,6 +1406,8 @@ function propositionsRecherche(index, texte) {
 
 const PICTO_PROPOSITION_LIEU = '<svg class="search-suggestion-picto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>';
 const PICTO_PROPOSITION_TERRAIN = '<svg class="search-suggestion-picto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="7"></circle><circle cx="12" cy="12" r="2.5" fill="currentColor"></circle></svg>';
+const PICTO_PROPOSITION_PLUS = '<svg class="search-suggestion-picto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+const PICTO_PROPOSITION_MOINS = '<svg class="search-suggestion-picto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"></polyline></svg>';
 const PICTO_PROPOSITION_ADRESSE = '<svg class="search-suggestion-picto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>';
 
 function htmlPropositionRecherche(index, ligne, i) {
@@ -1468,6 +1433,13 @@ function htmlPropositionRecherche(index, ligne, i) {
         return textes(PICTO_PROPOSITION_LIEU, nom, zone + ' · ' + nombreTerrainsRecherche(place.terrains));
     }
 
+    if (ligne.genre === 'plus' || ligne.genre === 'moins') {
+        const texte = ligne.genre === 'plus' ? t('recherche_plus').replace('{n}', ligne.reste) : t('recherche_moins');
+        return debut.replace('search-suggestion-moins', 'search-suggestion-plus search-suggestion-moins')
+            + (ligne.genre === 'plus' ? PICTO_PROPOSITION_PLUS : PICTO_PROPOSITION_MOINS)
+            + '<span class="search-suggestion-textes"><span class="search-suggestion-nom">' + echapperAvis(texte) + '</span></span></li>';
+    }
+
     if (ligne.genre === 'terrain') {
         const l = ligne.lieu;
         const nom = ligne.trouve
@@ -1481,28 +1453,6 @@ function htmlPropositionRecherche(index, ligne, i) {
     return textes(PICTO_PROPOSITION_ADRESSE, echapperAvis(t('recherche_adresse').replace('{q}', ligne.texte)), '');
 }
 
-// Fiche d'un terrain sur la carte de la page s'il y figure (accueil, ou page province/région
-// de sa zone), sinon sur celle de l'accueil.
-function ouvrirTerrainRecherche(l, naviguer) {
-    if (typeof markers !== 'undefined' && markers) {
-        allerVersTerrain(l.lat, l.lon);
-        return;
-    }
-    let trouve = null;
-    groupesFiltrables.forEach(function (g) {
-        g.couches.forEach(function (couche) {
-            if (!trouve && couche.feature.properties.osm_id === l.o) trouve = { groupe: g.groupe, couche: couche };
-        });
-    });
-    if (!trouve) {
-        naviguer((currentLang === 'fr' ? '/' : '/' + currentLang + '/') + '?lat=' + l.lat + '&lon=' + l.lon);
-        return;
-    }
-    window.mapetanqueRevelerTerrain(l.lat, l.lon);
-    trouve.groupe.zoomToShowLayer(trouve.couche, function () { trouve.couche.openPopup(); });
-    document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
-
 // Adresse de la page où mène une proposition, ou null quand elle se suit sur la page même
 // (voir allerVersProposition).
 function suivreProposition(index, ligne) {
@@ -1513,26 +1463,26 @@ function suivreProposition(index, ligne) {
 }
 
 // Proposition suivie sur la page : fiche d'un terrain sur la carte, commune sans terrain, ou
-// recherche d'adresse. naviguer(url) : pour un terrain absent de la carte de la page.
-function allerVersProposition(index, ligne, naviguer) {
+// recherche d'adresse.
+function allerVersProposition(index, ligne) {
     if (ligne.genre === 'adresse') {
         searchForm.requestSubmit();
         return;
     }
     if (ligne.genre === 'terrain') {
-        ouvrirTerrainRecherche(ligne.lieu, naviguer);
+        allerVersTerrain(ligne.lieu.lat, ligne.lieu.lon);
         return;
     }
     const place = ligne.place;
     const lieux = lieuxDeLaProposition(index, place);
     if (lieux.length) {
-        ouvrirTerrainRecherche(lieux[0], naviguer);
+        allerVersTerrain(lieux[0].lat, lieux[0].lon);
         return;
     }
     // Commune sans terrain : la carte autour d'elle, avec la flèche vers le terrain le plus proche
     const c = place.commune;
     montrerLieuRecherche(c.lat, c.lon, place.nom,
-        [[c.lat - 0.04, c.lon - 0.06], [c.lat + 0.04, c.lon + 0.06]], place.nom);
+        [[c.lat - 0.04, c.lon - 0.06], [c.lat + 0.04, c.lon + 0.06]]);
 }
 
 const champRecherche = document.getElementById('searchInput');
@@ -1566,6 +1516,8 @@ if (searchForm && champRecherche) {
     let lignes = [];
     let active = -1;
     let indexCharge = null;
+    let deplies = new Set();     // lieux dépliés (« Afficher N de plus ») pour le texte deplieSur
+    let deplieSur = '';
 
     // Téléphone : la recherche passe en plein écran dès qu'on touche le champ (le clavier prend
     // déjà la moitié de l'écran). Le bouton retour du téléphone la referme sans quitter la page :
@@ -1614,7 +1566,11 @@ if (searchForm && champRecherche) {
         chargerIndexRecherche().then(function (index) {
             if (champRecherche.value !== texte) return;   // une autre lettre est arrivée entre-temps
             indexCharge = index;
-            lignes = propositionsRecherche(index, texte);
+            if (texte !== deplieSur) {
+                deplies = new Set();
+                deplieSur = texte;
+            }
+            lignes = propositionsRecherche(index, texte, deplies);
             active = -1;
             montrerMenu(lignes.map(function (ligne, i) { return htmlPropositionRecherche(index, ligne, i); }).join(''));
         }).catch(function () { fermer(); });   // index injoignable : la recherche d'adresse reste
@@ -1667,6 +1623,31 @@ if (searchForm && champRecherche) {
         champRecherche.setAttribute('aria-activedescendant', opts[active].id);
     };
 
+    // « Afficher N de plus » : tous les terrains du lieu, sans fermer le menu ni le clavier ; au
+    // clavier, la ligne choisie devient le premier des terrains ajoutés. « Réduire » : retour aux
+    // premiers terrains, le lieu remis en vue ; au clavier, sur sa ligne « Afficher N de plus ».
+    const basculer = function (ligne, auClavier) {
+        const cle = cleProposition(ligne.place);
+        const deplie = ligne.genre === 'plus';
+        if (deplie) deplies.add(cle); else deplies.delete(cle);
+        const defilement = menu.scrollTop;
+        lignes = propositionsRecherche(indexCharge, champRecherche.value, deplies);
+        montrerMenu(lignes.map(function (l, i) { return htmlPropositionRecherche(indexCharge, l, i); }).join(''));
+        menu.scrollTop = defilement;
+        if (deplie) {
+            if (auClavier) surligner(active);
+            return;
+        }
+        const ligneDe = function (genre) {
+            const i = lignes.findIndex(function (l) { return l.genre === genre && cleProposition(l.place) === cle; });
+            return menu.querySelector('[data-i="' + i + '"]');
+        };
+        const plus = ligneDe('plus');
+        if (plus && auClavier) surligner(options().indexOf(plus));
+        const lieu = ligneDe('place');
+        if (lieu) lieu.scrollIntoView({ block: 'nearest' });
+    };
+
     const choisir = function (ligne) {
         if (ligne.genre !== 'adresse') {
             champRecherche.value = ligne.genre === 'place' ? ligne.place.nom : titreLieuRecherche(ligne.lieu);
@@ -1682,7 +1663,7 @@ if (searchForm && champRecherche) {
         };
         const destination = suivreProposition(indexCharge, ligne);
         if (destination) naviguer(destination);
-        else fermerPleinEcran(function () { allerVersProposition(indexCharge, ligne, naviguer); });
+        else fermerPleinEcran(function () { allerVersProposition(indexCharge, ligne); });
     };
 
     champRecherche.addEventListener('input', afficher);
@@ -1702,7 +1683,8 @@ if (searchForm && champRecherche) {
         } else if (e.key === 'Enter' && !menu.hidden && active >= 0) {
             // Sinon, Entrée envoie le formulaire : recherche d'adresse, comme avant
             e.preventDefault();
-            choisir(lignes[options()[active].dataset.i]);
+            const ligne = lignes[options()[active].dataset.i];
+            if (ligne.genre === 'plus' || ligne.genre === 'moins') basculer(ligne, true); else choisir(ligne);
         }
     });
     // mousedown plutôt que click : le choix passe avant que le champ ne perde le focus
@@ -1710,7 +1692,8 @@ if (searchForm && champRecherche) {
         const option = e.target.closest('.search-suggestion');
         if (!option) return;
         e.preventDefault();
-        choisir(lignes[option.dataset.i]);
+        const ligne = lignes[option.dataset.i];
+        if (ligne.genre === 'plus' || ligne.genre === 'moins') basculer(ligne, false); else choisir(ligne);
     });
     retour.addEventListener('click', function () { fermerPleinEcran(); });
     // En plein écran, le champ perd le focus dès que le clavier se replie : la liste reste.
@@ -4186,23 +4169,6 @@ if (window.MAPETANQUE_STATS_GEO_KEY) {
             });
     });
 }
-
-// Lien « Le voir sur la carte de Belgique » des pages province et région (voir
-// signalerSiHorsZone) : ?recherche=… relance la recherche, ?localiser=1 la géolocalisation. Une
-// fois les terrains chargés, pour que la flèche du terrain le plus proche puisse s'afficher.
-if (searchForm || locateBtn) {
-    const paramsArrivee = new URLSearchParams(window.location.search);
-    const rechercheArrivee = paramsArrivee.get('recherche');
-    terrainsGeojson.then(function () {
-        if (rechercheArrivee && searchForm) {
-            document.getElementById('searchInput').value = rechercheArrivee;
-            searchForm.dispatchEvent(new Event('submit', { cancelable: true }));
-        } else if (paramsArrivee.get('localiser') === '1' && locateBtn) {
-            locateBtn.click();
-        }
-    });
-}
-
 
 // ===================== Chargement des photos Mapillary validées manuellement =====================
 // Association simple osm_id -> {mapillary_id, credit_url}, tenue à jour depuis la page admin

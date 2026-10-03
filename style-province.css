@@ -5,59 +5,9 @@
    templates/region_template.html).
    ========================================================================================== */
 
-/* Barre « Me localiser » + recherche d'adresse, centrée juste sous la carte (et non dans la
-   bannière comme à l'accueil : la carte est plus bas dans la page, le résultat aurait été hors
-   de vue). Mêmes identifiants qu'à l'accueil, script.js s'en occupe de la même façon ; sur
-   mobile, « Me localiser » se réduit à son icône (voir .controls dans style.css). */
-.province-map-inline-wrapper .controls {
-    margin: 14px 0 0;
-    padding: 0;
-}
-
-/* Cadre de la carte : sert de repère au toast (position: absolute), qui reste ainsi en bas de
-   la carte et non sur la barre placée dessous. */
+/* Cadre de la carte : sert de repère au toast (position: absolute), posé en bas de la carte. */
 .province-map-cadre {
     position: relative;
-}
-
-.province-map-inline-wrapper #locateBtn {
-    height: 42px;
-    padding: 0 20px;
-    box-sizing: border-box;
-}
-
-.province-map-inline-wrapper .search-form {
-    flex: 0 1 340px;
-    min-width: 0;
-}
-
-.province-map-inline-wrapper .search-form input {
-    width: 100%;
-    max-width: none;
-    height: 42px;
-    padding: 0 16px 0 42px;
-}
-
-/* Message sous la barre (aucun résultat, lieu hors de la carte), sans place réservée tant
-   qu'il est vide. */
-.province-map-inline-wrapper .search-error {
-    margin: 8px 0 0;
-    min-height: 0;
-}
-
-.province-map-inline-wrapper .search-error:empty {
-    display: none;
-}
-
-/* Lieu hors de la carte (voir signalerSiHorsZone dans script.js) : une information, pas une
-   erreur. */
-.search-error.search-info {
-    color: #444;
-}
-
-.search-error.search-info a {
-    color: #56A03D;
-    font-weight: 600;
 }
 
 /* ===================== Bannière photo (.hero-banner) ===================== */
@@ -293,19 +243,6 @@
     min-height: 0;
     border-radius: 0;
     box-shadow: none;
-}
-
-.map-view.fullscreen-active .province-map-inline-wrapper .controls {
-    margin: 0;
-    padding: 10px 15px;
-}
-
-/* style.css masque le message de recherche en plein écran ; ici il reste utile (lieu hors de
-   la carte). */
-.map-view.fullscreen-active .province-map-inline-wrapper .search-error:not(:empty) {
-    display: block;
-    margin: 0;
-    padding: 0 15px 10px;
 }
 
 /* ===================== Contenu ===================== */
