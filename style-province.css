@@ -405,6 +405,21 @@
     color: #999;
 }
 
+/* Commune sans terrain : ligne affichée seulement par la recherche, avec le terrain le plus
+   proche (voir construire_liste_communes dans generate_provinces.py) */
+.commune-vide p {
+    margin: 0;
+    padding: 11px 2px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #777;
+}
+
+.commune-vide a {
+    color: #3d7a2a;
+    font-weight: 600;
+}
+
 /* Liste repliée sur ses 10 premières communes (voir le script de province_template.html) */
 .commune-list.repliee .commune-repliee {
     display: none;

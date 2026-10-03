@@ -136,17 +136,21 @@ def lire_page(chemin):
 def lister_pages():
     pages = []
     for dossier in DOSSIERS_LANGUES:
-        for chemin in sorted((RACINE / dossier).glob("*.html")):
-            page = lire_page(chemin)
-            if page:
-                pages.append(page)
+        # Les pages commune (scripts/generer_communes.py) vivent dans un sous-dossier commune/
+        for motif in ("*.html", "commune/*.html"):
+            for chemin in sorted((RACINE / dossier).glob(motif)):
+                page = lire_page(chemin)
+                if page:
+                    pages.append(page)
 
     def rang(page):
-        """Par page, puis par langue (FR, NL, DE, EN)."""
+        """Par page, puis par langue (FR, NL, DE, EN). Les pages commune après les autres."""
         nom = page["fichier"]
         dossier = page["relatif"][: -len(nom)]
-        return (ORDRE_PAGES.index(nom) if nom in ORDRE_PAGES else len(ORDRE_PAGES), nom,
-                DOSSIERS_LANGUES.index(dossier))
+        commune = dossier.endswith("commune/")
+        langue = dossier[: -len("commune/")] if commune else dossier
+        return (commune, ORDRE_PAGES.index(nom) if nom in ORDRE_PAGES else len(ORDRE_PAGES), nom,
+                DOSSIERS_LANGUES.index(langue))
 
     return sorted(pages, key=rang)
 
@@ -232,6 +236,17 @@ def donnees_structurees(page):
             "@type": "AdministrativeArea",
             "name": nom_lieu,
             "containedInPlace": {"@type": "Country", "name": NOM_BELGIQUE[langue]},
+        }
+    elif "commune/" in page["relatif"]:
+        page_web["@type"] = "CollectionPage"
+        # Fil d'Ariane : … › province › commune (Bruxelles : … › région › commune)
+        nom_commune = page["fil"][-1][0] if page["fil"] else page["nom"]
+        englobant = ({"@type": "AdministrativeArea", "name": page["fil"][-2][0]}
+                     if len(page["fil"]) > 2 else {"@type": "Country", "name": NOM_BELGIQUE[langue]})
+        page_web["about"] = {
+            "@type": "AdministrativeArea",
+            "name": nom_commune,
+            "containedInPlace": englobant,
         }
     elif fichier in ("la-petanque.html", "comment-jouer.html"):
         graphe.append({
@@ -410,6 +425,27 @@ def ecrire_llms(pages):
                                len(province["communes"]), "  ")
             if ligne:
                 lignes.append(ligne)
+
+    # Pages commune (FR), rangées par province — Bruxelles, sans province, par région
+    communes = [page for page in pages if page["relatif"].startswith("commune/") and page["fil"]]
+    if communes:
+        lignes += [
+            "",
+            "## Terrains par commune",
+            "",
+            f"Une page pour chacune des {nombre(len(communes))} communes ayant des terrains à au "
+            "moins deux endroits : liste des terrains avec photos et équipements à proximité, "
+            "clubs de la commune et communes voisines.",
+            "",
+        ]
+        par_province = {}
+        for page in communes:
+            province = page["fil"][-2][0] if len(page["fil"]) > 2 else ""
+            par_province.setdefault(province, []).append(page)
+        for province in sorted(par_province):
+            liens = ", ".join(f"[{p['fil'][-1][0]}]({p['url']})"
+                              for p in sorted(par_province[province], key=lambda p: p["fil"][-1][0]))
+            lignes.append(f"- {province} : {liens}")
 
     lignes += ["", "## Jouer à la pétanque", ""]
     lignes += [l for l in (lien("comment-jouer.html"), lien("compteur.html"),

@@ -57,7 +57,9 @@ def construire_page(
     titre             contenu de <title> et de og:title
     description       meta description et og:description
     h1                titre affiché dans la bannière
-    fil               couple (libellé accueil, libellé page) du fil d'Ariane
+    fil               couple (libellé accueil, libellé page) du fil d'Ariane, ou triplet
+                      (libellé accueil, [(libellé, url), ...], libellé page) avec des étapes
+                      intermédiaires (pages commune : région › province)
     contenu           HTML complet remplaçant l'intérieur de .rules-content
     feuilles_sup      feuilles de style à charger après style-comment-jouer.css
     tete_sup          balisage inséré juste avant </head>, ex. des données structurées
@@ -140,12 +142,17 @@ def construire_page(
         )
 
     # --- Fil d'Ariane et titre ------------------------------------------------------------
-    accueil, courant = fil
+    accueil, courant = fil[0], fil[-1]
+    intermediaires = "".join(
+        f'        <a href="{url_lien}">{libelle}</a>\n        <span class="sep">›</span>\n'
+        for libelle, url_lien in (fil[1] if len(fil) == 3 else [])
+    )
     src = re.sub(
         r'<div class="province-breadcrumb">.*?</div>',
         '<div class="province-breadcrumb">\n'
         f'        <a href="/{prefixe}">{accueil}</a>\n'
         '        <span class="sep">›</span>\n'
+        + intermediaires +
         f'        <span class="current">{courant}</span>\n'
         "    </div>",
         src,

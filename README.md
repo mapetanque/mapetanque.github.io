@@ -74,10 +74,19 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 ## 🏘️ Pages provinces et régions
 
 - 11 pages province (`province-<slug>.html`) + 2 pages région (`region-flandre.html`, `region-wallonie.html`) — Bruxelles n'a pas de page région dédiée (pas de sous-provinces), sa tuile région renvoie directement vers sa page province
-- Structure commune : bannière photo (Wikimedia Commons, crédit affiché en toutes lettres), fil d'Ariane cliquable, tuiles chiffres, texte d'intro rédigé et vérifié individuellement (recherche de faits, sources citées), carte, liste des communes (pages province) ou des provinces (pages région) en pastilles cliquables
+- Structure commune : bannière photo (Wikimedia Commons, crédit affiché en toutes lettres), fil d'Ariane cliquable, tuiles chiffres, texte d'intro rédigé et vérifié individuellement (recherche de faits, sources citées), carte, liste des communes officielles (pages province : lien vers la page commune, ou fiche sur la carte pour une commune à un seul lieu ; une commune sans terrain n'apparaît qu'à la recherche, avec le terrain le plus proche) ou des provinces (pages région) en pastilles cliquables
 - Textes d'intro jamais inventés : chaque chiffre, anecdote ou fait historique mentionné a été vérifié par recherche avant d'être écrit
 - Génération via `scripts/generate_provinces.py`, qui lit `data/provinces.json` / `data/regions.json`, les templates `templates/province_template.html` / `templates/region_template.html`, `translations.js` et `data/terrains.geojson` (liste des communes écrite dans la page, lisible sans JavaScript), puis lance `scripts/generer_referencement.py` (voir Référencement)
 - Page d'accueil : grille "Parcourir par province" (10 tuiles photo, sans Bruxelles) puis "Parcourir par région" (Flandre, Wallonie, Bruxelles)
+
+## 🏡 Pages commune
+
+- Une page par commune officielle ayant des terrains à au moins deux endroits (`commune/<slug>.html`, et `nl/`, `de/`, `en/commune/`) : 255 communes en octobre 2026
+- Commune officielle (565 communes, fusions de 2025 comprises), et non le champ `commune` des terrains, tiré de Nominatim, qui donne souvent un village ou une ancienne commune (il reste affiché comme localité) : `scripts/communes_officielles.py` rattache chaque terrain et chaque club à sa commune, sans réseau, d'après les limites communales d'OpenStreetMap de `data/communes_belgique.json` (téléchargées une fois par `scripts/telecharger_communes.py`, à relancer après une fusion de communes)
+- Contenu tiré des données : intro (terrains, lieux, atouts), une carte par lieu (pistes voisines réunies comme sur la carte, `data/groupes_terrains.json`), regroupées par localité, avec photo, revêtement et pastilles calculées par `criteres.js` lui-même (via Node.js), clubs de la commune, communes voisines, tuiles province et région ; bannière de la province
+- Pas de carte sur la page : un clic sur un terrain ouvre sa fiche complète sur place (`commune.js`), avec un lien « Voir sur la carte » ; le terrain s'ajoute à l'adresse (`#way-123`) pour le bouton retour et le partage. Les notes des joueurs s'affichent sur les cartes des terrains
+- Noms : nom local, comme sur le reste du site, sauf une courte liste de noms traduits d'usage courant (Anvers, Gand, Luik, Lüttich…, voir EXONYMES dans `scripts/communes_officielles.py`)
+- Génération via `scripts/generer_communes.py` (squelette de `comment-jouer.html`, voir `scripts/_squelette.py`), chaque semaine par le workflow OSM ; une commune passée sous deux lieux perd sa page
 
 ## 🎨 Identité visuelle et confort d'usage
 
@@ -156,6 +165,9 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 ├── region-flandre.html               # Page région Flandre
 ├── region-wallonie.html              # Page région Wallonie
 ├── nl/region-*.html, de/region-*.html
+├── commune/<slug>.html               # Pages commune (générées), aussi dans nl/, de/, en/
+├── commune.js                        # Fiche d'un terrain ouverte sur les pages commune
+├── style-commune.css                 # Ajouts spécifiques aux pages commune
 ├── style.css                         # Mise en forme du site (base)
 ├── style-accueil-provinces.css       # Ajouts spécifiques à la page d'accueil
 ├── style-province.css                # Ajouts spécifiques aux pages province/région
@@ -175,6 +187,9 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 ├── scripts/
 │   ├── update_terrains.py            # Génération hebdomadaire des données terrains
 │   ├── generate_provinces.py         # Génération des pages province/région
+│   ├── generer_communes.py           # Génération des pages commune
+│   ├── communes_officielles.py       # Rattachement d'un point à sa commune officielle
+│   ├── telecharger_communes.py       # Limites des communes (data/communes_belgique.json)
 │   └── generer_referencement.py      # Données structurées, sitemap.xml, llms.txt
 ├── templates/
 │   ├── province_template.html        # Gabarit des pages province
@@ -182,6 +197,7 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 ├── data/
 │   ├── terrains.geojson              # Données des terrains (générées automatiquement)
 │   ├── stats_geo.json                # Agrégats région/province/commune
+│   ├── communes_belgique.json        # Limites des 565 communes officielles (OSM)
 │   ├── provinces.json                # Contenu (textes, crédits photo) des pages province
 │   └── regions.json                  # Contenu des pages région
 ├── LICENSE                           # Licence MIT

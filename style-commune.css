@@ -1,0 +1,151 @@
+/* Pages commune (commune/<slug>.html, écrites par scripts/generer_communes.py).
+   Chargée après style-comment-jouer.css (squelette de la page) et style-province.css (tuiles
+   province/région) : n'est chargée que sur ces pages, ses règles ne touchent rien d'autre. */
+
+/* Le squelette garde le texte sur 720 px ; les cartes des terrains ont besoin de la largeur des
+   pages province. */
+.rules-content {
+    max-width: 1100px;
+}
+
+.commune-intro {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #444;
+    margin: 8px 0 40px;
+}
+
+.commune-section { margin: 0 0 48px; }
+.commune-section h2 { font-size: 26px; color: #333; margin: 0 0 20px; }
+.commune-localite { font-size: 19px; color: #3d7a2a; margin: 28px 0 14px; }
+.commune-localite:first-of-type { margin-top: 0; }
+
+/* ----- Cartes des lieux : toute la carte mène à la fiche sur la carte de l'accueil ----- */
+.commune-terrains {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.commune-terrain {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e2e6de;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #fff;
+    color: inherit;
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.commune-terrain:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(30, 50, 20, 0.12);
+}
+
+.commune-terrain-photo { position: relative; display: block; }
+.commune-terrain-photo img {
+    display: block;
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    background: #f0f2ee;
+}
+.commune-terrain-credit {
+    position: absolute;
+    right: 6px;
+    bottom: 6px;
+    padding: 1px 7px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    font-size: 11px;
+}
+
+.commune-terrain-texte {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    padding: 14px 16px 16px;
+}
+.commune-terrain-nom { margin: 0; font-size: 17px; color: #333; }
+.commune-terrain-details { color: #777; font-size: 14px; }
+
+/* Note des joueurs, ajoutée par /commune.js quand elle arrive du Worker */
+.commune-terrain-note { color: #555; font-size: 14px; }
+.commune-terrain-note .note-etoile { font-size: 15px; vertical-align: -1px; }
+
+/* Lien « Voir sur la carte » ajouté par /commune.js au pied de la fiche, à droite de
+   « Signaler une erreur » (gris) : plus visible que lui. */
+.fiche .fiche-pied a.fiche-voir-carte {
+    margin-left: 18px;
+    color: #3d7a2a;
+    font-weight: 600;
+}
+.fiche .fiche-pied a.fiche-voir-carte:hover { color: #74C15A; }
+
+.commune-pastilles { display: flex; flex-wrap: wrap; gap: 6px; }
+.commune-pastille {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border: 1px solid #d6dccf;
+    border-radius: 999px;
+    font-size: 13px;
+    color: #444;
+    background: #fff;
+}
+.commune-pastille svg { width: 15px; height: 15px; color: #3d7a2a; }
+
+.commune-terrain-lien {
+    margin-top: auto;
+    padding-top: 4px;
+    color: #3d7a2a;
+    font-weight: 600;
+    font-size: 14.5px;
+}
+.commune-terrain:hover .commune-terrain-lien { color: #74C15A; }
+
+/* ----- Clubs ----- */
+.commune-clubs {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 14px;
+}
+.commune-club {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 16px;
+    border: 1px solid #e2e6de;
+    border-radius: 14px;
+    color: #444;
+    line-height: 1.5;
+}
+.commune-club a { color: inherit; }
+.commune-club-icone svg { width: 28px; height: 28px; color: #3d7a2a; }
+.commune-club-federation { color: #888; font-size: 14px; }
+
+/* ----- Communes voisines ----- */
+.commune-voisines { display: grid; grid-template-columns: 1fr 1fr; column-gap: 60px; }
+.commune-voisines a {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 11px 2px;
+    border-bottom: 1px solid #f0f2ee;
+    text-decoration: none;
+    color: #444;
+    font-weight: 600;
+    font-size: 14.5px;
+}
+.commune-voisines a span { font-weight: 400; color: #999; white-space: nowrap; }
+.commune-voisines a:hover { color: #74C15A; }
+
+@media (max-width: 700px) {
+    .commune-terrains,
+    .commune-voisines { grid-template-columns: 1fr; }
+    .commune-section h2 { font-size: 22px; }
+}

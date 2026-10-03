@@ -7,8 +7,9 @@ Lit :
   - data/provinces.json                (contenu propre à chaque province, avec traductions
                                          optionnelles sous province["translations"]["nl"/"de"/"en"])
   - data/stats_geo.json                (mêmes données que le site : terrains/communes)
-  - data/terrains.geojson              (liste des communes de chaque page, dans le même ordre
-                                         que la carte)
+  - data/terrains.geojson              (liste des communes officielles de chaque page, avec
+    data/groupes_terrains.json           data/communes_belgique.json : voir
+    data/clubs.json                      communes_officielles.py)
   - translations.js                    (SOURCE UNIQUE des noms de provinces/régions et des
                                          textes d'interface des pages province — mêmes clés
                                          que celles utilisées par le reste du site, lues
@@ -39,6 +40,7 @@ import re
 from pathlib import Path
 
 import generer_referencement
+from communes_officielles import MIN_LIEUX, Communes, distance_m, regrouper_lieux
 
 BASE_DIR = Path(__file__).resolve().parent.parent  # racine du repo (le script vit dans scripts/)
 TEMPLATE_PATH = BASE_DIR / "templates" / "province_template.html"
@@ -47,6 +49,8 @@ PROVINCES_PATH = BASE_DIR / "data" / "provinces.json"
 REGIONS_PATH = BASE_DIR / "data" / "regions.json"
 STATS_GEO_PATH = BASE_DIR / "data" / "stats_geo.json"
 TERRAINS_PATH = BASE_DIR / "data" / "terrains.geojson"
+GROUPES_PATH = BASE_DIR / "data" / "groupes_terrains.json"
+CLUBS_PATH = BASE_DIR / "data" / "clubs.json"
 TRANSLATIONS_JS_PATH = BASE_DIR / "translations.js"
 OUTPUT_DIR = BASE_DIR  # écrit directement à la racine du repo, comme index.html
 
@@ -138,42 +142,105 @@ def nom_commune_affiche(nom_brut, langue):
     return parties[0] if langue in ("fr", "en") else parties[1]
 
 
-def compter_terrains_par_commune(terrains, stats_key):
-    """Nombre de terrains de chaque commune d'une province (ou de Bruxelles), triées par nombre
-    décroissant puis par ordre d'apparition dans terrains.geojson : exactement l'ordre de la
-    liste qu'affichait le script de la page quand il la construisait lui-même."""
-    comptes = {}
-    for feature in terrains["features"]:
-        props = feature["properties"]
-        # Même filtre que appartientALaProvince() dans le gabarit (Bruxelles : pas de province)
-        if (props.get("province") or props.get("region")) != stats_key:
-            continue
-        commune = props.get("commune")
-        if commune:
-            comptes[commune] = comptes.get(commune, 0) + 1
-    return sorted(comptes.items(), key=lambda t: -t[1])  # tri stable : ordre d'apparition gardé
+def communes_officielles(terrains, groupes, clubs):
+    """Les communes officielles de chaque page province (clé : province, ou « bruxelles »), avec
+    leurs terrains, leurs lieux (pistes voisines réunies, comme sur la carte), leurs clubs et, pour
+    une commune sans terrain, le terrain le plus proche. Calculé une fois pour toutes les pages.
+
+    Commune officielle plutôt que le champ « commune » des terrains (Nominatim, qui donne souvent
+    un village ou une ancienne commune) : la liste des pages province mène ainsi aux pages commune
+    (scripts/generer_communes.py), calculées de la même façon."""
+    communes = Communes()
+    terrains_par_commune, _ = communes.rattacher_terrains(terrains["features"])
+    clubs_par_commune = communes.rattacher_clubs(clubs)
+    tous_les_terrains = [t for liste in terrains_par_commune.values() for t in liste]
+    nb_lieux = {ins: len(regrouper_lieux(liste, groupes)) for ins, liste in terrains_par_commune.items()}
+
+    par_page = {}
+    for commune in communes.liste:
+        terrains_commune = terrains_par_commune.get(commune["ins"], [])
+        entree = {
+            "commune": commune,
+            "terrains": terrains_commune,
+            "page": nb_lieux.get(commune["ins"], 0) >= MIN_LIEUX,
+            "clubs": len(clubs_par_commune.get(commune["ins"], [])),
+        }
+        if not terrains_commune:
+            x, y = communes.centre(commune)
+            proche = min(tous_les_terrains, key=lambda t: distance_m(x, y, t["lon"], t["lat"]))
+            commune_proche = communes.du_point(proche["lon"], proche["lat"])
+            entree["proche"] = {
+                "terrain": proche,
+                "commune": commune_proche,
+                "page": nb_lieux.get(commune_proche["ins"], 0) >= MIN_LIEUX,
+                "km": max(1, round(distance_m(x, y, proche["lon"], proche["lat"]) / 1000)),
+            }
+        par_page.setdefault(commune["province"] or "bruxelles", []).append(entree)
+    return communes, par_page
 
 
-def construire_liste_communes(comptes, langue, tr):
+def comptages_communes(entrees):
+    """{nom officiel : nombre de terrains} des communes qui en ont, pour les {{NB:…}} des intros
+    et la tuile « communes couvertes »."""
+    return {e["commune"]["nom"]: len(e["terrains"]) for e in entrees if e["terrains"]}
+
+
+def construire_liste_communes(communes, entrees, langue, tr):
     """Jetons de la liste des communes : écrite dans la page plutôt que par le script, pour
     qu'elle soit lisible par les moteurs de recherche et les IA, qui n'exécutent pas toujours
-    le JavaScript. Le script de la page n'y ajoute que le comportement (clic, recherche,
-    repli, nombre de clubs)."""
+    le JavaScript. Le script de la page n'y ajoute que le comportement (clic, recherche, repli,
+    nombre de clubs).
+
+    - Commune ayant sa page (au moins MIN_LIEUX lieux) : lien vers la page commune.
+    - Commune à un seul lieu : pas de page, le clic montre ses terrains sur la carte de la page
+      (data-osm).
+    - Commune sans terrain : ligne masquée, qui n'apparaît que si la recherche la trouve, avec
+      le terrain le plus proche."""
+    prefixe = "" if langue == "fr" else f"{langue}/"
+    avec = sorted((e for e in entrees if e["terrains"]),
+                  key=lambda e: (-len(e["terrains"]), communes.nom(e["commune"], langue)))
+    sans = sorted((e for e in entrees if not e["terrains"]),
+                  key=lambda e: communes.nom(e["commune"], langue))
+
     lignes = []
-    for index, (nom, nb) in enumerate(comptes):
+    for index, e in enumerate(avec):
+        commune = e["commune"]
+        nb = len(e["terrains"])
         classes = "commune-item"
         if index >= NB_COMMUNES_VISIBLES:
             classes += " commune-repliee"
         unite = tr["stats_terrains_unit"] if nb > 1 else tr["province_terrain_singulier"]
+        if e["page"]:
+            href, osm = f"/{prefixe}commune/{commune['slug']}.html", ""
+        else:
+            href = "#map"
+            osm = f' data-osm="{" ".join(t["osm_id"] for t in e["terrains"])}"'
         lignes.append(
-            f'            <div class="{classes}" data-commune="{html.escape(nom)}" '
-            f'data-terrains="{nb}" data-recherche-clef="{html.escape(nom.lower())}">'
-            f'<a href="#map"><span>{html.escape(nom_commune_affiche(nom, langue))} </span>'
+            f'            <div class="{classes}" data-commune="{html.escape(commune["nom"])}" '
+            f'data-terrains="{nb}" data-clubs="{e["clubs"]}"{osm} '
+            f'data-recherche-clef="{html.escape(communes.noms_recherche(commune))}">'
+            f'<a href="{href}"><span>{html.escape(communes.nom(commune, langue))} </span>'
             f'<span class="commune-count">({nb} {unite})</span></a></div>'
         )
+    for e in sans:
+        proche = e["proche"]
+        nom_proche = html.escape(communes.nom(proche["commune"], langue))
+        if proche["page"]:
+            href = f"/{prefixe}commune/{proche['commune']['slug']}.html"
+        else:
+            href = f"/{prefixe}?lat={proche['terrain']['lat']}&amp;lon={proche['terrain']['lon']}"
+        message = (tr["province_commune_vide"]
+                   .replace("{nom}", html.escape(communes.nom(e["commune"], langue)))
+                   .replace("{proche}", f'<a href="{href}">{nom_proche}</a>')
+                   .replace("{km}", str(proche["km"])))
+        lignes.append(
+            f'            <div class="commune-item commune-vide" style="display: none" '
+            f'data-recherche-clef="{html.escape(communes.noms_recherche(e["commune"]))}">'
+            f'<p>{message}</p></div>'
+        )
 
-    longue = len(comptes) > NB_COMMUNES_VISIBLES
-    voir = tr["province_voir_toutes_communes"].replace("{n}", str(len(comptes)))
+    longue = len(avec) > NB_COMMUNES_VISIBLES
+    voir = tr["province_voir_toutes_communes"].replace("{n}", str(len(avec)))
     return {
         "{{COMMUNES_LISTE}}": "\n".join(lignes),
         "{{COMMUNES_CLASSES}}": "commune-list repliee" if longue else "commune-list",
@@ -254,14 +321,16 @@ def regions_pretes(regions, langue):
     return pretes
 
 
-def recuperer_stats_region(stats_geo, region_key):
-    """Total terrains, nombre de provinces, nombre de communes (somme sur les provinces) pour
-    une région. Bruxelles n'a pas de page région dédiée (pas de sous-provinces), cette fonction
-    n'est donc appelée que pour flandre/wallonie."""
+def recuperer_stats_region(stats_geo, region_key, officielles):
+    """Total terrains, nombre de provinces, nombre de communes officielles ayant des terrains
+    (somme sur les provinces, comme les pages province) pour une région. Bruxelles n'a pas de
+    page région dédiée (pas de sous-provinces), cette fonction n'est donc appelée que pour
+    flandre/wallonie."""
     region = stats_geo[region_key]
     provinces = region["provinces"]
     nb_provinces = len(provinces)
-    nb_communes = sum(len(p["communes"]) for p in provinces.values())
+    _, par_page = officielles
+    nb_communes = sum(len(comptages_communes(par_page.get(cle, []))) for cle in provinces)
     return region["total"], nb_provinces, nb_communes
 
 
@@ -376,12 +445,17 @@ def construire_hreflang_links(slug, langues_disponibles, fonction_url=url_page):
 
 
 def generer_page(cle, config, langue, langues_disponibles, other_provinces_block, template,
-                  stats_geo, terrains, traductions):
+                  stats_geo, officielles, traductions):
     tr = traductions[langue]
 
-    communes, total_terrains = recuperer_communes(
+    _, total_terrains = recuperer_communes(
         stats_geo, config["stats_geo_region"], config["stats_geo_province"]
     )
+    # Communes officielles de la page (voir communes_officielles plus haut) : la liste, la
+    # tuile « communes couvertes » et les {{NB:…}} des intros comptent les mêmes communes.
+    communes_off, par_page = officielles
+    entrees = par_page[config["stats_geo_province"] or config["stats_geo_region"]]
+    communes = comptages_communes(entrees)
     nb_communes = len(communes)
     densite = calculer_densite(total_terrains, config.get("area_km2"), langue)
 
@@ -468,10 +542,7 @@ def generer_page(cle, config, langue, langues_disponibles, other_provinces_block
         ),
         "{{UI_ERREUR_CHARGEMENT}}": chaine_js(tr["carte_erreur_chargement"]),
     }
-    remplacements.update(construire_liste_communes(
-        compter_terrains_par_commune(terrains, config["stats_geo_province"] or config["stats_geo_region"]),
-        langue, tr,
-    ))
+    remplacements.update(construire_liste_communes(communes_off, entrees, langue, tr))
 
     page = template
     for jeton, valeur in remplacements.items():
@@ -490,10 +561,11 @@ def generer_page(cle, config, langue, langues_disponibles, other_provinces_block
 
 
 def generer_page_region(cle, config, langue, langues_disponibles, template, stats_geo,
-                         provinces, traductions):
+                         provinces, officielles, traductions):
     tr = traductions[langue]
 
-    total_terrains, nb_provinces, nb_communes = recuperer_stats_region(stats_geo, config["region_key"])
+    total_terrains, nb_provinces, nb_communes = recuperer_stats_region(
+        stats_geo, config["region_key"], officielles)
     nom_region = tr[f"geo_region_{config['region_key']}"]
 
     h1 = tr["region_h1_template"].format(nom=nom_region)
@@ -572,7 +644,8 @@ def main():
     provinces = charger_json(PROVINCES_PATH)
     regions = charger_json(REGIONS_PATH)
     stats_geo = charger_json(STATS_GEO_PATH)
-    terrains = charger_json(TERRAINS_PATH)
+    officielles = communes_officielles(charger_json(TERRAINS_PATH), charger_json(GROUPES_PATH),
+                                       charger_json(CLUBS_PATH))
     traductions = charger_traductions_js(TRANSLATIONS_JS_PATH)
 
     print("Génération des pages provinces (FR + NL + DE + EN)...\n")
@@ -602,7 +675,7 @@ def main():
                 cle, config, provinces, regions, stats_geo, langue, traductions
             )
             generer_page(cle, config, langue, langues_disponibles, bloc_rebond,
-                         template, stats_geo, terrains, traductions)
+                         template, stats_geo, officielles, traductions)
             generees += 1
 
         langues_manquantes = [l for l in LANGUES if l not in langues_disponibles]
@@ -634,7 +707,7 @@ def main():
 
         for langue in langues_disponibles:
             generer_page_region(cle, config, langue, langues_disponibles, region_template,
-                                 stats_geo, provinces, traductions)
+                                 stats_geo, provinces, officielles, traductions)
             generees_regions += 1
 
         langues_manquantes = [l for l in LANGUES if l not in langues_disponibles]

@@ -40,6 +40,14 @@ jobs:
         run: |
           python scripts/update_terrains.py
 
+      # Pistes voisines regroupées (notes, critères et avis valent pour tout le groupe, voir
+      # grouper_terrains.py). Avant les pages province, dont la liste des communes compte les
+      # lieux (une commune a sa page à partir de deux), et avant la promotion, qui s'en sert pour
+      # cumuler les votes.
+      - name: Groupes de terrains voisins
+        run: |
+          python scripts/grouper_terrains.py
+
       # Pages province et région régénérées avec les chiffres du jour (tuiles, intros, liste des
       # communes), suivies des données structurées, de sitemap.xml et de llms.txt
       # (generer_referencement.py) : sans cette étape, elles ne suivaient les données que lorsque
@@ -52,12 +60,6 @@ jobs:
         run: |
           python scripts/generate_provinces.py
 
-      # Pistes voisines regroupées (notes, critères et avis valent pour tout le groupe, voir
-      # grouper_terrains.py). Avant la promotion, qui s'en sert pour cumuler les votes.
-      - name: Groupes de terrains voisins
-        run: |
-          python scripts/grouper_terrains.py
-
       # Critères d'environnement des terrains apparus depuis le dernier calcul (voir
       # environnement.yml pour le calcul complet). Un lot au plus, borné dans le temps, et
       # jamais bloquant pour la sauvegarde de la mise à jour OSM.
@@ -66,6 +68,17 @@ jobs:
         timeout-minutes: 30
         run: |
           python scripts/enrichir_environnement.py --limite 250 --minutes 20
+
+      # Pages commune (commune/<slug>.html, quatre langues) : après les groupes de terrains et les
+      # critères d'environnement, qu'elles affichent. Les pastilles sont calculées par criteres.js
+      # avec Node.js, déjà présent sur ubuntu-latest. Met aussi à jour sitemap.xml et llms.txt ;
+      # une commune passée sous deux lieux perd sa page (suppression enregistrée par le git add
+      # '*.html' de la sauvegarde). Jamais bloquant : en cas d'échec, les pages de la semaine
+      # précédente restent en ligne.
+      - name: Pages commune
+        continue-on-error: true
+        run: |
+          python scripts/generer_communes.py
 
       # Promotion des terrains bien notés vers le carrousel : lit les votes sur le Worker
       # Cloudflare, reprend les miniatures 16:9 déjà dans le dépôt (faites par le workflow de

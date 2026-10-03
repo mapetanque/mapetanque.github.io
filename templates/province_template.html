@@ -340,9 +340,9 @@
         toastTimeout = setTimeout(function () { toast.classList.remove('visible'); }, 2800);
     }
 
-    // Marqueurs de chaque commune, remplis à l'arrivée des terrains : lus au clic sur une
-    // commune de la liste (plus bas).
-    const layersParCommune = {};
+    // Marqueur de chaque terrain (osm_id), rempli à l'arrivée des terrains : lu au clic sur une
+    // commune de la liste qui n'a pas sa page (plus bas, data-osm).
+    const layersParOsm = {};
 
     // terrainsGeojson : téléchargement unique du fichier, lancé par script.js (pied de page)
     terrainsGeojson
@@ -376,12 +376,7 @@
                 window.brancherPopupTerrain(layer, feature);
 
                 layer.addTo(groupe);
-
-                const commune = feature.properties.commune;
-                if (commune) {
-                    if (!layersParCommune[commune]) layersParCommune[commune] = [];
-                    layersParCommune[commune].push(layer);
-                }
+                layersParOsm[feature.properties.osm_id] = layer;
             });
 
             groupe.addTo(map);
@@ -402,30 +397,25 @@
             afficherToast('{{UI_ERREUR_CHARGEMENT}}');
         });
 
-    // Liste des communes : écrite dans la page par generate_provinces.py, à partir du même
-    // fichier terrains.geojson que la carte, triée par nombre de terrains décroissant. Ici, on
-    // ne fait que la rendre interactive : clic vers la carte, recherche, repli, clubs.
+    // Liste des communes officielles : écrite dans la page par generate_provinces.py, triée par
+    // nombre de terrains décroissant. Une commune qui a sa page (commune/<slug>.html) y mène par
+    // un lien ordinaire ; une commune à un seul lieu montre ses terrains sur la carte (data-osm) ;
+    // une commune sans terrain (.commune-vide) n'apparaît qu'à la recherche. Ici, on ne fait que
+    // rendre la liste interactive : clic vers la carte, recherche, repli, clubs.
     const listeCommunes = document.getElementById('communeList');
     const boutonCommunes = document.getElementById('communeVoirTout');
+    const lignesCommunes = listeCommunes.querySelectorAll('.commune-item:not(.commune-vide)');
 
-    // Référence conservée vers le <span> de comptage de chaque commune, pour pouvoir
-    // ajouter/retirer le nombre de clubs (voir mettreAJourComptagesCommunes plus bas, appelée au
-    // chargement de data/clubs.json et à chaque bascule de la couche clubs — voir
-    // clubsParCommune/ClubsToggleControl dans script.js).
-    const spansComptageParCommune = {};
-    const nbTerrainsParCommune = {};
-
-    // Construit le texte "x terrains" ou "x terrains, x clubs" (ce dernier uniquement si la
-    // couche clubs est actuellement affichée sur la carte) pour une commune donnée.
-    function texteComptageCommune(nom) {
-        const nbTerrains = nbTerrainsParCommune[nom];
+    // Texte "x terrains" ou "x terrains, x clubs" d'une ligne : les clubs (data-clubs, comptés
+    // par le générateur) ne sont cités que si la couche clubs est affichée sur la carte, et s'il
+    // y en a — « 0 club » sur la plupart des lignes n'apportait rien.
+    function texteComptageCommune(item) {
+        const nbTerrains = Number(item.dataset.terrains);
         const uniteTerrain = nbTerrains > 1 ? '{{UI_TERRAIN_PLURIEL}}' : '{{UI_TERRAIN_SINGULIER}}';
         let texte = nbTerrains + ' ' + uniteTerrain;
 
-        // Clubs mentionnés seulement s'il y en a : « 0 club » sur la plupart des lignes
-        // n'apportait rien.
         const clubsAffiches = typeof clubsLayer !== 'undefined' && map.hasLayer(clubsLayer);
-        const nbClubs = (window.clubsParCommune && window.clubsParCommune[nom]) || 0;
+        const nbClubs = Number(item.dataset.clubs) || 0;
         if (clubsAffiches && nbClubs > 0) {
             const uniteClub = nbClubs > 1 ? '{{UI_CLUB_PLURIEL}}' : '{{UI_CLUB_SINGULIER}}';
             texte += ', ' + nbClubs + ' ' + uniteClub;
@@ -435,27 +425,24 @@
     }
 
     function mettreAJourComptagesCommunes() {
-        Object.keys(spansComptageParCommune).forEach(function (nom) {
-            spansComptageParCommune[nom].textContent = '(' + texteComptageCommune(nom) + ')';
+        lignesCommunes.forEach(function (item) {
+            item.querySelector('.commune-count').textContent = '(' + texteComptageCommune(item) + ')';
         });
     }
 
-    listeCommunes.querySelectorAll('.commune-item').forEach(function (item) {
-        const nom = item.dataset.commune;
-        spansComptageParCommune[nom] = item.querySelector('.commune-count');
-        nbTerrainsParCommune[nom] = Number(item.dataset.terrains);
-
+    listeCommunes.querySelectorAll('.commune-item[data-osm]').forEach(function (item) {
         item.querySelector('a').addEventListener('click', function (e) {
             e.preventDefault();
-            const layersCommune = layersParCommune[nom];
-            // Terrains pas encore arrivés (ou commune absente des données chargées) : on se
-            // contente de descendre jusqu'à la carte.
-            if (layersCommune) {
+            const layersCommune = item.dataset.osm.split(' ')
+                .map(function (osmId) { return layersParOsm[osmId]; })
+                .filter(Boolean);
+            // Terrains pas encore arrivés : on se contente de descendre jusqu'à la carte. Sinon,
+            // un seul lieu (sans quoi la commune aurait sa page) : sa fiche s'ouvre, celle de sa
+            // première piste, qui porte les notes et avis de tout le groupe.
+            if (layersCommune.length) {
                 const boundsCommune = L.latLngBounds(layersCommune.map(function (l) { return l.getLatLng(); }));
                 map.fitBounds(boundsCommune, { padding: [40, 40], maxZoom: 16 });
-                if (layersCommune.length === 1) {
-                    layersCommune[0].openPopup();
-                }
+                layersCommune[0].openPopup();
             }
             document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' });
         });
@@ -486,8 +473,11 @@
         if (!listeDepliee) boutonCommunes.scrollIntoView({ block: 'center' });
     });
 
+    // Recherche sans accents ni majuscules, sur tous les noms de la commune (« anvers » trouve
+    // Antwerpen). Une commune sans terrain ne s'affiche que si on la cherche, avec le terrain le
+    // plus proche.
     document.getElementById('communeSearch').addEventListener('input', function (e) {
-        const q = e.target.value.trim().toLowerCase();
+        const q = normaliserRecherche(e.target.value.trim());
         if (listeLongue) {
             listeCommunes.classList.toggle('repliee', !q && !listeDepliee);
             boutonCommunes.hidden = !!q;
@@ -495,7 +485,8 @@
         const items = document.querySelectorAll('.commune-item');
         let visibleCount = 0;
         items.forEach(function (item) {
-            const match = item.dataset.rechercheClef.includes(q);
+            const vide = item.classList.contains('commune-vide');
+            const match = item.dataset.rechercheClef.includes(q) && !(vide && !q);
             item.style.display = match ? '' : 'none';
             if (match) visibleCount++;
         });
