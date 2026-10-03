@@ -157,15 +157,17 @@
     }
 
     // --- Branchement sur le logo ---------------------------------------------------------
-    // Seulement en mobile (boule seule). L'animation se joue à l'arrivée sur l'accueil, et au
-    // clic quand celui-ci ne quitte pas la page (href="#top" sur l'accueil) : sur les autres
-    // pages, la navigation couperait l'animation. Le script n'est chargé que sur les accueils.
+    // Seulement en mobile (boule seule). À l'arrivée sur l'accueil, la boule entre déjà lancée,
+    // en fondu, à la place du logo fixe que style.css cache dès le premier affichage : on ne voit
+    // donc jamais le logo avant l'animation. Au clic, quand celui-ci ne quitte pas la page
+    // (href="#top" sur l'accueil), elle repart depuis le logo. Sur les autres pages, la navigation
+    // couperait l'animation : le script n'est chargé que sur les accueils.
 
     const MOBILE = window.matchMedia('(max-width: 1024px)');
     const MOINS_DANIMATION = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-    // À l'arrivée, on laisse la page s'afficher avant de lancer la boule.
-    const DELAI_ARRIVEE = 300;
+    // Fondu d'entrée de la boule à l'arrivée sur la page, en ms.
+    const FONDU_ARRIVEE = 200;
 
     function brancherLogo() {
         const lien = document.querySelector('.brand-link');
@@ -176,45 +178,63 @@
 
         let enCours = false;
 
-        function lancer() {
-            if (enCours || !MOBILE.matches || MOINS_DANIMATION.matches) return;
-            const cote = logo.getBoundingClientRect().width;
-            if (!cote) return;
+        function afficherLogo() {
+            logo.style.visibility = '';
+        }
+
+        /** @param {boolean} arrivee  vrai à l'arrivée sur la page (entrée en fondu) */
+        function lancer(arrivee) {
+            if (enCours) return;
+            // Le script prend le relais du filet de sécurité CSS (voir style.css) : sans ceci,
+            // l'animation CSS réafficherait le logo au bout de 2 s, en pleine animation.
+            logo.style.animation = 'none';
+            // La boule est carrée et sa hauteur fixée par le CSS : connue avant même que
+            // l'image soit chargée, ce qui permet de démarrer sans l'attendre.
+            const cote = logo.getBoundingClientRect().height;
+            if (!MOBILE.matches || MOINS_DANIMATION.matches || !cote) { afficherLogo(); return; }
             enCours = true;
 
             // Le canvas se pose exactement sur l'image, qui est masquée le temps de l'animation.
+            // Sa classe lui donne la même ombre portée que le logo (style-ombres.css).
             const canvas = document.createElement('canvas');
             canvas.width = canvas.height = Math.round(cote * (window.devicePixelRatio || 1));
+            canvas.className = 'logo-anime';
             canvas.setAttribute('aria-hidden', 'true');
             canvas.style.cssText = 'position:absolute;left:0;top:0;width:' + cote + 'px;height:' +
                 cote + 'px;pointer-events:none;';
             cadre.style.position = 'relative';
             cadre.appendChild(canvas);
             logo.style.visibility = 'hidden';
+            if (arrivee && canvas.animate) {
+                canvas.animate([{ opacity: 0 }, { opacity: 1 }],
+                               { duration: FONDU_ARRIVEE, easing: 'ease-out' });
+            }
 
             jouer(canvas, null, function () {
-                logo.style.visibility = '';
+                afficherLogo();
                 canvas.remove();
                 enCours = false;
             });
         }
 
         if ((lien.getAttribute('href') || '').charAt(0) === '#') {
-            lien.addEventListener('click', lancer);
+            lien.addEventListener('click', function () { lancer(false); });
         }
 
-        // Arrivée sur la page : une fois le logo chargé (sa taille sert à poser le canvas).
-        function lancerApresDelai() { setTimeout(lancer, DELAI_ARRIVEE); }
-        if (logo.complete && logo.naturalWidth) {
-            lancerApresDelai();
-        } else {
-            logo.addEventListener('load', lancerApresDelai, { once: true });
-        }
+        // Arrivée sur la page : tout de suite, le logo fixe n'a pas encore été montré.
+        lancer(true);
 
-        // Retour sur la page par le bouton « précédent » : le navigateur la ressort de sa mémoire
-        // sans la recharger, le script ne repasse donc pas par ici. On rejoue quand même.
+        // Retour par le bouton « précédent » : le navigateur ressort la page de sa mémoire sans
+        // la recharger, le script ne repasse donc pas par ici. On cache le logo en quittant la
+        // page pour qu'il ne réapparaisse pas fixe au retour, puis la boule rentre comme à
+        // l'arrivée.
+        window.addEventListener('pagehide', function () {
+            if (MOBILE.matches && !MOINS_DANIMATION.matches && !enCours) {
+                logo.style.visibility = 'hidden';
+            }
+        });
         window.addEventListener('pageshow', function (e) {
-            if (e.persisted) lancerApresDelai();
+            if (e.persisted) lancer(true);
         });
     }
 

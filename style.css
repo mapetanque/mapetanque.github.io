@@ -490,6 +490,22 @@ body.fullscreen-lock {
     flex-shrink: 0;
 }
 
+/* Accueil en mobile (seules les pages d'accueil ont href="#top") : boule-animee.js fait entrer
+   la boule en roulant. Le logo fixe est donc caché dès le premier affichage, sinon on le verrait
+   un instant avant l'animation. Filet de sécurité : si le script ne prend pas le relais (erreur,
+   connexion lente), le logo réapparaît seul au bout de 2 s. Le script coupe cette animation CSS
+   dès qu'il démarre (une animation CSS l'emporterait sur le style qu'il pose lui-même). */
+@media (max-width: 1024px) and (prefers-reduced-motion: no-preference) {
+    .brand-link[href="#top"] .logo {
+        animation: logo-secours 0s 2s both;
+    }
+}
+
+@keyframes logo-secours {
+    from { visibility: hidden; }
+    to { visibility: visible; }
+}
+
 /* Grand titre au-dessus des contrôles de recherche, inspiré d'AllTrails */
 .hero-headline {
     text-align: center;
