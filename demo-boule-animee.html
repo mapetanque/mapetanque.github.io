@@ -12,8 +12,9 @@ h1 { font-size: 18px; margin: 0 0 12px; }
 .scene { display: flex; gap: 24px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 16px; }
 .scene figure { margin: 0; text-align: center; font-size: 12px; color: #7b8a76; }
 .scene canvas, .scene img { display: block; margin: 0 auto 6px; }
-#grand, #logo-grand { width: 200px; height: 200px; }
-#petit { width: 34px; height: 34px; }
+#logo-grand { width: 180px; height: 180px; margin-bottom: 69px; }
+#grand { width: 306px; height: 306px; max-width: 100%; }
+#petit { width: 57.8px; height: 57.8px; }
 .reglages { display: grid; grid-template-columns: max-content 1fr 4em; gap: 8px 12px; align-items: center;
             max-width: 480px; font-size: 14px; }
 .reglages output { text-align: right; font-variant-numeric: tabular-nums; }
@@ -37,23 +38,27 @@ p.aide { font-size: 13px; color: #7b8a76; max-width: 480px; }
     <label for="courbe">Freinage</label><input id="courbe" type="range" min="1.5" max="4" step="0.1"><output></output>
     <label for="camera">Caméra (°)</label><input id="camera" type="range" min="0" max="70" step="5"><output></output>
     <label for="direction">Direction (°)</label><input id="direction" type="range" min="-80" max="0" step="5"><output></output>
+    <label for="graviers">Graviers</label><input id="graviers" type="range" min="0" max="3" step="0.25"><output></output>
+    <label for="touche">Touche</label><input id="touche" type="range" min="0" max="0.4" step="0.02"><output></output>
 </div>
 <button id="rejouer" type="button">Rejouer</button>
 <p class="aide">Freinage 2 = ralentissement constant (boule qui roule sur le sol) ; plus haut, la boule
 part plus vite et finit plus en douceur. Direction 0 = la boule roule vers la droite ; vers −80, elle
-vient vers vous. Le logo de l'en-tête (accueil, écran mobile) utilise les valeurs par défaut de
+vient vers vous. Graviers : densité (0 = aucun). Touche : de combien le cochonnet avance quand la
+boule le touche (0 = pas de touche). Le logo de l'en-tête (accueil, écran mobile) utilise les valeurs par défaut de
 boule-animee.js.</p>
 
 <script src="/boule-animee.js"></script>
 <script>
 (function () {
-    const champs = ['tours', 'duree', 'courbe', 'camera', 'direction'];
+    const champs = ['tours', 'duree', 'courbe', 'camera', 'direction', 'graviers', 'touche'];
     const options = Object.assign({}, BouleAnimee.reglages);
     const ratio = window.devicePixelRatio || 1;
     const grand = document.getElementById('grand');
     const petit = document.getElementById('petit');
-    grand.width = grand.height = Math.round(200 * ratio);
-    petit.width = petit.height = Math.round(34 * ratio);
+    // Boule de 180 px et de 34 px, plus la marge laissée aux graviers.
+    grand.width = grand.height = Math.round(180 * (1 + BouleAnimee.marge) * ratio);
+    petit.width = petit.height = Math.round(34 * (1 + BouleAnimee.marge) * ratio);
 
     let arrets = [];
     function rejouer() {
