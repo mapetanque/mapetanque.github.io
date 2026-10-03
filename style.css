@@ -493,11 +493,12 @@ body.fullscreen-lock {
 /* Accueil en mobile (seules les pages d'accueil ont href="#top") : boule-animee.js fait entrer
    la boule en roulant. Le logo fixe est donc caché dès le premier affichage, sinon on le verrait
    un instant avant l'animation. Filet de sécurité : si le script ne prend pas le relais (erreur,
-   connexion lente), le logo réapparaît seul au bout de 2 s. Le script coupe cette animation CSS
+   connexion lente), le logo réapparaît seul au bout de 4 s (le script, lui, lance la boule au
+   plus tard 3 s après son démarrage). Le script coupe cette animation CSS
    dès qu'il démarre (une animation CSS l'emporterait sur le style qu'il pose lui-même). */
 @media (max-width: 1024px) and (prefers-reduced-motion: no-preference) {
     .brand-link[href="#top"] .logo {
-        animation: logo-secours 0s 2s both;
+        animation: logo-secours 0s 4s both;
     }
 }
 

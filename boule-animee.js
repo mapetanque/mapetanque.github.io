@@ -169,6 +169,46 @@
     // Fondu d'entrée de la boule à l'arrivée sur la page, en ms.
     const FONDU_ARRIVEE = 200;
 
+    // À l'arrivée, la boule attend que le téléphone soit au calme : pendant le chargement, les
+    // calculs du site (carte, terrains) le bloquent par moments et l'animation, calée sur
+    // l'horloge, sauterait en avant à chaque blocage (mesuré : jusqu'à 0,5 s figée).
+    // Calme = page chargée, puis IMAGES_CALMES images d'affilée affichées à moins de
+    // SEUIL_IMAGE ms d'écart. requestIdleCallback ferait l'affaire, mais pas sur iPhone.
+    const IMAGES_CALMES = 5;
+    const SEUIL_IMAGE = 25;          // ms ; une image normale arrive toutes les 16,7 ms
+    const ATTENTE_MAX = 3000;        // ms ; au-delà, la boule part même sans calme
+
+    /** Appelle suite() dès que la page est chargée et que l'affichage est régulier. */
+    function quandCalme(suite) {
+        let fini = false;
+        const secours = setTimeout(partir, ATTENTE_MAX);
+
+        function partir() {
+            if (fini) return;
+            fini = true;
+            clearTimeout(secours);
+            suite();
+        }
+
+        function surveiller() {
+            let precedente = null;
+            let regulieres = 0;
+            function image(t) {
+                if (fini) return;
+                if (precedente !== null) {
+                    regulieres = t - precedente < SEUIL_IMAGE ? regulieres + 1 : 0;
+                }
+                precedente = t;
+                if (regulieres >= IMAGES_CALMES) partir();
+                else requestAnimationFrame(image);
+            }
+            requestAnimationFrame(image);
+        }
+
+        if (document.readyState === 'complete') surveiller();
+        else window.addEventListener('load', surveiller, { once: true });
+    }
+
     function brancherLogo() {
         const lien = document.querySelector('.brand-link');
         if (!lien) return;
@@ -221,8 +261,13 @@
             lien.addEventListener('click', function () { lancer(false); });
         }
 
-        // Arrivée sur la page : tout de suite, le logo fixe n'a pas encore été montré.
-        lancer(true);
+        // Arrivée sur la page. Le script prend tout de suite le relais du filet de sécurité CSS
+        // (le logo reste caché, mais c'est désormais lui qui décide), puis attend le calme.
+        if (MOBILE.matches && !MOINS_DANIMATION.matches) {
+            logo.style.animation = 'none';
+            logo.style.visibility = 'hidden';
+            quandCalme(function () { lancer(true); });
+        }
 
         // Retour par le bouton « précédent » : le navigateur ressort la page de sa mémoire sans
         // la recharger, le script ne repasse donc pas par ici. On cache le logo en quittant la
