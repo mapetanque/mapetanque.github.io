@@ -175,8 +175,7 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 │   ├── terrains.geojson              # Données des terrains (générées automatiquement)
 │   ├── stats_geo.json                # Agrégats région/province/commune
 │   ├── provinces.json                # Contenu (textes, crédits photo) des pages province
-│   ├── regions.json                  # Contenu des pages région
-│   └── communes-<slug>.json          # Liste des communes par province (générées automatiquement)
+│   └── regions.json                  # Contenu des pages région
 ├── LICENSE                           # Licence MIT
 └── README.md                         # Ce fichier
 ```

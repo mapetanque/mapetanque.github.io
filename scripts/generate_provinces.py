@@ -18,7 +18,6 @@ Lit :
   - nl/province-<slug>.html            (néerlandais, si traduction dispo)
   - de/province-<slug>.html            (allemand, si traduction dispo)
   - en/province-<slug>.html            (anglais, si traduction dispo)
-  - data/communes-<slug>.json          (partagé entre les 4 langues, écrit une seule fois)
 
 Une langue "pas encore prête" pour une province (pas d'entrée dans translations.nl/de/en) est
 ignorée avec un message clair, plutôt que de générer une page à moitié traduite. Le sélecteur
@@ -313,7 +312,7 @@ def construire_hreflang_links(slug, langues_disponibles, fonction_url=url_page):
 
 
 def generer_page(cle, config, langue, langues_disponibles, other_provinces_block, template,
-                  stats_geo, traductions, communes_deja_ecrites):
+                  stats_geo, traductions):
     tr = traductions[langue]
 
     communes, total_terrains = recuperer_communes(
@@ -417,11 +416,6 @@ def generer_page(cle, config, langue, langues_disponibles, other_provinces_block
 
     chemin_sortie = OUTPUT_DIR / url_page(config["slug"], langue).lstrip("/")
     FICHIERS_A_ECRIRE.append((chemin_sortie, page))
-
-    if config["slug"] not in communes_deja_ecrites:
-        communes_path = OUTPUT_DIR / "data" / f"communes-{config['slug']}.json"
-        FICHIERS_A_ECRIRE.append((communes_path, json.dumps(communes, ensure_ascii=False, indent=2)))
-        communes_deja_ecrites.add(config["slug"])
 
     extra = f", {densite}/100km²" if densite else ""
     print(f"  [généré]  {cle}/{langue} -> {chemin_sortie.relative_to(OUTPUT_DIR)} "
@@ -566,7 +560,6 @@ def main():
 
     print("Génération des pages provinces (FR + NL + DE + EN)...\n")
 
-    communes_deja_ecrites = set()
     generees, ignorees = 0, 0
     pages_generees = []  # [(slug, [langues_disponibles], fonction_url), ...] pour le sitemap
 
@@ -593,7 +586,7 @@ def main():
                 cle, config, provinces, regions, stats_geo, langue, traductions
             )
             generer_page(cle, config, langue, langues_disponibles, bloc_rebond,
-                         template, stats_geo, traductions, communes_deja_ecrites)
+                         template, stats_geo, traductions)
             generees += 1
 
         langues_manquantes = [l for l in LANGUES if l not in langues_disponibles]

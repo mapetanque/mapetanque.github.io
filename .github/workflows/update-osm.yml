@@ -99,7 +99,7 @@ jobs:
           # vide : []) : git add échoue sur un chemin inexistant, et ferait échouer tout ce commit.
           # Même chose pour data/environnement.json (vide : {}).
           git add data/terrains.geojson data/environnement.json data/stats_geo.json data/terrains_promus.json data/candidats_photos.json data/terrains_apparition.json data/groupes_terrains.json
-          git add province-*.html region-*.html nl/province-*.html nl/region-*.html de/province-*.html de/region-*.html en/province-*.html en/region-*.html sitemap.xml data/communes-*.json
+          git add province-*.html region-*.html nl/province-*.html nl/region-*.html de/province-*.html de/region-*.html en/province-*.html en/region-*.html sitemap.xml
 
           git commit -m "Mise à jour quotidienne OSM" || exit 0
 

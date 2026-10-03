@@ -3032,7 +3032,7 @@ function construireContenuPopupTerrain(feature, layer) {
     // Photos validées manuellement (une ou plusieurs — voir data/photos_mapillary.json, qui
     // stocke désormais une LISTE par terrain plutôt qu'une entrée unique, pour accueillir aussi
     // bien les photos retenues via l'outil de revue que celles ajoutées au coup par coup plus
-    // tard via club/ajouter_photo_manuelle.py, sans limite de nombre).
+    // tard via la page admin, sans limite de nombre).
     const photosValidees = tags.osm_id && window.photosMapillaryParOsmId
         ? (window.photosMapillaryParOsmId[tags.osm_id] || [])
         : [];
@@ -3735,8 +3735,8 @@ if (searchForm || locateBtn) {
 
 
 // ===================== Chargement des photos Mapillary validées manuellement =====================
-// Association simple osm_id -> {mapillary_id, credit_url}, produite par l'outil de revue
-// (voir club/generer_revue_photos.py côté scripts). Fichier optionnel : son absence (site tout
+// Association simple osm_id -> {mapillary_id, credit_url}, tenue à jour depuis la page admin
+// (publiée par scripts/publier_photos.py). Fichier optionnel : son absence (site tout
 // juste mis à jour, avant le premier dépôt de ce fichier) ne doit rien casser.
 window.photosMapillaryParOsmId = {};
 
