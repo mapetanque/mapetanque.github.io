@@ -189,57 +189,17 @@
     }
 
     // --- Branchement sur le logo ---------------------------------------------------------
-    // Seulement en mobile (boule seule) : à l'arrivée sur l'accueil, et au clic quand celui-ci ne
-    // quitte pas la page (href="#top" sur l'accueil). Sur les autres pages, la navigation
-    // couperait l'animation : le script n'est chargé que sur les accueils.
+    // Seulement en mobile (boule seule), au clic sur le logo, et seulement quand ce clic ne quitte
+    // pas la page (href="#top" sur l'accueil) : sur les autres pages, la navigation couperait
+    // l'animation. Le script n'est chargé que sur les accueils. Pas de lancement automatique à
+    // l'arrivée : essayé, il gênait plus qu'il n'amusait.
 
     const MOBILE = window.matchMedia('(max-width: 1024px)');
     const MOINS_DANIMATION = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-    // À l'arrivée, la boule attend que le téléphone soit au calme, le logo restant affiché en
-    // attendant : pendant le chargement, les calculs du site (carte, terrains) le bloquent par
-    // moments et l'animation, calée sur l'horloge, sauterait en avant à chaque blocage
-    // (mesuré : jusqu'à 0,5 s figée).
-    // Calme = page chargée, puis IMAGES_CALMES images d'affilée affichées à moins de
-    // SEUIL_IMAGE ms d'écart. requestIdleCallback ferait l'affaire, mais pas sur iPhone.
-    const IMAGES_CALMES = 5;
-    const SEUIL_IMAGE = 25;          // ms ; une image normale arrive toutes les 16,7 ms
-    const ATTENTE_MAX = 3000;        // ms ; au-delà, la boule part même sans calme
-
-    /** Appelle suite() dès que la page est chargée et que l'affichage est régulier. */
-    function quandCalme(suite) {
-        let fini = false;
-        const secours = setTimeout(partir, ATTENTE_MAX);
-
-        function partir() {
-            if (fini) return;
-            fini = true;
-            clearTimeout(secours);
-            suite();
-        }
-
-        function surveiller() {
-            let precedente = null;
-            let regulieres = 0;
-            function image(t) {
-                if (fini) return;
-                if (precedente !== null) {
-                    regulieres = t - precedente < SEUIL_IMAGE ? regulieres + 1 : 0;
-                }
-                precedente = t;
-                if (regulieres >= IMAGES_CALMES) partir();
-                else requestAnimationFrame(image);
-            }
-            requestAnimationFrame(image);
-        }
-
-        if (document.readyState === 'complete') surveiller();
-        else window.addEventListener('load', surveiller, { once: true });
-    }
-
     function brancherLogo() {
         const lien = document.querySelector('.brand-link');
-        if (!lien) return;
+        if (!lien || (lien.getAttribute('href') || '').charAt(0) !== '#') return;
         const logo = lien.querySelector('img.logo');
         const cadre = lien.querySelector('picture');
         if (!logo || !cadre) return;
@@ -273,16 +233,7 @@
             requestAnimationFrame(function () { logo.style.visibility = 'hidden'; });
         }
 
-        if ((lien.getAttribute('href') || '').charAt(0) === '#') {
-            lien.addEventListener('click', lancer);
-        }
-
-        // Arrivée sur la page, et retour par le bouton « précédent » (le navigateur ressort alors
-        // la page de sa mémoire sans la recharger, le script ne repasse donc pas par ici).
-        quandCalme(lancer);
-        window.addEventListener('pageshow', function (e) {
-            if (e.persisted) quandCalme(lancer);
-        });
+        lien.addEventListener('click', lancer);
     }
 
     window.BouleAnimee = { jouer: jouer, reglages: REGLAGES };
