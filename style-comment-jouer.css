@@ -5,13 +5,6 @@
    (province/région, "Comment jouer", "Compteur de points"...) partagent exactement le même
    repère visuel — plutôt que le traitement centré propre à la page d'accueil. */
 
-/* Section Statistiques : gardée dans le DOM (script.js continue de la peupler normalement),
-   seulement masquée visuellement — non pertinente sur une page de règles. Même principe que
-   style-province.css pour les pages province/région. */
-#stats-section {
-    display: none;
-}
-
 /* ===================== Bannière photo (.hero-banner) — copié de style-province.css ===================== */
 
 .hero-banner {

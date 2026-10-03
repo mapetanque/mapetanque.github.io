@@ -35,11 +35,7 @@ const translations = {
         menu_compteur: "Compteur de points",
         menu_la_petanque: "La pétanque",
 
-        stats_page_title: "Liste des terrains",
-        stats_headline_label: "terrains de pétanque recensés en Belgique",
         stats_terrains_unit: "terrains",
-        stats_geo_loading: "Chargement du détail par région…",
-        stats_geo_error: "Impossible de charger le détail par région pour le moment.",
         stats_search_commune_placeholder: "Rechercher une commune…",
         // Carrousel "Les plus beaux terrains" (voir /beaux-terrains.js). Le titre affiché
         // dépend de la région détectée (page d'accueil) ou imposée (pages région).
@@ -166,7 +162,6 @@ const translations = {
         region_meta_description: "Terrains de pétanque publics en {nom} : carte interactive, liste par province, recherche par ville sur Mapetanque.be.",
         region_provinces_de_la_region: "Provinces de {nom}",
         stats_no_results: "Aucune commune trouvée.",
-        stats_show_terrains: "Afficher les terrains",
 
         geo_region_wallonie: "Wallonie",
         geo_region_flandre: "Flandre",
@@ -333,11 +328,7 @@ const translations = {
         menu_compteur: "Scoreteller",
         menu_la_petanque: "Petanque",
 
-        stats_page_title: "Lijst met terreinen",
-        stats_headline_label: "petanquevelden geregistreerd in België",
         stats_terrains_unit: "terreinen",
-        stats_geo_loading: "Details per regio laden…",
-        stats_geo_error: "De details per regio konden niet worden geladen.",
         stats_search_commune_placeholder: "Gemeente zoeken…",
         // Carrousel "Les plus beaux terrains" : valeurs encore en français, À TRADUIRE.
         beaux_terrains_titre_belgique: "De mooiste terreinen in België",
@@ -463,7 +454,6 @@ const translations = {
         region_meta_description: "Openbare petanqueterreinen in {nom}: interactieve kaart, lijst per provincie, zoeken op stad op Mapetanque.be.",
         region_provinces_de_la_region: "Provincies in {nom}",
         stats_no_results: "Geen gemeente gevonden.",
-        stats_show_terrains: "Terreinen weergeven",
 
         geo_region_wallonie: "Wallonië",
         geo_region_flandre: "Vlaanderen",
@@ -630,11 +620,7 @@ const translations = {
         menu_compteur: "Punktezähler",
         menu_la_petanque: "Pétanque",
 
-        stats_page_title: "Liste der Plätze",
-        stats_headline_label: "erfasste Boule-/Pétanque-Plätze in Belgien",
         stats_terrains_unit: "Plätze",
-        stats_geo_loading: "Details nach Region werden geladen…",
-        stats_geo_error: "Die Details nach Region konnten nicht geladen werden.",
         stats_search_commune_placeholder: "Gemeinde suchen…",
         // Carrousel "Les plus beaux terrains" : valeurs encore en français, À TRADUIRE.
         beaux_terrains_titre_belgique: "Die schönsten Plätze in Belgien",
@@ -760,7 +746,6 @@ const translations = {
         region_meta_description: "Öffentliche Pétanque-Plätze in {nom}: interaktive Karte, Liste nach Provinz, Suche nach Stadt auf Mapetanque.be.",
         region_provinces_de_la_region: "Provinzen in {nom}",
         stats_no_results: "Keine Gemeinde gefunden.",
-        stats_show_terrains: "Plätze anzeigen",
 
         geo_region_wallonie: "Wallonien",
         geo_region_flandre: "Flandern",
@@ -927,11 +912,7 @@ const translations = {
         menu_compteur: "Score counter",
         menu_la_petanque: "Pétanque",
 
-        stats_page_title: "List of courts",
-        stats_headline_label: "pétanque courts listed in Belgium",
         stats_terrains_unit: "courts",
-        stats_geo_loading: "Loading the breakdown by region…",
-        stats_geo_error: "The breakdown by region can't be loaded right now.",
         stats_search_commune_placeholder: "Search for a municipality…",
         // Carrousel "Les plus beaux terrains" (voir /beaux-terrains.js).
         beaux_terrains_titre_belgique: "The most beautiful courts in Belgium",
@@ -1057,7 +1038,6 @@ const translations = {
         region_meta_description: "Public pétanque courts in {nom}: interactive map, list by province and search by town on Mapetanque.be.",
         region_provinces_de_la_region: "Provinces of {nom}",
         stats_no_results: "No municipality found.",
-        stats_show_terrains: "Show courts",
 
         geo_region_wallonie: "Wallonia",
         geo_region_flandre: "Flanders",
