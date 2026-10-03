@@ -24,6 +24,9 @@ bannière de la province. Une page dont la commune n'a plus assez de lieux est s
 avec son nom dans les quatre langues et l'existence de sa page. Les fiches (script.js) en tirent
 le fil d'Ariane et le lien « Voir les N terrains de … ».
 
+Et data/recherche.json, l'index des propositions de la barre de recherche (voir « Propositions
+de la recherche » dans script.js) : les 565 communes, les localités et les lieux.
+
 Relancé par le workflow hebdomadaire (update-osm.yml), après les critères d'environnement.
 
 Usage :
@@ -40,7 +43,7 @@ from pathlib import Path
 import generate_provinces as gp
 import generer_referencement
 from _squelette import construire_page, echap
-from communes_officielles import MIN_LIEUX, Communes, distance_m, regrouper_lieux
+from communes_officielles import MIN_LIEUX, Communes, distance_m, regrouper_lieux, slug
 
 RACINE = Path(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 DATA = RACINE / "data"
@@ -365,6 +368,55 @@ def ecrire_liens(communes, terrains_par_commune, clubs_par_commune, avec_page):
         json.dump(liens, f, ensure_ascii=False, separators=(",", ":"))
 
 
+def ecrire_recherche(communes, lieux_par_commune, centres, avec_page):
+    """data/recherche.json, chargé par la barre de recherche au premier caractère tapé :
+        communes  : [{s: slug, n: nom | {fr, nl, de, en}, a: autres noms, p: province, r: région,
+                      lat, lon, t: terrains, pg: page}] — les 565, même sans terrain (la carte se
+                      centre alors sur la commune, avec le terrain le plus proche)
+        localites : [{n: nom Nominatim, c: commune, t: terrains, ancre}] — les villages dont le
+                      nom diffère de celui de la commune ; ancre : sous-titre de la localité sur
+                      la page commune, quand elle en a plusieurs
+        lieux     : [{o: osm_id de la fiche, n: nom OSM, r: rue, l: localité, c: commune,
+                      p: pistes, lat, lon}] — dans l'ordre des pages commune
+    Clés courtes : le fichier est téléchargé tel quel par le navigateur."""
+    index = {"communes": [], "localites": [], "lieux": []}
+    for commune in communes.liste:
+        ins = commune["ins"]
+        lieux = lieux_par_commune.get(ins, [])
+        noms = {langue: communes.nom(commune, langue) for langue, _ in LANGUES}
+        autres = {commune["nom"], *commune["nom"].split(" - ")} - set(noms.values())
+        lon, lat = centres[ins]
+        entree = {"s": commune["slug"],
+                  "n": noms["fr"] if len(set(noms.values())) == 1 else noms,
+                  "p": commune["province"] or "bruxelles", "r": commune["region"],
+                  "lat": round(lat, 5), "lon": round(lon, 5),
+                  "t": sum(len(l["pistes"]) for l in lieux)}
+        if autres:
+            entree["a"] = sorted(autres)
+        if ins in avec_page:
+            entree["pg"] = 1
+        index["communes"].append(entree)
+
+        tous_les_noms = {commune["nom"], *commune["nom"].split(" - "), *noms.values()}
+        par_localite = collections.defaultdict(list)
+        for lieu in lieux:
+            par_localite[lieu["localite"]].append(lieu)
+            index["lieux"].append({k: v for k, v in (
+                ("o", lieu["pistes"][0]["osm_id"]), ("n", lieu["nom"]), ("r", lieu["rue"]),
+                ("l", lieu["localite"]), ("c", commune["slug"]), ("p", len(lieu["pistes"])),
+                ("lat", round(lieu["lat"], 6)), ("lon", round(lieu["lon"], 6))) if v is not None})
+        for loc, lieux_loc in par_localite.items():
+            if not loc or loc in tous_les_noms:
+                continue
+            entree = {"n": loc, "c": commune["slug"], "t": sum(len(l["pistes"]) for l in lieux_loc)}
+            # Sous-titres seulement sur une page qui regroupe plusieurs localités (voir main)
+            if ins in avec_page and len(par_localite) > 1:
+                entree["ancre"] = slug(loc)
+            index["localites"].append(entree)
+    with open(DATA / "recherche.json", "w", encoding="utf-8") as f:
+        json.dump(index, f, ensure_ascii=False, separators=(",", ":"))
+
+
 def main():
     communes = Communes()
     traductions = gp.charger_traductions_js(RACINE / "translations.js")
@@ -398,6 +450,7 @@ def main():
     print(f"{len(terrains_par_commune)} communes avec des terrains, {len(avec_page)} avec une page "
           f"(au moins {MIN_LIEUX} lieux)")
     ecrire_liens(communes, terrains_par_commune, clubs_par_commune, avec_page)
+    ecrire_recherche(communes, lieux_par_commune, centres, avec_page)
 
     ecrites = set()
     tailles = []
@@ -445,7 +498,7 @@ def main():
             if len(par_localite) > 1:
                 localites = sorted(par_localite, key=lambda l: -sum(len(x["pistes"]) for x in par_localite[l]))
                 blocs = "".join(
-                    f'        <h3 class="commune-localite">{echap(gp.nom_commune_affiche(loc, langue))}</h3>\n'
+                    f'        <h3 class="commune-localite" id="{slug(loc)}">{echap(gp.nom_commune_affiche(loc, langue))}</h3>\n'
                     '        <div class="commune-terrains">\n'
                     + "\n".join(html_lieu(l, titres[id(l)], prefixe, tr, pictos, 4) for l in par_localite[loc])
                     + "\n        </div>\n"

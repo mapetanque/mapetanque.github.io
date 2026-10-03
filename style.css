@@ -526,6 +526,188 @@ body.fullscreen-lock {
     color: #56A03D;
 }
 
+/* Champ et loupe, réunis par script.js (« Propositions de la recherche ») ; la flèche de retour
+   n'apparaît qu'en plein écran, sur téléphone (plus bas). */
+.search-ligne {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-form .search-retour {
+    display: none;
+}
+
+/* Propositions sous le champ de recherche (« Propositions de la recherche » dans script.js).
+   Plus large que le champ ; script.js le décale vers la gauche s'il déborde de l'écran. */
+.search-suggestions {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    z-index: 1200;               /* au-dessus de la carte et de ses contrôles */
+    width: max(100%, 340px);
+    max-width: calc(100vw - 16px);
+    max-height: min(70vh, 480px);
+    overflow-y: auto;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 6px 0;
+    list-style: none;
+    text-align: left;
+    background: #fff;
+    border: 1px solid #e2e6de;
+    border-radius: 14px;
+    box-shadow: 0 12px 32px rgba(31, 42, 28, .18);
+}
+
+.search-suggestion {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 14px;
+    cursor: pointer;
+    color: #333;
+}
+
+.search-suggestion.active,
+.search-suggestion:hover {
+    background: #eef4ea;
+}
+
+.search-suggestion-picto {
+    flex: 0 0 auto;
+    width: 17px;
+    height: 17px;
+    margin-top: 1px;
+    color: #3d7a2a;
+}
+
+.search-suggestion-textes {
+    display: grid;
+    gap: 1px;
+    min-width: 0;
+}
+
+.search-suggestion-nom {
+    font-size: 14.5px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.search-suggestion-nom mark {
+    background: none;
+    color: #3d7a2a;
+    font-weight: 800;
+}
+
+.search-suggestion-contexte {
+    font-size: 12.5px;
+    font-weight: 400;
+    color: #777;
+}
+
+/* Terrains d'une commune ou d'un village : en retrait, sous lui */
+.search-suggestion-terrain {
+    padding-left: 41px;
+}
+
+.search-suggestion-terrain .search-suggestion-nom {
+    font-weight: 400;
+}
+
+.search-suggestion-terrain .search-suggestion-picto {
+    width: 14px;
+    height: 14px;
+}
+
+.search-suggestion-titre {
+    padding: 10px 14px 4px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #888;
+}
+
+.search-suggestion-titre ~ .search-suggestion-terrain {
+    padding-left: 14px;
+}
+
+.search-suggestion-adresse {
+    margin-top: 4px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+    color: #666;
+}
+
+.search-suggestion-adresse .search-suggestion-picto {
+    color: #888;
+}
+
+.search-suggestion-adresse .search-suggestion-nom {
+    font-weight: 400;
+}
+
+.search-suggestion-indication {
+    padding: 14px 16px;
+    font-size: 14px;
+    color: #777;
+}
+
+/* Téléphone : la recherche passe en plein écran dès qu'on touche le champ (classe posée par
+   script.js). Le champ reste le même, le clavier ne se replie donc pas ; la loupe laisse sa
+   place à une flèche de retour. */
+@media (max-width: 600px) {
+    body.recherche-plein-ecran {
+        overflow: hidden;
+    }
+
+    .search-form.search-form-plein-ecran {
+        position: fixed;
+        inset: 0;
+        z-index: 3000;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        padding: calc(12px + env(safe-area-inset-top, 0px)) 12px 0;
+        background: #fff;
+    }
+
+    .search-form.search-form-plein-ecran .search-ligne input {
+        width: 100%;
+        max-width: none;
+        border: 1px solid #74C15A;
+    }
+
+    .search-form.search-form-plein-ecran #searchBtn {
+        display: none;
+    }
+
+    .search-form.search-form-plein-ecran .search-retour {
+        display: flex;
+        color: #3d7a2a;
+    }
+
+    .search-form-plein-ecran .search-suggestions {
+        position: static;
+        flex: 1 1 auto;
+        width: auto;
+        max-width: none;
+        max-height: none;
+        margin: 10px -12px 0;
+        padding: 0 0 env(safe-area-inset-bottom, 0px);
+        border: none;
+        border-top: 1px solid #eee;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .search-form-plein-ecran .search-suggestion {
+        padding-top: 11px;
+        padding-bottom: 11px;
+    }
+}
+
 .add-terrain-link-wrapper {
     text-align: center;
     margin: 20px 0 6px;

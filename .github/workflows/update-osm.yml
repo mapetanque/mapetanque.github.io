@@ -72,7 +72,8 @@ jobs:
       # Pages commune (commune/<slug>.html, quatre langues) : après les groupes de terrains et les
       # critères d'environnement, qu'elles affichent. Les pastilles sont calculées par criteres.js
       # avec Node.js, déjà présent sur ubuntu-latest. Écrit aussi data/communes_liens.json (commune
-      # officielle de chaque terrain et club, pour les liens des fiches). Met à jour sitemap.xml et llms.txt ;
+      # officielle de chaque terrain et club, pour les liens des fiches) et data/recherche.json (index
+      # des propositions de la barre de recherche). Met à jour sitemap.xml et llms.txt ;
       # une commune passée sous deux lieux perd sa page (suppression enregistrée par le git add
       # '*.html' de la sauvegarde). Jamais bloquant : en cas d'échec, les pages de la semaine
       # précédente restent en ligne.
@@ -113,7 +114,7 @@ jobs:
           # data/terrains_promus.json doit exister dans le dépôt AVANT le premier passage (même
           # vide : []) : git add échoue sur un chemin inexistant, et ferait échouer tout ce commit.
           # Même chose pour data/environnement.json (vide : {}).
-          git add data/terrains.geojson data/environnement.json data/stats_geo.json data/terrains_promus.json data/candidats_photos.json data/terrains_apparition.json data/groupes_terrains.json data/communes_liens.json
+          git add data/terrains.geojson data/environnement.json data/stats_geo.json data/terrains_promus.json data/candidats_photos.json data/terrains_apparition.json data/groupes_terrains.json data/communes_liens.json data/recherche.json
           # Toutes les pages : generer_referencement.py peut aussi mettre à jour les données
           # structurées d'une page retouchée à la main (index.html, compteur.html…). Aucune autre
           # étape n'écrit de page ; une page laissée de côté bloquerait le git pull ci-dessous.

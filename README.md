@@ -88,6 +88,7 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 - Noms : nom local, comme sur le reste du site, sauf une courte liste de noms traduits d'usage courant (Anvers, Gand, Luik, Lüttich…, voir EXONYMES dans `scripts/communes_officielles.py`)
 - Génération via `scripts/generer_communes.py` (squelette de `comment-jouer.html`, voir `scripts/_squelette.py`), chaque semaine par le workflow OSM ; une commune passée sous deux lieux perd sa page
 - Liens depuis les fiches terrain et club : le fil d'Ariane se termine sur la commune officielle, en lien vers sa page, et un lien « Voir les N terrains de … » est ajouté au bas de la fiche ; `generer_communes.py` écrit pour cela `data/communes_liens.json` (commune de chaque terrain et club, noms dans les quatre langues, existence de la page)
+- Propositions de la barre de recherche (accueil, pages province et région) : dès deux lettres, communes, villages et terrains, comme sur Komoot ; une commune mène à sa page, un village à son sous-titre sur la page de sa commune, un terrain à sa fiche sur la carte. Plein écran sur téléphone. Tiré de `data/recherche.json`, écrit par `generer_communes.py` et téléchargé au premier caractère tapé : Nominatim interdit l'autocomplétion, il ne sert qu'à la touche Entrée (recherche d'adresse)
 
 ## 🎨 Identité visuelle et confort d'usage
 
@@ -200,6 +201,7 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 │   ├── stats_geo.json                # Agrégats région/province/commune
 │   ├── communes_belgique.json        # Limites des 565 communes officielles (OSM)
 │   ├── communes_liens.json           # Commune officielle de chaque terrain et club (fiches)
+│   ├── recherche.json                # Index des propositions de la recherche
 │   ├── provinces.json                # Contenu (textes, crédits photo) des pages province
 │   └── regions.json                  # Contenu des pages région
 ├── LICENSE                           # Licence MIT

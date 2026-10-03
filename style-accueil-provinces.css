@@ -38,6 +38,11 @@
     background-position: center 55%;
 }
 
+/* Menu des propositions de la recherche ouvert (voir script.js) : il déborde sous la bannière. */
+.hero-banner:has(.search-form-ouvert) {
+    overflow: visible;
+}
+
 /* Voile sombre en dégradé sur le haut de la bannière : remplace les ombres portées
    individuelles (retirées ci-dessous) pour assurer la lisibilité du texte blanc sur les zones
    claires de la photo (ciel, trouées entre les arbres). Rendu plus net que le text-shadow, qui

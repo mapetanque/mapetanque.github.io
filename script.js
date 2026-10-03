@@ -1228,45 +1228,500 @@ if (searchForm) {
             }
 
             const resultat = resultats[0];
-            const lat = parseFloat(resultat.lat);
-            const lon = parseFloat(resultat.lon);
-
-            // Le point trouvé devient la référence pour le calcul de distance dans les popups des terrains
-            definirPositionUtilisateur(lat, lon);
-
             // Zoom adapté à la nature du résultat (adresse précise, ville, région...)
-            if (resultat.boundingbox) {
-                const bbox = resultat.boundingbox.map(parseFloat);
-                map.fitBounds([
-                    [bbox[0], bbox[2]],
-                    [bbox[1], bbox[3]]
-                ]);
-            } else {
-                map.setView([lat, lon], 15);
-            }
-
-            if (searchMarker) {
-                map.removeLayer(searchMarker);
-            }
-
-            searchMarker = L.marker([lat, lon], { icon: positionIcon })
-                .addTo(map)
-                // className : cette bulle ne contient qu'une ligne d'adresse, alors que le
-                // style par défaut des popups (.leaflet-popup-content) réserve 40px en haut
-                // pour la croix de fermeture des fiches terrain. Sans classe distincte, elle
-                // hériterait de cette marge et paraîtrait inutilement haute.
-                .bindPopup(resultat.display_name, { className: 'popup-adresse' })
-                .openPopup();
-
-            searchMarker._displayName = resultat.display_name;
-
-            signalerSiHorsZone(lat, lon, '?recherche=' + encodeURIComponent(query));
+            const bbox = resultat.boundingbox ? resultat.boundingbox.map(parseFloat) : null;
+            montrerLieuRecherche(parseFloat(resultat.lat), parseFloat(resultat.lon), resultat.display_name,
+                bbox ? [[bbox[0], bbox[2]], [bbox[1], bbox[3]]] : null, query);
 
         })
         .catch(function () {
             errorEl.textContent = t('search_failed');
         });
 
+    });
+}
+
+// Lieu trouvé (adresse de Nominatim, ou commune sans terrain choisie dans les propositions) :
+// marqueur de position, carte cadrée dessus, flèche vers le terrain le plus proche.
+// emprise : [[sud, ouest], [nord, est]], ou null pour un zoom fixe. requete : reprise par le
+// lien « carte de Belgique » quand le lieu est hors de la zone d'une page province.
+function montrerLieuRecherche(lat, lon, libelle, emprise, requete) {
+    // Le point trouvé devient la référence pour le calcul de distance dans les popups des terrains
+    definirPositionUtilisateur(lat, lon);
+
+    if (emprise) {
+        map.fitBounds(emprise);
+    } else {
+        map.setView([lat, lon], 15);
+    }
+
+    if (searchMarker) {
+        map.removeLayer(searchMarker);
+    }
+
+    searchMarker = L.marker([lat, lon], { icon: positionIcon })
+        .addTo(map)
+        // className : cette bulle ne contient qu'une ligne d'adresse, alors que le
+        // style par défaut des popups (.leaflet-popup-content) réserve 40px en haut
+        // pour la croix de fermeture des fiches terrain. Sans classe distincte, elle
+        // hériterait de cette marge et paraîtrait inutilement haute.
+        .bindPopup(libelle, { className: 'popup-adresse' })
+        .openPopup();
+
+    searchMarker._displayName = libelle;
+
+    signalerSiHorsZone(lat, lon, '?recherche=' + encodeURIComponent(requete));
+}
+
+
+// ===================== Propositions de la recherche =====================
+// Dès deux caractères tapés, un menu propose des communes, des localités (villages) et des
+// terrains, comme sur Komoot : « jup » propose Juprelle et ses terrains. Tout vient de
+// data/recherche.json (écrit par scripts/generer_communes.py), téléchargé au premier caractère
+// tapé : Nominatim interdit l'autocomplétion, il ne sert donc qu'à la touche Entrée sans
+// proposition choisie, et à la dernière ligne du menu (« Chercher l'adresse … »).
+//
+// Où mène chaque proposition :
+//   - commune qui a sa page (au moins deux lieux) : sa page ;
+//   - localité d'une telle commune : la même page, à son sous-titre quand la page en a plusieurs ;
+//   - commune ou localité à un seul lieu, terrain : la fiche du terrain sur la carte ;
+//   - commune sans terrain : la carte centrée dessus, avec la flèche vers le terrain le plus proche.
+
+const MAX_LIGNES_PROPOSITIONS = 9;   // ligne « Chercher l'adresse » comprise
+
+let indexRecherche = null;           // promesse, lancée au premier caractère tapé
+
+function chargerIndexRecherche() {
+    if (!indexRecherche) {
+        indexRecherche = fetch('/data/recherche.json')
+            .then(function (r) {
+                if (!r.ok) throw new Error('HTTP ' + r.status);
+                return r.json();
+            })
+            .then(function (donnees) {
+                const communes = {};
+                donnees.communes.forEach(function (c) { communes[c.s] = c; });
+                const lieuxParCommune = {};
+                donnees.lieux.forEach(function (l) {
+                    (lieuxParCommune[l.c] = lieuxParCommune[l.c] || []).push(l);
+                });
+                return { communes: communes, localites: donnees.localites, lieux: donnees.lieux, lieuxParCommune: lieuxParCommune };
+            })
+            .catch(function (e) {
+                indexRecherche = null;   // nouvel essai au prochain caractère
+                throw e;
+            });
+    }
+    return indexRecherche;
+}
+
+// Sans accents ni majuscules, tirets et apostrophes changés en espaces. Un caractère reste un
+// caractère : la position trouvée sert à surligner la partie tapée dans le nom d'origine.
+function cleRecherche(texte) {
+    return Array.from(texte || '', function (c) {
+        const base = c.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[-'’]/, ' ');
+        return base.charAt(0) || ' ';
+    }).join('');
+}
+
+// Requête au début du nom (qualité 0) ou au début d'un de ses mots (1), ou null.
+function correspondanceRecherche(nom, requete) {
+    const cle = cleRecherche(nom);
+    if (cle.startsWith(requete)) return { qualite: 0, debut: 0 };
+    const i = cle.indexOf(' ' + requete);
+    return i >= 0 ? { qualite: 1, debut: i + 1 } : null;
+}
+
+function surlignerRecherche(nom, trouve, longueur) {
+    const lettres = Array.from(nom);
+    if (!trouve) return echapperAvis(nom);
+    return echapperAvis(lettres.slice(0, trouve.debut).join(''))
+        + '<mark>' + echapperAvis(lettres.slice(trouve.debut, trouve.debut + longueur).join('')) + '</mark>'
+        + echapperAvis(lettres.slice(trouve.debut + longueur).join(''));
+}
+
+function nomCommuneRecherche(c) {
+    return typeof c.n === 'string' ? c.n : c.n[currentLang];
+}
+
+function nomLocaliteRecherche(nom) {
+    return window.nomCommuneAffiche(nom, currentLang);
+}
+
+function titreLieuRecherche(l) {
+    if (l.n) return l.n;
+    return l.r ? t('popup_terrain_prefix') + ' ' + l.r : t('popup_terrain_default');
+}
+
+function nombreTerrainsRecherche(n) {
+    if (!n) return t('recherche_aucun_terrain');
+    return n + ' ' + (n > 1 ? t('stats_terrains_unit') : t('province_terrain_singulier'));
+}
+
+// Fil d'Ariane inversé : « Liège, Wallonie » pour une commune, « Gedinne, Namur » pour un village.
+function zoneCommuneRecherche(c) {
+    if (c.p === 'bruxelles') return t('geo_region_bruxelles');
+    return t('geo_province_' + c.p) + ', ' + t('geo_region_' + c.r);
+}
+
+// Meilleure correspondance parmi plusieurs noms ; le premier (nom affiché) gagne à égalité.
+function meilleurNom(noms, requete) {
+    let meilleur = null;
+    noms.forEach(function (nom) {
+        const trouve = correspondanceRecherche(nom, requete);
+        if (trouve && (!meilleur || trouve.qualite < meilleur.trouve.qualite)) {
+            meilleur = { nom: nom, trouve: trouve };
+        }
+    });
+    return meilleur;
+}
+
+function lieuxDeLaProposition(index, place) {
+    const lieux = index.lieuxParCommune[place.commune.s] || [];
+    return place.genre === 'commune' ? lieux : lieux.filter(function (l) { return l.l === place.nomBrut; });
+}
+
+// Lignes du menu : lieux (communes et localités), chacun des deux premiers suivi de ses
+// premiers terrains, puis les terrains trouvés par leur rue, puis la recherche d'adresse.
+function propositionsRecherche(index, texte) {
+    const requete = cleRecherche(texte.trim()).replace(/\s+/g, ' ');
+    const lignes = [];
+    if (requete.length < 2) return lignes;
+
+    const places = [];
+    Object.keys(index.communes).forEach(function (slug) {
+        const c = index.communes[slug];
+        const affiche = nomCommuneRecherche(c);
+        const noms = [affiche].concat(typeof c.n === 'string' ? [] : Object.values(c.n), c.a || []);
+        const m = meilleurNom(noms, requete);
+        if (m) places.push({ genre: 'commune', commune: c, nom: affiche, trouveSur: m.nom, trouve: m.trouve, terrains: c.t });
+    });
+    index.localites.forEach(function (loc) {
+        const affiche = nomLocaliteRecherche(loc.n);
+        const m = meilleurNom([affiche].concat(loc.n.split(' - ')), requete);
+        if (m) places.push({ genre: 'localite', commune: index.communes[loc.c], localite: loc, nomBrut: loc.n, nom: affiche, trouveSur: m.nom, trouve: m.trouve, terrains: loc.t });
+    });
+    // Début du nom avant début d'un mot, avec terrains avant sans, commune avant village, puis
+    // les plus fournis.
+    places.sort(function (a, b) {
+        return a.trouve.qualite - b.trouve.qualite
+            || (b.terrains > 0) - (a.terrains > 0)
+            || (a.genre === 'commune' ? 0 : 1) - (b.genre === 'commune' ? 0 : 1)
+            || b.terrains - a.terrains
+            || a.nom.localeCompare(b.nom, currentLang);
+    });
+
+    const dejaProposes = new Set();
+    places.slice(0, 5).forEach(function (place, rang) {
+        if (lignes.length >= MAX_LIGNES_PROPOSITIONS - 1) return;
+        lignes.push({ genre: 'place', place: place, longueur: requete.length });
+        const nbTerrains = rang === 0 ? 3 : rang === 1 ? 2 : 0;
+        lieuxDeLaProposition(index, place).slice(0, nbTerrains).forEach(function (l) {
+            if (lignes.length >= MAX_LIGNES_PROPOSITIONS - 1) return;
+            lignes.push({ genre: 'terrain', lieu: l });
+            dejaProposes.add(l);
+        });
+    });
+
+    if (requete.length >= 3 && lignes.length < MAX_LIGNES_PROPOSITIONS - 2) {
+        const parRue = index.lieux
+            .map(function (l) { return { lieu: l, trouve: l.r ? correspondanceRecherche(l.r, requete) : null }; })
+            .filter(function (x) { return x.trouve && !dejaProposes.has(x.lieu); })
+            .sort(function (a, b) { return a.trouve.qualite - b.trouve.qualite || b.lieu.p - a.lieu.p; })
+            .slice(0, Math.min(3, MAX_LIGNES_PROPOSITIONS - 2 - lignes.length));
+        if (parRue.length) {
+            lignes.push({ genre: 'titre' });
+            parRue.forEach(function (x) {
+                lignes.push({ genre: 'terrain', lieu: x.lieu, trouve: x.trouve, longueur: requete.length, parRue: true });
+            });
+        }
+    }
+
+    lignes.push({ genre: 'adresse', texte: texte.trim() });
+    return lignes;
+}
+
+const PICTO_PROPOSITION_LIEU = '<svg class="search-suggestion-picto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>';
+const PICTO_PROPOSITION_TERRAIN = '<svg class="search-suggestion-picto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="7"></circle><circle cx="12" cy="12" r="2.5" fill="currentColor"></circle></svg>';
+const PICTO_PROPOSITION_ADRESSE = '<svg class="search-suggestion-picto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>';
+
+function htmlPropositionRecherche(index, ligne, i) {
+    if (ligne.genre === 'titre') {
+        return '<li class="search-suggestion-titre" role="presentation">' + t('recherche_par_rue') + '</li>';
+    }
+    const debut = '<li class="search-suggestion search-suggestion-' + ligne.genre + '" id="search-suggestion-' + i + '" role="option" data-i="' + i + '">';
+    const textes = function (picto, nom, contexte) {
+        return debut + picto + '<span class="search-suggestion-textes"><span class="search-suggestion-nom">' + nom + '</span>'
+            + (contexte ? '<span class="search-suggestion-contexte">' + echapperAvis(contexte) + '</span>' : '') + '</span></li>';
+    };
+
+    if (ligne.genre === 'place') {
+        const place = ligne.place;
+        let nom = surlignerRecherche(place.trouveSur, place.trouve, ligne.longueur);
+        // Trouvée sous un autre nom (« luik ») : le nom affiché, puis celui qui a été trouvé
+        if (place.trouveSur !== place.nom) {
+            nom = echapperAvis(place.nom) + ' <span class="search-suggestion-contexte">(' + nom + ')</span>';
+        }
+        const zone = place.genre === 'localite'
+            ? nomCommuneRecherche(place.commune) + ', ' + zoneCommuneRecherche(place.commune).split(', ')[0]
+            : zoneCommuneRecherche(place.commune);
+        return textes(PICTO_PROPOSITION_LIEU, nom, zone + ' · ' + nombreTerrainsRecherche(place.terrains));
+    }
+
+    if (ligne.genre === 'terrain') {
+        const l = ligne.lieu;
+        const nom = ligne.trouve
+            ? echapperAvis(t('popup_terrain_prefix')) + ' ' + surlignerRecherche(l.r, ligne.trouve, ligne.longueur)
+            : echapperAvis(titreLieuRecherche(l));
+        const pistes = l.p > 1 ? t('commune_pistes').replace('{n}', l.p) : '';
+        const endroit = ligne.parRue ? nomLocaliteRecherche(l.l || nomCommuneRecherche(index.communes[l.c])) : '';
+        return textes(PICTO_PROPOSITION_TERRAIN, nom, [endroit, pistes].filter(Boolean).join(' · '));
+    }
+
+    return textes(PICTO_PROPOSITION_ADRESSE, echapperAvis(t('recherche_adresse').replace('{q}', ligne.texte)), '');
+}
+
+// Fiche d'un terrain sur la carte de la page s'il y figure (accueil, ou page province/région
+// de sa zone), sinon sur celle de l'accueil.
+function ouvrirTerrainRecherche(l, naviguer) {
+    if (typeof markers !== 'undefined' && markers) {
+        allerVersTerrain(l.lat, l.lon);
+        return;
+    }
+    let trouve = null;
+    groupesFiltrables.forEach(function (g) {
+        g.couches.forEach(function (couche) {
+            if (!trouve && couche.feature.properties.osm_id === l.o) trouve = { groupe: g.groupe, couche: couche };
+        });
+    });
+    if (!trouve) {
+        naviguer((currentLang === 'fr' ? '/' : '/' + currentLang + '/') + '?lat=' + l.lat + '&lon=' + l.lon);
+        return;
+    }
+    window.mapetanqueRevelerTerrain(l.lat, l.lon);
+    trouve.groupe.zoomToShowLayer(trouve.couche, function () { trouve.couche.openPopup(); });
+    document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// Adresse de la page où mène une proposition, ou null quand elle se suit sur la page même
+// (voir allerVersProposition).
+function suivreProposition(index, ligne) {
+    if (ligne.genre !== 'place' || !ligne.place.commune.pg) return null;
+    const place = ligne.place;
+    const ancre = place.genre === 'localite' && place.localite.ancre ? '#' + place.localite.ancre : '';
+    return (currentLang === 'fr' ? '/' : '/' + currentLang + '/') + 'commune/' + place.commune.s + '.html' + ancre;
+}
+
+// Proposition suivie sur la page : fiche d'un terrain sur la carte, commune sans terrain, ou
+// recherche d'adresse. naviguer(url) : pour un terrain absent de la carte de la page.
+function allerVersProposition(index, ligne, naviguer) {
+    if (ligne.genre === 'adresse') {
+        searchForm.requestSubmit();
+        return;
+    }
+    if (ligne.genre === 'terrain') {
+        ouvrirTerrainRecherche(ligne.lieu, naviguer);
+        return;
+    }
+    const place = ligne.place;
+    const lieux = lieuxDeLaProposition(index, place);
+    if (lieux.length) {
+        ouvrirTerrainRecherche(lieux[0], naviguer);
+        return;
+    }
+    // Commune sans terrain : la carte autour d'elle, avec la flèche vers le terrain le plus proche
+    const c = place.commune;
+    montrerLieuRecherche(c.lat, c.lon, place.nom,
+        [[c.lat - 0.04, c.lon - 0.06], [c.lat + 0.04, c.lon + 0.06]], place.nom);
+}
+
+const champRecherche = document.getElementById('searchInput');
+if (searchForm && champRecherche) {
+    // Champ et loupe réunis dans une ligne : en plein écran (téléphone), la loupe laisse sa place
+    // à une flèche de retour, et le menu se range sous la ligne.
+    const ligneChamp = document.createElement('div');
+    ligneChamp.className = 'search-ligne';
+    champRecherche.parentNode.insertBefore(ligneChamp, champRecherche);
+    ligneChamp.appendChild(champRecherche);
+    const loupe = document.getElementById('searchBtn');
+    if (loupe) ligneChamp.appendChild(loupe);
+    const retour = document.createElement('button');
+    retour.type = 'button';
+    retour.className = 'search-retour';
+    retour.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>';
+    ligneChamp.appendChild(retour);
+
+    const menu = document.createElement('ul');
+    menu.id = 'searchSuggestions';
+    menu.className = 'search-suggestions';
+    menu.setAttribute('role', 'listbox');
+    menu.hidden = true;
+    searchForm.appendChild(menu);
+
+    champRecherche.setAttribute('role', 'combobox');
+    champRecherche.setAttribute('aria-autocomplete', 'list');
+    champRecherche.setAttribute('aria-controls', 'searchSuggestions');
+    champRecherche.setAttribute('aria-expanded', 'false');
+
+    let lignes = [];
+    let active = -1;
+    let indexCharge = null;
+
+    // Téléphone : la recherche passe en plein écran dès qu'on touche le champ (le clavier prend
+    // déjà la moitié de l'écran). Le bouton retour du téléphone la referme sans quitter la page :
+    // une entrée d'historique est ajoutée à l'ouverture, et toute fermeture passe par
+    // history.back() ; l'action choisie (fiche, carte) attend la fin de ce retour.
+    const ECRAN_ETROIT = window.matchMedia('(max-width: 600px)');
+    let pleinEcran = false;
+    let entreeHistorique = false;
+    let apresRetour = null;
+
+    const options = function () { return Array.from(menu.querySelectorAll('.search-suggestion')); };
+
+    const fermer = function () {
+        menu.hidden = true;
+        searchForm.classList.remove('search-form-ouvert');
+        champRecherche.setAttribute('aria-expanded', 'false');
+        champRecherche.removeAttribute('aria-activedescendant');
+        active = -1;
+    };
+
+    const montrerMenu = function (html) {
+        menu.setAttribute('aria-label', t('recherche_propositions'));
+        menu.innerHTML = html;
+        menu.style.left = '';
+        menu.hidden = false;
+        searchForm.classList.add('search-form-ouvert');
+        champRecherche.setAttribute('aria-expanded', 'true');
+        champRecherche.removeAttribute('aria-activedescendant');
+        // Menu déroulant plus large que le champ : on le ramène dans l'écran s'il déborde à droite
+        if (!pleinEcran) {
+            const depasse = menu.getBoundingClientRect().right - (document.documentElement.clientWidth - 8);
+            if (depasse > 0) menu.style.left = -depasse + 'px';
+        }
+    };
+
+    const afficher = function () {
+        const texte = champRecherche.value;
+        if (texte.trim().length < 2) {
+            if (pleinEcran) {
+                montrerMenu('<li class="search-suggestion-indication" role="presentation">' + t('recherche_indication') + '</li>');
+            } else {
+                fermer();
+            }
+            return;
+        }
+        chargerIndexRecherche().then(function (index) {
+            if (champRecherche.value !== texte) return;   // une autre lettre est arrivée entre-temps
+            indexCharge = index;
+            lignes = propositionsRecherche(index, texte);
+            active = -1;
+            montrerMenu(lignes.map(function (ligne, i) { return htmlPropositionRecherche(index, ligne, i); }).join(''));
+        }).catch(function () { fermer(); });   // index injoignable : la recherche d'adresse reste
+    };
+
+    const ouvrirPleinEcran = function () {
+        if (pleinEcran || !ECRAN_ETROIT.matches) return;
+        pleinEcran = true;
+        retour.setAttribute('aria-label', t('recherche_retour'));
+        searchForm.classList.add('search-form-plein-ecran');
+        document.body.classList.add('recherche-plein-ecran');
+        history.pushState({ recherchePleinEcran: true }, '');
+        entreeHistorique = true;
+    };
+
+    const quitterPleinEcran = function () {
+        pleinEcran = false;
+        entreeHistorique = false;
+        searchForm.classList.remove('search-form-plein-ecran');
+        document.body.classList.remove('recherche-plein-ecran');
+        fermer();
+        champRecherche.blur();
+    };
+
+    // Referme le plein écran (s'il est ouvert), puis fait `ensuite`.
+    const fermerPleinEcran = function (ensuite) {
+        if (pleinEcran && entreeHistorique) {
+            apresRetour = ensuite || null;
+            history.back();   // suite dans l'écouteur popstate ci-dessous
+            return;
+        }
+        if (pleinEcran) quitterPleinEcran();
+        if (ensuite) ensuite();
+    };
+
+    window.addEventListener('popstate', function () {
+        if (!pleinEcran) return;
+        quitterPleinEcran();
+        const ensuite = apresRetour;
+        apresRetour = null;
+        if (ensuite) ensuite();
+    });
+
+    const surligner = function (n) {
+        const opts = options();
+        if (!opts.length) return;
+        active = (n + opts.length) % opts.length;
+        opts.forEach(function (o, i) { o.classList.toggle('active', i === active); });
+        opts[active].scrollIntoView({ block: 'nearest' });
+        champRecherche.setAttribute('aria-activedescendant', opts[active].id);
+    };
+
+    const choisir = function (ligne) {
+        if (ligne.genre !== 'adresse') {
+            champRecherche.value = ligne.genre === 'place' ? ligne.place.nom : titreLieuRecherche(ligne.lieu);
+            champRecherche.blur();   // referme le clavier du téléphone
+            effacerMessageRecherche();
+        }
+        fermer();
+        // Vers une autre page depuis le plein écran : l'adresse remplace l'entrée d'historique
+        // ajoutée à l'ouverture, pour que le retour ramène à la page telle qu'avant la recherche.
+        const naviguer = function (url) {
+            if (pleinEcran && entreeHistorique) window.location.replace(url);
+            else window.location.href = url;
+        };
+        const destination = suivreProposition(indexCharge, ligne);
+        if (destination) naviguer(destination);
+        else fermerPleinEcran(function () { allerVersProposition(indexCharge, ligne, naviguer); });
+    };
+
+    champRecherche.addEventListener('input', afficher);
+    champRecherche.addEventListener('focus', function () {
+        ouvrirPleinEcran();
+        afficher();
+    });
+    champRecherche.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (menu.hidden) afficher(); else surligner(active + 1);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (!menu.hidden) surligner(active - 1);
+        } else if (e.key === 'Escape') {
+            if (pleinEcran) fermerPleinEcran(); else fermer();
+        } else if (e.key === 'Enter' && !menu.hidden && active >= 0) {
+            // Sinon, Entrée envoie le formulaire : recherche d'adresse, comme avant
+            e.preventDefault();
+            choisir(lignes[options()[active].dataset.i]);
+        }
+    });
+    // mousedown plutôt que click : le choix passe avant que le champ ne perde le focus
+    menu.addEventListener('mousedown', function (e) {
+        const option = e.target.closest('.search-suggestion');
+        if (!option) return;
+        e.preventDefault();
+        choisir(lignes[option.dataset.i]);
+    });
+    retour.addEventListener('click', function () { fermerPleinEcran(); });
+    // En plein écran, le champ perd le focus dès que le clavier se replie : la liste reste.
+    champRecherche.addEventListener('blur', function () {
+        setTimeout(function () { if (!pleinEcran) fermer(); }, 150);
+    });
+    // Entrée sans proposition choisie : la recherche d'adresse (écouteur plus haut) est lancée,
+    // et le plein écran se referme pour montrer la carte.
+    searchForm.addEventListener('submit', function () {
+        fermer();
+        fermerPleinEcran();
     });
 }
 

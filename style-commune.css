@@ -17,7 +17,8 @@
 
 .commune-section { margin: 0 0 48px; }
 .commune-section h2 { font-size: 26px; color: #333; margin: 0 0 20px; }
-.commune-localite { font-size: 19px; color: #3d7a2a; margin: 28px 0 14px; }
+/* scroll-margin-top : cible des propositions de la recherche (#bioul), un peu d'air au-dessus */
+.commune-localite { font-size: 19px; color: #3d7a2a; margin: 28px 0 14px; scroll-margin-top: 16px; }
 .commune-localite:first-of-type { margin-top: 0; }
 
 /* ----- Cartes des lieux : toute la carte mène à la fiche sur la carte de l'accueil ----- */
