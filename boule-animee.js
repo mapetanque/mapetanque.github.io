@@ -157,22 +157,26 @@
     }
 
     // --- Branchement sur le logo ---------------------------------------------------------
-    // Seulement en mobile (boule seule) et seulement quand le clic ne quitte pas la page
-    // (href="#top" sur l'accueil) : sur les autres pages, la navigation couperait l'animation.
+    // Seulement en mobile (boule seule). L'animation se joue à l'arrivée sur l'accueil, et au
+    // clic quand celui-ci ne quitte pas la page (href="#top" sur l'accueil) : sur les autres
+    // pages, la navigation couperait l'animation. Le script n'est chargé que sur les accueils.
 
     const MOBILE = window.matchMedia('(max-width: 1024px)');
     const MOINS_DANIMATION = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+    // À l'arrivée, on laisse la page s'afficher avant de lancer la boule.
+    const DELAI_ARRIVEE = 300;
+
     function brancherLogo() {
         const lien = document.querySelector('.brand-link');
-        if (!lien || (lien.getAttribute('href') || '').charAt(0) !== '#') return;
+        if (!lien) return;
         const logo = lien.querySelector('img.logo');
         const cadre = lien.querySelector('picture');
         if (!logo || !cadre) return;
 
         let enCours = false;
 
-        lien.addEventListener('click', function () {
+        function lancer() {
             if (enCours || !MOBILE.matches || MOINS_DANIMATION.matches) return;
             const cote = logo.getBoundingClientRect().width;
             if (!cote) return;
@@ -193,6 +197,24 @@
                 canvas.remove();
                 enCours = false;
             });
+        }
+
+        if ((lien.getAttribute('href') || '').charAt(0) === '#') {
+            lien.addEventListener('click', lancer);
+        }
+
+        // Arrivée sur la page : une fois le logo chargé (sa taille sert à poser le canvas).
+        function lancerApresDelai() { setTimeout(lancer, DELAI_ARRIVEE); }
+        if (logo.complete && logo.naturalWidth) {
+            lancerApresDelai();
+        } else {
+            logo.addEventListener('load', lancerApresDelai, { once: true });
+        }
+
+        // Retour sur la page par le bouton « précédent » : le navigateur la ressort de sa mémoire
+        // sans la recharger, le script ne repasse donc pas par ici. On rejoue quand même.
+        window.addEventListener('pageshow', function (e) {
+            if (e.persisted) lancerApresDelai();
         });
     }
 
