@@ -1,12 +1,14 @@
 /* =============================================================================================
-   Boule animée du logo mobile : au clic, la boule roule quelques tours puis s'arrête derrière
-   le cochonnet, exactement dans la pose du logo (images/mapetanque-boule-pleine.svg).
+   Boule animée du logo mobile : partant du logo lui-même, la boule quitte son cochonnet en
+   roulant, fait quelques tours et s'arrête derrière un autre, exactement dans la pose du logo
+   (images/mapetanque-boule-pleine.svg). Première et dernière images sont donc le logo : on peut
+   le laisser affiché en attendant l'animation, et rien ne saute au départ ni à l'arrivée.
 
    Pourquoi un rendu calculé plutôt qu'une planche d'images comme chargeur-photo.js :
    le chargeur enchaîne deux planches (boucle + sortie) dessinées séparément, et le raccord entre
    les deux n'a jamais été parfait — la vitesse de rotation change au basculement. Ici, une seule
-   rotation est calculée image par image, avec une seule courbe de vitesse : la boule part lancée
-   et ne fait que ralentir, sans aucun raccord possible.
+   rotation est calculée image par image, avec une seule courbe de vitesse : la boule démarre en
+   douceur, puis ne fait que ralentir, sans aucun raccord possible.
 
    Le logo est une vraie sphère vue de face : ses deux bandes blanches sont deux grands cercles
    perpendiculaires, et l'encoche est un disque (le cochonnet, posé devant). Les valeurs
@@ -31,7 +33,8 @@
         duree: 3000,     // ms
         courbe: 4,       // 2 = freinage constant ; plus haut, départ plus vif, fin plus douce
         camera: 45,      // hauteur de la caméra au-dessus du sol, en degrés
-        direction: -40   // 0 = la boule roule vers la droite ; négatif = vers le spectateur
+        direction: -40,  // 0 = la boule roule vers la droite ; négatif = vers le spectateur
+        montee: 0.04     // démarrage depuis l'arrêt (le logo), en fraction de la durée
     };
 
     // --- Petits outils vectoriels --------------------------------------------------------
@@ -78,16 +81,20 @@
      * @param {CanvasRenderingContext2D} ctx
      * @param {number} taille  côté du canvas en pixels réels
      * @param {number[]} n1, n2  normales des bandes dans la pose courante
-     * @param {object} coch  {x, y, r} du cochonnet dans le repère de l'écran
+     * @param {object[]} cochonnets  centres {x, y} des cochonnets dans le repère de l'écran
      */
-    function dessiner(ctx, taille, n1, n2, coch) {
+    function dessiner(ctx, taille, n1, n2, cochonnets) {
         const image = ctx.createImageData(taille, taille);
         const px = image.data;
         // Suréchantillonnage pour des bords lisses ; moins de sous-points en grand format.
         const ss = taille <= 160 ? 4 : 2;
         const pas = 2 / (taille * ss);
         const poids = 255 / (ss * ss);
-        const cochR2 = coch.r * coch.r;
+        const cochR2 = COCHONNET.r * COCHONNET.r;
+        // Seuls comptent les cochonnets qui mordent sur la boule.
+        const visibles = cochonnets.filter(function (c) {
+            return Math.hypot(c.x, c.y) < 1 + COCHONNET.r;
+        });
 
         for (let j = 0; j < taille; j++) {
             for (let i = 0; i < taille; i++) {
@@ -98,8 +105,12 @@
                         const x = (i * ss + si + 0.5) * pas - 1;
                         const r2 = x * x + y * y;
                         if (r2 >= 1) continue;
-                        const dx = x - coch.x, dy = y - coch.y;
-                        if (dx * dx + dy * dy < cochR2) continue;
+                        let cache = false;
+                        for (let c = 0; c < visibles.length; c++) {
+                            const dx = x - visibles[c].x, dy = y - visibles[c].y;
+                            if (dx * dx + dy * dy < cochR2) { cache = true; break; }
+                        }
+                        if (cache) continue;
                         const z = Math.sqrt(1 - r2);
                         if (Math.abs(x * n1[0] + y * n1[1] + z * n1[2]) < DEMI_BANDE) continue;
                         if (Math.abs(x * n2[0] + y * n2[1] + z * n2[2]) < DEMI_BANDE) continue;
@@ -119,6 +130,27 @@
     }
 
     /**
+     * Profil de la rotation : fraction de l'angle total parcourue en fonction de la fraction u de
+     * la durée. Vitesse = (1 - e^(-u / montee)) x (1 - u)^(courbe - 1) : elle monte en douceur
+     * depuis l'arrêt (la boule part du logo immobile), puis ne fait que décroître jusqu'à zéro.
+     * Intégrée numériquement une fois pour toutes, puis lue par interpolation.
+     */
+    function profil(r) {
+        const N = 600;
+        const cumul = new Float64Array(N + 1);
+        for (let i = 1; i <= N; i++) {
+            const u = (i - 0.5) / N;
+            cumul[i] = cumul[i - 1] +
+                (1 - Math.exp(-u / r.montee)) * Math.pow(1 - u, r.courbe - 1);
+        }
+        return function parcouru(u) {
+            const x = Math.min(Math.max(u, 0), 1) * N;
+            const i = Math.min(Math.floor(x), N - 1);
+            return (cumul[i] + (cumul[i + 1] - cumul[i]) * (x - i)) / cumul[N];
+        };
+    }
+
+    /**
      * Joue l'animation complète dans un canvas carré.
      * @param {HTMLCanvasElement} canvas
      * @param {object} [options]  remplace tout ou partie de REGLAGES
@@ -129,23 +161,23 @@
         const r = Object.assign({}, REGLAGES, options || {});
         const m = mouvement(r);
         const total = Math.round(r.tours) * 2 * Math.PI;   // tours entiers : départ = logo
+        const parcouru = profil(r);
         const ctx = canvas.getContext('2d');
         const debut = performance.now();
         let requete = null;
 
         function image(maintenant) {
             const u = Math.min((maintenant - debut) / r.duree, 1);
-            // Angle parcouru : 1 - (1 - u)^courbe. La vitesse, maximale au départ, ne fait que
-            // décroître jusqu'à zéro : jamais d'accélération apparente.
-            const reste = total * Math.pow(1 - u, r.courbe);
+            const fait = total * parcouru(u);   // angle déjà parcouru = distance, en rayons
+            const reste = total - fait;
             const n1 = tourner(NORMALE_1, m.axe, -reste);
             const n2 = tourner(NORMALE_2, m.axe, -reste);
-            const coch = {
-                x: COCHONNET.x + reste * m.sens[0],
-                y: COCHONNET.y + reste * m.sens[1],
-                r: COCHONNET.r
-            };
-            dessiner(ctx, canvas.width, n1, n2, coch);
+            // Deux cochonnets fixés au sol : celui du départ, que la boule laisse derrière elle,
+            // et celui de l'arrivée, qu'elle rejoint. Leur défilement est lié à la rotation.
+            dessiner(ctx, canvas.width, n1, n2, [
+                { x: COCHONNET.x - fait * m.sens[0], y: COCHONNET.y - fait * m.sens[1] },
+                { x: COCHONNET.x + reste * m.sens[0], y: COCHONNET.y + reste * m.sens[1] }
+            ]);
             if (u < 1) {
                 requete = requestAnimationFrame(image);
             } else if (fin) {
@@ -157,21 +189,17 @@
     }
 
     // --- Branchement sur le logo ---------------------------------------------------------
-    // Seulement en mobile (boule seule). À l'arrivée sur l'accueil, la boule entre déjà lancée,
-    // en fondu, à la place du logo fixe que style.css cache dès le premier affichage : on ne voit
-    // donc jamais le logo avant l'animation. Au clic, quand celui-ci ne quitte pas la page
-    // (href="#top" sur l'accueil), elle repart depuis le logo. Sur les autres pages, la navigation
+    // Seulement en mobile (boule seule) : à l'arrivée sur l'accueil, et au clic quand celui-ci ne
+    // quitte pas la page (href="#top" sur l'accueil). Sur les autres pages, la navigation
     // couperait l'animation : le script n'est chargé que sur les accueils.
 
     const MOBILE = window.matchMedia('(max-width: 1024px)');
     const MOINS_DANIMATION = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-    // Fondu d'entrée de la boule à l'arrivée sur la page, en ms.
-    const FONDU_ARRIVEE = 200;
-
-    // À l'arrivée, la boule attend que le téléphone soit au calme : pendant le chargement, les
-    // calculs du site (carte, terrains) le bloquent par moments et l'animation, calée sur
-    // l'horloge, sauterait en avant à chaque blocage (mesuré : jusqu'à 0,5 s figée).
+    // À l'arrivée, la boule attend que le téléphone soit au calme, le logo restant affiché en
+    // attendant : pendant le chargement, les calculs du site (carte, terrains) le bloquent par
+    // moments et l'animation, calée sur l'horloge, sauterait en avant à chaque blocage
+    // (mesuré : jusqu'à 0,5 s figée).
     // Calme = page chargée, puis IMAGES_CALMES images d'affilée affichées à moins de
     // SEUIL_IMAGE ms d'écart. requestIdleCallback ferait l'affaire, mais pas sur iPhone.
     const IMAGES_CALMES = 5;
@@ -218,20 +246,10 @@
 
         let enCours = false;
 
-        function afficherLogo() {
-            logo.style.visibility = '';
-        }
-
-        /** @param {boolean} arrivee  vrai à l'arrivée sur la page (entrée en fondu) */
-        function lancer(arrivee) {
-            if (enCours) return;
-            // Le script prend le relais du filet de sécurité CSS (voir style.css) : sans ceci,
-            // l'animation CSS réafficherait le logo au bout de 2 s, en pleine animation.
-            logo.style.animation = 'none';
-            // La boule est carrée et sa hauteur fixée par le CSS : connue avant même que
-            // l'image soit chargée, ce qui permet de démarrer sans l'attendre.
+        function lancer() {
+            if (enCours || !MOBILE.matches || MOINS_DANIMATION.matches) return;
             const cote = logo.getBoundingClientRect().height;
-            if (!MOBILE.matches || MOINS_DANIMATION.matches || !cote) { afficherLogo(); return; }
+            if (!cote) return;
             enCours = true;
 
             // Le canvas se pose exactement sur l'image, qui est masquée le temps de l'animation.
@@ -244,42 +262,26 @@
                 cote + 'px;pointer-events:none;';
             cadre.style.position = 'relative';
             cadre.appendChild(canvas);
-            logo.style.visibility = 'hidden';
-            if (arrivee && canvas.animate) {
-                canvas.animate([{ opacity: 0 }, { opacity: 1 }],
-                               { duration: FONDU_ARRIVEE, easing: 'ease-out' });
-            }
 
             jouer(canvas, null, function () {
-                afficherLogo();
+                logo.style.visibility = '';
                 canvas.remove();
                 enCours = false;
             });
+            // Masqué seulement une fois la première image dessinée (identique au logo) : aucun
+            // instant sans boule.
+            requestAnimationFrame(function () { logo.style.visibility = 'hidden'; });
         }
 
         if ((lien.getAttribute('href') || '').charAt(0) === '#') {
-            lien.addEventListener('click', function () { lancer(false); });
+            lien.addEventListener('click', lancer);
         }
 
-        // Arrivée sur la page. Le script prend tout de suite le relais du filet de sécurité CSS
-        // (le logo reste caché, mais c'est désormais lui qui décide), puis attend le calme.
-        if (MOBILE.matches && !MOINS_DANIMATION.matches) {
-            logo.style.animation = 'none';
-            logo.style.visibility = 'hidden';
-            quandCalme(function () { lancer(true); });
-        }
-
-        // Retour par le bouton « précédent » : le navigateur ressort la page de sa mémoire sans
-        // la recharger, le script ne repasse donc pas par ici. On cache le logo en quittant la
-        // page pour qu'il ne réapparaisse pas fixe au retour, puis la boule rentre comme à
-        // l'arrivée.
-        window.addEventListener('pagehide', function () {
-            if (MOBILE.matches && !MOINS_DANIMATION.matches && !enCours) {
-                logo.style.visibility = 'hidden';
-            }
-        });
+        // Arrivée sur la page, et retour par le bouton « précédent » (le navigateur ressort alors
+        // la page de sa mémoire sans la recharger, le script ne repasse donc pas par ici).
+        quandCalme(lancer);
         window.addEventListener('pageshow', function (e) {
-            if (e.persisted) lancer(true);
+            if (e.persisted) quandCalme(lancer);
         });
     }
 
