@@ -76,7 +76,7 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 - 11 pages province (`province-<slug>.html`) + 2 pages région (`region-flandre.html`, `region-wallonie.html`) — Bruxelles n'a pas de page région dédiée (pas de sous-provinces), sa tuile région renvoie directement vers sa page province
 - Structure commune : bannière photo (Wikimedia Commons, crédit affiché en toutes lettres), fil d'Ariane cliquable, tuiles chiffres, texte d'intro rédigé et vérifié individuellement (recherche de faits, sources citées), carte, liste des communes (pages province) ou des provinces (pages région) en pastilles cliquables
 - Textes d'intro jamais inventés : chaque chiffre, anecdote ou fait historique mentionné a été vérifié par recherche avant d'être écrit
-- Génération via `scripts/generate_provinces.py`, qui lit `data/provinces.json` / `data/regions.json`, les templates `templates/province_template.html` / `templates/region_template.html`, et `translations.js` — et met aussi à jour automatiquement la section correspondante de `sitemap.xml` (délimitée par des marqueurs, le reste du fichier n'est jamais touché)
+- Génération via `scripts/generate_provinces.py`, qui lit `data/provinces.json` / `data/regions.json`, les templates `templates/province_template.html` / `templates/region_template.html`, `translations.js` et `data/terrains.geojson` (liste des communes écrite dans la page, lisible sans JavaScript), puis lance `scripts/generer_referencement.py` (voir Référencement)
 - Page d'accueil : grille "Parcourir par province" (10 tuiles photo, sans Bruxelles) puis "Parcourir par région" (Flandre, Wallonie, Bruxelles)
 
 ## 🎨 Identité visuelle et confort d'usage
@@ -110,7 +110,13 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 ## 🔎 Référencement (SEO)
 
 - Balise `<meta name="description">` et `<title>` traduits dynamiquement selon la langue affichée (accueil), ou rédigés spécifiquement par page (provinces/régions)
-- `sitemap.xml` (16 URLs : accueil + 11 provinces + 2 régions, chacune avec ses variantes de langue disponibles) et `robots.txt` à la racine, soumis à Google Search Console
+- `scripts/generer_referencement.py` lit les pages publiques (canonical vers elles-mêmes, pas de noindex) et écrit :
+  - dans chacune, un bloc de données structurées schema.org (JSON-LD) : fil d'Ariane, type de page (article, application, page province…), et sur l'accueil le site, son auteur et le jeu de données des terrains
+  - `sitemap.xml` en entier : chaque page de chaque langue avec ses versions dans les autres langues et sa date de modification (`data/sitemap_dates.json` garde une empreinte de chaque page pour la dater)
+  - `llms.txt` : résumé du site pour les IA (convention llmstxt.org), avec les chiffres du jour
+- Lancé automatiquement par `generate_provinces.py` (donc chaque semaine par le workflow OSM), `generer_la_petanque.py` et `generer_a_propos.py` ; à relancer à la main après une modification de `index.html`, `comment-jouer.html` ou `compteur.html`
+- Listes des communes des pages province écrites dans le HTML : les robots qui n'exécutent pas le JavaScript (la plupart des IA) les voient
+- `robots.txt` à la racine, sitemap soumis à Google Search Console
 - Balises Open Graph (`og:title`, `og:description`, `og:image`, `og:url`) pour un aperçu soigné lors du partage du lien sur les réseaux sociaux/messageries
 - Favicon (logo au format SVG)
 
@@ -155,7 +161,8 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 ├── style-province.css                # Ajouts spécifiques aux pages province/région
 ├── script.js                         # Logique de la carte et des interactions
 ├── translations.js                   # Textes du site en FR / NL / DE (source unique)
-├── sitemap.xml                       # Plan du site (accueil + provinces + régions)
+├── sitemap.xml                       # Plan du site, toutes pages et langues (généré)
+├── llms.txt                          # Résumé du site pour les IA (généré)
 ├── robots.txt                        # Référence le sitemap pour les robots d'indexation
 ├── manifest.webmanifest              # Fiche de l'application installable (PWA)
 ├── sw.js                             # Service worker de l'application (doit rester à la racine)
@@ -167,7 +174,8 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 │   └── provinces/                    # Bannières et tuiles photo (provinces + régions)
 ├── scripts/
 │   ├── update_terrains.py            # Génération hebdomadaire des données terrains
-│   └── generate_provinces.py         # Génération des pages province/région + sitemap
+│   ├── generate_provinces.py         # Génération des pages province/région
+│   └── generer_referencement.py      # Données structurées, sitemap.xml, llms.txt
 ├── templates/
 │   ├── province_template.html        # Gabarit des pages province
 │   └── region_template.html          # Gabarit des pages région

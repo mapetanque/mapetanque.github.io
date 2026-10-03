@@ -47,6 +47,84 @@
          n'est modifiée par ce fichier. -->
     <link rel="stylesheet" href="/style-beaux-terrains.css">
     <link rel="stylesheet" href="/style-ombres.css">
+    <!-- Données structurées schema.org (Google, IA) : écrites par scripts/generer_referencement.py, ne pas modifier à la main. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://mapetanque.be/#page",
+          "url": "https://mapetanque.be/",
+          "name": "Carte des terrains de pétanque en Belgique",
+          "description": "Carte interactive des terrains de pétanque accessibles au public en Belgique : recherche par ville, géolocalisation et liste par région sur Mapetanque.be.",
+          "inLanguage": "fr",
+          "isPartOf": {
+            "@id": "https://mapetanque.be/#site"
+          },
+          "primaryImageOfPage": "https://mapetanque.be/images/mapetanque-partage.png?v=2",
+          "about": {
+            "@id": "https://mapetanque.be/#donnees"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://mapetanque.be/#site",
+          "url": "https://mapetanque.be/",
+          "name": "Mapetanque",
+          "alternateName": "Mapetanque.be",
+          "description": "Carte interactive des terrains de pétanque accessibles au public en Belgique : recherche par ville, géolocalisation et liste par région sur Mapetanque.be.",
+          "inLanguage": [
+            "fr",
+            "nl",
+            "de",
+            "en"
+          ],
+          "publisher": {
+            "@id": "https://mapetanque.be/#mapetanque"
+          }
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://mapetanque.be/#mapetanque",
+          "name": "Mapetanque",
+          "url": "https://mapetanque.be/",
+          "logo": "https://mapetanque.be/images/icone-512.png",
+          "email": "mapetanque@outlook.be",
+          "sameAs": [
+            "https://github.com/mapetanque/mapetanque.github.io"
+          ]
+        },
+        {
+          "@type": "Dataset",
+          "name": "Terrains de pétanque publics en Belgique",
+          "description": "Emplacement des terrains de pétanque accessibles au public en Belgique (Wallonie, Flandre et Bruxelles), tirés d'OpenStreetMap et mis à jour chaque semaine.",
+          "url": "https://mapetanque.be/",
+          "inLanguage": "fr",
+          "isAccessibleForFree": true,
+          "license": "https://opendatacommons.org/licenses/odbl/1-0/",
+          "creator": {
+            "@type": "Organization",
+            "name": "OpenStreetMap",
+            "url": "https://www.openstreetmap.org/copyright"
+          },
+          "publisher": {
+            "@id": "https://mapetanque.be/#mapetanque"
+          },
+          "spatialCoverage": {
+            "@type": "Country",
+            "name": "Belgique"
+          },
+          "distribution": {
+            "@type": "DataDownload",
+            "encodingFormat": "application/geo+json",
+            "contentUrl": "https://mapetanque.be/data/terrains.geojson"
+          },
+          "@id": "https://mapetanque.be/#donnees"
+        }
+      ]
+    }
+    </script>
 </head>
 
 <body>

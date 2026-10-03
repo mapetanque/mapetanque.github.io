@@ -1,0 +1,290 @@
+{
+  "https://mapetanque.be/": {
+    "empreinte": "339b293afe60ae9e",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/nl/": {
+    "empreinte": "10c6110ffb8e4bff",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/de/": {
+    "empreinte": "840f678c21f4eac2",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/en/": {
+    "empreinte": "7dc171c6d6f608a7",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/comment-jouer.html": {
+    "empreinte": "7be18b179faff670",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/nl/comment-jouer.html": {
+    "empreinte": "b32d34b6faf14c69",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/de/comment-jouer.html": {
+    "empreinte": "fa5b6ff3b7f8e773",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/en/comment-jouer.html": {
+    "empreinte": "4321af0043ed7d2d",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/compteur.html": {
+    "empreinte": "eb1c57a498d9d24e",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/nl/compteur.html": {
+    "empreinte": "6a6598252047bd9f",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/de/compteur.html": {
+    "empreinte": "4dba9a22312b68ea",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/en/compteur.html": {
+    "empreinte": "7629747174685052",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/la-petanque.html": {
+    "empreinte": "f8ff2c4732338523",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/nl/la-petanque.html": {
+    "empreinte": "a6237597d838d9f4",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/de/la-petanque.html": {
+    "empreinte": "7f397b8566d59136",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/en/la-petanque.html": {
+    "empreinte": "c5dc7fc6f230b50a",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/a-propos.html": {
+    "empreinte": "713f81bcd9965767",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/nl/a-propos.html": {
+    "empreinte": "86231555bacaf529",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/de/a-propos.html": {
+    "empreinte": "af11ddf49f7f440e",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/en/a-propos.html": {
+    "empreinte": "8da69d1dfa6e5436",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/province-anvers.html": {
+    "empreinte": "45a8c6e1eaf50d5f",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/nl/province-anvers.html": {
+    "empreinte": "abc0e3ec48780531",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/de/province-anvers.html": {
+    "empreinte": "dc456f1cfa93ae8c",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/en/province-anvers.html": {
+    "empreinte": "05a9f3cc9e13572d",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/province-brabant-flamand.html": {
+    "empreinte": "fcbc6591b22dfa20",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/nl/province-brabant-flamand.html": {
+    "empreinte": "ac3762e9a0cafb85",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/de/province-brabant-flamand.html": {
+    "empreinte": "b9522f3c16602e41",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/en/province-brabant-flamand.html": {
+    "empreinte": "ef60373bbcd16deb",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/province-brabant-wallon.html": {
+    "empreinte": "57e7f0342b9555dd",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/nl/province-brabant-wallon.html": {
+    "empreinte": "990024a8ee298b5d",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/de/province-brabant-wallon.html": {
+    "empreinte": "56241f5946c0ec26",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/en/province-brabant-wallon.html": {
+    "empreinte": "1944c353cad38b48",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/province-bruxelles.html": {
+    "empreinte": "8e02254b07ef1a5c",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/nl/province-bruxelles.html": {
+    "empreinte": "d489617dd24d0df1",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/de/province-bruxelles.html": {
+    "empreinte": "f8ffc88fc64c8ae9",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/en/province-bruxelles.html": {
+    "empreinte": "432a0064c55b36ff",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/province-flandre-occidentale.html": {
+    "empreinte": "3f19e0504c450db9",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/nl/province-flandre-occidentale.html": {
+    "empreinte": "f552ea1dbef8d5a4",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/de/province-flandre-occidentale.html": {
+    "empreinte": "301d1e8e23113fef",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/en/province-flandre-occidentale.html": {
+    "empreinte": "20ed298019e36ac1",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/province-flandre-orientale.html": {
+    "empreinte": "f7ec37edd37075b7",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/nl/province-flandre-orientale.html": {
+    "empreinte": "dba28cd309050f3c",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/de/province-flandre-orientale.html": {
+    "empreinte": "da0e025f26f558e9",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/en/province-flandre-orientale.html": {
+    "empreinte": "e08b3e8ed7e7fffc",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/province-hainaut.html": {
+    "empreinte": "c38b412e984507fb",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/nl/province-hainaut.html": {
+    "empreinte": "2e0d79fab1f69ca2",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/de/province-hainaut.html": {
+    "empreinte": "9de10008199f62ed",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/en/province-hainaut.html": {
+    "empreinte": "236e41f858ad2b3e",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/province-liege.html": {
+    "empreinte": "93b799bd2665ebb2",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/nl/province-liege.html": {
+    "empreinte": "c092faa18aa9a304",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/de/province-liege.html": {
+    "empreinte": "fc08ec218e277f90",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/en/province-liege.html": {
+    "empreinte": "4c2c6d1c18050e26",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/province-limbourg.html": {
+    "empreinte": "21de31184ca54114",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/nl/province-limbourg.html": {
+    "empreinte": "1db66556ad6b892f",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/de/province-limbourg.html": {
+    "empreinte": "f18db663075af81d",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/en/province-limbourg.html": {
+    "empreinte": "5af2cb97cb1cb6f1",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/province-luxembourg.html": {
+    "empreinte": "23e128314d4effa8",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/nl/province-luxembourg.html": {
+    "empreinte": "3d50bc4dd1d4a19d",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/de/province-luxembourg.html": {
+    "empreinte": "7e47308cbc84bf47",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/en/province-luxembourg.html": {
+    "empreinte": "fc39b7fcefe68016",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/province-namur.html": {
+    "empreinte": "d7e755b784d16321",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/nl/province-namur.html": {
+    "empreinte": "92132b1ca39bb029",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/de/province-namur.html": {
+    "empreinte": "2ab73550e5bccc28",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/en/province-namur.html": {
+    "empreinte": "37283dc520d47bca",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/region-flandre.html": {
+    "empreinte": "a9f051603ee4d81a",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/nl/region-flandre.html": {
+    "empreinte": "fca21ee0fc689a16",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/de/region-flandre.html": {
+    "empreinte": "0a998f6459294c2b",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/en/region-flandre.html": {
+    "empreinte": "dffdcf6719c2c200",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/region-wallonie.html": {
+    "empreinte": "41ec2738ae793b2f",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/nl/region-wallonie.html": {
+    "empreinte": "5ff63018f7986eeb",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/de/region-wallonie.html": {
+    "empreinte": "87f52412663ab472",
+    "date": "2026-10-03"
+  },
+  "https://mapetanque.be/en/region-wallonie.html": {
+    "empreinte": "37293e8438fc4f3a",
+    "date": "2026-10-03"
+  }
+}

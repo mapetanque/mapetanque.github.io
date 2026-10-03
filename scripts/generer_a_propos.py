@@ -14,6 +14,7 @@ Les pages existantes sont écrasées : modifier le contenu ci-dessous, puis rela
 from pathlib import Path
 
 from _squelette import construire_page, echap
+import generer_referencement
 
 RACINE = Path(__file__).resolve().parent.parent
 
@@ -482,3 +483,6 @@ for langue, meta in META.items():
         ),
     )
     print(f"{meta['prefixe']}a-propos.html : {taille} octets, {len(CONTENU[langue])} sections")
+
+# Données structurées de la page, sitemap.xml et llms.txt
+generer_referencement.main()

@@ -1,0 +1,41 @@
+# Mapetanque.be
+
+> Carte interactive et gratuite des terrains de pétanque accessibles au public en Belgique : 1 743 terrains dans 507 communes, en Wallonie, en Flandre et à Bruxelles. Site en français, néerlandais, allemand et anglais.
+
+Les terrains viennent d'OpenStreetMap et sont mis à jour chaque semaine ; les photos viennent de Mapillary. Sur la carte, chaque terrain a une fiche : emplacement, photos, itinéraire, notes et avis de visiteurs. Les clubs de pétanque peuvent aussi être affichés. Le site est gratuit, sans compte ni publicité, et son code est ouvert. Contact : mapetanque@outlook.be.
+
+## Terrains par région et par province
+
+- [Wallonie](https://mapetanque.be/region-wallonie.html): 437 terrains dans 205 communes
+  - [Liège](https://mapetanque.be/province-liege.html): 152 terrains dans 69 communes
+  - [Hainaut](https://mapetanque.be/province-hainaut.html): 97 terrains dans 40 communes
+  - [Namur](https://mapetanque.be/province-namur.html): 88 terrains dans 47 communes
+  - [Luxembourg](https://mapetanque.be/province-luxembourg.html): 52 terrains dans 28 communes
+  - [Brabant wallon](https://mapetanque.be/province-brabant-wallon.html): 48 terrains dans 21 communes
+- [Flandre](https://mapetanque.be/region-flandre.html): 1 185 terrains dans 286 communes
+  - [Flandre orientale](https://mapetanque.be/province-flandre-orientale.html): 299 terrains dans 66 communes
+  - [Anvers](https://mapetanque.be/province-anvers.html): 286 terrains dans 62 communes
+  - [Flandre occidentale](https://mapetanque.be/province-flandre-occidentale.html): 222 terrains dans 54 communes
+  - [Limbourg](https://mapetanque.be/province-limbourg.html): 193 terrains dans 51 communes
+  - [Brabant flamand](https://mapetanque.be/province-brabant-flamand.html): 185 terrains dans 54 communes
+- [Bruxelles](https://mapetanque.be/province-bruxelles.html): 121 terrains dans 16 communes
+
+## Jouer à la pétanque
+
+- [Comment jouer à la pétanque](https://mapetanque.be/comment-jouer.html): Les règles essentielles de la pétanque expliquées simplement : équipes, matériel, terrain, déroulement d'une partie. Et un compteur de points interactif.
+- [Compteur de points](https://mapetanque.be/compteur.html): Un compteur de points interactif pour suivre le score de vos parties de pétanque, sur mobile ou tablette.
+- [La pétanque, d'hier à aujourd'hui](https://mapetanque.be/la-petanque.html): L'histoire de la pétanque, de son invention à La Ciotat en 1907 aux titres mondiaux belges, et pourquoi c'est aujourd'hui un sport si accessible et si convivial.
+
+## Données
+
+- [Terrains au format GeoJSON](https://mapetanque.be/data/terrains.geojson): un point par terrain, avec sa commune, sa province et sa région. Données OpenStreetMap, licence ODbL (© les contributeurs d'OpenStreetMap).
+
+## Autres langues
+
+- [Nederlands](https://mapetanque.be/nl/)
+- [Deutsch](https://mapetanque.be/de/)
+- [English](https://mapetanque.be/en/)
+
+## Optional
+
+- [À propos](https://mapetanque.be/a-propos.html): Pourquoi Mapetanque.be existe, sur quelles données libres le site s'appuie (OpenStreetMap, Mapillary), ce qu'il fait de vos données, et comment me contacter.
