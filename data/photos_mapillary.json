@@ -4654,10 +4654,6 @@
   ],
   "way/814278381": [
     {
-      "mapillary_id": "21747499999998",
-      "credit_url": "https://www.mapillary.com/map/im/21747499999998"
-    },
-    {
       "mapillary_id": "798597321089078",
       "credit_url": "https://www.mapillary.com/map/im/798597321089078"
     }
@@ -5010,11 +5006,6 @@
     }
   ],
   "way/986266020": [
-    {
-      "mapillary_id": "831414665892530",
-      "credit_url": "https://www.mapillary.com/app/?pKey=831414665892530&focus=photo&x=0.5512030919096114&y=0.1662836802235939&zoom=0",
-      "miniature_locale": "/images/mapillary-360/831414665892530.webp"
-    },
     {
       "mapillary_id": "1545387496176933",
       "credit_url": "https://www.mapillary.com/app/?pKey=1545387496176933&focus=photo&x=0.6905908852303158&y=0.5201611952803628&zoom=0",
