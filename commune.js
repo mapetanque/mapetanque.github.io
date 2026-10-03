@@ -35,21 +35,23 @@
         return document.querySelector('.commune-terrain[data-osm="' + osmId + '"]');
     }
 
-    // Lien « Voir sur la carte » ajouté au pied de la fiche, à droite de « Signaler une erreur ».
-    // Après coup (setTimeout) : la fiche n'est déplacée dans sa fenêtre qu'une fois tous les
-    // écouteurs « popupopen » passés.
+    // Lien « Voir sur la carte », juste au-dessus du pied de la fiche : même bloc que « Voir les
+    // N terrains de … » sur la carte (.fiche-lien-bloc), qui n'apparaît pas ici puisqu'on est
+    // déjà sur la page de la commune. Après coup (setTimeout) : la fiche n'est déplacée dans sa
+    // fenêtre qu'une fois tous les écouteurs « popupopen » passés.
     function ajouterLienCarte(feature) {
         setTimeout(function () {
             var c = feature.geometry.coordinates;
             var racine = currentLang === 'fr' ? '/' : '/' + currentLang + '/';
             document.querySelectorAll('#mobile-sheet-content .fiche-pied, #desktop-modal-content .fiche-pied')
                 .forEach(function (pied) {
-                    if (pied.querySelector('.fiche-voir-carte')) return;
+                    if (pied.parentElement.querySelector('.fiche-lien-bloc')) return;
                     var lien = document.createElement('a');
-                    lien.className = 'fiche-voir-carte';
+                    lien.className = 'fiche-lien-bloc';
                     lien.href = racine + '?lat=' + c[1] + '&lon=' + c[0];
-                    lien.innerHTML = PICTO_CARTE + '<span>' + t('commune_voir_carte') + '</span>';
-                    pied.appendChild(lien);
+                    lien.innerHTML = PICTO_CARTE + '<span>' + t('commune_voir_carte') + '</span>'
+                        + '<span aria-hidden="true">→</span>';
+                    pied.before(lien);
                 });
         }, 0);
     }

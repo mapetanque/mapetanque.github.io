@@ -2852,11 +2852,21 @@ window.nomCommuneAffiche = function (nomBrut, langue) {
 // Les liens tiennent compte de la langue affichée : toutes les pages province et région
 // existent désormais dans les trois langues, alors qu'auparavant le lien renvoyait toujours
 // vers la version française.
+//
+// Le dernier niveau est la commune officielle (voir communeOfficielle ci-dessous), en lien vers
+// sa page quand elle en a une. Données pas encore arrivées, ou point hors de toute commune : la
+// localité de Nominatim (champ « commune »), en texte simple, comme auparavant.
 window.construireFilAriane = function (source) {
     const prefixe = currentLang === 'fr' ? '/' : '/' + currentLang + '/';
-    const commune = source.commune
-        ? ' › ' + window.nomCommuneAffiche(source.commune, currentLang)
-        : '';
+    const officielle = communeOfficielle(source);
+    let commune = '';
+    if (officielle) {
+        commune = ' › ' + (officielle.url
+            ? `<a href="${officielle.url}">${officielle.nom}</a>`
+            : officielle.nom);
+    } else if (source.commune) {
+        commune = ' › ' + window.nomCommuneAffiche(source.commune, currentLang);
+    }
 
     if (source.province) {
         const provinceSlug = source.province.replace(/_/g, '-');
@@ -2881,6 +2891,46 @@ window.construireFilAriane = function (source) {
 
     return "";
 };
+
+// Commune officielle des terrains et des clubs : data/communes_liens.json, écrit par
+// scripts/generer_communes.py avec le même rattachement que les pages commune. Téléchargé
+// d'emblée (environ 20 Ko compressé) : la fiche est construite d'un bloc à son ouverture, les
+// données doivent déjà être là.
+let communesLiens = null;
+fetch('/data/communes_liens.json')
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (donnees) { communesLiens = donnees; })
+    .catch(function () { /* fil d'Ariane sur la localité, comme avant */ });
+
+// {nom, terrains, url} de la commune d'un terrain (propriétés, avec osm_id) ou d'un club
+// (lat, lon), ou null. url : sa page, sauf si elle n'en a pas ou qu'on y est déjà.
+function communeOfficielle(source) {
+    if (!communesLiens) return null;
+    const slug = source.osm_id
+        ? communesLiens.terrains[source.osm_id]
+        : communesLiens.clubs[source.lat + ',' + source.lon];
+    const commune = slug && communesLiens.communes[slug];
+    if (!commune) return null;
+
+    const chemin = (currentLang === 'fr' ? '/' : '/' + currentLang + '/') + 'commune/' + slug + '.html';
+    const dejaSurLaPage = window.location.pathname.endsWith('/commune/' + slug + '.html');
+    return {
+        nom: commune.noms ? commune.noms[currentLang] : commune.nom,
+        terrains: commune.terrains,
+        url: commune.page && !dejaSurLaPage ? chemin : null
+    };
+}
+
+// Lien « Voir les 12 terrains de Fléron », au bas des fiches terrain et club, vers la page de
+// la commune. Rien si elle n'en a pas, ou si on y est déjà.
+function lienPageCommuneHtml(source) {
+    const commune = communeOfficielle(source);
+    if (!commune || !commune.url) return "";
+    const texte = t('fiche_terrains_commune')
+        .replace('{n}', commune.terrains)
+        .replace('{nom}', commune.nom);
+    return `<a href="${commune.url}" class="fiche-lien-bloc">${ICON_MAP_PIN}<span>${texte}</span><span aria-hidden="true">→</span></a>`;
+}
 
 
 // ===================== Contenu des popups de terrain =====================
@@ -3251,6 +3301,7 @@ function construireContenuPopupTerrain(feature, layer) {
     ${boutons}
     ${panneaux}
     <div class="fiche-criteres">${criteresHtml(tags)}</div>
+    ${lienPageCommuneHtml(tags)}
     ${signaler}
     </div>
     `;
@@ -3466,6 +3517,7 @@ function construireContenuPopupClub(club) {
             <span class="fiche-federation-lien">${t('federation_site')} ${PICTOS.lien_sortant}</span>
         </a>
     </div>
+    ${lienPageCommuneHtml(club)}
     <div class="fiche-pied">
         <a href="#" class="popup-report-btn" data-type="club" data-terrain-titre="${nom}" data-lat="${club.lat}" data-lon="${club.lon}">${ICON_FLAG}<span>${t('popup_report')}</span></a>
     </div>

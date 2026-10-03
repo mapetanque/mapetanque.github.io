@@ -76,15 +76,6 @@
 .commune-terrain-note { color: #555; font-size: 14px; }
 .commune-terrain-note .note-etoile { font-size: 15px; vertical-align: -1px; }
 
-/* Lien « Voir sur la carte » ajouté par /commune.js au pied de la fiche, à droite de
-   « Signaler une erreur » (gris) : plus visible que lui. */
-.fiche .fiche-pied a.fiche-voir-carte {
-    margin-left: 18px;
-    color: #3d7a2a;
-    font-weight: 600;
-}
-.fiche .fiche-pied a.fiche-voir-carte:hover { color: #74C15A; }
-
 .commune-pastilles { display: flex; flex-wrap: wrap; gap: 6px; }
 .commune-pastille {
     display: inline-flex;

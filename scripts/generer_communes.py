@@ -20,6 +20,10 @@ La page est construite sur le squelette de comment-jouer.html (voir _squelette.p
 bannière de la province. Une page dont la commune n'a plus assez de lieux est supprimée.
 À la fin, generer_referencement.py met à jour sitemap.xml, llms.txt et les données structurées.
 
+Écrit aussi data/communes_liens.json : la commune officielle de chaque terrain et de chaque club,
+avec son nom dans les quatre langues et l'existence de sa page. Les fiches (script.js) en tirent
+le fil d'Ariane et le lien « Voir les N terrains de … ».
+
 Relancé par le workflow hebdomadaire (update-osm.yml), après les critères d'environnement.
 
 Usage :
@@ -337,6 +341,30 @@ def html_fenetres_fiche(tr):
 
 # ----------------------------------------------------------------------------------------
 
+def ecrire_liens(communes, terrains_par_commune, clubs_par_commune, avec_page):
+    """data/communes_liens.json, lu par les fiches terrain et club (voir communeOfficielle dans
+    script.js) :
+        communes : {slug: {nom | noms {fr, nl, de, en}, terrains, page}}
+        terrains : {osm_id: slug}
+        clubs    : {"lat,lon": slug} (un club n'a pas d'identifiant ; même écriture qu'en JS)
+    Les noms suivent Communes.nom ; « noms » seulement s'ils diffèrent d'une langue à l'autre."""
+    liens = {"communes": {}, "terrains": {}, "clubs": {}}
+    for ins in sorted(set(terrains_par_commune) | set(clubs_par_commune)):
+        commune = communes.par_ins[ins]
+        noms = {langue: communes.nom(commune, langue) for langue, _ in LANGUES}
+        entree = {"nom": noms["fr"]} if len(set(noms.values())) == 1 else {"noms": noms}
+        entree["terrains"] = len(terrains_par_commune.get(ins, []))
+        if ins in avec_page:
+            entree["page"] = True
+        liens["communes"][commune["slug"]] = entree
+        for t in terrains_par_commune.get(ins, []):
+            liens["terrains"][t["osm_id"]] = commune["slug"]
+        for club in clubs_par_commune.get(ins, []):
+            liens["clubs"][f"{club['lat']},{club['lon']}"] = commune["slug"]
+    with open(DATA / "communes_liens.json", "w", encoding="utf-8") as f:
+        json.dump(liens, f, ensure_ascii=False, separators=(",", ":"))
+
+
 def main():
     communes = Communes()
     traductions = gp.charger_traductions_js(RACINE / "translations.js")
@@ -369,6 +397,7 @@ def main():
     centres = {c["ins"]: communes.centre(c) for c in communes.liste}
     print(f"{len(terrains_par_commune)} communes avec des terrains, {len(avec_page)} avec une page "
           f"(au moins {MIN_LIEUX} lieux)")
+    ecrire_liens(communes, terrains_par_commune, clubs_par_commune, avec_page)
 
     ecrites = set()
     tailles = []

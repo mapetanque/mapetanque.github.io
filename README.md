@@ -87,6 +87,7 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 - Pas de carte sur la page : un clic sur un terrain ouvre sa fiche complète sur place (`commune.js`), avec un lien « Voir sur la carte » ; le terrain s'ajoute à l'adresse (`#way-123`) pour le bouton retour et le partage. Les notes des joueurs s'affichent sur les cartes des terrains
 - Noms : nom local, comme sur le reste du site, sauf une courte liste de noms traduits d'usage courant (Anvers, Gand, Luik, Lüttich…, voir EXONYMES dans `scripts/communes_officielles.py`)
 - Génération via `scripts/generer_communes.py` (squelette de `comment-jouer.html`, voir `scripts/_squelette.py`), chaque semaine par le workflow OSM ; une commune passée sous deux lieux perd sa page
+- Liens depuis les fiches terrain et club : le fil d'Ariane se termine sur la commune officielle, en lien vers sa page, et un lien « Voir les N terrains de … » est ajouté au bas de la fiche ; `generer_communes.py` écrit pour cela `data/communes_liens.json` (commune de chaque terrain et club, noms dans les quatre langues, existence de la page)
 
 ## 🎨 Identité visuelle et confort d'usage
 
@@ -198,6 +199,7 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 │   ├── terrains.geojson              # Données des terrains (générées automatiquement)
 │   ├── stats_geo.json                # Agrégats région/province/commune
 │   ├── communes_belgique.json        # Limites des 565 communes officielles (OSM)
+│   ├── communes_liens.json           # Commune officielle de chaque terrain et club (fiches)
 │   ├── provinces.json                # Contenu (textes, crédits photo) des pages province
 │   └── regions.json                  # Contenu des pages région
 ├── LICENSE                           # Licence MIT
