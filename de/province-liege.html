@@ -43,6 +43,57 @@
     <link rel="stylesheet" href="/style-province.css">
     <link rel="stylesheet" href="/style-beaux-terrains.css">
     <link rel="stylesheet" href="/style-ombres.css">
+    <!-- Données structurées schema.org (Google, IA) : écrites par scripts/generer_referencement.py, ne pas modifier à la main. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "CollectionPage",
+          "@id": "https://mapetanque.be/de/province-liege.html#page",
+          "url": "https://mapetanque.be/de/province-liege.html",
+          "name": "Pétanque-Plätze in der Provinz Lüttich",
+          "description": "Öffentliche Pétanque-Plätze in der Provinz Lüttich: interaktive Karte, Liste nach Gemeinde, Suche nach Stadt auf Mapetanque.be.",
+          "inLanguage": "de",
+          "isPartOf": {
+            "@id": "https://mapetanque.be/#site"
+          },
+          "primaryImageOfPage": "https://mapetanque.be/images/provinces/banniere-liege.webp",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Startseite",
+                "item": "https://mapetanque.be/de/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Wallonien",
+                "item": "https://mapetanque.be/de/region-wallonie.html"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Lüttich",
+                "item": "https://mapetanque.be/de/province-liege.html"
+              }
+            ]
+          },
+          "about": {
+            "@type": "AdministrativeArea",
+            "name": "Lüttich",
+            "containedInPlace": {
+              "@type": "Country",
+              "name": "Belgien"
+            }
+          }
+        }
+      ]
+    }
+    </script>
 </head>
 
 <body>
@@ -276,10 +327,82 @@
     <div class="province-communes-section">
         <h2>Gemeinden der Provinz</h2>
         <input type="text" class="commune-search" id="communeSearch" placeholder="Gemeinde suchen…">
-        <div class="commune-list" id="communeList"></div>
+        <!-- Liste écrite par generate_provinces.py (lisible sans JavaScript, donc par les
+             moteurs de recherche et les IA) ; le script plus bas branche les clics sur la carte. -->
+        <div class="commune-list repliee" id="communeList">
+            <div class="commune-item" data-commune="Liège" data-terrains="25" data-recherche-clef="liège"><a href="#map"><span>Liège </span><span class="commune-count">(25 Plätze)</span></a></div>
+            <div class="commune-item" data-commune="Eupen" data-terrains="8" data-recherche-clef="eupen"><a href="#map"><span>Eupen </span><span class="commune-count">(8 Plätze)</span></a></div>
+            <div class="commune-item" data-commune="Soumagne" data-terrains="7" data-recherche-clef="soumagne"><a href="#map"><span>Soumagne </span><span class="commune-count">(7 Plätze)</span></a></div>
+            <div class="commune-item" data-commune="Haccourt" data-terrains="6" data-recherche-clef="haccourt"><a href="#map"><span>Haccourt </span><span class="commune-count">(6 Plätze)</span></a></div>
+            <div class="commune-item" data-commune="Theux" data-terrains="5" data-recherche-clef="theux"><a href="#map"><span>Theux </span><span class="commune-count">(5 Plätze)</span></a></div>
+            <div class="commune-item" data-commune="Crisnée" data-terrains="5" data-recherche-clef="crisnée"><a href="#map"><span>Crisnée </span><span class="commune-count">(5 Plätze)</span></a></div>
+            <div class="commune-item" data-commune="Blegny" data-terrains="4" data-recherche-clef="blegny"><a href="#map"><span>Blegny </span><span class="commune-count">(4 Plätze)</span></a></div>
+            <div class="commune-item" data-commune="Seraing" data-terrains="4" data-recherche-clef="seraing"><a href="#map"><span>Seraing </span><span class="commune-count">(4 Plätze)</span></a></div>
+            <div class="commune-item" data-commune="Aywaille" data-terrains="4" data-recherche-clef="aywaille"><a href="#map"><span>Aywaille </span><span class="commune-count">(4 Plätze)</span></a></div>
+            <div class="commune-item" data-commune="Fléron" data-terrains="3" data-recherche-clef="fléron"><a href="#map"><span>Fléron </span><span class="commune-count">(3 Plätze)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Malmedy" data-terrains="3" data-recherche-clef="malmedy"><a href="#map"><span>Malmedy </span><span class="commune-count">(3 Plätze)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Waremme" data-terrains="3" data-recherche-clef="waremme"><a href="#map"><span>Waremme </span><span class="commune-count">(3 Plätze)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Montzen" data-terrains="3" data-recherche-clef="montzen"><a href="#map"><span>Montzen </span><span class="commune-count">(3 Plätze)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Juprelle" data-terrains="3" data-recherche-clef="juprelle"><a href="#map"><span>Juprelle </span><span class="commune-count">(3 Plätze)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Flémalle" data-terrains="3" data-recherche-clef="flémalle"><a href="#map"><span>Flémalle </span><span class="commune-count">(3 Plätze)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Herve" data-terrains="3" data-recherche-clef="herve"><a href="#map"><span>Herve </span><span class="commune-count">(3 Plätze)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Verviers" data-terrains="2" data-recherche-clef="verviers"><a href="#map"><span>Verviers </span><span class="commune-count">(2 Plätze)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Visé" data-terrains="2" data-recherche-clef="visé"><a href="#map"><span>Visé </span><span class="commune-count">(2 Plätze)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Wanze" data-terrains="2" data-recherche-clef="wanze"><a href="#map"><span>Wanze </span><span class="commune-count">(2 Plätze)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Braives" data-terrains="2" data-recherche-clef="braives"><a href="#map"><span>Braives </span><span class="commune-count">(2 Plätze)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Stavelot" data-terrains="2" data-recherche-clef="stavelot"><a href="#map"><span>Stavelot </span><span class="commune-count">(2 Plätze)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Hannut" data-terrains="2" data-recherche-clef="hannut"><a href="#map"><span>Hannut </span><span class="commune-count">(2 Plätze)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Ferrières" data-terrains="2" data-recherche-clef="ferrières"><a href="#map"><span>Ferrières </span><span class="commune-count">(2 Plätze)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Herstal" data-terrains="2" data-recherche-clef="herstal"><a href="#map"><span>Herstal </span><span class="commune-count">(2 Plätze)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Huy" data-terrains="2" data-recherche-clef="huy"><a href="#map"><span>Huy </span><span class="commune-count">(2 Plätze)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Beyne-Heusay" data-terrains="2" data-recherche-clef="beyne-heusay"><a href="#map"><span>Beyne-Heusay </span><span class="commune-count">(2 Plätze)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Ougrée" data-terrains="1" data-recherche-clef="ougrée"><a href="#map"><span>Ougrée </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Filot" data-terrains="1" data-recherche-clef="filot"><a href="#map"><span>Filot </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Bütgenbach" data-terrains="1" data-recherche-clef="bütgenbach"><a href="#map"><span>Bütgenbach </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Bra" data-terrains="1" data-recherche-clef="bra"><a href="#map"><span>Bra </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Ouffet" data-terrains="1" data-recherche-clef="ouffet"><a href="#map"><span>Ouffet </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Pousset" data-terrains="1" data-recherche-clef="pousset"><a href="#map"><span>Pousset </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Fexhe-le-Haut-Clocher" data-terrains="1" data-recherche-clef="fexhe-le-haut-clocher"><a href="#map"><span>Fexhe-le-Haut-Clocher </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Ovifat" data-terrains="1" data-recherche-clef="ovifat"><a href="#map"><span>Ovifat </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Remonval" data-terrains="1" data-recherche-clef="remonval"><a href="#map"><span>Remonval </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Vaux-sous-Chèvremont" data-terrains="1" data-recherche-clef="vaux-sous-chèvremont"><a href="#map"><span>Vaux-sous-Chèvremont </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Hermée" data-terrains="1" data-recherche-clef="hermée"><a href="#map"><span>Hermée </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Warsage" data-terrains="1" data-recherche-clef="warsage"><a href="#map"><span>Warsage </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Dison" data-terrains="1" data-recherche-clef="dison"><a href="#map"><span>Dison </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Saint-Nicolas" data-terrains="1" data-recherche-clef="saint-nicolas"><a href="#map"><span>Saint-Nicolas </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Lontzen" data-terrains="1" data-recherche-clef="lontzen"><a href="#map"><span>Lontzen </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Vivegnis" data-terrains="1" data-recherche-clef="vivegnis"><a href="#map"><span>Vivegnis </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Houssonloge" data-terrains="1" data-recherche-clef="houssonloge"><a href="#map"><span>Houssonloge </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Büllingen" data-terrains="1" data-recherche-clef="büllingen"><a href="#map"><span>Büllingen </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Amel" data-terrains="1" data-recherche-clef="amel"><a href="#map"><span>Amel </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Houtain-Saint-Siméon" data-terrains="1" data-recherche-clef="houtain-saint-siméon"><a href="#map"><span>Houtain-Saint-Siméon </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Champagne" data-terrains="1" data-recherche-clef="champagne"><a href="#map"><span>Champagne </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Aubel" data-terrains="1" data-recherche-clef="aubel"><a href="#map"><span>Aubel </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Faymonville" data-terrains="1" data-recherche-clef="faymonville"><a href="#map"><span>Faymonville </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Clavier" data-terrains="1" data-recherche-clef="clavier"><a href="#map"><span>Clavier </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Verlaine" data-terrains="1" data-recherche-clef="verlaine"><a href="#map"><span>Verlaine </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Hombourg" data-terrains="1" data-recherche-clef="hombourg"><a href="#map"><span>Hombourg </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Eben-Emael" data-terrains="1" data-recherche-clef="eben-emael"><a href="#map"><span>Eben-Emael </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Lincent" data-terrains="1" data-recherche-clef="lincent"><a href="#map"><span>Lincent </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Terwagne" data-terrains="1" data-recherche-clef="terwagne"><a href="#map"><span>Terwagne </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Clermont" data-terrains="1" data-recherche-clef="clermont"><a href="#map"><span>Clermont </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Pellaines" data-terrains="1" data-recherche-clef="pellaines"><a href="#map"><span>Pellaines </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Nandrin" data-terrains="1" data-recherche-clef="nandrin"><a href="#map"><span>Nandrin </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Saint-Séverin" data-terrains="1" data-recherche-clef="saint-séverin"><a href="#map"><span>Saint-Séverin </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Kelmis - La Calamine" data-terrains="1" data-recherche-clef="kelmis - la calamine"><a href="#map"><span>La Calamine </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Soheit-Tinlot" data-terrains="1" data-recherche-clef="soheit-tinlot"><a href="#map"><span>Soheit-Tinlot </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Sippenaeken" data-terrains="1" data-recherche-clef="sippenaeken"><a href="#map"><span>Sippenaeken </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Sougné-Remouchamps" data-terrains="1" data-recherche-clef="sougné-remouchamps"><a href="#map"><span>Sougné-Remouchamps </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Pailhe" data-terrains="1" data-recherche-clef="pailhe"><a href="#map"><span>Pailhe </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Ampsin" data-terrains="1" data-recherche-clef="ampsin"><a href="#map"><span>Ampsin </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Raeren" data-terrains="1" data-recherche-clef="raeren"><a href="#map"><span>Raeren </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Omal" data-terrains="1" data-recherche-clef="omal"><a href="#map"><span>Omal </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Limont" data-terrains="1" data-recherche-clef="limont"><a href="#map"><span>Limont </span><span class="commune-count">(1 Platz)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="La Gleize" data-terrains="1" data-recherche-clef="la gleize"><a href="#map"><span>La Gleize </span><span class="commune-count">(1 Platz)</span></a></div>
+        </div>
         <p class="commune-no-result" id="communeNoResult">Keine Gemeinde gefunden.</p>
-        <button type="button" class="commune-voir-tout" id="communeVoirTout" hidden
-                data-voir="Alle {n} Gemeinden anzeigen" data-reduire="Liste einklappen"></button>
+        <button type="button" class="commune-voir-tout" id="communeVoirTout"
+                data-voir="Alle 69 Gemeinden anzeigen" data-reduire="Liste einklappen">Alle 69 Gemeinden anzeigen</button>
     </div>
 
     <div class="other-provinces-section">
@@ -368,6 +491,10 @@
         toastTimeout = setTimeout(function () { toast.classList.remove('visible'); }, 2800);
     }
 
+    // Marqueurs de chaque commune, remplis à l'arrivée des terrains : lus au clic sur une
+    // commune de la liste (plus bas).
+    const layersParCommune = {};
+
     // terrainsGeojson : téléchargement unique du fichier, lancé par script.js (pied de page)
     terrainsGeojson
         .then(function (data) {
@@ -390,7 +517,6 @@
             // regroupement est déjà désactivé — le marqueur est donc bien individualisé avant
             // l'appel à openPopup() juste après, sans changement nécessaire à cette logique.
             const groupe = L.markerClusterGroup({ disableClusteringAtZoom: 16, maxClusterRadius: rayonAmas() });
-            const layersParCommune = {};
 
             featuresProvince.forEach(function (feature) {
                 const coords = feature.geometry.coordinates; // [lon, lat]
@@ -422,115 +548,86 @@
                 return [f.geometry.coordinates[1], f.geometry.coordinates[0]];
             }));
             cadrerSurEmprise(bounds, { padding: [30, 30] });
-
-            // Liste des communes : construite depuis ce même jeu de données (garantit qu'elle
-            // correspond exactement à ce qui est affiché sur la carte), triée par nombre de
-            // terrains décroissant comme avant.
-            const conteneurListe = document.getElementById('communeList');
-            const nomsTries = Object.keys(layersParCommune).sort(function (a, b) {
-                return layersParCommune[b].length - layersParCommune[a].length;
-            });
-
-            // Référence conservée vers le <span> de comptage de chaque commune, pour pouvoir
-            // ajouter/retirer le nombre de clubs sans reconstruire toute la liste (voir
-            // mettreAJourComptagesCommunes plus bas, appelée au chargement de data/clubs.json et
-            // à chaque bascule de la couche clubs — voir clubsParCommune/ClubsToggleControl dans
-            // script.js, chargé sur cette page indépendamment de ce sous-ensemble de terrains).
-            const spansComptageParCommune = {};
-
-            // Construit le texte "x terrains" ou "x terrains, x clubs" (ce dernier uniquement si
-            // la couche clubs est actuellement affichée sur la carte) pour une commune donnée.
-            function texteComptageCommune(nom) {
-                const nbTerrains = layersParCommune[nom].length;
-                const uniteTerrain = nbTerrains > 1 ? 'Plätze' : 'Platz';
-                let texte = nbTerrains + ' ' + uniteTerrain;
-
-                // Clubs mentionnés seulement s'il y en a : « 0 club » sur la plupart des lignes
-                // n'apportait rien.
-                const clubsAffiches = typeof clubsLayer !== 'undefined' && map.hasLayer(clubsLayer);
-                const nbClubs = (window.clubsParCommune && window.clubsParCommune[nom]) || 0;
-                if (clubsAffiches && nbClubs > 0) {
-                    const uniteClub = nbClubs > 1 ? 'Vereine' : 'Verein';
-                    texte += ', ' + nbClubs + ' ' + uniteClub;
-                }
-
-                return texte;
-            }
-
-            function mettreAJourComptagesCommunes() {
-                Object.keys(spansComptageParCommune).forEach(function (nom) {
-                    spansComptageParCommune[nom].textContent = '(' + texteComptageCommune(nom) + ')';
-                });
-            }
-
-            // Les NB_COMMUNES_VISIBLES premières communes seulement, puis un bouton « Voir les N
-            // communes » / « Réduire la liste » (voir afficherListeCommunes plus bas) : la liste
-            // complète faisait plus de 2 000 px de haut sur mobile pour les grandes provinces.
-            const NB_COMMUNES_VISIBLES = 10;
-            if (nomsTries.length > NB_COMMUNES_VISIBLES) {
-                listeLongue = true;
-                boutonCommunes.dataset.voir = boutonCommunes.dataset.voir.replace('{n}', nomsTries.length);
-                afficherListeCommunes(false);
-            }
-
-            nomsTries.forEach(function (nom, index) {
-                const item = document.createElement('div');
-                item.className = 'commune-item';
-                if (index >= NB_COMMUNES_VISIBLES) item.classList.add('commune-repliee');
-                item.dataset.rechercheClef = nom.toLowerCase();
-
-                const link = document.createElement('a');
-                link.href = '#';
-                const nomAffiche = window.nomCommuneAffiche(nom, 'de');
-
-                const spanNom = document.createElement('span');
-                spanNom.textContent = nomAffiche + ' ';
-
-                const spanCount = document.createElement('span');
-                spanCount.className = 'commune-count';
-                spanCount.textContent = '(' + texteComptageCommune(nom) + ')';
-                spansComptageParCommune[nom] = spanCount;
-
-                link.appendChild(spanNom);
-                link.appendChild(spanCount);
-                link.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const layersCommune = layersParCommune[nom];
-                    const boundsCommune = L.latLngBounds(layersCommune.map(function (l) { return l.getLatLng(); }));
-                    map.fitBounds(boundsCommune, { padding: [40, 40], maxZoom: 16 });
-                    if (layersCommune.length === 1) {
-                        layersCommune[0].openPopup();
-                    }
-                    document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' });
-                });
-
-                item.appendChild(link);
-                conteneurListe.appendChild(item);
-            });
-
-            // Réagit à l'arrivée de data/clubs.json (peut résoudre avant ou après ce fetch-ci) et
-            // à chaque coche/décoche de "Afficher les clubs" (voir script.js) pour compléter ou
-            // retirer le comptage de clubs de chaque commune, sans recharger ni reconstruire la liste.
-            window.addEventListener('clubsChargees', mettreAJourComptagesCommunes);
-            window.addEventListener('clubsAffichageChange', mettreAJourComptagesCommunes);
         })
         .catch(function () {
             afficherToast('Die Plätze können derzeit nicht geladen werden');
         });
 
-    // Liste repliée (10 premières communes) ou complète : le bouton bascule entre les deux.
-    // Pendant une recherche, toutes les communes correspondantes s'affichent et le bouton
-    // disparaît ; le champ vidé, la liste reprend l'état choisi avec le bouton.
+    // Liste des communes : écrite dans la page par generate_provinces.py, à partir du même
+    // fichier terrains.geojson que la carte, triée par nombre de terrains décroissant. Ici, on
+    // ne fait que la rendre interactive : clic vers la carte, recherche, repli, clubs.
     const listeCommunes = document.getElementById('communeList');
     const boutonCommunes = document.getElementById('communeVoirTout');
-    let listeLongue = false;   // plus de 10 communes : sinon, ni repli ni bouton
+
+    // Référence conservée vers le <span> de comptage de chaque commune, pour pouvoir
+    // ajouter/retirer le nombre de clubs (voir mettreAJourComptagesCommunes plus bas, appelée au
+    // chargement de data/clubs.json et à chaque bascule de la couche clubs — voir
+    // clubsParCommune/ClubsToggleControl dans script.js).
+    const spansComptageParCommune = {};
+    const nbTerrainsParCommune = {};
+
+    // Construit le texte "x terrains" ou "x terrains, x clubs" (ce dernier uniquement si la
+    // couche clubs est actuellement affichée sur la carte) pour une commune donnée.
+    function texteComptageCommune(nom) {
+        const nbTerrains = nbTerrainsParCommune[nom];
+        const uniteTerrain = nbTerrains > 1 ? 'Plätze' : 'Platz';
+        let texte = nbTerrains + ' ' + uniteTerrain;
+
+        // Clubs mentionnés seulement s'il y en a : « 0 club » sur la plupart des lignes
+        // n'apportait rien.
+        const clubsAffiches = typeof clubsLayer !== 'undefined' && map.hasLayer(clubsLayer);
+        const nbClubs = (window.clubsParCommune && window.clubsParCommune[nom]) || 0;
+        if (clubsAffiches && nbClubs > 0) {
+            const uniteClub = nbClubs > 1 ? 'Vereine' : 'Verein';
+            texte += ', ' + nbClubs + ' ' + uniteClub;
+        }
+
+        return texte;
+    }
+
+    function mettreAJourComptagesCommunes() {
+        Object.keys(spansComptageParCommune).forEach(function (nom) {
+            spansComptageParCommune[nom].textContent = '(' + texteComptageCommune(nom) + ')';
+        });
+    }
+
+    listeCommunes.querySelectorAll('.commune-item').forEach(function (item) {
+        const nom = item.dataset.commune;
+        spansComptageParCommune[nom] = item.querySelector('.commune-count');
+        nbTerrainsParCommune[nom] = Number(item.dataset.terrains);
+
+        item.querySelector('a').addEventListener('click', function (e) {
+            e.preventDefault();
+            const layersCommune = layersParCommune[nom];
+            // Terrains pas encore arrivés (ou commune absente des données chargées) : on se
+            // contente de descendre jusqu'à la carte.
+            if (layersCommune) {
+                const boundsCommune = L.latLngBounds(layersCommune.map(function (l) { return l.getLatLng(); }));
+                map.fitBounds(boundsCommune, { padding: [40, 40], maxZoom: 16 });
+                if (layersCommune.length === 1) {
+                    layersCommune[0].openPopup();
+                }
+            }
+            document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+    });
+
+    // Réagit à l'arrivée de data/clubs.json et à chaque coche/décoche de "Afficher les clubs"
+    // (voir script.js) pour compléter ou retirer le comptage de clubs de chaque commune.
+    window.addEventListener('clubsChargees', mettreAJourComptagesCommunes);
+    window.addEventListener('clubsAffichageChange', mettreAJourComptagesCommunes);
+
+    // Liste repliée (10 premières communes) ou complète : le bouton bascule entre les deux.
+    // La page arrive repliée (classe "repliee" et bouton visible, écrits par le générateur).
+    // Pendant une recherche, toutes les communes correspondantes s'affichent et le bouton
+    // disparaît ; le champ vidé, la liste reprend l'état choisi avec le bouton.
+    const listeLongue = !boutonCommunes.hidden;   // plus de 10 communes : sinon, ni repli ni bouton
     let listeDepliee = false;
 
     function afficherListeCommunes(depliee) {
         listeDepliee = depliee;
         listeCommunes.classList.toggle('repliee', !depliee);
         boutonCommunes.textContent = depliee ? boutonCommunes.dataset.reduire : boutonCommunes.dataset.voir;
-        boutonCommunes.hidden = false;
     }
 
     boutonCommunes.addEventListener('click', function () {

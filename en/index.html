@@ -47,6 +47,84 @@
          n'est modifiée par ce fichier. -->
     <link rel="stylesheet" href="/style-beaux-terrains.css">
     <link rel="stylesheet" href="/style-ombres.css">
+    <!-- Données structurées schema.org (Google, IA) : écrites par scripts/generer_referencement.py, ne pas modifier à la main. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://mapetanque.be/en/#page",
+          "url": "https://mapetanque.be/en/",
+          "name": "Map of pétanque courts in Belgium",
+          "description": "Interactive map of publicly accessible pétanque courts in Belgium: search by town, geolocation and lists by region on Mapetanque.be.",
+          "inLanguage": "en",
+          "isPartOf": {
+            "@id": "https://mapetanque.be/#site"
+          },
+          "primaryImageOfPage": "https://mapetanque.be/images/mapetanque-partage.png?v=2",
+          "about": {
+            "@id": "https://mapetanque.be/en/#donnees"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://mapetanque.be/#site",
+          "url": "https://mapetanque.be/",
+          "name": "Mapetanque",
+          "alternateName": "Mapetanque.be",
+          "description": "Interactive map of publicly accessible pétanque courts in Belgium: search by town, geolocation and lists by region on Mapetanque.be.",
+          "inLanguage": [
+            "fr",
+            "nl",
+            "de",
+            "en"
+          ],
+          "publisher": {
+            "@id": "https://mapetanque.be/#mapetanque"
+          }
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://mapetanque.be/#mapetanque",
+          "name": "Mapetanque",
+          "url": "https://mapetanque.be/",
+          "logo": "https://mapetanque.be/images/icone-512.png",
+          "email": "mapetanque@outlook.be",
+          "sameAs": [
+            "https://github.com/mapetanque/mapetanque.github.io"
+          ]
+        },
+        {
+          "@type": "Dataset",
+          "name": "Public pétanque courts in Belgium",
+          "description": "Locations of publicly accessible pétanque courts in Belgium (Wallonia, Flanders and Brussels), taken from OpenStreetMap and updated every week.",
+          "url": "https://mapetanque.be/en/",
+          "inLanguage": "en",
+          "isAccessibleForFree": true,
+          "license": "https://opendatacommons.org/licenses/odbl/1-0/",
+          "creator": {
+            "@type": "Organization",
+            "name": "OpenStreetMap",
+            "url": "https://www.openstreetmap.org/copyright"
+          },
+          "publisher": {
+            "@id": "https://mapetanque.be/#mapetanque"
+          },
+          "spatialCoverage": {
+            "@type": "Country",
+            "name": "Belgium"
+          },
+          "distribution": {
+            "@type": "DataDownload",
+            "encodingFormat": "application/geo+json",
+            "contentUrl": "https://mapetanque.be/data/terrains.geojson"
+          },
+          "@id": "https://mapetanque.be/en/#donnees"
+        }
+      ]
+    }
+    </script>
 </head>
 
 <body>

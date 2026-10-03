@@ -41,8 +41,9 @@ jobs:
           python scripts/update_terrains.py
 
       # Pages province et région régénérées avec les chiffres du jour (tuiles, intros, liste des
-      # provinces) : sans cette étape, elles ne suivaient les données que lorsque le générateur
-      # était relancé à la main. Aucun appel réseau, même résultat pour les mêmes données.
+      # communes), suivies des données structurées, de sitemap.xml et de llms.txt
+      # (generer_referencement.py) : sans cette étape, elles ne suivaient les données que lorsque
+      # le générateur était relancé à la main. Aucun appel réseau, même résultat pour les mêmes données.
       # continue-on-error : si une commune citée dans une intro ({{NB:…}}) disparaît des données,
       # le générateur s'arrête ; les pages restent alors celles de la semaine précédente, et la
       # mise à jour OSM est sauvegardée quand même.
@@ -99,7 +100,10 @@ jobs:
           # vide : []) : git add échoue sur un chemin inexistant, et ferait échouer tout ce commit.
           # Même chose pour data/environnement.json (vide : {}).
           git add data/terrains.geojson data/environnement.json data/stats_geo.json data/terrains_promus.json data/candidats_photos.json data/terrains_apparition.json data/groupes_terrains.json
-          git add province-*.html region-*.html nl/province-*.html nl/region-*.html de/province-*.html de/region-*.html en/province-*.html en/region-*.html sitemap.xml
+          # Toutes les pages : generer_referencement.py peut aussi mettre à jour les données
+          # structurées d'une page retouchée à la main (index.html, compteur.html…). Aucune autre
+          # étape n'écrit de page ; une page laissée de côté bloquerait le git pull ci-dessous.
+          git add -- '*.html' sitemap.xml llms.txt data/sitemap_dates.json
 
           git commit -m "Mise à jour quotidienne OSM" || exit 0
 

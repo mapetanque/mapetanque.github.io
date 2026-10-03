@@ -15,6 +15,8 @@ import html
 import re
 from pathlib import Path
 
+from generer_referencement import retirer_bloc
+
 BASE = "https://mapetanque.be"
 
 LANGUES = (("fr", ""), ("nl", "nl/"), ("de", "de/"), ("en", "en/"))
@@ -68,7 +70,9 @@ def construire_page(
     squelette = Path(squelette)
     if not squelette.exists():
         raise SystemExit(f"Squelette introuvable : {squelette}")
-    src = squelette.read_text(encoding="utf-8")
+    # Les données structurées du squelette décrivent comment-jouer.html, pas la page produite :
+    # generer_referencement.py écrit ensuite celles de la nouvelle page.
+    src = retirer_bloc(squelette.read_text(encoding="utf-8"))
 
     url = f"{BASE}/{prefixe}{page}"
 

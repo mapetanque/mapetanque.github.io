@@ -42,6 +42,54 @@
     <link rel="stylesheet" href="/style-comment-jouer.css">
     <link rel="stylesheet" href="/style-a-propos.css">
     <link rel="stylesheet" href="/style-ombres.css">
+    <!-- Données structurées schema.org (Google, IA) : écrites par scripts/generer_referencement.py, ne pas modifier à la main. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "AboutPage",
+          "@id": "https://mapetanque.be/a-propos.html#page",
+          "url": "https://mapetanque.be/a-propos.html",
+          "name": "À propos",
+          "description": "Pourquoi Mapetanque.be existe, sur quelles données libres le site s'appuie (OpenStreetMap, Mapillary), ce qu'il fait de vos données, et comment me contacter.",
+          "inLanguage": "fr",
+          "isPartOf": {
+            "@id": "https://mapetanque.be/#site"
+          },
+          "primaryImageOfPage": "https://mapetanque.be/images/banniere-a-propos.webp",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Accueil",
+                "item": "https://mapetanque.be/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "À propos",
+                "item": "https://mapetanque.be/a-propos.html"
+              }
+            ]
+          },
+          "about": {
+            "@type": "Organization",
+            "@id": "https://mapetanque.be/#mapetanque",
+            "name": "Mapetanque",
+            "url": "https://mapetanque.be/",
+            "logo": "https://mapetanque.be/images/icone-512.png",
+            "email": "mapetanque@outlook.be",
+            "sameAs": [
+              "https://github.com/mapetanque/mapetanque.github.io"
+            ]
+          }
+        }
+      ]
+    }
+    </script>
 </head>
 
 <body>

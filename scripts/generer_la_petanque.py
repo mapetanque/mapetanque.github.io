@@ -21,6 +21,7 @@ import re
 from pathlib import Path
 
 from _squelette import construire_page, echap
+import generer_referencement
 
 RACINE = Path(__file__).resolve().parent.parent
 
@@ -589,3 +590,6 @@ for langue, meta in META.items():
         f"{meta['prefixe']}la-petanque.html : {taille} octets, "
         f"{len(CONTENU[langue]['jalons'])} jalons"
     )
+
+# Données structurées de la page, sitemap.xml et llms.txt
+generer_referencement.main()

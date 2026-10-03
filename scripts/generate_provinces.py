@@ -7,6 +7,8 @@ Lit :
   - data/provinces.json                (contenu propre à chaque province, avec traductions
                                          optionnelles sous province["translations"]["nl"/"de"/"en"])
   - data/stats_geo.json                (mêmes données que le site : terrains/communes)
+  - data/terrains.geojson              (liste des communes de chaque page, dans le même ordre
+                                         que la carte)
   - translations.js                    (SOURCE UNIQUE des noms de provinces/régions et des
                                          textes d'interface des pages province — mêmes clés
                                          que celles utilisées par le reste du site, lues
@@ -18,6 +20,9 @@ Lit :
   - nl/province-<slug>.html            (néerlandais, si traduction dispo)
   - de/province-<slug>.html            (allemand, si traduction dispo)
   - en/province-<slug>.html            (anglais, si traduction dispo)
+  - les pages région, de la même façon (region-<slug>.html)
+
+Puis lance generer_referencement.py (données structurées, sitemap.xml, llms.txt).
 
 Une langue "pas encore prête" pour une province (pas d'entrée dans translations.nl/de/en) est
 ignorée avec un message clair, plutôt que de générer une page à moitié traduite. Le sélecteur
@@ -28,9 +33,12 @@ Usage :
     python3 generate_provinces.py
 """
 
+import html
 import json
 import re
 from pathlib import Path
+
+import generer_referencement
 
 BASE_DIR = Path(__file__).resolve().parent.parent  # racine du repo (le script vit dans scripts/)
 TEMPLATE_PATH = BASE_DIR / "templates" / "province_template.html"
@@ -38,12 +46,9 @@ REGION_TEMPLATE_PATH = BASE_DIR / "templates" / "region_template.html"
 PROVINCES_PATH = BASE_DIR / "data" / "provinces.json"
 REGIONS_PATH = BASE_DIR / "data" / "regions.json"
 STATS_GEO_PATH = BASE_DIR / "data" / "stats_geo.json"
+TERRAINS_PATH = BASE_DIR / "data" / "terrains.geojson"
 TRANSLATIONS_JS_PATH = BASE_DIR / "translations.js"
 OUTPUT_DIR = BASE_DIR  # écrit directement à la racine du repo, comme index.html
-
-SITEMAP_PATH = BASE_DIR / "sitemap.xml"
-MARQUEUR_DEBUT = "<!-- DEBUT PAGES PROVINCES"
-MARQUEUR_FIN = "<!-- FIN PAGES PROVINCES -->"
 
 LANGUES = ["fr", "nl", "de", "en"]
 
@@ -117,6 +122,65 @@ def remplacer_nombres(texte, comptages, contexte):
 def chaine_js(texte):
     """Texte inséré entre apostrophes dans un script de la page."""
     return texte.replace("\\", "\\\\").replace("'", "\\'")
+
+
+# Au-delà, la liste des communes arrive repliée, avec un bouton « Voir les N communes » : la
+# liste complète faisait plus de 2 000 px de haut sur mobile pour les grandes provinces.
+NB_COMMUNES_VISIBLES = 10
+
+
+def nom_commune_affiche(nom_brut, langue):
+    """Même règle que window.nomCommuneAffiche (script.js) : « Bruxelles - Brussel » s'affiche
+    en français en FR et EN, en néerlandais en NL et DE."""
+    parties = nom_brut.split(" - ")
+    if len(parties) != 2:
+        return nom_brut
+    return parties[0] if langue in ("fr", "en") else parties[1]
+
+
+def compter_terrains_par_commune(terrains, stats_key):
+    """Nombre de terrains de chaque commune d'une province (ou de Bruxelles), triées par nombre
+    décroissant puis par ordre d'apparition dans terrains.geojson : exactement l'ordre de la
+    liste qu'affichait le script de la page quand il la construisait lui-même."""
+    comptes = {}
+    for feature in terrains["features"]:
+        props = feature["properties"]
+        # Même filtre que appartientALaProvince() dans le gabarit (Bruxelles : pas de province)
+        if (props.get("province") or props.get("region")) != stats_key:
+            continue
+        commune = props.get("commune")
+        if commune:
+            comptes[commune] = comptes.get(commune, 0) + 1
+    return sorted(comptes.items(), key=lambda t: -t[1])  # tri stable : ordre d'apparition gardé
+
+
+def construire_liste_communes(comptes, langue, tr):
+    """Jetons de la liste des communes : écrite dans la page plutôt que par le script, pour
+    qu'elle soit lisible par les moteurs de recherche et les IA, qui n'exécutent pas toujours
+    le JavaScript. Le script de la page n'y ajoute que le comportement (clic, recherche,
+    repli, nombre de clubs)."""
+    lignes = []
+    for index, (nom, nb) in enumerate(comptes):
+        classes = "commune-item"
+        if index >= NB_COMMUNES_VISIBLES:
+            classes += " commune-repliee"
+        unite = tr["stats_terrains_unit"] if nb > 1 else tr["province_terrain_singulier"]
+        lignes.append(
+            f'            <div class="{classes}" data-commune="{html.escape(nom)}" '
+            f'data-terrains="{nb}" data-recherche-clef="{html.escape(nom.lower())}">'
+            f'<a href="#map"><span>{html.escape(nom_commune_affiche(nom, langue))} </span>'
+            f'<span class="commune-count">({nb} {unite})</span></a></div>'
+        )
+
+    longue = len(comptes) > NB_COMMUNES_VISIBLES
+    voir = tr["province_voir_toutes_communes"].replace("{n}", str(len(comptes)))
+    return {
+        "{{COMMUNES_LISTE}}": "\n".join(lignes),
+        "{{COMMUNES_CLASSES}}": "commune-list repliee" if longue else "commune-list",
+        "{{COMMUNES_BOUTON_HIDDEN}}": "" if longue else " hidden",
+        "{{COMMUNES_BOUTON_TEXTE}}": voir if longue else "",
+        "{{UI_VOIR_TOUTES_COMMUNES}}": voir,
+    }
 
 
 def credit_banniere(credit_html, langue):
@@ -312,7 +376,7 @@ def construire_hreflang_links(slug, langues_disponibles, fonction_url=url_page):
 
 
 def generer_page(cle, config, langue, langues_disponibles, other_provinces_block, template,
-                  stats_geo, traductions):
+                  stats_geo, terrains, traductions):
     tr = traductions[langue]
 
     communes, total_terrains = recuperer_communes(
@@ -394,7 +458,6 @@ def generer_page(cle, config, langue, langues_disponibles, other_provinces_block
         "{{UI_CLUB_PLURIEL}}": tr["province_clubs_pluriel"],
         "{{UI_META_DESCRIPTION}}": tr["province_meta_description"].format(nom=nom_province),
         "{{OTHER_PROVINCES_BLOCK}}": other_provinces_block,
-        "{{UI_VOIR_TOUTES_COMMUNES}}": tr["province_voir_toutes_communes"],
         "{{UI_REDUIRE_COMMUNES}}": tr["province_reduire_communes"],
         "{{UI_RECHERCHER}}": tr["signalement_search_btn"],
         "{{UI_FERMER}}": tr["close_panel"],
@@ -405,6 +468,10 @@ def generer_page(cle, config, langue, langues_disponibles, other_provinces_block
         ),
         "{{UI_ERREUR_CHARGEMENT}}": chaine_js(tr["carte_erreur_chargement"]),
     }
+    remplacements.update(construire_liste_communes(
+        compter_terrains_par_commune(terrains, config["stats_geo_province"] or config["stats_geo_region"]),
+        langue, tr,
+    ))
 
     page = template
     for jeton, valeur in remplacements.items():
@@ -499,69 +566,18 @@ def generer_page_region(cle, config, langue, langues_disponibles, template, stat
           f"({total_terrains} terrains, {nb_provinces} provinces, {nb_communes} communes, {densite}/100km²)")
 
 
-def construire_bloc_sitemap_url(url_absolue, langues_disponibles, url_par_langue):
-    """Un <url> de sitemap avec ses <xhtml:link> alternate pour les langues réellement
-    disponibles pour cette page (jamais de lien vers une page qui n'existe pas)."""
-    lignes = [
-        "    <url>",
-        f"        <loc>{url_absolue}</loc>",
-        "        <changefreq>weekly</changefreq>",
-        "        <priority>0.7</priority>",
-    ]
-    for langue in langues_disponibles:
-        lignes.append(
-            f'        <xhtml:link rel="alternate" hreflang="{langue}" href="{url_par_langue[langue]}" />'
-        )
-    if langues_disponibles:
-        lignes.append(
-            f'        <xhtml:link rel="alternate" hreflang="x-default" href="{url_par_langue["fr"]}" />'
-        )
-    lignes.append("    </url>")
-    return "\n".join(lignes)
-
-
-def mettre_a_jour_sitemap(pages_generees):
-    """pages_generees : liste de (slug, langues_disponibles, fonction_url). Remplace uniquement
-    la section entre les marqueurs DEBUT/FIN PAGES PROVINCES, laisse tout le reste du fichier
-    (page d'accueil FR/NL/DE/EN, etc.) strictement intact. Contient aussi bien les pages province
-    que les pages région, malgré le nom des marqueurs conservé tel quel pour ne pas avoir à
-    retoucher sitemap.xml une nouvelle fois."""
-    if not SITEMAP_PATH.exists():
-        print("  [attention] sitemap.xml introuvable, section provinces non mise à jour.")
-        return
-
-    contenu = SITEMAP_PATH.read_text(encoding="utf-8")
-    debut = contenu.find(MARQUEUR_DEBUT)
-    fin = contenu.find(MARQUEUR_FIN)
-    if debut == -1 or fin == -1:
-        print("  [attention] Marqueurs PAGES PROVINCES introuvables dans sitemap.xml, "
-              "section provinces non mise à jour.")
-        return
-    fin_marqueur_debut = contenu.find("-->", debut) + len("-->")
-
-    blocs = []
-    for slug, langues_disponibles, fonction_url in pages_generees:
-        url_par_langue = {l: f"https://mapetanque.be{fonction_url(slug, l)}" for l in langues_disponibles}
-        blocs.append(construire_bloc_sitemap_url(url_par_langue["fr"], langues_disponibles, url_par_langue))
-
-    nouvelle_section = "\n" + "\n".join(blocs) + "\n"
-    nouveau_contenu = contenu[:fin_marqueur_debut] + nouvelle_section + contenu[fin:]
-    SITEMAP_PATH.write_text(nouveau_contenu, encoding="utf-8")
-    print(f"\nsitemap.xml mis à jour ({len(blocs)} page(s) province/région).")
-
-
 def main():
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     region_template = REGION_TEMPLATE_PATH.read_text(encoding="utf-8")
     provinces = charger_json(PROVINCES_PATH)
     regions = charger_json(REGIONS_PATH)
     stats_geo = charger_json(STATS_GEO_PATH)
+    terrains = charger_json(TERRAINS_PATH)
     traductions = charger_traductions_js(TRANSLATIONS_JS_PATH)
 
     print("Génération des pages provinces (FR + NL + DE + EN)...\n")
 
     generees, ignorees = 0, 0
-    pages_generees = []  # [(slug, [langues_disponibles], fonction_url), ...] pour le sitemap
 
     for cle, config in provinces.items():
         if cle.startswith("_"):
@@ -586,14 +602,12 @@ def main():
                 cle, config, provinces, regions, stats_geo, langue, traductions
             )
             generer_page(cle, config, langue, langues_disponibles, bloc_rebond,
-                         template, stats_geo, traductions)
+                         template, stats_geo, terrains, traductions)
             generees += 1
 
         langues_manquantes = [l for l in LANGUES if l not in langues_disponibles]
         if langues_manquantes:
             print(f"            (pas encore traduit en : {', '.join(langues_manquantes)})")
-
-        pages_generees.append((config["slug"], langues_disponibles, url_page))
 
     print(f"\n{generees} page(s) province générée(s), {ignorees} ignorée(s) (français incomplet).")
 
@@ -627,15 +641,15 @@ def main():
         if langues_manquantes:
             print(f"            (pas encore traduit en : {', '.join(langues_manquantes)})")
 
-        pages_generees.append((config["slug"], langues_disponibles, url_page_region))
-
     print(f"\n{generees_regions} page(s) région générée(s), {ignorees_regions} ignorée(s) (français incomplet).")
 
     for chemin, contenu in FICHIERS_A_ECRIRE:
         chemin.parent.mkdir(parents=True, exist_ok=True)
         chemin.write_text(contenu, encoding="utf-8")
 
-    mettre_a_jour_sitemap(pages_generees)
+    # Données structurées, sitemap.xml et llms.txt, qui suivent les pages qu'on vient d'écrire
+    print()
+    generer_referencement.main()
 
 
 if __name__ == "__main__":
