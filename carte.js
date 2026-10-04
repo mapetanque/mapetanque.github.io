@@ -12,7 +12,10 @@
 // fiche, réordonnée) : voir ouvrirFicheSurPlace dans script.js.
 //
 // Arrivée sur la page, selon l'adresse :
-//   ?commune=<slug>[&localite=<nom>] : carte cadrée sur les terrains de la commune (du village) ;
+//   ?commune=<slug>[&localite=<nom>] : carte cadrée sur les terrains de la commune (du village),
+//                                      avec la fiche ouverte quand il n'y a qu'un lieu ;
+//   ?province=<clé>, ?region=<clé>     : carte cadrée sur les terrains de la province, de la
+//                                      région (bouton « Voir sur la carte » de leurs pages) ;
 //   ?q=<texte>                       : recherche d'adresse, comme Entrée dans la barre ;
 //   ?moi=1                           : « Me localiser » ;
 //   ?lat=…&lon=… (terrain), ?club=1&lat=…&lon=… (club) : déjà traités par script.js.
@@ -251,10 +254,22 @@
         if (champ) champ.value = nom;
         if (lieux.length) {
             cadrerSurLieux(lieux);
+            // Un seul lieu (commune sans page) : sa fiche, comme l'ouvrait la page province
+            if (lieux.length === 1) ouvrirFicheSurPlace(lieux[0].o, lieux[0].lat, lieux[0].lon);
         } else {
             // Commune sans terrain : la carte autour d'elle, avec la flèche vers le plus proche
             montrerLieuRecherche(c.lat, c.lon, nom, [[c.lat - 0.04, c.lon - 0.06], [c.lat + 0.04, c.lon + 0.06]]);
         }
+    }
+
+    // Province (Bruxelles compte comme telle, clé « bruxelles ») ou région : ses communes, puis
+    // leurs lieux. Le champ de recherche reste vide : ce n'est pas une recherche.
+    function arriveeZone(cle, champCommune) {
+        var lieux = [];
+        Object.keys(index.communes).forEach(function (slug) {
+            if (index.communes[slug][champCommune] === cle) lieux = lieux.concat(index.lieuxParCommune[slug] || []);
+        });
+        if (lieux.length) cadrerSurLieux(lieux);
     }
 
     var chargement = Promise.all([
@@ -268,6 +283,10 @@
         index = resultats[0];
         if (parametres.get('commune')) {
             arriveeCommune(parametres.get('commune'), parametres.get('localite'));
+        } else if (parametres.get('province')) {
+            arriveeZone(parametres.get('province'), 'p');
+        } else if (parametres.get('region')) {
+            arriveeZone(parametres.get('region'), 'r');
         }
         rafraichir();
     }).catch(function () {

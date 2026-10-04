@@ -92,7 +92,7 @@
 
 <body>
 
-<div class="map-view" id="top">
+<div id="top">
 
 <div class="hero-banner" style="background-image: url('/images/provinces/banniere-bruxelles.webp');">
 
@@ -220,19 +220,11 @@
 </div>
 
 
-<!-- Deux bandes pleine largeur, sur le modèle de l'accueil. Bande grise : carte et carrousel
-     (pages région et Bruxelles). Elle reste dans .map-view, nécessaire pour que le mode plein
-     écran fonctionne sur #map. -->
+</div><!-- /#top -->
+
+<!-- Bande grise du carrousel « Les plus beaux terrains » (Bruxelles seulement, voir
+     construire_bloc_beaux_terrains dans generate_provinces.py). -->
 <div class="province-bande-carte">
-
-    <div class="province-map-inline-wrapper" style="position: relative;">
-        <!-- Cadre positionné : repère du toast, posé en bas de la carte. -->
-        <div class="province-map-cadre">
-            <div id="map"></div>
-            <div class="map-toast" id="mapToast"></div>
-        </div>
-    </div>
-
     <!-- Section "Les plus beaux terrains" : cette page province tient lieu de page région
          pour Bruxelles. Remplie par /beaux-terrains.js à partir de /data/beaux_terrains.json,
          restreinte à la région via data-region. Se masque d'elle-même si aucun terrain n'y
@@ -244,11 +236,8 @@
             <div class="beaux-terrains-scroller"></div>
         </div>
     </section>
-
-
 </div>
 
-</div><!-- /.map-view -->
 
 <!-- Bande blanche : texte, liste des communes et rebond, comme « Parcourir par région /
      province » sur l'accueil. -->
@@ -258,28 +247,33 @@
         Brussels has <strong>121 pétanque courts</strong> listed on Mapetanque.be, spread across <strong>16 of the Region's 19 municipalities</strong>. Anderlecht comes first with 34 courts, followed by the City of Brussels with 28. In Saint-Gilles, the Charles Picqué boulodrome has stood in Pierre Paulus Park for around 40 years. It underwent a major renovation completed in 2023: the building was opened up to the park with a large glass frontage, and three outdoor courts and a large terrace were added.
     </p>
 
+    <!-- La carte est sur /carte.html : ce bouton l'ouvre cadrée sur la zone de la page. -->
+    <p class="province-voir-carte">
+        <a href="/en/carte.html?province=bruxelles" class="bouton-voir-carte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg><span>See the 121 courts on the map</span></a>
+    </p>
+
     <div class="province-communes-section">
         <h2>Municipalities in the region</h2>
         <input type="text" class="commune-search" id="communeSearch" placeholder="Search for a municipality…">
         <!-- Liste écrite par generate_provinces.py (lisible sans JavaScript, donc par les
              moteurs de recherche et les IA) ; le script plus bas branche les clics sur la carte. -->
         <div class="commune-list repliee" id="communeList">
-            <div class="commune-item" data-commune="Anderlecht" data-terrains="34" data-clubs="1" data-recherche-clef="anderlecht"><a href="/en/commune/anderlecht.html"><span>Anderlecht </span><span class="commune-count">(34 courts)</span></a></div>
-            <div class="commune-item" data-commune="Bruxelles - Brussel" data-terrains="28" data-clubs="1" data-recherche-clef="brussel | brussel | brussels | bruxelles | bruxelles - brussel"><a href="/en/commune/bruxelles.html"><span>Brussels </span><span class="commune-count">(28 courts)</span></a></div>
-            <div class="commune-item" data-commune="Woluwe-Saint-Lambert - Sint-Lambrechts-Woluwe" data-terrains="13" data-clubs="1" data-recherche-clef="sint-lambrechts-woluwe | woluwe-saint-lambert | woluwe-saint-lambert - sint-lambrechts-woluwe"><a href="/en/commune/woluwe-saint-lambert.html"><span>Woluwe-Saint-Lambert </span><span class="commune-count">(13 courts)</span></a></div>
-            <div class="commune-item" data-commune="Forest - Vorst" data-terrains="7" data-clubs="1" data-recherche-clef="forest | forest - vorst | vorst"><a href="/en/commune/forest.html"><span>Forest </span><span class="commune-count">(7 courts)</span></a></div>
-            <div class="commune-item" data-commune="Uccle - Ukkel" data-terrains="7" data-clubs="3" data-recherche-clef="uccle | uccle - ukkel | ukkel"><a href="/en/commune/uccle.html"><span>Uccle </span><span class="commune-count">(7 courts)</span></a></div>
-            <div class="commune-item" data-commune="Jette" data-terrains="6" data-clubs="1" data-recherche-clef="jette"><a href="/en/commune/jette.html"><span>Jette </span><span class="commune-count">(6 courts)</span></a></div>
-            <div class="commune-item" data-commune="Schaerbeek - Schaarbeek" data-terrains="5" data-clubs="0" data-recherche-clef="schaarbeek | schaerbeek | schaerbeek - schaarbeek"><a href="/en/commune/schaerbeek.html"><span>Schaerbeek </span><span class="commune-count">(5 courts)</span></a></div>
-            <div class="commune-item" data-commune="Ixelles - Elsene" data-terrains="4" data-clubs="1" data-recherche-clef="elsene | ixelles | ixelles - elsene"><a href="/en/commune/ixelles.html"><span>Ixelles </span><span class="commune-count">(4 courts)</span></a></div>
-            <div class="commune-item" data-commune="Ganshoren" data-terrains="3" data-clubs="1" data-osm="way/1089710939 way/1089710940 way/1089710941" data-recherche-clef="ganshoren"><a href="#map"><span>Ganshoren </span><span class="commune-count">(3 courts)</span></a></div>
-            <div class="commune-item" data-commune="Molenbeek-Saint-Jean - Sint-Jans-Molenbeek" data-terrains="3" data-clubs="0" data-recherche-clef="molenbeek-saint-jean | molenbeek-saint-jean - sint-jans-molenbeek | sint-jans-molenbeek"><a href="/en/commune/molenbeek-saint-jean.html"><span>Molenbeek-Saint-Jean </span><span class="commune-count">(3 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Saint-Gilles - Sint-Gillis" data-terrains="3" data-clubs="2" data-recherche-clef="saint-gilles | saint-gilles - sint-gillis | sint-gillis"><a href="/en/commune/saint-gilles.html"><span>Saint-Gilles </span><span class="commune-count">(3 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Woluwe-Saint-Pierre - Sint-Pieters-Woluwe" data-terrains="3" data-clubs="1" data-recherche-clef="sint-pieters-woluwe | woluwe-saint-pierre | woluwe-saint-pierre - sint-pieters-woluwe"><a href="/en/commune/woluwe-saint-pierre.html"><span>Woluwe-Saint-Pierre </span><span class="commune-count">(3 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Evere" data-terrains="2" data-clubs="2" data-recherche-clef="evere"><a href="/en/commune/evere.html"><span>Evere </span><span class="commune-count">(2 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Berchem-Sainte-Agathe - Sint-Agatha-Berchem" data-terrains="1" data-clubs="0" data-osm="way/1148180590" data-recherche-clef="berchem-sainte-agathe | berchem-sainte-agathe - sint-agatha-berchem | sint-agatha-berchem"><a href="#map"><span>Berchem-Sainte-Agathe </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Etterbeek" data-terrains="1" data-clubs="1" data-osm="way/1066518821" data-recherche-clef="etterbeek"><a href="#map"><span>Etterbeek </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Watermael-Boitsfort - Watermaal-Bosvoorde" data-terrains="1" data-clubs="1" data-osm="way/837133180" data-recherche-clef="watermaal-bosvoorde | watermael-boitsfort | watermael-boitsfort - watermaal-bosvoorde"><a href="#map"><span>Watermael-Boitsfort </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item" data-commune="Anderlecht" data-terrains="34" data-recherche-clef="anderlecht"><a href="/en/commune/anderlecht.html"><span>Anderlecht </span><span class="commune-count">(34 courts)</span></a></div>
+            <div class="commune-item" data-commune="Bruxelles - Brussel" data-terrains="28" data-recherche-clef="brussel | brussel | brussels | bruxelles | bruxelles - brussel"><a href="/en/commune/bruxelles.html"><span>Brussels </span><span class="commune-count">(28 courts)</span></a></div>
+            <div class="commune-item" data-commune="Woluwe-Saint-Lambert - Sint-Lambrechts-Woluwe" data-terrains="13" data-recherche-clef="sint-lambrechts-woluwe | woluwe-saint-lambert | woluwe-saint-lambert - sint-lambrechts-woluwe"><a href="/en/commune/woluwe-saint-lambert.html"><span>Woluwe-Saint-Lambert </span><span class="commune-count">(13 courts)</span></a></div>
+            <div class="commune-item" data-commune="Forest - Vorst" data-terrains="7" data-recherche-clef="forest | forest - vorst | vorst"><a href="/en/commune/forest.html"><span>Forest </span><span class="commune-count">(7 courts)</span></a></div>
+            <div class="commune-item" data-commune="Uccle - Ukkel" data-terrains="7" data-recherche-clef="uccle | uccle - ukkel | ukkel"><a href="/en/commune/uccle.html"><span>Uccle </span><span class="commune-count">(7 courts)</span></a></div>
+            <div class="commune-item" data-commune="Jette" data-terrains="6" data-recherche-clef="jette"><a href="/en/commune/jette.html"><span>Jette </span><span class="commune-count">(6 courts)</span></a></div>
+            <div class="commune-item" data-commune="Schaerbeek - Schaarbeek" data-terrains="5" data-recherche-clef="schaarbeek | schaerbeek | schaerbeek - schaarbeek"><a href="/en/commune/schaerbeek.html"><span>Schaerbeek </span><span class="commune-count">(5 courts)</span></a></div>
+            <div class="commune-item" data-commune="Ixelles - Elsene" data-terrains="4" data-recherche-clef="elsene | ixelles | ixelles - elsene"><a href="/en/commune/ixelles.html"><span>Ixelles </span><span class="commune-count">(4 courts)</span></a></div>
+            <div class="commune-item" data-commune="Ganshoren" data-terrains="3" data-recherche-clef="ganshoren"><a href="/en/carte.html?commune=ganshoren"><span>Ganshoren </span><span class="commune-count">(3 courts)</span></a></div>
+            <div class="commune-item" data-commune="Molenbeek-Saint-Jean - Sint-Jans-Molenbeek" data-terrains="3" data-recherche-clef="molenbeek-saint-jean | molenbeek-saint-jean - sint-jans-molenbeek | sint-jans-molenbeek"><a href="/en/commune/molenbeek-saint-jean.html"><span>Molenbeek-Saint-Jean </span><span class="commune-count">(3 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Saint-Gilles - Sint-Gillis" data-terrains="3" data-recherche-clef="saint-gilles | saint-gilles - sint-gillis | sint-gillis"><a href="/en/commune/saint-gilles.html"><span>Saint-Gilles </span><span class="commune-count">(3 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Woluwe-Saint-Pierre - Sint-Pieters-Woluwe" data-terrains="3" data-recherche-clef="sint-pieters-woluwe | woluwe-saint-pierre | woluwe-saint-pierre - sint-pieters-woluwe"><a href="/en/commune/woluwe-saint-pierre.html"><span>Woluwe-Saint-Pierre </span><span class="commune-count">(3 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Evere" data-terrains="2" data-recherche-clef="evere"><a href="/en/commune/evere.html"><span>Evere </span><span class="commune-count">(2 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Berchem-Sainte-Agathe - Sint-Agatha-Berchem" data-terrains="1" data-recherche-clef="berchem-sainte-agathe | berchem-sainte-agathe - sint-agatha-berchem | sint-agatha-berchem"><a href="/en/carte.html?commune=berchem-sainte-agathe"><span>Berchem-Sainte-Agathe </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Etterbeek" data-terrains="1" data-recherche-clef="etterbeek"><a href="/en/carte.html?commune=etterbeek"><span>Etterbeek </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Watermael-Boitsfort - Watermaal-Bosvoorde" data-terrains="1" data-recherche-clef="watermaal-bosvoorde | watermael-boitsfort | watermael-boitsfort - watermaal-bosvoorde"><a href="/en/carte.html?commune=watermael-boitsfort"><span>Watermael-Boitsfort </span><span class="commune-count">(1 court)</span></a></div>
             <div class="commune-item commune-vide" style="display: none" data-recherche-clef="auderghem | auderghem - oudergem | oudergem"><p>Auderghem: no court listed yet. The nearest one is in <a href="/en/carte.html?lat=50.8063026&amp;lon=4.410035">Watermael-Boitsfort</a>, 2 km away.</p></div>
             <div class="commune-item commune-vide" style="display: none" data-recherche-clef="koekelberg"><p>Koekelberg: no court listed yet. The nearest one is in <a href="/en/commune/jette.html">Jette</a>, 1 km away.</p></div>
             <div class="commune-item commune-vide" style="display: none" data-recherche-clef="saint-josse-ten-noode | saint-josse-ten-noode - sint-joost-ten-node | sint-joost-ten-node"><p>Saint-Josse-ten-Noode: no court listed yet. The nearest one is in <a href="/en/commune/bruxelles.html">Brussels</a>, 1 km away.</p></div>
@@ -308,24 +302,23 @@
 
 <!-- Panneau d'info coulissant -->
 
+<!-- Carte invisible : sert seulement à ouvrir sur place la fiche d'un terrain du carrousel
+     (ouvrirFicheSurPlace dans script.js). La carte du site est sur /carte.html. -->
+<div id="map" style="display:none;"></div>
+
 <!-- Pied de page : construit par construirePied() dans script.js -->
 <footer class="pied"></footer>
 
-<!-- Bibliothèque Leaflet -->
+<!-- Bibliothèque Leaflet : script.js crée une carte (invisible ici) pour ouvrir les fiches -->
 <script src="/lib/leaflet-1.9.4/leaflet.js"></script>
 <script src="/lib/leaflet.markercluster-1.5.3/leaflet.markercluster.js"></script>
 
 <!-- Traductions -->
 <script src="/translations.js"></script>
 
-<!-- Empêche script.js de charger/afficher son jeu de marqueurs par défaut (tous les terrains de
-     Belgique, avec clustering) : cette page construit son propre sous-ensemble juste après. -->
+<!-- Pas de marqueurs sur la carte invisible de la page -->
 <script>window.MAPETANQUE_SKIP_DEFAULT_MARKERS = true;</script>
 
-<!-- Restreint la couche clubs (chargée par script.js, voir plus bas) à cette province — même
-     clé que celle utilisée juste après pour filtrer les terrains, bruxelles valant soit
-     le slug de la province, soit celui de la région pour Bruxelles (pas de province dédiée). -->
-<script>window.MAPETANQUE_STATS_GEO_KEY = 'bruxelles';</script>
 
 <!-- Script du site -->
 <script src="/chargeur-photo.js"></script>
@@ -335,146 +328,16 @@
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
 
 <!-- ===================== Comportement propre à la page province ===================== -->
-<!-- Réutilise les briques de script.js (icône des terrains, contenu des popups, calcul de
-     distance, etc. — voir window.MAPETANQUE_SKIP_DEFAULT_MARKERS plus haut) mais charge et
-     affiche uniquement les terrains de cette province, sans regroupement (clustering) puisque
-     le sous-ensemble est déjà restreint. -->
 <script>
 (function () {
 
-    // Sécurité : force Leaflet à recalculer la taille de son conteneur avant tout calcul de
-    // cadrage, pour que fitBounds() s'appuie sur une carte déjà correctement dimensionnée.
-    if (typeof map !== 'undefined') {
-        map.invalidateSize();
-    }
-
-    function appartientALaProvince(props) {
-        if (props.province) return props.province === 'bruxelles';
-        return props.region === 'bruxelles'; // cas particulier Bruxelles (pas de province)
-    }
-
-    let toastTimeout = null;
-    function afficherToast(texte) {
-        const toast = document.getElementById('mapToast');
-        if (!toast) return;
-        toast.textContent = texte;
-        toast.classList.add('visible');
-        clearTimeout(toastTimeout);
-        toastTimeout = setTimeout(function () { toast.classList.remove('visible'); }, 2800);
-    }
-
-    // Marqueur de chaque terrain (osm_id), rempli à l'arrivée des terrains : lu au clic sur une
-    // commune de la liste qui n'a pas sa page (plus bas, data-osm).
-    const layersParOsm = {};
-
-    // terrainsGeojson : téléchargement unique du fichier, lancé par script.js (pied de page)
-    terrainsGeojson
-        .then(function (data) {
-
-            const featuresProvince = data.features.filter(function (f) {
-                return appartientALaProvince(f.properties);
-            });
-
-            if (featuresProvince.length === 0) {
-                afficherToast('No courts loaded for this region');
-                return;
-            }
-
-            // Regroupement (clustering) des terrains, comme sur la page d'accueil et les pages
-            // région — jusqu'ici cette page utilisait un simple L.layerGroup (pas de
-            // regroupement), ce qui pouvait ralentir sensiblement le pan/zoom sur mobile pour les
-            // provinces comptant beaucoup de terrains. Même seuil que partout ailleurs sur le site
-            // (disableClusteringAtZoom: 16) : au clic sur une commune n'ayant qu'un seul terrain
-            // plus bas, fitBounds({maxZoom:16}) zoome exactement jusqu'à ce seuil, où le
-            // regroupement est déjà désactivé — le marqueur est donc bien individualisé avant
-            // l'appel à openPopup() juste après, sans changement nécessaire à cette logique.
-            const groupe = L.markerClusterGroup({ disableClusteringAtZoom: 16, maxClusterRadius: rayonAmas() });
-
-            featuresProvince.forEach(function (feature) {
-                const coords = feature.geometry.coordinates; // [lon, lat]
-                const latlng = [coords[1], coords[0]];
-                const layer = L.marker(latlng, { icon: terrainMarkerIcon });
-                layer.feature = feature;   // lu par les filtres de la carte (script.js)
-
-                window.brancherPopupTerrain(layer, feature);
-
-                layer.addTo(groupe);
-                layersParOsm[feature.properties.osm_id] = layer;
-            });
-
-            groupe.addTo(map);
-            window.enregistrerTerrainsFiltrables(groupe);
-
-            // Exposée pour /beaux-terrains.js (page Bruxelles) : lui permet d'ouvrir la popup du
-            // bon marqueur au clic sur une tuile du carrousel. Nécessaire ici car script.js ne
-            // crée pas sa couche `markers` sur ces pages (MAPETANQUE_SKIP_DEFAULT_MARKERS), donc
-            // allerVersTerrain() n'y existe pas.
-            window.beauxTerrainsGroupe = groupe;
-
-            const bounds = L.latLngBounds(featuresProvince.map(function (f) {
-                return [f.geometry.coordinates[1], f.geometry.coordinates[0]];
-            }));
-            cadrerSurEmprise(bounds, { padding: [30, 30] });
-        })
-        .catch(function () {
-            afficherToast('Courts cannot be loaded at the moment');
-        });
-
     // Liste des communes officielles : écrite dans la page par generate_provinces.py, triée par
-    // nombre de terrains décroissant. Une commune qui a sa page (commune/<slug>.html) y mène par
-    // un lien ordinaire ; une commune à un seul lieu montre ses terrains sur la carte (data-osm) ;
-    // une commune sans terrain (.commune-vide) n'apparaît qu'à la recherche. Ici, on ne fait que
-    // rendre la liste interactive : clic vers la carte, recherche, repli, clubs.
+    // nombre de terrains décroissant. Une commune qui a sa page (commune/<slug>.html) y mène ;
+    // une commune à un seul lieu mène à la page carte, qui ouvre sa fiche ; une commune sans
+    // terrain (.commune-vide) n'apparaît qu'à la recherche. Ici, on ne fait que rendre la liste
+    // interactive : recherche et repli.
     const listeCommunes = document.getElementById('communeList');
     const boutonCommunes = document.getElementById('communeVoirTout');
-    const lignesCommunes = listeCommunes.querySelectorAll('.commune-item:not(.commune-vide)');
-
-    // Texte "x terrains" ou "x terrains, x clubs" d'une ligne : les clubs (data-clubs, comptés
-    // par le générateur) ne sont cités que si la couche clubs est affichée sur la carte, et s'il
-    // y en a — « 0 club » sur la plupart des lignes n'apportait rien.
-    function texteComptageCommune(item) {
-        const nbTerrains = Number(item.dataset.terrains);
-        const uniteTerrain = nbTerrains > 1 ? 'courts' : 'court';
-        let texte = nbTerrains + ' ' + uniteTerrain;
-
-        const clubsAffiches = typeof clubsLayer !== 'undefined' && map.hasLayer(clubsLayer);
-        const nbClubs = Number(item.dataset.clubs) || 0;
-        if (clubsAffiches && nbClubs > 0) {
-            const uniteClub = nbClubs > 1 ? 'clubs' : 'club';
-            texte += ', ' + nbClubs + ' ' + uniteClub;
-        }
-
-        return texte;
-    }
-
-    function mettreAJourComptagesCommunes() {
-        lignesCommunes.forEach(function (item) {
-            item.querySelector('.commune-count').textContent = '(' + texteComptageCommune(item) + ')';
-        });
-    }
-
-    listeCommunes.querySelectorAll('.commune-item[data-osm]').forEach(function (item) {
-        item.querySelector('a').addEventListener('click', function (e) {
-            e.preventDefault();
-            const layersCommune = item.dataset.osm.split(' ')
-                .map(function (osmId) { return layersParOsm[osmId]; })
-                .filter(Boolean);
-            // Terrains pas encore arrivés : on se contente de descendre jusqu'à la carte. Sinon,
-            // un seul lieu (sans quoi la commune aurait sa page) : sa fiche s'ouvre, celle de sa
-            // première piste, qui porte les notes et avis de tout le groupe.
-            if (layersCommune.length) {
-                const boundsCommune = L.latLngBounds(layersCommune.map(function (l) { return l.getLatLng(); }));
-                map.fitBounds(boundsCommune, { padding: [40, 40], maxZoom: 16 });
-                layersCommune[0].openPopup();
-            }
-            document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        });
-    });
-
-    // Réagit à l'arrivée de data/clubs.json et à chaque coche/décoche de "Afficher les clubs"
-    // (voir script.js) pour compléter ou retirer le comptage de clubs de chaque commune.
-    window.addEventListener('clubsChargees', mettreAJourComptagesCommunes);
-    window.addEventListener('clubsAffichageChange', mettreAJourComptagesCommunes);
 
     // Liste repliée (10 premières communes) ou complète : le bouton bascule entre les deux.
     // La page arrive repliée (classe "repliee" et bouton visible, écrits par le générateur).

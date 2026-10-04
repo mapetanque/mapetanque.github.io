@@ -98,7 +98,7 @@
 
 <body>
 
-<div class="map-view" id="top">
+<div id="top">
 
 <div class="hero-banner" style="background-image: url('/images/provinces/banniere-liege.webp');">
 
@@ -226,23 +226,11 @@
 </div>
 
 
-<!-- Deux bandes pleine largeur, sur le modèle de l'accueil. Bande grise : carte et carrousel
-     (pages région et Bruxelles). Elle reste dans .map-view, nécessaire pour que le mode plein
-     écran fonctionne sur #map. -->
-<div class="province-bande-carte">
+</div><!-- /#top -->
 
-    <div class="province-map-inline-wrapper" style="position: relative;">
-        <!-- Cadre positionné : repère du toast, posé en bas de la carte. -->
-        <div class="province-map-cadre">
-            <div id="map"></div>
-            <div class="map-toast" id="mapToast"></div>
-        </div>
-    </div>
+<!-- Bande grise du carrousel « Les plus beaux terrains » (Bruxelles seulement, voir
+     construire_bloc_beaux_terrains dans generate_provinces.py). -->
 
-
-</div>
-
-</div><!-- /.map-view -->
 
 <!-- Bande blanche : texte, liste des communes et rebond, comme « Parcourir par région /
      province » sur l'accueil. -->
@@ -252,66 +240,71 @@
         The province of Liège has <strong>152 pétanque courts</strong> listed on Mapetanque.be, spread across <strong>54 municipalities</strong>. The city of Liège has 25 courts, followed by Eupen with 8. The French-speaking Belgian pétanque federation (FBFP) is based here, in Herstal, on rue Haute Marexhe. In Herve, an enthusiast has created the “Boogle House”, an event version of pétanque played on a removable synthetic mat with soft boules.
     </p>
 
+    <!-- La carte est sur /carte.html : ce bouton l'ouvre cadrée sur la zone de la page. -->
+    <p class="province-voir-carte">
+        <a href="/en/carte.html?province=liege" class="bouton-voir-carte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg><span>See the 152 courts on the map</span></a>
+    </p>
+
     <div class="province-communes-section">
         <h2>Municipalities in the province</h2>
         <input type="text" class="commune-search" id="communeSearch" placeholder="Search for a municipality…">
         <!-- Liste écrite par generate_provinces.py (lisible sans JavaScript, donc par les
              moteurs de recherche et les IA) ; le script plus bas branche les clics sur la carte. -->
         <div class="commune-list repliee" id="communeList">
-            <div class="commune-item" data-commune="Liège" data-terrains="25" data-clubs="0" data-recherche-clef="liege | luik | luttich"><a href="/en/commune/liege.html"><span>Liège </span><span class="commune-count">(25 courts)</span></a></div>
-            <div class="commune-item" data-commune="Oupeye" data-terrains="9" data-clubs="2" data-recherche-clef="oupeye"><a href="/en/commune/oupeye.html"><span>Oupeye </span><span class="commune-count">(9 courts)</span></a></div>
-            <div class="commune-item" data-commune="Eupen" data-terrains="8" data-clubs="0" data-recherche-clef="eupen"><a href="/en/commune/eupen.html"><span>Eupen </span><span class="commune-count">(8 courts)</span></a></div>
-            <div class="commune-item" data-commune="Soumagne" data-terrains="7" data-clubs="0" data-recherche-clef="soumagne"><a href="/en/commune/soumagne.html"><span>Soumagne </span><span class="commune-count">(7 courts)</span></a></div>
-            <div class="commune-item" data-commune="Aywaille" data-terrains="6" data-clubs="0" data-recherche-clef="aywaille"><a href="/en/commune/aywaille.html"><span>Aywaille </span><span class="commune-count">(6 courts)</span></a></div>
-            <div class="commune-item" data-commune="Crisnée" data-terrains="5" data-clubs="0" data-osm="way/1054073921 way/1054073922 way/1054073923 way/1054073924 way/1054073925" data-recherche-clef="crisnee"><a href="#map"><span>Crisnée </span><span class="commune-count">(5 courts)</span></a></div>
-            <div class="commune-item" data-commune="Plombières" data-terrains="5" data-clubs="0" data-recherche-clef="plombieres"><a href="/en/commune/plombieres.html"><span>Plombières </span><span class="commune-count">(5 courts)</span></a></div>
-            <div class="commune-item" data-commune="Seraing" data-terrains="5" data-clubs="3" data-recherche-clef="seraing"><a href="/en/commune/seraing.html"><span>Seraing </span><span class="commune-count">(5 courts)</span></a></div>
-            <div class="commune-item" data-commune="Theux" data-terrains="5" data-clubs="0" data-recherche-clef="theux"><a href="/en/commune/theux.html"><span>Theux </span><span class="commune-count">(5 courts)</span></a></div>
-            <div class="commune-item" data-commune="Blegny" data-terrains="4" data-clubs="1" data-recherche-clef="blegny"><a href="/en/commune/blegny.html"><span>Blegny </span><span class="commune-count">(4 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Waimes" data-terrains="4" data-clubs="0" data-recherche-clef="waimes"><a href="/en/commune/waimes.html"><span>Waimes </span><span class="commune-count">(4 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Clavier" data-terrains="3" data-clubs="0" data-recherche-clef="clavier"><a href="/en/commune/clavier.html"><span>Clavier </span><span class="commune-count">(3 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Ferrières" data-terrains="3" data-clubs="0" data-recherche-clef="ferrieres"><a href="/en/commune/ferrieres.html"><span>Ferrières </span><span class="commune-count">(3 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Flémalle" data-terrains="3" data-clubs="1" data-recherche-clef="flemalle"><a href="/en/commune/flemalle.html"><span>Flémalle </span><span class="commune-count">(3 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Fléron" data-terrains="3" data-clubs="1" data-recherche-clef="fleron"><a href="/en/commune/fleron.html"><span>Fléron </span><span class="commune-count">(3 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Herve" data-terrains="3" data-clubs="0" data-recherche-clef="herve"><a href="/en/commune/herve.html"><span>Herve </span><span class="commune-count">(3 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Juprelle" data-terrains="3" data-clubs="0" data-recherche-clef="juprelle"><a href="/en/commune/juprelle.html"><span>Juprelle </span><span class="commune-count">(3 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Malmedy" data-terrains="3" data-clubs="1" data-recherche-clef="malmedy"><a href="/en/commune/malmedy.html"><span>Malmedy </span><span class="commune-count">(3 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Waremme" data-terrains="3" data-clubs="0" data-recherche-clef="waremme"><a href="/en/commune/waremme.html"><span>Waremme </span><span class="commune-count">(3 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Beyne-Heusay" data-terrains="2" data-clubs="2" data-recherche-clef="beyne-heusay"><a href="/en/commune/beyne-heusay.html"><span>Beyne-Heusay </span><span class="commune-count">(2 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Braives" data-terrains="2" data-clubs="0" data-recherche-clef="braives"><a href="/en/commune/braives.html"><span>Braives </span><span class="commune-count">(2 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Hannut" data-terrains="2" data-clubs="1" data-recherche-clef="hannut"><a href="/en/commune/hannut.html"><span>Hannut </span><span class="commune-count">(2 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Herstal" data-terrains="2" data-clubs="1" data-osm="way/1299138452 way/1299138453" data-recherche-clef="herstal"><a href="#map"><span>Herstal </span><span class="commune-count">(2 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Huy" data-terrains="2" data-clubs="1" data-recherche-clef="huy"><a href="/en/commune/huy.html"><span>Huy </span><span class="commune-count">(2 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Lincent" data-terrains="2" data-clubs="0" data-recherche-clef="lincent"><a href="/en/commune/lincent.html"><span>Lincent </span><span class="commune-count">(2 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Nandrin" data-terrains="2" data-clubs="0" data-recherche-clef="nandrin"><a href="/en/commune/nandrin.html"><span>Nandrin </span><span class="commune-count">(2 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Stavelot" data-terrains="2" data-clubs="0" data-recherche-clef="stavelot"><a href="/en/commune/stavelot.html"><span>Stavelot </span><span class="commune-count">(2 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Verviers" data-terrains="2" data-clubs="0" data-recherche-clef="verviers"><a href="/en/commune/verviers.html"><span>Verviers </span><span class="commune-count">(2 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Visé" data-terrains="2" data-clubs="1" data-osm="way/101825634 way/101825667" data-recherche-clef="vise"><a href="#map"><span>Visé </span><span class="commune-count">(2 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Wanze" data-terrains="2" data-clubs="2" data-recherche-clef="wanze"><a href="/en/commune/wanze.html"><span>Wanze </span><span class="commune-count">(2 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Amay" data-terrains="1" data-clubs="0" data-osm="way/1395659543" data-recherche-clef="amay"><a href="#map"><span>Amay </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Amel" data-terrains="1" data-clubs="0" data-osm="way/962902379" data-recherche-clef="amel"><a href="#map"><span>Amel </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Aubel" data-terrains="1" data-clubs="0" data-osm="way/984843305" data-recherche-clef="aubel"><a href="#map"><span>Aubel </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Bassenge" data-terrains="1" data-clubs="0" data-osm="way/1160254569" data-recherche-clef="bassenge"><a href="#map"><span>Bassenge </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Büllingen" data-terrains="1" data-clubs="0" data-osm="way/925244280" data-recherche-clef="bullingen"><a href="#map"><span>Büllingen </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Bütgenbach" data-terrains="1" data-clubs="0" data-osm="node/12927855270" data-recherche-clef="butgenbach"><a href="#map"><span>Bütgenbach </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Chaudfontaine" data-terrains="1" data-clubs="1" data-osm="way/439814412" data-recherche-clef="chaudfontaine"><a href="#map"><span>Chaudfontaine </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Dalhem" data-terrains="1" data-clubs="0" data-osm="way/588422577" data-recherche-clef="dalhem"><a href="#map"><span>Dalhem </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Dison" data-terrains="1" data-clubs="0" data-osm="way/621135614" data-recherche-clef="dison"><a href="#map"><span>Dison </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Donceel" data-terrains="1" data-clubs="0" data-osm="way/1508537728" data-recherche-clef="donceel"><a href="#map"><span>Donceel </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Fexhe-le-Haut-Clocher" data-terrains="1" data-clubs="0" data-osm="way/357119036" data-recherche-clef="fexhe-le-haut-clocher"><a href="#map"><span>Fexhe-le-Haut-Clocher </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Geer" data-terrains="1" data-clubs="1" data-osm="way/1494370334" data-recherche-clef="geer"><a href="#map"><span>Geer </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Hamoir" data-terrains="1" data-clubs="0" data-osm="node/12823754746" data-recherche-clef="hamoir"><a href="#map"><span>Hamoir </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Kelmis - La Calamine" data-terrains="1" data-clubs="0" data-osm="way/1309281041" data-recherche-clef="kelmis | kelmis - la calamine | la calamine"><a href="#map"><span>Kelmis </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Lierneux" data-terrains="1" data-clubs="0" data-osm="node/13633389234" data-recherche-clef="lierneux"><a href="#map"><span>Lierneux </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Lontzen" data-terrains="1" data-clubs="1" data-osm="way/823517019" data-recherche-clef="lontzen"><a href="#map"><span>Lontzen </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Ouffet" data-terrains="1" data-clubs="0" data-osm="node/14175273194" data-recherche-clef="ouffet"><a href="#map"><span>Ouffet </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Raeren" data-terrains="1" data-clubs="0" data-osm="way/1426211280" data-recherche-clef="raeren"><a href="#map"><span>Raeren </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Remicourt" data-terrains="1" data-clubs="1" data-osm="way/268152713" data-recherche-clef="remicourt"><a href="#map"><span>Remicourt </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Saint-Nicolas" data-terrains="1" data-clubs="0" data-osm="way/702149909" data-recherche-clef="saint-nicolas"><a href="#map"><span>Saint-Nicolas </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Stoumont" data-terrains="1" data-clubs="0" data-osm="way/1522086502" data-recherche-clef="stoumont"><a href="#map"><span>Stoumont </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Thimister-Clermont" data-terrains="1" data-clubs="0" data-osm="way/1226577314" data-recherche-clef="thimister-clermont"><a href="#map"><span>Thimister-Clermont </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Tinlot" data-terrains="1" data-clubs="0" data-osm="way/1351773733" data-recherche-clef="tinlot"><a href="#map"><span>Tinlot </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Verlaine" data-terrains="1" data-clubs="0" data-osm="way/1044427190" data-recherche-clef="verlaine"><a href="#map"><span>Verlaine </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item" data-commune="Liège" data-terrains="25" data-recherche-clef="liege | luik | luttich"><a href="/en/commune/liege.html"><span>Liège </span><span class="commune-count">(25 courts)</span></a></div>
+            <div class="commune-item" data-commune="Oupeye" data-terrains="9" data-recherche-clef="oupeye"><a href="/en/commune/oupeye.html"><span>Oupeye </span><span class="commune-count">(9 courts)</span></a></div>
+            <div class="commune-item" data-commune="Eupen" data-terrains="8" data-recherche-clef="eupen"><a href="/en/commune/eupen.html"><span>Eupen </span><span class="commune-count">(8 courts)</span></a></div>
+            <div class="commune-item" data-commune="Soumagne" data-terrains="7" data-recherche-clef="soumagne"><a href="/en/commune/soumagne.html"><span>Soumagne </span><span class="commune-count">(7 courts)</span></a></div>
+            <div class="commune-item" data-commune="Aywaille" data-terrains="6" data-recherche-clef="aywaille"><a href="/en/commune/aywaille.html"><span>Aywaille </span><span class="commune-count">(6 courts)</span></a></div>
+            <div class="commune-item" data-commune="Crisnée" data-terrains="5" data-recherche-clef="crisnee"><a href="/en/carte.html?commune=crisnee"><span>Crisnée </span><span class="commune-count">(5 courts)</span></a></div>
+            <div class="commune-item" data-commune="Plombières" data-terrains="5" data-recherche-clef="plombieres"><a href="/en/commune/plombieres.html"><span>Plombières </span><span class="commune-count">(5 courts)</span></a></div>
+            <div class="commune-item" data-commune="Seraing" data-terrains="5" data-recherche-clef="seraing"><a href="/en/commune/seraing.html"><span>Seraing </span><span class="commune-count">(5 courts)</span></a></div>
+            <div class="commune-item" data-commune="Theux" data-terrains="5" data-recherche-clef="theux"><a href="/en/commune/theux.html"><span>Theux </span><span class="commune-count">(5 courts)</span></a></div>
+            <div class="commune-item" data-commune="Blegny" data-terrains="4" data-recherche-clef="blegny"><a href="/en/commune/blegny.html"><span>Blegny </span><span class="commune-count">(4 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Waimes" data-terrains="4" data-recherche-clef="waimes"><a href="/en/commune/waimes.html"><span>Waimes </span><span class="commune-count">(4 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Clavier" data-terrains="3" data-recherche-clef="clavier"><a href="/en/commune/clavier.html"><span>Clavier </span><span class="commune-count">(3 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Ferrières" data-terrains="3" data-recherche-clef="ferrieres"><a href="/en/commune/ferrieres.html"><span>Ferrières </span><span class="commune-count">(3 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Flémalle" data-terrains="3" data-recherche-clef="flemalle"><a href="/en/commune/flemalle.html"><span>Flémalle </span><span class="commune-count">(3 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Fléron" data-terrains="3" data-recherche-clef="fleron"><a href="/en/commune/fleron.html"><span>Fléron </span><span class="commune-count">(3 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Herve" data-terrains="3" data-recherche-clef="herve"><a href="/en/commune/herve.html"><span>Herve </span><span class="commune-count">(3 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Juprelle" data-terrains="3" data-recherche-clef="juprelle"><a href="/en/commune/juprelle.html"><span>Juprelle </span><span class="commune-count">(3 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Malmedy" data-terrains="3" data-recherche-clef="malmedy"><a href="/en/commune/malmedy.html"><span>Malmedy </span><span class="commune-count">(3 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Waremme" data-terrains="3" data-recherche-clef="waremme"><a href="/en/commune/waremme.html"><span>Waremme </span><span class="commune-count">(3 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Beyne-Heusay" data-terrains="2" data-recherche-clef="beyne-heusay"><a href="/en/commune/beyne-heusay.html"><span>Beyne-Heusay </span><span class="commune-count">(2 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Braives" data-terrains="2" data-recherche-clef="braives"><a href="/en/commune/braives.html"><span>Braives </span><span class="commune-count">(2 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Hannut" data-terrains="2" data-recherche-clef="hannut"><a href="/en/commune/hannut.html"><span>Hannut </span><span class="commune-count">(2 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Herstal" data-terrains="2" data-recherche-clef="herstal"><a href="/en/carte.html?commune=herstal"><span>Herstal </span><span class="commune-count">(2 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Huy" data-terrains="2" data-recherche-clef="huy"><a href="/en/commune/huy.html"><span>Huy </span><span class="commune-count">(2 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Lincent" data-terrains="2" data-recherche-clef="lincent"><a href="/en/commune/lincent.html"><span>Lincent </span><span class="commune-count">(2 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Nandrin" data-terrains="2" data-recherche-clef="nandrin"><a href="/en/commune/nandrin.html"><span>Nandrin </span><span class="commune-count">(2 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Stavelot" data-terrains="2" data-recherche-clef="stavelot"><a href="/en/commune/stavelot.html"><span>Stavelot </span><span class="commune-count">(2 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Verviers" data-terrains="2" data-recherche-clef="verviers"><a href="/en/commune/verviers.html"><span>Verviers </span><span class="commune-count">(2 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Visé" data-terrains="2" data-recherche-clef="vise"><a href="/en/carte.html?commune=vise"><span>Visé </span><span class="commune-count">(2 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Wanze" data-terrains="2" data-recherche-clef="wanze"><a href="/en/commune/wanze.html"><span>Wanze </span><span class="commune-count">(2 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Amay" data-terrains="1" data-recherche-clef="amay"><a href="/en/carte.html?commune=amay"><span>Amay </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Amel" data-terrains="1" data-recherche-clef="amel"><a href="/en/carte.html?commune=amel"><span>Amel </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Aubel" data-terrains="1" data-recherche-clef="aubel"><a href="/en/carte.html?commune=aubel"><span>Aubel </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Bassenge" data-terrains="1" data-recherche-clef="bassenge"><a href="/en/carte.html?commune=bassenge"><span>Bassenge </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Büllingen" data-terrains="1" data-recherche-clef="bullingen"><a href="/en/carte.html?commune=bullingen"><span>Büllingen </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Bütgenbach" data-terrains="1" data-recherche-clef="butgenbach"><a href="/en/carte.html?commune=butgenbach"><span>Bütgenbach </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Chaudfontaine" data-terrains="1" data-recherche-clef="chaudfontaine"><a href="/en/carte.html?commune=chaudfontaine"><span>Chaudfontaine </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Dalhem" data-terrains="1" data-recherche-clef="dalhem"><a href="/en/carte.html?commune=dalhem"><span>Dalhem </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Dison" data-terrains="1" data-recherche-clef="dison"><a href="/en/carte.html?commune=dison"><span>Dison </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Donceel" data-terrains="1" data-recherche-clef="donceel"><a href="/en/carte.html?commune=donceel"><span>Donceel </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Fexhe-le-Haut-Clocher" data-terrains="1" data-recherche-clef="fexhe-le-haut-clocher"><a href="/en/carte.html?commune=fexhe-le-haut-clocher"><span>Fexhe-le-Haut-Clocher </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Geer" data-terrains="1" data-recherche-clef="geer"><a href="/en/carte.html?commune=geer"><span>Geer </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Hamoir" data-terrains="1" data-recherche-clef="hamoir"><a href="/en/carte.html?commune=hamoir"><span>Hamoir </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Kelmis - La Calamine" data-terrains="1" data-recherche-clef="kelmis | kelmis - la calamine | la calamine"><a href="/en/carte.html?commune=kelmis-la-calamine"><span>Kelmis </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Lierneux" data-terrains="1" data-recherche-clef="lierneux"><a href="/en/carte.html?commune=lierneux"><span>Lierneux </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Lontzen" data-terrains="1" data-recherche-clef="lontzen"><a href="/en/carte.html?commune=lontzen"><span>Lontzen </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Ouffet" data-terrains="1" data-recherche-clef="ouffet"><a href="/en/carte.html?commune=ouffet"><span>Ouffet </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Raeren" data-terrains="1" data-recherche-clef="raeren"><a href="/en/carte.html?commune=raeren"><span>Raeren </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Remicourt" data-terrains="1" data-recherche-clef="remicourt"><a href="/en/carte.html?commune=remicourt"><span>Remicourt </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Saint-Nicolas" data-terrains="1" data-recherche-clef="saint-nicolas"><a href="/en/carte.html?commune=saint-nicolas"><span>Saint-Nicolas </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Stoumont" data-terrains="1" data-recherche-clef="stoumont"><a href="/en/carte.html?commune=stoumont"><span>Stoumont </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Thimister-Clermont" data-terrains="1" data-recherche-clef="thimister-clermont"><a href="/en/carte.html?commune=thimister-clermont"><span>Thimister-Clermont </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Tinlot" data-terrains="1" data-recherche-clef="tinlot"><a href="/en/carte.html?commune=tinlot"><span>Tinlot </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Verlaine" data-terrains="1" data-recherche-clef="verlaine"><a href="/en/carte.html?commune=verlaine"><span>Verlaine </span><span class="commune-count">(1 court)</span></a></div>
             <div class="commune-item commune-vide" style="display: none" data-recherche-clef="ans"><p>Ans: no court listed yet. The nearest one is in <a href="/en/commune/juprelle.html">Juprelle</a>, 3 km away.</p></div>
             <div class="commune-item commune-vide" style="display: none" data-recherche-clef="anthisnes"><p>Anthisnes: no court listed yet. The nearest one is in <a href="/en/carte.html?lat=50.4467315&amp;lon=5.472164">Ouffet</a>, 5 km away.</p></div>
             <div class="commune-item commune-vide" style="display: none" data-recherche-clef="awans"><p>Awans: no court listed yet. The nearest one is in <a href="/en/carte.html?lat=50.7065046&amp;lon=5.4161063">Crisnée</a>, 3 km away.</p></div>
@@ -379,24 +372,23 @@
 
 <!-- Panneau d'info coulissant -->
 
+<!-- Carte invisible : sert seulement à ouvrir sur place la fiche d'un terrain du carrousel
+     (ouvrirFicheSurPlace dans script.js). La carte du site est sur /carte.html. -->
+<div id="map" style="display:none;"></div>
+
 <!-- Pied de page : construit par construirePied() dans script.js -->
 <footer class="pied"></footer>
 
-<!-- Bibliothèque Leaflet -->
+<!-- Bibliothèque Leaflet : script.js crée une carte (invisible ici) pour ouvrir les fiches -->
 <script src="/lib/leaflet-1.9.4/leaflet.js"></script>
 <script src="/lib/leaflet.markercluster-1.5.3/leaflet.markercluster.js"></script>
 
 <!-- Traductions -->
 <script src="/translations.js"></script>
 
-<!-- Empêche script.js de charger/afficher son jeu de marqueurs par défaut (tous les terrains de
-     Belgique, avec clustering) : cette page construit son propre sous-ensemble juste après. -->
+<!-- Pas de marqueurs sur la carte invisible de la page -->
 <script>window.MAPETANQUE_SKIP_DEFAULT_MARKERS = true;</script>
 
-<!-- Restreint la couche clubs (chargée par script.js, voir plus bas) à cette province — même
-     clé que celle utilisée juste après pour filtrer les terrains, liege valant soit
-     le slug de la province, soit celui de la région pour Bruxelles (pas de province dédiée). -->
-<script>window.MAPETANQUE_STATS_GEO_KEY = 'liege';</script>
 
 <!-- Script du site -->
 <script src="/chargeur-photo.js"></script>
@@ -406,146 +398,16 @@
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
 
 <!-- ===================== Comportement propre à la page province ===================== -->
-<!-- Réutilise les briques de script.js (icône des terrains, contenu des popups, calcul de
-     distance, etc. — voir window.MAPETANQUE_SKIP_DEFAULT_MARKERS plus haut) mais charge et
-     affiche uniquement les terrains de cette province, sans regroupement (clustering) puisque
-     le sous-ensemble est déjà restreint. -->
 <script>
 (function () {
 
-    // Sécurité : force Leaflet à recalculer la taille de son conteneur avant tout calcul de
-    // cadrage, pour que fitBounds() s'appuie sur une carte déjà correctement dimensionnée.
-    if (typeof map !== 'undefined') {
-        map.invalidateSize();
-    }
-
-    function appartientALaProvince(props) {
-        if (props.province) return props.province === 'liege';
-        return props.region === 'liege'; // cas particulier Bruxelles (pas de province)
-    }
-
-    let toastTimeout = null;
-    function afficherToast(texte) {
-        const toast = document.getElementById('mapToast');
-        if (!toast) return;
-        toast.textContent = texte;
-        toast.classList.add('visible');
-        clearTimeout(toastTimeout);
-        toastTimeout = setTimeout(function () { toast.classList.remove('visible'); }, 2800);
-    }
-
-    // Marqueur de chaque terrain (osm_id), rempli à l'arrivée des terrains : lu au clic sur une
-    // commune de la liste qui n'a pas sa page (plus bas, data-osm).
-    const layersParOsm = {};
-
-    // terrainsGeojson : téléchargement unique du fichier, lancé par script.js (pied de page)
-    terrainsGeojson
-        .then(function (data) {
-
-            const featuresProvince = data.features.filter(function (f) {
-                return appartientALaProvince(f.properties);
-            });
-
-            if (featuresProvince.length === 0) {
-                afficherToast('No courts loaded for this province');
-                return;
-            }
-
-            // Regroupement (clustering) des terrains, comme sur la page d'accueil et les pages
-            // région — jusqu'ici cette page utilisait un simple L.layerGroup (pas de
-            // regroupement), ce qui pouvait ralentir sensiblement le pan/zoom sur mobile pour les
-            // provinces comptant beaucoup de terrains. Même seuil que partout ailleurs sur le site
-            // (disableClusteringAtZoom: 16) : au clic sur une commune n'ayant qu'un seul terrain
-            // plus bas, fitBounds({maxZoom:16}) zoome exactement jusqu'à ce seuil, où le
-            // regroupement est déjà désactivé — le marqueur est donc bien individualisé avant
-            // l'appel à openPopup() juste après, sans changement nécessaire à cette logique.
-            const groupe = L.markerClusterGroup({ disableClusteringAtZoom: 16, maxClusterRadius: rayonAmas() });
-
-            featuresProvince.forEach(function (feature) {
-                const coords = feature.geometry.coordinates; // [lon, lat]
-                const latlng = [coords[1], coords[0]];
-                const layer = L.marker(latlng, { icon: terrainMarkerIcon });
-                layer.feature = feature;   // lu par les filtres de la carte (script.js)
-
-                window.brancherPopupTerrain(layer, feature);
-
-                layer.addTo(groupe);
-                layersParOsm[feature.properties.osm_id] = layer;
-            });
-
-            groupe.addTo(map);
-            window.enregistrerTerrainsFiltrables(groupe);
-
-            // Exposée pour /beaux-terrains.js (page Bruxelles) : lui permet d'ouvrir la popup du
-            // bon marqueur au clic sur une tuile du carrousel. Nécessaire ici car script.js ne
-            // crée pas sa couche `markers` sur ces pages (MAPETANQUE_SKIP_DEFAULT_MARKERS), donc
-            // allerVersTerrain() n'y existe pas.
-            window.beauxTerrainsGroupe = groupe;
-
-            const bounds = L.latLngBounds(featuresProvince.map(function (f) {
-                return [f.geometry.coordinates[1], f.geometry.coordinates[0]];
-            }));
-            cadrerSurEmprise(bounds, { padding: [30, 30] });
-        })
-        .catch(function () {
-            afficherToast('Courts cannot be loaded at the moment');
-        });
-
     // Liste des communes officielles : écrite dans la page par generate_provinces.py, triée par
-    // nombre de terrains décroissant. Une commune qui a sa page (commune/<slug>.html) y mène par
-    // un lien ordinaire ; une commune à un seul lieu montre ses terrains sur la carte (data-osm) ;
-    // une commune sans terrain (.commune-vide) n'apparaît qu'à la recherche. Ici, on ne fait que
-    // rendre la liste interactive : clic vers la carte, recherche, repli, clubs.
+    // nombre de terrains décroissant. Une commune qui a sa page (commune/<slug>.html) y mène ;
+    // une commune à un seul lieu mène à la page carte, qui ouvre sa fiche ; une commune sans
+    // terrain (.commune-vide) n'apparaît qu'à la recherche. Ici, on ne fait que rendre la liste
+    // interactive : recherche et repli.
     const listeCommunes = document.getElementById('communeList');
     const boutonCommunes = document.getElementById('communeVoirTout');
-    const lignesCommunes = listeCommunes.querySelectorAll('.commune-item:not(.commune-vide)');
-
-    // Texte "x terrains" ou "x terrains, x clubs" d'une ligne : les clubs (data-clubs, comptés
-    // par le générateur) ne sont cités que si la couche clubs est affichée sur la carte, et s'il
-    // y en a — « 0 club » sur la plupart des lignes n'apportait rien.
-    function texteComptageCommune(item) {
-        const nbTerrains = Number(item.dataset.terrains);
-        const uniteTerrain = nbTerrains > 1 ? 'courts' : 'court';
-        let texte = nbTerrains + ' ' + uniteTerrain;
-
-        const clubsAffiches = typeof clubsLayer !== 'undefined' && map.hasLayer(clubsLayer);
-        const nbClubs = Number(item.dataset.clubs) || 0;
-        if (clubsAffiches && nbClubs > 0) {
-            const uniteClub = nbClubs > 1 ? 'clubs' : 'club';
-            texte += ', ' + nbClubs + ' ' + uniteClub;
-        }
-
-        return texte;
-    }
-
-    function mettreAJourComptagesCommunes() {
-        lignesCommunes.forEach(function (item) {
-            item.querySelector('.commune-count').textContent = '(' + texteComptageCommune(item) + ')';
-        });
-    }
-
-    listeCommunes.querySelectorAll('.commune-item[data-osm]').forEach(function (item) {
-        item.querySelector('a').addEventListener('click', function (e) {
-            e.preventDefault();
-            const layersCommune = item.dataset.osm.split(' ')
-                .map(function (osmId) { return layersParOsm[osmId]; })
-                .filter(Boolean);
-            // Terrains pas encore arrivés : on se contente de descendre jusqu'à la carte. Sinon,
-            // un seul lieu (sans quoi la commune aurait sa page) : sa fiche s'ouvre, celle de sa
-            // première piste, qui porte les notes et avis de tout le groupe.
-            if (layersCommune.length) {
-                const boundsCommune = L.latLngBounds(layersCommune.map(function (l) { return l.getLatLng(); }));
-                map.fitBounds(boundsCommune, { padding: [40, 40], maxZoom: 16 });
-                layersCommune[0].openPopup();
-            }
-            document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        });
-    });
-
-    // Réagit à l'arrivée de data/clubs.json et à chaque coche/décoche de "Afficher les clubs"
-    // (voir script.js) pour compléter ou retirer le comptage de clubs de chaque commune.
-    window.addEventListener('clubsChargees', mettreAJourComptagesCommunes);
-    window.addEventListener('clubsAffichageChange', mettreAJourComptagesCommunes);
 
     // Liste repliée (10 premières communes) ou complète : le bouton bascule entre les deux.
     // La page arrive repliée (classe "repliee" et bouton visible, écrits par le générateur).

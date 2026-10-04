@@ -5,16 +5,7 @@
    templates/region_template.html).
    ========================================================================================== */
 
-/* Cadre de la carte : sert de repère au toast (position: absolute), posé en bas de la carte. */
-.province-map-cadre {
-    position: relative;
-}
-
 /* ===================== Bannière photo (.hero-banner) ===================== */
-
-.map-view {
-    height: auto;
-}
 
 .hero-banner {
     position: relative;
@@ -114,15 +105,17 @@
 
 /* ===================== Bandes pleine largeur (modèle de l'accueil) ===================== */
 
-/* Bande grise sous la bannière, même gris que l'accueil (.map-view et .beaux-terrains-accueil) :
-   barre de recherche, carte, carrousel et tuiles de statistiques, tous sur 1100px, la largeur
-   des sections de l'accueil (et de sa carte, .map-wrapper). */
+/* Bande grise sous la bannière, même gris que le carrousel de l'accueil
+   (.beaux-terrains-accueil) : le carrousel « Les plus beaux terrains » des pages région et de
+   Bruxelles, sur 1100px, la largeur des sections de l'accueil. Les autres pages province n'ont
+   pas de carrousel, donc pas de bande grise. */
+/* En bas, 8px plus les 16px du défilement du carrousel : ~24px de gris sous les tuiles, comme
+   sur l'accueil. */
 .province-bande-carte {
     background: #f7f9f6;
-    padding: 20px 16px 48px;
+    padding: 32px 16px 8px;
 }
 
-.province-bande-carte > .province-map-inline-wrapper,
 .province-bande-carte > .beaux-terrains-region {
     max-width: 1100px;
     margin-left: auto;
@@ -132,7 +125,7 @@
 /* Bande blanche : texte, liste des communes, rebond. */
 .province-bande-texte {
     background: #fff;
-    padding: 48px 20px 60px;
+    padding: 32px 20px 60px;
 }
 
 .province-bande-interieur {
@@ -148,110 +141,42 @@
     margin: 0 0 24px;
 }
 
-/* ===================== Carte ===================== */
-
-/* 32px séparent la carte du carrousel qui la suit (pages région et Bruxelles). */
-.province-map-inline-wrapper + .beaux-terrains-region {
-    margin-top: 32px;
-}
-
-/* Même forme que la carte de l'accueil (.map-wrapper) */
-#map {
-    width: 100%;
-    height: 420px;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 6px 24px rgba(30, 50, 20, 0.10);
-}
-
-.map-toast {
-    position: absolute;
-    bottom: 14px;
-    left: 50%;
-    transform: translateX(-50%) translateY(10px);
-    background: rgba(30, 34, 28, 0.92);
-    color: white;
-    font-size: 13px;
-    padding: 9px 16px;
-    border-radius: 20px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    white-space: nowrap;
-    z-index: 500;
-}
-
-.map-toast.visible {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
-
-/* ===================== Compatibilité mode plein écran ===================== */
-
-/* Plus rien à montrer dans la bannière en plein écran (titre et fil d'Ariane masqués, la
-   recherche est sous la carte) : elle disparaît. */
-.map-view.fullscreen-active .hero-banner {
-    display: none;
-}
-
-.map-view.fullscreen-active .hero-banner-credit,
-.map-view.fullscreen-active .province-breadcrumb {
-    display: none;
-}
-
-/* La bande grise (barre, carte, carrousel, tuiles) s'efface pour laisser #map occuper tout
-   l'espace disponible ; la bande blanche, hors de .map-view, reste cachée sous le plein écran. */
-.map-view.fullscreen-active .province-bande-carte {
-    background: none;
-    padding: 0;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-.map-view.fullscreen-active #beaux-terrains {
-    display: none;
-}
-
-/* #map n'est pas lui-même un enfant flex de .province-bande-carte (il est imbriqué dans
-   .province-map-inline-wrapper puis .province-map-cadre) : donner du "flex: 1 1 auto" à #map
-   directement n'avait donc aucun effet, et la carte restait coincée à sa hauteur normale (420px)
-   avec beaucoup de vide en dessous. Ce sont le wrapper puis le cadre qui doivent grandir ; #map
-   n'a plus qu'à occuper toute leur hauteur. */
-.map-view.fullscreen-active .province-map-inline-wrapper {
-    flex: 1 1 auto;
-    width: 100%;
-    max-width: none;
-    margin-top: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-}
-
-/* La barre de recherche reste sous la carte : le cadre, puis #map, prennent la hauteur
-   restante. */
-.map-view.fullscreen-active .province-map-cadre {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-}
-
-.map-view.fullscreen-active #map {
-    flex: 1 1 auto;
-    height: auto;
-    min-height: 0;
-    border-radius: 0;
-    box-shadow: none;
-}
-
 /* ===================== Contenu ===================== */
 
 .province-intro {
     font-size: 16px;
     line-height: 1.65;
     color: #444;
+    margin: 0 0 20px;
+}
+
+/* Bouton vers la page carte, cadrée sur la zone de la page (la carte n'est plus sur la page) */
+.province-voir-carte {
     margin: 0 0 48px;
+}
+
+.bouton-voir-carte {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 22px;
+    border-radius: 999px;
+    background: #1d2619;
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.15s ease;
+}
+
+.bouton-voir-carte:hover {
+    background: #3d7a2a;
+}
+
+.bouton-voir-carte svg {
+    width: 20px;
+    height: 20px;
+    flex: none;
 }
 
 .commune-search {
@@ -462,17 +387,13 @@
         right: 15px;
     }
 
-    #map {
-        height: 320px;
-    }
-
 
     .province-bande-carte {
-        padding: 16px 16px 40px;
+        padding: 16px 16px 8px;
     }
 
     .province-bande-texte {
-        padding: 40px 16px 50px;
+        padding: 28px 16px 50px;
     }
 
     .commune-list {

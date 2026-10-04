@@ -378,6 +378,13 @@ function urlPageCarte(parametres) {
     return (currentLang === 'fr' ? '/' : '/' + currentLang + '/') + 'carte.html' + (parametres || '');
 }
 
+// Anciens liens d'un terrain ou d'un club (?lat=…&lon=…, ?club=1…), d'avant que la carte ne
+// quitte les autres pages : on les emmène sur la page carte, qui ouvre la fiche. L'accueil le
+// fait déjà dans son <head>, avant tout affichage ; ceci couvre les pages province et région.
+if (!PAGE_CARTE && /[?&](lat|lon|club)=/.test(window.location.search)) {
+    window.location.replace(urlPageCarte(window.location.search));
+}
+
 // Création de la carte centrée sur la Belgique
 // Molette : voir « Molette sur la carte » juste en dessous (la molette seule fait défiler la page,
 // Ctrl + molette zoome).
@@ -633,9 +640,6 @@ const ClubsToggleControl = L.Control.extend({
                 map.removeLayer(clubsLayer);
             }
             localStorage.setItem(STORAGE_KEY_CLUBS_VISIBLE, checkbox.checked ? 'true' : 'false');
-            // Consommé par le script inline des pages province, pour compléter/retirer le
-            // comptage de clubs dans la liste des communes (voir clubsParCommune plus bas).
-            window.dispatchEvent(new CustomEvent('clubsAffichageChange', { detail: { visible: checkbox.checked } }));
         });
 
         L.DomEvent.on(boutonAide, 'click', function (e) {
@@ -1217,14 +1221,6 @@ if (locateBtn) {
 // ===================== Recherche d'adresse =====================
 
 let searchMarker = null;
-
-// Pages province et région : la carte ne montre que les terrains de la zone de la page
-// (window.MAPETANQUE_STATS_GEO_KEY, clé de province ou de région, absente sur l'accueil). Même
-// condition que pour les clubs (voir « Chargement des clubs » plus bas).
-function estDansLaZone(props) {
-    const cle = window.MAPETANQUE_STATS_GEO_KEY;
-    return !cle || props.province === cle || props.region === cle;
-}
 
 // Recherche biaisée vers la Belgique, sans l'exclure strictement (utile près des frontières).
 const VIEWBOX_BELGIQUE = '2.5,51.6,6.5,49.4';
@@ -4386,18 +4382,6 @@ terrainsGeojson
 
 } // fin du if (!window.MAPETANQUE_SKIP_DEFAULT_MARKERS)
 
-// Pages province et région : la flèche « terrain le plus proche » (après une recherche ou une
-// géolocalisation) ne vise que les terrains de la page.
-if (window.MAPETANQUE_STATS_GEO_KEY) {
-    terrainsGeojson.then(function (data) {
-        listeTousLesTerrains = data.features
-            .filter(function (f) { return estDansLaZone(f.properties); })
-            .map(function (f) {
-                return { lat: f.geometry.coordinates[1], lon: f.geometry.coordinates[0], props: f.properties };
-            });
-    });
-}
-
 // ===================== Chargement des photos Mapillary validées manuellement =====================
 // Association simple osm_id -> {mapillary_id, credit_url}, tenue à jour depuis la page admin
 // (publiée par scripts/publier_photos.py). Fichier optionnel : son absence (site tout
@@ -5161,29 +5145,13 @@ function brancherFicheTerrain(e, feature) {
 
 
 // ===================== Chargement des clubs affiliés =====================
-// Contrairement aux terrains, ce bloc est inconditionnel : il tourne sur la page d'accueil ET
-// sur les pages province/région, pour que la couche "Afficher les clubs" y soit disponible aussi
-// (voir clubsLayer/ClubsToggleControl plus haut, avec regroupement par clusters bleus). Pas de
-// fetch séparé par province : les 197 clubs sont chargés en une fois, puis filtrés ici même à la
-// province/région de la page courante le cas échéant (voir window.MAPETANQUE_STATS_GEO_KEY,
-// défini par templates/province_template.html et templates/region_template.html juste avant le
-// chargement de ce fichier — absent sur la page d'accueil, qui affiche donc bien les 197 clubs
-// de Belgique sans filtrage, mais regroupés en amas aux faibles niveaux de zoom).
+// Inconditionnel : la couche « Afficher les clubs » (clubsLayer, regroupée en amas bleus) sert
+// sur la page carte, et le lien de partage d'un club (?club=1) partout où une carte existe.
 fetch('/data/clubs.json')
     .then(response => response.json())
     .then(data => {
 
-        const cleGeo = window.MAPETANQUE_STATS_GEO_KEY;
-        // club.province vaut la clé de province (ex. "anvers"), sauf pour les clubs de
-        // Bruxelles-Capitale qui n'ont pas de province propre et n'ont que club.region ===
-        // "bruxelles" (voir data/clubs.json) : la condition ci-dessous couvre les trois cas -
-        // page province normale, page province Bruxelles, et page région (cleGeo vaut alors une
-        // clé de région comme "flandre"/"wallonie", qui ne correspond à aucune clé de province).
-        const clubsAffiches = cleGeo
-            ? data.filter(function (club) { return club.province === cleGeo || club.region === cleGeo; })
-            : data;
-
-        clubsAffiches.forEach(function (club) {
+        data.forEach(function (club) {
 
             const marker = L.marker([club.lat, club.lon], { icon: clubMarkerIcon });
 
@@ -5193,28 +5161,9 @@ fetch('/data/clubs.json')
 
         });
 
-        // Nombre de clubs par commune (clé = champ « commune » des terrains, voir
-        // data/clubs.json — champ "commune" ajouté via club/geocoder_communes_clubs.py). Construit
-        // à partir de clubsAffiches (déjà filtré ci-dessus), pas de data brut : sur une page
-        // province/région, seules les communes de cette zone doivent compter, cohérent avec ce
-        // qui est effectivement affiché sur la carte. Exposé globalement : consommé par le script
-        // inline des pages province pour compléter "Nom de la commune (x terrains)" en
-        // "(x terrains, x clubs)" quand la couche clubs est affichée — voir
-        // templates/province_template.html. Absent (undefined) tant que ce fetch n'a pas résolu ;
-        // l'événement 'clubsChargees' ci-dessous permet de réagir à son arrivée.
-        window.clubsParCommune = {};
-        clubsAffiches.forEach(function (club) {
-            if (!club.commune) return;
-            window.clubsParCommune[club.commune] = (window.clubsParCommune[club.commune] || 0) + 1;
-        });
-        window.dispatchEvent(new CustomEvent('clubsChargees'));
-
-        // Lien de partage d'un club précis (?club=1&lat=...&lon=...) : active la couche clubs
-        // (si elle ne l'est pas déjà), centre la carte et ouvre son popup. Fonctionne dès le
-        // départ sur toutes les pages (accueil, province, région) puisque ce bloc de chargement
-        // est inconditionnel — contrairement au deep-link terrain, limité à la page d'accueil
-        // (voir commentaire plus haut) : ce n'est pas un correctif d'un comportement existant,
-        // juste une nouvelle fonctionnalité un peu plus large que celle des terrains.
+        // Lien de partage d'un club précis (?club=1&lat=...&lon=...), sur la page carte (les
+        // autres pages y redirigent ces liens, voir urlPageCarte) : active la couche clubs (si
+        // elle ne l'est pas déjà), centre la carte et ouvre son popup.
         const urlParamsClub = new URLSearchParams(window.location.search);
         const paramClubLat = parseFloat(urlParamsClub.get('lat'));
         const paramClubLon = parseFloat(urlParamsClub.get('lon'));
@@ -5410,7 +5359,6 @@ function allerVersClub(lat, lon) {
         map.addLayer(clubsLayer);
         if (clubsToggleCheckbox) clubsToggleCheckbox.checked = true;
         localStorage.setItem(STORAGE_KEY_CLUBS_VISIBLE, 'true');
-        window.dispatchEvent(new CustomEvent('clubsAffichageChange', { detail: { visible: true } }));
     }
 
     if (layerCorrespondant) {

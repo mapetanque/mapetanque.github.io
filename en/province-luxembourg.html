@@ -98,7 +98,7 @@
 
 <body>
 
-<div class="map-view" id="top">
+<div id="top">
 
 <div class="hero-banner" style="background-image: url('/images/provinces/banniere-luxembourg.webp');">
 
@@ -226,23 +226,11 @@
 </div>
 
 
-<!-- Deux bandes pleine largeur, sur le modèle de l'accueil. Bande grise : carte et carrousel
-     (pages région et Bruxelles). Elle reste dans .map-view, nécessaire pour que le mode plein
-     écran fonctionne sur #map. -->
-<div class="province-bande-carte">
+</div><!-- /#top -->
 
-    <div class="province-map-inline-wrapper" style="position: relative;">
-        <!-- Cadre positionné : repère du toast, posé en bas de la carte. -->
-        <div class="province-map-cadre">
-            <div id="map"></div>
-            <div class="map-toast" id="mapToast"></div>
-        </div>
-    </div>
+<!-- Bande grise du carrousel « Les plus beaux terrains » (Bruxelles seulement, voir
+     construire_bloc_beaux_terrains dans generate_provinces.py). -->
 
-
-</div>
-
-</div><!-- /.map-view -->
 
 <!-- Bande blanche : texte, liste des communes et rebond, comme « Parcourir par région /
      province » sur l'accueil. -->
@@ -252,37 +240,42 @@
         The province of Luxembourg has <strong>52 pétanque courts</strong> listed on Mapetanque.be, spread across <strong>25 municipalities</strong>. Arlon, the provincial capital, leads with 7 courts, ahead of Vielsalm with 6. The province can boast of being the birthplace of Claudy Weibel, two-time pétanque world champion, crowned in triples in 2000 and in singles in 2015. A historical note: in 1961, a 3,000 m² boulodrome was built at the foot of the Saint-Hubert power station. The building was completely destroyed by fire in 1982 before being rebuilt.
     </p>
 
+    <!-- La carte est sur /carte.html : ce bouton l'ouvre cadrée sur la zone de la page. -->
+    <p class="province-voir-carte">
+        <a href="/en/carte.html?province=luxembourg" class="bouton-voir-carte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg><span>See the 52 courts on the map</span></a>
+    </p>
+
     <div class="province-communes-section">
         <h2>Municipalities in the province</h2>
         <input type="text" class="commune-search" id="communeSearch" placeholder="Search for a municipality…">
         <!-- Liste écrite par generate_provinces.py (lisible sans JavaScript, donc par les
              moteurs de recherche et les IA) ; le script plus bas branche les clics sur la carte. -->
         <div class="commune-list repliee" id="communeList">
-            <div class="commune-item" data-commune="Arlon" data-terrains="7" data-clubs="1" data-recherche-clef="arlon"><a href="/en/commune/arlon.html"><span>Arlon </span><span class="commune-count">(7 courts)</span></a></div>
-            <div class="commune-item" data-commune="Vielsalm" data-terrains="6" data-clubs="0" data-recherche-clef="vielsalm"><a href="/en/commune/vielsalm.html"><span>Vielsalm </span><span class="commune-count">(6 courts)</span></a></div>
-            <div class="commune-item" data-commune="Gouvy" data-terrains="3" data-clubs="1" data-osm="way/1554707872 way/1554707873 way/1554707874" data-recherche-clef="gouvy"><a href="#map"><span>Gouvy </span><span class="commune-count">(3 courts)</span></a></div>
-            <div class="commune-item" data-commune="Messancy" data-terrains="3" data-clubs="1" data-recherche-clef="messancy"><a href="/en/commune/messancy.html"><span>Messancy </span><span class="commune-count">(3 courts)</span></a></div>
-            <div class="commune-item" data-commune="Saint-Hubert" data-terrains="3" data-clubs="1" data-recherche-clef="saint-hubert"><a href="/en/commune/saint-hubert.html"><span>Saint-Hubert </span><span class="commune-count">(3 courts)</span></a></div>
-            <div class="commune-item" data-commune="Érezée" data-terrains="3" data-clubs="0" data-osm="way/1558907302 way/1558907303 way/1558907304" data-recherche-clef="erezee"><a href="#map"><span>Érezée </span><span class="commune-count">(3 courts)</span></a></div>
-            <div class="commune-item" data-commune="Bastogne" data-terrains="2" data-clubs="1" data-recherche-clef="bastogne"><a href="/en/commune/bastogne.html"><span>Bastogne </span><span class="commune-count">(2 courts)</span></a></div>
-            <div class="commune-item" data-commune="Durbuy" data-terrains="2" data-clubs="1" data-recherche-clef="durbuy"><a href="/en/commune/durbuy.html"><span>Durbuy </span><span class="commune-count">(2 courts)</span></a></div>
-            <div class="commune-item" data-commune="Habay" data-terrains="2" data-clubs="0" data-recherche-clef="habay"><a href="/en/commune/habay.html"><span>Habay </span><span class="commune-count">(2 courts)</span></a></div>
-            <div class="commune-item" data-commune="Léglise" data-terrains="2" data-clubs="0" data-recherche-clef="leglise"><a href="/en/commune/leglise.html"><span>Léglise </span><span class="commune-count">(2 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Rendeux" data-terrains="2" data-clubs="0" data-osm="node/12455536273 node/12455536274" data-recherche-clef="rendeux"><a href="#map"><span>Rendeux </span><span class="commune-count">(2 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Tenneville" data-terrains="2" data-clubs="0" data-recherche-clef="tenneville"><a href="/en/commune/tenneville.html"><span>Tenneville </span><span class="commune-count">(2 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Vaux-sur-Sûre" data-terrains="2" data-clubs="0" data-osm="way/317611879 way/1516380085" data-recherche-clef="vaux-sur-sure"><a href="#map"><span>Vaux-sur-Sûre </span><span class="commune-count">(2 courts)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Attert" data-terrains="1" data-clubs="1" data-osm="way/665035368" data-recherche-clef="attert"><a href="#map"><span>Attert </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Aubange" data-terrains="1" data-clubs="1" data-osm="way/1018519007" data-recherche-clef="aubange"><a href="#map"><span>Aubange </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Daverdisse" data-terrains="1" data-clubs="0" data-osm="node/5796719255" data-recherche-clef="daverdisse"><a href="#map"><span>Daverdisse </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Fauvillers" data-terrains="1" data-clubs="0" data-osm="way/1416042818" data-recherche-clef="fauvillers"><a href="#map"><span>Fauvillers </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Herbeumont" data-terrains="1" data-clubs="0" data-osm="way/1412215072" data-recherche-clef="herbeumont"><a href="#map"><span>Herbeumont </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Houffalize" data-terrains="1" data-clubs="0" data-osm="way/1420158035" data-recherche-clef="houffalize"><a href="#map"><span>Houffalize </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="La Roche-en-Ardenne" data-terrains="1" data-clubs="0" data-osm="node/13860527023" data-recherche-clef="la roche-en-ardenne"><a href="#map"><span>La Roche-en-Ardenne </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Marche-en-Famenne" data-terrains="1" data-clubs="0" data-osm="way/175601091" data-recherche-clef="marche-en-famenne"><a href="#map"><span>Marche-en-Famenne </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Meix-devant-Virton" data-terrains="1" data-clubs="1" data-osm="way/312692834" data-recherche-clef="meix-devant-virton"><a href="#map"><span>Meix-devant-Virton </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Rouvroy" data-terrains="1" data-clubs="0" data-osm="way/1221261769" data-recherche-clef="rouvroy"><a href="#map"><span>Rouvroy </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Tintigny" data-terrains="1" data-clubs="0" data-osm="way/313910752" data-recherche-clef="tintigny"><a href="#map"><span>Tintigny </span><span class="commune-count">(1 court)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Virton" data-terrains="1" data-clubs="1" data-osm="way/1089438112" data-recherche-clef="virton"><a href="#map"><span>Virton </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item" data-commune="Arlon" data-terrains="7" data-recherche-clef="arlon"><a href="/en/commune/arlon.html"><span>Arlon </span><span class="commune-count">(7 courts)</span></a></div>
+            <div class="commune-item" data-commune="Vielsalm" data-terrains="6" data-recherche-clef="vielsalm"><a href="/en/commune/vielsalm.html"><span>Vielsalm </span><span class="commune-count">(6 courts)</span></a></div>
+            <div class="commune-item" data-commune="Gouvy" data-terrains="3" data-recherche-clef="gouvy"><a href="/en/carte.html?commune=gouvy"><span>Gouvy </span><span class="commune-count">(3 courts)</span></a></div>
+            <div class="commune-item" data-commune="Messancy" data-terrains="3" data-recherche-clef="messancy"><a href="/en/commune/messancy.html"><span>Messancy </span><span class="commune-count">(3 courts)</span></a></div>
+            <div class="commune-item" data-commune="Saint-Hubert" data-terrains="3" data-recherche-clef="saint-hubert"><a href="/en/commune/saint-hubert.html"><span>Saint-Hubert </span><span class="commune-count">(3 courts)</span></a></div>
+            <div class="commune-item" data-commune="Érezée" data-terrains="3" data-recherche-clef="erezee"><a href="/en/carte.html?commune=erezee"><span>Érezée </span><span class="commune-count">(3 courts)</span></a></div>
+            <div class="commune-item" data-commune="Bastogne" data-terrains="2" data-recherche-clef="bastogne"><a href="/en/commune/bastogne.html"><span>Bastogne </span><span class="commune-count">(2 courts)</span></a></div>
+            <div class="commune-item" data-commune="Durbuy" data-terrains="2" data-recherche-clef="durbuy"><a href="/en/commune/durbuy.html"><span>Durbuy </span><span class="commune-count">(2 courts)</span></a></div>
+            <div class="commune-item" data-commune="Habay" data-terrains="2" data-recherche-clef="habay"><a href="/en/commune/habay.html"><span>Habay </span><span class="commune-count">(2 courts)</span></a></div>
+            <div class="commune-item" data-commune="Léglise" data-terrains="2" data-recherche-clef="leglise"><a href="/en/commune/leglise.html"><span>Léglise </span><span class="commune-count">(2 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Rendeux" data-terrains="2" data-recherche-clef="rendeux"><a href="/en/carte.html?commune=rendeux"><span>Rendeux </span><span class="commune-count">(2 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Tenneville" data-terrains="2" data-recherche-clef="tenneville"><a href="/en/commune/tenneville.html"><span>Tenneville </span><span class="commune-count">(2 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Vaux-sur-Sûre" data-terrains="2" data-recherche-clef="vaux-sur-sure"><a href="/en/carte.html?commune=vaux-sur-sure"><span>Vaux-sur-Sûre </span><span class="commune-count">(2 courts)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Attert" data-terrains="1" data-recherche-clef="attert"><a href="/en/carte.html?commune=attert"><span>Attert </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Aubange" data-terrains="1" data-recherche-clef="aubange"><a href="/en/carte.html?commune=aubange"><span>Aubange </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Daverdisse" data-terrains="1" data-recherche-clef="daverdisse"><a href="/en/carte.html?commune=daverdisse"><span>Daverdisse </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Fauvillers" data-terrains="1" data-recherche-clef="fauvillers"><a href="/en/carte.html?commune=fauvillers"><span>Fauvillers </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Herbeumont" data-terrains="1" data-recherche-clef="herbeumont"><a href="/en/carte.html?commune=herbeumont"><span>Herbeumont </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Houffalize" data-terrains="1" data-recherche-clef="houffalize"><a href="/en/carte.html?commune=houffalize"><span>Houffalize </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="La Roche-en-Ardenne" data-terrains="1" data-recherche-clef="la roche-en-ardenne"><a href="/en/carte.html?commune=la-roche-en-ardenne"><span>La Roche-en-Ardenne </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Marche-en-Famenne" data-terrains="1" data-recherche-clef="marche-en-famenne"><a href="/en/carte.html?commune=marche-en-famenne"><span>Marche-en-Famenne </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Meix-devant-Virton" data-terrains="1" data-recherche-clef="meix-devant-virton"><a href="/en/carte.html?commune=meix-devant-virton"><span>Meix-devant-Virton </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Rouvroy" data-terrains="1" data-recherche-clef="rouvroy"><a href="/en/carte.html?commune=rouvroy"><span>Rouvroy </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Tintigny" data-terrains="1" data-recherche-clef="tintigny"><a href="/en/carte.html?commune=tintigny"><span>Tintigny </span><span class="commune-count">(1 court)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Virton" data-terrains="1" data-recherche-clef="virton"><a href="/en/carte.html?commune=virton"><span>Virton </span><span class="commune-count">(1 court)</span></a></div>
             <div class="commune-item commune-vide" style="display: none" data-recherche-clef="bertrix"><p>Bertrix: no court listed yet. The nearest one is in <a href="/en/carte.html?lat=49.8059669&amp;lon=5.3626543">Herbeumont</a>, 10 km away.</p></div>
             <div class="commune-item commune-vide" style="display: none" data-recherche-clef="bouillon"><p>Bouillon: no court listed yet. The nearest one is in <a href="/en/commune/bievre.html">Bièvre</a>, 9 km away.</p></div>
             <div class="commune-item commune-vide" style="display: none" data-recherche-clef="chiny"><p>Chiny: no court listed yet. The nearest one is in <a href="/en/carte.html?lat=49.6937202&amp;lon=5.4892345">Tintigny</a>, 8 km away.</p></div>
@@ -338,24 +331,23 @@
 
 <!-- Panneau d'info coulissant -->
 
+<!-- Carte invisible : sert seulement à ouvrir sur place la fiche d'un terrain du carrousel
+     (ouvrirFicheSurPlace dans script.js). La carte du site est sur /carte.html. -->
+<div id="map" style="display:none;"></div>
+
 <!-- Pied de page : construit par construirePied() dans script.js -->
 <footer class="pied"></footer>
 
-<!-- Bibliothèque Leaflet -->
+<!-- Bibliothèque Leaflet : script.js crée une carte (invisible ici) pour ouvrir les fiches -->
 <script src="/lib/leaflet-1.9.4/leaflet.js"></script>
 <script src="/lib/leaflet.markercluster-1.5.3/leaflet.markercluster.js"></script>
 
 <!-- Traductions -->
 <script src="/translations.js"></script>
 
-<!-- Empêche script.js de charger/afficher son jeu de marqueurs par défaut (tous les terrains de
-     Belgique, avec clustering) : cette page construit son propre sous-ensemble juste après. -->
+<!-- Pas de marqueurs sur la carte invisible de la page -->
 <script>window.MAPETANQUE_SKIP_DEFAULT_MARKERS = true;</script>
 
-<!-- Restreint la couche clubs (chargée par script.js, voir plus bas) à cette province — même
-     clé que celle utilisée juste après pour filtrer les terrains, luxembourg valant soit
-     le slug de la province, soit celui de la région pour Bruxelles (pas de province dédiée). -->
-<script>window.MAPETANQUE_STATS_GEO_KEY = 'luxembourg';</script>
 
 <!-- Script du site -->
 <script src="/chargeur-photo.js"></script>
@@ -365,146 +357,16 @@
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
 
 <!-- ===================== Comportement propre à la page province ===================== -->
-<!-- Réutilise les briques de script.js (icône des terrains, contenu des popups, calcul de
-     distance, etc. — voir window.MAPETANQUE_SKIP_DEFAULT_MARKERS plus haut) mais charge et
-     affiche uniquement les terrains de cette province, sans regroupement (clustering) puisque
-     le sous-ensemble est déjà restreint. -->
 <script>
 (function () {
 
-    // Sécurité : force Leaflet à recalculer la taille de son conteneur avant tout calcul de
-    // cadrage, pour que fitBounds() s'appuie sur une carte déjà correctement dimensionnée.
-    if (typeof map !== 'undefined') {
-        map.invalidateSize();
-    }
-
-    function appartientALaProvince(props) {
-        if (props.province) return props.province === 'luxembourg';
-        return props.region === 'luxembourg'; // cas particulier Bruxelles (pas de province)
-    }
-
-    let toastTimeout = null;
-    function afficherToast(texte) {
-        const toast = document.getElementById('mapToast');
-        if (!toast) return;
-        toast.textContent = texte;
-        toast.classList.add('visible');
-        clearTimeout(toastTimeout);
-        toastTimeout = setTimeout(function () { toast.classList.remove('visible'); }, 2800);
-    }
-
-    // Marqueur de chaque terrain (osm_id), rempli à l'arrivée des terrains : lu au clic sur une
-    // commune de la liste qui n'a pas sa page (plus bas, data-osm).
-    const layersParOsm = {};
-
-    // terrainsGeojson : téléchargement unique du fichier, lancé par script.js (pied de page)
-    terrainsGeojson
-        .then(function (data) {
-
-            const featuresProvince = data.features.filter(function (f) {
-                return appartientALaProvince(f.properties);
-            });
-
-            if (featuresProvince.length === 0) {
-                afficherToast('No courts loaded for this province');
-                return;
-            }
-
-            // Regroupement (clustering) des terrains, comme sur la page d'accueil et les pages
-            // région — jusqu'ici cette page utilisait un simple L.layerGroup (pas de
-            // regroupement), ce qui pouvait ralentir sensiblement le pan/zoom sur mobile pour les
-            // provinces comptant beaucoup de terrains. Même seuil que partout ailleurs sur le site
-            // (disableClusteringAtZoom: 16) : au clic sur une commune n'ayant qu'un seul terrain
-            // plus bas, fitBounds({maxZoom:16}) zoome exactement jusqu'à ce seuil, où le
-            // regroupement est déjà désactivé — le marqueur est donc bien individualisé avant
-            // l'appel à openPopup() juste après, sans changement nécessaire à cette logique.
-            const groupe = L.markerClusterGroup({ disableClusteringAtZoom: 16, maxClusterRadius: rayonAmas() });
-
-            featuresProvince.forEach(function (feature) {
-                const coords = feature.geometry.coordinates; // [lon, lat]
-                const latlng = [coords[1], coords[0]];
-                const layer = L.marker(latlng, { icon: terrainMarkerIcon });
-                layer.feature = feature;   // lu par les filtres de la carte (script.js)
-
-                window.brancherPopupTerrain(layer, feature);
-
-                layer.addTo(groupe);
-                layersParOsm[feature.properties.osm_id] = layer;
-            });
-
-            groupe.addTo(map);
-            window.enregistrerTerrainsFiltrables(groupe);
-
-            // Exposée pour /beaux-terrains.js (page Bruxelles) : lui permet d'ouvrir la popup du
-            // bon marqueur au clic sur une tuile du carrousel. Nécessaire ici car script.js ne
-            // crée pas sa couche `markers` sur ces pages (MAPETANQUE_SKIP_DEFAULT_MARKERS), donc
-            // allerVersTerrain() n'y existe pas.
-            window.beauxTerrainsGroupe = groupe;
-
-            const bounds = L.latLngBounds(featuresProvince.map(function (f) {
-                return [f.geometry.coordinates[1], f.geometry.coordinates[0]];
-            }));
-            cadrerSurEmprise(bounds, { padding: [30, 30] });
-        })
-        .catch(function () {
-            afficherToast('Courts cannot be loaded at the moment');
-        });
-
     // Liste des communes officielles : écrite dans la page par generate_provinces.py, triée par
-    // nombre de terrains décroissant. Une commune qui a sa page (commune/<slug>.html) y mène par
-    // un lien ordinaire ; une commune à un seul lieu montre ses terrains sur la carte (data-osm) ;
-    // une commune sans terrain (.commune-vide) n'apparaît qu'à la recherche. Ici, on ne fait que
-    // rendre la liste interactive : clic vers la carte, recherche, repli, clubs.
+    // nombre de terrains décroissant. Une commune qui a sa page (commune/<slug>.html) y mène ;
+    // une commune à un seul lieu mène à la page carte, qui ouvre sa fiche ; une commune sans
+    // terrain (.commune-vide) n'apparaît qu'à la recherche. Ici, on ne fait que rendre la liste
+    // interactive : recherche et repli.
     const listeCommunes = document.getElementById('communeList');
     const boutonCommunes = document.getElementById('communeVoirTout');
-    const lignesCommunes = listeCommunes.querySelectorAll('.commune-item:not(.commune-vide)');
-
-    // Texte "x terrains" ou "x terrains, x clubs" d'une ligne : les clubs (data-clubs, comptés
-    // par le générateur) ne sont cités que si la couche clubs est affichée sur la carte, et s'il
-    // y en a — « 0 club » sur la plupart des lignes n'apportait rien.
-    function texteComptageCommune(item) {
-        const nbTerrains = Number(item.dataset.terrains);
-        const uniteTerrain = nbTerrains > 1 ? 'courts' : 'court';
-        let texte = nbTerrains + ' ' + uniteTerrain;
-
-        const clubsAffiches = typeof clubsLayer !== 'undefined' && map.hasLayer(clubsLayer);
-        const nbClubs = Number(item.dataset.clubs) || 0;
-        if (clubsAffiches && nbClubs > 0) {
-            const uniteClub = nbClubs > 1 ? 'clubs' : 'club';
-            texte += ', ' + nbClubs + ' ' + uniteClub;
-        }
-
-        return texte;
-    }
-
-    function mettreAJourComptagesCommunes() {
-        lignesCommunes.forEach(function (item) {
-            item.querySelector('.commune-count').textContent = '(' + texteComptageCommune(item) + ')';
-        });
-    }
-
-    listeCommunes.querySelectorAll('.commune-item[data-osm]').forEach(function (item) {
-        item.querySelector('a').addEventListener('click', function (e) {
-            e.preventDefault();
-            const layersCommune = item.dataset.osm.split(' ')
-                .map(function (osmId) { return layersParOsm[osmId]; })
-                .filter(Boolean);
-            // Terrains pas encore arrivés : on se contente de descendre jusqu'à la carte. Sinon,
-            // un seul lieu (sans quoi la commune aurait sa page) : sa fiche s'ouvre, celle de sa
-            // première piste, qui porte les notes et avis de tout le groupe.
-            if (layersCommune.length) {
-                const boundsCommune = L.latLngBounds(layersCommune.map(function (l) { return l.getLatLng(); }));
-                map.fitBounds(boundsCommune, { padding: [40, 40], maxZoom: 16 });
-                layersCommune[0].openPopup();
-            }
-            document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        });
-    });
-
-    // Réagit à l'arrivée de data/clubs.json et à chaque coche/décoche de "Afficher les clubs"
-    // (voir script.js) pour compléter ou retirer le comptage de clubs de chaque commune.
-    window.addEventListener('clubsChargees', mettreAJourComptagesCommunes);
-    window.addEventListener('clubsAffichageChange', mettreAJourComptagesCommunes);
 
     // Liste repliée (10 premières communes) ou complète : le bouton bascule entre les deux.
     // La page arrive repliée (classe "repliee" et bouton visible, écrits par le générateur).

@@ -12,8 +12,7 @@
        l'affichage, puis affinée par GPS si la personne clique sur "Me localiser" ; sur une page
        région, la région est imposée par la page elle-même et n'est jamais re-détectée.
 
-   Dépend de : window.allerVersTerrain et window.map (script.js) sur la page d'accueil,
-               window.beauxTerrainsGroupe (exposé par le template région) sur les pages région.
+   Dépend de : window.ouvrirFicheSurPlace (script.js), pour ouvrir la fiche d'une tuile.
    script.js appelle en retour window.mapetanqueMajRegionBeauxTerrains(lat, lon), exposée par ce
    fichier, dès qu'il obtient une position GPS via "Me localiser".
    ===================================================================================== */
@@ -456,52 +455,14 @@
     }
 
     // ---------------------------------------------------------------------------------
-    // Clic sur une tuile : ouvrir la fiche du terrain depuis la carte
+    // Clic sur une tuile : ouvrir la fiche du terrain
     // ---------------------------------------------------------------------------------
-    // On ne reconstruit AUCUN contenu de fiche ici : on ouvre la vraie popup Leaflet du
-    // marqueur, qui passe par brancherPopupTerrain (donc bascule automatiquement en fiche
-    // plein écran sur mobile / fenêtre flottante sur desktop, avec photos et partage câblés).
+    // On ne reconstruit AUCUN contenu de fiche ici : la fiche est celle de la carte, construite
+    // par brancherPopupTerrain (fiche plein écran sur mobile, fenêtre flottante sur desktop).
     function ouvrirTerrain(t) {
         if (t.lat == null || t.lon == null) return;
-
-        // Pages région et Bruxelles : le template expose sa propre couche sur
-        // window.beauxTerrainsGroupe — signal fiable, posé exprès pour ce cas. On le teste en
-        // premier plutôt que allerVersTerrain : cette dernière EXISTE toujours (fonction déclarée
-        // sans condition dans script.js), y compris sur ces pages, mais y plante silencieusement
-        // (elle s'appuie sur `markers`, jamais créé quand MAPETANQUE_SKIP_DEFAULT_MARKERS est
-        // actif) — d'où le clic qui ne faisait rien.
-        var groupe = window.beauxTerrainsGroupe;
-        var carte = window.map;
-        if (groupe && carte) {
-            // Terrain masqué par les filtres de la carte : on les retire (voir script.js).
-            if (typeof window.mapetanqueRevelerTerrain === "function") window.mapetanqueRevelerTerrain(t.lat, t.lon);
-            var cible = null;
-            groupe.eachLayer(function (layer) {
-                if (cible) return;
-                var pos = layer.getLatLng();
-                if (Math.abs(pos.lat - t.lat) < 0.0001 && Math.abs(pos.lng - t.lon) < 0.0001) {
-                    cible = layer;
-                }
-            });
-
-            if (cible) {
-                groupe.zoomToShowLayer(cible, function () { cible.openPopup(); });
-            } else {
-                // Terrain introuvable sur la carte (retiré depuis ?) : on centre quand même dessus.
-                carte.setView([t.lat, t.lon], 18);
-            }
-
-            // Le carrousel est au-dessus de la carte sur les pages région : on redescend vers la
-            // carte pour que le recentrage soit visible.
-            var conteneurCarte = document.getElementById("map");
-            if (conteneurCarte && conteneurCarte.scrollIntoView) {
-                conteneurCarte.scrollIntoView({ behavior: "smooth", block: "center" });
-            }
-            return;
-        }
-
-        // Page d'accueil, sans carte : la fiche s'ouvre sur place, avec un lien « Voir sur la
-        // carte » (ouvrirFicheSurPlace dans script.js).
+        // Aucune page n'a plus de carte visible (elle est sur /carte.html) : la fiche s'ouvre
+        // sur place, avec un lien « Voir sur la carte » (ouvrirFicheSurPlace dans script.js).
         if (typeof window.ouvrirFicheSurPlace === "function") {
             window.ouvrirFicheSurPlace(t.osm_id, t.lat, t.lon);
         }

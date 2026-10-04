@@ -183,8 +183,7 @@ def construire_liste_communes(communes, entrees, langue, tr):
     nombre de clubs).
 
     - Commune ayant sa page (au moins MIN_LIEUX lieux) : lien vers la page commune.
-    - Commune à un seul lieu : pas de page, le clic montre ses terrains sur la carte de la page
-      (data-osm).
+    - Commune à un seul lieu : pas de page, le lien mène à la page carte, qui ouvre sa fiche.
     - Commune sans terrain : ligne masquée, qui n'apparaît que si la recherche la trouve, avec
       le terrain le plus proche."""
     prefixe = "" if langue == "fr" else f"{langue}/"
@@ -202,13 +201,12 @@ def construire_liste_communes(communes, entrees, langue, tr):
             classes += " commune-repliee"
         unite = tr["stats_terrains_unit"] if nb > 1 else tr["province_terrain_singulier"]
         if e["page"]:
-            href, osm = f"/{prefixe}commune/{commune['slug']}.html", ""
+            href = f"/{prefixe}commune/{commune['slug']}.html"
         else:
-            href = "#map"
-            osm = f' data-osm="{" ".join(t["osm_id"] for t in e["terrains"])}"'
+            href = f"/{prefixe}carte.html?commune={commune['slug']}"
         lignes.append(
             f'            <div class="{classes}" data-commune="{html.escape(commune["nom"])}" '
-            f'data-terrains="{nb}" data-clubs="{e["clubs"]}"{osm} '
+            f'data-terrains="{nb}" '
             f'data-recherche-clef="{html.escape(communes.noms_recherche(commune))}">'
             f'<a href="{href}"><span>{html.escape(communes.nom(commune, langue))} </span>'
             f'<span class="commune-count">({nb} {unite})</span></a></div>'
@@ -251,12 +249,12 @@ def construire_bloc_beaux_terrains(config, tr):
 
     Rendue uniquement pour Bruxelles : cette page tient lieu de page région (il n'existe pas de
     region-bruxelles.html, Bruxelles n'ayant pas de sous-provinces), et le carrousel n'est voulu
-    que sur l'accueil et les pages région. Les autres provinces reçoivent une chaîne vide, leur
-    page reste donc strictement inchangée."""
+    que sur l'accueil et les pages région. Il vient dans sa bande grise, sous la bannière. Les
+    autres provinces reçoivent une chaîne vide."""
     if config["region_key"] != "bruxelles":
         return ""
     return (
-        '\n'
+        '<div class="province-bande-carte">\n'
         '    <!-- Section "Les plus beaux terrains" : cette page province tient lieu de page région\n'
         '         pour Bruxelles. Remplie par /beaux-terrains.js à partir de /data/beaux_terrains.json,\n'
         '         restreinte à la région via data-region. Se masque d\'elle-même si aucun terrain n\'y\n'
@@ -268,6 +266,7 @@ def construire_bloc_beaux_terrains(config, tr):
         '            <div class="beaux-terrains-scroller"></div>\n'
         '        </div>\n'
         '    </section>\n'
+        '</div>\n'
     )
 
 
@@ -479,6 +478,8 @@ def generer_page(cle, config, langue, langues_disponibles, other_provinces_block
         "{{PROVINCE_NAME}}": nom_province,
         "{{BANNER_CREDIT_HTML}}": credit_banniere(config["banner_credit_html"], langue),
         "{{INTRO_HTML}}": intro_html,
+        "{{CARTE_URL}}": f'{url_racine_langue(langue)}carte.html?province={config["stats_geo_province"] or "bruxelles"}',
+        "{{UI_VOIR_CARTE}}": tr["province_voir_carte"].replace("{n}", str(total_terrains)),
         "{{BEAUX_TERRAINS_SECTION}}": construire_bloc_beaux_terrains(config, tr),
         "{{PROVINCE_NOMINATIM_QUERY}}": nominatim_query,
         "{{STATS_GEO_KEY}}": config["stats_geo_province"] or config["stats_geo_region"],
@@ -563,6 +564,8 @@ def generer_page_region(cle, config, langue, langues_disponibles, template, stat
         "{{REGION_NAME}}": nom_region,
         "{{BANNER_CREDIT_HTML}}": credit_banniere(config["banner_credit_html"], langue),
         "{{INTRO_HTML}}": intro_html,
+        "{{CARTE_URL}}": f'{url_racine_langue(langue)}carte.html?region={config["region_key"]}',
+        "{{UI_VOIR_CARTE}}": tr["province_voir_carte"].replace("{n}", str(total_terrains)),
         "{{STATS_GEO_KEY}}": config["region_key"],
         "{{SLUG}}": config["slug"],
         "{{HOME_URL}}": url_racine_langue(langue),
