@@ -42,6 +42,8 @@
     <link rel="stylesheet" href="/style-comment-jouer.css">
     <link rel="stylesheet" href="/style-la-petanque.css">
     <link rel="stylesheet" href="/style-ombres.css">
+    <!-- En-tête sans bannière photo des pages de contenu -->
+    <link rel="stylesheet" href="/style-entete-sobre.css">
     <!-- Données structurées schema.org (Google, IA) : écrites par scripts/generer_referencement.py, ne pas modifier à la main. -->
     <script type="application/ld+json">
     {
@@ -57,7 +59,7 @@
           "isPartOf": {
             "@id": "https://mapetanque.be/#site"
           },
-          "primaryImageOfPage": "https://mapetanque.be/images/banniere-la-petanque.webp",
+          "primaryImageOfPage": "https://mapetanque.be/images/mapetanque-partage.png?v=2",
           "breadcrumb": {
             "@type": "BreadcrumbList",
             "itemListElement": [
@@ -81,7 +83,7 @@
           "headline": "La pétanque, d'hier à aujourd'hui",
           "description": "L'histoire de la pétanque, de son invention à La Ciotat en 1907 aux titres mondiaux belges, et pourquoi c'est aujourd'hui un sport si accessible et si convivial.",
           "inLanguage": "fr",
-          "image": "https://mapetanque.be/images/banniere-la-petanque.webp",
+          "image": "https://mapetanque.be/images/mapetanque-partage.png?v=2",
           "mainEntityOfPage": {
             "@id": "https://mapetanque.be/la-petanque.html#page"
           },
@@ -114,7 +116,7 @@
 
 <div id="top">
 
-<div class="hero-banner" style="background-image: url('/images/banniere-la-petanque.webp');">
+<div class="entete-sobre">
 
 <div class="header">
 
@@ -122,7 +124,7 @@
         <a href="/" class="brand-link">
             <picture>
                 <source media="(max-width: 1024px)" srcset="/images/mapetanque-boule-pleine.svg" width="32" height="32">
-                <img src="/images/mapetanque-logo.svg" class="logo" width="196" height="34" alt="Mapetanque">
+                <img src="/images/mapetanque-logo-fonce.svg" class="logo" width="196" height="34" alt="Mapetanque">
             </picture>
         </a>
 
@@ -189,11 +191,7 @@
 
 </div><!-- /.header -->
 
-<div class="hero-banner-credit">
-    Photo : Marianne Casamance, <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a>
-</div>
-
-</div><!-- /.hero-banner -->
+</div><!-- /.entete-sobre -->
 
 <nav id="side-menu">
     <button id="close-menu" data-i18n-aria="close_menu">

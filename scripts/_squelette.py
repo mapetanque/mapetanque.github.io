@@ -56,15 +56,16 @@ def construire_page(
     prefixe           "", "nl/", "de/" ou "en/"
     titre             contenu de <title> et de og:title
     description       meta description et og:description
-    h1                titre affiché dans la bannière
+    h1                titre affiché dans l'en-tête
     fil               couple (libellé accueil, libellé page) du fil d'Ariane, ou triplet
                       (libellé accueil, [(libellé, url), ...], libellé page) avec des étapes
                       intermédiaires (pages commune : région › province)
     contenu           HTML complet remplaçant l'intérieur de .rules-content
     feuilles_sup      feuilles de style à charger après style-comment-jouer.css
     tete_sup          balisage inséré juste avant </head>, ex. des données structurées
-    banniere          chemin d'image remplaçant la bannière du squelette
-    credit            texte du crédit sous la bannière
+    banniere          chemin d'une photo : la page prend une bannière photo au lieu de
+                      l'en-tête sobre du squelette (pages commune)
+    credit            texte du crédit sous la bannière (seulement avec `banniere`)
     langues_publiees  langues pour lesquelles la page existe : les hreflang et le sélecteur
                       de langue ne pointent que vers celles-ci, pour ne pas annoncer d'URL
                       répondant 404
@@ -124,21 +125,32 @@ def construire_page(
         src = src.replace("</head>", "    " + tete_sup + "\n</head>", 1)
 
     # --- Bannière -----------------------------------------------------------------------
+    # Le squelette a l'en-tête sobre des pages de contenu (fond blanc, logo foncé, sans photo :
+    # style-entete-sobre.css). Une page qui demande une bannière photo (pages commune) retrouve
+    # l'en-tête des pages province : photo, logo clair, crédit sous la bannière.
     if banniere:
         src = src.replace(
-            "url('/images/banniere-comment-jouer.webp')", f"url('{banniere}')", 1
+            '\n    <!-- En-tête sans bannière photo des pages de contenu -->'
+            '\n    <link rel="stylesheet" href="/style-entete-sobre.css">',
+            "",
+            1,
         )
-    # Une chaîne vide retire le crédit hérité de comment-jouer.html (photo sans crédit à afficher).
-    if credit is not None:
-        # Typographie anglaise : pas d'espace avant le deux-points (« Photo: … »).
-        if prefixe == "en/":
-            credit = credit.replace("Photo : ", "Photo: ")
-        src = re.sub(
-            r'<div class="hero-banner-credit">.*?</div>',
-            f'<div class="hero-banner-credit">\n    {credit}\n</div>',
-            src,
-            count=1,
-            flags=re.S,
+        src = src.replace(
+            '<div class="entete-sobre">',
+            f'<div class="hero-banner" style="background-image: url(\'{banniere}\');">',
+            1,
+        )
+        src = src.replace(
+            'src="/images/mapetanque-logo-fonce.svg"', 'src="/images/mapetanque-logo.svg"', 1
+        )
+        credit_html = ""
+        if credit is not None:
+            # Typographie anglaise : pas d'espace avant le deux-points (« Photo: … »).
+            if prefixe == "en/":
+                credit = credit.replace("Photo : ", "Photo: ")
+            credit_html = f'<div class="hero-banner-credit">\n    {credit}\n</div>\n\n'
+        src = src.replace(
+            "</div><!-- /.entete-sobre -->", credit_html + "</div><!-- /.hero-banner -->", 1
         )
 
     # --- Fil d'Ariane et titre ------------------------------------------------------------

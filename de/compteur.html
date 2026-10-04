@@ -37,6 +37,8 @@
     <link rel="stylesheet" href="/style-chargeur-photo.css">
     <link rel="stylesheet" href="/style-comment-jouer.css">
     <link rel="stylesheet" href="/style-ombres.css">
+    <!-- En-tête sans bannière photo des pages de contenu -->
+    <link rel="stylesheet" href="/style-entete-sobre.css">
     <!-- Styles du widget compteur : palette et typographie propres à cet outil -->
     <link rel="stylesheet" href="/style-compteur.css">
     <!-- Données structurées schema.org (Google, IA) : écrites par scripts/generer_referencement.py, ne pas modifier à la main. -->
@@ -54,7 +56,7 @@
           "isPartOf": {
             "@id": "https://mapetanque.be/#site"
           },
-          "primaryImageOfPage": "https://mapetanque.be/images/banniere-compteur.webp",
+          "primaryImageOfPage": "https://mapetanque.be/images/mapetanque-partage.png?v=2",
           "breadcrumb": {
             "@type": "BreadcrumbList",
             "itemListElement": [
@@ -100,7 +102,7 @@
 
 <div id="top">
 
-<div class="hero-banner" style="background-image: url('/images/banniere-compteur.webp');">
+<div class="entete-sobre">
 
 <div class="header">
 
@@ -108,7 +110,7 @@
         <a href="/de/" class="brand-link">
             <picture>
                 <source media="(max-width: 1024px)" srcset="/images/mapetanque-boule-pleine.svg" width="32" height="32">
-                <img src="/images/mapetanque-logo.svg" class="logo" width="196" height="34" alt="Mapetanque">
+                <img src="/images/mapetanque-logo-fonce.svg" class="logo" width="196" height="34" alt="Mapetanque">
             </picture>
         </a>
 
@@ -175,11 +177,7 @@
 
 </div><!-- /.header -->
 
-<div class="hero-banner-credit">
-    Photo : <a href="https://www.magnific.com/fr/photos-gratuite/amis-ages-jouant-petanque_27642745.htm" target="_blank" rel="noopener">Designed by Magnific</a>
-</div>
-
-</div><!-- /.hero-banner -->
+</div><!-- /.entete-sobre -->
 
 <nav id="side-menu">
     <button id="close-menu" data-i18n-aria="close_menu">

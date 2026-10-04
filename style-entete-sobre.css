@@ -1,0 +1,149 @@
+/* =============================================================================================
+   En-tête sobre, sans bannière photo, des pages de contenu (Comment jouer, Compteur de points,
+   La pétanque, À propos), dans les quatre langues.
+
+   Inspiré d'AllTrails : fond blanc, logo à gauche et menu à droite (burger en mobile), puis le
+   fil d'Ariane et un grand titre foncé, alignés sur la colonne de contenu (.rules-content).
+
+   Mise en place : l'en-tête de la page est un <div class="entete-sobre"> (au lieu de
+   <div class="hero-banner" style="background-image: …">), sans crédit photo, avec le logo foncé,
+   et cette feuille est chargée après style-ombres.css. Comment jouer et Compteur sont écrits à la
+   main ; À propos et La pétanque sont produits à partir de comment-jouer.html (_squelette.py),
+   qui rend aussi leur bannière photo aux pages commune.
+
+   Sans la classe .hero-banner, aucune règle de bannière (photo, voile, textes blancs, ombres) ne
+   s'applique plus : on retombe sur les styles de base de style.css, et il ne reste ici que les
+   quelques réglages propres à cet en-tête.
+============================================================================================= */
+
+/* --- Logo et menu ------------------------------------------------------------------------- */
+
+/* Ombres de style-ombres.css posées par identifiant (#game-nav-inline…), donc actives même hors
+   bannière : inutiles et salissantes sur fond blanc. */
+.entete-sobre #game-nav-inline .game-nav-link,
+.entete-sobre #desktop-nav .info-nav-trigger,
+.entete-sobre #lang-switcher-inline .lang-link,
+.entete-sobre #lang-switcher-inline .lang-toggle {
+    text-shadow: none;
+}
+
+.entete-sobre #lang-switcher-inline .lang-toggle svg,
+.entete-sobre #menu-button svg {
+    filter: none;
+}
+
+/* Mêmes réglages de nav que sur la bannière (voir style.css et style-comment-jouer.css) :
+   icônes masquées, espacement resserré, pas de trait entre liens de jeu et « À propos ». */
+.entete-sobre .game-nav-link svg {
+    display: none;
+}
+
+.entete-sobre .game-nav-link,
+.entete-sobre .info-nav-trigger {
+    padding-left: 11.9px;
+    padding-right: 11.9px;
+}
+
+.entete-sobre #game-nav-inline,
+.entete-sobre #desktop-nav {
+    gap: 1.7px;
+}
+
+.entete-sobre #game-nav-inline {
+    border-right: none;
+    margin-right: 0;
+    padding-right: 0;
+}
+
+.entete-sobre #lang-switcher-inline {
+    height: 26px;
+}
+
+/* Burger : traits foncés au lieu de blancs */
+.entete-sobre #menu-button {
+    color: #1d2619;
+}
+
+/* --- Fil d'Ariane et titre ---------------------------------------------------------------- */
+
+/* Calés sur la colonne de contenu (.rules-content : 720px, retrait de 20px) pour que le titre
+   tombe pile au-dessus du texte. */
+.entete-sobre .province-breadcrumb,
+.entete-sobre .hero-headline {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 20px;
+}
+
+.entete-sobre .province-breadcrumb {
+    margin-top: 46px;
+    font-size: 14px;
+    color: #1d2619;
+    flex-wrap: wrap;
+}
+
+.entete-sobre .province-breadcrumb a {
+    color: #1d2619;
+    opacity: 1;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.entete-sobre .province-breadcrumb a:hover {
+    color: #74C15A;
+}
+
+.entete-sobre .province-breadcrumb .sep {
+    opacity: 0.5;
+}
+
+.entete-sobre .province-breadcrumb .current {
+    font-weight: normal;
+}
+
+.entete-sobre .hero-headline {
+    text-align: left;
+    font-size: 44px;
+    line-height: 1.15;
+    color: #1d2619;
+    margin-top: 26px;
+    margin-bottom: 0;
+}
+
+/* --- Compteur de points : tient dans l'écran (desktop) -------------------------------------- */
+
+/* Hauteur = écran moins ce qui est au-dessus du widget (en-tête, fil d'Ariane, titre : ~225px)
+   et une petite marge en bas, bornée entre 460px (en dessous, le contenu se tasse) et 640px (la
+   hauteur d'origine). 100vh d'abord, pour les navigateurs qui ne connaissent pas dvh.
+   Desktop seulement : en mobile portrait, le chiffre du score est dimensionné sur la hauteur de
+   l'écran (28vh, style-compteur.css) et chevauche le nom de l'équipe si le widget raccourcit ;
+   on y garde donc la hauteur d'origine (un peu de défilement, et le bouton plein écran).
+   :not(.fullscreen-active) laisse le plein écran à sa propre règle, et la double classe passe
+   devant .compteur-widget de style-compteur.css, chargé après cette feuille. */
+@media (min-width: 1025px) {
+    .compteur-widget:not(.fullscreen-active) {
+        height: clamp(460px, calc(100vh - 245px), 640px);
+        height: clamp(460px, calc(100dvh - 245px), 640px);
+    }
+}
+
+@media (max-width: 1024px) {
+    /* .header a 15px de retrait en mobile, .rules-content 20px : 5px suffisent pour s'aligner */
+    .entete-sobre .province-breadcrumb,
+    .entete-sobre .hero-headline {
+        padding: 0 5px;
+    }
+
+    .entete-sobre .province-breadcrumb {
+        margin-top: 22px;
+        font-size: 13px;
+    }
+
+    .entete-sobre .hero-headline {
+        font-size: 30px;
+        margin-top: 14px;
+    }
+}

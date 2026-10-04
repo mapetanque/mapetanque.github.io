@@ -579,12 +579,6 @@ for langue, meta in META.items():
         fil=meta["fil"],
         contenu=bloc_contenu(langue, meta["prefixe"]),
         feuilles_sup=("/style-la-petanque.css",),
-        banniere="/images/banniere-la-petanque.webp",
-        credit=(
-            'Photo : Marianne Casamance, '
-            '<a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" '
-            'rel="noopener">CC BY-SA 4.0</a>'
-        ),
     )
     print(
         f"{meta['prefixe']}la-petanque.html : {taille} octets, "

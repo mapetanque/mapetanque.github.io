@@ -475,12 +475,6 @@ for langue, meta in META.items():
         fil=meta["fil"],
         contenu=bloc_contenu(langue),
         feuilles_sup=("/style-a-propos.css",),
-        banniere="/images/banniere-a-propos.webp",
-        credit=(
-            'Photo : jackmac34, '
-            '<a href="https://pixabay.com/fr/photos/p%C3%A9tanque-boules-jeu-mains-adresse-3629216/" '
-            'target="_blank" rel="noopener">Pixabay</a>'
-        ),
     )
     print(f"{meta['prefixe']}a-propos.html : {taille} octets, {len(CONTENU[langue])} sections")
 
