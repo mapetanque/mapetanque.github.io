@@ -155,7 +155,6 @@ const translations = {
         carte_liste_repartis: "Répartis sur {lieux}",
         carte_liste_vide_aide: "Dézoomez ou déplacez la carte pour en trouver.",
         carte_liste_plus: "Afficher plus de terrains",
-        carte_voir_carte: "Carte",
         carte_a_distance: "à {d}",
         commune_voir_fiche: "Voir la fiche",
         commune_club_titre: "Club de pétanque",
@@ -264,7 +263,7 @@ const translations = {
         geoloc_unsupported: "La géolocalisation n'est pas supportée par votre navigateur.",
         nearest_terrain_label: "Terrain le plus proche",
 
-        clubs_layer_label: "Afficher les clubs",
+        carte_pastille_clubs: "Clubs",
         clubs_help_aria: "En savoir plus sur les clubs affiliés",
         clubs_help_intro: "Clubs affiliés à la <a href=\"https://www.fbfp.be/\" target=\"_blank\" rel=\"noopener\">Fédération Belge Francophone de Pétanque (FBFP)</a> et à la <a href=\"https://www.pfv.be/\" target=\"_blank\" rel=\"noopener\">Petanque Federatie Vlaanderen (PFV)</a>.",
         // Fiche club (voir construireContenuPopupClub dans script.js)
@@ -277,8 +276,6 @@ const translations = {
         federation_site: "Site",
         signalement_comment_placeholder_club: "Par exemple : adresse ou site web incorrect, club disparu, mauvaise fédération…",
         // Filtres de la carte (voir « Filtres de la carte » dans script.js)
-        filtres_bouton: "Filtres",
-        filtres_titre: "Filtrer les terrains",
         filtres_effacer: "Effacer",
         filtres_voir_n: "Voir les %n terrains",
         filtres_voir_un: "Voir le terrain",
@@ -492,7 +489,6 @@ const translations = {
         carte_liste_repartis: "Verspreid over {lieux}",
         carte_liste_vide_aide: "Zoom uit of verschuif de kaart om er te vinden.",
         carte_liste_plus: "Meer terreinen tonen",
-        carte_voir_carte: "Kaart",
         carte_a_distance: "op {d}",
         commune_voir_fiche: "Bekijk de details",
         commune_club_titre: "Petanqueclub",
@@ -601,7 +597,7 @@ const translations = {
         geoloc_unsupported: "Geolocatie wordt niet ondersteund door je browser.",
         nearest_terrain_label: "Dichtstbijzijnde terrein",
 
-        clubs_layer_label: "Clubs weergeven",
+        carte_pastille_clubs: "Clubs",
         clubs_help_aria: "Meer informatie over de aangesloten clubs",
         clubs_help_intro: "Clubs aangesloten bij de <a href=\"https://www.fbfp.be/\" target=\"_blank\" rel=\"noopener\">Fédération Belge Francophone de Pétanque (FBFP)</a> en de <a href=\"https://www.pfv.be/\" target=\"_blank\" rel=\"noopener\">Petanque Federatie Vlaanderen (PFV)</a>.",
         // Fiche club (voir construireContenuPopupClub dans script.js)
@@ -614,8 +610,6 @@ const translations = {
         federation_site: "Website",
         signalement_comment_placeholder_club: "Bijvoorbeeld: verkeerd adres of verkeerde website, club bestaat niet meer, verkeerde federatie…",
         // Filtres de la carte (voir « Filtres de la carte » dans script.js)
-        filtres_bouton: "Filters",
-        filtres_titre: "Terreinen filteren",
         filtres_effacer: "Wissen",
         filtres_voir_n: "Bekijk de %n terreinen",
         filtres_voir_un: "Bekijk het terrein",
@@ -829,7 +823,6 @@ const translations = {
         carte_liste_repartis: "Verteilt auf {lieux}",
         carte_liste_vide_aide: "Zoomen Sie heraus oder verschieben Sie die Karte, um welche zu finden.",
         carte_liste_plus: "Weitere Plätze anzeigen",
-        carte_voir_carte: "Karte",
         carte_a_distance: "{d} entfernt",
         commune_voir_fiche: "Details ansehen",
         commune_club_titre: "Pétanque-Verein",
@@ -938,7 +931,7 @@ const translations = {
         geoloc_unsupported: "Geolokalisierung wird von Ihrem Browser nicht unterstützt.",
         nearest_terrain_label: "Nächstgelegener Platz",
 
-        clubs_layer_label: "Vereine anzeigen",
+        carte_pastille_clubs: "Vereine",
         clubs_help_aria: "Mehr über die angeschlossenen Vereine erfahren",
         clubs_help_intro: "Vereine, die der <a href=\"https://www.fbfp.be/\" target=\"_blank\" rel=\"noopener\">Fédération Belge Francophone de Pétanque (FBFP)</a> und der <a href=\"https://www.pfv.be/\" target=\"_blank\" rel=\"noopener\">Petanque Federatie Vlaanderen (PFV)</a> angeschlossen sind.",
         // Fiche club (voir construireContenuPopupClub dans script.js)
@@ -951,8 +944,6 @@ const translations = {
         federation_site: "Website",
         signalement_comment_placeholder_club: "Zum Beispiel: falsche Adresse oder Website, Verein existiert nicht mehr, falscher Verband…",
         // Filtres de la carte (voir « Filtres de la carte » dans script.js)
-        filtres_bouton: "Filter",
-        filtres_titre: "Plätze filtern",
         filtres_effacer: "Zurücksetzen",
         filtres_voir_n: "%n Plätze anzeigen",
         filtres_voir_un: "Platz anzeigen",
@@ -1166,7 +1157,6 @@ const translations = {
         carte_liste_repartis: "Spread over {lieux}",
         carte_liste_vide_aide: "Zoom out or move the map to find some.",
         carte_liste_plus: "Show more courts",
-        carte_voir_carte: "Map",
         carte_a_distance: "{d} away",
         commune_voir_fiche: "View details",
         commune_club_titre: "Pétanque club",
@@ -1275,7 +1265,7 @@ const translations = {
         geoloc_unsupported: "Geolocation is not supported by your browser.",
         nearest_terrain_label: "Nearest court",
 
-        clubs_layer_label: "Show clubs",
+        carte_pastille_clubs: "Clubs",
         clubs_help_aria: "Learn more about affiliated clubs",
         clubs_help_intro: "Clubs affiliated with the <a href=\"https://www.fbfp.be/\" target=\"_blank\" rel=\"noopener\">Fédération Belge Francophone de Pétanque (FBFP)</a> and the <a href=\"https://www.pfv.be/\" target=\"_blank\" rel=\"noopener\">Petanque Federatie Vlaanderen (PFV)</a>.",
         // Fiche club (voir construireContenuPopupClub dans script.js)
@@ -1288,8 +1278,6 @@ const translations = {
         federation_site: "Website",
         signalement_comment_placeholder_club: "For example: wrong address or website, club no longer exists, wrong federation…",
         // Filtres de la carte (voir « Filtres de la carte » dans script.js)
-        filtres_bouton: "Filters",
-        filtres_titre: "Filter courts",
         filtres_effacer: "Clear",
         filtres_voir_n: "Show the %n courts",
         filtres_voir_un: "Show the court",

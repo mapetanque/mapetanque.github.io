@@ -38,7 +38,19 @@ body.page-carte {
 .carte-recherche {
     flex: 1 1 auto;
     max-width: 440px;
-    margin-right: auto;
+}
+
+/* « Me localiser », juste à droite de la recherche, dans le vert du site (#locateBtn dans
+   style.css) ; le menu reste poussé à droite. */
+.page-carte #locateBtn {
+    flex: none;
+    margin: 0 auto 0 0;
+    height: 42px;
+    padding: 0 18px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: bold;
+    white-space: nowrap;
 }
 
 .carte-recherche .search-ligne {
@@ -203,9 +215,8 @@ body.page-carte {
     color: #3d7a2a;
 }
 
-/* Poignée et bouton « Carte » : seulement pour la feuille du téléphone (plus bas) */
-.carte-liste-poignee,
-.carte-liste-fermer {
+/* Poignée : seulement pour la feuille du téléphone (plus bas) */
+.carte-liste-poignee {
     display: none;
 }
 
@@ -225,38 +236,107 @@ body.page-carte {
     min-height: 0;
 }
 
-/* --- Sur la carte : « Me localiser », message de recherche ---------------------------------- */
+/* --- Sur la carte : pastilles, « Me localiser », message de recherche ------------------------ */
 
-.carte-localiser {
+/* Pastilles en haut de la carte, entre le zoom (à gauche) et Plan/Satellite (à droite) :
+   « Sur place ▾ », « À proximité ▾ », « Clubs » (voir « Pastilles de la carte » dans script.js). */
+.carte-pastilles {
     position: absolute;
     top: 10px;
     left: 56px;
+    right: 12px;
     z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    pointer-events: none;
+}
+
+.carte-pastilles > * {
+    pointer-events: auto;
+}
+
+.carte-pastille {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    height: 34px;
+    gap: 7px;
+    height: 36px;
     padding: 0 14px;
-    border: 2px solid rgba(0, 0, 0, 0.2);
+    border: 1px solid #d6dccf;
     border-radius: 999px;
     background: #fff;
-    background-clip: padding-box;
     color: #1d2619;
     font: inherit;
-    font-size: 13.5px;
+    font-size: 14px;
     font-weight: bold;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
     cursor: pointer;
 }
 
-.carte-localiser:hover {
-    color: #3d7a2a;
+.carte-pastille:hover {
+    border-color: #74C15A;
 }
 
-.carte-localiser .btn-icon {
-    width: 16px;
-    height: 16px;
-    color: #3d7a2a;
+.carte-pastille.actif {
+    background: #1d2619;
+    border-color: #1d2619;
+    color: #fff;
 }
+
+.carte-pastille svg {
+    width: 9px;
+    height: 6px;
+    transition: transform 0.15s ease;
+}
+
+.carte-pastille[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+}
+
+/* Point bleu des clubs, la couleur de leurs marqueurs */
+.carte-pastille-point {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #1976d2;
+}
+
+.carte-pastille.actif .carte-pastille-point {
+    box-shadow: 0 0 0 2px #fff;
+}
+
+.carte-pastilles-effacer {
+    height: 36px;
+    padding: 0 4px;
+    border: none;
+    background: none;
+    color: #3d7a2a;
+    font: inherit;
+    font-size: 13.5px;
+    font-weight: bold;
+    text-decoration: underline;
+    text-shadow: 0 0 4px #fff, 0 0 4px #fff, 0 0 4px #fff;
+    cursor: pointer;
+}
+
+.carte-pastilles-effacer[hidden] {
+    display: none;
+}
+
+/* Menu d'une pastille : un seul groupe de critères, moins large ; sur téléphone, toute la largeur
+   (plus bas) */
+.page-carte #filtres-panneau.deroulant {
+    right: auto;
+    width: 360px;
+}
+
+/* Plan / Satellite : en haut à droite, une ligne sous les pastilles */
+.page-carte .leaflet-top.leaflet-right {
+    top: 46px;
+}
+
 
 .page-carte .search-error {
     position: absolute;
@@ -276,31 +356,6 @@ body.page-carte {
     display: none;
 }
 
-.carte-liste.deplie .carte-liste-fermer {
-    position: fixed;
-    left: 50%;
-    bottom: calc(24px + env(safe-area-inset-bottom, 0px));
-    transform: translateX(-50%);
-    z-index: 1050;
-    display: none;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 999px;
-    background: #1d2619;
-    color: #fff;
-    font: inherit;
-    font-size: 15px;
-    font-weight: bold;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
-    cursor: pointer;
-}
-
-.carte-liste-fermer svg {
-    width: 18px;
-    height: 18px;
-}
 
 /* Marqueur (ou amas) du terrain survolé dans la liste */
 .carte-marqueur-survol {
@@ -352,7 +407,6 @@ body.page-carte {
         overflow-y: auto;
         touch-action: pan-y;
         border-radius: 0;
-        padding-bottom: 96px;
     }
 
     .carte-liste-poignee {
@@ -384,11 +438,8 @@ body.page-carte {
         grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     }
 
-    .carte-liste.deplie .carte-liste-fermer {
-        display: inline-flex;
-    }
-
-    .page-carte .leaflet-bottom {
+    /* Les mentions de la carte (en bas à gauche) restent visibles au-dessus de la feuille. */
+    .page-carte .leaflet-bottom.leaflet-left {
         bottom: var(--feuille-visible, 0px);
     }
 }
@@ -402,26 +453,67 @@ body.page-carte {
         max-width: none;
     }
 
-    /* « Me localiser » réduit à son icône, en bas à droite : en haut, les boutons de la carte
-       (filtres, clubs, fonds) prennent déjà toute la largeur. */
-    .carte-localiser {
-        top: auto;
-        left: auto;
-        right: 12px;
-        bottom: calc(var(--feuille-visible, 0px) + 12px);
-        width: 46px;
-        height: 46px;
-        padding: 0;
-        justify-content: center;
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    /* Pas de boutons + / − : on zoome en pinçant, comme dans les applis de carte. Les pastilles
+       prennent leur place. */
+    .page-carte .leaflet-control-zoom {
+        display: none;
     }
 
-    .carte-localiser .btn-icon {
+    /* Pastilles sur une ligne, qu'on fait défiler du doigt si elles ne tiennent pas */
+    .carte-pastilles {
+        left: 10px;
+        right: 10px;
+        gap: 6px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding-bottom: 4px;
+    }
+
+    .carte-pastilles::-webkit-scrollbar {
+        display: none;
+    }
+
+    .carte-pastille {
+        flex: none;
+        height: 34px;
+        padding: 0 11px;
+        font-size: 13.5px;
+    }
+
+    /* « Me localiser » réduit à son icône, de la hauteur du champ ; le champ rétrécit d'autant
+       (il passe en plein écran dès qu'on le touche) */
+    .page-carte #locateBtn {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        justify-content: center;
+        margin: 0;
+    }
+
+    .page-carte #locateBtn .btn-icon {
         width: 20px;
         height: 20px;
     }
 
-    .carte-localiser span {
+    .page-carte #locateBtn span {
         display: none;
+    }
+
+    /* Menu d'une pastille sur toute la largeur, sous les pastilles */
+    .page-carte #filtres-panneau.deroulant {
+        left: 10px !important;
+        right: 10px;
+        width: auto;
+        max-width: none;
+    }
+
+    /* Mentions de la carte sur une ligne, coupées par « … » si elles débordent encore */
+    .page-carte .leaflet-control-attribution {
+        max-width: calc(100vw - 20px);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 11px;
     }
 }

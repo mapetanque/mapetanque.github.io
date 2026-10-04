@@ -393,7 +393,10 @@ const map = L.map('map', {
     // tous les wheelPxPerZoomLevel pixels équivalents (défaut Leaflet : 60, ce qui faisait sauter
     // plusieurs niveaux d'un coup pour un seul cran de molette, contrairement aux boutons +/-
     // qui avancent toujours d'exactement un niveau). 320 = valeur testée et validée par l'utilisateur.
-    wheelPxPerZoomLevel: 320
+    wheelPxPerZoomLevel: 320,
+    // Le fond « Plan » vectoriel (OpenFreeMap) n'annonce pas de zoom maximal, que les amas de
+    // marqueurs exigent : on le fixe ici.
+    maxZoom: 19
 });
 // `const` ne crée pas de propriété sur window (contrairement à `var` ou aux déclarations de
 // fonction). beaux-terrains.js en a besoin (window.map) sur les pages région/Bruxelles pour
@@ -539,10 +542,25 @@ function rayonAmas() {
 
 let userPosition = null;
 
-// Fond OpenStreetMap
-const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
-});
+// Fond « Plan » : OpenFreeMap Bright, une carte vectorielle (dessinée par le navigateur, nette
+// sur tous les écrans), gratuite, sans clé ni limite. Affichée sous la carte Leaflet par le module
+// maplibre-gl-leaflet (L.maplibreGL), chargé par la page carte seulement : tout le reste de la
+// carte (marqueurs, fiches, filtres) reste du Leaflet. Ailleurs (cartes invisibles des autres
+// pages), ou si le module n'a pas pu se charger, les images d'OpenStreetMap.
+const STYLE_PLAN = 'https://tiles.openfreemap.org/styles/bright';
+// Mention courte, pour tenir sur une ligne sur téléphone, posée et retirée ici avec le fond : le
+// module reprendrait sinon la longue mention du style, en double, et la laisserait en place après
+// le passage au fond satellite (d'où customAttribution vide).
+const MENTION_PLAN = '<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> '
+    + '&copy; <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener">OpenMapTiles</a> '
+    + '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>';
+const plan = PAGE_CARTE && typeof L.maplibreGL === 'function'
+    ? L.maplibreGL({ style: STYLE_PLAN, attributionControl: { customAttribution: '' } })
+        .on('add', function () { map.attributionControl.addAttribution(MENTION_PLAN); })
+        .on('remove', function () { map.attributionControl.removeAttribution(MENTION_PLAN); })
+    : L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    });
 
 // Fond satellite
 const satellite = L.tileLayer(
@@ -562,12 +580,12 @@ const STORAGE_KEY_CLUBS_VISIBLE = 'mapetanque_clubs_visible';
 if (localStorage.getItem(STORAGE_KEY_BASE_LAYER) === 'satellite') {
     satellite.addTo(map);
 } else {
-    osm.addTo(map);
+    plan.addTo(map);
 }
 
 // Sélecteur de couches
 const baseMaps = {
-    "🗺️ Plan": osm,
+    "🗺️ Plan": plan,
     "🛰️ Satellite": satellite
 };
 
@@ -593,7 +611,14 @@ if (localStorage.getItem(STORAGE_KEY_CLUBS_VISIBLE) === 'true') {
     map.addLayer(clubsLayer);
 }
 
+// Page carte : Plan / Satellite en haut à droite, une ligne sous les pastilles des filtres
+// (style-carte.css) ; les mentions en bas à gauche, sans le drapeau de Leaflet, pour tenir sur
+// une ligne.
 const layersControl = L.control.layers(baseMaps).addTo(map);
+if (PAGE_CARTE) {
+    map.attributionControl.setPosition('bottomleft');
+    map.attributionControl.setPrefix('<a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a>');
+}
 
 // Mémorise le fond de carte choisi via le sélecteur Plan/Satellite pour le restaurer sur la
 // prochaine page (voir plus haut). 'baselayerchange' est l'événement Leaflet standard, déclenché
@@ -602,70 +627,18 @@ map.on('baselayerchange', function (e) {
     localStorage.setItem(STORAGE_KEY_BASE_LAYER, e.layer === satellite ? 'satellite' : 'osm');
 });
 
-// Contrôle indépendant "Afficher les clubs" (interrupteur rond + bouton d'aide (i)), directement
-// visible à côté du sélecteur Plan/Satellite plutôt que caché dans son menu déroulant. Ajouté
-// juste après le sélecteur de couches : les contrôles Leaflet d'un même coin (topright) flottent
-// naturellement à droite (règle CSS .leaflet-right .leaflet-control { float:right; clear:right })
-// — .clubs-toggle-control retire ce clear:right (voir style.css) pour flotter juste à gauche du
-// sélecteur déjà en place plutôt que de passer à la ligne en dessous. Le bouton plein écran, lui,
-// garde son clear:right par défaut et continue donc de s'empiler sous cette rangée.
-const ClubsToggleControl = L.Control.extend({
-    options: { position: 'topright' },
-    onAdd: function () {
-        const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control clubs-toggle-control');
-
-        const label = L.DomUtil.create('label', 'clubs-toggle-label', container);
-
-        const switchWrapper = L.DomUtil.create('span', 'clubs-toggle-switch', label);
-        const checkbox = L.DomUtil.create('input', '', switchWrapper);
-        checkbox.type = 'checkbox';
-        checkbox.id = 'clubs-toggle-checkbox';
-        // Reflète l'état déjà décidé plus haut (clubsLayer ajoutée ou non à la carte selon
-        // STORAGE_KEY_CLUBS_VISIBLE), plutôt que de relire localStorage une seconde fois ici :
-        // une seule source de vérité (l'état réel de la carte) pour éviter toute désynchronisation.
-        checkbox.checked = map.hasLayer(clubsLayer);
-        L.DomUtil.create('span', 'clubs-toggle-slider', switchWrapper);
-
-        const texte = L.DomUtil.create('span', 'clubs-toggle-text', label);
-        texte.textContent = t('clubs_layer_label');
-        texte.dataset.i18n = 'clubs_layer_label';
-
-        const boutonAide = L.DomUtil.create('button', 'clubs-help-trigger control-clubs-help-trigger', container);
-        boutonAide.type = 'button';
-        boutonAide.setAttribute('aria-label', t('clubs_help_aria'));
-        boutonAide.dataset.i18nAria = 'clubs_help_aria';
-        boutonAide.innerHTML = ICON_INFO;
-
-        L.DomEvent.disableClickPropagation(container);
-        L.DomEvent.disableScrollPropagation(container);
-
-        L.DomEvent.on(checkbox, 'change', function () {
-            if (checkbox.checked) {
-                map.addLayer(clubsLayer);
-            } else {
-                map.removeLayer(clubsLayer);
-            }
-            localStorage.setItem(STORAGE_KEY_CLUBS_VISIBLE, checkbox.checked ? 'true' : 'false');
-        });
-
-        L.DomEvent.on(boutonAide, 'click', function (e) {
-            L.DomEvent.stop(e);
-            basculerBulleAideClubs(boutonAide);
-        });
-
-        return container;
-    }
-});
-map.addControl(new ClubsToggleControl());
-
-// Interrupteur du contrôle ci-dessus : gardé accessible pour être resynchronisé (coché) depuis
-// allerVersClub() quand un lien de partage active la couche clubs par programme plutôt que par clic.
-const clubsToggleCheckbox = document.getElementById('clubs-toggle-checkbox');
+// Affiche ou masque la couche des clubs, et retient le choix pour les visites suivantes. Le
+// bouton est la pastille « Clubs » de la page carte (voir « Pastilles de la carte » plus bas).
+function afficherClubs(visible) {
+    if (visible) map.addLayer(clubsLayer);
+    else map.removeLayer(clubsLayer);
+    try { localStorage.setItem(STORAGE_KEY_CLUBS_VISIBLE, visible ? 'true' : 'false'); } catch (e) {}
+    if (typeof majPastilles === 'function') majPastilles();
+}
 
 // ===================== Bulle d'aide "Clubs affiliés" =====================
-// Composant unique et partagé (pas un par déclencheur) : repositionné et son contenu
-// réinjecté à chaque clic, pour fonctionner aussi bien depuis le bouton (i) du sélecteur de
-// couches que depuis celui de la popup d'un club — et sur mobile (clic, pas survol).
+// Composant unique, repositionné et son contenu réinjecté à chaque clic, ouvert depuis le
+// bouton (i) de la fiche d'un club — et sur mobile (clic, pas survol).
 const clubsHelpPopover = document.createElement('div');
 clubsHelpPopover.className = 'clubs-help-popover';
 clubsHelpPopover.setAttribute('role', 'note');
@@ -864,21 +837,18 @@ function definirPositionUtilisateur(lat, lon) {
 
 
 // ===================== Filtres de la carte (critères OSM) =====================
-// Bouton « Filtres » sur la carte, qui ouvre un panneau de pastilles à cocher : un menu déroulant
-// posé sur la carte sur ordinateur, un panneau montant du bas de l'écran sur mobile. Les critères
-// cochés se cumulent (Bancs ET WC). Seuls les critères OSM servent de filtres, jamais ceux des
-// joueurs. Mêmes règles et mêmes seuils que les pastilles des fiches (voir « Critères des
-// terrains » plus bas) : une seule source de vérité.
+// Pastilles en haut de la carte (page carte) : « Sur place ▾ » et « À proximité ▾ » ouvrent
+// chacune le panneau de leurs critères à cocher (un menu déroulant sous la pastille sur
+// ordinateur, un panneau montant du bas de l'écran sur mobile) ; « Clubs » affiche les clubs.
+// Les critères cochés se cumulent (Bancs ET WC). Seuls les critères OSM servent de filtres, jamais
+// ceux des joueurs. Mêmes règles et mêmes seuils que les pastilles des fiches (voir « Critères
+// des terrains » plus bas) : une seule source de vérité.
 //
-// Les couches filtrées sont les groupes de marqueurs de terrains que chaque page déclare avec
-// window.enregistrerTerrainsFiltrables(groupe) : `markers` sur l'accueil, le groupe propre aux
-// pages province et région (voir leurs gabarits). Chaque marqueur doit porter sa feature
-// (layer.feature, que L.geoJSON pose de lui-même). Tant qu'aucun groupe n'est déclaré, le bouton
-// reste masqué : il n'apparaît donc pas sur les pages sans terrains.
+// Les couches filtrées sont les groupes de marqueurs de terrains déclarés avec
+// window.enregistrerTerrainsFiltrables(groupe) (`markers`, la couche de la page carte). Chaque
+// marqueur doit porter sa feature (layer.feature, que L.geoJSON pose de lui-même).
 //
 // Rien n'est mémorisé : les filtres repartent à zéro à chaque page.
-
-const ICON_FILTRES = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18M6 12h12M10 19h4"></path></svg>';
 
 const filtresActifs = new Set();
 const groupesFiltrables = [];            // [{ groupe, couches: [marqueurs portant .feature] }]
@@ -909,7 +879,6 @@ window.enregistrerTerrainsFiltrables = function (groupe) {
         groupe: groupe,
         couches: groupe.getLayers().filter(function (couche) { return couche.feature; })
     });
-    if (boutonFiltres) boutonFiltres.parentNode.hidden = false;
     if (filtresActifs.size) appliquerFiltres();
 };
 
@@ -940,8 +909,7 @@ function appliquerFiltres() {
         mettreAJourFlecheTerrainProche();
     }
 
-    majBoutonFiltres();
-    majResumeFiltres();
+    majPastilles();
     majPanneauFiltres();
     window.dispatchEvent(new CustomEvent('mapetanque:filtres'));
 }
@@ -958,74 +926,71 @@ function effacerFiltres() {
     appliquerFiltres();
 }
 
-// --- Bouton sur la carte ---------------------------------------------------------------------
-// Ajouté après le bouton plein écran et sans clear (voir .filtres-control dans style.css) : il
-// flotte à sa gauche, sur la deuxième rangée, sous « Afficher les clubs ». Sur mobile, la
-// première rangée n'a pas la place d'un troisième contrôle.
-let boutonFiltres = null;
+// --- Pastilles de la carte -------------------------------------------------------------------
+// Posées dans #carte-pastilles (gabarit de la page carte). Le libellé d'une pastille de filtres
+// dit combien de ses critères sont cochés (« Sur place · 2 ») ; « Effacer les filtres » n'apparaît
+// qu'avec des filtres actifs.
+const GROUPES_FILTRES = {
+    surPlace: { cles: FILTRES_SUR_PLACE, libelle: 'fiche_sur_place' },
+    proximite: { cles: FILTRES_PROXIMITE, libelle: 'fiche_a_proximite' }
+};
+const barrePastilles = document.getElementById('carte-pastilles');
+let groupeOuvert = null;    // groupe dont le panneau est ouvert
+let pastilleOuverte = null; // sa pastille
 
-const FiltresControl = L.Control.extend({
-    options: { position: 'topright' },
-    onAdd: function () {
-        const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control filtres-control');
-        container.hidden = !groupesFiltrables.length;
+function construirePastilles() {
+    if (!barrePastilles) return;
+    barrePastilles.innerHTML = Object.keys(GROUPES_FILTRES).map(function (groupe) {
+        return '<button type="button" class="carte-pastille" data-groupe="' + groupe + '" aria-haspopup="true" '
+            + 'aria-expanded="false" aria-controls="filtres-panneau"><span class="carte-pastille-libelle"></span>'
+            + PICTO_CHEVRON + '</button>';
+    }).join('')
+        + '<button type="button" class="carte-pastille carte-pastille-clubs" aria-pressed="false">'
+        + '<span class="carte-pastille-point" aria-hidden="true"></span><span>' + t('carte_pastille_clubs') + '</span></button>'
+        + '<button type="button" class="carte-pastilles-effacer" hidden>' + t('filtres_effacer') + '</button>';
+    L.DomEvent.disableClickPropagation(barrePastilles);
+    L.DomEvent.disableScrollPropagation(barrePastilles);
 
-        boutonFiltres = L.DomUtil.create('button', 'filtres-bouton', container);
-        boutonFiltres.type = 'button';
-        boutonFiltres.setAttribute('aria-expanded', 'false');
-        boutonFiltres.setAttribute('aria-controls', 'filtres-panneau');
-        boutonFiltres.innerHTML = ICON_FILTRES
-            + '<span data-i18n="filtres_bouton">' + t('filtres_bouton') + '</span>'
-            + '<span class="filtres-badge" hidden></span>';
-
-        L.DomEvent.disableClickPropagation(container);
-        L.DomEvent.disableScrollPropagation(container);
-        L.DomEvent.on(boutonFiltres, 'click', function (e) {
-            L.DomEvent.stop(e);
-            if (panneauFiltresOuvert()) fermerPanneauFiltres();
-            else ouvrirPanneauFiltres();
+    barrePastilles.querySelectorAll('[data-groupe]').forEach(function (pastille) {
+        pastille.addEventListener('click', function () {
+            const memeGroupe = groupeOuvert === pastille.dataset.groupe;
+            fermerPanneauFiltres();
+            if (!memeGroupe) ouvrirPanneauFiltres(pastille.dataset.groupe, pastille);
         });
-
-        return container;
-    }
-});
-map.addControl(new FiltresControl());
-
-function majBoutonFiltres() {
-    if (!boutonFiltres) return;
-    const badge = boutonFiltres.querySelector('.filtres-badge');
-    badge.textContent = filtresActifs.size;
-    badge.hidden = !filtresActifs.size;
-    boutonFiltres.classList.toggle('actif', filtresActifs.size > 0);
+    });
+    barrePastilles.querySelector('.carte-pastille-clubs').addEventListener('click', function () {
+        fermerPanneauFiltres();
+        afficherClubs(!map.hasLayer(clubsLayer));
+    });
+    barrePastilles.querySelector('.carte-pastilles-effacer').addEventListener('click', effacerFiltres);
+    majPastilles();
 }
 
-// --- Rappel sur la carte quand des filtres sont actifs : « 92 terrains · Bancs, WC  Effacer » ---
-const resumeFiltres = document.createElement('div');
-resumeFiltres.id = 'filtres-resume';
-resumeFiltres.hidden = true;
-document.getElementById('map').appendChild(resumeFiltres);
-L.DomEvent.disableClickPropagation(resumeFiltres);
-
-function majResumeFiltres() {
-    resumeFiltres.hidden = !filtresActifs.size;
-    if (!filtresActifs.size) { resumeFiltres.innerHTML = ''; return; }
-
-    const nombre = toutesLesCouchesFiltrables().filter(function (couche) {
-        return passeLesFiltres(couche.feature.properties);
-    }).length;
-    const libelles = FILTRES_SUR_PLACE.concat(FILTRES_PROXIMITE)
-        .filter(function (cle) { return filtresActifs.has(cle); })
-        .map(function (cle) { return t('critere_' + cle); });
-
-    resumeFiltres.innerHTML = '<span class="filtres-resume-texte"><b>' + texteNombreTerrains(nombre) + '</b> · '
-        + libelles.join(', ') + '</span>'
-        + '<button type="button" class="filtres-effacer">' + t('filtres_effacer') + '</button>';
-    resumeFiltres.querySelector('.filtres-effacer').addEventListener('click', effacerFiltres);
+function majPastilles() {
+    if (!barrePastilles) return;
+    Object.keys(GROUPES_FILTRES).forEach(function (groupe) {
+        const pastille = barrePastilles.querySelector('[data-groupe="' + groupe + '"]');
+        if (!pastille) return;
+        const n = GROUPES_FILTRES[groupe].cles.filter(function (cle) { return filtresActifs.has(cle); }).length;
+        pastille.querySelector('.carte-pastille-libelle').textContent =
+            t(GROUPES_FILTRES[groupe].libelle) + (n ? ' · ' + n : '');
+        pastille.classList.toggle('actif', n > 0);
+        pastille.setAttribute('aria-expanded', String(groupeOuvert === groupe));
+    });
+    const clubs = barrePastilles.querySelector('.carte-pastille-clubs');
+    if (clubs) {
+        const visibles = map.hasLayer(clubsLayer);
+        clubs.classList.toggle('actif', visibles);
+        clubs.setAttribute('aria-pressed', String(visibles));
+    }
+    const effacer = barrePastilles.querySelector('.carte-pastilles-effacer');
+    if (effacer) effacer.hidden = !filtresActifs.size;
 }
 
 // --- Panneau ---------------------------------------------------------------------------------
-// Un seul élément, déplacé selon l'écran : dans le conteneur de la carte sur ordinateur (il suit
-// la carte au défilement et en plein écran), dans <body> sur mobile, avec un voile derrière.
+// Un seul élément, déplacé selon l'écran : dans le conteneur de la carte sur ordinateur, sous sa
+// pastille, dans <body> sur mobile, avec un voile derrière. Il ne montre que les critères du
+// groupe de la pastille.
 const panneauFiltres = document.createElement('div');
 panneauFiltres.id = 'filtres-panneau';
 panneauFiltres.setAttribute('role', 'dialog');
@@ -1048,22 +1013,24 @@ function pastilleFiltreHtml(cle) {
         + '<span class="filtre-nombre"></span></button>';
 }
 
-function ouvrirPanneauFiltres() {
-    const mobile = estMobile();
+function ouvrirPanneauFiltres(groupe, pastille) {
+    // Page carte : toujours sous les pastilles, même sur téléphone (sur toute la largeur, voir
+    // style-carte.css) ; le panneau montant du bas ne sert qu'aux autres pages.
+    const mobile = estMobile() && !PAGE_CARTE;
+    const titre = t(GROUPES_FILTRES[groupe].libelle);
+    groupeOuvert = groupe;
+    pastilleOuverte = pastille;
     panneauFiltres.className = mobile ? 'feuille' : 'deroulant';
-    panneauFiltres.setAttribute('aria-label', t('filtres_titre'));
+    panneauFiltres.setAttribute('aria-label', titre);
 
     // Construit à chaque ouverture : suit la langue affichée et le format (mobile/ordinateur).
     panneauFiltres.innerHTML =
         '<div class="filtres-tete">'
-        + '<h2>' + t('filtres_titre') + '</h2>'
+        + '<h2>' + titre + '</h2>'
         + '<button type="button" class="filtres-fermer" aria-label="' + t('close_panel') + '">✕</button>'
         + '</div>'
         + '<div class="filtres-corps">'
-        + '<div class="filtres-groupe"><div class="criteres-titre">' + t('fiche_sur_place') + '</div>'
-        + '<div class="filtres-liste">' + FILTRES_SUR_PLACE.map(pastilleFiltreHtml).join('') + '</div></div>'
-        + '<div class="filtres-groupe"><div class="criteres-titre">' + t('fiche_a_proximite') + '</div>'
-        + '<div class="filtres-liste">' + FILTRES_PROXIMITE.map(pastilleFiltreHtml).join('') + '</div></div>'
+        + '<div class="filtres-liste">' + GROUPES_FILTRES[groupe].cles.map(pastilleFiltreHtml).join('') + '</div>'
         + '</div>'
         + '<div class="filtres-pied">'
         + (mobile
@@ -1084,26 +1051,31 @@ function ouvrirPanneauFiltres() {
         document.body.appendChild(panneauFiltres);
         voileFiltres.hidden = false;
     } else {
-        // Sous le bouton, aligné sur le bord droit de la carte.
+        // Sous la pastille, sans dépasser le bord droit de la carte ni descendre sous la feuille de
+        // la liste (téléphone).
         const conteneurCarte = map.getContainer();
         conteneurCarte.appendChild(panneauFiltres);
-        const haut = boutonFiltres.getBoundingClientRect().bottom - conteneurCarte.getBoundingClientRect().top + 8;
+        const cadre = conteneurCarte.getBoundingClientRect();
+        const bouton = pastille.getBoundingClientRect();
+        const haut = bouton.bottom - cadre.top + 8;
         panneauFiltres.style.top = haut + 'px';
-        panneauFiltres.style.maxHeight = Math.max(200, conteneurCarte.clientHeight - haut - 12) + 'px';
+        panneauFiltres.style.maxHeight = Math.max(160, conteneurCarte.clientHeight - haut - 12 - margeSousCarte()) + 'px';
+        panneauFiltres.hidden = false;
+        const gauche = Math.min(bouton.left - cadre.left, cadre.width - panneauFiltres.offsetWidth - 10);
+        panneauFiltres.style.left = Math.max(10, gauche) + 'px';
     }
 
     majPanneauFiltres();
     panneauFiltres.hidden = false;
-    boutonFiltres.setAttribute('aria-expanded', 'true');
-    // Le rappel sur la carte ferait doublon avec le pied du panneau.
-    resumeFiltres.classList.add('masque');
+    majPastilles();
 }
 
 function fermerPanneauFiltres() {
     panneauFiltres.hidden = true;
     voileFiltres.hidden = true;
-    if (boutonFiltres) boutonFiltres.setAttribute('aria-expanded', 'false');
-    resumeFiltres.classList.remove('masque');
+    groupeOuvert = null;
+    pastilleOuverte = null;
+    majPastilles();
 }
 
 // Chiffres des pastilles : pour un critère non coché, le nombre de terrains qui resteraient si
@@ -1146,12 +1118,14 @@ function majPanneauFiltres() {
 // Fermeture du menu déroulant (ordinateur) au clic en dehors, et avec Échap partout.
 document.addEventListener('click', function (e) {
     if (!panneauFiltresOuvert() || panneauFiltres.classList.contains('feuille')) return;
-    if (panneauFiltres.contains(e.target) || (boutonFiltres && boutonFiltres.contains(e.target))) return;
+    if (panneauFiltres.contains(e.target) || (barrePastilles && barrePastilles.contains(e.target))) return;
     fermerPanneauFiltres();
 });
 document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && panneauFiltresOuvert()) fermerPanneauFiltres();
 });
+
+construirePastilles();
 
 // Icône réutilisée pour marquer une position (localisation ou résultat de recherche)
 const positionIcon = L.divIcon({
@@ -5359,9 +5333,7 @@ function allerVersClub(lat, lon) {
 
     // S'assure que la couche clubs est active, sinon le marqueur ciblé n'existe pas encore sur la carte
     if (clubsLayer && !map.hasLayer(clubsLayer)) {
-        map.addLayer(clubsLayer);
-        if (clubsToggleCheckbox) clubsToggleCheckbox.checked = true;
-        localStorage.setItem(STORAGE_KEY_CLUBS_VISIBLE, 'true');
+        afficherClubs(true);
     }
 
     if (layerCorrespondant) {

@@ -149,6 +149,20 @@
 
     // Une ligne de pastilles par tuile : on cache celles qui dépassent, en partant de la fin, et
     // une pastille « +N » dit combien il en reste (au moins une pastille reste visible).
+    // La tuile fictive de hauteurApercu peut se mesurer plus courte qu'une vraie (mise en page pas
+    // encore stable, fichiers d'une version précédente dans le cache de l'application) : si la
+    // première vraie tuile, sans sa ligne de note, dépasse, l'aperçu prend sa hauteur, une fois.
+    function verifierHauteurApercu() {
+        var tuile = tuiles.querySelector('.carte-tuile');
+        if (!tuile || !ECRAN_ETROIT || !ECRAN_ETROIT.matches || hauteurApercuMesuree === null) return;
+        var note = tuile.querySelector('.commune-terrain-note');
+        var bas = tuile.offsetTop + tuile.offsetHeight - (note ? note.offsetHeight + 6 : 0) + 14;
+        if (bas > hauteurApercuMesuree) {
+            hauteurApercuMesuree = bas;
+            if (etat === 'apercu' && !glisse) poser(decalagePour(etat), true);
+        }
+    }
+
     function compacterPastilles() {
         tuiles.querySelectorAll('.commune-pastilles').forEach(function (ligne) {
             var ancien = ligne.querySelector('.pastille-plus');
@@ -183,6 +197,7 @@
         }
         boutonPlus.hidden = montres >= visibles.length;
         compacterPastilles();
+        verifierHauteurApercu();
     }
 
     function rafraichir() {
@@ -252,13 +267,13 @@
     // Sous 900 px, la liste est une feuille posée sur le bas de la carte, en trois positions :
     //   aperçu  : le compteur et une tuile entière (au chargement), 60 % de la carte au plus ;
     //   repliée : le compteur seul, pour voir toute la carte ;
-    //   dépliée : la liste sur toute la hauteur ; le bouton retour du téléphone la redescend.
+    //   dépliée : la liste sur toute la hauteur ; la poignée, le compteur ou le bouton retour du
+    //             téléphone la redescendent.
     // On la fait glisser du doigt (poignée, ou n'importe où tant qu'elle n'est pas dépliée), ou on
     // touche la poignée et le compteur. La liste ne compte que la partie de la carte qu'on voit.
 
     var ECRAN_ETROIT = window.matchMedia('(max-width: 900px)');
     var corps = document.querySelector('.carte-corps');
-    var fermerListe = document.getElementById('carte-liste-fermer');
     var etat = 'apercu';
 
     function hauteurCorps() { return corps.clientHeight; }
@@ -382,9 +397,6 @@
         changerEtat(etat === 'apercu' ? 'deplie' : 'apercu');
     });
 
-    if (fermerListe) {
-        fermerListe.addEventListener('click', function () { changerEtat('apercu'); });
-    }
     window.addEventListener('popstate', function () {
         if (etat === 'deplie' && !(history.state && history.state.carteListe)) changerEtat('apercu', true);
     });
