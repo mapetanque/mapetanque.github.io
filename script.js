@@ -1632,8 +1632,9 @@ function allerVersProposition(index, ligne) {
 
 const champRecherche = document.getElementById('searchInput');
 if (searchForm && champRecherche) {
-    // Champ et loupe réunis dans une ligne : en plein écran (téléphone), un bouton « Annuler »
-    // apparaît à droite du champ, comme sur AllTrails, et le menu se range sous la ligne.
+    // Champ et loupe réunis dans une ligne : en plein écran (téléphone), une flèche de retour
+    // apparaît dans le champ, à droite (à la place d'une croix d'effacement : le champ ne bouge
+    // pas), et le menu se range sous la ligne.
     const ligneChamp = document.createElement('div');
     ligneChamp.className = 'search-ligne';
     champRecherche.parentNode.insertBefore(ligneChamp, champRecherche);
@@ -1643,6 +1644,7 @@ if (searchForm && champRecherche) {
     const retour = document.createElement('button');
     retour.type = 'button';
     retour.className = 'search-retour';
+    retour.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>';
     ligneChamp.appendChild(retour);
 
     const menu = document.createElement('ul');
@@ -1723,7 +1725,7 @@ if (searchForm && champRecherche) {
     const ouvrirPleinEcran = function () {
         if (pleinEcran || !ECRAN_ETROIT.matches) return;
         pleinEcran = true;
-        retour.textContent = t('recherche_annuler');
+        retour.setAttribute('aria-label', t('recherche_annuler'));
         searchForm.classList.add('search-form-plein-ecran');
         document.body.classList.add('recherche-plein-ecran');
         history.pushState({ recherchePleinEcran: true }, '');

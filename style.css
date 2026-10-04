@@ -763,29 +763,29 @@ body.fullscreen-lock {
         background: #fff;
     }
 
-    .search-form.search-form-plein-ecran .search-ligne {
-        gap: 12px;
-    }
-
     .search-form.search-form-plein-ecran .search-ligne input {
-        flex: 1 1 auto;
-        min-width: 0;
-        width: auto;
+        width: 100%;
         max-width: none;
+        padding-right: 46px;
         border: 1px solid #74C15A;
     }
 
-    /* « Annuler » : du texte à droite du champ, pas une icône posée dedans comme la loupe */
+    /* Flèche de retour : dans le champ, à droite, là où se trouverait une croix d'effacement.
+       La loupe reste à gauche ; le champ garde toute sa largeur. */
     .search-form.search-form-plein-ecran .search-retour {
-        display: block;
-        position: static;
-        transform: none;
-        flex: none;
-        padding: 8px 2px;
-        font: inherit;
-        font-size: 15px;
-        font-weight: bold;
-        color: #1d2619;
+        display: flex;
+        left: auto;
+        right: 8px;
+        width: 32px;
+        height: 32px;
+        align-items: center;
+        justify-content: center;
+        color: #3d7a2a;
+    }
+
+    .search-form.search-form-plein-ecran .search-retour svg {
+        width: 20px;
+        height: 20px;
     }
 
     .search-form-plein-ecran .search-suggestions {
