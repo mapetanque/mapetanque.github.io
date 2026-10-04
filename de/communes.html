@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Pétanque-Plätze nach Gemeinde in Belgien — Mapetanque.be</title>
+    <meta name="description" content="Die 400 belgischen Gemeinden mit öffentlichen Pétanque-Plätzen, nach Region und Provinz: Wählen Sie Ihre Gemeinde, um ihre Plätze zu sehen.">
+    <link rel="icon" type="image/svg+xml" href="/images/mapetanque-boule-pleine.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png?v=4">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=4">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="apple-mobile-web-app-title" content="Mapetanque">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta property="og:title" content="Pétanque-Plätze nach Gemeinde in Belgien — Mapetanque.be">
+    <meta property="og:description" content="Die 400 belgischen Gemeinden mit öffentlichen Pétanque-Plätzen, nach Region und Provinz: Wählen Sie Ihre Gemeinde, um ihre Plätze zu sehen.">
+    <meta property="og:image" content="https://mapetanque.be/images/mapetanque-partage.png?v=2">
+    <meta property="og:url" content="https://mapetanque.be/de/communes.html">
+    <meta property="og:type" content="website">
+
+    <link rel="canonical" href="https://mapetanque.be/de/communes.html">
+    <link rel="alternate" hreflang="fr" href="https://mapetanque.be/communes.html">
+    <link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/communes.html">
+    <link rel="alternate" hreflang="de" href="https://mapetanque.be/de/communes.html">
+    <link rel="alternate" hreflang="en" href="https://mapetanque.be/en/communes.html">
+    <link rel="alternate" hreflang="x-default" href="https://mapetanque.be/communes.html">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Bibliothèque Leaflet : script.js instancie une carte inconditionnellement (voir plus
+         bas, #map masqué) — non utilisée visuellement sur cette page, mais nécessaire pour que
+         le reste du script (nav, menu, panneaux info) s'exécute sans erreur. -->
+    <link rel="stylesheet" href="/lib/leaflet-1.9.4/leaflet.css" />
+
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style-chargeur-photo.css">
+    <!-- Réutilise la bannière et le traitement visuel de la page d'accueil (même photo, mêmes
+         couleurs) plutôt qu'une identité graphique à part — pour le moment, en attendant une
+         éventuelle bannière dédiée à cette page plus tard. -->
+    <link rel="stylesheet" href="/style-comment-jouer.css">
+    <link rel="stylesheet" href="/style-commune.css">
+    <link rel="stylesheet" href="/style-ombres.css">
+    <!-- En-tête sans bannière photo des pages de contenu -->
+    <link rel="stylesheet" href="/style-entete-sobre.css">
+    <!-- Données structurées schema.org (Google, IA) : écrites par scripts/generer_referencement.py, ne pas modifier à la main. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://mapetanque.be/de/communes.html#page",
+          "url": "https://mapetanque.be/de/communes.html",
+          "name": "Pétanque-Plätze nach Gemeinde in Belgien",
+          "description": "Die 400 belgischen Gemeinden mit öffentlichen Pétanque-Plätzen, nach Region und Provinz: Wählen Sie Ihre Gemeinde, um ihre Plätze zu sehen.",
+          "inLanguage": "de",
+          "isPartOf": {
+            "@id": "https://mapetanque.be/#site"
+          },
+          "primaryImageOfPage": "https://mapetanque.be/images/mapetanque-partage.png?v=2",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Startseite",
+                "item": "https://mapetanque.be/de/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Alle Gemeinden",
+                "item": "https://mapetanque.be/de/communes.html"
+              }
+            ]
+          }
+        }
+      ]
+    }
+    </script>
+</head>
+
+<body>
+
+<div id="top">
+
+<div class="entete-sobre">
+
+<div class="header">
+
+    <div class="header-top-row">
+        <a href="/de/" class="brand-link">
+            <picture>
+                <source media="(max-width: 1024px)" srcset="/images/mapetanque-boule-pleine.svg" width="32" height="32">
+                <img src="/images/mapetanque-logo-fonce.svg" class="logo" width="196" height="34" alt="Mapetanque">
+            </picture>
+        </a>
+
+        <!-- Navigation de l'ordinateur : construite par construireNavBureau() dans script.js -->
+        <div class="header-nav-group"></div>
+
+        <button id="menu-button" aria-label="Menu" data-i18n-aria="open_menu">
+            <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+        </button>
+    </div>
+
+    <div class="province-breadcrumb">
+        <a href="/de/">Startseite</a>
+        <span class="sep">›</span>
+        <span class="current">Alle Gemeinden</span>
+    </div>
+    <h1 class="hero-headline">Alle Gemeinden</h1>
+
+</div><!-- /.header -->
+
+</div><!-- /.entete-sobre -->
+
+<nav id="side-menu"></nav>
+
+<div id="menu-overlay"></div>
+
+<p id="searchError" class="search-error" style="display:none;"></p>
+
+<div id="share-overlay"></div>
+<div id="share-panel">
+    <button id="share-close" data-i18n-aria="close_panel">✕</button>
+    <p id="share-title" class="share-title"></p>
+
+    <div class="share-links">
+        <a id="share-whatsapp" class="share-link" target="_blank" rel="noopener">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></span><span data-i18n="share_whatsapp">WhatsApp</span>
+        </a>
+        <a id="share-facebook" class="share-link" target="_blank" rel="noopener">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></span><span data-i18n="share_facebook">Facebook</span>
+        </a>
+        <a id="share-twitter" class="share-link" target="_blank" rel="noopener">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><span data-i18n="share_twitter">X (Twitter)</span>
+        </a>
+        <a id="share-email" class="share-link">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span><span data-i18n="share_email">E-mail</span>
+        </a>
+        <button type="button" id="share-copy" class="share-link">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></span><span id="share-copy-label" data-i18n="share_copy">Copier le lien</span>
+        </button>
+    </div>
+</div>
+
+<!-- Modale "Ajouter une photo", ouverte depuis le bouton correspondant dans une popup de
+     terrain sans photo (voir brancherPhotosPopup dans script.js). Structure calquée sur
+     #share-panel/#share-overlay ci-dessus. -->
+<div id="add-photo-overlay"></div>
+<div id="add-photo-modal">
+    <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
+    <p class="add-photo-title" data-i18n="add_photo_modal_title">Ajouter une photo</p>
+    <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
+
+    <div id="add-photo-form-zone">
+        <!-- Emplacement réservé : le vrai formulaire (Forminit) sera intégré ici une fois configuré. -->
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <p class="add-photo-tip"><strong data-i18n="add_photo_tip_label">Astuce :</strong> <span data-i18n="add_photo_tip">Prenez votre photo au format paysage (téléphone à l'horizontale), pour coller au format des photos Mapillary.</span> <a href="https://www.mapillary.com" target="_blank" rel="noopener" data-i18n="add_photo_tip_link">En savoir plus sur Mapillary</a></p><label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">Votre photo</label>
+            <input type="file" name="fi-file-photo" accept="image/*" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">20 Mo maximum</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">Votre e-mail (facultatif, pour vous recontacter si besoin)</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">J'autorise Mapetanque.be à publier cette photo sur Mapillary sous licence CC BY-SA (avec mention de mon prénom/pseudo si je le renseigne ci-dessus).</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">Envoyer la photo</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
+    </div>
+</div>
+
+
+
+<div class="rules-content">
+
+<div class="communes-index">
+
+    <p class="commune-intro">Die <strong>400 Gemeinden</strong> Belgiens mit mindestens einem öffentlichen Pétanque-Platz, nach Region und Provinz. Wählen Sie Ihre Gemeinde, um ihre Plätze zu sehen.</p>
+
+    <div class="communes-index-filtre">
+        <input type="search" id="communes-filtre" placeholder="Gemeinde suchen" aria-label="Gemeinde suchen" autocomplete="off">
+    </div>
+    <p id="communes-aucune" class="communes-index-aucune" hidden>Keine Gemeinde entspricht Ihrer Suche.</p>
+
+    <section class="communes-index-region">
+        <h2>Flandern</h2>
+        <div class="communes-index-province">
+            <h3><a href="/de/province-anvers.html">Antwerpen</a></h3>
+            <ul class="communes-index-liste">
+                <li data-recherche="aartselaar"><a href="/de/commune/aartselaar.html">Aartselaar</a> <span>4 Plätze</span></li>
+                <li data-recherche="antwerp | antwerpen | anvers"><a href="/de/commune/antwerpen.html">Antwerpen</a> <span>42 Plätze</span></li>
+                <li data-recherche="balen"><a href="/de/commune/balen.html">Balen</a> <span>11 Plätze</span></li>
+                <li data-recherche="beerse"><a href="/de/commune/beerse.html">Beerse</a> <span>4 Plätze</span></li>
+                <li data-recherche="berlaar"><a href="/de/commune/berlaar.html">Berlaar</a> <span>2 Plätze</span></li>
+                <li data-recherche="boechout"><a href="/de/commune/boechout.html">Boechout</a> <span>5 Plätze</span></li>
+                <li data-recherche="bonheiden"><a href="/de/commune/bonheiden.html">Bonheiden</a> <span>6 Plätze</span></li>
+                <li data-recherche="boom"><a href="/de/commune/boom.html">Boom</a> <span>3 Plätze</span></li>
+                <li data-recherche="bornem"><a href="/de/commune/bornem.html">Bornem</a> <span>7 Plätze</span></li>
+                <li data-recherche="brasschaat"><a href="/de/commune/brasschaat.html">Brasschaat</a> <span>10 Plätze</span></li>
+                <li data-recherche="brecht"><a href="/de/commune/brecht.html">Brecht</a> <span>3 Plätze</span></li>
+                <li data-recherche="dessel"><a href="/de/carte.html?commune=dessel">Dessel</a> <span>2 Plätze</span></li>
+                <li data-recherche="duffel"><a href="/de/carte.html?commune=duffel">Duffel</a> <span>1 Platz</span></li>
+                <li data-recherche="edegem"><a href="/de/commune/edegem.html">Edegem</a> <span>3 Plätze</span></li>
+                <li data-recherche="geel"><a href="/de/commune/geel.html">Geel</a> <span>27 Plätze</span></li>
+                <li data-recherche="grobbendonk"><a href="/de/commune/grobbendonk.html">Grobbendonk</a> <span>3 Plätze</span></li>
+                <li data-recherche="heist-op-den-berg"><a href="/de/carte.html?commune=heist-op-den-berg">Heist-op-den-Berg</a> <span>1 Platz</span></li>
+                <li data-recherche="hemiksem"><a href="/de/carte.html?commune=hemiksem">Hemiksem</a> <span>1 Platz</span></li>
+                <li data-recherche="herentals"><a href="/de/carte.html?commune=herentals">Herentals</a> <span>1 Platz</span></li>
+                <li data-recherche="herenthout"><a href="/de/commune/herenthout.html">Herenthout</a> <span>2 Plätze</span></li>
+                <li data-recherche="herselt"><a href="/de/commune/herselt.html">Herselt</a> <span>10 Plätze</span></li>
+                <li data-recherche="hoogstraten"><a href="/de/carte.html?commune=hoogstraten">Hoogstraten</a> <span>1 Platz</span></li>
+                <li data-recherche="hove"><a href="/de/carte.html?commune=hove">Hove</a> <span>3 Plätze</span></li>
+                <li data-recherche="hulshout"><a href="/de/carte.html?commune=hulshout">Hulshout</a> <span>2 Plätze</span></li>
+                <li data-recherche="kalmthout"><a href="/de/commune/kalmthout.html">Kalmthout</a> <span>3 Plätze</span></li>
+                <li data-recherche="kapellen"><a href="/de/commune/kapellen.html">Kapellen</a> <span>2 Plätze</span></li>
+                <li data-recherche="kasterlee"><a href="/de/commune/kasterlee.html">Kasterlee</a> <span>3 Plätze</span></li>
+                <li data-recherche="kontich"><a href="/de/commune/kontich.html">Kontich</a> <span>2 Plätze</span></li>
+                <li data-recherche="laakdal"><a href="/de/commune/laakdal.html">Laakdal</a> <span>9 Plätze</span></li>
+                <li data-recherche="lier"><a href="/de/commune/lier.html">Lier</a> <span>2 Plätze</span></li>
+                <li data-recherche="lille"><a href="/de/commune/lille.html">Lille</a> <span>2 Plätze</span></li>
+                <li data-recherche="lint"><a href="/de/commune/lint.html">Lint</a> <span>5 Plätze</span></li>
+                <li data-recherche="malines | mechelen | mecheln"><a href="/de/commune/mechelen.html">Mecheln</a> <span>7 Plätze</span></li>
+                <li data-recherche="merksplas"><a href="/de/commune/merksplas.html">Merksplas</a> <span>4 Plätze</span></li>
+                <li data-recherche="mol"><a href="/de/commune/mol.html">Mol</a> <span>7 Plätze</span></li>
+                <li data-recherche="mortsel"><a href="/de/commune/mortsel.html">Mortsel</a> <span>2 Plätze</span></li>
+                <li data-recherche="nijlen"><a href="/de/commune/nijlen.html">Nijlen</a> <span>4 Plätze</span></li>
+                <li data-recherche="olen"><a href="/de/commune/olen.html">Olen</a> <span>7 Plätze</span></li>
+                <li data-recherche="oud-turnhout"><a href="/de/commune/oud-turnhout.html">Oud-Turnhout</a> <span>8 Plätze</span></li>
+                <li data-recherche="putte"><a href="/de/carte.html?commune=putte">Putte</a> <span>1 Platz</span></li>
+                <li data-recherche="puurs-sint-amands"><a href="/de/commune/puurs-sint-amands.html">Puurs-Sint-Amands</a> <span>4 Plätze</span></li>
+                <li data-recherche="ranst"><a href="/de/commune/ranst.html">Ranst</a> <span>2 Plätze</span></li>
+                <li data-recherche="ravels"><a href="/de/commune/ravels.html">Ravels</a> <span>5 Plätze</span></li>
+                <li data-recherche="retie"><a href="/de/carte.html?commune=retie">Retie</a> <span>1 Platz</span></li>
+                <li data-recherche="schelle"><a href="/de/carte.html?commune=schelle">Schelle</a> <span>1 Platz</span></li>
+                <li data-recherche="schilde"><a href="/de/commune/schilde.html">Schilde</a> <span>5 Plätze</span></li>
+                <li data-recherche="schoten"><a href="/de/commune/schoten.html">Schoten</a> <span>6 Plätze</span></li>
+                <li data-recherche="sint-katelijne-waver"><a href="/de/commune/sint-katelijne-waver.html">Sint-Katelijne-Waver</a> <span>4 Plätze</span></li>
+                <li data-recherche="stabroek"><a href="/de/commune/stabroek.html">Stabroek</a> <span>4 Plätze</span></li>
+                <li data-recherche="turnhout"><a href="/de/carte.html?commune=turnhout">Turnhout</a> <span>2 Plätze</span></li>
+                <li data-recherche="vosselaar"><a href="/de/commune/vosselaar.html">Vosselaar</a> <span>5 Plätze</span></li>
+                <li data-recherche="westerlo"><a href="/de/commune/westerlo.html">Westerlo</a> <span>10 Plätze</span></li>
+                <li data-recherche="wijnegem"><a href="/de/commune/wijnegem.html">Wijnegem</a> <span>6 Plätze</span></li>
+                <li data-recherche="willebroek"><a href="/de/carte.html?commune=willebroek">Willebroek</a> <span>1 Platz</span></li>
+                <li data-recherche="wommelgem"><a href="/de/carte.html?commune=wommelgem">Wommelgem</a> <span>1 Platz</span></li>
+                <li data-recherche="wuustwezel"><a href="/de/commune/wuustwezel.html">Wuustwezel</a> <span>4 Plätze</span></li>
+                <li data-recherche="zandhoven"><a href="/de/carte.html?commune=zandhoven">Zandhoven</a> <span>1 Platz</span></li>
+                <li data-recherche="zoersel"><a href="/de/carte.html?commune=zoersel">Zoersel</a> <span>2 Plätze</span></li>
+            </ul>
+        </div>
+        <div class="communes-index-province">
+            <h3><a href="/de/province-brabant-flamand.html">Flämisch-Brabant</a></h3>
+            <ul class="communes-index-liste">
+                <li data-recherche="aarschot"><a href="/de/commune/aarschot.html">Aarschot</a> <span>2 Plätze</span></li>
+                <li data-recherche="asse"><a href="/de/commune/asse.html">Asse</a> <span>3 Plätze</span></li>
+                <li data-recherche="beersel"><a href="/de/commune/beersel.html">Beersel</a> <span>6 Plätze</span></li>
+                <li data-recherche="begijnendijk"><a href="/de/carte.html?commune=begijnendijk">Begijnendijk</a> <span>1 Platz</span></li>
+                <li data-recherche="bekkevoort"><a href="/de/carte.html?commune=bekkevoort">Bekkevoort</a> <span>1 Platz</span></li>
+                <li data-recherche="bever"><a href="/de/carte.html?commune=bever">Bever</a> <span>1 Platz</span></li>
+                <li data-recherche="boortmeerbeek"><a href="/de/commune/boortmeerbeek.html">Boortmeerbeek</a> <span>2 Plätze</span></li>
+                <li data-recherche="boutersem"><a href="/de/carte.html?commune=boutersem">Boutersem</a> <span>1 Platz</span></li>
+                <li data-recherche="diest"><a href="/de/carte.html?commune=diest">Diest</a> <span>1 Platz</span></li>
+                <li data-recherche="dilbeek"><a href="/de/commune/dilbeek.html">Dilbeek</a> <span>3 Plätze</span></li>
+                <li data-recherche="drogenbos"><a href="/de/carte.html?commune=drogenbos">Drogenbos</a> <span>2 Plätze</span></li>
+                <li data-recherche="geetbets"><a href="/de/commune/geetbets.html">Geetbets</a> <span>4 Plätze</span></li>
+                <li data-recherche="grimbergen"><a href="/de/commune/grimbergen.html">Grimbergen</a> <span>18 Plätze</span></li>
+                <li data-recherche="haacht"><a href="/de/commune/haacht.html">Haacht</a> <span>12 Plätze</span></li>
+                <li data-recherche="halle"><a href="/de/commune/halle.html">Halle</a> <span>21 Plätze</span></li>
+                <li data-recherche="herent"><a href="/de/commune/herent.html">Herent</a> <span>4 Plätze</span></li>
+                <li data-recherche="hoeilaart"><a href="/de/carte.html?commune=hoeilaart">Hoeilaart</a> <span>1 Platz</span></li>
+                <li data-recherche="huldenberg"><a href="/de/carte.html?commune=huldenberg">Huldenberg</a> <span>1 Platz</span></li>
+                <li data-recherche="kampenhout"><a href="/de/carte.html?commune=kampenhout">Kampenhout</a> <span>1 Platz</span></li>
+                <li data-recherche="kortenberg"><a href="/de/carte.html?commune=kortenberg">Kortenberg</a> <span>3 Plätze</span></li>
+                <li data-recherche="kraainem"><a href="/de/commune/kraainem.html">Kraainem</a> <span>2 Plätze</span></li>
+                <li data-recherche="landen"><a href="/de/commune/landen.html">Landen</a> <span>5 Plätze</span></li>
+                <li data-recherche="lennik"><a href="/de/carte.html?commune=lennik">Lennik</a> <span>1 Platz</span></li>
+                <li data-recherche="liedekerke"><a href="/de/commune/liedekerke.html">Liedekerke</a> <span>2 Plätze</span></li>
+                <li data-recherche="linkebeek"><a href="/de/carte.html?commune=linkebeek">Linkebeek</a> <span>2 Plätze</span></li>
+                <li data-recherche="leuven | louvain | lowen"><a href="/de/commune/leuven.html">Löwen</a> <span>29 Plätze</span></li>
+                <li data-recherche="lubbeek"><a href="/de/carte.html?commune=lubbeek">Lubbeek</a> <span>1 Platz</span></li>
+                <li data-recherche="merchtem"><a href="/de/carte.html?commune=merchtem">Merchtem</a> <span>1 Platz</span></li>
+                <li data-recherche="opwijk"><a href="/de/commune/opwijk.html">Opwijk</a> <span>2 Plätze</span></li>
+                <li data-recherche="oud-heverlee"><a href="/de/commune/oud-heverlee.html">Oud-Heverlee</a> <span>3 Plätze</span></li>
+                <li data-recherche="pajottegem"><a href="/de/commune/pajottegem.html">Pajottegem</a> <span>5 Plätze</span></li>
+                <li data-recherche="pepingen"><a href="/de/commune/pepingen.html">Pepingen</a> <span>5 Plätze</span></li>
+                <li data-recherche="rhode-saint-genese | sint-genesius-rode | sint-genesius-rode - rhode-saint-genese"><a href="/de/commune/sint-genesius-rode-rhode-saint-genese.html">Rhode-Saint-Genèse</a> <span>5 Plätze</span></li>
+                <li data-recherche="roosdaal"><a href="/de/commune/roosdaal.html">Roosdaal</a> <span>3 Plätze</span></li>
+                <li data-recherche="rotselaar"><a href="/de/commune/rotselaar.html">Rotselaar</a> <span>7 Plätze</span></li>
+                <li data-recherche="scherpenheuvel-zichem"><a href="/de/carte.html?commune=scherpenheuvel-zichem">Scherpenheuvel-Zichem</a> <span>2 Plätze</span></li>
+                <li data-recherche="sint-pieters-leeuw"><a href="/de/commune/sint-pieters-leeuw.html">Sint-Pieters-Leeuw</a> <span>3 Plätze</span></li>
+                <li data-recherche="ternat"><a href="/de/commune/ternat.html">Ternat</a> <span>6 Plätze</span></li>
+                <li data-recherche="tervuren"><a href="/de/carte.html?commune=tervuren">Tervuren</a> <span>1 Platz</span></li>
+                <li data-recherche="tielt-winge"><a href="/de/commune/tielt-winge.html">Tielt-Winge</a> <span>2 Plätze</span></li>
+                <li data-recherche="tienen"><a href="/de/commune/tienen.html">Tienen</a> <span>3 Plätze</span></li>
+                <li data-recherche="vilvoorde"><a href="/de/commune/vilvoorde.html">Vilvoorde</a> <span>2 Plätze</span></li>
+                <li data-recherche="zaventem"><a href="/de/carte.html?commune=zaventem">Zaventem</a> <span>1 Platz</span></li>
+                <li data-recherche="zemst"><a href="/de/commune/zemst.html">Zemst</a> <span>3 Plätze</span></li>
+                <li data-recherche="zoutleeuw"><a href="/de/carte.html?commune=zoutleeuw">Zoutleeuw</a> <span>1 Platz</span></li>
+            </ul>
+        </div>
+        <div class="communes-index-province">
+            <h3><a href="/de/province-limbourg.html">Limburg</a></h3>
+            <ul class="communes-index-liste">
+                <li data-recherche="alken"><a href="/de/commune/alken.html">Alken</a> <span>3 Plätze</span></li>
+                <li data-recherche="beringen"><a href="/de/commune/beringen.html">Beringen</a> <span>3 Plätze</span></li>
+                <li data-recherche="bilzen-hoeselt"><a href="/de/commune/bilzen-hoeselt.html">Bilzen-Hoeselt</a> <span>9 Plätze</span></li>
+                <li data-recherche="bocholt"><a href="/de/commune/bocholt.html">Bocholt</a> <span>2 Plätze</span></li>
+                <li data-recherche="bree"><a href="/de/commune/bree.html">Bree</a> <span>2 Plätze</span></li>
+                <li data-recherche="diepenbeek"><a href="/de/commune/diepenbeek.html">Diepenbeek</a> <span>4 Plätze</span></li>
+                <li data-recherche="dilsen-stokkem"><a href="/de/commune/dilsen-stokkem.html">Dilsen-Stokkem</a> <span>6 Plätze</span></li>
+                <li data-recherche="genk"><a href="/de/commune/genk.html">Genk</a> <span>32 Plätze</span></li>
+                <li data-recherche="gingelom"><a href="/de/commune/gingelom.html">Gingelom</a> <span>3 Plätze</span></li>
+                <li data-recherche="halen"><a href="/de/commune/halen.html">Halen</a> <span>3 Plätze</span></li>
+                <li data-recherche="hasselt"><a href="/de/commune/hasselt.html">Hasselt</a> <span>20 Plätze</span></li>
+                <li data-recherche="hechtel-eksel"><a href="/de/commune/hechtel-eksel.html">Hechtel-Eksel</a> <span>5 Plätze</span></li>
+                <li data-recherche="heers"><a href="/de/commune/heers.html">Heers</a> <span>3 Plätze</span></li>
+                <li data-recherche="heusden-zolder"><a href="/de/commune/heusden-zolder.html">Heusden-Zolder</a> <span>4 Plätze</span></li>
+                <li data-recherche="houthalen-helchteren"><a href="/de/commune/houthalen-helchteren.html">Houthalen-Helchteren</a> <span>7 Plätze</span></li>
+                <li data-recherche="kinrooi"><a href="/de/commune/kinrooi.html">Kinrooi</a> <span>6 Plätze</span></li>
+                <li data-recherche="lanaken"><a href="/de/commune/lanaken.html">Lanaken</a> <span>3 Plätze</span></li>
+                <li data-recherche="leopoldsburg"><a href="/de/commune/leopoldsburg.html">Leopoldsburg</a> <span>3 Plätze</span></li>
+                <li data-recherche="lommel"><a href="/de/commune/lommel.html">Lommel</a> <span>6 Plätze</span></li>
+                <li data-recherche="lummen"><a href="/de/commune/lummen.html">Lummen</a> <span>4 Plätze</span></li>
+                <li data-recherche="maaseik"><a href="/de/commune/maaseik.html">Maaseik</a> <span>5 Plätze</span></li>
+                <li data-recherche="maasmechelen"><a href="/de/commune/maasmechelen.html">Maasmechelen</a> <span>4 Plätze</span></li>
+                <li data-recherche="oudsbergen"><a href="/de/commune/oudsbergen.html">Oudsbergen</a> <span>3 Plätze</span></li>
+                <li data-recherche="peer"><a href="/de/commune/peer.html">Peer</a> <span>3 Plätze</span></li>
+                <li data-recherche="pelt"><a href="/de/commune/pelt.html">Pelt</a> <span>4 Plätze</span></li>
+                <li data-recherche="riemst"><a href="/de/commune/riemst.html">Riemst</a> <span>5 Plätze</span></li>
+                <li data-recherche="sint-truiden"><a href="/de/commune/sint-truiden.html">Sint-Truiden</a> <span>7 Plätze</span></li>
+                <li data-recherche="tessenderlo-ham"><a href="/de/commune/tessenderlo-ham.html">Tessenderlo-Ham</a> <span>3 Plätze</span></li>
+                <li data-recherche="tongeren-borgloon"><a href="/de/commune/tongeren-borgloon.html">Tongeren-Borgloon</a> <span>17 Plätze</span></li>
+                <li data-recherche="wellen"><a href="/de/commune/wellen.html">Wellen</a> <span>2 Plätze</span></li>
+                <li data-recherche="zonhoven"><a href="/de/commune/zonhoven.html">Zonhoven</a> <span>5 Plätze</span></li>
+                <li data-recherche="zutendaal"><a href="/de/commune/zutendaal.html">Zutendaal</a> <span>7 Plätze</span></li>
+            </ul>
+        </div>
+        <div class="communes-index-province">
+            <h3><a href="/de/province-flandre-orientale.html">Ostflandern</a></h3>
+            <ul class="communes-index-liste">
+                <li data-recherche="aalst"><a href="/de/commune/aalst.html">Aalst</a> <span>13 Plätze</span></li>
+                <li data-recherche="aalter"><a href="/de/commune/aalter.html">Aalter</a> <span>13 Plätze</span></li>
+                <li data-recherche="assenede"><a href="/de/carte.html?commune=assenede">Assenede</a> <span>1 Platz</span></li>
+                <li data-recherche="berlare"><a href="/de/commune/berlare.html">Berlare</a> <span>3 Plätze</span></li>
+                <li data-recherche="beveren-kruibeke-zwijndrecht"><a href="/de/commune/beveren-kruibeke-zwijndrecht.html">Beveren-Kruibeke-Zwijndrecht</a> <span>3 Plätze</span></li>
+                <li data-recherche="brakel"><a href="/de/carte.html?commune=brakel">Brakel</a> <span>1 Platz</span></li>
+                <li data-recherche="buggenhout"><a href="/de/commune/buggenhout.html">Buggenhout</a> <span>2 Plätze</span></li>
+                <li data-recherche="deinze"><a href="/de/commune/deinze.html">Deinze</a> <span>8 Plätze</span></li>
+                <li data-recherche="dendermonde"><a href="/de/commune/dendermonde.html">Dendermonde</a> <span>5 Plätze</span></li>
+                <li data-recherche="destelbergen"><a href="/de/commune/destelbergen.html">Destelbergen</a> <span>2 Plätze</span></li>
+                <li data-recherche="eeklo"><a href="/de/commune/eeklo.html">Eeklo</a> <span>3 Plätze</span></li>
+                <li data-recherche="erpe-mere"><a href="/de/carte.html?commune=erpe-mere">Erpe-Mere</a> <span>2 Plätze</span></li>
+                <li data-recherche="evergem"><a href="/de/carte.html?commune=evergem">Evergem</a> <span>1 Platz</span></li>
+                <li data-recherche="gavere"><a href="/de/commune/gavere.html">Gavere</a> <span>5 Plätze</span></li>
+                <li data-recherche="gand | gent | ghent"><a href="/de/commune/gent.html">Gent</a> <span>101 Plätze</span></li>
+                <li data-recherche="geraardsbergen"><a href="/de/commune/geraardsbergen.html">Geraardsbergen</a> <span>2 Plätze</span></li>
+                <li data-recherche="haaltert"><a href="/de/commune/haaltert.html">Haaltert</a> <span>3 Plätze</span></li>
+                <li data-recherche="hamme"><a href="/de/commune/hamme.html">Hamme</a> <span>4 Plätze</span></li>
+                <li data-recherche="kaprijke"><a href="/de/commune/kaprijke.html">Kaprijke</a> <span>2 Plätze</span></li>
+                <li data-recherche="kruisem"><a href="/de/commune/kruisem.html">Kruisem</a> <span>4 Plätze</span></li>
+                <li data-recherche="laarne"><a href="/de/commune/laarne.html">Laarne</a> <span>2 Plätze</span></li>
+                <li data-recherche="lede"><a href="/de/commune/lede.html">Lede</a> <span>4 Plätze</span></li>
+                <li data-recherche="lierde"><a href="/de/carte.html?commune=lierde">Lierde</a> <span>1 Platz</span></li>
+                <li data-recherche="lievegem"><a href="/de/commune/lievegem.html">Lievegem</a> <span>4 Plätze</span></li>
+                <li data-recherche="lochristi"><a href="/de/carte.html?commune=lochristi">Lochristi</a> <span>1 Platz</span></li>
+                <li data-recherche="lokeren"><a href="/de/commune/lokeren.html">Lokeren</a> <span>15 Plätze</span></li>
+                <li data-recherche="maarkedal"><a href="/de/carte.html?commune=maarkedal">Maarkedal</a> <span>1 Platz</span></li>
+                <li data-recherche="merelbeke-melle"><a href="/de/commune/merelbeke-melle.html">Merelbeke-Melle</a> <span>12 Plätze</span></li>
+                <li data-recherche="nazareth-de pinte"><a href="/de/commune/nazareth-de-pinte.html">Nazareth-De Pinte</a> <span>13 Plätze</span></li>
+                <li data-recherche="ninove"><a href="/de/commune/ninove.html">Ninove</a> <span>6 Plätze</span></li>
+                <li data-recherche="oosterzele"><a href="/de/commune/oosterzele.html">Oosterzele</a> <span>2 Plätze</span></li>
+                <li data-recherche="oudenaarde"><a href="/de/commune/oudenaarde.html">Oudenaarde</a> <span>5 Plätze</span></li>
+                <li data-recherche="ronse"><a href="/de/carte.html?commune=ronse">Ronse</a> <span>4 Plätze</span></li>
+                <li data-recherche="sint-gillis-waas"><a href="/de/carte.html?commune=sint-gillis-waas">Sint-Gillis-Waas</a> <span>2 Plätze</span></li>
+                <li data-recherche="sint-laureins"><a href="/de/carte.html?commune=sint-laureins">Sint-Laureins</a> <span>1 Platz</span></li>
+                <li data-recherche="sint-lievens-houtem"><a href="/de/commune/sint-lievens-houtem.html">Sint-Lievens-Houtem</a> <span>2 Plätze</span></li>
+                <li data-recherche="sint-martens-latem"><a href="/de/commune/sint-martens-latem.html">Sint-Martens-Latem</a> <span>5 Plätze</span></li>
+                <li data-recherche="sint-niklaas"><a href="/de/commune/sint-niklaas.html">Sint-Niklaas</a> <span>16 Plätze</span></li>
+                <li data-recherche="stekene"><a href="/de/carte.html?commune=stekene">Stekene</a> <span>1 Platz</span></li>
+                <li data-recherche="temse"><a href="/de/commune/temse.html">Temse</a> <span>4 Plätze</span></li>
+                <li data-recherche="wetteren"><a href="/de/commune/wetteren.html">Wetteren</a> <span>3 Plätze</span></li>
+                <li data-recherche="wichelen"><a href="/de/commune/wichelen.html">Wichelen</a> <span>7 Plätze</span></li>
+                <li data-recherche="wortegem-petegem"><a href="/de/carte.html?commune=wortegem-petegem">Wortegem-Petegem</a> <span>1 Platz</span></li>
+                <li data-recherche="zele"><a href="/de/commune/zele.html">Zele</a> <span>3 Plätze</span></li>
+                <li data-recherche="zelzate"><a href="/de/carte.html?commune=zelzate">Zelzate</a> <span>2 Plätze</span></li>
+                <li data-recherche="zottegem"><a href="/de/carte.html?commune=zottegem">Zottegem</a> <span>1 Platz</span></li>
+                <li data-recherche="zulte"><a href="/de/carte.html?commune=zulte">Zulte</a> <span>1 Platz</span></li>
+                <li data-recherche="zwalm"><a href="/de/carte.html?commune=zwalm">Zwalm</a> <span>2 Plätze</span></li>
+            </ul>
+        </div>
+        <div class="communes-index-province">
+            <h3><a href="/de/province-flandre-occidentale.html">Westflandern</a></h3>
+            <ul class="communes-index-liste">
+                <li data-recherche="anzegem"><a href="/de/carte.html?commune=anzegem">Anzegem</a> <span>2 Plätze</span></li>
+                <li data-recherche="beernem"><a href="/de/commune/beernem.html">Beernem</a> <span>5 Plätze</span></li>
+                <li data-recherche="blankenberge"><a href="/de/commune/blankenberge.html">Blankenberge</a> <span>8 Plätze</span></li>
+                <li data-recherche="bredene"><a href="/de/commune/bredene.html">Bredene</a> <span>6 Plätze</span></li>
+                <li data-recherche="bruges | brugge"><a href="/de/commune/brugge.html">Brügge</a> <span>27 Plätze</span></li>
+                <li data-recherche="damme"><a href="/de/carte.html?commune=damme">Damme</a> <span>1 Platz</span></li>
+                <li data-recherche="de haan"><a href="/de/commune/de-haan.html">De Haan</a> <span>7 Plätze</span></li>
+                <li data-recherche="de panne"><a href="/de/commune/de-panne.html">De Panne</a> <span>2 Plätze</span></li>
+                <li data-recherche="dentergem"><a href="/de/carte.html?commune=dentergem">Dentergem</a> <span>1 Platz</span></li>
+                <li data-recherche="diksmuide"><a href="/de/carte.html?commune=diksmuide">Diksmuide</a> <span>1 Platz</span></li>
+                <li data-recherche="gistel"><a href="/de/carte.html?commune=gistel">Gistel</a> <span>2 Plätze</span></li>
+                <li data-recherche="harelbeke"><a href="/de/commune/harelbeke.html">Harelbeke</a> <span>2 Plätze</span></li>
+                <li data-recherche="heuvelland"><a href="/de/carte.html?commune=heuvelland">Heuvelland</a> <span>1 Platz</span></li>
+                <li data-recherche="hooglede"><a href="/de/commune/hooglede.html">Hooglede</a> <span>3 Plätze</span></li>
+                <li data-recherche="houthulst"><a href="/de/commune/houthulst.html">Houthulst</a> <span>2 Plätze</span></li>
+                <li data-recherche="izegem"><a href="/de/commune/izegem.html">Izegem</a> <span>8 Plätze</span></li>
+                <li data-recherche="jabbeke"><a href="/de/commune/jabbeke.html">Jabbeke</a> <span>3 Plätze</span></li>
+                <li data-recherche="knokke-heist"><a href="/de/commune/knokke-heist.html">Knokke-Heist</a> <span>4 Plätze</span></li>
+                <li data-recherche="koksijde"><a href="/de/commune/koksijde.html">Koksijde</a> <span>6 Plätze</span></li>
+                <li data-recherche="kortemark"><a href="/de/commune/kortemark.html">Kortemark</a> <span>2 Plätze</span></li>
+                <li data-recherche="courtrai | kortrijk"><a href="/de/commune/kortrijk.html">Kortrijk</a> <span>5 Plätze</span></li>
+                <li data-recherche="lendelede"><a href="/de/carte.html?commune=lendelede">Lendelede</a> <span>1 Platz</span></li>
+                <li data-recherche="lichtervelde"><a href="/de/carte.html?commune=lichtervelde">Lichtervelde</a> <span>1 Platz</span></li>
+                <li data-recherche="menen"><a href="/de/commune/menen.html">Menen</a> <span>17 Plätze</span></li>
+                <li data-recherche="mesen"><a href="/de/carte.html?commune=mesen">Mesen</a> <span>1 Platz</span></li>
+                <li data-recherche="middelkerke"><a href="/de/commune/middelkerke.html">Middelkerke</a> <span>7 Plätze</span></li>
+                <li data-recherche="moorslede"><a href="/de/carte.html?commune=moorslede">Moorslede</a> <span>4 Plätze</span></li>
+                <li data-recherche="nieuwpoort"><a href="/de/commune/nieuwpoort.html">Nieuwpoort</a> <span>7 Plätze</span></li>
+                <li data-recherche="oostrozebeke"><a href="/de/carte.html?commune=oostrozebeke">Oostrozebeke</a> <span>2 Plätze</span></li>
+                <li data-recherche="oostende | ostend | ostende"><a href="/de/commune/oostende.html">Ostende</a> <span>3 Plätze</span></li>
+                <li data-recherche="poperinge"><a href="/de/carte.html?commune=poperinge">Poperinge</a> <span>1 Platz</span></li>
+                <li data-recherche="roeselare"><a href="/de/commune/roeselare.html">Roeselare</a> <span>29 Plätze</span></li>
+                <li data-recherche="staden"><a href="/de/carte.html?commune=staden">Staden</a> <span>1 Platz</span></li>
+                <li data-recherche="tielt"><a href="/de/commune/tielt.html">Tielt</a> <span>10 Plätze</span></li>
+                <li data-recherche="waregem"><a href="/de/commune/waregem.html">Waregem</a> <span>8 Plätze</span></li>
+                <li data-recherche="wervik"><a href="/de/carte.html?commune=wervik">Wervik</a> <span>1 Platz</span></li>
+                <li data-recherche="wevelgem"><a href="/de/commune/wevelgem.html">Wevelgem</a> <span>12 Plätze</span></li>
+                <li data-recherche="wielsbeke"><a href="/de/carte.html?commune=wielsbeke">Wielsbeke</a> <span>5 Plätze</span></li>
+                <li data-recherche="wingene"><a href="/de/carte.html?commune=wingene">Wingene</a> <span>1 Platz</span></li>
+                <li data-recherche="ieper | ypern | ypres"><a href="/de/commune/ieper.html">Ypern</a> <span>3 Plätze</span></li>
+                <li data-recherche="zedelgem"><a href="/de/commune/zedelgem.html">Zedelgem</a> <span>4 Plätze</span></li>
+                <li data-recherche="zonnebeke"><a href="/de/commune/zonnebeke.html">Zonnebeke</a> <span>2 Plätze</span></li>
+                <li data-recherche="zuienkerke"><a href="/de/carte.html?commune=zuienkerke">Zuienkerke</a> <span>1 Platz</span></li>
+                <li data-recherche="zwevegem"><a href="/de/commune/zwevegem.html">Zwevegem</a> <span>3 Plätze</span></li>
+            </ul>
+        </div>
+    </section>
+    <section class="communes-index-region">
+        <h2>Wallonien</h2>
+        <div class="communes-index-province">
+            <h3><a href="/de/province-hainaut.html">Hennegau</a></h3>
+            <ul class="communes-index-liste">
+                <li data-recherche="antoing"><a href="/de/carte.html?commune=antoing">Antoing</a> <span>3 Plätze</span></li>
+                <li data-recherche="ath"><a href="/de/commune/ath.html">Ath</a> <span>2 Plätze</span></li>
+                <li data-recherche="beaumont"><a href="/de/carte.html?commune=beaumont">Beaumont</a> <span>1 Platz</span></li>
+                <li data-recherche="bernissart"><a href="/de/carte.html?commune=bernissart">Bernissart</a> <span>1 Platz</span></li>
+                <li data-recherche="binche"><a href="/de/commune/binche.html">Binche</a> <span>8 Plätze</span></li>
+                <li data-recherche="brugelette"><a href="/de/carte.html?commune=brugelette">Brugelette</a> <span>1 Platz</span></li>
+                <li data-recherche="brunehaut"><a href="/de/commune/brunehaut.html">Brunehaut</a> <span>2 Plätze</span></li>
+                <li data-recherche="charleroi"><a href="/de/commune/charleroi.html">Charleroi</a> <span>6 Plätze</span></li>
+                <li data-recherche="courcelles"><a href="/de/carte.html?commune=courcelles">Courcelles</a> <span>2 Plätze</span></li>
+                <li data-recherche="dour"><a href="/de/carte.html?commune=dour">Dour</a> <span>1 Platz</span></li>
+                <li data-recherche="ecaussinnes"><a href="/de/commune/ecaussinnes.html">Écaussinnes</a> <span>2 Plätze</span></li>
+                <li data-recherche="edingen | enghien | enghien - edingen"><a href="/de/commune/enghien-edingen.html">Edingen</a> <span>3 Plätze</span></li>
+                <li data-recherche="ellezelles"><a href="/de/carte.html?commune=ellezelles">Ellezelles</a> <span>1 Platz</span></li>
+                <li data-recherche="erquelinnes"><a href="/de/carte.html?commune=erquelinnes">Erquelinnes</a> <span>1 Platz</span></li>
+                <li data-recherche="fleurus"><a href="/de/commune/fleurus.html">Fleurus</a> <span>2 Plätze</span></li>
+                <li data-recherche="frameries"><a href="/de/carte.html?commune=frameries">Frameries</a> <span>1 Platz</span></li>
+                <li data-recherche="froidchapelle"><a href="/de/commune/froidchapelle.html">Froidchapelle</a> <span>3 Plätze</span></li>
+                <li data-recherche="gerpinnes"><a href="/de/commune/gerpinnes.html">Gerpinnes</a> <span>7 Plätze</span></li>
+                <li data-recherche="ham-sur-heure-nalinnes"><a href="/de/carte.html?commune=ham-sur-heure-nalinnes">Ham-sur-Heure-Nalinnes</a> <span>1 Platz</span></li>
+                <li data-recherche="comines-warneton | comines-warneton - komen-waasten | komen-waasten"><a href="/de/carte.html?commune=comines-warneton-komen-waasten">Komen-Waasten</a> <span>3 Plätze</span></li>
+                <li data-recherche="la louviere"><a href="/de/commune/la-louviere.html">La Louvière</a> <span>7 Plätze</span></li>
+                <li data-recherche="le rœulx"><a href="/de/carte.html?commune=le-rulx">Le Rœulx</a> <span>2 Plätze</span></li>
+                <li data-recherche="les bons villers"><a href="/de/commune/les-bons-villers.html">Les Bons Villers</a> <span>8 Plätze</span></li>
+                <li data-recherche="lessines"><a href="/de/carte.html?commune=lessines">Lessines</a> <span>2 Plätze</span></li>
+                <li data-recherche="leuze-en-hainaut"><a href="/de/commune/leuze-en-hainaut.html">Leuze-en-Hainaut</a> <span>2 Plätze</span></li>
+                <li data-recherche="bergen | mons"><a href="/de/commune/mons.html">Mons</a> <span>9 Plätze</span></li>
+                <li data-recherche="mouscron"><a href="/de/commune/mouscron.html">Mouscron</a> <span>3 Plätze</span></li>
+                <li data-recherche="quaregnon"><a href="/de/commune/quaregnon.html">Quaregnon</a> <span>5 Plätze</span></li>
+                <li data-recherche="silly"><a href="/de/carte.html?commune=silly">Silly</a> <span>1 Platz</span></li>
+                <li data-recherche="thuin"><a href="/de/carte.html?commune=thuin">Thuin</a> <span>1 Platz</span></li>
+                <li data-recherche="doornik | tournai"><a href="/de/commune/tournai.html">Tournai</a> <span>6 Plätze</span></li>
+            </ul>
+        </div>
+        <div class="communes-index-province">
+            <h3><a href="/de/province-luxembourg.html">Luxemburg</a></h3>
+            <ul class="communes-index-liste">
+                <li data-recherche="arlon"><a href="/de/commune/arlon.html">Arlon</a> <span>7 Plätze</span></li>
+                <li data-recherche="attert"><a href="/de/carte.html?commune=attert">Attert</a> <span>1 Platz</span></li>
+                <li data-recherche="aubange"><a href="/de/carte.html?commune=aubange">Aubange</a> <span>1 Platz</span></li>
+                <li data-recherche="bastogne"><a href="/de/commune/bastogne.html">Bastogne</a> <span>2 Plätze</span></li>
+                <li data-recherche="daverdisse"><a href="/de/carte.html?commune=daverdisse">Daverdisse</a> <span>1 Platz</span></li>
+                <li data-recherche="durbuy"><a href="/de/commune/durbuy.html">Durbuy</a> <span>2 Plätze</span></li>
+                <li data-recherche="erezee"><a href="/de/carte.html?commune=erezee">Érezée</a> <span>3 Plätze</span></li>
+                <li data-recherche="fauvillers"><a href="/de/carte.html?commune=fauvillers">Fauvillers</a> <span>1 Platz</span></li>
+                <li data-recherche="gouvy"><a href="/de/carte.html?commune=gouvy">Gouvy</a> <span>3 Plätze</span></li>
+                <li data-recherche="habay"><a href="/de/commune/habay.html">Habay</a> <span>2 Plätze</span></li>
+                <li data-recherche="herbeumont"><a href="/de/carte.html?commune=herbeumont">Herbeumont</a> <span>1 Platz</span></li>
+                <li data-recherche="houffalize"><a href="/de/carte.html?commune=houffalize">Houffalize</a> <span>1 Platz</span></li>
+                <li data-recherche="la roche-en-ardenne"><a href="/de/carte.html?commune=la-roche-en-ardenne">La Roche-en-Ardenne</a> <span>1 Platz</span></li>
+                <li data-recherche="leglise"><a href="/de/commune/leglise.html">Léglise</a> <span>2 Plätze</span></li>
+                <li data-recherche="marche-en-famenne"><a href="/de/carte.html?commune=marche-en-famenne">Marche-en-Famenne</a> <span>1 Platz</span></li>
+                <li data-recherche="meix-devant-virton"><a href="/de/carte.html?commune=meix-devant-virton">Meix-devant-Virton</a> <span>1 Platz</span></li>
+                <li data-recherche="messancy"><a href="/de/commune/messancy.html">Messancy</a> <span>3 Plätze</span></li>
+                <li data-recherche="rendeux"><a href="/de/carte.html?commune=rendeux">Rendeux</a> <span>2 Plätze</span></li>
+                <li data-recherche="rouvroy"><a href="/de/carte.html?commune=rouvroy">Rouvroy</a> <span>1 Platz</span></li>
+                <li data-recherche="saint-hubert"><a href="/de/commune/saint-hubert.html">Saint-Hubert</a> <span>3 Plätze</span></li>
+                <li data-recherche="tenneville"><a href="/de/commune/tenneville.html">Tenneville</a> <span>2 Plätze</span></li>
+                <li data-recherche="tintigny"><a href="/de/carte.html?commune=tintigny">Tintigny</a> <span>1 Platz</span></li>
+                <li data-recherche="vaux-sur-sure"><a href="/de/carte.html?commune=vaux-sur-sure">Vaux-sur-Sûre</a> <span>2 Plätze</span></li>
+                <li data-recherche="vielsalm"><a href="/de/commune/vielsalm.html">Vielsalm</a> <span>6 Plätze</span></li>
+                <li data-recherche="virton"><a href="/de/carte.html?commune=virton">Virton</a> <span>1 Platz</span></li>
+            </ul>
+        </div>
+        <div class="communes-index-province">
+            <h3><a href="/de/province-liege.html">Lüttich</a></h3>
+            <ul class="communes-index-liste">
+                <li data-recherche="amay"><a href="/de/carte.html?commune=amay">Amay</a> <span>1 Platz</span></li>
+                <li data-recherche="amel"><a href="/de/carte.html?commune=amel">Amel</a> <span>1 Platz</span></li>
+                <li data-recherche="aubel"><a href="/de/carte.html?commune=aubel">Aubel</a> <span>1 Platz</span></li>
+                <li data-recherche="aywaille"><a href="/de/commune/aywaille.html">Aywaille</a> <span>6 Plätze</span></li>
+                <li data-recherche="bassenge"><a href="/de/carte.html?commune=bassenge">Bassenge</a> <span>1 Platz</span></li>
+                <li data-recherche="beyne-heusay"><a href="/de/commune/beyne-heusay.html">Beyne-Heusay</a> <span>2 Plätze</span></li>
+                <li data-recherche="blegny"><a href="/de/commune/blegny.html">Blegny</a> <span>4 Plätze</span></li>
+                <li data-recherche="braives"><a href="/de/commune/braives.html">Braives</a> <span>2 Plätze</span></li>
+                <li data-recherche="bullingen"><a href="/de/carte.html?commune=bullingen">Büllingen</a> <span>1 Platz</span></li>
+                <li data-recherche="butgenbach"><a href="/de/carte.html?commune=butgenbach">Bütgenbach</a> <span>1 Platz</span></li>
+                <li data-recherche="chaudfontaine"><a href="/de/carte.html?commune=chaudfontaine">Chaudfontaine</a> <span>1 Platz</span></li>
+                <li data-recherche="clavier"><a href="/de/commune/clavier.html">Clavier</a> <span>3 Plätze</span></li>
+                <li data-recherche="crisnee"><a href="/de/carte.html?commune=crisnee">Crisnée</a> <span>5 Plätze</span></li>
+                <li data-recherche="dalhem"><a href="/de/carte.html?commune=dalhem">Dalhem</a> <span>1 Platz</span></li>
+                <li data-recherche="dison"><a href="/de/carte.html?commune=dison">Dison</a> <span>1 Platz</span></li>
+                <li data-recherche="donceel"><a href="/de/carte.html?commune=donceel">Donceel</a> <span>1 Platz</span></li>
+                <li data-recherche="eupen"><a href="/de/commune/eupen.html">Eupen</a> <span>8 Plätze</span></li>
+                <li data-recherche="ferrieres"><a href="/de/commune/ferrieres.html">Ferrières</a> <span>3 Plätze</span></li>
+                <li data-recherche="fexhe-le-haut-clocher"><a href="/de/carte.html?commune=fexhe-le-haut-clocher">Fexhe-le-Haut-Clocher</a> <span>1 Platz</span></li>
+                <li data-recherche="flemalle"><a href="/de/commune/flemalle.html">Flémalle</a> <span>3 Plätze</span></li>
+                <li data-recherche="fleron"><a href="/de/commune/fleron.html">Fléron</a> <span>3 Plätze</span></li>
+                <li data-recherche="geer"><a href="/de/carte.html?commune=geer">Geer</a> <span>1 Platz</span></li>
+                <li data-recherche="hamoir"><a href="/de/carte.html?commune=hamoir">Hamoir</a> <span>1 Platz</span></li>
+                <li data-recherche="hannut"><a href="/de/commune/hannut.html">Hannut</a> <span>2 Plätze</span></li>
+                <li data-recherche="herstal"><a href="/de/carte.html?commune=herstal">Herstal</a> <span>2 Plätze</span></li>
+                <li data-recherche="herve"><a href="/de/commune/herve.html">Herve</a> <span>3 Plätze</span></li>
+                <li data-recherche="huy"><a href="/de/commune/huy.html">Huy</a> <span>2 Plätze</span></li>
+                <li data-recherche="juprelle"><a href="/de/commune/juprelle.html">Juprelle</a> <span>3 Plätze</span></li>
+                <li data-recherche="kelmis | kelmis - la calamine | la calamine"><a href="/de/carte.html?commune=kelmis-la-calamine">La Calamine</a> <span>1 Platz</span></li>
+                <li data-recherche="lierneux"><a href="/de/carte.html?commune=lierneux">Lierneux</a> <span>1 Platz</span></li>
+                <li data-recherche="lincent"><a href="/de/commune/lincent.html">Lincent</a> <span>2 Plätze</span></li>
+                <li data-recherche="lontzen"><a href="/de/carte.html?commune=lontzen">Lontzen</a> <span>1 Platz</span></li>
+                <li data-recherche="liege | luik | luttich"><a href="/de/commune/liege.html">Lüttich</a> <span>25 Plätze</span></li>
+                <li data-recherche="malmedy"><a href="/de/commune/malmedy.html">Malmedy</a> <span>3 Plätze</span></li>
+                <li data-recherche="nandrin"><a href="/de/commune/nandrin.html">Nandrin</a> <span>2 Plätze</span></li>
+                <li data-recherche="ouffet"><a href="/de/carte.html?commune=ouffet">Ouffet</a> <span>1 Platz</span></li>
+                <li data-recherche="oupeye"><a href="/de/commune/oupeye.html">Oupeye</a> <span>9 Plätze</span></li>
+                <li data-recherche="plombieres"><a href="/de/commune/plombieres.html">Plombières</a> <span>5 Plätze</span></li>
+                <li data-recherche="raeren"><a href="/de/carte.html?commune=raeren">Raeren</a> <span>1 Platz</span></li>
+                <li data-recherche="remicourt"><a href="/de/carte.html?commune=remicourt">Remicourt</a> <span>1 Platz</span></li>
+                <li data-recherche="saint-nicolas"><a href="/de/carte.html?commune=saint-nicolas">Saint-Nicolas</a> <span>1 Platz</span></li>
+                <li data-recherche="seraing"><a href="/de/commune/seraing.html">Seraing</a> <span>5 Plätze</span></li>
+                <li data-recherche="soumagne"><a href="/de/commune/soumagne.html">Soumagne</a> <span>7 Plätze</span></li>
+                <li data-recherche="stavelot"><a href="/de/commune/stavelot.html">Stavelot</a> <span>2 Plätze</span></li>
+                <li data-recherche="stoumont"><a href="/de/carte.html?commune=stoumont">Stoumont</a> <span>1 Platz</span></li>
+                <li data-recherche="theux"><a href="/de/commune/theux.html">Theux</a> <span>5 Plätze</span></li>
+                <li data-recherche="thimister-clermont"><a href="/de/carte.html?commune=thimister-clermont">Thimister-Clermont</a> <span>1 Platz</span></li>
+                <li data-recherche="tinlot"><a href="/de/carte.html?commune=tinlot">Tinlot</a> <span>1 Platz</span></li>
+                <li data-recherche="verlaine"><a href="/de/carte.html?commune=verlaine">Verlaine</a> <span>1 Platz</span></li>
+                <li data-recherche="verviers"><a href="/de/commune/verviers.html">Verviers</a> <span>2 Plätze</span></li>
+                <li data-recherche="vise"><a href="/de/carte.html?commune=vise">Visé</a> <span>2 Plätze</span></li>
+                <li data-recherche="waimes"><a href="/de/commune/waimes.html">Waimes</a> <span>4 Plätze</span></li>
+                <li data-recherche="wanze"><a href="/de/commune/wanze.html">Wanze</a> <span>2 Plätze</span></li>
+                <li data-recherche="waremme"><a href="/de/commune/waremme.html">Waremme</a> <span>3 Plätze</span></li>
+            </ul>
+        </div>
+        <div class="communes-index-province">
+            <h3><a href="/de/province-namur.html">Namur</a></h3>
+            <ul class="communes-index-liste">
+                <li data-recherche="andenne"><a href="/de/commune/andenne.html">Andenne</a> <span>3 Plätze</span></li>
+                <li data-recherche="anhee"><a href="/de/commune/anhee.html">Anhée</a> <span>2 Plätze</span></li>
+                <li data-recherche="beauraing"><a href="/de/commune/beauraing.html">Beauraing</a> <span>3 Plätze</span></li>
+                <li data-recherche="bievre"><a href="/de/commune/bievre.html">Bièvre</a> <span>2 Plätze</span></li>
+                <li data-recherche="ciney"><a href="/de/commune/ciney.html">Ciney</a> <span>2 Plätze</span></li>
+                <li data-recherche="couvin"><a href="/de/carte.html?commune=couvin">Couvin</a> <span>1 Platz</span></li>
+                <li data-recherche="dinant"><a href="/de/commune/dinant.html">Dinant</a> <span>3 Plätze</span></li>
+                <li data-recherche="eghezee"><a href="/de/commune/eghezee.html">Eghezée</a> <span>6 Plätze</span></li>
+                <li data-recherche="fernelmont"><a href="/de/commune/fernelmont.html">Fernelmont</a> <span>4 Plätze</span></li>
+                <li data-recherche="floreffe"><a href="/de/carte.html?commune=floreffe">Floreffe</a> <span>1 Platz</span></li>
+                <li data-recherche="florennes"><a href="/de/carte.html?commune=florennes">Florennes</a> <span>2 Plätze</span></li>
+                <li data-recherche="fosses-la-ville"><a href="/de/carte.html?commune=fosses-la-ville">Fosses-la-Ville</a> <span>1 Platz</span></li>
+                <li data-recherche="gedinne"><a href="/de/commune/gedinne.html">Gedinne</a> <span>5 Plätze</span></li>
+                <li data-recherche="gembloux"><a href="/de/commune/gembloux.html">Gembloux</a> <span>2 Plätze</span></li>
+                <li data-recherche="gesves"><a href="/de/carte.html?commune=gesves">Gesves</a> <span>2 Plätze</span></li>
+                <li data-recherche="hamois"><a href="/de/carte.html?commune=hamois">Hamois</a> <span>1 Platz</span></li>
+                <li data-recherche="hastiere"><a href="/de/commune/hastiere.html">Hastière</a> <span>2 Plätze</span></li>
+                <li data-recherche="houyet"><a href="/de/commune/houyet.html">Houyet</a> <span>5 Plätze</span></li>
+                <li data-recherche="jemeppe-sur-sambre"><a href="/de/carte.html?commune=jemeppe-sur-sambre">Jemeppe-sur-Sambre</a> <span>1 Platz</span></li>
+                <li data-recherche="namen | namur"><a href="/de/commune/namur.html">Namur</a> <span>13 Plätze</span></li>
+                <li data-recherche="ohey"><a href="/de/commune/ohey.html">Ohey</a> <span>2 Plätze</span></li>
+                <li data-recherche="onhaye"><a href="/de/carte.html?commune=onhaye">Onhaye</a> <span>1 Platz</span></li>
+                <li data-recherche="philippeville"><a href="/de/carte.html?commune=philippeville">Philippeville</a> <span>1 Platz</span></li>
+                <li data-recherche="rochefort"><a href="/de/commune/rochefort.html">Rochefort</a> <span>3 Plätze</span></li>
+                <li data-recherche="sambreville"><a href="/de/commune/sambreville.html">Sambreville</a> <span>5 Plätze</span></li>
+                <li data-recherche="sombreffe"><a href="/de/commune/sombreffe.html">Sombreffe</a> <span>2 Plätze</span></li>
+                <li data-recherche="somme-leuze"><a href="/de/commune/somme-leuze.html">Somme-Leuze</a> <span>3 Plätze</span></li>
+                <li data-recherche="viroinval"><a href="/de/commune/viroinval.html">Viroinval</a> <span>6 Plätze</span></li>
+                <li data-recherche="yvoir"><a href="/de/commune/yvoir.html">Yvoir</a> <span>4 Plätze</span></li>
+            </ul>
+        </div>
+        <div class="communes-index-province">
+            <h3><a href="/de/province-brabant-wallon.html">Wallonisch-Brabant</a></h3>
+            <ul class="communes-index-liste">
+                <li data-recherche="beauvechain"><a href="/de/carte.html?commune=beauvechain">Beauvechain</a> <span>1 Platz</span></li>
+                <li data-recherche="braine-l&#x27;alleud"><a href="/de/commune/braine-l-alleud.html">Braine-l'Alleud</a> <span>4 Plätze</span></li>
+                <li data-recherche="braine-le-chateau"><a href="/de/commune/braine-le-chateau.html">Braine-le-Château</a> <span>6 Plätze</span></li>
+                <li data-recherche="chaumont-gistoux"><a href="/de/carte.html?commune=chaumont-gistoux">Chaumont-Gistoux</a> <span>1 Platz</span></li>
+                <li data-recherche="court-saint-etienne"><a href="/de/carte.html?commune=court-saint-etienne">Court-Saint-Etienne</a> <span>1 Platz</span></li>
+                <li data-recherche="genappe"><a href="/de/carte.html?commune=genappe">Genappe</a> <span>1 Platz</span></li>
+                <li data-recherche="incourt"><a href="/de/carte.html?commune=incourt">Incourt</a> <span>1 Platz</span></li>
+                <li data-recherche="mont-saint-guibert"><a href="/de/commune/mont-saint-guibert.html">Mont-Saint-Guibert</a> <span>2 Plätze</span></li>
+                <li data-recherche="nivelles"><a href="/de/carte.html?commune=nivelles">Nivelles</a> <span>2 Plätze</span></li>
+                <li data-recherche="ottignies-louvain-la-neuve"><a href="/de/commune/ottignies-louvain-la-neuve.html">Ottignies-Louvain-la-Neuve</a> <span>4 Plätze</span></li>
+                <li data-recherche="perwez"><a href="/de/commune/perwez.html">Perwez</a> <span>4 Plätze</span></li>
+                <li data-recherche="ramillies"><a href="/de/commune/ramillies.html">Ramillies</a> <span>3 Plätze</span></li>
+                <li data-recherche="rebecq"><a href="/de/commune/rebecq.html">Rebecq</a> <span>2 Plätze</span></li>
+                <li data-recherche="rixensart"><a href="/de/carte.html?commune=rixensart">Rixensart</a> <span>1 Platz</span></li>
+                <li data-recherche="tubize"><a href="/de/commune/tubize.html">Tubize</a> <span>8 Plätze</span></li>
+                <li data-recherche="villers-la-ville"><a href="/de/commune/villers-la-ville.html">Villers-la-Ville</a> <span>2 Plätze</span></li>
+                <li data-recherche="walhain"><a href="/de/commune/walhain.html">Walhain</a> <span>2 Plätze</span></li>
+                <li data-recherche="waterloo"><a href="/de/commune/waterloo.html">Waterloo</a> <span>3 Plätze</span></li>
+            </ul>
+        </div>
+    </section>
+    <section class="communes-index-region">
+        <h2>Brüssel</h2>
+        <div class="communes-index-province">
+            <ul class="communes-index-liste">
+                <li data-recherche="anderlecht"><a href="/de/commune/anderlecht.html">Anderlecht</a> <span>34 Plätze</span></li>
+                <li data-recherche="brussel | brussels | bruxelles | bruxelles - brussel"><a href="/de/commune/bruxelles.html">Brüssel</a> <span>28 Plätze</span></li>
+                <li data-recherche="elsene | ixelles | ixelles - elsene"><a href="/de/commune/ixelles.html">Elsene</a> <span>4 Plätze</span></li>
+                <li data-recherche="etterbeek"><a href="/de/carte.html?commune=etterbeek">Etterbeek</a> <span>1 Platz</span></li>
+                <li data-recherche="evere"><a href="/de/commune/evere.html">Evere</a> <span>2 Plätze</span></li>
+                <li data-recherche="ganshoren"><a href="/de/carte.html?commune=ganshoren">Ganshoren</a> <span>3 Plätze</span></li>
+                <li data-recherche="jette"><a href="/de/commune/jette.html">Jette</a> <span>6 Plätze</span></li>
+                <li data-recherche="schaarbeek | schaerbeek | schaerbeek - schaarbeek"><a href="/de/commune/schaerbeek.html">Schaarbeek</a> <span>5 Plätze</span></li>
+                <li data-recherche="berchem-sainte-agathe | berchem-sainte-agathe - sint-agatha-berchem | sint-agatha-berchem"><a href="/de/carte.html?commune=berchem-sainte-agathe">Sint-Agatha-Berchem</a> <span>1 Platz</span></li>
+                <li data-recherche="saint-gilles | saint-gilles - sint-gillis | sint-gillis"><a href="/de/commune/saint-gilles.html">Sint-Gillis</a> <span>3 Plätze</span></li>
+                <li data-recherche="molenbeek-saint-jean | molenbeek-saint-jean - sint-jans-molenbeek | sint-jans-molenbeek"><a href="/de/commune/molenbeek-saint-jean.html">Sint-Jans-Molenbeek</a> <span>3 Plätze</span></li>
+                <li data-recherche="sint-lambrechts-woluwe | woluwe-saint-lambert | woluwe-saint-lambert - sint-lambrechts-woluwe"><a href="/de/commune/woluwe-saint-lambert.html">Sint-Lambrechts-Woluwe</a> <span>13 Plätze</span></li>
+                <li data-recherche="sint-pieters-woluwe | woluwe-saint-pierre | woluwe-saint-pierre - sint-pieters-woluwe"><a href="/de/commune/woluwe-saint-pierre.html">Sint-Pieters-Woluwe</a> <span>3 Plätze</span></li>
+                <li data-recherche="uccle | uccle - ukkel | ukkel"><a href="/de/commune/uccle.html">Ukkel</a> <span>7 Plätze</span></li>
+                <li data-recherche="forest | forest - vorst | vorst"><a href="/de/commune/forest.html">Vorst</a> <span>7 Plätze</span></li>
+                <li data-recherche="watermaal-bosvoorde | watermael-boitsfort | watermael-boitsfort - watermaal-bosvoorde"><a href="/de/carte.html?commune=watermael-boitsfort">Watermaal-Bosvoorde</a> <span>1 Platz</span></li>
+            </ul>
+        </div>
+    </section>
+
+</div>
+
+<script>
+document.getElementById('communes-filtre').addEventListener('input', function () {
+    var q = normaliserRecherche(this.value.trim());
+    var total = 0;
+    document.querySelectorAll('.communes-index-province').forEach(function (bloc) {
+        var visibles = 0;
+        bloc.querySelectorAll('li').forEach(function (li) {
+            var garde = !q || li.dataset.recherche.indexOf(q) !== -1;
+            li.hidden = !garde;
+            if (garde) visibles++;
+        });
+        bloc.hidden = !visibles;
+        total += visibles;
+    });
+    document.querySelectorAll('.communes-index-region').forEach(function (region) {
+        region.hidden = !region.querySelector('.communes-index-province:not([hidden])');
+    });
+    document.getElementById('communes-aucune').hidden = total > 0;
+});
+</script>
+
+</div><!-- /.rules-content -->
+
+</div><!-- /#top -->
+
+
+<!-- Pied de page : construit par construirePied() dans script.js -->
+<footer class="pied"></footer>
+
+<!-- #map masqué : script.js appelle L.map('map', ...) sans condition, cet élément doit exister
+     même si aucune carte n'est réellement affichée sur cette page. -->
+<div id="map" style="display:none;"></div>
+
+<script src="/lib/leaflet-1.9.4/leaflet.js"></script>
+<script src="/lib/leaflet.markercluster-1.5.3/leaflet.markercluster.js"></script>
+
+<script src="/translations.js"></script>
+<script>window.MAPETANQUE_SKIP_DEFAULT_MARKERS = true;</script>
+<script src="/chargeur-photo.js"></script>
+    <script src="/script.js"></script>
+
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

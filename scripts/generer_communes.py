@@ -27,6 +27,11 @@ le fil d'Ariane et le lien « Voir les N terrains de … ».
 Et data/recherche.json, l'index des propositions de la barre de recherche (voir « Propositions
 de la recherche » dans script.js) : les 565 communes, les localités et les lieux.
 
+Et communes.html (FR) et nl/, de/, en/communes.html : toutes les communes qui ont au moins un
+terrain, par région et par province, avec un champ pour filtrer ; lien vers la page de la
+commune, ou vers la carte cadrée sur elle si elle n'en a pas. Elle est dans le menu « Explorer »
+(script.js) et sous la section ci-dessous.
+
 Et, sur l'accueil (index.html des quatre langues), la section « Les communes les mieux
 équipées » : les NB_COMMUNES_EQUIPEES communes de chaque région qui ont le plus de terrains,
 écrite entre les balises <!-- DEBUT communes-equipees --> et <!-- FIN communes-equipees -->.
@@ -42,6 +47,7 @@ import html
 import json
 import os
 import subprocess
+import unicodedata
 from pathlib import Path
 
 import generate_provinces as gp
@@ -472,6 +478,8 @@ def ecrire_communes_equipees(communes, terrains_par_commune, avec_page, traducti
             f'        <h2>{echap(tr["communes_equipees_titre"])}</h2>\n'
             f'        <p class="communes-equipees-intro">{echap(tr["communes_equipees_intro"])}</p>\n'
             '        <div class="communes-equipees-grille">\n' + "\n".join(colonnes) + "\n        </div>\n"
+            f'        <p class="communes-equipees-tout"><a href="/{prefixe}communes.html">'
+            f'{echap(tr["pied_toutes_communes"])} →</a></p>\n'
             "    </div>\n"
             "</section>\n"
             f"{fin}"
@@ -485,6 +493,107 @@ def ecrire_communes_equipees(communes, terrains_par_commune, avec_page, traducti
         with open(chemin, "w", encoding="utf-8", newline="\r\n" if crlf else "\n") as sortie:
             sortie.write(texte)
     print(f"Accueil : communes les mieux équipées ({NB_COMMUNES_EQUIPEES} par région)")
+
+
+def cle_filtre(noms):
+    """Noms d'une commune pour le filtre de communes.html : minuscules, sans accents (comme
+    normaliserRecherche dans script.js), séparés par « | »."""
+    def sans_accents(texte):
+        return "".join(c for c in unicodedata.normalize("NFD", texte) if not unicodedata.combining(c)).lower()
+    return " | ".join(sorted({sans_accents(n) for n in noms}))
+
+
+def ecrire_page_communes(communes, terrains_par_commune, avec_page, traductions, provinces):
+    """communes.html dans les quatre langues : les communes qui ont des terrains, par région
+    (ordre de « Parcourir par région ») puis par province (ordre alphabétique de la langue)."""
+    par_province = collections.defaultdict(list)
+    for ins, terrains in terrains_par_commune.items():
+        commune = communes.par_ins[ins]
+        par_province[commune["province"] or "bruxelles"].append((commune, len(terrains)))
+
+    for langue, prefixe in LANGUES:
+        tr = traductions[langue]
+        blocs = []
+        for region in ("flandre", "wallonie", "bruxelles"):
+            cles = sorted((cle for cle, cfg in provinces.items()
+                           if isinstance(cfg, dict) and cfg.get("region_key", "bruxelles") == region
+                           and cle in par_province),
+                          key=lambda cle: gp.nom_traduit_province(cle, langue, traductions))
+            sous_blocs = []
+            for cle in cles:
+                lignes = []
+                for commune, nb in sorted(par_province[cle], key=lambda x: slug(communes.nom(x[0], langue))):
+                    nom = communes.nom(commune, langue)
+                    url = (url_commune(commune["slug"], prefixe) if commune["ins"] in avec_page
+                           else f"/{prefixe}carte.html?commune={commune['slug']}")
+                    noms = [commune["nom"], *commune["nom"].split(" - ")] + [communes.nom(commune, l) for l, _ in LANGUES]
+                    unite = tr["province_terrain_singulier"] if nb == 1 else tr["stats_terrains_unit"]
+                    lignes.append(
+                        f'                <li data-recherche="{html.escape(cle_filtre(noms), quote=True)}">'
+                        f'<a href="{url}">{echap(nom)}</a> <span>{nb} {unite}</span></li>'
+                    )
+                titre = ""
+                if region != "bruxelles":
+                    nom_province = gp.nom_traduit_province(cle, langue, traductions)
+                    titre = (f'            <h3><a href="{gp.url_page(provinces[cle]["slug"], langue)}">'
+                             f'{echap(nom_province)}</a></h3>\n')
+                sous_blocs.append(
+                    '        <div class="communes-index-province">\n' + titre
+                    + '            <ul class="communes-index-liste">\n' + "\n".join(lignes)
+                    + "\n            </ul>\n        </div>\n"
+                )
+            blocs.append(
+                '    <section class="communes-index-region">\n'
+                f'        <h2>{echap(tr["geo_region_" + region])}</h2>\n'
+                + "".join(sous_blocs) + "    </section>\n"
+            )
+
+        nb_communes = len(terrains_par_commune)
+        contenu = (
+            '<div class="communes-index">\n\n'
+            f'    <p class="commune-intro">{tr["communes_page_intro"].replace("{n}", str(nb_communes))}</p>\n\n'
+            '    <div class="communes-index-filtre">\n'
+            f'        <input type="search" id="communes-filtre" placeholder="{html.escape(tr["communes_page_filtre"], quote=True)}" '
+            f'aria-label="{html.escape(tr["communes_page_filtre"], quote=True)}" autocomplete="off">\n'
+            '    </div>\n'
+            f'    <p id="communes-aucune" class="communes-index-aucune" hidden>{echap(tr["communes_page_aucune"])}</p>\n\n'
+            + "".join(blocs)
+            + "\n</div>\n\n"
+            # Filtre : sur les noms de la commune dans toutes les langues, sans accents
+            "<script>\n"
+            "document.getElementById('communes-filtre').addEventListener('input', function () {\n"
+            "    var q = normaliserRecherche(this.value.trim());\n"
+            "    var total = 0;\n"
+            "    document.querySelectorAll('.communes-index-province').forEach(function (bloc) {\n"
+            "        var visibles = 0;\n"
+            "        bloc.querySelectorAll('li').forEach(function (li) {\n"
+            "            var garde = !q || li.dataset.recherche.indexOf(q) !== -1;\n"
+            "            li.hidden = !garde;\n"
+            "            if (garde) visibles++;\n"
+            "        });\n"
+            "        bloc.hidden = !visibles;\n"
+            "        total += visibles;\n"
+            "    });\n"
+            "    document.querySelectorAll('.communes-index-region').forEach(function (region) {\n"
+            "        region.hidden = !region.querySelector('.communes-index-province:not([hidden])');\n"
+            "    });\n"
+            "    document.getElementById('communes-aucune').hidden = total > 0;\n"
+            "});\n"
+            "</script>\n"
+        )
+        construire_page(
+            RACINE / prefixe / "comment-jouer.html",
+            RACINE / prefixe / "communes.html",
+            page="communes.html",
+            prefixe=prefixe,
+            titre=f'{tr["communes_page_titre"]} — Mapetanque.be',
+            description=tr["communes_page_description"].replace("{n}", str(nb_communes)),
+            h1=echap(tr["pied_toutes_communes"]),
+            fil=(tr["province_accueil_breadcrumb"], echap(tr["pied_toutes_communes"])),
+            contenu=contenu,
+            feuilles_sup=("/style-commune.css",),
+        )
+    print(f"Page « Toutes les communes » : {len(terrains_par_commune)} communes")
 
 
 def main():
@@ -522,6 +631,7 @@ def main():
     ecrire_liens(communes, terrains_par_commune, clubs_par_commune, avec_page)
     ecrire_recherche(communes, lieux_par_commune, centres, avec_page)
     ecrire_communes_equipees(communes, terrains_par_commune, avec_page, traductions)
+    ecrire_page_communes(communes, terrains_par_commune, avec_page, traductions, provinces)
 
     ecrites = set()
     tailles = []

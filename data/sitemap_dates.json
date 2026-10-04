@@ -1,4386 +1,4402 @@
 {
   "https://mapetanque.be/": {
-    "empreinte": "e307b6ca4b721de4",
+    "empreinte": "a4da90ecbde56958",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/": {
-    "empreinte": "20fbbc165e2cab23",
+    "empreinte": "b705a774060de330",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/": {
-    "empreinte": "da4b2ccc620d3484",
+    "empreinte": "234cf46d9687ba6d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/": {
-    "empreinte": "1d311b72de3db145",
+    "empreinte": "6bbd9e8c7f704fc2",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/carte.html": {
-    "empreinte": "65c6bd63c7e0ceda",
+    "empreinte": "af45c538b9db62ba",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/carte.html": {
-    "empreinte": "0a1c2c26b959c5e2",
+    "empreinte": "5d2012778b494cbc",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/carte.html": {
-    "empreinte": "3ebe54923e71cc52",
+    "empreinte": "4eddf384d077fac9",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/carte.html": {
-    "empreinte": "a63f84f252886738",
+    "empreinte": "ac97ea47f4c3c1e6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/comment-jouer.html": {
-    "empreinte": "7b16860b8bf6a8ed",
+    "empreinte": "cb1f5cf5a2d7d9fc",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/comment-jouer.html": {
-    "empreinte": "ba01304271f9b20b",
+    "empreinte": "f7bc7096dc3222dd",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/comment-jouer.html": {
-    "empreinte": "686a9d78fd247291",
+    "empreinte": "ec172c62339563bf",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/comment-jouer.html": {
-    "empreinte": "dac7146d91f2c348",
+    "empreinte": "6e94de93c45b3fd8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/compteur.html": {
-    "empreinte": "c57e1d3cd9362f12",
+    "empreinte": "fb8322c4a3237d1d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/compteur.html": {
-    "empreinte": "c8d41dd306f8667c",
+    "empreinte": "79c45cce9c267310",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/compteur.html": {
-    "empreinte": "691f2011276d7de9",
+    "empreinte": "afd7aeb2ece88739",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/compteur.html": {
-    "empreinte": "af72b571d88c41f4",
+    "empreinte": "add9e60b659be41f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/la-petanque.html": {
-    "empreinte": "8aa0e3df94766f99",
+    "empreinte": "4796be510d964238",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/la-petanque.html": {
-    "empreinte": "949778586c1fc528",
+    "empreinte": "16707690c532783e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/la-petanque.html": {
-    "empreinte": "33fb7fdf3646a815",
+    "empreinte": "d6bc81e270d0c2f8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/la-petanque.html": {
-    "empreinte": "62fccecd10ed7963",
+    "empreinte": "1910283c47413172",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/a-propos.html": {
-    "empreinte": "0e57076f3913f0c7",
+    "empreinte": "ee261d33d174f01b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/a-propos.html": {
-    "empreinte": "8fe0094c5f0d1875",
+    "empreinte": "511cdb12771f1605",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/a-propos.html": {
-    "empreinte": "33ffc69f0ace434a",
+    "empreinte": "5d165d4390f167f4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/a-propos.html": {
-    "empreinte": "213e5e7f31ba1245",
+    "empreinte": "856085786841d9ec",
+    "date": "2026-10-04"
+  },
+  "https://mapetanque.be/communes.html": {
+    "empreinte": "a00d3468ce03a2f4",
+    "date": "2026-10-04"
+  },
+  "https://mapetanque.be/nl/communes.html": {
+    "empreinte": "e017ebd7fa3ab1b9",
+    "date": "2026-10-04"
+  },
+  "https://mapetanque.be/de/communes.html": {
+    "empreinte": "514d68faf37d15d0",
+    "date": "2026-10-04"
+  },
+  "https://mapetanque.be/en/communes.html": {
+    "empreinte": "3cd2a023f2817cc9",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/province-anvers.html": {
-    "empreinte": "42aafbcf1f671ab6",
+    "empreinte": "e187deb29c72f16a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/province-anvers.html": {
-    "empreinte": "00c70316e2191b05",
+    "empreinte": "19f12e5c6803849b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/province-anvers.html": {
-    "empreinte": "dea432ccf5d709de",
+    "empreinte": "35a0c3220c41cd73",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/province-anvers.html": {
-    "empreinte": "222e515c22f6f885",
+    "empreinte": "48cf75213ee47ccb",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/province-brabant-flamand.html": {
-    "empreinte": "b5666f229aaa15f9",
+    "empreinte": "11e1636c114f0f86",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/province-brabant-flamand.html": {
-    "empreinte": "8d5fb702ff67c816",
+    "empreinte": "d9286bbef7c7b803",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/province-brabant-flamand.html": {
-    "empreinte": "21b90f85539a5e67",
+    "empreinte": "00fd247e1a3ea518",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/province-brabant-flamand.html": {
-    "empreinte": "fda757875e4ff89c",
+    "empreinte": "c00b3e37c78b7dec",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/province-brabant-wallon.html": {
-    "empreinte": "2f5e81a3bab5f72c",
+    "empreinte": "a70490236bb62448",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/province-brabant-wallon.html": {
-    "empreinte": "8545ec988cb88571",
+    "empreinte": "b5203326401dcbb0",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/province-brabant-wallon.html": {
-    "empreinte": "d75972d75f7939a9",
+    "empreinte": "6177e9ec746c257c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/province-brabant-wallon.html": {
-    "empreinte": "3196d319ccdc6d86",
+    "empreinte": "bb5a09e140ba2127",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/province-bruxelles.html": {
-    "empreinte": "43072f26404a85e3",
+    "empreinte": "61ba4325bab9e9b0",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/province-bruxelles.html": {
-    "empreinte": "b9b15cdb002e979b",
+    "empreinte": "ef7a200a63fd594a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/province-bruxelles.html": {
-    "empreinte": "b72ed2afcca006e9",
+    "empreinte": "9d9afc666dcaa30e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/province-bruxelles.html": {
-    "empreinte": "43ca38fae0f1d148",
+    "empreinte": "bc2e81a99192a895",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/province-flandre-occidentale.html": {
-    "empreinte": "faea0a4ae83fad6a",
+    "empreinte": "946c982642992133",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/province-flandre-occidentale.html": {
-    "empreinte": "28006de2c380c7f0",
+    "empreinte": "024f690695e0044e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/province-flandre-occidentale.html": {
-    "empreinte": "b3def7e2a9808e5e",
+    "empreinte": "3e32ed09976a0c58",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/province-flandre-occidentale.html": {
-    "empreinte": "a02b4372e7f18be8",
+    "empreinte": "330812843c9284c7",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/province-flandre-orientale.html": {
-    "empreinte": "bb29cbf23e79b517",
+    "empreinte": "64abf363090bb41f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/province-flandre-orientale.html": {
-    "empreinte": "7f75a356e63727c4",
+    "empreinte": "10d7e127886540fc",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/province-flandre-orientale.html": {
-    "empreinte": "68d22d2db981005c",
+    "empreinte": "1f461b8e52774f21",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/province-flandre-orientale.html": {
-    "empreinte": "78488f3137e6ae1c",
+    "empreinte": "806de8e9284f7577",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/province-hainaut.html": {
-    "empreinte": "3fc5df3b9770ef07",
+    "empreinte": "a328b9e5991ea989",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/province-hainaut.html": {
-    "empreinte": "363e0a46f22dc142",
+    "empreinte": "9891731fa30e4d85",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/province-hainaut.html": {
-    "empreinte": "b7cd7a45183fa923",
+    "empreinte": "37b247cfef901ec8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/province-hainaut.html": {
-    "empreinte": "592bda633ce05d9a",
+    "empreinte": "1257578239ea56f1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/province-liege.html": {
-    "empreinte": "456e6965a52676d1",
+    "empreinte": "08388132650939ce",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/province-liege.html": {
-    "empreinte": "6d9f7e5273df4b10",
+    "empreinte": "cc2632ee78dc7ba3",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/province-liege.html": {
-    "empreinte": "23ae23705707cbf6",
+    "empreinte": "912202df4cead9e4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/province-liege.html": {
-    "empreinte": "041332a0f8fca81c",
+    "empreinte": "28efa4f2fabff823",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/province-limbourg.html": {
-    "empreinte": "be46f8e4f71093e8",
+    "empreinte": "2608c2e90dfaa09c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/province-limbourg.html": {
-    "empreinte": "1751c59085681c99",
+    "empreinte": "f14f3561248484b0",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/province-limbourg.html": {
-    "empreinte": "371a5755f4ebbf71",
+    "empreinte": "6840730040eedf9d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/province-limbourg.html": {
-    "empreinte": "bc355b95078cbc1f",
+    "empreinte": "509e68dce3003516",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/province-luxembourg.html": {
-    "empreinte": "0771b66bc3b5446a",
+    "empreinte": "8fc090799cc3ea90",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/province-luxembourg.html": {
-    "empreinte": "527bf0aaf272103d",
+    "empreinte": "fd1dc4d2f412c161",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/province-luxembourg.html": {
-    "empreinte": "d333c05dd4f69dd9",
+    "empreinte": "d33744e8ce7e127b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/province-luxembourg.html": {
-    "empreinte": "b0c91a9ae48b2ff3",
+    "empreinte": "332b8b6b2143e45c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/province-namur.html": {
-    "empreinte": "2419aaee18bb3536",
+    "empreinte": "fc8592209d0678e1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/province-namur.html": {
-    "empreinte": "1f5fae93f60e9fca",
+    "empreinte": "527a8ca0c600efb2",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/province-namur.html": {
-    "empreinte": "5032e4ebcd0ccd2a",
+    "empreinte": "510453e724704aed",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/province-namur.html": {
-    "empreinte": "f4208f4dfd446fff",
+    "empreinte": "b1f32d0e4175568a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/region-flandre.html": {
-    "empreinte": "185b98fb3470474f",
+    "empreinte": "540c3d944154c337",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/region-flandre.html": {
-    "empreinte": "5522ba8e24d43d92",
+    "empreinte": "6e26dc78756e9ffb",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/region-flandre.html": {
-    "empreinte": "0aa935b8415fc82f",
+    "empreinte": "72ab3fea46eb21e0",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/region-flandre.html": {
-    "empreinte": "539eb73b8b66fbc2",
+    "empreinte": "0ee245b5a80b64a8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/region-wallonie.html": {
-    "empreinte": "3426aed656632e95",
+    "empreinte": "74c3702e94552ad8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/region-wallonie.html": {
-    "empreinte": "1dd186110b062ba9",
+    "empreinte": "4806ab4e4eaa4fc9",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/region-wallonie.html": {
-    "empreinte": "d7a395a6e2eaf868",
+    "empreinte": "2b07244e2082afae",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/region-wallonie.html": {
-    "empreinte": "b8efef968ed30632",
+    "empreinte": "44da971a172e5bdc",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/aalst.html": {
-    "empreinte": "c211557aee2642a3",
+    "empreinte": "571e0ac12c86313c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/aalst.html": {
-    "empreinte": "3c5ebcab4bcbd38d",
+    "empreinte": "e4dafdcbe431404f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/aalst.html": {
-    "empreinte": "0137ccacbeb42c7d",
+    "empreinte": "c43fb39bf06b1076",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/aalst.html": {
-    "empreinte": "f0c3b9d08a2bbb29",
+    "empreinte": "a469f8028770aa95",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/aalter.html": {
-    "empreinte": "905a1075bc933194",
+    "empreinte": "871ce4aaedbe30d7",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/aalter.html": {
-    "empreinte": "8843cddb0a44d3e2",
+    "empreinte": "8fdb5c4c7f6623ad",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/aalter.html": {
-    "empreinte": "0662af0e4c0589d9",
+    "empreinte": "f208c40afc077cbd",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/aalter.html": {
-    "empreinte": "9a8b4f82b83cb1d8",
+    "empreinte": "3937b1c9cd2cde2a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/aarschot.html": {
-    "empreinte": "025a0122c9662dbc",
+    "empreinte": "1d2f255028368d6d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/aarschot.html": {
-    "empreinte": "7ad841137ec91343",
+    "empreinte": "2e703860c4888b45",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/aarschot.html": {
-    "empreinte": "9232b25e4d1e851c",
+    "empreinte": "8a600b703ed1e1af",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/aarschot.html": {
-    "empreinte": "77ab16031908caa8",
+    "empreinte": "31fc912b990b27dc",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/aartselaar.html": {
-    "empreinte": "968615b82b52dd38",
+    "empreinte": "2c3c7a4d69b0832e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/aartselaar.html": {
-    "empreinte": "f10341f7c3f8fd8c",
+    "empreinte": "ed0c5f85a161e512",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/aartselaar.html": {
-    "empreinte": "4fdb4879a598d3f6",
+    "empreinte": "aa552b541e30be2b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/aartselaar.html": {
-    "empreinte": "4ff47f430e9b8963",
+    "empreinte": "b05a9483ad00fa2a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/alken.html": {
-    "empreinte": "eb66d9ca3f49af86",
+    "empreinte": "a544fcb3d36060e1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/alken.html": {
-    "empreinte": "86ab32147096cd23",
+    "empreinte": "c821a0b7181d7b86",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/alken.html": {
-    "empreinte": "17090efbf19cdc68",
+    "empreinte": "e43331de105a6241",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/alken.html": {
-    "empreinte": "f6a12c0303462e3f",
+    "empreinte": "e38ac3639435e907",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/andenne.html": {
-    "empreinte": "48436f1f0223e5f1",
+    "empreinte": "89e6744c61f84237",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/andenne.html": {
-    "empreinte": "da877c773f40a16f",
+    "empreinte": "8fe82fb852671084",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/andenne.html": {
-    "empreinte": "b8a85e52f1c01e3b",
+    "empreinte": "bc918561510c1067",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/andenne.html": {
-    "empreinte": "6d2b1a543571190c",
+    "empreinte": "f0abb18284ecc04c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/anderlecht.html": {
-    "empreinte": "6cfd0e639c48e848",
+    "empreinte": "ccfe6cc2ce07e97a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/anderlecht.html": {
-    "empreinte": "3e0fcb0546e63efb",
+    "empreinte": "1a93e848b212e22a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/anderlecht.html": {
-    "empreinte": "b17e79db8c8461ad",
+    "empreinte": "3d5bd78998af19dc",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/anderlecht.html": {
-    "empreinte": "2e257a3b03a0ca40",
+    "empreinte": "3d19dd0694f06eab",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/anhee.html": {
-    "empreinte": "c32836e935a4e988",
+    "empreinte": "dfa7a0bb3e21a468",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/anhee.html": {
-    "empreinte": "3c347ca920378c0e",
+    "empreinte": "074d298dbda806f3",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/anhee.html": {
-    "empreinte": "036aef28d9cb6b2e",
+    "empreinte": "064d090690699842",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/anhee.html": {
-    "empreinte": "566fdfa9265a8e55",
+    "empreinte": "9e26a4ed90443c2f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/antwerpen.html": {
-    "empreinte": "4adcd48884f726f4",
+    "empreinte": "d240d3c6117a391d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/antwerpen.html": {
-    "empreinte": "b139014373a67bc2",
+    "empreinte": "589bf02dff57232d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/antwerpen.html": {
-    "empreinte": "08f763715ef16f6e",
+    "empreinte": "33011a219a7db18f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/antwerpen.html": {
-    "empreinte": "180aa86fa6405bea",
+    "empreinte": "110795398ea5d4d7",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/arlon.html": {
-    "empreinte": "b511887fd56f2b01",
+    "empreinte": "a0d1bd7d6a7d05e9",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/arlon.html": {
-    "empreinte": "742fb8fde01cda7a",
+    "empreinte": "ee8f9c9e7efeb962",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/arlon.html": {
-    "empreinte": "0560a606082e6016",
+    "empreinte": "58c91505916351dc",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/arlon.html": {
-    "empreinte": "b91ff70b006cd054",
+    "empreinte": "3c450cae67c5fcaa",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/asse.html": {
-    "empreinte": "72c8e75255fa191d",
+    "empreinte": "16d3b86764008d5b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/asse.html": {
-    "empreinte": "87853f49f8cbe728",
+    "empreinte": "59efd64b3d625a0a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/asse.html": {
-    "empreinte": "7b19d6e9004d76ff",
+    "empreinte": "65fe652feab75989",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/asse.html": {
-    "empreinte": "325079a2c7815e31",
+    "empreinte": "081a1914458f783c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/ath.html": {
-    "empreinte": "57672b54daef7c24",
+    "empreinte": "e2d07e94edbc3dc6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/ath.html": {
-    "empreinte": "cb3eab19d1f17d49",
+    "empreinte": "dcc92e9c03cafff8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/ath.html": {
-    "empreinte": "e06cac50487697f4",
+    "empreinte": "a78273f39c4a3719",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/ath.html": {
-    "empreinte": "7c8a0db56c6b4e68",
+    "empreinte": "7c69a57773e55a89",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/aywaille.html": {
-    "empreinte": "90d49d13d81a8787",
+    "empreinte": "72754ab7b4123cb3",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/aywaille.html": {
-    "empreinte": "6e639e7cdc077a71",
+    "empreinte": "d9476eefbf4fb543",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/aywaille.html": {
-    "empreinte": "d59c3ce8fe143628",
+    "empreinte": "14ce055cecdf280a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/aywaille.html": {
-    "empreinte": "3ad6d72dd069f444",
+    "empreinte": "a099c9a53c5a662c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/balen.html": {
-    "empreinte": "92008ca123cd7ce2",
+    "empreinte": "37421bf50e85b0bc",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/balen.html": {
-    "empreinte": "ec4c812b3dd23dea",
+    "empreinte": "a5f14a3d44eb74ce",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/balen.html": {
-    "empreinte": "cbe8062bbfc33e37",
+    "empreinte": "51ec180c2957fb93",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/balen.html": {
-    "empreinte": "c2d3692f3829dc46",
+    "empreinte": "b356e45e895018dd",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/bastogne.html": {
-    "empreinte": "1a179e4ff41785c0",
+    "empreinte": "003710a3198b7c15",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/bastogne.html": {
-    "empreinte": "d794ce18520a9beb",
+    "empreinte": "758930b659093a80",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/bastogne.html": {
-    "empreinte": "34b80c2c5583bb0b",
+    "empreinte": "fb364fbb1ad4500e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/bastogne.html": {
-    "empreinte": "bf0d93693400af8f",
+    "empreinte": "8a5b4323f3a0b5bd",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/beauraing.html": {
-    "empreinte": "bd01fff14df31d19",
+    "empreinte": "b4a7c8438fde2a36",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/beauraing.html": {
-    "empreinte": "1f107e8740f28013",
+    "empreinte": "8021b45377a2f409",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/beauraing.html": {
-    "empreinte": "f5f114fa0d4ae9bd",
+    "empreinte": "4f012d79cba0868b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/beauraing.html": {
-    "empreinte": "bd3880b8511e9f54",
+    "empreinte": "ffff6a34ee3675e4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/beernem.html": {
-    "empreinte": "b8845d55f50b6eab",
+    "empreinte": "24f402a1dfdb7aa4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/beernem.html": {
-    "empreinte": "20c857fdcc2e59e5",
+    "empreinte": "ccf758807dab616b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/beernem.html": {
-    "empreinte": "a13c14cc11a20f66",
+    "empreinte": "4f73605b5c997301",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/beernem.html": {
-    "empreinte": "d07dc957049a6f83",
+    "empreinte": "94da82ca39e81aae",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/beerse.html": {
-    "empreinte": "0fe16aba7b7a377e",
+    "empreinte": "169ec34e04b65ded",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/beerse.html": {
-    "empreinte": "86b0c3a9956274c7",
+    "empreinte": "645b163869434995",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/beerse.html": {
-    "empreinte": "1a6e728b04fa99df",
+    "empreinte": "61696447f845543d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/beerse.html": {
-    "empreinte": "3de595a1625895c2",
+    "empreinte": "a9347560d19e0de0",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/beersel.html": {
-    "empreinte": "07bfa15d4a22e7be",
+    "empreinte": "d68a858fc618e610",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/beersel.html": {
-    "empreinte": "ee1f82c77aeaf621",
+    "empreinte": "930422a4b3167b0e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/beersel.html": {
-    "empreinte": "a1c6be2321b97e6e",
+    "empreinte": "91811cad78482133",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/beersel.html": {
-    "empreinte": "1c3227b79bb11c5b",
+    "empreinte": "ffb40b75e27cca91",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/beringen.html": {
-    "empreinte": "2f99e440c2da360e",
+    "empreinte": "1b3193d62038c9ee",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/beringen.html": {
-    "empreinte": "34bb598c589abe1c",
+    "empreinte": "a199af4e7d9dc17c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/beringen.html": {
-    "empreinte": "c003e92d74d09413",
+    "empreinte": "d13900fa122fb25b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/beringen.html": {
-    "empreinte": "2f5d9cd8ed911482",
+    "empreinte": "ea4109e7f5d00fdf",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/berlaar.html": {
-    "empreinte": "93122dbec972e7ff",
+    "empreinte": "66acb360e2ee3812",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/berlaar.html": {
-    "empreinte": "c32d4dfeb0a7c6f5",
+    "empreinte": "a4411b1abec55554",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/berlaar.html": {
-    "empreinte": "16cfb33f9e5ecd07",
+    "empreinte": "78e42b89d7d6e76e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/berlaar.html": {
-    "empreinte": "b28e616cb8ae7887",
+    "empreinte": "b59d36ae51bee425",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/berlare.html": {
-    "empreinte": "5a57dfaf103a5ec5",
+    "empreinte": "be63196ef6a01433",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/berlare.html": {
-    "empreinte": "7d18e21b1428b2b0",
+    "empreinte": "87317b21a8329b54",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/berlare.html": {
-    "empreinte": "755d8541dac7509f",
+    "empreinte": "a1793260c6e8e93b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/berlare.html": {
-    "empreinte": "d38202b3b0cc8a1a",
+    "empreinte": "47915ee053ab3b10",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/beveren-kruibeke-zwijndrecht.html": {
-    "empreinte": "83f6bb33b2977c07",
+    "empreinte": "53b113a526305726",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/beveren-kruibeke-zwijndrecht.html": {
-    "empreinte": "95aacda6e7e9b4ce",
+    "empreinte": "5ddf36f76547b9bc",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/beveren-kruibeke-zwijndrecht.html": {
-    "empreinte": "f26c469e13c75a4f",
+    "empreinte": "f47cf4454d7a0ddd",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/beveren-kruibeke-zwijndrecht.html": {
-    "empreinte": "f4a76aa019241224",
+    "empreinte": "23e15139d536729a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/beyne-heusay.html": {
-    "empreinte": "dc2ef6649c1f2404",
+    "empreinte": "20c14ee0d327ba50",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/beyne-heusay.html": {
-    "empreinte": "d0eb8abde4addcd3",
+    "empreinte": "230792e8c8975fe0",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/beyne-heusay.html": {
-    "empreinte": "7f6cdf69c3514c31",
+    "empreinte": "1d5aeb7a876edf2a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/beyne-heusay.html": {
-    "empreinte": "0064f348d8e37307",
+    "empreinte": "717e70e8c0680349",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/bievre.html": {
-    "empreinte": "d3c49d78277c88c4",
+    "empreinte": "e56d71314b0eaa3e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/bievre.html": {
-    "empreinte": "ebe781253eda6039",
+    "empreinte": "6a6be99a6a4f4abc",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/bievre.html": {
-    "empreinte": "a3ec27932c2d49ac",
+    "empreinte": "55d2e29b90e012c9",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/bievre.html": {
-    "empreinte": "5a294258d35a1511",
+    "empreinte": "8f4d960334c81c28",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/bilzen-hoeselt.html": {
-    "empreinte": "09c34d5f654d392f",
+    "empreinte": "ec034a2e1398a4e9",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/bilzen-hoeselt.html": {
-    "empreinte": "20224712e65454ba",
+    "empreinte": "9977bd263785fd44",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/bilzen-hoeselt.html": {
-    "empreinte": "6687db7bc302f7c7",
+    "empreinte": "d17c60701b89ceba",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/bilzen-hoeselt.html": {
-    "empreinte": "4ee6244a4540e20f",
+    "empreinte": "6cc47df51be10c26",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/binche.html": {
-    "empreinte": "9db70ef12a7e7c02",
+    "empreinte": "087f593e5481937f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/binche.html": {
-    "empreinte": "315189596380c9af",
+    "empreinte": "f35e5a88835baf2d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/binche.html": {
-    "empreinte": "3d0c1ddf425600da",
+    "empreinte": "c8cd94aad49fa6df",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/binche.html": {
-    "empreinte": "f3b39ce47b603152",
+    "empreinte": "dcf53a1fe6d45c45",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/blankenberge.html": {
-    "empreinte": "e0600f5d34c6fb79",
+    "empreinte": "447b00d2c045fc17",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/blankenberge.html": {
-    "empreinte": "a33deebc28636359",
+    "empreinte": "818f2cd7394abd40",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/blankenberge.html": {
-    "empreinte": "8003195d7936077c",
+    "empreinte": "3dafd3f9d69dfdde",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/blankenberge.html": {
-    "empreinte": "5a5b85085fd2dee2",
+    "empreinte": "a11b0e3e70d2ba21",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/blegny.html": {
-    "empreinte": "e5474e5b9a46a89e",
+    "empreinte": "23e40f1f9d75c3a8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/blegny.html": {
-    "empreinte": "47b2e11ea4673803",
+    "empreinte": "99528d10ada96f9d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/blegny.html": {
-    "empreinte": "e736b2d7cbaf9434",
+    "empreinte": "c039f5c55b8ca00a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/blegny.html": {
-    "empreinte": "a4434d5196cd7070",
+    "empreinte": "21ec8339f556821b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/bocholt.html": {
-    "empreinte": "97b2474551591f46",
+    "empreinte": "fe3b3f1f9d8ddc2a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/bocholt.html": {
-    "empreinte": "3fec72d4424dec4a",
+    "empreinte": "85e80069cba5650e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/bocholt.html": {
-    "empreinte": "46033f854ba3b488",
+    "empreinte": "173bde8209b34672",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/bocholt.html": {
-    "empreinte": "3734038cfab4ed01",
+    "empreinte": "d9c8547d82c93599",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/boechout.html": {
-    "empreinte": "e5f6de371bbddd23",
+    "empreinte": "b3c3392497571bf4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/boechout.html": {
-    "empreinte": "a2eca3b45cd85848",
+    "empreinte": "f9c6ca9ff3ed58cc",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/boechout.html": {
-    "empreinte": "e6ebc61efae84621",
+    "empreinte": "d2abe9832f2953a2",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/boechout.html": {
-    "empreinte": "a7d2f377a5fac0c5",
+    "empreinte": "b8a2fb88ccbfc9ef",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/bonheiden.html": {
-    "empreinte": "bb18f48f7b1ee4f6",
+    "empreinte": "59bcb11231cb343a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/bonheiden.html": {
-    "empreinte": "b1047054af1ba33d",
+    "empreinte": "8695052f45043135",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/bonheiden.html": {
-    "empreinte": "d62a63f008e39d98",
+    "empreinte": "90cad9eb325f8767",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/bonheiden.html": {
-    "empreinte": "aa2daee94e86f006",
+    "empreinte": "811a74737f96c909",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/boom.html": {
-    "empreinte": "af884c055635a3d9",
+    "empreinte": "4646dc579f4cdad6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/boom.html": {
-    "empreinte": "16fea00f0ee8e762",
+    "empreinte": "0317290fc7872258",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/boom.html": {
-    "empreinte": "255c20ee5bb0d179",
+    "empreinte": "cb47caff01ff42b5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/boom.html": {
-    "empreinte": "ab59726e3800c9b0",
+    "empreinte": "a6e431555f68aa84",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/boortmeerbeek.html": {
-    "empreinte": "20d512af69e7560a",
+    "empreinte": "cb86c244a54fc410",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/boortmeerbeek.html": {
-    "empreinte": "cd6249683dee7fee",
+    "empreinte": "d31afd945c8b271a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/boortmeerbeek.html": {
-    "empreinte": "cf99107f0b24ccfb",
+    "empreinte": "3b74bd1dd3870da3",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/boortmeerbeek.html": {
-    "empreinte": "624d9c65bc136cd0",
+    "empreinte": "74cfb0d2684f9fe3",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/bornem.html": {
-    "empreinte": "6871a3cd7349f864",
+    "empreinte": "4d6f9ec730256ce4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/bornem.html": {
-    "empreinte": "ac0b11b036c1266e",
+    "empreinte": "b0f31942cd38e517",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/bornem.html": {
-    "empreinte": "47386b9b4d4a2b87",
+    "empreinte": "fd8fe03d48690cb2",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/bornem.html": {
-    "empreinte": "4e3d3208f49e8c80",
+    "empreinte": "26b55dfb53fd19b1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/braine-l-alleud.html": {
-    "empreinte": "f79d0953f2dfec98",
+    "empreinte": "fcf31ac3c8d616bb",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/braine-l-alleud.html": {
-    "empreinte": "81e547359e683d44",
+    "empreinte": "faf069277b83eb11",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/braine-l-alleud.html": {
-    "empreinte": "8fdb3b5501808a86",
+    "empreinte": "71c23616328f156b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/braine-l-alleud.html": {
-    "empreinte": "d94c31fa15a54db4",
+    "empreinte": "57463abb6cebf811",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/braine-le-chateau.html": {
-    "empreinte": "c586aadeddafd2a8",
+    "empreinte": "539dff3861aa3cbc",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/braine-le-chateau.html": {
-    "empreinte": "5836ce50f8424839",
+    "empreinte": "e2f21ff868092724",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/braine-le-chateau.html": {
-    "empreinte": "6c380d2f4b24d4ac",
+    "empreinte": "93bd529a64b791e7",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/braine-le-chateau.html": {
-    "empreinte": "b142d1432ea2ec7b",
+    "empreinte": "22091a4909553f76",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/braives.html": {
-    "empreinte": "056c2335d438c8f5",
+    "empreinte": "df74301c1ddad487",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/braives.html": {
-    "empreinte": "637163ae41d09061",
+    "empreinte": "ca28eaaf4923e33a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/braives.html": {
-    "empreinte": "fa166f44713d34df",
+    "empreinte": "b4cce0b981388605",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/braives.html": {
-    "empreinte": "68e3bf57a07bcb02",
+    "empreinte": "ddb803c89c691962",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/brasschaat.html": {
-    "empreinte": "76bf75f762ce5f1a",
+    "empreinte": "df5477de03dbcbf6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/brasschaat.html": {
-    "empreinte": "e2068dbeb6118bfb",
+    "empreinte": "181f78409f82ae8d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/brasschaat.html": {
-    "empreinte": "523972330248a954",
+    "empreinte": "7585ff059e755c0a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/brasschaat.html": {
-    "empreinte": "4fa5f9c29ba947f8",
+    "empreinte": "b2ab576635177631",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/brecht.html": {
-    "empreinte": "18b37b32b3ab3b24",
+    "empreinte": "fc6dee52dc240648",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/brecht.html": {
-    "empreinte": "2e17743b1cb026f9",
+    "empreinte": "f271a4972581737d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/brecht.html": {
-    "empreinte": "f6dcb85ccce112b8",
+    "empreinte": "0e98f3ac8a3b13db",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/brecht.html": {
-    "empreinte": "7f889d31965be091",
+    "empreinte": "b67e5a357a4bcbfa",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/bredene.html": {
-    "empreinte": "1ba59f316ec87e69",
+    "empreinte": "0c9600f8f13b7633",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/bredene.html": {
-    "empreinte": "a883a4b598a327f0",
+    "empreinte": "329c44de91b7d0d7",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/bredene.html": {
-    "empreinte": "848e64a2ce3affae",
+    "empreinte": "36d5fa04311ae0af",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/bredene.html": {
-    "empreinte": "318e236d19418e7f",
+    "empreinte": "236e05283942402a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/bree.html": {
-    "empreinte": "02f8e16beda18329",
+    "empreinte": "c1f6e0ba7d72b807",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/bree.html": {
-    "empreinte": "d7dcd83944f21d3a",
+    "empreinte": "e94d94728924c95c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/bree.html": {
-    "empreinte": "03e4a8ccd3f5ce6b",
+    "empreinte": "92c0c0431f3e2453",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/bree.html": {
-    "empreinte": "7f6749be1c30c475",
+    "empreinte": "7f153cce8d9b5dae",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/brugge.html": {
-    "empreinte": "ff3e5a01bfd5fe0e",
+    "empreinte": "af84f44407d4ed82",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/brugge.html": {
-    "empreinte": "2a4f29d747b23310",
+    "empreinte": "d7b80af80cbe3e08",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/brugge.html": {
-    "empreinte": "8baea5670d08a1de",
+    "empreinte": "509cae0d68c853c9",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/brugge.html": {
-    "empreinte": "1a99cf4101122840",
+    "empreinte": "422151f64a859bba",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/brunehaut.html": {
-    "empreinte": "070fddec83ba6508",
+    "empreinte": "d9a6cd999686ab96",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/brunehaut.html": {
-    "empreinte": "e60bb8fef4c9d684",
+    "empreinte": "fb6de82ff090462a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/brunehaut.html": {
-    "empreinte": "67040cb451cb5281",
+    "empreinte": "ee908f7c525ae24e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/brunehaut.html": {
-    "empreinte": "6eb4d2005abcef5a",
+    "empreinte": "c62e035b2629ca8f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/bruxelles.html": {
-    "empreinte": "4fb133aed167a4d0",
+    "empreinte": "6281e59c2125eb20",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/bruxelles.html": {
-    "empreinte": "0fa2a87049d85687",
+    "empreinte": "740ff1098ae28021",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/bruxelles.html": {
-    "empreinte": "6ad31fbbb70085d3",
+    "empreinte": "cac06ad4bc791ab5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/bruxelles.html": {
-    "empreinte": "f41fb451483c0a74",
+    "empreinte": "765cac5422b48b10",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/buggenhout.html": {
-    "empreinte": "91cd781c1435d4ae",
+    "empreinte": "0c873c014b0d10b1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/buggenhout.html": {
-    "empreinte": "5a58bf9185f90bd0",
+    "empreinte": "64f1941b0be93b97",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/buggenhout.html": {
-    "empreinte": "4ee6fcf36bc778f3",
+    "empreinte": "c572b8ca6cd01d77",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/buggenhout.html": {
-    "empreinte": "8e791179351a4cfb",
+    "empreinte": "428d095f7693420c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/charleroi.html": {
-    "empreinte": "fbb00418069704fd",
+    "empreinte": "6cfa0d2e424fda80",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/charleroi.html": {
-    "empreinte": "9cd2aabaf00fffbf",
+    "empreinte": "b7d443354eb6c268",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/charleroi.html": {
-    "empreinte": "4526e1e0cc7070cb",
+    "empreinte": "9a8fea621a2e5323",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/charleroi.html": {
-    "empreinte": "94201cc054ddca21",
+    "empreinte": "32714fd84970369e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/ciney.html": {
-    "empreinte": "e5847ea69395f508",
+    "empreinte": "aa7556b18bf02e4f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/ciney.html": {
-    "empreinte": "e80838ae00f3e623",
+    "empreinte": "d54c42aa9e8b2ae1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/ciney.html": {
-    "empreinte": "8ef97dc293155dad",
+    "empreinte": "c32c8dcfc532171c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/ciney.html": {
-    "empreinte": "e4140468ba077c6a",
+    "empreinte": "722f85ecc5e7ff1a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/clavier.html": {
-    "empreinte": "6af921aeb328dbf4",
+    "empreinte": "b74cbaffc898c950",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/clavier.html": {
-    "empreinte": "0461e98f5c6f918f",
+    "empreinte": "cc9af2d1a303999f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/clavier.html": {
-    "empreinte": "d0c7b8c5b6b6b89d",
+    "empreinte": "a8e42189639694c4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/clavier.html": {
-    "empreinte": "ac951c46608814d0",
+    "empreinte": "fcc3d8edc4228e95",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/de-haan.html": {
-    "empreinte": "d6265a8045cd54f6",
+    "empreinte": "085028e170fe19f9",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/de-haan.html": {
-    "empreinte": "aefe8d43d3e881b2",
+    "empreinte": "29c586c5d936d503",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/de-haan.html": {
-    "empreinte": "7c85a56cf40c3aee",
+    "empreinte": "bf42826b15cce9fa",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/de-haan.html": {
-    "empreinte": "b70121efd0b4cf3e",
+    "empreinte": "b799178f681a499b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/de-panne.html": {
-    "empreinte": "bf7b1ee62aebedbb",
+    "empreinte": "e68962e7ddcd16e4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/de-panne.html": {
-    "empreinte": "d89f3feebd023544",
+    "empreinte": "21c98ac6cd039888",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/de-panne.html": {
-    "empreinte": "fe89bf0eeffd1163",
+    "empreinte": "fc5b0e372073000e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/de-panne.html": {
-    "empreinte": "be4d9e51832a5dd7",
+    "empreinte": "7651419dc5de637d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/deinze.html": {
-    "empreinte": "6e18dc71c6c6bcfa",
+    "empreinte": "d74aa1162c0f401a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/deinze.html": {
-    "empreinte": "52b5346c1f363d5c",
+    "empreinte": "249383eb96c6c872",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/deinze.html": {
-    "empreinte": "447b6d1bdfb42d90",
+    "empreinte": "dea1ed789163b0c8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/deinze.html": {
-    "empreinte": "ac77ac38e573e80a",
+    "empreinte": "a549ce47ce7defd0",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/dendermonde.html": {
-    "empreinte": "569f9f41450ba9fa",
+    "empreinte": "26cb4bc236ef4611",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/dendermonde.html": {
-    "empreinte": "9208f0e9d14a23fe",
+    "empreinte": "684fe2c5a02c37a6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/dendermonde.html": {
-    "empreinte": "0bb06d4680e0e947",
+    "empreinte": "5338158bb3a76200",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/dendermonde.html": {
-    "empreinte": "fda1a6da27900f1d",
+    "empreinte": "e5738cd47ad6104e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/destelbergen.html": {
-    "empreinte": "b045191031861dca",
+    "empreinte": "044e9b7c46f458f0",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/destelbergen.html": {
-    "empreinte": "317f7d4919e421a7",
+    "empreinte": "21bc500fe4f608bf",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/destelbergen.html": {
-    "empreinte": "6abb7ad10f983ba6",
+    "empreinte": "130384dc9bab6710",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/destelbergen.html": {
-    "empreinte": "3e13c9bdd52ab650",
+    "empreinte": "57834835a8b14580",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/diepenbeek.html": {
-    "empreinte": "5546b55cd14c14a5",
+    "empreinte": "b3e8498ed68bf4d5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/diepenbeek.html": {
-    "empreinte": "93d9ac362123d5ed",
+    "empreinte": "e3472cb3503bf6b8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/diepenbeek.html": {
-    "empreinte": "20f082fdc82db336",
+    "empreinte": "08b4ecff750c74cc",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/diepenbeek.html": {
-    "empreinte": "e5a9fd6ba59d5d00",
+    "empreinte": "b8d0cc1c43a4d100",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/dilbeek.html": {
-    "empreinte": "b891d927b5977a8f",
+    "empreinte": "48c4f983c5193667",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/dilbeek.html": {
-    "empreinte": "af446adbc718c425",
+    "empreinte": "d5967d92d237356e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/dilbeek.html": {
-    "empreinte": "ae8056ed23b56385",
+    "empreinte": "6f2b27a53ab43e39",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/dilbeek.html": {
-    "empreinte": "270257224be1380e",
+    "empreinte": "2dfe855a8452fff9",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/dilsen-stokkem.html": {
-    "empreinte": "fb55330336c84b29",
+    "empreinte": "1410207611d48da6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/dilsen-stokkem.html": {
-    "empreinte": "20167d96e50fa380",
+    "empreinte": "1f796cd947212d02",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/dilsen-stokkem.html": {
-    "empreinte": "5f3e961e7a20b2c9",
+    "empreinte": "5744cf73628332ce",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/dilsen-stokkem.html": {
-    "empreinte": "8f8a9cb45a0d0fe2",
+    "empreinte": "7a9bd1b1d9b7cdbb",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/dinant.html": {
-    "empreinte": "44136c09d8fdba20",
+    "empreinte": "08dd1ec64d9f9080",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/dinant.html": {
-    "empreinte": "8f8d54418ff4038e",
+    "empreinte": "e36c8e7139930fee",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/dinant.html": {
-    "empreinte": "43896d05b36fc239",
+    "empreinte": "36634a596516d1fe",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/dinant.html": {
-    "empreinte": "779fd2d026d0e3ac",
+    "empreinte": "c064342df43fe85e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/durbuy.html": {
-    "empreinte": "317a414f918e37a3",
+    "empreinte": "ac123477abb081ce",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/durbuy.html": {
-    "empreinte": "dba858bac7f0964f",
+    "empreinte": "6d3b2a2bca1f79cc",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/durbuy.html": {
-    "empreinte": "8a3fc78d0bb424cc",
+    "empreinte": "4f0393c1a5d6db14",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/durbuy.html": {
-    "empreinte": "1c5aedcd7065634d",
+    "empreinte": "a8731ebc0db1251d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/ecaussinnes.html": {
-    "empreinte": "d82435ae5df5364c",
+    "empreinte": "f0b058774789c9c3",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/ecaussinnes.html": {
-    "empreinte": "fad7116b36a79a3b",
+    "empreinte": "9508c5545dea9eca",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/ecaussinnes.html": {
-    "empreinte": "94147aa4f8f4724e",
+    "empreinte": "53980b224b659d01",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/ecaussinnes.html": {
-    "empreinte": "57e60bdfc9a300c4",
+    "empreinte": "8895af8e36e868db",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/edegem.html": {
-    "empreinte": "8ba4697912f0db35",
+    "empreinte": "8bce78a6e9614da3",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/edegem.html": {
-    "empreinte": "2fb1473c5a32b152",
+    "empreinte": "7197690924f5c5a0",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/edegem.html": {
-    "empreinte": "921152221e6759a9",
+    "empreinte": "034d2c3ceda15d22",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/edegem.html": {
-    "empreinte": "36c80da0336f4d7a",
+    "empreinte": "415d1807182d665a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/eeklo.html": {
-    "empreinte": "72a1e68d8ec08c1e",
+    "empreinte": "8b0c86aa0edc5cdf",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/eeklo.html": {
-    "empreinte": "edd173e89b38c87e",
+    "empreinte": "ebe46de394654805",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/eeklo.html": {
-    "empreinte": "eb65235602cf89bf",
+    "empreinte": "6228ce8dddcb7236",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/eeklo.html": {
-    "empreinte": "a8245f03b962a277",
+    "empreinte": "2f9ff0a23bf349d2",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/eghezee.html": {
-    "empreinte": "30c12a1cfd956600",
+    "empreinte": "cf5f936557a7009c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/eghezee.html": {
-    "empreinte": "0c9488ec6fa64e57",
+    "empreinte": "4a14ca824911fc3e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/eghezee.html": {
-    "empreinte": "26fa357174bf952d",
+    "empreinte": "1eb4721a315ca9b6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/eghezee.html": {
-    "empreinte": "359b443d931d870d",
+    "empreinte": "6fd18fd6f3a3e47d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/enghien-edingen.html": {
-    "empreinte": "4dac215f2885e06a",
+    "empreinte": "a545fc238698a7ea",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/enghien-edingen.html": {
-    "empreinte": "a7ae75092bcf4c94",
+    "empreinte": "dcf15e246f89b6ba",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/enghien-edingen.html": {
-    "empreinte": "4ba84cb04729ef64",
+    "empreinte": "5662576928a12529",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/enghien-edingen.html": {
-    "empreinte": "8276c7776da21cba",
+    "empreinte": "2852fb435d13d28f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/eupen.html": {
-    "empreinte": "77e45ecf92b66425",
+    "empreinte": "6dda9393921b1384",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/eupen.html": {
-    "empreinte": "e1412b0ae31c646c",
+    "empreinte": "9eb16fb1564dc7c9",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/eupen.html": {
-    "empreinte": "3990b16369e6956e",
+    "empreinte": "4c061d178c17c4f6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/eupen.html": {
-    "empreinte": "0f4c65dac7bd27fe",
+    "empreinte": "7f52f7dc7de9a59d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/evere.html": {
-    "empreinte": "7c0feefa58ff9746",
+    "empreinte": "de171abee2876045",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/evere.html": {
-    "empreinte": "695a246b6c5486b0",
+    "empreinte": "674cdddb5d6375ca",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/evere.html": {
-    "empreinte": "fbf4c1e55c205b9e",
+    "empreinte": "5a940126a519794e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/evere.html": {
-    "empreinte": "9d38ded362ce5450",
+    "empreinte": "9ccd7c187ec8f5aa",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/fernelmont.html": {
-    "empreinte": "9c3f7ea2b075060c",
+    "empreinte": "a44ce99ab892f8c5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/fernelmont.html": {
-    "empreinte": "dd69c8be85933b3e",
+    "empreinte": "fd516288e69feab8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/fernelmont.html": {
-    "empreinte": "a7f2b52dc2dd4d32",
+    "empreinte": "ba79f7f13634446e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/fernelmont.html": {
-    "empreinte": "4abeff60ed1709b5",
+    "empreinte": "57a98240646387c1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/ferrieres.html": {
-    "empreinte": "f0edd389d89ec39a",
+    "empreinte": "266a4894b4da207d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/ferrieres.html": {
-    "empreinte": "2774e7a404e59bbc",
+    "empreinte": "cf51840f07f46a80",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/ferrieres.html": {
-    "empreinte": "91f7d09403e04ec6",
+    "empreinte": "2aafcdfe04324991",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/ferrieres.html": {
-    "empreinte": "25b3dc4b4fdc13d7",
+    "empreinte": "a8aa0c781dba2866",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/flemalle.html": {
-    "empreinte": "09e24e9337e04cd4",
+    "empreinte": "3033202a7b023b3a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/flemalle.html": {
-    "empreinte": "c752fe36043b0ffe",
+    "empreinte": "4f9f517bb233eb60",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/flemalle.html": {
-    "empreinte": "49c880c1bf936a92",
+    "empreinte": "49ace0219956b1a5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/flemalle.html": {
-    "empreinte": "da42b5fa5b5f4e03",
+    "empreinte": "c4dbbda3d4fd5db8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/fleron.html": {
-    "empreinte": "fca430cc1bfad3e0",
+    "empreinte": "34dcd9837ce0a42f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/fleron.html": {
-    "empreinte": "aacda8b4e7eb369e",
+    "empreinte": "e08f3a4a99adad84",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/fleron.html": {
-    "empreinte": "1c19669241f5162c",
+    "empreinte": "8a52b7fb0a20d653",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/fleron.html": {
-    "empreinte": "eac7af1305edb33a",
+    "empreinte": "21e95cf0ea8b749b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/fleurus.html": {
-    "empreinte": "4e06e9a2ba938f10",
+    "empreinte": "42cc1be57d910b1d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/fleurus.html": {
-    "empreinte": "17cc9e6bf86ee816",
+    "empreinte": "d3497e43b5b2b7b3",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/fleurus.html": {
-    "empreinte": "4c1d0c6264420f10",
+    "empreinte": "742dcf731ac01fce",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/fleurus.html": {
-    "empreinte": "1c991544bfc7b299",
+    "empreinte": "5ea8cdcea1fddd2f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/forest.html": {
-    "empreinte": "45b5b964193c2b2d",
+    "empreinte": "579c287c07343bba",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/forest.html": {
-    "empreinte": "cd565d65b4e896a9",
+    "empreinte": "c5c27306351d7160",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/forest.html": {
-    "empreinte": "2da7b9f39c7e4cc3",
+    "empreinte": "e8873ff47975e27f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/forest.html": {
-    "empreinte": "de3418ffa17133f3",
+    "empreinte": "51bdf6b3b4899a93",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/froidchapelle.html": {
-    "empreinte": "1a11de0983d0ba18",
+    "empreinte": "e0493fd8625e509a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/froidchapelle.html": {
-    "empreinte": "f922f267e7c35d40",
+    "empreinte": "8054e9454f700cfa",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/froidchapelle.html": {
-    "empreinte": "4d6d012829b2e32a",
+    "empreinte": "f3680657fc273a47",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/froidchapelle.html": {
-    "empreinte": "fc3a1bf006201923",
+    "empreinte": "6317465078d3d87d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/gavere.html": {
-    "empreinte": "d0f84369ca595a5b",
+    "empreinte": "9729e1bf3e4101a1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/gavere.html": {
-    "empreinte": "30ae8b68408cacc2",
+    "empreinte": "816e759c92ed334d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/gavere.html": {
-    "empreinte": "d219bc99bf5d8ff5",
+    "empreinte": "5f7208c4e166d562",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/gavere.html": {
-    "empreinte": "d5fa31e160464132",
+    "empreinte": "a93cf77ffb263e96",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/gedinne.html": {
-    "empreinte": "ee4f8d8b0d03f7f8",
+    "empreinte": "4daa758b8adb6aef",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/gedinne.html": {
-    "empreinte": "aa1b5624cab98cb9",
+    "empreinte": "b09522649a94fd4c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/gedinne.html": {
-    "empreinte": "fb812bc2204980d7",
+    "empreinte": "910f4d5ce0a384ae",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/gedinne.html": {
-    "empreinte": "dd4227aaea749f82",
+    "empreinte": "0ced6a73c4a8685d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/geel.html": {
-    "empreinte": "11a3c72846d0fa6d",
+    "empreinte": "5310ac0ecd3da27d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/geel.html": {
-    "empreinte": "a09301286b8e0926",
+    "empreinte": "95290a8f7763dd79",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/geel.html": {
-    "empreinte": "1e4afd8673991709",
+    "empreinte": "2375eabe011c204b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/geel.html": {
-    "empreinte": "f7f5fc90742ddffe",
+    "empreinte": "9a100757b9cb8936",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/geetbets.html": {
-    "empreinte": "af952517cf7756ca",
+    "empreinte": "d1e655798abc1cd9",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/geetbets.html": {
-    "empreinte": "34e7cfeaa385f7d8",
+    "empreinte": "e466e73e35dd7962",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/geetbets.html": {
-    "empreinte": "63a914624b9b72b5",
+    "empreinte": "36d0ae1981f123da",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/geetbets.html": {
-    "empreinte": "cc7725b1746afaab",
+    "empreinte": "841361feac47f5e8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/gembloux.html": {
-    "empreinte": "02bf66c5f22d27cf",
+    "empreinte": "58f6ebcf22c7b09c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/gembloux.html": {
-    "empreinte": "940cb8fdda15fd2c",
+    "empreinte": "ad577dbafe0deba7",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/gembloux.html": {
-    "empreinte": "01a6d142a5e652a9",
+    "empreinte": "e2d85435d54d5931",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/gembloux.html": {
-    "empreinte": "5a9b0831444a3b2a",
+    "empreinte": "72b6a0ac5cfb54c5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/genk.html": {
-    "empreinte": "cee044dd56ba0da0",
+    "empreinte": "171849492505234b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/genk.html": {
-    "empreinte": "05e761f4dc73798d",
+    "empreinte": "e7e86f4dbd58aed5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/genk.html": {
-    "empreinte": "e8f42be19e7d43eb",
+    "empreinte": "eba62636b0724bed",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/genk.html": {
-    "empreinte": "99852e8fc5f15e3f",
+    "empreinte": "558e2996d6b1e603",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/gent.html": {
-    "empreinte": "ef21fd15603580b7",
+    "empreinte": "77ec6eec6fefb986",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/gent.html": {
-    "empreinte": "fb9aa647041efd1a",
+    "empreinte": "dce5758927308df3",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/gent.html": {
-    "empreinte": "d3b8a7fc343434e2",
+    "empreinte": "9cf27a102dc8954b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/gent.html": {
-    "empreinte": "fd328de56b3d5060",
+    "empreinte": "c46039acbb3da033",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/geraardsbergen.html": {
-    "empreinte": "bf4d24f2b9f2fc92",
+    "empreinte": "1d8b8595ade366cd",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/geraardsbergen.html": {
-    "empreinte": "e8a458ace71e15ad",
+    "empreinte": "e4d0c2db74f0b5d4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/geraardsbergen.html": {
-    "empreinte": "bf33c855baed6b8d",
+    "empreinte": "39acd4a4704b2e12",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/geraardsbergen.html": {
-    "empreinte": "98e812981cf955c3",
+    "empreinte": "68bd18105133e62d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/gerpinnes.html": {
-    "empreinte": "58d9fc00569446ad",
+    "empreinte": "9df37d40cb2662fe",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/gerpinnes.html": {
-    "empreinte": "83cd52ac04b542e0",
+    "empreinte": "0a7d0da58c91c13a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/gerpinnes.html": {
-    "empreinte": "6686edcaf0191ee1",
+    "empreinte": "73d226da2553e4e1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/gerpinnes.html": {
-    "empreinte": "7c1a73609ebc81d5",
+    "empreinte": "296dc5433410aae1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/gingelom.html": {
-    "empreinte": "e3df63108e22a35d",
+    "empreinte": "0a10afa7712e7817",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/gingelom.html": {
-    "empreinte": "1d954f52a8c3329d",
+    "empreinte": "bb39f27603b39afe",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/gingelom.html": {
-    "empreinte": "cf79e1276ace876e",
+    "empreinte": "514b529eb655c905",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/gingelom.html": {
-    "empreinte": "90bea9a8734edf20",
+    "empreinte": "d356352e51cbcaf2",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/grimbergen.html": {
-    "empreinte": "fac7bc72ed7a3edc",
+    "empreinte": "1e02fc7680e13d58",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/grimbergen.html": {
-    "empreinte": "15f02858b9c3037a",
+    "empreinte": "91437cc601d893ae",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/grimbergen.html": {
-    "empreinte": "b126d9aa941e615f",
+    "empreinte": "76556cfff78ee726",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/grimbergen.html": {
-    "empreinte": "b7dc68c6c63f3351",
+    "empreinte": "b7d8e4d68213d372",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/grobbendonk.html": {
-    "empreinte": "f74096cfdb953d7c",
+    "empreinte": "e9b778e194b41e38",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/grobbendonk.html": {
-    "empreinte": "e6f2dca3f2fc073b",
+    "empreinte": "3f1bd1876178c5c9",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/grobbendonk.html": {
-    "empreinte": "5d93fa1a0c383c3e",
+    "empreinte": "903c968f7226ab17",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/grobbendonk.html": {
-    "empreinte": "cf8cae029d43698d",
+    "empreinte": "9e19d281c5eb83f0",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/haacht.html": {
-    "empreinte": "cfba6aca38798700",
+    "empreinte": "006610b9a3a35ba6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/haacht.html": {
-    "empreinte": "171c19a09a7ef6f6",
+    "empreinte": "39b3c1d0895bd70a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/haacht.html": {
-    "empreinte": "1d0152eaa2a312b2",
+    "empreinte": "c1e8207052863db8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/haacht.html": {
-    "empreinte": "43f65864cb7df635",
+    "empreinte": "e9886f4995860e89",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/haaltert.html": {
-    "empreinte": "9fe34225e3d06e14",
+    "empreinte": "3ce1e39eb3631e07",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/haaltert.html": {
-    "empreinte": "12016429a228e66c",
+    "empreinte": "6247127d4dfabe68",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/haaltert.html": {
-    "empreinte": "e975adabdb55de57",
+    "empreinte": "ff66bbc71b9e8f6b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/haaltert.html": {
-    "empreinte": "82c0c0fb50101c77",
+    "empreinte": "ff53b068d98a5dfc",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/habay.html": {
-    "empreinte": "87dcfb275627b156",
+    "empreinte": "15bc7d43c58e3b07",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/habay.html": {
-    "empreinte": "4b043b270672a92c",
+    "empreinte": "a1edcb73880a3ae9",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/habay.html": {
-    "empreinte": "1b904d1043789ad5",
+    "empreinte": "7dfb252116f8272d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/habay.html": {
-    "empreinte": "912667727ccd4664",
+    "empreinte": "2f820f286b7c5936",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/halen.html": {
-    "empreinte": "e23f798d4cbaa2b3",
+    "empreinte": "996d7096fadbafec",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/halen.html": {
-    "empreinte": "37e3266438228c2d",
+    "empreinte": "5a22e070143a920c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/halen.html": {
-    "empreinte": "0fe168dd67509a39",
+    "empreinte": "aa986334b9cf9383",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/halen.html": {
-    "empreinte": "5f1c88fee0ebadf9",
+    "empreinte": "c875b5439f38dc86",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/halle.html": {
-    "empreinte": "6224ea44fd30e5e6",
+    "empreinte": "34cbe0c33597eff4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/halle.html": {
-    "empreinte": "c850d0ab5034cf7b",
+    "empreinte": "5be52533e7e5de65",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/halle.html": {
-    "empreinte": "aec3b5b67f931f69",
+    "empreinte": "bb6026e77c52c35d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/halle.html": {
-    "empreinte": "ead09bfcbcb618c2",
+    "empreinte": "9c184b9d07cbcfab",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/hamme.html": {
-    "empreinte": "81e9a1703ef2881f",
+    "empreinte": "7be71ab374a385ba",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/hamme.html": {
-    "empreinte": "ed55cdb378021086",
+    "empreinte": "8af56ed3d9379688",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/hamme.html": {
-    "empreinte": "907272002fd47dc0",
+    "empreinte": "1a5933b5e8cec4ce",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/hamme.html": {
-    "empreinte": "7909e83c2f23193d",
+    "empreinte": "56d3973e7ee9d47f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/hannut.html": {
-    "empreinte": "88d09250497c6459",
+    "empreinte": "88fd71ca600333fd",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/hannut.html": {
-    "empreinte": "869e65c81d95adf4",
+    "empreinte": "8589c6a932184c2c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/hannut.html": {
-    "empreinte": "d259df509bd26973",
+    "empreinte": "048361be01de3df2",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/hannut.html": {
-    "empreinte": "5f98a5f095cc7a9d",
+    "empreinte": "a026ad464f74404f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/harelbeke.html": {
-    "empreinte": "61179f50ad1363e4",
+    "empreinte": "15f28209349014f8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/harelbeke.html": {
-    "empreinte": "a175ed2edc2565e9",
+    "empreinte": "fb4df48cf16e0d00",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/harelbeke.html": {
-    "empreinte": "e20316dc815c94c3",
+    "empreinte": "5679edc2f8dc5cbb",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/harelbeke.html": {
-    "empreinte": "99b72ff75328aea5",
+    "empreinte": "7abb94f4e72cc9c3",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/hasselt.html": {
-    "empreinte": "b97b10d34a6ad8e2",
+    "empreinte": "2f7a12cca1bb74b1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/hasselt.html": {
-    "empreinte": "cabbd81c99505c3c",
+    "empreinte": "71b1c2d850808db8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/hasselt.html": {
-    "empreinte": "b7843a3d6d380b44",
+    "empreinte": "0bf3c09cf814148e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/hasselt.html": {
-    "empreinte": "7af3b399c383382d",
+    "empreinte": "080a3303d0b4e5b7",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/hastiere.html": {
-    "empreinte": "e6584c888a34dafe",
+    "empreinte": "0230af2412cfcaa4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/hastiere.html": {
-    "empreinte": "1613e1337fcc78a4",
+    "empreinte": "f12f947757095904",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/hastiere.html": {
-    "empreinte": "68840bbab4649944",
+    "empreinte": "c1a0061dafbfafdf",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/hastiere.html": {
-    "empreinte": "6fe448dbf3179b9c",
+    "empreinte": "75d320fdac5e74e0",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/hechtel-eksel.html": {
-    "empreinte": "19e1690ec5ce62fe",
+    "empreinte": "2e02588cbfc37a5b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/hechtel-eksel.html": {
-    "empreinte": "8c0104e71d4eaeb2",
+    "empreinte": "d84a771ec00153de",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/hechtel-eksel.html": {
-    "empreinte": "e76bcffdeb6cc117",
+    "empreinte": "47ff2b24c8699493",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/hechtel-eksel.html": {
-    "empreinte": "ca217fa7d8e5b5ae",
+    "empreinte": "0ff8e807f9a18d0c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/heers.html": {
-    "empreinte": "185611bb887584a3",
+    "empreinte": "32430812dcebc6df",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/heers.html": {
-    "empreinte": "a369e4153a044830",
+    "empreinte": "2c6dcb74c6383a53",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/heers.html": {
-    "empreinte": "d3c1065b3cfa301f",
+    "empreinte": "9f0741498103163b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/heers.html": {
-    "empreinte": "b919b7ff47373650",
+    "empreinte": "dd277e32fb48ee55",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/herent.html": {
-    "empreinte": "ea2847e8e67a1094",
+    "empreinte": "4876901791c87830",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/herent.html": {
-    "empreinte": "68e64816e932b9a7",
+    "empreinte": "c25ea8c84ee60f0e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/herent.html": {
-    "empreinte": "ce6793ba7b32f0a9",
+    "empreinte": "81909a60eebdb1ad",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/herent.html": {
-    "empreinte": "4efd11cbc078b57f",
+    "empreinte": "31fe39937d6631b1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/herenthout.html": {
-    "empreinte": "f8dcc0d65ffd1c10",
+    "empreinte": "a520dd9a7bdfb151",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/herenthout.html": {
-    "empreinte": "5eee36b45311580c",
+    "empreinte": "24e1664aa96f8f75",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/herenthout.html": {
-    "empreinte": "82710fa7e5a02312",
+    "empreinte": "df8479aa00740e0c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/herenthout.html": {
-    "empreinte": "7f2030fe2a96e924",
+    "empreinte": "b9b292261c541f59",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/herselt.html": {
-    "empreinte": "917131615c4798ed",
+    "empreinte": "9c18b13a95735a2d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/herselt.html": {
-    "empreinte": "b4e05e4fc44e1751",
+    "empreinte": "958720ce61403713",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/herselt.html": {
-    "empreinte": "ed52c288fb78b140",
+    "empreinte": "e79ab18296a19bc6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/herselt.html": {
-    "empreinte": "e37214d2b421545b",
+    "empreinte": "b7221b6e0e1230a5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/herve.html": {
-    "empreinte": "5f174a207272f4e5",
+    "empreinte": "717bf231c49c29c9",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/herve.html": {
-    "empreinte": "d2bba30d03e71e76",
+    "empreinte": "189606ae06de328d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/herve.html": {
-    "empreinte": "48a2a2b28e1b7efd",
+    "empreinte": "97f2f22919c6470c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/herve.html": {
-    "empreinte": "e35e101a35231631",
+    "empreinte": "0b760dbae30ddb6a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/heusden-zolder.html": {
-    "empreinte": "7a16fa521a7f763d",
+    "empreinte": "e041d11a08633d1e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/heusden-zolder.html": {
-    "empreinte": "c892659bfcd3d5c0",
+    "empreinte": "dbc590002e5f295c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/heusden-zolder.html": {
-    "empreinte": "24874855bcb2a4b2",
+    "empreinte": "b038a0f1ceb5cb5b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/heusden-zolder.html": {
-    "empreinte": "541083b0cc0c5cc3",
+    "empreinte": "5eb60337909c86c2",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/hooglede.html": {
-    "empreinte": "e9ff26bf2b4f0134",
+    "empreinte": "dd89fd0198c4d39d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/hooglede.html": {
-    "empreinte": "88e1ffa292a7bcbf",
+    "empreinte": "d361cefabed0595e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/hooglede.html": {
-    "empreinte": "8e1767bbd2146c4b",
+    "empreinte": "e62a779bb142509f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/hooglede.html": {
-    "empreinte": "5a32b11c0d721487",
+    "empreinte": "4143ae2bfc2c7bbd",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/houthalen-helchteren.html": {
-    "empreinte": "7c50604f90e847be",
+    "empreinte": "49ceb8047d9269da",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/houthalen-helchteren.html": {
-    "empreinte": "5329fbc9187d1cde",
+    "empreinte": "2fdf7da1666c168d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/houthalen-helchteren.html": {
-    "empreinte": "cbf1daf5b4e8179d",
+    "empreinte": "54ef73d75d95bce7",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/houthalen-helchteren.html": {
-    "empreinte": "84a2e7779e68bd1d",
+    "empreinte": "1c44f9bc5c49c3db",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/houthulst.html": {
-    "empreinte": "6c5395b373c8681e",
+    "empreinte": "1494b564c9eb3742",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/houthulst.html": {
-    "empreinte": "01e4897ac2c1cbd8",
+    "empreinte": "a2615305ab76a1f0",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/houthulst.html": {
-    "empreinte": "515eb3faa467d50e",
+    "empreinte": "7e3093178ed8d08d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/houthulst.html": {
-    "empreinte": "6764d243f89b0ce4",
+    "empreinte": "98ad49a65c6ab8a3",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/houyet.html": {
-    "empreinte": "18eb6185ccf2fde7",
+    "empreinte": "50d38655cd88ffe7",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/houyet.html": {
-    "empreinte": "71687a3d81db4c8c",
+    "empreinte": "a911b67a8deeb8c6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/houyet.html": {
-    "empreinte": "2752f8d673cf61e8",
+    "empreinte": "d519a045e48ad1e1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/houyet.html": {
-    "empreinte": "16d9480fb75db5f9",
+    "empreinte": "a55ddec71afb907b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/huy.html": {
-    "empreinte": "47925ed99173b070",
+    "empreinte": "ee5fba3cb8712b48",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/huy.html": {
-    "empreinte": "1f1ef14081122c4d",
+    "empreinte": "50c357755af5b9bf",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/huy.html": {
-    "empreinte": "ce48a9962ab473bf",
+    "empreinte": "f320aa2a1d7cfa55",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/huy.html": {
-    "empreinte": "51009165b8ad2e2e",
+    "empreinte": "0fe3a8b9b01a1594",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/ieper.html": {
-    "empreinte": "d084c54b7ba39d71",
+    "empreinte": "6f6da79ddf6a4175",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/ieper.html": {
-    "empreinte": "066f656f7c6561ec",
+    "empreinte": "b68da488fcd9865d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/ieper.html": {
-    "empreinte": "63d865fb7fc63d85",
+    "empreinte": "0e39de222f1631cd",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/ieper.html": {
-    "empreinte": "037967c261fd49bf",
+    "empreinte": "4cf22554bafbe7c5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/ixelles.html": {
-    "empreinte": "a4ff646dcb798a8d",
+    "empreinte": "d6bfa3647ad3b574",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/ixelles.html": {
-    "empreinte": "c30772248d8b71e4",
+    "empreinte": "f57dfff2c4666a3f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/ixelles.html": {
-    "empreinte": "3a6dbc5449480950",
+    "empreinte": "3e06fa40c3728230",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/ixelles.html": {
-    "empreinte": "d92fa39d88ea85c7",
+    "empreinte": "837eeae257c9e92b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/izegem.html": {
-    "empreinte": "87b56a99321dc646",
+    "empreinte": "144a164cf8d1c30c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/izegem.html": {
-    "empreinte": "8cb8d9d45296ef1e",
+    "empreinte": "7e91927eabf10037",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/izegem.html": {
-    "empreinte": "438602681a9e8478",
+    "empreinte": "d641c78a5e1ac708",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/izegem.html": {
-    "empreinte": "9204b73ca53fc50c",
+    "empreinte": "0f48b8d46296701a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/jabbeke.html": {
-    "empreinte": "ef31f3e31433d202",
+    "empreinte": "a42d9451db689fcd",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/jabbeke.html": {
-    "empreinte": "1123f21f0f9fe695",
+    "empreinte": "53f32f8a5d4a3dea",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/jabbeke.html": {
-    "empreinte": "5a3893e5ebf43e87",
+    "empreinte": "5cc27cc6e9fed1f1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/jabbeke.html": {
-    "empreinte": "8c224f01b3401bf1",
+    "empreinte": "46470867d0fe4ba2",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/jette.html": {
-    "empreinte": "a143e21f15c6c4d0",
+    "empreinte": "df7836fcc253f92f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/jette.html": {
-    "empreinte": "229fde348245ad70",
+    "empreinte": "0122e05b3fdf31ed",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/jette.html": {
-    "empreinte": "087e1fa2610e73dc",
+    "empreinte": "762b838befa56bd9",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/jette.html": {
-    "empreinte": "218a4fbf36499272",
+    "empreinte": "eccdcb17be113f19",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/juprelle.html": {
-    "empreinte": "8e5a6aee6f10e393",
+    "empreinte": "e3afd12d0ec11093",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/juprelle.html": {
-    "empreinte": "d1c8beb1930b8bec",
+    "empreinte": "d78cd4d08b3c0ace",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/juprelle.html": {
-    "empreinte": "0076b5930f6b4614",
+    "empreinte": "485e618d72b134fc",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/juprelle.html": {
-    "empreinte": "03bb9e0e70956bdf",
+    "empreinte": "caa9377bc675646c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/kalmthout.html": {
-    "empreinte": "36d5c01af0b74623",
+    "empreinte": "e9136f72e7b15eb3",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/kalmthout.html": {
-    "empreinte": "c076c173366da60d",
+    "empreinte": "9351f9ea728806d6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/kalmthout.html": {
-    "empreinte": "79d643b4b775ecf9",
+    "empreinte": "36b0ea3ac94a352d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/kalmthout.html": {
-    "empreinte": "98f54d9800e07e97",
+    "empreinte": "2d03c8591415a6a6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/kapellen.html": {
-    "empreinte": "5e043e4610614993",
+    "empreinte": "bcd83283fd24968b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/kapellen.html": {
-    "empreinte": "b879f985f7b812bb",
+    "empreinte": "85ee7af793d522c9",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/kapellen.html": {
-    "empreinte": "bea50064355b9da8",
+    "empreinte": "cedb25a9627e6aff",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/kapellen.html": {
-    "empreinte": "c51adb2f2d1ebbb1",
+    "empreinte": "176f63b400d82cb3",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/kaprijke.html": {
-    "empreinte": "d91f18f9f9490c39",
+    "empreinte": "39cb8fca4fa14bae",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/kaprijke.html": {
-    "empreinte": "47704c242425912f",
+    "empreinte": "fa5dcf4a7e1e7feb",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/kaprijke.html": {
-    "empreinte": "ddddccbd86bbf25a",
+    "empreinte": "4cdcf0d6202f38d4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/kaprijke.html": {
-    "empreinte": "fc79f0bf8b7410dc",
+    "empreinte": "f71853a44e4e1c3e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/kasterlee.html": {
-    "empreinte": "4c1d1cec705bb548",
+    "empreinte": "b0adeb124a0ea944",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/kasterlee.html": {
-    "empreinte": "d835a7f37d46e788",
+    "empreinte": "38dd83d09c050998",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/kasterlee.html": {
-    "empreinte": "837b28616c9f4081",
+    "empreinte": "0826d71d9c011a28",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/kasterlee.html": {
-    "empreinte": "788ab2eff9967b90",
+    "empreinte": "d67ca234b44000ae",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/kinrooi.html": {
-    "empreinte": "7fc0f50a37c2be49",
+    "empreinte": "d7f1d71d22b13f2d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/kinrooi.html": {
-    "empreinte": "e3493992676ef7d6",
+    "empreinte": "0b42b6ddbe77414c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/kinrooi.html": {
-    "empreinte": "b4aa9eca5209ad04",
+    "empreinte": "80e6f2ba651bf677",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/kinrooi.html": {
-    "empreinte": "451b27648845c51d",
+    "empreinte": "3e359f5e0c591dc3",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/knokke-heist.html": {
-    "empreinte": "1e91a97c315cc6c2",
+    "empreinte": "3ccb158c6b1c8ab5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/knokke-heist.html": {
-    "empreinte": "441d978194a3038a",
+    "empreinte": "28ca6a1e33ef2d9e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/knokke-heist.html": {
-    "empreinte": "9618a5fb843263e9",
+    "empreinte": "eea1d23c9d2c650e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/knokke-heist.html": {
-    "empreinte": "cefdde7a7991bf44",
+    "empreinte": "88b4b8172c5576cb",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/koksijde.html": {
-    "empreinte": "fa6d0b7dee03a7e9",
+    "empreinte": "2194f778d5ce0648",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/koksijde.html": {
-    "empreinte": "4b9304489cd1c7bd",
+    "empreinte": "55fa7ee242283351",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/koksijde.html": {
-    "empreinte": "e6cb37b2c7d6753c",
+    "empreinte": "de0a0e617418bf0f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/koksijde.html": {
-    "empreinte": "abb9f167f42288cf",
+    "empreinte": "b9f37c5f355733cf",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/kontich.html": {
-    "empreinte": "7408ad7e8f19ba2f",
+    "empreinte": "6acf60553ed544a0",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/kontich.html": {
-    "empreinte": "919d37fa594c8517",
+    "empreinte": "e3807eea540aebc5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/kontich.html": {
-    "empreinte": "f10bef0cf38408cc",
+    "empreinte": "1995b642c1bc6a7b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/kontich.html": {
-    "empreinte": "5f6d0a1b1519e609",
+    "empreinte": "5b1bbce6fdb5843b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/kortemark.html": {
-    "empreinte": "52c4738fd27bdc0e",
+    "empreinte": "9480b7611c44e973",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/kortemark.html": {
-    "empreinte": "3b35d6259ae8c5bb",
+    "empreinte": "f26ab5a56b9a680d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/kortemark.html": {
-    "empreinte": "7bc528343f1ffd1b",
+    "empreinte": "9dbd4e27cbb295c6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/kortemark.html": {
-    "empreinte": "9a5841f1520d1769",
+    "empreinte": "0c3aa33800faef2b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/kortrijk.html": {
-    "empreinte": "8cc00dcc67771a06",
+    "empreinte": "5303477e23690d01",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/kortrijk.html": {
-    "empreinte": "c101f39575d371ac",
+    "empreinte": "4917e5bbf60a6f52",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/kortrijk.html": {
-    "empreinte": "05a37898d240e04a",
+    "empreinte": "8ab6dbc2839f5f14",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/kortrijk.html": {
-    "empreinte": "972e426e4b09cd50",
+    "empreinte": "5aea0d4a8cfc307f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/kraainem.html": {
-    "empreinte": "8634cfcebcbffe0a",
+    "empreinte": "bd64b05cd97c2115",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/kraainem.html": {
-    "empreinte": "c54647054eb3ea08",
+    "empreinte": "df7e4c8631b45c83",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/kraainem.html": {
-    "empreinte": "a587ba72f22ad538",
+    "empreinte": "2fd0dad256d4359d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/kraainem.html": {
-    "empreinte": "7036ff456428b641",
+    "empreinte": "1bfefbaeeafb4597",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/kruisem.html": {
-    "empreinte": "b4ddfc7010d3a4f8",
+    "empreinte": "5e7e5afd7e7789ac",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/kruisem.html": {
-    "empreinte": "9f0a8ffa947d83e5",
+    "empreinte": "f54d641234e659de",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/kruisem.html": {
-    "empreinte": "fed187762c4d4fa9",
+    "empreinte": "a4a2fb905794a539",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/kruisem.html": {
-    "empreinte": "4ab341be7cd8cff3",
+    "empreinte": "837eb13c9355d061",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/la-louviere.html": {
-    "empreinte": "0ba2b2858ef68b6b",
+    "empreinte": "8db096e2f5bcf9cb",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/la-louviere.html": {
-    "empreinte": "90e5f2639f104ef0",
+    "empreinte": "c3f44cfd03c1f250",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/la-louviere.html": {
-    "empreinte": "7eba8a42f6d47c1e",
+    "empreinte": "52457170dc516ace",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/la-louviere.html": {
-    "empreinte": "c72013edfca772ef",
+    "empreinte": "8403ade47adf049f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/laakdal.html": {
-    "empreinte": "83886ae68ff162ae",
+    "empreinte": "5bb850a51e7e2352",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/laakdal.html": {
-    "empreinte": "a5a1c93d72c1a4ff",
+    "empreinte": "ee193f6e115828c6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/laakdal.html": {
-    "empreinte": "9b87397184eb5c59",
+    "empreinte": "5706735cf3e29627",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/laakdal.html": {
-    "empreinte": "96624e3a7bd16dbc",
+    "empreinte": "61f1fbf11d51861b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/laarne.html": {
-    "empreinte": "347d0baa383542ba",
+    "empreinte": "c4237c76740cad1a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/laarne.html": {
-    "empreinte": "dad1d09dbc78f2f2",
+    "empreinte": "b8999cdb7fecf2bd",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/laarne.html": {
-    "empreinte": "f9fde58d192730ab",
+    "empreinte": "f3eafc36ea6bcbf6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/laarne.html": {
-    "empreinte": "1ec12ce3147a1170",
+    "empreinte": "f73f0a7b8debe6d4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/lanaken.html": {
-    "empreinte": "00320125ad6c7ef7",
+    "empreinte": "820d813169132a09",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/lanaken.html": {
-    "empreinte": "ac84ea9782baedbc",
+    "empreinte": "78e7de877e4d69f9",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/lanaken.html": {
-    "empreinte": "8cf8c7dafd47b1c0",
+    "empreinte": "e0128a71cbb49056",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/lanaken.html": {
-    "empreinte": "c4d65f2b1cdf0d24",
+    "empreinte": "09b172943334d3c0",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/landen.html": {
-    "empreinte": "e6123def27e88451",
+    "empreinte": "98f5853feda8100b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/landen.html": {
-    "empreinte": "81b70b2dd44a67c4",
+    "empreinte": "753673341a3f0c0e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/landen.html": {
-    "empreinte": "b32843eac1a66b24",
+    "empreinte": "c1bc335b03fe651f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/landen.html": {
-    "empreinte": "5d7622cac4ce66d1",
+    "empreinte": "c8c34072acf51a77",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/lede.html": {
-    "empreinte": "37acc23823564021",
+    "empreinte": "91915dfaf4cdadb9",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/lede.html": {
-    "empreinte": "4f40812f257a84d6",
+    "empreinte": "9d1237a73ce4173c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/lede.html": {
-    "empreinte": "2894ddeb453190e0",
+    "empreinte": "f28410ff6eef99a4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/lede.html": {
-    "empreinte": "b73c8ffdd31ab716",
+    "empreinte": "05137ee557e379a4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/leglise.html": {
-    "empreinte": "6b9bd727e2a51aa7",
+    "empreinte": "9078ce840aa5ace8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/leglise.html": {
-    "empreinte": "7fadcc5155ad81b1",
+    "empreinte": "eacd590f6b018d0c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/leglise.html": {
-    "empreinte": "3e52030cb4df9a4e",
+    "empreinte": "426dba71f508c5c6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/leglise.html": {
-    "empreinte": "6cab5ce52472e8fb",
+    "empreinte": "0e6569beeb053de2",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/leopoldsburg.html": {
-    "empreinte": "acb92b3c57c4dd37",
+    "empreinte": "4808454425ecdd4e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/leopoldsburg.html": {
-    "empreinte": "c1c6ce49275a805c",
+    "empreinte": "db04cb4df107b6b5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/leopoldsburg.html": {
-    "empreinte": "0859da1d513cf282",
+    "empreinte": "53b5b80b54732dfb",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/leopoldsburg.html": {
-    "empreinte": "ce20e492beba4b68",
+    "empreinte": "8e7071307d37f5ab",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/les-bons-villers.html": {
-    "empreinte": "2845fa70ad77e661",
+    "empreinte": "2922e9ca117e8e33",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/les-bons-villers.html": {
-    "empreinte": "896b2c4fa6f9c289",
+    "empreinte": "3e36e245dd7160da",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/les-bons-villers.html": {
-    "empreinte": "1b944aaf50a49559",
+    "empreinte": "59fe50c3c6e277ff",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/les-bons-villers.html": {
-    "empreinte": "891575bf592ccbf1",
+    "empreinte": "7e62ae3c73685c5f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/leuven.html": {
-    "empreinte": "10c7dd3bc27289d9",
+    "empreinte": "d5178e402649bec0",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/leuven.html": {
-    "empreinte": "f8b1184250511071",
+    "empreinte": "7ea74157b4a69d5c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/leuven.html": {
-    "empreinte": "aaba0902618703bb",
+    "empreinte": "bf1ab65d24c98785",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/leuven.html": {
-    "empreinte": "f417c3e3f464b637",
+    "empreinte": "372fafedd7bbf7fd",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/leuze-en-hainaut.html": {
-    "empreinte": "e6a2ab987f1d7d0d",
+    "empreinte": "ccaf1d16b351b757",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/leuze-en-hainaut.html": {
-    "empreinte": "f872042f3bc1c711",
+    "empreinte": "dfcc060050d585a6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/leuze-en-hainaut.html": {
-    "empreinte": "52d1a4c0c982cd42",
+    "empreinte": "a5ec20067d0307f2",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/leuze-en-hainaut.html": {
-    "empreinte": "f654a61dd4a1b1b5",
+    "empreinte": "5cb121c2498c5e7b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/liedekerke.html": {
-    "empreinte": "92caa1c5785bc5be",
+    "empreinte": "94c8fe12204f82fd",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/liedekerke.html": {
-    "empreinte": "0b58a17e0a6e8588",
+    "empreinte": "8fe6242a879b2a93",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/liedekerke.html": {
-    "empreinte": "4d722c267445e37b",
+    "empreinte": "25a5c3d6ace21530",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/liedekerke.html": {
-    "empreinte": "457ba7d55015408e",
+    "empreinte": "75d39ffc8ee9c1ac",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/liege.html": {
-    "empreinte": "1a1dda78b0eb6ab3",
+    "empreinte": "003add67ff10a7bb",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/liege.html": {
-    "empreinte": "630c1a259cbb8a73",
+    "empreinte": "0a55bf2f72c304b6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/liege.html": {
-    "empreinte": "6b213b79834bf835",
+    "empreinte": "3b324f5c851a35ba",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/liege.html": {
-    "empreinte": "d6a9de35d31263ed",
+    "empreinte": "36c71716bb52ad53",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/lier.html": {
-    "empreinte": "0b4a14b58819dbe5",
+    "empreinte": "56fd37aae14f74d2",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/lier.html": {
-    "empreinte": "f0c68c81f9b1fc99",
+    "empreinte": "48836070f5aed206",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/lier.html": {
-    "empreinte": "78066609fe299882",
+    "empreinte": "42b79c1f8fc75960",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/lier.html": {
-    "empreinte": "80b70b1fc28e4f77",
+    "empreinte": "705c1f9731f43ab1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/lievegem.html": {
-    "empreinte": "3c9a3642e6109b8c",
+    "empreinte": "8958d1784a63ed3d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/lievegem.html": {
-    "empreinte": "860f7a7077992896",
+    "empreinte": "c39f7d1c01da57fe",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/lievegem.html": {
-    "empreinte": "748bea0e6ad51d10",
+    "empreinte": "ea29ce9b4df0240e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/lievegem.html": {
-    "empreinte": "1a320fab516ffad2",
+    "empreinte": "4bb43281388fc31c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/lille.html": {
-    "empreinte": "acfe64b3e2445def",
+    "empreinte": "53776ca76e8960b5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/lille.html": {
-    "empreinte": "d815b3253ff01c95",
+    "empreinte": "95e7b98b61ffda98",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/lille.html": {
-    "empreinte": "404aba5dc065b8c1",
+    "empreinte": "0e72cee46b7cbdb4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/lille.html": {
-    "empreinte": "7c3f4c09f3f9b717",
+    "empreinte": "a5cbc7bcf64a86e1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/lincent.html": {
-    "empreinte": "3b89d375e658c492",
+    "empreinte": "1d3ec49073308cec",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/lincent.html": {
-    "empreinte": "32ead7f2eaca9452",
+    "empreinte": "3835f674b303e5da",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/lincent.html": {
-    "empreinte": "166c4ff26ae02191",
+    "empreinte": "c92c2bcbca1bc0b8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/lincent.html": {
-    "empreinte": "4558d2a10e1b2254",
+    "empreinte": "f81e093953a61c8a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/lint.html": {
-    "empreinte": "46b3d778c87e5a05",
+    "empreinte": "05de6db18160f18d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/lint.html": {
-    "empreinte": "8a2b11d172bceb99",
+    "empreinte": "e563d34a4d7bd6db",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/lint.html": {
-    "empreinte": "b504a9d11182c188",
+    "empreinte": "92788a236d19ec9e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/lint.html": {
-    "empreinte": "379e9f5c8d53f8cb",
+    "empreinte": "c372349f51e524e0",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/lokeren.html": {
-    "empreinte": "408d42427274ea98",
+    "empreinte": "af13e34795cf86ee",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/lokeren.html": {
-    "empreinte": "4b452446544c3b26",
+    "empreinte": "ce93ff4e9fb07bc8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/lokeren.html": {
-    "empreinte": "2401070d228bb2de",
+    "empreinte": "3964e203d45f3f72",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/lokeren.html": {
-    "empreinte": "35550edfd8ca224f",
+    "empreinte": "e845031a3dffe3f1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/lommel.html": {
-    "empreinte": "4d1a7ce5987d9c4a",
+    "empreinte": "71ca433ffedbe4c7",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/lommel.html": {
-    "empreinte": "99f4c014f67cbcab",
+    "empreinte": "b18509cea63720c7",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/lommel.html": {
-    "empreinte": "3a4403545b9e7d63",
+    "empreinte": "eb0d0ddab2d27a75",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/lommel.html": {
-    "empreinte": "c1fa9e10a5e567b7",
+    "empreinte": "baef327072d416f7",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/lummen.html": {
-    "empreinte": "070ec2263c5818e2",
+    "empreinte": "e9d903d9651ce40c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/lummen.html": {
-    "empreinte": "19dab053402977dc",
+    "empreinte": "3b05d3fa05066d87",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/lummen.html": {
-    "empreinte": "bd59125e74468054",
+    "empreinte": "2b54b39b9bfc8b37",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/lummen.html": {
-    "empreinte": "0e0e1670eb9c11db",
+    "empreinte": "aaf4fa899367a2a4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/maaseik.html": {
-    "empreinte": "fddf776d0dc04eca",
+    "empreinte": "0e8a3e0e3e834907",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/maaseik.html": {
-    "empreinte": "e535a48c810c2e6e",
+    "empreinte": "38bce05ed73e5cac",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/maaseik.html": {
-    "empreinte": "2854c15b394ed21e",
+    "empreinte": "168be59a8e910958",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/maaseik.html": {
-    "empreinte": "fd89feca48d187ea",
+    "empreinte": "cbdcfe94ad3970f8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/maasmechelen.html": {
-    "empreinte": "ecec73e23282dd4e",
+    "empreinte": "9ea32ccfb619144b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/maasmechelen.html": {
-    "empreinte": "20d6d79fc25daa0c",
+    "empreinte": "e2091b6a74f3b4e3",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/maasmechelen.html": {
-    "empreinte": "8b92f5c33478d4c3",
+    "empreinte": "496838d4adafef9b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/maasmechelen.html": {
-    "empreinte": "56e5699c7db7e7b1",
+    "empreinte": "24221dace3e1beee",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/malmedy.html": {
-    "empreinte": "ec51466a07cb3d16",
+    "empreinte": "d940acca89351c31",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/malmedy.html": {
-    "empreinte": "ef4860fc61df2541",
+    "empreinte": "963eaba81aa6dbf4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/malmedy.html": {
-    "empreinte": "dd36f8e0d3da9b9a",
+    "empreinte": "6bacc0e2749fa8b4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/malmedy.html": {
-    "empreinte": "229b216454024d39",
+    "empreinte": "2b4e70cfdbdc35a2",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/mechelen.html": {
-    "empreinte": "f781406f8db189b5",
+    "empreinte": "1853a0cd4cbe39e4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/mechelen.html": {
-    "empreinte": "a52b7c217aed1c1a",
+    "empreinte": "5a6e80dd1683b765",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/mechelen.html": {
-    "empreinte": "fbda9e16823822d0",
+    "empreinte": "f68d1d567e7e9637",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/mechelen.html": {
-    "empreinte": "2a0edaf1069bbe75",
+    "empreinte": "1a5abe486115fe47",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/menen.html": {
-    "empreinte": "04591ce2089b5675",
+    "empreinte": "b1c96246da7d37c4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/menen.html": {
-    "empreinte": "28ba009fa13eab4c",
+    "empreinte": "ca1a76aad7ff48fa",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/menen.html": {
-    "empreinte": "eafc466b016ecb09",
+    "empreinte": "749e40337c57ae80",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/menen.html": {
-    "empreinte": "f4c416712c93494a",
+    "empreinte": "1ea10fef3e3239a8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/merelbeke-melle.html": {
-    "empreinte": "b305d49df6f72dee",
+    "empreinte": "5c6f3d515ef283fa",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/merelbeke-melle.html": {
-    "empreinte": "eafd5b53eb1d4354",
+    "empreinte": "6be72180fda011c4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/merelbeke-melle.html": {
-    "empreinte": "ea3771a891fd04f4",
+    "empreinte": "11db0bcf4f43a292",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/merelbeke-melle.html": {
-    "empreinte": "bd076c9e08cb1286",
+    "empreinte": "2749223361236efc",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/merksplas.html": {
-    "empreinte": "8451b00a51331382",
+    "empreinte": "32dfa7a9b3d88b55",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/merksplas.html": {
-    "empreinte": "35541f4443a83ce3",
+    "empreinte": "877e5e355876114e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/merksplas.html": {
-    "empreinte": "7b7a29734c80827e",
+    "empreinte": "5366720fcb54070d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/merksplas.html": {
-    "empreinte": "0ace25879808a89f",
+    "empreinte": "9cb828e1d1c7b023",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/messancy.html": {
-    "empreinte": "2217179e909bcdf5",
+    "empreinte": "0ff661afafd81a9a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/messancy.html": {
-    "empreinte": "bd6060099de1d938",
+    "empreinte": "1a517fd4c9e549e5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/messancy.html": {
-    "empreinte": "a8d418ca88357aaf",
+    "empreinte": "51d543a305dbf4e6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/messancy.html": {
-    "empreinte": "3d64f5ebfb33cc4b",
+    "empreinte": "9dd89086f7a4f164",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/middelkerke.html": {
-    "empreinte": "69c8ba7eab0ffa73",
+    "empreinte": "fdd9c85e85cd8ed0",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/middelkerke.html": {
-    "empreinte": "7b956096591876ff",
+    "empreinte": "8627d752a9961eb3",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/middelkerke.html": {
-    "empreinte": "c4c965aba86bae40",
+    "empreinte": "7f63cd2af4d71ea0",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/middelkerke.html": {
-    "empreinte": "b79572ccf482bc02",
+    "empreinte": "ef6ad6f0173f9168",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/mol.html": {
-    "empreinte": "845d87b38630a1ec",
+    "empreinte": "76fd28f9e4461be4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/mol.html": {
-    "empreinte": "63360b4979efa951",
+    "empreinte": "fef7eb7aa47c8fb5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/mol.html": {
-    "empreinte": "9a9804c6dfd7a1e4",
+    "empreinte": "607073bdaa107a90",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/mol.html": {
-    "empreinte": "50cfc3715a0f3aab",
+    "empreinte": "92bf5134507f4170",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/molenbeek-saint-jean.html": {
-    "empreinte": "17ceea821cb8058c",
+    "empreinte": "a7164277ac98d0f3",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/molenbeek-saint-jean.html": {
-    "empreinte": "d14557b4645e8249",
+    "empreinte": "bfa053faf900468a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/molenbeek-saint-jean.html": {
-    "empreinte": "6ca841f8d5e9082b",
+    "empreinte": "4268eabd0acdfb5e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/molenbeek-saint-jean.html": {
-    "empreinte": "75051dc890710b5a",
+    "empreinte": "f02b4ab67be89903",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/mons.html": {
-    "empreinte": "2b99020a87ac0e79",
+    "empreinte": "800225b1f0a0e548",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/mons.html": {
-    "empreinte": "e403f54af065b6af",
+    "empreinte": "cc6fa0bd7b8853f3",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/mons.html": {
-    "empreinte": "f8d978aa1e9d7f7a",
+    "empreinte": "fe6febbe80a52f37",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/mons.html": {
-    "empreinte": "a3b92c173c6ccc8b",
+    "empreinte": "1e053173af276a8e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/mont-saint-guibert.html": {
-    "empreinte": "5bcc169288b344d2",
+    "empreinte": "886a86eda72823ee",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/mont-saint-guibert.html": {
-    "empreinte": "4442cf20d2e7f089",
+    "empreinte": "59f06ce9bcd001b8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/mont-saint-guibert.html": {
-    "empreinte": "a08e669e4f3abe05",
+    "empreinte": "558c5280c37d3df5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/mont-saint-guibert.html": {
-    "empreinte": "7a3b0d117bd9470f",
+    "empreinte": "0a16839ce762d028",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/mortsel.html": {
-    "empreinte": "95b63d04482c9d56",
+    "empreinte": "f01cf2e8d5b7d2dc",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/mortsel.html": {
-    "empreinte": "6b3e7c70a711fe4b",
+    "empreinte": "2f02a86057ab930d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/mortsel.html": {
-    "empreinte": "fb7d327aadf2accd",
+    "empreinte": "fe784e664cab3d12",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/mortsel.html": {
-    "empreinte": "439a5a4397656095",
+    "empreinte": "836a03b173dc4819",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/mouscron.html": {
-    "empreinte": "3b89751762489325",
+    "empreinte": "56d950e0a1638dae",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/mouscron.html": {
-    "empreinte": "ffe2e841c7c561cc",
+    "empreinte": "d367767fc6ca9220",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/mouscron.html": {
-    "empreinte": "0bab9b853a9ad75a",
+    "empreinte": "a89b556701dabf48",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/mouscron.html": {
-    "empreinte": "300f4f46c5169cd4",
+    "empreinte": "8ea7337e4b7d334c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/namur.html": {
-    "empreinte": "5234ec19d5ddbe32",
+    "empreinte": "f8980a63cf2fbb62",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/namur.html": {
-    "empreinte": "3024a37e25d755b4",
+    "empreinte": "2cd6385ddf0a5b43",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/namur.html": {
-    "empreinte": "3bad653316346252",
+    "empreinte": "0095a7aba42f5905",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/namur.html": {
-    "empreinte": "315f4c121bef0b5f",
+    "empreinte": "43547df7c8a7aa93",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/nandrin.html": {
-    "empreinte": "171c2309d7e0ed43",
+    "empreinte": "3fbb871849ff5168",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/nandrin.html": {
-    "empreinte": "eca68f3e9c400e43",
+    "empreinte": "262ecfadf54d702a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/nandrin.html": {
-    "empreinte": "7d7c802d603007a3",
+    "empreinte": "d7431ea05ff38d90",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/nandrin.html": {
-    "empreinte": "0fbd3894176dc89c",
+    "empreinte": "33046475dd60959b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/nazareth-de-pinte.html": {
-    "empreinte": "ddd79d7b007d278f",
+    "empreinte": "dc2b346f0035f155",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/nazareth-de-pinte.html": {
-    "empreinte": "d99877342cc44535",
+    "empreinte": "84702fd588d5444c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/nazareth-de-pinte.html": {
-    "empreinte": "464fe0aed58fb8c8",
+    "empreinte": "50994e8243991e6a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/nazareth-de-pinte.html": {
-    "empreinte": "99fdd5180d674e41",
+    "empreinte": "a0c0fa83c16df42e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/nieuwpoort.html": {
-    "empreinte": "5ed04e22d9180f62",
+    "empreinte": "41863ab841a5e8f3",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/nieuwpoort.html": {
-    "empreinte": "97b5f85019479700",
+    "empreinte": "7bc6c0407ba36738",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/nieuwpoort.html": {
-    "empreinte": "4e36c1f2f7e51d8a",
+    "empreinte": "9f8389f048b87e93",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/nieuwpoort.html": {
-    "empreinte": "e7023a41a232ee90",
+    "empreinte": "b0354771200ff2eb",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/nijlen.html": {
-    "empreinte": "d5699b994406bb6a",
+    "empreinte": "301087fac58d9b8c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/nijlen.html": {
-    "empreinte": "aca43614543e6ea3",
+    "empreinte": "cff540306a8caa16",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/nijlen.html": {
-    "empreinte": "8a7f1dd561faacd4",
+    "empreinte": "8f58765da35527d3",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/nijlen.html": {
-    "empreinte": "32252a749d37fc5d",
+    "empreinte": "df3f93560406cb2e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/ninove.html": {
-    "empreinte": "0a2a5bcae5404dac",
+    "empreinte": "a87f2ea3e0b44169",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/ninove.html": {
-    "empreinte": "e6377e0245e1b0f1",
+    "empreinte": "eae7c309bfd0c992",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/ninove.html": {
-    "empreinte": "f5ecd543253741d4",
+    "empreinte": "4cb5764c1969f5aa",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/ninove.html": {
-    "empreinte": "81e0ef9f402d2662",
+    "empreinte": "e06f93cda3083179",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/ohey.html": {
-    "empreinte": "7539bcf8f03b8389",
+    "empreinte": "bbf140895ba84ce6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/ohey.html": {
-    "empreinte": "41e4bd4b7e9d2b30",
+    "empreinte": "811abb91c21182ce",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/ohey.html": {
-    "empreinte": "de13d1d21d07b17d",
+    "empreinte": "5497ce7a6aa68a63",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/ohey.html": {
-    "empreinte": "531d3ff53d91a575",
+    "empreinte": "6f1ac488ffceb76c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/olen.html": {
-    "empreinte": "70733926dc56af9d",
+    "empreinte": "bce8aaf0e23addcb",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/olen.html": {
-    "empreinte": "61005f5511284191",
+    "empreinte": "d5b46e7048a6b344",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/olen.html": {
-    "empreinte": "664fd0fbe1912cb1",
+    "empreinte": "c20bfb2c8417d057",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/olen.html": {
-    "empreinte": "98741cd60ad8c7ce",
+    "empreinte": "bec9c21ca95fb570",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/oostende.html": {
-    "empreinte": "c6d26fdb0b1d2e8a",
+    "empreinte": "640a91c506bfbec8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/oostende.html": {
-    "empreinte": "5eadae7ca8e59ce1",
+    "empreinte": "b01db58eb50ab3be",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/oostende.html": {
-    "empreinte": "374620ad69291ece",
+    "empreinte": "fff3657b3f24759e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/oostende.html": {
-    "empreinte": "b6ed1e5621fc8bf3",
+    "empreinte": "09c259af45a1ec90",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/oosterzele.html": {
-    "empreinte": "2df4fc9046004b5f",
+    "empreinte": "caf3b3ce2a73c0bd",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/oosterzele.html": {
-    "empreinte": "287a3071e96b959a",
+    "empreinte": "1bfc0b178dc2936d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/oosterzele.html": {
-    "empreinte": "5f38c17d3051fe58",
+    "empreinte": "7837fba15d63a873",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/oosterzele.html": {
-    "empreinte": "71794838941c557a",
+    "empreinte": "d798424f7b806b27",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/opwijk.html": {
-    "empreinte": "bee892663857e328",
+    "empreinte": "e772d37b9aaf77be",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/opwijk.html": {
-    "empreinte": "3ab20aec21b824ff",
+    "empreinte": "cf6b2c5819e155ee",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/opwijk.html": {
-    "empreinte": "73c130abb8b07820",
+    "empreinte": "71f06e3b0e920c6d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/opwijk.html": {
-    "empreinte": "e7b6b553cc5398b1",
+    "empreinte": "a105b36c09572a67",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/ottignies-louvain-la-neuve.html": {
-    "empreinte": "874360153da70231",
+    "empreinte": "a3b0c278f0e82766",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/ottignies-louvain-la-neuve.html": {
-    "empreinte": "aab6c801f9ef82f0",
+    "empreinte": "713f3cf2f459010e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/ottignies-louvain-la-neuve.html": {
-    "empreinte": "41191825a9062b33",
+    "empreinte": "94a792aee42c453a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/ottignies-louvain-la-neuve.html": {
-    "empreinte": "3a468ccbd160f06d",
+    "empreinte": "5c3db85a2302be6f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/oud-heverlee.html": {
-    "empreinte": "baf9bb6e31dee4c9",
+    "empreinte": "f811406ddec489b4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/oud-heverlee.html": {
-    "empreinte": "06955c5b34f61574",
+    "empreinte": "0e0a77731bdb986e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/oud-heverlee.html": {
-    "empreinte": "036cf53094fd89b7",
+    "empreinte": "74f2b47a9263c03e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/oud-heverlee.html": {
-    "empreinte": "33a716f57baed9cc",
+    "empreinte": "31a3ed817f69d84e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/oud-turnhout.html": {
-    "empreinte": "082e931a6b8ae1ee",
+    "empreinte": "d3b2e5ad9627f8e2",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/oud-turnhout.html": {
-    "empreinte": "e2b67e9cc81171b8",
+    "empreinte": "274dccd036c6eabe",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/oud-turnhout.html": {
-    "empreinte": "bd55e0d9717ca668",
+    "empreinte": "89a428aa9c193212",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/oud-turnhout.html": {
-    "empreinte": "90a4988ba4129667",
+    "empreinte": "598cc23b58960747",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/oudenaarde.html": {
-    "empreinte": "bcf4b32931acb1cd",
+    "empreinte": "d7420acbd2b8d8f7",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/oudenaarde.html": {
-    "empreinte": "12b3cc805f115869",
+    "empreinte": "5f55f97adfe12285",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/oudenaarde.html": {
-    "empreinte": "ba37ba7cf6984a26",
+    "empreinte": "31ef49a50e5bfeaf",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/oudenaarde.html": {
-    "empreinte": "4ca4f2c6ad95a500",
+    "empreinte": "540b2163cd53abd4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/oudsbergen.html": {
-    "empreinte": "c783a52a1bce7c70",
+    "empreinte": "cd3b6daf06dba054",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/oudsbergen.html": {
-    "empreinte": "d1f1321f03310ba2",
+    "empreinte": "249996bcb65f599f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/oudsbergen.html": {
-    "empreinte": "de5396d70741119c",
+    "empreinte": "393d1037d1f3a2c7",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/oudsbergen.html": {
-    "empreinte": "985af76a90cf1aca",
+    "empreinte": "36f7a1cc8ed383fa",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/oupeye.html": {
-    "empreinte": "5dd1c9e7f3ae62cf",
+    "empreinte": "0a3b9c2a5c6db397",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/oupeye.html": {
-    "empreinte": "e9d4a4c311cf3d37",
+    "empreinte": "175636286c874e38",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/oupeye.html": {
-    "empreinte": "cbd93b013b571f47",
+    "empreinte": "f40a21c50437782d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/oupeye.html": {
-    "empreinte": "dba6617b85cffdf0",
+    "empreinte": "7cac2b879a64ffe9",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/pajottegem.html": {
-    "empreinte": "ba930aea115a7a3e",
+    "empreinte": "31ebb29735198c26",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/pajottegem.html": {
-    "empreinte": "35452783af18866d",
+    "empreinte": "e201bea69c6528a8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/pajottegem.html": {
-    "empreinte": "8031d140f506fe89",
+    "empreinte": "a40d4058fa638478",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/pajottegem.html": {
-    "empreinte": "93fcfc6bcf1fb226",
+    "empreinte": "eddeb4cda47c1e56",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/peer.html": {
-    "empreinte": "4a6f0f106a4c2c83",
+    "empreinte": "98c49d9461dfdccf",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/peer.html": {
-    "empreinte": "277b8e6e074fa50b",
+    "empreinte": "74dc9e800f460662",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/peer.html": {
-    "empreinte": "034c9ef838f643a5",
+    "empreinte": "078d4e3f85bdecc0",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/peer.html": {
-    "empreinte": "f942bc97e70c7b0e",
+    "empreinte": "a4b15e7f47854fad",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/pelt.html": {
-    "empreinte": "7321f3b534a0f0f7",
+    "empreinte": "a5adbf0db9b7706c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/pelt.html": {
-    "empreinte": "7b5acb64d98b5392",
+    "empreinte": "73a76643336d9982",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/pelt.html": {
-    "empreinte": "7a9d4b41b75ac30d",
+    "empreinte": "0bfa89bf00421365",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/pelt.html": {
-    "empreinte": "969b94382a0e26d4",
+    "empreinte": "c64e995424fec46b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/pepingen.html": {
-    "empreinte": "fe6a4cc715b0674c",
+    "empreinte": "c9f411864cb7103f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/pepingen.html": {
-    "empreinte": "28ce0d48927ba0bf",
+    "empreinte": "e07185c61152d32b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/pepingen.html": {
-    "empreinte": "b1e517e18a469038",
+    "empreinte": "2a1880fbb49adeaf",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/pepingen.html": {
-    "empreinte": "2bbe0be0e9ee60a8",
+    "empreinte": "b51abf7d8aca95d7",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/perwez.html": {
-    "empreinte": "f078fba01becef39",
+    "empreinte": "7ba4c4e9c06740de",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/perwez.html": {
-    "empreinte": "d6ab472e01538918",
+    "empreinte": "458bbefb2ebfc3d7",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/perwez.html": {
-    "empreinte": "7a34ed149a45e78f",
+    "empreinte": "28ddec9dd2cd652f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/perwez.html": {
-    "empreinte": "bfc6f82d08beea6f",
+    "empreinte": "3364ad74b769b81a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/plombieres.html": {
-    "empreinte": "da156ed63b146f7f",
+    "empreinte": "1e38976bf54592cb",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/plombieres.html": {
-    "empreinte": "a9644feda76bbcbb",
+    "empreinte": "fe84efc66ac81af2",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/plombieres.html": {
-    "empreinte": "f33c75d7d8b9fd43",
+    "empreinte": "6f9237852a52bd1a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/plombieres.html": {
-    "empreinte": "cd64184c0cfe880a",
+    "empreinte": "464020dda47a9d76",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/puurs-sint-amands.html": {
-    "empreinte": "a002b7d8ddd87e20",
+    "empreinte": "a4ce31f6e407de0b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/puurs-sint-amands.html": {
-    "empreinte": "0c0bd0bd250cda0b",
+    "empreinte": "1b3cf4c343be7cd1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/puurs-sint-amands.html": {
-    "empreinte": "74b03ebc2037f773",
+    "empreinte": "091c79001ef7ff14",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/puurs-sint-amands.html": {
-    "empreinte": "85e40fd581609e94",
+    "empreinte": "e3e46f9b8f852233",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/quaregnon.html": {
-    "empreinte": "489715be2b6cbfb0",
+    "empreinte": "8143a945717e0677",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/quaregnon.html": {
-    "empreinte": "7006db260e59f579",
+    "empreinte": "af3919a2864e844e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/quaregnon.html": {
-    "empreinte": "fb91b249b79ca1fb",
+    "empreinte": "16188a2bd5807ae1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/quaregnon.html": {
-    "empreinte": "b9105dcefc3eaa58",
+    "empreinte": "625fa1ad7374b289",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/ramillies.html": {
-    "empreinte": "ba5400184dbb95f8",
+    "empreinte": "bf651eb997a6fb0e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/ramillies.html": {
-    "empreinte": "1dab05dc26bef661",
+    "empreinte": "db068803efc103b4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/ramillies.html": {
-    "empreinte": "b641e87b425be7d1",
+    "empreinte": "72f4a6caf6a198c3",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/ramillies.html": {
-    "empreinte": "19f9096b0a7135e2",
+    "empreinte": "741108d3c6d254af",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/ranst.html": {
-    "empreinte": "c61a4394cf8a3b82",
+    "empreinte": "3a9a403c7a7c7b38",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/ranst.html": {
-    "empreinte": "be23c1a74dff73f5",
+    "empreinte": "0dc312f4c924c418",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/ranst.html": {
-    "empreinte": "ef9af056576caeff",
+    "empreinte": "8fb42c62686e2b89",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/ranst.html": {
-    "empreinte": "7b948c4f1725f710",
+    "empreinte": "717d96e94afe1e92",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/ravels.html": {
-    "empreinte": "e7bfdc2de79cee50",
+    "empreinte": "4df515abd4d4e95e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/ravels.html": {
-    "empreinte": "a744e64adbb79eb2",
+    "empreinte": "982d4c8d39425c6c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/ravels.html": {
-    "empreinte": "3242276e020f056e",
+    "empreinte": "5ceda57dc9e185ac",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/ravels.html": {
-    "empreinte": "f94a451e351a65ff",
+    "empreinte": "e7d3b65e0cb82b6c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/rebecq.html": {
-    "empreinte": "1b26e763cd84cd21",
+    "empreinte": "bba0dec739d6d2dc",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/rebecq.html": {
-    "empreinte": "ae9002ec4e921bc7",
+    "empreinte": "117c15024545108d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/rebecq.html": {
-    "empreinte": "18c9021e22e8eb8c",
+    "empreinte": "f11f200ed15cfdc5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/rebecq.html": {
-    "empreinte": "f7ead46e26d73c91",
+    "empreinte": "be2058906be15097",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/riemst.html": {
-    "empreinte": "991f31b1bfe9406b",
+    "empreinte": "950997b5bac4687b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/riemst.html": {
-    "empreinte": "7d193fdbe8fce69b",
+    "empreinte": "3eedcf6bf458bc01",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/riemst.html": {
-    "empreinte": "88935228d72874df",
+    "empreinte": "a8b880737b3c469c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/riemst.html": {
-    "empreinte": "8c2f9237ea90a97c",
+    "empreinte": "c7466ca6418acf62",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/rochefort.html": {
-    "empreinte": "c12bfc16ed577770",
+    "empreinte": "bd34a73d3d774b33",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/rochefort.html": {
-    "empreinte": "c0da2493537bc6ad",
+    "empreinte": "242ed6a167261744",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/rochefort.html": {
-    "empreinte": "a92a903b57626989",
+    "empreinte": "347ab94bd7577a2a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/rochefort.html": {
-    "empreinte": "0c6d4d96cc5d595d",
+    "empreinte": "81a072b36eca4a64",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/roeselare.html": {
-    "empreinte": "a6cc952eb79f567a",
+    "empreinte": "4a7ef663c591b321",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/roeselare.html": {
-    "empreinte": "3b02d01b6e050595",
+    "empreinte": "cf72dbf8f285dc3e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/roeselare.html": {
-    "empreinte": "b988b9fbe188ab5e",
+    "empreinte": "622d1cab042c1316",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/roeselare.html": {
-    "empreinte": "23efce1a05f64c24",
+    "empreinte": "53ac34f484c6ad03",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/roosdaal.html": {
-    "empreinte": "e874411818613eb8",
+    "empreinte": "1cedfabdedff9f99",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/roosdaal.html": {
-    "empreinte": "10c27502a515e195",
+    "empreinte": "e6e2ad5069d85d2a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/roosdaal.html": {
-    "empreinte": "08329659be65cf9d",
+    "empreinte": "88d2cc15c3f88994",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/roosdaal.html": {
-    "empreinte": "e5591267dd0fddff",
+    "empreinte": "12a56876839cd55d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/rotselaar.html": {
-    "empreinte": "981da57cc632c206",
+    "empreinte": "dc6d0a67f19d8dab",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/rotselaar.html": {
-    "empreinte": "dbbc368dd22f7942",
+    "empreinte": "66eaa3520d6f1570",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/rotselaar.html": {
-    "empreinte": "d08153c9247b56fc",
+    "empreinte": "fb158c7d1c8af483",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/rotselaar.html": {
-    "empreinte": "0f32fe8a422e10d5",
+    "empreinte": "1981bf4673ed95e1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/saint-gilles.html": {
-    "empreinte": "02b1e686728fdfca",
+    "empreinte": "d313829f823cfd0d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/saint-gilles.html": {
-    "empreinte": "932ef9e7871f2405",
+    "empreinte": "9ae413a6b4a9bb44",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/saint-gilles.html": {
-    "empreinte": "c339271c1f850cc0",
+    "empreinte": "e988a003539a855b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/saint-gilles.html": {
-    "empreinte": "be3e3b5ba0f05146",
+    "empreinte": "506695c258da77da",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/saint-hubert.html": {
-    "empreinte": "f197ea457b05f38e",
+    "empreinte": "b00919e3c21b61fc",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/saint-hubert.html": {
-    "empreinte": "bd7886ba6a866152",
+    "empreinte": "fdebd0f4e398cba2",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/saint-hubert.html": {
-    "empreinte": "f9997bf297872b98",
+    "empreinte": "db30a5ffe26b5b02",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/saint-hubert.html": {
-    "empreinte": "eef88546a9f1061e",
+    "empreinte": "12aa07ff55967bea",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/sambreville.html": {
-    "empreinte": "e4c59eb017b3b128",
+    "empreinte": "7f30bd9041bca591",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/sambreville.html": {
-    "empreinte": "a92c078c46490ea4",
+    "empreinte": "bbc055bafd1f1460",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/sambreville.html": {
-    "empreinte": "d51c63cc4f1b4e86",
+    "empreinte": "de4441e89b04bbc7",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/sambreville.html": {
-    "empreinte": "4a4c802f8cdf830c",
+    "empreinte": "116bd1c0f1374beb",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/schaerbeek.html": {
-    "empreinte": "28c4ae4dda667ca3",
+    "empreinte": "1145e56dbe1fc396",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/schaerbeek.html": {
-    "empreinte": "f2867eb83b6fed1d",
+    "empreinte": "75a66dda29a046fc",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/schaerbeek.html": {
-    "empreinte": "6bc9b1585a067a1a",
+    "empreinte": "863e39bf5901086b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/schaerbeek.html": {
-    "empreinte": "a83c92eb3d952585",
+    "empreinte": "66a573cdae5f545f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/schilde.html": {
-    "empreinte": "e6df4c4f02f3e54a",
+    "empreinte": "93cd36cc9814765f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/schilde.html": {
-    "empreinte": "df607d9d4c7480dd",
+    "empreinte": "e86b7d416bd74cae",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/schilde.html": {
-    "empreinte": "e86201ea41348c59",
+    "empreinte": "35240707c7d872bc",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/schilde.html": {
-    "empreinte": "7289f624d63522b8",
+    "empreinte": "81f05a885006e9f6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/schoten.html": {
-    "empreinte": "a2bea25a1acd90a9",
+    "empreinte": "d9c1553dae389b13",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/schoten.html": {
-    "empreinte": "88c8e3876c08bbfc",
+    "empreinte": "e06d0a8c0591feb7",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/schoten.html": {
-    "empreinte": "0061f1bc32f6e8cc",
+    "empreinte": "3ca55d3936efcb89",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/schoten.html": {
-    "empreinte": "d6912ede2d7981e1",
+    "empreinte": "82ec502165e1eeea",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/seraing.html": {
-    "empreinte": "f49c899924cb599f",
+    "empreinte": "06a2d4417b30c5c5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/seraing.html": {
-    "empreinte": "408ff54d9a1c9627",
+    "empreinte": "b90768961c11670f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/seraing.html": {
-    "empreinte": "8e12b772c12c9204",
+    "empreinte": "ae2af06b89a1e171",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/seraing.html": {
-    "empreinte": "8e287cd2baf7e392",
+    "empreinte": "55d4fec9442d3344",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/sint-genesius-rode-rhode-saint-genese.html": {
-    "empreinte": "c82a90a7062a424c",
+    "empreinte": "b0e813caa506ee3b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/sint-genesius-rode-rhode-saint-genese.html": {
-    "empreinte": "8b0b4c9f03600fcd",
+    "empreinte": "10dfaa81137c1807",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/sint-genesius-rode-rhode-saint-genese.html": {
-    "empreinte": "5415664142076092",
+    "empreinte": "fe218dde882cfc32",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/sint-genesius-rode-rhode-saint-genese.html": {
-    "empreinte": "e7dccbe04ce7c079",
+    "empreinte": "32c6298e998119cb",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/sint-katelijne-waver.html": {
-    "empreinte": "3711e1495f476482",
+    "empreinte": "11dae5f903ed2d14",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/sint-katelijne-waver.html": {
-    "empreinte": "61c9ff848b7433b2",
+    "empreinte": "6d22df75e2656d7f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/sint-katelijne-waver.html": {
-    "empreinte": "2c75a7187e7cb183",
+    "empreinte": "4c8c123b174f751c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/sint-katelijne-waver.html": {
-    "empreinte": "5ba7dcad22208467",
+    "empreinte": "c41f63fe691bbf91",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/sint-lievens-houtem.html": {
-    "empreinte": "2855a94f60e17ea2",
+    "empreinte": "646e55a2a1b572d5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/sint-lievens-houtem.html": {
-    "empreinte": "a5cc64a54d3e1db8",
+    "empreinte": "e1930000641a1ba6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/sint-lievens-houtem.html": {
-    "empreinte": "575da4e44c91f64d",
+    "empreinte": "08b4590da276f9a5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/sint-lievens-houtem.html": {
-    "empreinte": "d91cc4ba2f713c9e",
+    "empreinte": "603b57035d173ca6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/sint-martens-latem.html": {
-    "empreinte": "38912e5248d8ad31",
+    "empreinte": "1509419c36932b7e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/sint-martens-latem.html": {
-    "empreinte": "bdaca0c6f5d0c518",
+    "empreinte": "6ab92f67f3f207ef",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/sint-martens-latem.html": {
-    "empreinte": "3a7021ad9d89a891",
+    "empreinte": "3b3364cf41e56412",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/sint-martens-latem.html": {
-    "empreinte": "ca59716d5cd399c0",
+    "empreinte": "8e54691a7acabe4f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/sint-niklaas.html": {
-    "empreinte": "195520eea1ab6614",
+    "empreinte": "0cca0081f24506db",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/sint-niklaas.html": {
-    "empreinte": "e7691c1089ee7fe9",
+    "empreinte": "06b71de44cabb984",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/sint-niklaas.html": {
-    "empreinte": "41a753ac150ce7ef",
+    "empreinte": "bcd95f7c011b67a5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/sint-niklaas.html": {
-    "empreinte": "7319ec531ff3a557",
+    "empreinte": "e6690957da9d70c6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/sint-pieters-leeuw.html": {
-    "empreinte": "90b0bfe861da6baa",
+    "empreinte": "c7db6b496bc5b3a4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/sint-pieters-leeuw.html": {
-    "empreinte": "c8ce07e8812119bf",
+    "empreinte": "7e2d4366ac9b1de8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/sint-pieters-leeuw.html": {
-    "empreinte": "b3869f8dac1c2f5e",
+    "empreinte": "78a157b48011152a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/sint-pieters-leeuw.html": {
-    "empreinte": "ec60366d38ab216f",
+    "empreinte": "f2f60d602e856419",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/sint-truiden.html": {
-    "empreinte": "b0b564a81a523d8f",
+    "empreinte": "3f624cecc015b5df",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/sint-truiden.html": {
-    "empreinte": "4b6a41a23b69827e",
+    "empreinte": "a9ffe9699bbb7e37",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/sint-truiden.html": {
-    "empreinte": "b7e994a439ac9d91",
+    "empreinte": "92820e2c72152bfe",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/sint-truiden.html": {
-    "empreinte": "215e91f0b1d1ccf2",
+    "empreinte": "a0ccba9345d05c9a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/sombreffe.html": {
-    "empreinte": "a4f69740d21dd5db",
+    "empreinte": "829508c83696c691",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/sombreffe.html": {
-    "empreinte": "a442c02fccac0b57",
+    "empreinte": "7399ced4daa5b052",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/sombreffe.html": {
-    "empreinte": "68c99283f20184a7",
+    "empreinte": "a525543d5fd74439",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/sombreffe.html": {
-    "empreinte": "37cfa8eb6b011a23",
+    "empreinte": "2c4a362d39237043",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/somme-leuze.html": {
-    "empreinte": "6ebe974b670b3512",
+    "empreinte": "ef91e71dab19a2c1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/somme-leuze.html": {
-    "empreinte": "f78150fd4d8210c1",
+    "empreinte": "df0d645f63776ba6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/somme-leuze.html": {
-    "empreinte": "e4ee1dcc4228077f",
+    "empreinte": "38e63e97a1a47bde",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/somme-leuze.html": {
-    "empreinte": "1403f2fdd4eb2744",
+    "empreinte": "b6911323edda2419",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/soumagne.html": {
-    "empreinte": "0d639ac11b969cf2",
+    "empreinte": "85e68acb028e2ff2",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/soumagne.html": {
-    "empreinte": "f73297835d097def",
+    "empreinte": "8a97c07eb59e1dd8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/soumagne.html": {
-    "empreinte": "5438e16139e4c0f3",
+    "empreinte": "419d45c8474845df",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/soumagne.html": {
-    "empreinte": "0d56257925753731",
+    "empreinte": "94558a83781e39e2",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/stabroek.html": {
-    "empreinte": "e4983b4f1b20a2f0",
+    "empreinte": "b52f1c9983896f46",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/stabroek.html": {
-    "empreinte": "1ab55bf1db837e66",
+    "empreinte": "60406fba26084d3f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/stabroek.html": {
-    "empreinte": "9c2d25fe5741b2ac",
+    "empreinte": "2efc6de81ad62339",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/stabroek.html": {
-    "empreinte": "b3ae3e8ddc6a3e12",
+    "empreinte": "f292517883fb4cb7",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/stavelot.html": {
-    "empreinte": "cdf140acc1ee919c",
+    "empreinte": "4b777d3a13dabf3c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/stavelot.html": {
-    "empreinte": "23f1d1bddbc9313a",
+    "empreinte": "8ee3a2db8161972f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/stavelot.html": {
-    "empreinte": "fa7ce615059f041f",
+    "empreinte": "a24d70d8dc282fa1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/stavelot.html": {
-    "empreinte": "48f3d63f1a4ccb76",
+    "empreinte": "6fd0441cf28305c0",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/temse.html": {
-    "empreinte": "4ecaf2e2838bc739",
+    "empreinte": "6c4f14643d1abfdf",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/temse.html": {
-    "empreinte": "af746c7bdb703ba9",
+    "empreinte": "37ff1d76d7e1da18",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/temse.html": {
-    "empreinte": "5137aa04d343635b",
+    "empreinte": "e50754ec7404b3b9",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/temse.html": {
-    "empreinte": "ee625f023b14c474",
+    "empreinte": "5d1725ad2d91ef64",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/tenneville.html": {
-    "empreinte": "4a3e7f992b8009ff",
+    "empreinte": "1f02f9f830d06a68",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/tenneville.html": {
-    "empreinte": "9aa26ef9bf7051d9",
+    "empreinte": "47ec5c566ed189fa",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/tenneville.html": {
-    "empreinte": "a85730a7ce5312e9",
+    "empreinte": "009c56b1ea295891",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/tenneville.html": {
-    "empreinte": "ad8745928360edf7",
+    "empreinte": "9fb82ea8d8e6b065",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/ternat.html": {
-    "empreinte": "b7389a1408dc84a3",
+    "empreinte": "01fa5ed4b96738c9",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/ternat.html": {
-    "empreinte": "39c632c1a39a68ff",
+    "empreinte": "5b8b12cd9e718cf1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/ternat.html": {
-    "empreinte": "285aa3509ea15acc",
+    "empreinte": "e334bb909ae6c0ac",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/ternat.html": {
-    "empreinte": "41851549ec7d3faf",
+    "empreinte": "d4fcd61395686d3e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/tessenderlo-ham.html": {
-    "empreinte": "773140f0530a6c3b",
+    "empreinte": "026dba2c12b85c42",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/tessenderlo-ham.html": {
-    "empreinte": "4633cecdca85177b",
+    "empreinte": "ba5c3b929c579160",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/tessenderlo-ham.html": {
-    "empreinte": "58f2b6fa15cb3b50",
+    "empreinte": "31c8c951ad451950",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/tessenderlo-ham.html": {
-    "empreinte": "6c751bcc964f0e9f",
+    "empreinte": "b17a56f5ee0421fb",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/theux.html": {
-    "empreinte": "1fd63b50d3f9c9c9",
+    "empreinte": "ed2d7ae5e9e43589",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/theux.html": {
-    "empreinte": "249c578ebffac970",
+    "empreinte": "acf0c182474d2f79",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/theux.html": {
-    "empreinte": "58e2f68b4c70ae07",
+    "empreinte": "bb622a7810dcb4b5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/theux.html": {
-    "empreinte": "865c016896f81986",
+    "empreinte": "46fd80b8c8d19d45",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/tielt-winge.html": {
-    "empreinte": "9c54df813a783fce",
+    "empreinte": "17c30ec3f1848ce5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/tielt-winge.html": {
-    "empreinte": "7a010bd71201d885",
+    "empreinte": "e8567576726843bd",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/tielt-winge.html": {
-    "empreinte": "f360eb1a4869d071",
+    "empreinte": "004ce014e51066e5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/tielt-winge.html": {
-    "empreinte": "98bbc5394296f15a",
+    "empreinte": "224bddf759e6ae97",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/tielt.html": {
-    "empreinte": "50a9e5e07ff341a6",
+    "empreinte": "0cbeed62e9f50245",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/tielt.html": {
-    "empreinte": "25ad37144a15ff1d",
+    "empreinte": "2e8e2fb13591b71f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/tielt.html": {
-    "empreinte": "45835a46b4bcb91e",
+    "empreinte": "9b4891b586595485",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/tielt.html": {
-    "empreinte": "e596623e2fda9cea",
+    "empreinte": "08527016765628c9",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/tienen.html": {
-    "empreinte": "a671217bd33d6223",
+    "empreinte": "1dcc5c4ccd59104c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/tienen.html": {
-    "empreinte": "c7e0563af48e0611",
+    "empreinte": "b5becba78f2be5d4",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/tienen.html": {
-    "empreinte": "1cf361ca02e13c81",
+    "empreinte": "939d2e3cb00726d6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/tienen.html": {
-    "empreinte": "5ba8801476d0622b",
+    "empreinte": "e3a8dd9906362e0d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/tongeren-borgloon.html": {
-    "empreinte": "c488c63ed731ea8e",
+    "empreinte": "d44dcbbc2750240d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/tongeren-borgloon.html": {
-    "empreinte": "d6162da335da4e5b",
+    "empreinte": "30bed89ff0556037",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/tongeren-borgloon.html": {
-    "empreinte": "8880cfc34083ea3a",
+    "empreinte": "9b0649f9aff5effe",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/tongeren-borgloon.html": {
-    "empreinte": "c11b02f178e3d18d",
+    "empreinte": "73b93d80e6f576f5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/tournai.html": {
-    "empreinte": "7a2cf892be191cab",
+    "empreinte": "8fdb6d235b8f5998",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/tournai.html": {
-    "empreinte": "2bf3a8e598454b4d",
+    "empreinte": "fdab195fc0292233",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/tournai.html": {
-    "empreinte": "60e571b84edd6cdc",
+    "empreinte": "3f5200b29ffa8d93",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/tournai.html": {
-    "empreinte": "2d9a8b3d8aa81564",
+    "empreinte": "c69f1d2ed26a6245",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/tubize.html": {
-    "empreinte": "a32f52e18515facc",
+    "empreinte": "6f78393647217fb1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/tubize.html": {
-    "empreinte": "a74d30cf9747538c",
+    "empreinte": "46c2f793305855c0",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/tubize.html": {
-    "empreinte": "492c1eb4238577c7",
+    "empreinte": "8ad77eec7e566029",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/tubize.html": {
-    "empreinte": "b981a57df4a8d579",
+    "empreinte": "5f28657bd8ab76e1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/uccle.html": {
-    "empreinte": "5f52dd3dac09c5a0",
+    "empreinte": "9379e540c5193443",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/uccle.html": {
-    "empreinte": "c90c125f772fd9c6",
+    "empreinte": "f6fa6f8c2de2d8cc",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/uccle.html": {
-    "empreinte": "635aa87d4fcf83c7",
+    "empreinte": "a90511192636fc40",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/uccle.html": {
-    "empreinte": "bb6f6c956e757f47",
+    "empreinte": "f564012df15d4950",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/verviers.html": {
-    "empreinte": "8e1e1a8a07e58278",
+    "empreinte": "eefbee4c749cba19",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/verviers.html": {
-    "empreinte": "ff585106056ed367",
+    "empreinte": "e5989e66d3e989cb",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/verviers.html": {
-    "empreinte": "a383a65ac26abcc3",
+    "empreinte": "fb01e1e8480127ed",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/verviers.html": {
-    "empreinte": "eaf8d1fc9d99ba3f",
+    "empreinte": "f9307ac65b2ea927",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/vielsalm.html": {
-    "empreinte": "2402ce13b2e5cb83",
+    "empreinte": "a50b526da0c57c15",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/vielsalm.html": {
-    "empreinte": "457d570b9d43eafd",
+    "empreinte": "bec42c8baac20f68",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/vielsalm.html": {
-    "empreinte": "3707506040487541",
+    "empreinte": "7c77697176a99558",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/vielsalm.html": {
-    "empreinte": "51a6a7bc619b6b8e",
+    "empreinte": "3a38acf247498d32",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/villers-la-ville.html": {
-    "empreinte": "c92a8227bba09d73",
+    "empreinte": "868337e0513a6753",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/villers-la-ville.html": {
-    "empreinte": "91340590ccbb6601",
+    "empreinte": "37821ea16f96e850",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/villers-la-ville.html": {
-    "empreinte": "aba56c118796a8c5",
+    "empreinte": "4ea286c372ff714c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/villers-la-ville.html": {
-    "empreinte": "8ef3742782ab126d",
+    "empreinte": "2ee3d5f19ae9536c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/vilvoorde.html": {
-    "empreinte": "8a7c5acf02513770",
+    "empreinte": "483eb368e5d7b573",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/vilvoorde.html": {
-    "empreinte": "f1a3d29a796ecf09",
+    "empreinte": "50756295f944b27f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/vilvoorde.html": {
-    "empreinte": "b9dcef43bd050bc6",
+    "empreinte": "a6a8cb6554fff540",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/vilvoorde.html": {
-    "empreinte": "15fa3fbe6f7b64c8",
+    "empreinte": "74701b5d9a23ede9",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/viroinval.html": {
-    "empreinte": "1eebb23135c0f325",
+    "empreinte": "5b9136c7f718bd80",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/viroinval.html": {
-    "empreinte": "058651a59542dee0",
+    "empreinte": "2826381179c379a5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/viroinval.html": {
-    "empreinte": "db74b16855df6299",
+    "empreinte": "e0c921c5c65f5f46",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/viroinval.html": {
-    "empreinte": "4f485c2714d33761",
+    "empreinte": "9ddd45036ac1cb68",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/vosselaar.html": {
-    "empreinte": "da059f876352b19e",
+    "empreinte": "ba713b217b1e0812",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/vosselaar.html": {
-    "empreinte": "6cb9976c0617d0f6",
+    "empreinte": "5305f70ae9101d87",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/vosselaar.html": {
-    "empreinte": "db2a6fb349ba362b",
+    "empreinte": "65e5e90ddc49b9a1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/vosselaar.html": {
-    "empreinte": "5c8909de783f450b",
+    "empreinte": "b872719c94166d65",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/waimes.html": {
-    "empreinte": "4165a468344a9236",
+    "empreinte": "e70ea5c8c43b4ccf",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/waimes.html": {
-    "empreinte": "62d23152c22d3e34",
+    "empreinte": "cfefa5bf5022555b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/waimes.html": {
-    "empreinte": "0fbe1645fe54aceb",
+    "empreinte": "5dcb1b84206aa693",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/waimes.html": {
-    "empreinte": "38b6c521afdf7394",
+    "empreinte": "a76c8f164e3b442d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/walhain.html": {
-    "empreinte": "c830c841c5609b71",
+    "empreinte": "4a62a4c251538066",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/walhain.html": {
-    "empreinte": "bad61a8891b5bb1e",
+    "empreinte": "6178dde5a561ec2a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/walhain.html": {
-    "empreinte": "9849bd80d702f6dd",
+    "empreinte": "fe56e96d3d61775c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/walhain.html": {
-    "empreinte": "2c98cf327cfb0b7b",
+    "empreinte": "4538625023aaea5a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/wanze.html": {
-    "empreinte": "e8062bc2bcf6f6c3",
+    "empreinte": "496596138bda3e5b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/wanze.html": {
-    "empreinte": "09b81d21ac7c86ff",
+    "empreinte": "5a331c364f133621",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/wanze.html": {
-    "empreinte": "4343ee1baebf562d",
+    "empreinte": "01f121df98331d61",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/wanze.html": {
-    "empreinte": "1dd04dd31ede4e28",
+    "empreinte": "d62a85f834dc8c2f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/waregem.html": {
-    "empreinte": "fdeef8181d0bbf3f",
+    "empreinte": "af3f2992e65c837e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/waregem.html": {
-    "empreinte": "6e29ea41b6a515ce",
+    "empreinte": "fb1fb74feab3a6d3",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/waregem.html": {
-    "empreinte": "79d7a0916619bf1e",
+    "empreinte": "8c98cb5779295ec2",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/waregem.html": {
-    "empreinte": "dc05be54b344ed12",
+    "empreinte": "326fc8ed3576ca95",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/waremme.html": {
-    "empreinte": "1123786b5e125fa1",
+    "empreinte": "50735737478df186",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/waremme.html": {
-    "empreinte": "6e6920b941cb9d0e",
+    "empreinte": "775c6df8e8dc2761",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/waremme.html": {
-    "empreinte": "9cc5cfaefa1d7ffa",
+    "empreinte": "fa012873cfd61655",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/waremme.html": {
-    "empreinte": "d13efeccadeea4fe",
+    "empreinte": "b1ae8fb88addb74d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/waterloo.html": {
-    "empreinte": "c09cbe8619d8c68b",
+    "empreinte": "6f13fb750b3c733e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/waterloo.html": {
-    "empreinte": "396f6b9296f2ac4b",
+    "empreinte": "93cfd04d50b2d044",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/waterloo.html": {
-    "empreinte": "7067d3a583050b6a",
+    "empreinte": "4212bae28050ca92",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/waterloo.html": {
-    "empreinte": "4a67893c36deb838",
+    "empreinte": "1d649d26e8b0c22c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/wellen.html": {
-    "empreinte": "1252581c04279125",
+    "empreinte": "093357678b47658d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/wellen.html": {
-    "empreinte": "53deededf768e8d6",
+    "empreinte": "3d887aef6243ec1e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/wellen.html": {
-    "empreinte": "b064989d98c8ce40",
+    "empreinte": "e414db12db73832c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/wellen.html": {
-    "empreinte": "e82e8b9e6544fde0",
+    "empreinte": "2dfc96a1a6d0f740",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/westerlo.html": {
-    "empreinte": "43795af7702840ce",
+    "empreinte": "81e4bf33d4a7926f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/westerlo.html": {
-    "empreinte": "f2646a9d584b96b5",
+    "empreinte": "f48543f83a8dc595",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/westerlo.html": {
-    "empreinte": "71ccf25ae48c40cf",
+    "empreinte": "f4a5098daa7f77eb",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/westerlo.html": {
-    "empreinte": "843ff39dcaf45e0d",
+    "empreinte": "cdf15b61945055ce",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/wetteren.html": {
-    "empreinte": "623ab64a6f13d2d8",
+    "empreinte": "63f7b2fb20d3dec5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/wetteren.html": {
-    "empreinte": "604741832824da0a",
+    "empreinte": "28d77ddf01351f30",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/wetteren.html": {
-    "empreinte": "1381cf60f11ef20b",
+    "empreinte": "18d297acbc4464ad",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/wetteren.html": {
-    "empreinte": "558d08f4ddc5abaa",
+    "empreinte": "6c59bd5bc9c32beb",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/wevelgem.html": {
-    "empreinte": "dcfe270fd4beef7f",
+    "empreinte": "27012b7fa23be023",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/wevelgem.html": {
-    "empreinte": "405bc42b88475abc",
+    "empreinte": "02b8f0bc82b35e90",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/wevelgem.html": {
-    "empreinte": "88842dfb02188b75",
+    "empreinte": "55451b2ef8f9018d",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/wevelgem.html": {
-    "empreinte": "7ae2822517b14f77",
+    "empreinte": "aacf181ced7ddfb8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/wichelen.html": {
-    "empreinte": "7858f2b9a721362d",
+    "empreinte": "99060816a0962469",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/wichelen.html": {
-    "empreinte": "99f1fec32f32d3dc",
+    "empreinte": "715f01abd44daaf2",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/wichelen.html": {
-    "empreinte": "3c4aa5433044d115",
+    "empreinte": "418600e2441e19c5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/wichelen.html": {
-    "empreinte": "d431ca5aac12533c",
+    "empreinte": "575b3762b82d407a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/wijnegem.html": {
-    "empreinte": "8a639f104203ed38",
+    "empreinte": "95d6961404396bbe",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/wijnegem.html": {
-    "empreinte": "d60753c383127aa0",
+    "empreinte": "01337f5a84cd9fd3",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/wijnegem.html": {
-    "empreinte": "2fb772909cc0b199",
+    "empreinte": "0924a2252b32f9dc",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/wijnegem.html": {
-    "empreinte": "3bd3ae87d311ded2",
+    "empreinte": "a74e89ce5d475b47",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/woluwe-saint-lambert.html": {
-    "empreinte": "7c5e9d1bb7865a96",
+    "empreinte": "47da2aaf5bb46717",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/woluwe-saint-lambert.html": {
-    "empreinte": "afcf5626e0518842",
+    "empreinte": "86cdf371c5f58a4f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/woluwe-saint-lambert.html": {
-    "empreinte": "3e5c58ccfc7de2a5",
+    "empreinte": "a856ed8f925d422e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/woluwe-saint-lambert.html": {
-    "empreinte": "7ead2dac2b434282",
+    "empreinte": "ec8770917eca51a5",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/woluwe-saint-pierre.html": {
-    "empreinte": "87a2dd7a203bf760",
+    "empreinte": "fed4853b349bd428",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/woluwe-saint-pierre.html": {
-    "empreinte": "9feb17c902311389",
+    "empreinte": "f269aa9f168f2537",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/woluwe-saint-pierre.html": {
-    "empreinte": "988583648fa6b348",
+    "empreinte": "6757c4b3de2d80c9",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/woluwe-saint-pierre.html": {
-    "empreinte": "b93cc698b9dea0af",
+    "empreinte": "42d4f1bd50d97ee8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/wuustwezel.html": {
-    "empreinte": "b191a624ec8382a0",
+    "empreinte": "16c2e98230a5f8e9",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/wuustwezel.html": {
-    "empreinte": "2a6c74cb7b47e36d",
+    "empreinte": "29cd7a8fe7373c1b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/wuustwezel.html": {
-    "empreinte": "e5587e92e3a7b41d",
+    "empreinte": "00afc92144b223c2",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/wuustwezel.html": {
-    "empreinte": "ff9fc52a0498e400",
+    "empreinte": "733070c3f9867510",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/yvoir.html": {
-    "empreinte": "5983947fb8a11f30",
+    "empreinte": "69a4d9e4e6e0ae2e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/yvoir.html": {
-    "empreinte": "392ab312825ac317",
+    "empreinte": "52bfe0e9c5d7cfbf",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/yvoir.html": {
-    "empreinte": "c9b498e25f689aae",
+    "empreinte": "12ead04419a12708",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/yvoir.html": {
-    "empreinte": "926a6f5dffb3c3cc",
+    "empreinte": "b4d0c88429fddf69",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/zedelgem.html": {
-    "empreinte": "e2e853ec37819835",
+    "empreinte": "0f8692c620e181e3",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/zedelgem.html": {
-    "empreinte": "7247f3dd79435911",
+    "empreinte": "38a7d7c5220a26c0",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/zedelgem.html": {
-    "empreinte": "da74d0d5f1f5fdf6",
+    "empreinte": "c7a69001738b9735",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/zedelgem.html": {
-    "empreinte": "04d0c4462ff1be8a",
+    "empreinte": "88b9178bfa99ecb1",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/zele.html": {
-    "empreinte": "3bc2ac19fb683530",
+    "empreinte": "9ca0471ab3267e94",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/zele.html": {
-    "empreinte": "5e353bfd383ed058",
+    "empreinte": "7af71c458ec63e50",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/zele.html": {
-    "empreinte": "85366e8761cc17f1",
+    "empreinte": "4facdd9b8ae18f2b",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/zele.html": {
-    "empreinte": "b06611753d8b4329",
+    "empreinte": "decc427d6d8336c0",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/zemst.html": {
-    "empreinte": "ea06be1a82d75fd7",
+    "empreinte": "a41aab1bd568fa6e",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/zemst.html": {
-    "empreinte": "8659e2aeb9f87f59",
+    "empreinte": "ae6922ccb22ab66a",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/zemst.html": {
-    "empreinte": "b5ce4fc6b7b61dcd",
+    "empreinte": "b268ca3cd4d82f34",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/zemst.html": {
-    "empreinte": "9c83cbf4a82b4706",
+    "empreinte": "4c82fd658e68639f",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/zonhoven.html": {
-    "empreinte": "b4faf8b636265f79",
+    "empreinte": "7fc630f397fd4ffd",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/zonhoven.html": {
-    "empreinte": "7bfbe471a650bda8",
+    "empreinte": "f95ebc49a8d378ea",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/zonhoven.html": {
-    "empreinte": "61bd396e06f04e80",
+    "empreinte": "f53f8fa1ed22269c",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/zonhoven.html": {
-    "empreinte": "2872c657d3fdad36",
+    "empreinte": "435b8d84485b90ce",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/zonnebeke.html": {
-    "empreinte": "579812f35ad43659",
+    "empreinte": "5ea690aaede810d6",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/zonnebeke.html": {
-    "empreinte": "917ec32ad3bda11a",
+    "empreinte": "c80ebd0d56336127",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/zonnebeke.html": {
-    "empreinte": "76a26c199ec3306a",
+    "empreinte": "eb1244e5cc25b309",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/zonnebeke.html": {
-    "empreinte": "10c1831ca5a49ea7",
+    "empreinte": "c9cb25879da2fc96",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/zutendaal.html": {
-    "empreinte": "3366df0dac882c3f",
+    "empreinte": "aeff2df8641b9d44",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/zutendaal.html": {
-    "empreinte": "31d073f0ceee46b8",
+    "empreinte": "f2f5de4a945756ce",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/zutendaal.html": {
-    "empreinte": "6f443218406035d2",
+    "empreinte": "bc19dac264e79de8",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/zutendaal.html": {
-    "empreinte": "44812925ee2253bd",
+    "empreinte": "1aea749b11b42622",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/commune/zwevegem.html": {
-    "empreinte": "ce3baaf3051b8f94",
+    "empreinte": "5f6aabccb0fb6106",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/nl/commune/zwevegem.html": {
-    "empreinte": "bfdc1d19b5c07ba4",
+    "empreinte": "def631acd1d30c80",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/de/commune/zwevegem.html": {
-    "empreinte": "ea65f22dd45a2e02",
+    "empreinte": "eaadb8c9fd6fc3b7",
     "date": "2026-10-04"
   },
   "https://mapetanque.be/en/commune/zwevegem.html": {
-    "empreinte": "52f415b058fbbae2",
+    "empreinte": "7657305be6a0eae5",
     "date": "2026-10-04"
   }
 }

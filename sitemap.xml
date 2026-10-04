@@ -219,6 +219,42 @@
         <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/a-propos.html" />
     </url>
     <url>
+        <loc>https://mapetanque.be/communes.html</loc>
+        <lastmod>2026-10-04</lastmod>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/communes.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/communes.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/communes.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/communes.html" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/communes.html" />
+    </url>
+    <url>
+        <loc>https://mapetanque.be/nl/communes.html</loc>
+        <lastmod>2026-10-04</lastmod>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/communes.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/communes.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/communes.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/communes.html" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/communes.html" />
+    </url>
+    <url>
+        <loc>https://mapetanque.be/de/communes.html</loc>
+        <lastmod>2026-10-04</lastmod>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/communes.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/communes.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/communes.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/communes.html" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/communes.html" />
+    </url>
+    <url>
+        <loc>https://mapetanque.be/en/communes.html</loc>
+        <lastmod>2026-10-04</lastmod>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/communes.html" />
+        <xhtml:link rel="alternate" hreflang="nl" href="https://mapetanque.be/nl/communes.html" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://mapetanque.be/de/communes.html" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://mapetanque.be/en/communes.html" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://mapetanque.be/communes.html" />
+    </url>
+    <url>
         <loc>https://mapetanque.be/province-anvers.html</loc>
         <lastmod>2026-10-04</lastmod>
         <xhtml:link rel="alternate" hreflang="fr" href="https://mapetanque.be/province-anvers.html" />

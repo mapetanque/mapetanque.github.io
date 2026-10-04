@@ -271,6 +271,22 @@
     font-weight: normal;
 }
 
+.communes-equipees-tout {
+    margin: 22px 0 0;
+    text-align: center;
+    font-size: 15px;
+}
+
+.communes-equipees-tout a {
+    color: #3d7a2a;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.communes-equipees-tout a:hover {
+    text-decoration: underline;
+}
+
 @media (max-width: 800px) {
     .communes-equipees-grille {
         grid-template-columns: 1fr;

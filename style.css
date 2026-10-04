@@ -354,6 +354,80 @@ body.fullscreen-lock {
     background: rgba(116, 193, 90, 0.12);
 }
 
+/* Les langues sont des liens (construireNavBureau dans script.js) */
+#lang-switcher-inline .lang-link {
+    text-decoration: none;
+}
+
+/* Menu « Explorer » de la nav desktop (construireNavBureau dans script.js) : régions,
+   provinces, communes, dans une liste blanche qui s'ouvre sous le bouton. */
+.nav-explorer {
+    position: relative;
+    display: inline-flex;
+}
+
+.nav-explorer-bouton {
+    border: none;
+    background: none;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+/* Spécificité d'identifiant : les icônes des liens de la nav sont masquées sur les bannières et
+   l'en-tête sobre (.entete-sobre .game-nav-link svg…), pas ce chevron. */
+#game-nav-inline .nav-explorer-chevron svg {
+    display: block;
+    width: 9px;
+    height: 6px;
+    margin-left: 3px;
+    transition: transform 0.15s ease;
+}
+
+#game-nav-inline .nav-explorer.ouvert .nav-explorer-chevron svg {
+    transform: rotate(180deg);
+}
+
+.nav-explorer-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 210px;
+    padding: 6px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+}
+
+.nav-explorer-menu[hidden] {
+    display: none;
+}
+
+#game-nav-inline .nav-explorer-lien {
+    padding: 9px 12px;
+    border-radius: 8px;
+    color: #333;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    text-shadow: none;
+    white-space: nowrap;
+}
+
+#game-nav-inline .nav-explorer-lien:hover,
+#game-nav-inline .nav-explorer-lien[aria-current="page"] {
+    color: #3d7a2a;
+    background: rgba(116, 193, 90, 0.1);
+}
+
+/* Bannières photo (overflow: hidden) : le menu ouvert déborde dessous */
+.hero-banner:has(.nav-explorer.ouvert) {
+    overflow: visible;
+}
+
 .info-nav-trigger {
     display: inline-flex;
     align-items: center;

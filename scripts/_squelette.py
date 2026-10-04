@@ -186,16 +186,6 @@ def construire_page(
         raise SystemExit(f"Bornes de .rules-content introuvables dans {squelette}")
     src = src[:debut] + '<div class="rules-content">\n\n' + contenu + "\n" + src[fin:]
 
-    # --- Sélecteur de langue --------------------------------------------------------------
-    for code, p in LANGUES:
-        destination = f"/{p}{page}" if code in codes_publies else f"/{p}"
-        src = re.sub(
-            rf'(<button type="button" class="lang-link" data-lang="{code}" '
-            r'data-lang-url=")[^"]*(")',
-            rf"\g<1>{destination}\g<2>",
-            src,
-        )
-
     cible = Path(cible)
     cible.parent.mkdir(parents=True, exist_ok=True)
     cible.write_text(src, encoding="utf-8")

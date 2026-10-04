@@ -212,38 +212,104 @@ function appliquerTraductions() {
     }
 }
 
-function changerLangue(langue) {
-    if (!LANGUES_DISPONIBLES.includes(langue)) return;
-    currentLang = langue;
-    localStorage.setItem('mapetanque_lang', langue);
-
-    // Met à jour l'URL sans recharger la page, pour que chaque langue reste indexable et
-    // partageable via sa propre adresse (/nl/, /de/, /en/, ou / pour le français)
-    const cheminCible = langue === 'fr' ? '/' : '/' + langue + '/';
-    if (window.location.pathname !== cheminCible) {
-        history.pushState({ lang: langue }, '', cheminCible + window.location.search + window.location.hash);
-    }
-
-    appliquerTraductions();
-}
-
 // Recalcule la langue depuis l'URL quand l'utilisateur navigue avec les boutons précédent/suivant
 window.addEventListener('popstate', function () {
     currentLang = detecterLanguePreferee();
     appliquerTraductions();
 });
 
-document.querySelectorAll('.lang-link').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-        changerLangue(btn.dataset.lang);
+
+// ===================== Navigation de l'ordinateur =====================
+// Comme le menu mobile (construireMenu) et le pied de page (construirePied), la barre de
+// navigation est construite ici : les pages n'ont qu'un <div class="header-nav-group"> vide.
+// Un changement de menu se fait donc à un seul endroit, pour tout le site et les quatre langues.
+//   « Explorer ▾ » (menu déroulant, mêmes liens que dans le menu mobile et le pied de page),
+//   Comment jouer, Compteur de points, La pétanque, puis le sélecteur de langue.
+// « À propos » n'y est plus : il reste dans le pied de page.
+
+// Liens « Explorer » : régions, provinces, communes. Partagés par les trois menus.
+function liensExplorer(prefixe) {
+    return [
+        [prefixe + 'region-wallonie.html', t('geo_region_wallonie')],
+        [prefixe + 'region-flandre.html', t('geo_region_flandre')],
+        [prefixe + 'province-bruxelles.html', t('geo_region_bruxelles')],
+        [prefixe + '#provinces-section', t('pied_toutes_provinces')],
+        [prefixe + 'communes.html', t('pied_toutes_communes')]
+    ];
+}
+
+// Lien vers la page en cours : mis en évidence (aria-current). Pas les ancres (« Toutes les
+// provinces » mène à une section de l'accueil, pas à une page).
+function attributPageCourante(href) {
+    if (href.includes('#')) return '';
+    return new URL(href, window.location.href).pathname === window.location.pathname ? ' aria-current="page"' : '';
+}
+
+const PICTO_CHEVRON = '<svg viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+function construireNavBureau() {
+    const groupe = document.querySelector('.header-nav-group');
+    if (!groupe) return;
+    const prefixe = currentLang === 'fr' ? '/' : '/' + currentLang + '/';
+    const lien = function (href, classe, texte) {
+        return `<a href="${href}" class="${classe}"${attributPageCourante(href)}>${texte}</a>`;
+    };
+    const explorer = liensExplorer(prefixe).map(function (l) { return lien(l[0], 'nav-explorer-lien', l[1]); }).join('');
+    // Même page dans l'autre langue, avec ses paramètres (page carte : ?commune=…)
+    const langues = LANGUES_DISPONIBLES.map(function (langue) {
+        return `<a href="${urlPageDansLangue(langue)}${window.location.search}" class="lang-link" data-lang="${langue}" hreflang="${langue}">${langue.toUpperCase()}</a>`;
+    }).join('');
+
+    groupe.innerHTML = `
+        <span id="game-nav-inline">
+            <span class="nav-explorer">
+                <button type="button" class="game-nav-link nav-explorer-bouton" aria-haspopup="true" aria-expanded="false">${t('pied_explorer')}<span class="nav-explorer-chevron">${PICTO_CHEVRON}</span></button>
+                <span class="nav-explorer-menu" hidden>${explorer}</span>
+            </span>
+            ${lien(prefixe + 'comment-jouer.html', 'game-nav-link jouer', t('menu_comment_jouer'))}
+            ${lien(prefixe + 'compteur.html', 'game-nav-link compteur', t('menu_compteur'))}
+            ${lien(prefixe + 'la-petanque.html', 'game-nav-link petanque', t('menu_la_petanque'))}
+        </span>
+        <nav id="desktop-nav">
+            <span id="lang-switcher-inline">${langues}</span>
+        </nav>`;
+
+    // Menu « Explorer » : s'ouvre au clic, se referme en cliquant ailleurs ou avec Échap
+    const conteneur = groupe.querySelector('.nav-explorer');
+    const bouton = conteneur.querySelector('.nav-explorer-bouton');
+    const menu = conteneur.querySelector('.nav-explorer-menu');
+    const ouvrir = function (ouvert) {
+        menu.hidden = !ouvert;
+        bouton.setAttribute('aria-expanded', String(ouvert));
+        conteneur.classList.toggle('ouvert', ouvert);
+    };
+    bouton.addEventListener('click', function (e) {
+        e.stopPropagation();
+        ouvrir(menu.hidden);
     });
-});
+    menu.addEventListener('click', function () { ouvrir(false); });
+    document.addEventListener('click', function (e) {
+        if (!conteneur.contains(e.target)) ouvrir(false);
+    });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !menu.hidden) {
+            ouvrir(false);
+            bouton.focus();
+        }
+    });
+
+    // Choix de la langue : mémorisé avant de suivre le lien, comme dans le menu mobile
+    groupe.querySelectorAll('.lang-link').forEach(function (l) {
+        l.addEventListener('click', function () {
+            try { localStorage.setItem('mapetanque_lang', l.dataset.lang); } catch (erreur) {}
+        });
+    });
+}
+construireNavBureau();
 
 // Sélecteur de langue de la nav desktop en menu déroulant : seule la langue en cours est
-// visible (« FR ▾ »), les quatre boutons s'affichent au clic. Le HTML des pages garde ses
-// quatre boutons tels quels (pages générées, une vingtaine de fichiers par langue) : on les
-// range ici dans une liste déroulante, et le libellé du bouton suit .active, posé par
-// appliquerTraductions(). Le menu mobile a ses propres liens de langue (construireMenu).
+// visible (« FR ▾ »), les quatre liens s'affichent au clic. Ils sont rangés ici dans une liste
+// déroulante, et le libellé du bouton suit .active, posé par appliquerTraductions().
 (function () {
     const selecteur = document.getElementById('lang-switcher-inline');
     if (!selecteur) return;
@@ -253,8 +319,7 @@ document.querySelectorAll('.lang-link').forEach(function (btn) {
     bouton.className = 'lang-toggle';
     bouton.setAttribute('aria-haspopup', 'true');
     bouton.setAttribute('aria-expanded', 'false');
-    bouton.innerHTML = '<span class="lang-toggle-code"></span>' +
-        '<svg viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    bouton.innerHTML = '<span class="lang-toggle-code"></span>' + PICTO_CHEVRON;
 
     const menu = document.createElement('div');
     menu.className = 'lang-menu';
@@ -3098,10 +3163,7 @@ function construirePied() {
             <nav class="pied-col">
                 <h2 class="pied-titre">${t('pied_explorer')}</h2>
                 <ul class="pied-liens">
-                    <li><a href="${prefixe}region-wallonie.html">${t('geo_region_wallonie')}</a></li>
-                    <li><a href="${prefixe}region-flandre.html">${t('geo_region_flandre')}</a></li>
-                    <li><a href="${prefixe}province-bruxelles.html">${t('geo_region_bruxelles')}</a></li>
-                    <li><a href="${prefixe}#provinces-section">${t('pied_toutes_provinces')}</a></li>
+                    ${liensExplorer(prefixe).map(function (l) { return `<li><a href="${l[0]}">${l[1]}</a></li>`; }).join('')}
                     <li><a href="${prefixe}a-propos.html#contact" class="pied-lien-accent pied-signaler">${ICONES_PIED.ajouter}${t('pied_signaler')}</a></li>
                 </ul>
             </nav>
@@ -5181,17 +5243,11 @@ function construireMenu() {
 
     const prefixe = currentLang === 'fr' ? '/' : '/' + currentLang + '/';
 
-    // Lien vers la page en cours : mis en évidence. Pas les ancres (« Toutes les provinces »
-    // mène à une section de l'accueil, pas à une page).
-    function courant(href) {
-        if (href.includes('#')) return '';
-        return new URL(href, window.location.href).pathname === window.location.pathname ? ' aria-current="page"' : '';
-    }
     function pastille(href, texte) {
-        return `<li><a href="${href}"${courant(href)}>${texte}</a></li>`;
+        return `<li><a href="${href}"${attributPageCourante(href)}>${texte}</a></li>`;
     }
     function lienPage(href, texte) {
-        return `<li><a href="${href}"${courant(href)}>${texte}${ICONES_MENU.fleche}</a></li>`;
+        return `<li><a href="${href}"${attributPageCourante(href)}>${texte}${ICONES_MENU.fleche}</a></li>`;
     }
 
     const langues = LANGUES_DISPONIBLES.map(function (langue) {
@@ -5215,10 +5271,7 @@ function construireMenu() {
             <div class="menu-section menu-apparait" style="--delai: 0.22s">
                 <h2 class="menu-titre">${t('pied_explorer')}</h2>
                 <ul class="menu-pastilles">
-                    ${pastille(prefixe + 'region-wallonie.html', t('geo_region_wallonie'))}
-                    ${pastille(prefixe + 'region-flandre.html', t('geo_region_flandre'))}
-                    ${pastille(prefixe + 'province-bruxelles.html', t('geo_region_bruxelles'))}
-                    ${pastille(prefixe + '#provinces-section', t('pied_toutes_provinces'))}
+                    ${liensExplorer(prefixe).map(function (l) { return pastille(l[0], l[1]); }).join('')}
                 </ul>
             </div>
 
@@ -5228,7 +5281,6 @@ function construireMenu() {
                     ${lienPage(prefixe + 'comment-jouer.html', t('menu_comment_jouer'))}
                     ${lienPage(prefixe + 'compteur.html', t('menu_compteur'))}
                     ${lienPage(prefixe + 'la-petanque.html', t('menu_la_petanque'))}
-                    ${lienPage(prefixe + 'a-propos.html', t('menu_about'))}
                 </ul>
             </div>
 
