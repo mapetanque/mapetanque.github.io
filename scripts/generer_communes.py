@@ -4,7 +4,7 @@ Pages commune : commune/<slug>.html (FR) et nl/, de/, en/commune/<slug>.html.
 
 Une page par commune officielle (voir communes_officielles.py) ayant au moins MIN_LIEUX lieux.
 Pas de carte sur la page : un clic sur un terrain ouvre sa fiche complète sur place
-(/commune.js) ; sans JavaScript, le lien mène à la carte de l'accueil (?lat=…&lon=…).
+(/commune.js) ; sans JavaScript, le lien mène à la page carte (carte.html?lat=…&lon=…).
 
 Contenu, tiré des données du jour :
   - intro : nombre de terrains et de lieux, atouts les plus fréquents, clubs ;
@@ -26,6 +26,10 @@ le fil d'Ariane et le lien « Voir les N terrains de … ».
 
 Et data/recherche.json, l'index des propositions de la barre de recherche (voir « Propositions
 de la recherche » dans script.js) : les 565 communes, les localités et les lieux.
+
+Et, sur l'accueil (index.html des quatre langues), la section « Les communes les mieux
+équipées » : les NB_COMMUNES_EQUIPEES communes de chaque région qui ont le plus de terrains,
+écrite entre les balises <!-- DEBUT communes-equipees --> et <!-- FIN communes-equipees -->.
 
 Relancé par le workflow hebdomadaire (update-osm.yml), après les critères d'environnement.
 
@@ -49,6 +53,7 @@ RACINE = Path(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 DATA = RACINE / "data"
 
 NB_VOISINES = 6
+NB_COMMUNES_EQUIPEES = 5   # par région, sur l'accueil
 
 LANGUES = [("fr", ""), ("nl", "nl/"), ("de", "de/"), ("en", "en/")]
 
@@ -176,7 +181,7 @@ def url_commune(slug_commune, prefixe):
 
 
 def url_carte(lat, lon, prefixe):
-    return f"/{prefixe}?lat={lat}&amp;lon={lon}"
+    return f"/{prefixe}carte.html?lat={lat}&amp;lon={lon}"
 
 
 def liste_naturelle(elements, et):
@@ -229,7 +234,7 @@ def html_lieu(lieu, titre, prefixe, tr, pictos, niveau_titre):
         photo = ('<img src="/images/pas-de-photo.webp" alt="" loading="lazy" width="320" '
                  'height="180" class="sans-photo">')
 
-    # Le lien mène à la carte de l'accueil : c'est la destination sans JavaScript (et celle d'un
+    # Le lien mène à la page carte : c'est la destination sans JavaScript (et celle d'un
     # Ctrl+clic). Sinon, /commune.js ouvre la fiche du terrain data-osm sur la page.
     return (
         f'            <a class="commune-terrain" href="{url_carte(lieu["lat"], lieu["lon"], prefixe)}" '
@@ -423,6 +428,65 @@ def ecrire_recherche(communes, lieux_par_commune, centres, avec_page):
         json.dump(index, f, ensure_ascii=False, separators=(",", ":"))
 
 
+def ecrire_communes_equipees(communes, terrains_par_commune, avec_page, traductions):
+    """Section « Les communes les mieux équipées » de l'accueil, dans les quatre langues : par
+    région (dans l'ordre de « Parcourir par région »), les communes qui ont le plus de terrains.
+    Lien vers la page de la commune, ou vers la carte cadrée sur elle si elle n'en a pas."""
+    debut, fin = "<!-- DEBUT communes-equipees -->", "<!-- FIN communes-equipees -->"
+    par_region = collections.defaultdict(list)
+    for ins, terrains in terrains_par_commune.items():
+        commune = communes.par_ins[ins]
+        par_region[commune["region"]].append((len(terrains), commune))
+
+    for langue, prefixe in LANGUES:
+        tr = traductions[langue]
+        colonnes = []
+        for region in ("flandre", "wallonie", "bruxelles"):
+            classees = sorted(par_region[region], key=lambda x: (-x[0], x[1]["nom"]))[:NB_COMMUNES_EQUIPEES]
+            lignes = []
+            for rang, (nb, commune) in enumerate(classees, 1):
+                if commune["ins"] in avec_page:
+                    url = url_commune(commune["slug"], prefixe)
+                else:
+                    url = f"/{prefixe}carte.html?commune={commune['slug']}"
+                zone = ("" if region == "bruxelles" else
+                        '<span class="commune-equipee-zone">'
+                        + echap(gp.nom_traduit_province(commune["province"], langue, traductions)) + "</span>")
+                unite = tr["province_terrain_singulier"] if nb == 1 else tr["stats_terrains_unit"]
+                lignes.append(
+                    f'                    <li><a href="{url}">'
+                    f'<span class="commune-equipee-rang">{rang}</span>'
+                    f'<span class="commune-equipee-nom">{echap(communes.nom(commune, langue))}{zone}</span>'
+                    f'<span class="commune-equipee-nb">{nb}<span> {unite}</span></span></a></li>'
+                )
+            colonnes.append(
+                '            <div class="commune-equipee-region">\n'
+                f'                <h3>{echap(tr["geo_region_" + region])}</h3>\n'
+                '                <ol>\n' + "\n".join(lignes) + "\n                </ol>\n"
+                '            </div>'
+            )
+        section = (
+            f"{debut}\n"
+            '<section id="communes-equipees" class="communes-equipees">\n'
+            '    <div class="provinces-container">\n'
+            f'        <h2>{echap(tr["communes_equipees_titre"])}</h2>\n'
+            f'        <p class="communes-equipees-intro">{echap(tr["communes_equipees_intro"])}</p>\n'
+            '        <div class="communes-equipees-grille">\n' + "\n".join(colonnes) + "\n        </div>\n"
+            "    </div>\n"
+            "</section>\n"
+            f"{fin}"
+        )
+        chemin = RACINE / prefixe / "index.html"
+        brut = chemin.read_bytes().decode("utf-8")
+        crlf = "\r\n" in brut
+        texte = brut.replace("\r\n", "\n")
+        i, j = texte.index(debut), texte.index(fin) + len(fin)
+        texte = texte[:i] + section + texte[j:]
+        with open(chemin, "w", encoding="utf-8", newline="\r\n" if crlf else "\n") as sortie:
+            sortie.write(texte)
+    print(f"Accueil : communes les mieux équipées ({NB_COMMUNES_EQUIPEES} par région)")
+
+
 def main():
     communes = Communes()
     traductions = gp.charger_traductions_js(RACINE / "translations.js")
@@ -457,6 +521,7 @@ def main():
           f"(au moins {MIN_LIEUX} lieux)")
     ecrire_liens(communes, terrains_par_commune, clubs_par_commune, avec_page)
     ecrire_recherche(communes, lieux_par_commune, centres, avec_page)
+    ecrire_communes_equipees(communes, terrains_par_commune, avec_page, traductions)
 
     ecrites = set()
     tailles = []

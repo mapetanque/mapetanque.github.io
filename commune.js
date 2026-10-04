@@ -2,7 +2,7 @@
 // Pages commune/<slug>.html (écrites par scripts/generer_communes.py). Chargé avec defer, donc
 // après script.js, dont il réutilise les briques.
 //
-// Chaque carte de terrain est un lien vers la carte de l'accueil (?lat=…&lon=…) : c'est sa
+// Chaque carte de terrain est un lien vers la page carte (carte.html?lat=…&lon=…) : c'est sa
 // destination sans JavaScript, et celle d'un Ctrl+clic ou d'un clic du milieu. Un clic simple
 // ouvre plutôt la fiche complète ici même (photos, itinéraire, partage, notes, avis), dans la
 // fenêtre qu'utilise déjà la carte (voir ouvrirFicheMobileTerrain dans script.js). La fiche est
@@ -42,13 +42,12 @@
     function ajouterLienCarte(feature) {
         setTimeout(function () {
             var c = feature.geometry.coordinates;
-            var racine = currentLang === 'fr' ? '/' : '/' + currentLang + '/';
             document.querySelectorAll('#mobile-sheet-content .fiche-pied, #desktop-modal-content .fiche-pied')
                 .forEach(function (pied) {
                     if (pied.parentElement.querySelector('.fiche-lien-bloc')) return;
                     var lien = document.createElement('a');
                     lien.className = 'fiche-lien-bloc';
-                    lien.href = racine + '?lat=' + c[1] + '&lon=' + c[0];
+                    lien.href = urlPageCarte('?lat=' + c[1] + '&lon=' + c[0]);
                     lien.innerHTML = PICTO_CARTE + '<span>' + t('commune_voir_carte') + '</span>'
                         + '<span aria-hidden="true">→</span>';
                     pied.before(lien);

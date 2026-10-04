@@ -289,10 +289,6 @@ body.page-carte {
     filter: drop-shadow(0 0 0 #1d2619) drop-shadow(0 0 5px rgba(29, 38, 25, 0.9));
 }
 
-/* Marqueur invisible sur lequel se construit la fiche ouverte depuis la liste (carte.js) */
-.carte-marqueur-fiche {
-    display: none;
-}
 
 /* --- Écran étroit : la carte seule, la liste par-dessus ------------------------------------------ */
 

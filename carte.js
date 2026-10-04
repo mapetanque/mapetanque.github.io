@@ -9,8 +9,7 @@
 // s'appliquent aussi à la liste.
 //
 // Un clic sur une tuile ouvre la fiche sans bouger la carte (la liste resterait sinon sous la
-// fiche, réordonnée) : la fiche se construit sur un marqueur invisible, comme sur les pages
-// commune (commune.js).
+// fiche, réordonnée) : voir ouvrirFicheSurPlace dans script.js.
 //
 // Arrivée sur la page, selon l'adresse :
 //   ?commune=<slug>[&localite=<nom>] : carte cadrée sur les terrains de la commune (du village) ;
@@ -165,37 +164,14 @@
         if (index) afficher(montres || PAR_PAQUET);
     });
 
-    // ----- Fiche d'un terrain, sans bouger la carte -----
-
-    var marqueursFiche = {};   // osm_id -> marqueur invisible, créé à la première ouverture
-    var iconeInvisible = L.divIcon({ className: 'carte-marqueur-fiche', html: '', iconSize: [0, 0] });
-
-    function ouvrirFiche(osmId, lien) {
-        terrainsGeojson.then(function (data) {
-            var marqueur = marqueursFiche[osmId];
-            if (!marqueur) {
-                var feature = data.features.find(function (f) { return f.properties.osm_id === osmId; });
-                if (!feature) {
-                    // Terrain disparu des données depuis l'écriture de l'index : la carte, en secours
-                    window.location.href = lien.href;
-                    return;
-                }
-                var c = feature.geometry.coordinates;
-                marqueur = L.marker([c[1], c[0]], { icon: iconeInvisible, interactive: false, keyboard: false });
-                marqueur.feature = feature;
-                brancherPopupTerrain(marqueur, feature);
-                marqueur.addTo(map);
-                marqueursFiche[osmId] = marqueur;
-            }
-            marqueur.openPopup();
-        });
-    }
+    // ----- Fiche d'un terrain, sans bouger la carte (ouvrirFicheSurPlace, script.js) -----
 
     tuiles.addEventListener('click', function (e) {
         var lien = e.target.closest('.carte-tuile');
         if (!lien || e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
         e.preventDefault();
-        ouvrirFiche(lien.dataset.osm, lien);
+        var adresse = new URL(lien.href).searchParams;
+        ouvrirFicheSurPlace(lien.dataset.osm, parseFloat(adresse.get('lat')), parseFloat(adresse.get('lon')));
     });
 
     // Survol d'une tuile : son marqueur (ou l'amas qui le contient) ressort sur la carte.

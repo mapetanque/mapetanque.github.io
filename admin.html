@@ -2712,7 +2712,7 @@ function enteteAvis(a) {
     nom.className = "avis-terrain";
     nom.textContent = t.nom;
     if (isFinite(t.lat) && isFinite(t.lon)) {
-        nom.appendChild(lienExterne("Voir la fiche ↗", "/?lat=" + Number(t.lat).toFixed(6) + "&lon=" + Number(t.lon).toFixed(6) + "&z=18"));
+        nom.appendChild(lienExterne("Voir la fiche ↗", "/carte.html?lat=" + Number(t.lat).toFixed(6) + "&lon=" + Number(t.lon).toFixed(6)));
     }
     bloc.appendChild(nom);
     const lieu = document.createElement("div");

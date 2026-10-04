@@ -1,7 +1,7 @@
 /* ==========================================================================================
    style-accueil-provinces.css
    Feuille additive chargée APRÈS /style.css — n'en modifie aucune règle existante.
-   Objectif : habiller la page d'accueil (bannière photo, carte "fiche", grille provinces)
+   Objectif : habiller la page d'accueil (bannière photo, grilles régions et provinces)
    sans toucher au CSS ni au JS qui font déjà tourner le reste du site (recherche,
    géolocalisation, plein écran, langue, footer, panneaux d'info/partage...).
 
@@ -12,23 +12,11 @@
 
 /* ===================== Bannière photo (.hero-banner) ===================== */
 
-.map-view {
-    /* Remplace la règle de style.css (height: 100vh) : la page n'a plus besoin
-       de remplir tout le viewport au chargement, elle prend sa hauteur naturelle. Uniquement
-       actif en dehors du mode plein écran (voir plus bas pour fullscreen-active). */
-    height: auto;
-    /* Même gris que .beaux-terrains-accueil (#f7f9f6, voir style-beaux-terrains.css) : la bande
-       grise démarre désormais au bas de la bannière et court sous la carte puis sous le
-       carrousel, d'un seul tenant. La bannière ne change pas d'aspect, son image de fond
-       recouvre entièrement ses 300 px. Le gris ne se voit donc que dans la marge de 16px autour
-       de .map-wrapper et derrière ses coins arrondis (border-radius: 20px), ce qui pose
-       visuellement la carte sur le fond au lieu de la fondre dans le blanc. */
-    background-color: #f7f9f6;
-}
-
+/* Depuis que la carte a quitté l'accueil (elle est sur /carte.html), la bannière s'agrandit :
+   405 px. La photo (2 400 × ~700 px) y tient en entier en hauteur sur un écran d'ordinateur. */
 .hero-banner {
     position: relative;
-    height: 300px;
+    height: 405px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -111,68 +99,11 @@
     box-shadow: 0 0 0 2px #74C15A;
 }
 
-/* ===================== Carte "fiche" (.map-wrapper) ===================== */
-
-.map-wrapper {
-    /* 16px sur les côtés, et au plus 1100px de large, centrée : la largeur des sections qui
-       suivent (.provinces-container) et du contenu des pages province et région. Largeur posée
-       explicitement : avec des marges latérales « auto », un enfant de .map-view (display:flex)
-       ne s'étire plus de lui-même.
-       En haut, margin-top:6px plutôt que 16px directement : .controls (juste au-dessus, dans
-       style.css) a déjà margin:10px auto, et .map-view étant en display:flex, les marges entre
-       éléments ne fusionnent pas — elles s'additionnent. 6 + 10 = 16px visibles au total. */
-    width: calc(100% - 32px);
-    max-width: 1100px;
-    margin: 6px auto 0;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 6px 24px rgba(30, 50, 20, 0.10);
-}
-
-#map {
-    /* Remplace flex:1 1 auto (qui remplissait tout le viewport) par une hauteur fixe */
-    flex: none;
-    width: 100%;
-    height: 455px;
-    min-height: 0;
-}
-
-/* ===================== Compatibilité mode plein écran ===================== */
-/* Le plein écran (script.js + règles .map-view.fullscreen-active de style.css) continue de
-   fonctionner : #map reste un descendant de .map-view, donc "​.map-view.fullscreen-active #map
-   { height:100% }" s'applique toujours. On adapte seulement .hero-banner et .map-wrapper pour
-   qu'ils s'effacent proprement au lieu de garder leur taille/forme "carte de la page normale". */
-
-.map-view.fullscreen-active .hero-banner {
-    height: auto;
-    background-image: none;
-    padding: 10px 15px;
-}
-
-.map-view.fullscreen-active .hero-banner-credit {
-    display: none;
-}
-
-/* Sans la photo, le champ de recherche (sans bordure, voir plus haut) se fondait dans le fond
-   blanc : il reprend la bordure qu'il a sur les pages province et région (style.css). */
-.map-view.fullscreen-active .controls .search-form input {
-    border: 1px solid #ccc;
-}
-
-.map-view.fullscreen-active .map-wrapper {
-    width: 100%;
-    max-width: none;
-    margin: 0;
-    border-radius: 0;
-    box-shadow: none;
-    height: 100%;
-}
-
 /* ===================== Section "Parcourir par province" ===================== */
 
 #provinces-section {
     background-color: #ffffff;
-    padding: 25px 20px 60px;
+    padding: 24px 20px 56px;
 }
 
 .provinces-container {
@@ -181,7 +112,7 @@
 }
 
 .provinces-container h2 {
-    margin: 0 0 28px;
+    margin: 0 0 22px;
     font-size: 26px;
     color: #333;
     text-align: center;
@@ -199,11 +130,11 @@
     background-color: #ffffff;
     /* Anciennement "50px 20px 60px" : ces valeurs supposaient region-section en dernière
        position, suivant une section province au fond gris. Depuis l'inversion, elle est
-       intermédiaire entre le carrousel et #provinces-section (devenue la section de clôture,
-       qui garde donc son padding-bottom de 60px). padding-top de 40px, combiné aux 36px déjà
-       sous le carrousel (16px de padding du scroller + 20px de padding de
-       .beaux-terrains-accueil), donne ~76px au-dessus du titre. */
-    padding: 40px 20px 20px;
+       intermédiaire entre le carrousel et #provinces-section. padding-top de 24px, combiné aux
+       24px déjà sous le carrousel (16px de padding du scroller + 8px de padding de
+       .beaux-terrains-accueil), donne ~48px au-dessus du titre ; 16px en bas, plus les 24px
+       du haut de #provinces-section, ~40px entre les tuiles des régions et le titre suivant. */
+    padding: 24px 20px 16px;
 }
 
 .regions-tiles-grid {
@@ -243,30 +174,137 @@
     text-shadow: 0 1px 4px rgba(0,0,0,0.6);
 }
 
-/* ===================== Bulle du résultat de recherche ===================== */
+/* ===================== Section « Les communes les mieux équipées » ===================== */
+/* Écrite par scripts/generer_communes.py : une colonne par région, les cinq communes qui ont le
+   plus de terrains, chacune menant à sa page. Fond gris pour se détacher des tuiles au-dessus. */
 
-/* Cette bulle ne contient qu'une ligne d'adresse, alors que .leaflet-popup-content réserve 40px
-   en haut et une barre de défilement, dimensionnés pour les fiches terrain. Résultat : une
-   bulle très haute autour d'une seule ligne de texte. On resserre ici, la classe étant posée
-   par bindPopup dans script.js.
-   La marge droite reste large : la croix de fermeture est en position absolue à right:12px et
-   viendrait sinon chevaucher la fin de l'adresse. */
-.leaflet-popup.popup-adresse .leaflet-popup-content {
-    margin: 12px 34px 12px 16px;
-    padding-right: 0;
+.communes-equipees {
+    background-color: #f7f9f6;
+    padding: 40px 20px 56px;
 }
 
-/* La croix remonte en conséquence, pour rester alignée sur la première ligne de texte plutôt
-   que de flotter au-dessus. */
-.leaflet-popup.popup-adresse .leaflet-popup-close-button {
-    top: 6px !important;
+.communes-equipees h2 {
+    margin-bottom: 6px;
+}
+
+.communes-equipees-intro {
+    margin: 0 0 28px;
+    text-align: center;
+    color: #777;
+    font-size: 15px;
+}
+
+.communes-equipees-grille {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.commune-equipee-region {
+    padding: 16px 18px 8px;
+    border: 1px solid #e2e6de;
+    border-radius: 14px;
+    background: #fff;
+}
+
+.commune-equipee-region h3 {
+    margin: 0 0 6px;
+    font-size: 17px;
+    color: #1d2619;
+}
+
+.commune-equipee-region ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.commune-equipee-region li + li {
+    border-top: 1px solid #f0f2ee;
+}
+
+.commune-equipee-region a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    color: #333;
+    text-decoration: none;
+}
+
+.commune-equipee-region a:hover .commune-equipee-nom {
+    color: #3d7a2a;
+}
+
+.commune-equipee-rang {
+    flex: none;
+    width: 18px;
+    color: #999;
+    font-size: 14px;
+}
+
+.commune-equipee-nom {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.commune-equipee-zone {
+    display: block;
+    margin-top: 1px;
+    color: #888;
+    font-size: 12.5px;
+    font-weight: normal;
+}
+
+.commune-equipee-nb {
+    flex: none;
+    color: #3d7a2a;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.commune-equipee-nb span {
+    color: #888;
+    font-size: 12.5px;
+    font-weight: normal;
+}
+
+@media (max-width: 800px) {
+    .communes-equipees-grille {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* ===================== Responsive (même palier que style.css : 1024px) ===================== */
 
+/* Ordinateur : dans la bannière de 405 px, le titre et la recherche descendent vers le milieu
+   de la photo, en plus grand (la recherche est la porte d'entrée vers la carte). */
+@media (min-width: 1025px) {
+    .hero-banner .hero-headline {
+        font-size: 42px;
+        margin-top: 66px;
+    }
+
+    .controls {
+        margin-top: 18px;
+    }
+
+    .controls #locateBtn,
+    .controls .search-form input {
+        height: 50px;
+    }
+
+    .controls .search-form input {
+        width: 400px;
+        font-size: 16px;
+    }
+}
+
 @media (max-width: 1024px) {
     .hero-banner {
-        height: 230px;
+        height: 270px;
         /* Réserve une bande en bas pour la mention de licence, pour qu'elle ne se retrouve
            jamais superposée au titre/boutons quand leur pile de contenu remplit toute la
            hauteur réduite de la bannière en mobile. */
@@ -277,10 +315,6 @@
        mobile (voir style-province.css) — remplace le 18px desktop ci-dessus. */
     .hero-banner .header {
         padding-top: 14px;
-    }
-
-    #map {
-        height: 320px;
     }
 }
 
@@ -298,42 +332,9 @@
     }
 }
 
-/* ===================== Fil d'Ariane région > province dans les popups de terrain ===================== */
-
-.popup-breadcrumb {
-    font-size: 11.5px;
-    color: #888;
-    margin-bottom: 4px;
-}
-
-.popup-breadcrumb a {
-    color: #74C15A;
-    font-weight: 600;
-    text-decoration: none;
-}
-
-.popup-breadcrumb a:hover {
-    text-decoration: underline;
-}
-
-/* Liens "Afficher l'itinéraire" / "Partager ce terrain" dans le popup — même traitement que le
-   fil d'Ariane ci-dessus (vert de la charte, pas de soulignement permanent), plutôt que le bleu
-   souligné par défaut hérité du navigateur. .popup-link-text force un underline permanent dans
-   style.css (non modifiable) : on le neutralise ici et on ne le réactive qu'au survol. */
-.popup-action-link {
-    color: #74C15A;
-}
-
-.popup-action-link .popup-link-text {
-    text-decoration: none;
-}
-
-.popup-action-link:hover .popup-link-text {
-    text-decoration: underline;
-}
 /* ===================== Lien « Signaler un terrain manquant » (bannière) ===================== */
 /* Dans le flux, juste sous .controls (qui porte déjà 10px de marge en dessous) : la bannière ayant
-   une hauteur fixe (300px, 230px en mobile), le lien occupe l'espace libre sous les boutons sans
+   une hauteur fixe (405px, 270px en mobile), le lien occupe l'espace libre sous les boutons sans
    jamais l'agrandir, ni elle ni la page. Quand cet espace manque (boutons repliés sur deux lignes
    sur les plus petits écrans), script.js le masque (classe .hors-cadre) plutôt que de le laisser
    chevaucher le « i » du crédit photo ou être coupé — voir « Signalements » dans script.js.
@@ -387,6 +388,3 @@
     visibility: hidden;
 }
 
-.map-view.fullscreen-active .hero-signalement {
-    display: none;
-}

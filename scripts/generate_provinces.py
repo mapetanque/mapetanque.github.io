@@ -219,7 +219,7 @@ def construire_liste_communes(communes, entrees, langue, tr):
         if proche["page"]:
             href = f"/{prefixe}commune/{proche['commune']['slug']}.html"
         else:
-            href = f"/{prefixe}?lat={proche['terrain']['lat']}&amp;lon={proche['terrain']['lon']}"
+            href = f"/{prefixe}carte.html?lat={proche['terrain']['lat']}&amp;lon={proche['terrain']['lon']}"
         message = (tr["province_commune_vide"]
                    .replace("{nom}", html.escape(communes.nom(e["commune"], langue)))
                    .replace("{proche}", f'<a href="{href}">{nom_proche}</a>')

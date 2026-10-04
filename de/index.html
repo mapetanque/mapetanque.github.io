@@ -2,6 +2,13 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
+    <!-- Anciens liens de la carte (/?lat=…&lon=…, ?club=1…), partagés ou indexés avant que la
+         carte ne quitte l'accueil : redirigés vers la page carte, avant tout affichage. -->
+    <script>
+    if (/[?&](lat|lon|club)=/.test(location.search)) {
+        location.replace(location.pathname.replace(/index\.html$/, '') + 'carte.html' + location.search + location.hash);
+    }
+    </script>
     <title>Karte der Pétanque-Plätze in Belgien — Mapetanque.be</title>
     <meta name="description" id="meta-description" content="Mapetanque.be zeigt auf einer interaktiven Karte alle öffentlich zugänglichen Pétanque-Plätze in Belgien, mit Standortsuche nach Stadt oder Region.">
     <link rel="icon" type="image/svg+xml" href="/images/mapetanque-boule-pleine.svg">
@@ -129,7 +136,7 @@
 
 <body>
 
-<div class="map-view" id="top">
+<div id="top">
 
 <div class="hero-banner">
 
@@ -232,8 +239,6 @@
 
 </div><!-- /.hero-banner -->
 
-<p id="searchError" class="search-error"></p>
-
 <!-- Panneau de partage réutilisable (site ou terrain précis) -->
 <div id="share-overlay"></div>
 
@@ -313,11 +318,12 @@
 </div>
 
 
-<div class="map-wrapper">
-    <div id="map"></div>
-</div>
+<!-- Carte invisible : la carte du site est sur /carte.html, vers laquelle mènent la recherche et
+     « Me localiser ». Celle-ci sert seulement à ouvrir sur place la fiche d'un terrain du
+     carrousel (ouvrirFicheSurPlace dans script.js). -->
+<div id="map" style="display:none;"></div>
 
-</div><!-- /.map-view -->
+</div><!-- /#top -->
 
 <!-- Section "Les plus beaux terrains" : sélection curatée, affichée juste au-dessus de la
      grille des provinces. Le titre et la liste sont remplis par /beaux-terrains.js à partir de
@@ -396,7 +402,48 @@
     </div>
 </section>
 
-<!-- Panneau d'info coulissant -->
+<!-- Section « Les communes les mieux équipées » : écrite par scripts/generer_communes.py entre
+     les deux balises ci-dessous (remplacée à chaque mise à jour des données). -->
+<!-- DEBUT communes-equipees -->
+<section id="communes-equipees" class="communes-equipees">
+    <div class="provinces-container">
+        <h2>Die am besten ausgestatteten Gemeinden</h2>
+        <p class="communes-equipees-intro">Gemeinden mit den meisten öffentlichen Pétanque-Plätzen, nach Region</p>
+        <div class="communes-equipees-grille">
+            <div class="commune-equipee-region">
+                <h3>Flandern</h3>
+                <ol>
+                    <li><a href="/de/commune/gent.html"><span class="commune-equipee-rang">1</span><span class="commune-equipee-nom">Gent<span class="commune-equipee-zone">Ostflandern</span></span><span class="commune-equipee-nb">101<span> Plätze</span></span></a></li>
+                    <li><a href="/de/commune/antwerpen.html"><span class="commune-equipee-rang">2</span><span class="commune-equipee-nom">Antwerpen<span class="commune-equipee-zone">Antwerpen</span></span><span class="commune-equipee-nb">42<span> Plätze</span></span></a></li>
+                    <li><a href="/de/commune/genk.html"><span class="commune-equipee-rang">3</span><span class="commune-equipee-nom">Genk<span class="commune-equipee-zone">Limburg</span></span><span class="commune-equipee-nb">32<span> Plätze</span></span></a></li>
+                    <li><a href="/de/commune/leuven.html"><span class="commune-equipee-rang">4</span><span class="commune-equipee-nom">Löwen<span class="commune-equipee-zone">Flämisch-Brabant</span></span><span class="commune-equipee-nb">29<span> Plätze</span></span></a></li>
+                    <li><a href="/de/commune/roeselare.html"><span class="commune-equipee-rang">5</span><span class="commune-equipee-nom">Roeselare<span class="commune-equipee-zone">Westflandern</span></span><span class="commune-equipee-nb">29<span> Plätze</span></span></a></li>
+                </ol>
+            </div>
+            <div class="commune-equipee-region">
+                <h3>Wallonien</h3>
+                <ol>
+                    <li><a href="/de/commune/liege.html"><span class="commune-equipee-rang">1</span><span class="commune-equipee-nom">Lüttich<span class="commune-equipee-zone">Lüttich</span></span><span class="commune-equipee-nb">25<span> Plätze</span></span></a></li>
+                    <li><a href="/de/commune/namur.html"><span class="commune-equipee-rang">2</span><span class="commune-equipee-nom">Namur<span class="commune-equipee-zone">Namur</span></span><span class="commune-equipee-nb">13<span> Plätze</span></span></a></li>
+                    <li><a href="/de/commune/mons.html"><span class="commune-equipee-rang">3</span><span class="commune-equipee-nom">Mons<span class="commune-equipee-zone">Hennegau</span></span><span class="commune-equipee-nb">9<span> Plätze</span></span></a></li>
+                    <li><a href="/de/commune/oupeye.html"><span class="commune-equipee-rang">4</span><span class="commune-equipee-nom">Oupeye<span class="commune-equipee-zone">Lüttich</span></span><span class="commune-equipee-nb">9<span> Plätze</span></span></a></li>
+                    <li><a href="/de/commune/binche.html"><span class="commune-equipee-rang">5</span><span class="commune-equipee-nom">Binche<span class="commune-equipee-zone">Hennegau</span></span><span class="commune-equipee-nb">8<span> Plätze</span></span></a></li>
+                </ol>
+            </div>
+            <div class="commune-equipee-region">
+                <h3>Brüssel</h3>
+                <ol>
+                    <li><a href="/de/commune/anderlecht.html"><span class="commune-equipee-rang">1</span><span class="commune-equipee-nom">Anderlecht</span><span class="commune-equipee-nb">34<span> Plätze</span></span></a></li>
+                    <li><a href="/de/commune/bruxelles.html"><span class="commune-equipee-rang">2</span><span class="commune-equipee-nom">Brüssel</span><span class="commune-equipee-nb">28<span> Plätze</span></span></a></li>
+                    <li><a href="/de/commune/woluwe-saint-lambert.html"><span class="commune-equipee-rang">3</span><span class="commune-equipee-nom">Sint-Lambrechts-Woluwe</span><span class="commune-equipee-nb">13<span> Plätze</span></span></a></li>
+                    <li><a href="/de/commune/forest.html"><span class="commune-equipee-rang">4</span><span class="commune-equipee-nom">Vorst</span><span class="commune-equipee-nb">7<span> Plätze</span></span></a></li>
+                    <li><a href="/de/commune/uccle.html"><span class="commune-equipee-rang">5</span><span class="commune-equipee-nom">Ukkel</span><span class="commune-equipee-nb">7<span> Plätze</span></span></a></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- FIN communes-equipees -->
 
 <!-- Pied de page : construit par construirePied() dans script.js -->
 <footer class="pied"></footer>
@@ -412,6 +459,7 @@
 <script src="/chargeur-photo.js"></script>
 <script src="/boule-animee.js"></script>
     <script src="/criteres.js"></script>
+    <script>window.MAPETANQUE_SKIP_DEFAULT_MARKERS = true;</script>
     <script src="/script.js"></script>
 <!-- Carrousel "Les plus beaux terrains" : après script.js, dont il utilise allerVersTerrain()
      pour ouvrir la fiche du bon terrain au clic sur une tuile. -->

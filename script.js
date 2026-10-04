@@ -307,6 +307,12 @@ document.querySelectorAll('.lang-link').forEach(function (btn) {
 // directement sur la carte, et le bouton plein écran n'y a pas sa place.
 const PAGE_CARTE = document.body.classList.contains('page-carte');
 
+// Adresse de la page carte dans la langue en cours, avec ses paramètres (« ?commune=fleron ») :
+// toutes les recherches y mènent, depuis l'accueil comme depuis les fiches.
+function urlPageCarte(parametres) {
+    return (currentLang === 'fr' ? '/' : '/' + currentLang + '/') + 'carte.html' + (parametres || '');
+}
+
 // Création de la carte centrée sur la Belgique
 // Molette : voir « Molette sur la carte » juste en dessous (la molette seule fait défiler la page,
 // Ctrl + molette zoome).
@@ -1091,6 +1097,12 @@ const locateBtn = document.getElementById("locateBtn");
 if (locateBtn) {
     locateBtn.addEventListener("click", function () {
 
+        // Accueil : la géolocalisation se fait sur la page carte (voir carte.js, ?moi=1)
+        if (!PAGE_CARTE) {
+            window.location.href = urlPageCarte('?moi=1');
+            return;
+        }
+
         effacerMessageRecherche();
 
         if (navigator.geolocation) {
@@ -1164,6 +1176,10 @@ if (searchForm) {
     searchForm.addEventListener('submit', function (e) {
 
     e.preventDefault();
+
+    // Accueil : l'adresse est cherchée sur la page carte (?q=…), voir l'écouteur « submit » des
+    // propositions plus bas.
+    if (!PAGE_CARTE) return;
 
     const input = document.getElementById('searchInput');
     const errorEl = document.getElementById('searchError');
@@ -1284,13 +1300,11 @@ function cadrerSurLieux(lieux) {
 // tapé : Nominatim interdit l'autocomplétion, il ne sert donc qu'à la touche Entrée sans
 // proposition choisie, et à la dernière ligne du menu (« Chercher l'adresse … »).
 //
-// Où mène chaque proposition :
-//   - commune qui a sa page (au moins deux lieux) : sa page ;
-//   - localité d'une telle commune : la même page, à son sous-titre quand la page en a plusieurs ;
-//   - commune ou localité à un seul lieu, terrain : la fiche du terrain sur la carte ;
-//   - commune sans terrain : la carte centrée dessus, avec la flèche vers le terrain le plus proche.
-// Sur la page carte (carte.html), tout reste sur la carte : une commune ou un village cadre la
-// carte sur ses terrains, que la liste de gauche reprend (carte.js).
+// Toutes les propositions mènent à la page carte (carte.html) : une commune ou un village y
+// cadre la carte sur ses terrains, que la liste de gauche reprend (carte.js) ; un terrain y ouvre
+// sa fiche ; une commune sans terrain y est montrée avec la flèche vers le terrain le plus proche.
+// Depuis l'accueil, on y va par son adresse (voir suivreProposition) ; sur la page carte même,
+// tout se fait sans recharger (allerVersProposition).
 
 const MAX_LIGNES_PROPOSITIONS = 9;   // ligne « Chercher l'adresse » comprise
 
@@ -1513,13 +1527,15 @@ function htmlPropositionRecherche(index, ligne, i) {
     return textes(PICTO_PROPOSITION_ADRESSE, echapperAvis(t('recherche_adresse').replace('{q}', ligne.texte)), '');
 }
 
-// Adresse de la page où mène une proposition, ou null quand elle se suit sur la page même
-// (voir allerVersProposition).
+// Adresse de la page carte où mène une proposition, ou null sur la page carte même (elle se suit
+// alors sans recharger, voir allerVersProposition).
 function suivreProposition(index, ligne) {
-    if (PAGE_CARTE || ligne.genre !== 'place' || !ligne.place.commune.pg) return null;
+    if (PAGE_CARTE) return null;
+    if (ligne.genre === 'adresse') return urlPageCarte('?q=' + encodeURIComponent(ligne.texte));
+    if (ligne.genre === 'terrain') return urlPageCarte('?lat=' + ligne.lieu.lat + '&lon=' + ligne.lieu.lon);
     const place = ligne.place;
-    const ancre = place.genre === 'localite' && place.localite.ancre ? '#' + place.localite.ancre : '';
-    return (currentLang === 'fr' ? '/' : '/' + currentLang + '/') + 'commune/' + place.commune.s + '.html' + ancre;
+    return urlPageCarte('?commune=' + place.commune.s
+        + (place.genre === 'localite' ? '&localite=' + encodeURIComponent(place.nomBrut) : ''));
 }
 
 // Proposition suivie sur la page : fiche d'un terrain sur la carte, commune sans terrain, ou
@@ -1677,6 +1693,13 @@ if (searchForm && champRecherche) {
         if (ensuite) ensuite();
     });
 
+    // Vers une autre page depuis le plein écran : l'adresse remplace l'entrée d'historique
+    // ajoutée à l'ouverture, pour que le retour ramène à la page telle qu'avant la recherche.
+    const naviguer = function (url) {
+        if (pleinEcran && entreeHistorique) window.location.replace(url);
+        else window.location.href = url;
+    };
+
     const surligner = function (n) {
         const opts = options();
         if (!opts.length) return;
@@ -1718,12 +1741,6 @@ if (searchForm && champRecherche) {
             effacerMessageRecherche();
         }
         fermer();
-        // Vers une autre page depuis le plein écran : l'adresse remplace l'entrée d'historique
-        // ajoutée à l'ouverture, pour que le retour ramène à la page telle qu'avant la recherche.
-        const naviguer = function (url) {
-            if (pleinEcran && entreeHistorique) window.location.replace(url);
-            else window.location.href = url;
-        };
         const destination = suivreProposition(indexCharge, ligne);
         if (destination) naviguer(destination);
         else fermerPleinEcran(function () { allerVersProposition(indexCharge, ligne); });
@@ -1764,10 +1781,25 @@ if (searchForm && champRecherche) {
         setTimeout(function () { if (!pleinEcran) fermer(); }, 150);
     });
     // Entrée sans proposition choisie : la recherche d'adresse (écouteur plus haut) est lancée,
-    // et le plein écran se referme pour montrer la carte.
+    // et le plein écran se referme pour montrer la carte. Hors de la page carte, c'est elle qui
+    // cherche l'adresse (?q=…).
     searchForm.addEventListener('submit', function () {
+        const texte = champRecherche.value.trim();
         fermer();
+        if (!PAGE_CARTE) {
+            if (texte) {
+                champRecherche.blur();
+                naviguer(urlPageCarte('?q=' + encodeURIComponent(texte)));
+            }
+            return;
+        }
         fermerPleinEcran();
+    });
+
+    // Retour sur la page par le bouton précédent, depuis la carte : le navigateur peut la
+    // ressortir telle quelle de sa mémoire, recherche plein écran encore ouverte.
+    window.addEventListener('pageshow', function (e) {
+        if (e.persisted && pleinEcran) quitterPleinEcran();
     });
 }
 
@@ -3000,8 +3032,7 @@ document.querySelectorAll('.hero-banner .hero-banner-credit').forEach(function (
 
 // Fonction globale appelée depuis le lien "Partager" de chaque popup de terrain
 window.partagerTerrain = function (lat, lon, titre) {
-    const url = window.location.origin + window.location.pathname
-        + `?lat=${lat.toFixed(6)}&lon=${lon.toFixed(6)}&z=18`;
+    const url = window.location.origin + urlPageCarte(`?lat=${lat.toFixed(6)}&lon=${lon.toFixed(6)}`);
     ouvrirPartage(url, titre);
 };
 
@@ -4087,8 +4118,7 @@ function brancherPopupClub(marker, club) {
 
 // Fonction globale appelée depuis le lien "Partager ce club" de chaque popup de club
 window.partagerClub = function (lat, lon, titre) {
-    const url = window.location.origin + window.location.pathname
-        + `?club=1&lat=${lat.toFixed(6)}&lon=${lon.toFixed(6)}&z=18`;
+    const url = window.location.origin + urlPageCarte(`?club=1&lat=${lat.toFixed(6)}&lon=${lon.toFixed(6)}`);
     ouvrirPartage(url, titre);
 };
 
@@ -4183,6 +4213,63 @@ function brancherPopupTerrain(layer, feature) {
     });
 }
 window.brancherPopupTerrain = brancherPopupTerrain;
+
+// Fiche d'un terrain ouverte sans passer par son marqueur : liste de la page carte (la carte ne
+// bouge pas, la liste reste en place) et carrousel de l'accueil (qui n'a pas de carte visible).
+// La fiche se construit sur un marqueur invisible, posé à l'emplacement du terrain, comme sur
+// les pages commune (commune.js). Hors de la page carte, elle reçoit un lien « Voir sur la
+// carte ». Terrain cherché par son osm_id, sinon par ses coordonnées ; introuvable (retiré
+// d'OSM depuis), la page carte prend le relais.
+const marqueursFiche = {};
+const iconeMarqueurFiche = L.divIcon({ className: 'marqueur-fiche-invisible', html: '', iconSize: [0, 0] });
+const PICTO_VOIR_CARTE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
+    + 'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+    + '<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/>'
+    + '<circle cx="12" cy="10" r="3"/></svg>';
+
+function ouvrirFicheSurPlace(osmId, lat, lon) {
+    terrainsGeojson.then(function (data) {
+        const feature = data.features.find(function (f) {
+            if (osmId) return f.properties.osm_id === osmId;
+            const c = f.geometry.coordinates;
+            return Math.abs(c[1] - lat) < 0.0001 && Math.abs(c[0] - lon) < 0.0001;
+        });
+        if (!feature) {
+            window.location.href = urlPageCarte('?lat=' + lat + '&lon=' + lon);
+            return;
+        }
+        const id = feature.properties.osm_id;
+        let marqueur = marqueursFiche[id];
+        if (!marqueur) {
+            const c = feature.geometry.coordinates;
+            marqueur = L.marker([c[1], c[0]], { icon: iconeMarqueurFiche, interactive: false, keyboard: false });
+            marqueur.feature = feature;
+            brancherPopupTerrain(marqueur, feature);
+            if (!PAGE_CARTE) marqueur.on('popupopen', function () { ajouterLienVoirCarte(c[1], c[0]); });
+            marqueur.addTo(map);
+            marqueursFiche[id] = marqueur;
+        }
+        marqueur.openPopup();
+    });
+}
+
+// « Voir sur la carte », juste au-dessus du pied de la fiche (même bloc que « Voir les N
+// terrains de … »). Après coup : la fiche n'est déplacée dans sa fenêtre qu'une fois tous les
+// écouteurs « popupopen » passés.
+function ajouterLienVoirCarte(lat, lon) {
+    setTimeout(function () {
+        document.querySelectorAll('#mobile-sheet-content .fiche-pied, #desktop-modal-content .fiche-pied')
+            .forEach(function (pied) {
+                if (pied.parentElement.querySelector('.fiche-lien-voir-carte')) return;
+                const lien = document.createElement('a');
+                lien.className = 'fiche-lien-bloc fiche-lien-voir-carte';
+                lien.href = urlPageCarte('?lat=' + lat + '&lon=' + lon);
+                lien.innerHTML = PICTO_VOIR_CARTE + '<span>' + t('commune_voir_carte') + '</span>'
+                    + '<span aria-hidden="true">→</span>';
+                pied.before(lien);
+            });
+    }, 0);
+}
 
 if (!window.MAPETANQUE_SKIP_DEFAULT_MARKERS) {
 
@@ -5389,6 +5476,7 @@ const mapView = document.querySelector('.map-view');
 // Bascule CSS plutôt que l'API plein écran native du navigateur : cette dernière n'est pas
 // fiable sur Safari iOS, alors qu'une part importante des visiteurs consulte le site sur mobile.
 function definirModePleinEcran(actif) {
+    if (!mapView) return;   // pages sans carte visible (accueil, Comment jouer…)
     mapView.classList.toggle('fullscreen-active', actif);
     document.body.classList.toggle('fullscreen-lock', actif);
     ajusterGlissementCarte();

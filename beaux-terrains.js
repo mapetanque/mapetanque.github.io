@@ -500,11 +500,10 @@
             return;
         }
 
-        // Page d'accueil : allerVersTerrain fait déjà tout le travail (recherche du marqueur,
-        // dépliage de l'amas via zoomToShowLayer, ouverture du popup, puis remontée douce vers
-        // la carte). Exactement le même chemin que les liens de partage ?lat=&lon=.
-        if (typeof window.allerVersTerrain === "function") {
-            window.allerVersTerrain(t.lat, t.lon);
+        // Page d'accueil, sans carte : la fiche s'ouvre sur place, avec un lien « Voir sur la
+        // carte » (ouvrirFicheSurPlace dans script.js).
+        if (typeof window.ouvrirFicheSurPlace === "function") {
+            window.ouvrirFicheSurPlace(t.osm_id, t.lat, t.lon);
         }
     }
 
