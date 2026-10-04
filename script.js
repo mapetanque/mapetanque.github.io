@@ -5327,9 +5327,10 @@ function definirModePleinEcran(actif) {
     setTimeout(function () { map.invalidateSize(); }, 50);
 }
 
-// Touche Échap pour quitter, comme le ferait une vraie API plein écran de navigateur
+// Touche Échap pour quitter, comme le ferait une vraie API plein écran de navigateur.
+// mapView absent sur les pages sans carte (compteur, Comment jouer…).
 document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && mapView.classList.contains('fullscreen-active')) {
+    if (e.key === 'Escape' && mapView && mapView.classList.contains('fullscreen-active')) {
         definirModePleinEcran(false);
     }
 });
