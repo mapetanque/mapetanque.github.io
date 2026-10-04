@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="{{LANG_CODE}}">
+<head>
+    <meta charset="UTF-8">
+    <!-- Page écrite par scripts/generer_carte.py à partir de templates/carte_template.html :
+         modifier le gabarit, puis relancer le script (les quatre langues sont réécrites). -->
+    <title>{{TITRE}} — Mapetanque.be</title>
+    <meta name="description" id="meta-description" content="{{DESCRIPTION}}">
+    <link rel="icon" type="image/svg+xml" href="/images/mapetanque-boule-pleine.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png?v=4">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=4">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="apple-mobile-web-app-title" content="Mapetanque">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta property="og:title" content="{{TITRE}} — Mapetanque.be">
+    <meta property="og:description" content="{{DESCRIPTION}}">
+    <meta property="og:image" content="https://mapetanque.be/images/mapetanque-partage.png?v=2">
+    <meta property="og:url" content="{{CANONICAL_URL}}">
+    <meta property="og:type" content="website">
+
+    <link rel="canonical" href="{{CANONICAL_URL}}">
+    <link rel="alternate" hreflang="fr" href="{{URL_FR}}">
+    <link rel="alternate" hreflang="nl" href="{{URL_NL}}">
+    <link rel="alternate" hreflang="de" href="{{URL_DE}}">
+    <link rel="alternate" hreflang="en" href="{{URL_EN}}">
+    <link rel="alternate" hreflang="x-default" href="{{URL_FR}}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/lib/leaflet-1.9.4/leaflet.css" />
+    <link rel="stylesheet" href="/lib/leaflet.markercluster-1.5.3/MarkerCluster.css" />
+    <link rel="stylesheet" href="/lib/leaflet.markercluster-1.5.3/MarkerCluster.Default.css" />
+
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style-chargeur-photo.css">
+    <link rel="stylesheet" href="/style-ombres.css">
+    <!-- En-tête sans bannière photo des pages de contenu -->
+    <link rel="stylesheet" href="/style-entete-sobre.css">
+    <!-- Fiche des terrains (fenêtre flottante, panneau mobile) -->
+    <link rel="stylesheet" href="/style-beaux-terrains.css">
+    <!-- Tuiles des terrains, les mêmes que sur les pages commune -->
+    <link rel="stylesheet" href="/style-commune.css">
+    <!-- Mise en page de la carte plein écran et de sa liste -->
+    <link rel="stylesheet" href="/style-carte.css">
+</head>
+
+<body class="page-carte">
+
+<div class="entete-sobre carte-entete">
+
+<div class="header">
+
+    <div class="header-top-row">
+        <a href="{{PREFIXE}}" class="brand-link">
+            <picture>
+                <source media="(max-width: 1024px)" srcset="/images/mapetanque-boule-pleine.svg" width="32" height="32">
+                <img src="/images/mapetanque-logo-fonce.svg" class="logo" width="196" height="34" alt="Mapetanque">
+            </picture>
+        </a>
+
+        <!-- Recherche : mêmes propositions que sur l'accueil (« Propositions de la recherche »
+             dans script.js), mais tout s'affiche ici, sur la carte. -->
+        <form id="searchForm" class="search-form carte-recherche">
+            <input
+                type="text"
+                id="searchInput"
+                data-i18n-placeholder="search_placeholder"
+                placeholder="{{T:search_placeholder}}"
+                autocomplete="off"
+            >
+            <button type="submit" id="searchBtn" aria-label="{{T:signalement_search_btn}}" data-i18n-aria="signalement_search_btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </button>
+        </form>
+
+        <div class="header-nav-group">
+        <span id="game-nav-inline">
+            <a href="{{PREFIXE}}comment-jouer.html" class="game-nav-link jouer"><span data-i18n="menu_comment_jouer">{{T:menu_comment_jouer}}</span></a>
+            <a href="{{PREFIXE}}compteur.html" class="game-nav-link compteur"><span data-i18n="menu_compteur">{{T:menu_compteur}}</span></a>
+            <a href="{{PREFIXE}}la-petanque.html" class="game-nav-link petanque"><span data-i18n="menu_la_petanque">{{T:menu_la_petanque}}</span></a>
+        </span>
+        <nav id="desktop-nav">
+            <a href="{{PREFIXE}}a-propos.html" class="info-nav-trigger" data-i18n="menu_about">{{T:menu_about}}</a>
+
+            <span id="lang-switcher-inline">
+                <button type="button" class="lang-link" data-lang="fr" data-lang-url="/carte.html">FR</button>
+                <button type="button" class="lang-link" data-lang="nl" data-lang-url="/nl/carte.html">NL</button>
+                <button type="button" class="lang-link" data-lang="de" data-lang-url="/de/carte.html">DE</button>
+                <button type="button" class="lang-link" data-lang="en" data-lang-url="/en/carte.html">EN</button>
+            </span>
+        </nav>
+        </div>
+
+        <button id="menu-button" aria-label="Menu" data-i18n-aria="open_menu">
+            <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+        </button>
+    </div>
+
+</div><!-- /.header -->
+
+</div><!-- /.entete-sobre -->
+
+<!-- Menu mobile : rempli par construireMenu() dans script.js -->
+<nav id="side-menu"></nav>
+<div id="menu-overlay"></div>
+
+<!-- Carte plein écran et liste des terrains de la zone affichée (carte.js). Sur ordinateur, la
+     liste est à gauche de la carte ; sur téléphone, elle s'ouvre par-dessus avec « Voir la liste ». -->
+<main class="carte-corps">
+
+    <aside id="carte-liste" class="carte-liste" aria-label="{{T:carte_liste_label}}">
+        <div class="carte-liste-entete">
+            <p class="carte-liste-compte" aria-live="polite">
+                <span id="carte-liste-compte"></span>
+                <span id="carte-liste-lieux" class="carte-liste-lieux"></span>
+            </p>
+            <button type="button" id="carte-liste-fermer" class="carte-liste-fermer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg>
+                <span data-i18n="carte_voir_carte">{{T:carte_voir_carte}}</span>
+            </button>
+        </div>
+        <div id="carte-liste-tuiles" class="carte-liste-tuiles"></div>
+        <button type="button" id="carte-liste-plus" class="carte-liste-plus" data-i18n="carte_liste_plus" hidden>{{T:carte_liste_plus}}</button>
+        <p class="carte-liste-signaler">
+            <a href="{{PREFIXE}}a-propos.html#contact" id="signaler-terrain-link" data-i18n="signalement_link">{{T:signalement_link}}</a>
+        </p>
+    </aside>
+
+    <div class="map-view">
+        <div class="map-wrapper">
+            <div id="map"></div>
+
+            <button id="locateBtn" class="carte-localiser" aria-label="{{T:locate_btn}}" data-i18n-aria="locate_btn">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <span data-i18n="locate_btn">{{T:locate_btn}}</span>
+            </button>
+
+            <p id="searchError" class="search-error" role="status"></p>
+
+            <button type="button" id="carte-voir-liste" class="carte-voir-liste">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                <span data-i18n="carte_voir_liste">{{T:carte_voir_liste}}</span>
+            </button>
+        </div>
+    </div>
+
+</main>
+
+<!-- Panneau de partage réutilisable (site ou terrain précis) -->
+<div id="share-overlay"></div>
+
+<!-- Fiche terrain : panneau plein écran sur mobile, fenêtre flottante sur ordinateur (voir
+     ouvrirFicheMobileTerrain()/fermerFicheMobileTerrain() dans script.js). -->
+<div id="mobile-sheet-overlay"></div>
+<div id="mobile-sheet">
+    <button id="mobile-sheet-close" aria-label="{{T:close_panel}}" data-i18n-aria="close_panel">&#10005;</button>
+    <div id="mobile-sheet-content"></div>
+</div>
+
+<div id="desktop-modal-overlay"></div>
+<div id="desktop-modal">
+    <button id="desktop-modal-close" aria-label="{{T:close_panel}}" data-i18n-aria="close_panel">&#10005;</button>
+    <div id="desktop-modal-content"></div>
+</div>
+
+<div id="share-panel">
+    <button id="share-close" data-i18n-aria="close_panel">✕</button>
+    <p id="share-title" class="share-title"></p>
+
+    <div class="share-links">
+        <a id="share-whatsapp" class="share-link" target="_blank" rel="noopener">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></span><span data-i18n="share_whatsapp">WhatsApp</span>
+        </a>
+        <a id="share-facebook" class="share-link" target="_blank" rel="noopener">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></span><span data-i18n="share_facebook">Facebook</span>
+        </a>
+        <a id="share-twitter" class="share-link" target="_blank" rel="noopener">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><span data-i18n="share_twitter">X (Twitter)</span>
+        </a>
+        <a id="share-email" class="share-link">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span><span data-i18n="share_email">E-mail</span>
+        </a>
+        <button type="button" id="share-copy" class="share-link">
+            <span class="share-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></span><span id="share-copy-label" data-i18n="share_copy">{{T:share_copy}}</span>
+        </button>
+    </div>
+</div>
+
+<!-- Modale « Ajouter une photo », ouverte depuis la fiche d'un terrain sans photo (voir
+     brancherPhotosPopup dans script.js). -->
+<div id="add-photo-overlay"></div>
+<div id="add-photo-modal">
+    <button id="add-photo-close" data-i18n-aria="close_panel">✕</button>
+    <p class="add-photo-title" data-i18n="add_photo_modal_title">{{T:add_photo_modal_title}}</p>
+    <p id="add-photo-terrain-name" class="add-photo-terrain-name"></p>
+
+    <div id="add-photo-form-zone">
+        <form id="add-photo-form" class="add-photo-form" enctype="multipart/form-data">
+            <input type="hidden" name="fi-text-terrain-osm-id" value="">
+            <input type="hidden" name="fi-text-terrain-nom" value="">
+            <input type="hidden" name="fi-text-terrain-lien-osm" value="">
+
+            <p class="add-photo-tip"><strong data-i18n="add_photo_tip_label">{{T:add_photo_tip_label}}</strong> <span data-i18n="add_photo_tip">{{T:add_photo_tip}}</span> <a href="https://www.mapillary.com" target="_blank" rel="noopener" data-i18n="add_photo_tip_link">{{T:add_photo_tip_link}}</a></p><label class="add-photo-field-label" data-i18n="add_photo_field_photo_label">{{T:add_photo_field_photo_label}}</label>
+            <input type="file" name="fi-file-photo" accept="image/*" required class="add-photo-file-input">
+            <span class="add-photo-file-hint" data-i18n="add_photo_file_hint">{{T:add_photo_file_hint}}</span>
+
+            <label class="add-photo-field-label" data-i18n="add_photo_field_email_label">{{T:add_photo_field_email_label}}</label>
+            <input type="email" name="fi-sender-email" class="add-photo-text-input">
+
+            <label class="add-photo-checkbox-row">
+                <input type="checkbox" name="fi-checkbox-autorisation-mapillary" required>
+                <span data-i18n="add_photo_checkbox_label">{{T:add_photo_checkbox_label}}</span>
+            </label>
+
+            <input type="hidden" name="_gotcha" style="display:none !important">
+
+            <button type="submit" class="add-photo-submit-btn" data-i18n="add_photo_submit_btn">{{T:add_photo_submit_btn}}</button>
+        </form>
+
+        <p id="add-photo-status" class="add-photo-status" role="status"></p>
+    </div>
+</div>
+
+<script src="/lib/leaflet-1.9.4/leaflet.js"></script>
+<script src="/lib/leaflet.markercluster-1.5.3/leaflet.markercluster.js"></script>
+<script src="/translations.js"></script>
+<script src="/chargeur-photo.js"></script>
+<script src="/boule-animee.js"></script>
+<script src="/criteres.js"></script>
+<script src="/script.js"></script>
+<!-- Liste des terrains de la zone affichée et adresses de la page (?q=, ?commune=…) -->
+<script src="/carte.js"></script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
+
+<script>
+document.querySelectorAll('.lang-link[data-lang-url]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+        window.location.href = btn.dataset.langUrl + window.location.search;
+    });
+});
+</script>
+</body>
+</html>

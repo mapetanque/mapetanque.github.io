@@ -377,7 +377,10 @@ def ecrire_recherche(communes, lieux_par_commune, centres, avec_page):
                       nom diffère de celui de la commune ; ancre : sous-titre de la localité sur
                       la page commune, quand elle en a plusieurs
         lieux     : [{o: osm_id de la fiche, n: nom OSM, r: rue, l: localité, c: commune,
-                      p: pistes, lat, lon}] — dans l'ordre des pages commune
+                      p: pistes, lat, lon, s: revêtement, sp: critères sur place,
+                      px: [[critère de proximité, mètres]], ph: [photo, auteur, source]}] — dans
+                      l'ordre des pages commune ; s, sp, px et ph servent aux tuiles de la liste
+                      de la page carte (carte.js), les mêmes que sur les pages commune
     Clés courtes : le fichier est téléchargé tel quel par le navigateur."""
     index = {"communes": [], "localites": [], "lieux": []}
     for commune in communes.liste:
@@ -404,7 +407,10 @@ def ecrire_recherche(communes, lieux_par_commune, centres, avec_page):
             index["lieux"].append({k: v for k, v in (
                 ("o", lieu["pistes"][0]["osm_id"]), ("n", lieu["nom"]), ("r", lieu["rue"]),
                 ("l", lieu["localite"]), ("c", commune["slug"]), ("p", len(lieu["pistes"])),
-                ("lat", round(lieu["lat"], 6)), ("lon", round(lieu["lon"], 6))) if v is not None})
+                ("lat", round(lieu["lat"], 6)), ("lon", round(lieu["lon"], 6)),
+                ("s", lieu["surface"]), ("sp", lieu["surPlace"] or None),
+                ("px", [[c, round(d)] for c, d in lieu["proximite"]] or None),
+                ("ph", list(lieu["photo"]) if lieu["photo"] else None)) if v is not None})
         for loc, lieux_loc in par_localite.items():
             if not loc or loc in tous_les_noms:
                 continue

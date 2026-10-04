@@ -42,7 +42,7 @@ CHEMIN_STATS_GEO = RACINE / "data" / "stats_geo.json"
 DOSSIERS_LANGUES = ("", "nl/", "de/", "en/")
 
 # Ordre des pages dans le sitemap et dans llms.txt (les autres suivent, par ordre alphabétique)
-ORDRE_PAGES = ["index.html", "comment-jouer.html", "compteur.html", "la-petanque.html",
+ORDRE_PAGES = ["index.html", "carte.html", "comment-jouer.html", "compteur.html", "la-petanque.html",
                "a-propos.html"]
 
 ID_SITE = f"{BASE}/#site"

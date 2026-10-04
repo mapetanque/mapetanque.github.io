@@ -1,0 +1,363 @@
+/* =============================================================================================
+   Page carte (carte.html, écrite par scripts/generer_carte.py) : en-tête sobre avec la
+   recherche, puis la carte sur toute la hauteur restante, la liste des terrains à sa gauche
+   (carte.js). Sur téléphone et tablette étroite, la carte seule, la liste s'ouvrant par-dessus
+   avec « Voir la liste ».
+
+   Chargée en dernier, après style-entete-sobre.css et style-commune.css (tuiles) : elle ne
+   s'applique qu'à cette page (body.page-carte).
+============================================================================================= */
+
+body.page-carte {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    background: #fff;
+}
+
+/* --- En-tête : logo, recherche, menu ---------------------------------------------------------- */
+
+.carte-entete {
+    flex: none;
+    border-bottom: 1px solid #e2e6de;
+    position: relative;
+    z-index: 1100;   /* le menu des propositions passe au-dessus de la carte et de la liste */
+}
+
+.page-carte .header {
+    padding: 10px 20px;
+}
+
+.page-carte .header-top-row {
+    gap: 20px;
+}
+
+/* La recherche suit le logo ; le menu reste poussé à droite. */
+.carte-recherche {
+    flex: 1 1 auto;
+    max-width: 440px;
+    margin-right: auto;
+}
+
+.carte-recherche .search-ligne {
+    flex: 1 1 auto;
+}
+
+/* Recherche en plein écran (téléphone, voir style.css) : le formulaire passe en colonne, la
+   ligne du champ ne doit plus s'étirer (elle prenait toute la hauteur), ni la largeur être
+   bornée comme dans l'en-tête. */
+.carte-recherche.search-form-plein-ecran {
+    max-width: none;
+    margin: 0;
+}
+
+.carte-recherche.search-form-plein-ecran .search-ligne {
+    flex: none;
+}
+
+.carte-recherche input {
+    width: 100%;
+    max-width: none;
+    height: 42px;
+    padding: 0 16px 0 42px;
+    border: 1px solid #d6dccf;
+    background: #f7f9f6;
+}
+
+.carte-recherche input:focus {
+    background: #fff;
+}
+
+/* --- Corps : liste + carte -------------------------------------------------------------------- */
+
+.carte-corps {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    position: relative;
+}
+
+.carte-liste {
+    flex: none;
+    width: 400px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    padding: 16px 16px 24px;
+    background: #f7f9f6;
+    border-right: 1px solid #e2e6de;
+}
+
+.carte-liste-entete {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0 0 14px;
+}
+
+.carte-liste-compte {
+    margin: 0;
+    font-size: 15px;
+    font-weight: bold;
+    color: #1d2619;
+}
+
+.carte-liste-lieux {
+    display: block;
+    margin-top: 2px;
+    font-size: 13px;
+    font-weight: normal;
+    color: #777;
+}
+
+.carte-liste-lieux:empty {
+    display: none;
+}
+
+.carte-liste-tuiles {
+    display: grid;
+    gap: 14px;
+}
+
+.carte-liste .commune-terrain-photo img {
+    height: 150px;
+}
+
+.carte-liste .commune-terrain-texte {
+    gap: 6px;
+    padding: 12px 14px 14px;
+}
+
+.carte-liste .commune-terrain-nom {
+    font-size: 16px;
+}
+
+.carte-liste .commune-terrain-details {
+    font-size: 13.5px;
+}
+
+.carte-liste .commune-pastille {
+    padding: 3px 9px;
+    font-size: 12.5px;
+}
+
+.carte-liste-vide {
+    margin: 8px 0;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.carte-liste-plus {
+    display: block;
+    width: 100%;
+    margin: 16px 0 0;
+    padding: 11px 16px;
+    border: 1px solid #d6dccf;
+    border-radius: 999px;
+    background: #fff;
+    color: #3d7a2a;
+    font: inherit;
+    font-size: 14.5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.carte-liste-plus:hover {
+    border-color: #74C15A;
+}
+
+.carte-liste-plus[hidden] {
+    display: none;
+}
+
+.carte-liste-signaler {
+    margin: 20px 0 0;
+    text-align: center;
+    font-size: 13.5px;
+}
+
+.carte-liste-signaler a {
+    color: #3d7a2a;
+}
+
+/* Bouton « Carte » : seulement quand la liste est ouverte par-dessus la carte (téléphone) */
+.carte-liste-fermer {
+    display: none;
+}
+
+.page-carte .map-view {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: auto;
+}
+
+.page-carte .map-wrapper {
+    position: relative;
+    height: 100%;
+}
+
+.page-carte #map {
+    height: 100%;
+    min-height: 0;
+}
+
+/* --- Sur la carte : « Me localiser », message de recherche, « Voir la liste » ----------------- */
+
+.carte-localiser {
+    position: absolute;
+    top: 10px;
+    left: 56px;
+    z-index: 1000;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 34px;
+    padding: 0 14px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-radius: 999px;
+    background: #fff;
+    background-clip: padding-box;
+    color: #1d2619;
+    font: inherit;
+    font-size: 13.5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.carte-localiser:hover {
+    color: #3d7a2a;
+}
+
+.carte-localiser .btn-icon {
+    width: 16px;
+    height: 16px;
+    color: #3d7a2a;
+}
+
+.page-carte .search-error {
+    position: absolute;
+    top: 54px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    max-width: calc(100% - 32px);
+    margin: 0;
+    padding: 8px 14px;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.page-carte .search-error:empty {
+    display: none;
+}
+
+.carte-voir-liste,
+.carte-liste-ouverte .carte-liste-fermer {
+    position: fixed;
+    left: 50%;
+    bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%);
+    z-index: 1050;
+    display: none;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 999px;
+    background: #1d2619;
+    color: #fff;
+    font: inherit;
+    font-size: 15px;
+    font-weight: bold;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+
+.carte-voir-liste svg,
+.carte-liste-fermer svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Marqueur (ou amas) du terrain survolé dans la liste */
+.carte-marqueur-survol {
+    z-index: 10000 !important;
+    filter: drop-shadow(0 0 0 #1d2619) drop-shadow(0 0 5px rgba(29, 38, 25, 0.9));
+}
+
+/* Marqueur invisible sur lequel se construit la fiche ouverte depuis la liste (carte.js) */
+.carte-marqueur-fiche {
+    display: none;
+}
+
+/* --- Écran étroit : la carte seule, la liste par-dessus ------------------------------------------ */
+
+@media (max-width: 900px) {
+    .carte-liste {
+        display: none;
+        position: absolute;
+        inset: 0;
+        z-index: 1040;
+        width: auto;
+        border-right: none;
+        padding-bottom: 96px;   /* place pour le bouton « Carte » */
+    }
+
+    .carte-liste-ouverte .carte-liste {
+        display: block;
+    }
+
+    .carte-liste-tuiles {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    }
+
+    .carte-voir-liste,
+    .carte-liste-ouverte .carte-liste-fermer {
+        display: inline-flex;
+    }
+
+    .carte-liste-ouverte .carte-voir-liste {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .page-carte .header {
+        padding: 8px 12px;
+    }
+
+    .page-carte .header-top-row {
+        gap: 10px;
+    }
+
+    .carte-recherche {
+        max-width: none;
+    }
+
+    /* « Me localiser » réduit à son icône, en bas à droite : en haut, les boutons de la carte
+       (filtres, clubs, fonds) prennent déjà toute la largeur. */
+    .carte-localiser {
+        top: auto;
+        left: auto;
+        right: 12px;
+        bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+        width: 46px;
+        height: 46px;
+        padding: 0;
+        justify-content: center;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    }
+
+    .carte-localiser .btn-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .carte-localiser span {
+        display: none;
+    }
+}

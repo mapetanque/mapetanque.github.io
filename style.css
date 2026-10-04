@@ -689,19 +689,29 @@ body.fullscreen-lock {
         background: #fff;
     }
 
+    .search-form.search-form-plein-ecran .search-ligne {
+        gap: 12px;
+    }
+
     .search-form.search-form-plein-ecran .search-ligne input {
-        width: 100%;
+        flex: 1 1 auto;
+        min-width: 0;
+        width: auto;
         max-width: none;
         border: 1px solid #74C15A;
     }
 
-    .search-form.search-form-plein-ecran #searchBtn {
-        display: none;
-    }
-
+    /* « Annuler » : du texte à droite du champ, pas une icône posée dedans comme la loupe */
     .search-form.search-form-plein-ecran .search-retour {
-        display: flex;
-        color: #3d7a2a;
+        display: block;
+        position: static;
+        transform: none;
+        flex: none;
+        padding: 8px 2px;
+        font: inherit;
+        font-size: 15px;
+        font-weight: bold;
+        color: #1d2619;
     }
 
     .search-form-plein-ecran .search-suggestions {

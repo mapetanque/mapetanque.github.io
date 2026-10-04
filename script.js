@@ -302,6 +302,11 @@ document.querySelectorAll('.lang-link').forEach(function (btn) {
 
 // ===================== Carte =====================
 
+// Page carte (carte.html) : la carte occupe tout l'écran sous l'en-tête, à côté de la liste des
+// terrains (carte.js). Comme en plein écran sur l'accueil, la molette et le doigt y agissent
+// directement sur la carte, et le bouton plein écran n'y a pas sa place.
+const PAGE_CARTE = document.body.classList.contains('page-carte');
+
 // Création de la carte centrée sur la Belgique
 // Molette : voir « Molette sur la carte » juste en dessous (la molette seule fait défiler la page,
 // Ctrl + molette zoome).
@@ -334,9 +339,14 @@ window.map = map;
 // En plein écran, le glissement à un doigt est rétabli (voir definirModePleinEcran).
 const ecranTactile = window.matchMedia('(pointer: coarse)').matches;
 
+// Vrai quand la carte occupe tout l'écran : page carte, ou plein écran de l'accueil.
+function carteSeuleALEcran() {
+    return PAGE_CARTE || !!map.getContainer().closest('.fullscreen-active');
+}
+
 function ajusterGlissementCarte() {
     if (!ecranTactile) return;
-    if (map.getContainer().closest('.fullscreen-active')) {
+    if (carteSeuleALEcran()) {
         map.dragging.enable();
     } else {
         map.dragging.disable();
@@ -366,7 +376,7 @@ function ajusterGlissementCarte() {
 
     conteneur.parentNode.addEventListener('wheel', function (e) {
         if (e.ctrlKey || e.metaKey) return;
-        if (conteneur.closest('.fullscreen-active')) return;
+        if (carteSeuleALEcran()) return;
         // Popups et contrôles (filtres…) : Leaflet y gère déjà la molette (défilement du contenu)
         if (e.target.closest('.leaflet-popup, .leaflet-control')) return;
 
@@ -383,7 +393,7 @@ function ajusterGlissementCarte() {
     conteneur.addEventListener('touchstart', function (e) {
         depart = null;
         if (e.touches.length !== 1) { masquerMessage(); return; }
-        if (conteneur.closest('.fullscreen-active')) return;
+        if (carteSeuleALEcran()) return;
         if (e.target.closest('.leaflet-popup, .leaflet-control')) return;
         depart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
     }, { passive: true });
@@ -408,6 +418,12 @@ const BELGIQUE_BOUNDS = [[49.50, 2.54], [51.51, 6.41]];
 
 function cadrerSurBelgique() {
     const emprise = L.latLngBounds(BELGIQUE_BOUNDS);
+    // Page carte : une carte presque aussi haute que large, le pays y tient entier sans le « +1 »
+    // pensé pour la carte large et basse de l'accueil.
+    if (PAGE_CARTE) {
+        cadrerSurEmprise(emprise, { padding: [10, 10] });
+        return;
+    }
     // Zoom calculé directement (indépendamment du zoom courant de la carte), plutôt que
     // fitBounds() + setZoom(getZoom()+1) : ce dernier lisait le zoom courant juste après avoir
     // lancé une animation, qui n'est pas toujours terminée à ce moment-là — au clic suivant sur
@@ -654,7 +670,7 @@ const FullscreenControl = L.Control.extend({
         return container;
     }
 });
-map.addControl(new FullscreenControl());
+if (!PAGE_CARTE) map.addControl(new FullscreenControl());
 
 // Sécurité : recalcule la taille de la carte une fois la page pleinement chargée
 window.addEventListener('load', function () {
@@ -846,6 +862,7 @@ function appliquerFiltres() {
     majBoutonFiltres();
     majResumeFiltres();
     majPanneauFiltres();
+    window.dispatchEvent(new CustomEvent('mapetanque:filtres'));
 }
 
 function basculerFiltre(cle) {
@@ -1091,7 +1108,11 @@ if (locateBtn) {
                     window.mapetanqueMajRegionBeauxTerrains(lat, lon);
                 }
 
-                map.setView([lat, lon], 15);
+                if (PAGE_CARTE) {
+                    cadrerAvecTerrainsProches(lat, lon, null);
+                } else {
+                    map.setView([lat, lon], 15);
+                }
 
                 if (locateMarker) {
                     map.removeLayer(locateMarker);
@@ -1189,6 +1210,24 @@ if (searchForm) {
     });
 }
 
+// Page carte : le lieu cherché (ou la position localisée) et ses terrains les plus proches dans
+// le même cadre, pour que la liste de gauche ne soit jamais vide après une adresse précise. Une
+// ville entière (emprise de Nominatim) contient en général déjà les siens.
+const NB_TERRAINS_PROCHES = 5;
+
+function cadrerAvecTerrainsProches(lat, lon, emprise) {
+    terrainsGeojson.then(function () {
+        const zone = L.latLngBounds(emprise || [[lat, lon], [lat, lon]]);
+        listeTousLesTerrains
+            .filter(function (t) { return !filtresActifs.size || passeLesFiltres(t.props); })
+            .map(function (t) { return { t: t, km: calculDistance(lat, lon, t.lat, t.lon) }; })
+            .sort(function (a, b) { return a.km - b.km; })
+            .slice(0, NB_TERRAINS_PROCHES)
+            .forEach(function (x) { zone.extend([x.t.lat, x.t.lon]); });
+        cadrerSurEmprise(zone, { paddingTopLeft: [40, 90], paddingBottomRight: [40, 40], maxZoom: 16 });
+    });
+}
+
 // Lieu trouvé (adresse de Nominatim, ou commune sans terrain choisie dans les propositions) :
 // marqueur de position, carte cadrée dessus, flèche vers le terrain le plus proche.
 // emprise : [[sud, ouest], [nord, est]], ou null pour un zoom fixe.
@@ -1196,7 +1235,9 @@ function montrerLieuRecherche(lat, lon, libelle, emprise) {
     // Le point trouvé devient la référence pour le calcul de distance dans les popups des terrains
     definirPositionUtilisateur(lat, lon);
 
-    if (emprise) {
+    if (PAGE_CARTE) {
+        cadrerAvecTerrainsProches(lat, lon, emprise);
+    } else if (emprise) {
         map.fitBounds(emprise);
     } else {
         map.setView([lat, lon], 15);
@@ -1219,6 +1260,23 @@ function montrerLieuRecherche(lat, lon, libelle, emprise) {
 }
 
 
+// Carte cadrée sur des lieux de data/recherche.json (une commune, un village) : la recherche
+// précédente n'a plus lieu d'être, son marqueur disparaît.
+function cadrerSurLieux(lieux) {
+    if (searchMarker) {
+        map.removeLayer(searchMarker);
+        searchMarker = null;
+    }
+    if (lieux.length === 1) {
+        map.setView([lieux[0].lat, lieux[0].lon], 17);
+        return;
+    }
+    // Marge du haut plus grande : boutons de la carte (zoom, Me localiser, filtres, clubs)
+    cadrerSurEmprise(L.latLngBounds(lieux.map(function (l) { return [l.lat, l.lon]; })),
+        { paddingTopLeft: [40, 90], paddingBottomRight: [40, 40], maxZoom: 17 });
+}
+
+
 // ===================== Propositions de la recherche =====================
 // Dès deux caractères tapés, un menu propose des communes, des localités (villages) et des
 // terrains, comme sur Komoot : « jup » propose Juprelle et ses terrains. Tout vient de
@@ -1231,6 +1289,8 @@ function montrerLieuRecherche(lat, lon, libelle, emprise) {
 //   - localité d'une telle commune : la même page, à son sous-titre quand la page en a plusieurs ;
 //   - commune ou localité à un seul lieu, terrain : la fiche du terrain sur la carte ;
 //   - commune sans terrain : la carte centrée dessus, avec la flèche vers le terrain le plus proche.
+// Sur la page carte (carte.html), tout reste sur la carte : une commune ou un village cadre la
+// carte sur ses terrains, que la liste de gauche reprend (carte.js).
 
 const MAX_LIGNES_PROPOSITIONS = 9;   // ligne « Chercher l'adresse » comprise
 
@@ -1456,7 +1516,7 @@ function htmlPropositionRecherche(index, ligne, i) {
 // Adresse de la page où mène une proposition, ou null quand elle se suit sur la page même
 // (voir allerVersProposition).
 function suivreProposition(index, ligne) {
-    if (ligne.genre !== 'place' || !ligne.place.commune.pg) return null;
+    if (PAGE_CARTE || ligne.genre !== 'place' || !ligne.place.commune.pg) return null;
     const place = ligne.place;
     const ancre = place.genre === 'localite' && place.localite.ancre ? '#' + place.localite.ancre : '';
     return (currentLang === 'fr' ? '/' : '/' + currentLang + '/') + 'commune/' + place.commune.s + '.html' + ancre;
@@ -1475,6 +1535,10 @@ function allerVersProposition(index, ligne) {
     }
     const place = ligne.place;
     const lieux = lieuxDeLaProposition(index, place);
+    if (lieux.length && PAGE_CARTE) {
+        cadrerSurLieux(lieux);
+        return;
+    }
     if (lieux.length) {
         allerVersTerrain(lieux[0].lat, lieux[0].lon);
         return;
@@ -1487,8 +1551,8 @@ function allerVersProposition(index, ligne) {
 
 const champRecherche = document.getElementById('searchInput');
 if (searchForm && champRecherche) {
-    // Champ et loupe réunis dans une ligne : en plein écran (téléphone), la loupe laisse sa place
-    // à une flèche de retour, et le menu se range sous la ligne.
+    // Champ et loupe réunis dans une ligne : en plein écran (téléphone), un bouton « Annuler »
+    // apparaît à droite du champ, comme sur AllTrails, et le menu se range sous la ligne.
     const ligneChamp = document.createElement('div');
     ligneChamp.className = 'search-ligne';
     champRecherche.parentNode.insertBefore(ligneChamp, champRecherche);
@@ -1498,7 +1562,6 @@ if (searchForm && champRecherche) {
     const retour = document.createElement('button');
     retour.type = 'button';
     retour.className = 'search-retour';
-    retour.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>';
     ligneChamp.appendChild(retour);
 
     const menu = document.createElement('ul');
@@ -1579,7 +1642,7 @@ if (searchForm && champRecherche) {
     const ouvrirPleinEcran = function () {
         if (pleinEcran || !ECRAN_ETROIT.matches) return;
         pleinEcran = true;
-        retour.setAttribute('aria-label', t('recherche_retour'));
+        retour.textContent = t('recherche_annuler');
         searchForm.classList.add('search-form-plein-ecran');
         document.body.classList.add('recherche-plein-ecran');
         history.pushState({ recherchePleinEcran: true }, '');
@@ -2840,7 +2903,10 @@ if (lienSignalerTerrain) {
     window.addEventListener('load', verifierPlaceLienSignalement);
     // La place change avec la largeur de l'écran, mais aussi avec la langue (libellés plus ou
     // moins longs) : on surveille donc directement la taille des éléments concernés.
-    if (typeof ResizeObserver === 'function') {
+    // Lien hors bannière (liste de la page carte) : toujours à sa place, rien à surveiller.
+    if (!banniere) {
+        // rien
+    } else if (typeof ResizeObserver === 'function') {
         const observateur = new ResizeObserver(verifierPlaceLienSignalement);
         observateur.observe(banniere);
         observateur.observe(lienSignalerTerrain);
@@ -3893,6 +3959,17 @@ if (desktopModalOverlay) {
         map.closePopup();
     });
 }
+
+// Touche Échap : referme la fiche, sauf si une fenêtre ouverte par-dessus (partage, photo,
+// signalement) doit se fermer d'abord.
+document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    const ficheOuverte = (desktopModal && desktopModal.classList.contains('open'))
+        || (mobileSheet && mobileSheet.classList.contains('open'));
+    if (!ficheOuverte || document.querySelector('#share-panel.open, #add-photo-modal.open, .open[role="dialog"]')) return;
+    fermerFicheMobileTerrain();
+    map.closePopup();
+});
 
 window.estMobile = estMobile;
 window.ouvrirFicheMobileTerrain = ouvrirFicheMobileTerrain;
