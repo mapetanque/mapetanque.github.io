@@ -295,6 +295,25 @@ const translations = {
         pied_installer: "Installer l'application",
         pied_installer_aide: "Ouvrez le menu de votre navigateur (⋮) et choisissez « Installer l'application » ou « Ajouter à l'écran d'accueil ».",
         pied_installer_aide_ios: "Dans Safari, touchez le bouton Partager, puis « Sur l'écran d'accueil ».",
+
+        // Compteur de points (compteur.js)
+        compteur_mene: "Mène {n}",
+        compteur_nouvelle_partie: "Nouvelle partie",
+        compteur_cible: "Points pour gagner",
+        compteur_equipe_a: "Équipe A",
+        compteur_equipe_b: "Équipe B",
+        compteur_toucher: "touchez pour +1",
+        compteur_annuler: "Annuler",
+        compteur_menes: "Mènes",
+        compteur_renommer: "Renommer",
+        compteur_partie_terminee: "Partie terminée",
+        compteur_gagne: "{equipe} gagne",
+        compteur_annuler_point: "Annuler le dernier point",
+        compteur_renommer_titre: "Renommer les équipes",
+        compteur_renommer_annuler: "Annuler",
+        compteur_enregistrer: "Enregistrer",
+        compteur_detail_titre: "Détail des mènes",
+        compteur_detail_vide: "Aucune mène jouée pour l'instant.",
     },
 
     nl: {
@@ -591,6 +610,25 @@ const translations = {
         pied_installer: "De app installeren",
         pied_installer_aide: "Open het menu van je browser (⋮) en kies ‘App installeren’ of ‘Toevoegen aan startscherm’.",
         pied_installer_aide_ios: "Tik in Safari op de deelknop en kies dan ‘Zet op beginscherm’.",
+
+        // Compteur de points (compteur.js)
+        compteur_mene: "Ronde {n}",
+        compteur_nouvelle_partie: "Nieuw spel",
+        compteur_cible: "Punten om te winnen",
+        compteur_equipe_a: "Team A",
+        compteur_equipe_b: "Team B",
+        compteur_toucher: "tik voor +1",
+        compteur_annuler: "Herstel",
+        compteur_menes: "Rondes",
+        compteur_renommer: "Hernoemen",
+        compteur_partie_terminee: "Spel afgelopen",
+        compteur_gagne: "{equipe} wint",
+        compteur_annuler_point: "Laatste punt herstellen",
+        compteur_renommer_titre: "Teams hernoemen",
+        compteur_renommer_annuler: "Annuleren",
+        compteur_enregistrer: "Opslaan",
+        compteur_detail_titre: "Verloop van de rondes",
+        compteur_detail_vide: "Nog geen rondes gespeeld.",
     },
 
     de: {
@@ -887,6 +925,25 @@ const translations = {
         pied_installer: "App installieren",
         pied_installer_aide: "Öffnen Sie das Menü Ihres Browsers (⋮) und wählen Sie „App installieren“ oder „Zum Startbildschirm hinzufügen“.",
         pied_installer_aide_ios: "Tippen Sie in Safari auf „Teilen“ und dann auf „Zum Home-Bildschirm“.",
+
+        // Compteur de points (compteur.js)
+        compteur_mene: "Runde {n}",
+        compteur_nouvelle_partie: "Neues Spiel",
+        compteur_cible: "Punkte zum Sieg",
+        compteur_equipe_a: "Team A",
+        compteur_equipe_b: "Team B",
+        compteur_toucher: "tippen für +1",
+        compteur_annuler: "Rückgängig",
+        compteur_menes: "Runden",
+        compteur_renommer: "Umbenennen",
+        compteur_partie_terminee: "Spiel beendet",
+        compteur_gagne: "{equipe} gewinnt",
+        compteur_annuler_point: "Letzten Punkt rückgängig",
+        compteur_renommer_titre: "Teams umbenennen",
+        compteur_renommer_annuler: "Abbrechen",
+        compteur_enregistrer: "Speichern",
+        compteur_detail_titre: "Verlauf der Runden",
+        compteur_detail_vide: "Noch keine Runde gespielt.",
     },
 
     en: {
@@ -1183,6 +1240,25 @@ const translations = {
         pied_installer: "Install the app",
         pied_installer_aide: "Open your browser menu (⋮) and choose “Install app” or “Add to Home screen”.",
         pied_installer_aide_ios: "In Safari, tap the Share button, then “Add to Home Screen”.",
+
+        // Compteur de points (compteur.js)
+        compteur_mene: "End {n}",
+        compteur_nouvelle_partie: "New game",
+        compteur_cible: "Points to win",
+        compteur_equipe_a: "Team A",
+        compteur_equipe_b: "Team B",
+        compteur_toucher: "tap for +1",
+        compteur_annuler: "Undo",
+        compteur_menes: "Ends",
+        compteur_renommer: "Rename",
+        compteur_partie_terminee: "Game over",
+        compteur_gagne: "{equipe} wins",
+        compteur_annuler_point: "Undo last point",
+        compteur_renommer_titre: "Rename teams",
+        compteur_renommer_annuler: "Cancel",
+        compteur_enregistrer: "Save",
+        compteur_detail_titre: "End by end",
+        compteur_detail_vide: "No ends played yet.",
     }
 
 };

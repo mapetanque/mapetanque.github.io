@@ -1,0 +1,402 @@
+/* Widget compteur de points (compteur.html et ses versions nl/de/en), construit par compteur.js.
+   Palette et typographie propres à cet outil (vert + terracotta, Quicksand + Space Grotesk) :
+   seule zone du site où cette identité visuelle distincte est utilisée. */
+
+:root{
+  --bg: #1c1b17;
+  --bg-soft: #26241e;
+  --line: #3a372f;
+  --sand: #f2ece0;
+  --sand-dim: #a89e8c;
+  --green: #4c7a3d;
+  --green-deep: #375a2c;
+  --terracotta: #b5502e;
+  --terracotta-deep: #8a3b21;
+  --boule: #c9c2b4;
+}
+
+*{ box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+/* Le compteur est un widget autonome intégré dans la page normale du site : sa palette sombre
+   reste confinée à l'intérieur de .compteur-widget, comportement volontairement différent du
+   thème clair du reste du site. Par défaut, hauteur bornée façon "carte" ; en plein écran
+   (.fullscreen-active, bouton dans la barre du haut), passe en position fixe pour occuper tout
+   le viewport — même mécanisme que le mode plein écran de la carte ailleurs sur le site (voir
+   definirModePleinEcran dans script.js). */
+.compteur-widget{
+  position: relative;
+  height: min(640px, 80vh);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+
+  background: var(--bg);
+  font-family: 'Quicksand', sans-serif;
+  color: var(--sand);
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.compteur-widget.fullscreen-active{
+  position: fixed;
+  inset: 0;
+  height: 100vh;
+  height: 100dvh;
+  border-radius: 0;
+  z-index: 1060;
+}
+
+/* Empêche la page de scroller derrière le widget tant que le plein écran est actif */
+body.fullscreen-lock {
+  overflow: hidden;
+}
+
+/* Contour visible au clavier uniquement (pas au toucher) */
+.compteur-widget button:focus-visible{
+  outline: 2px solid var(--sand);
+  outline-offset: 2px;
+}
+
+/* Lu par les lecteurs d'écran, invisible à l'écran */
+.compteur-widget .sr-only{
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.app{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.fullscreen-toggle-btn{
+  background: none;
+  border: none;
+  color: var(--sand-dim);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  margin-left: 8px;
+}
+.fullscreen-toggle-btn svg{ width: 18px; height: 18px; }
+.fullscreen-toggle-btn:hover{ color: var(--sand); }
+
+/* top bar */
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  padding: max(10px, env(safe-area-inset-top)) 14px 8px;
+  background: var(--bg);
+  font-size: 12px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--sand-dim);
+  flex: 0 0 auto;
+  z-index: 5;
+  white-space: nowrap;
+}
+.topbar button{
+  background:none; border:none; color: var(--sand-dim);
+  font-family: inherit; font-size: 12px; letter-spacing:.06em; text-transform:uppercase;
+  padding: 6px 8px; cursor:pointer;
+}
+.target-toggle{ display:flex; gap:4px; background: var(--bg-soft); border-radius: 20px; padding:3px; }
+.target-toggle button{
+  padding: 5px 12px; border-radius: 16px; color: var(--sand-dim);
+}
+.target-toggle button.active{ background: var(--sand); color: var(--bg); font-weight:700; }
+.mene-count{ font-variant-numeric: tabular-nums; }
+
+/* halves */
+.halves{
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+@media (orientation: landscape){
+  .halves{ flex-direction: row; }
+  .divider{ width:1px; height:100%; }
+}
+
+.team{
+  flex: 1 1 0;
+  display:flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content:center;
+  position: relative;
+  padding: 8px 16px 14px;
+  min-height: 0;
+  cursor: pointer;
+  transition: filter .15s ease;
+}
+.team:active{ filter: brightness(1.12); }
+.team.a{ background: var(--green); }
+.team.b{ background: var(--terracotta); }
+
+.divider{
+  height: 1px;
+  background: rgba(0,0,0,.35);
+  flex: 0 0 auto;
+}
+
+.name{
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.85);
+  padding: 4px 10px;
+  border-radius: 8px;
+  max-width: 90%;
+  text-align:center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.score{
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: min(28vh, 32vw);
+  line-height: 1;
+  color: var(--sand);
+  margin: 2px 0 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* « +3 » qui s'envole au-dessus du score à chaque mène marquée */
+/* Décalé à droite et sur fond sombre, pour rester lisible par-dessus le gros score */
+.gain{
+  position: absolute;
+  top: 26%;
+  left: 78%;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--sand);
+  background: rgba(0,0,0,.35);
+  border-radius: 999px;
+  padding: 6px 14px;
+  pointer-events: none;
+  animation: gain-envol .8s ease-out forwards;
+}
+@keyframes gain-envol{
+  0%{ transform: translate(-50%, 10px) scale(.8); opacity: 0; }
+  20%{ transform: translate(-50%, 0) scale(1.1); opacity: 1; }
+  100%{ transform: translate(-50%, -50px) scale(1); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce){
+  .gain{ animation-name: gain-fondu; }
+  @keyframes gain-fondu{
+    0%, 60%{ transform: translate(-50%, 0); opacity: 1; }
+    100%{ transform: translate(-50%, 0); opacity: 0; }
+  }
+}
+
+.boules{
+  display:flex;
+  flex-wrap: wrap;
+  justify-content:center;
+  gap: 4px;
+  max-width: 260px;
+  margin-bottom: 14px;
+}
+.boule{
+  width: 9px; height: 9px; border-radius: 50%;
+  background: rgba(255,255,255,.18);
+  flex: 0 0 auto;
+}
+.boule.filled{ background: var(--boule); box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset; }
+
+/* Une pastille par nombre de points d'une mène (le +1 se fait en touchant la moitié).
+   Préfixe .compteur-widget : écarte le padding/la largeur de .controls de style.css (barre
+   de recherche du site), qui faisaient passer la dernière pastille à la ligne sur mobile. */
+.compteur-widget .controls{
+  display:flex;
+  align-items:center;
+  flex-wrap: wrap;
+  justify-content:center;
+  gap: 6px;
+  width: auto;
+  max-width: 260px;
+  padding: 0;
+}
+.chip{
+  border: 1.5px solid rgba(255,255,255,.4);
+  color: var(--sand);
+  background: rgba(0,0,0,.12);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 7px 11px;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+}
+/* Le +1 n'a pas de pastille (on touche la moitié) : ce bouton n'existe que pour le clavier et
+   n'apparaît que lorsqu'il a le focus. */
+.chip.chip-un:not(:focus-visible){
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.hint{
+  position:absolute;
+  bottom: 8px;
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.35);
+}
+
+/* bottom bar */
+.bottombar{
+  flex: 0 0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap: 8px;
+  padding: 10px 14px max(10px, env(safe-area-inset-bottom));
+  background: var(--bg);
+}
+.bottombar button{
+  background:none; border:none; color: var(--sand-dim);
+  font-family: 'Quicksand', sans-serif; font-weight:600;
+  font-size: 13px; letter-spacing:.04em;
+  padding: 8px 10px; cursor:pointer;
+  display:flex; align-items:center; gap:6px;
+  white-space: nowrap;
+}
+.bottombar button:disabled{ opacity:.35; }
+/* Petits téléphones : les trois boutons tiennent sur une ligne même en néerlandais
+   (« Namen wijzigen ») */
+@media (max-width: 380px){
+  .topbar{ padding-left: 8px; padding-right: 8px; }
+  .topbar button{ padding: 6px 4px; }
+  .bottombar{ padding-left: 8px; padding-right: 8px; gap: 4px; }
+  .bottombar button{ padding: 8px 6px; font-size: 12px; letter-spacing: 0; gap: 4px; }
+}
+
+/* Panneaux par-dessus le compteur : victoire, renommer, détail des mènes.
+   visibility (et pas seulement opacity) : un panneau caché ne doit pas être atteignable au
+   clavier. Elle bascule après le fondu à la fermeture, tout de suite à l'ouverture. */
+.win{
+  position:absolute; inset:0;
+  background: rgba(10,9,7,.92);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap: 18px;
+  opacity:0; pointer-events:none; visibility: hidden;
+  transition: opacity .3s ease, background .3s ease, visibility 0s linear .3s;
+  z-index: 20;
+  text-align:center;
+  padding: 20px;
+  overflow: hidden;
+}
+.win.show{
+  opacity:1; pointer-events:auto; visibility: visible;
+  transition: opacity .3s ease, background .3s ease;
+}
+.win.win-a{ background: linear-gradient(180deg, #1e2e17, #14200f); }
+.win.win-b{ background: linear-gradient(180deg, #3a2015, #26140d); }
+.win .trophy-line{
+  font-size: 12px; letter-spacing:.14em; text-transform:uppercase; color: var(--sand-dim);
+}
+.win .winner-name{
+  font-family:'Space Grotesk', sans-serif; font-weight:700;
+  font-size: 34px; color: var(--sand);
+}
+.win .final-score{
+  font-family:'Space Grotesk', sans-serif; font-weight:700;
+  font-size: 20px; color: var(--sand-dim);
+}
+.win button{
+  margin-top: 8px;
+  background: var(--sand); color: var(--bg);
+  border:none; border-radius: 999px;
+  font-family:'Quicksand',sans-serif; font-weight:700;
+  padding: 12px 26px; font-size: 15px; cursor:pointer;
+}
+.win button.secondary{
+  background: transparent; color: var(--sand);
+  border: 1.5px solid rgba(255,255,255,.35);
+  margin-top: 8px;
+}
+
+.confetti-field{
+  position:absolute; inset:0;
+  pointer-events:none;
+  overflow:hidden;
+}
+.confetti-piece{
+  position:absolute;
+  top: -20px;
+  width: 8px;
+  height: 14px;
+  opacity: .9;
+  border-radius: 2px;
+  animation-name: confetti-fall;
+  animation-timing-function: cubic-bezier(.35,.05,.6,.95);
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+@keyframes confetti-fall{
+  0%{ transform: translateY(0) rotate(0deg); opacity: .95; }
+  85%{ opacity: .9; }
+  100%{ transform: translateY(115vh) rotate(540deg); opacity: 0; }
+}
+.modal-field{
+  display:flex; flex-direction:column; gap:6px;
+  width: min(280px, 80vw);
+  text-align:left;
+}
+.modal-field span{
+  font-size: 11px; letter-spacing:.08em; text-transform:uppercase; color: var(--sand-dim);
+}
+.modal-field input{
+  font-family:'Quicksand',sans-serif; font-weight:600; font-size:17px;
+  background: var(--bg-soft); color: var(--sand);
+  border: 1.5px solid rgba(255,255,255,.25); border-radius: 10px;
+  padding: 10px 12px; outline:none;
+}
+.modal-field input:focus{ border-color: var(--sand); }
+
+/* Détail des mènes : la plus récente en haut, avec le score après chaque mène */
+.detail-menes{
+  list-style: none;
+  margin: 0; padding: 0;
+  width: min(320px, 86vw);
+  max-height: 60%;
+  overflow-y: auto;
+  text-align: left;
+  font-variant-numeric: tabular-nums;
+}
+.detail-menes li{
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 4px;
+  border-bottom: 1px solid var(--line);
+  font-size: 15px;
+}
+.detail-menes .numero{ color: var(--sand-dim); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+.detail-menes .equipe{ display: flex; align-items: center; gap: 8px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.detail-menes .equipe::before{ content: ''; flex: 0 0 auto; width: 10px; height: 10px; border-radius: 50%; }
+.detail-menes .a .equipe::before{ background: var(--green); }
+.detail-menes .b .equipe::before{ background: var(--terracotta); }
+.detail-menes .points{ font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
+.detail-menes .apres{ font-family: 'Space Grotesk', sans-serif; color: var(--sand-dim); }
+.detail-vide{ color: var(--sand-dim); font-size: 14px; }
