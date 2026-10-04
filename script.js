@@ -499,7 +499,7 @@ function cadrerSurBelgique() {
     // Page carte : une carte presque aussi haute que large, le pays y tient entier sans le « +1 »
     // pensé pour la carte large et basse de l'accueil.
     if (PAGE_CARTE) {
-        cadrerSurEmprise(emprise, { padding: [10, 10] });
+        cadrerSurEmprise(emprise, { paddingTopLeft: [10, 10], paddingBottomRight: [10, 10 + margeSousCarte()] });
         return;
     }
     // Zoom calculé directement (indépendamment du zoom courant de la carte), plutôt que
@@ -517,6 +517,12 @@ cadrerSurBelgique();
 // de la carte (Namur : de Lille à l'Allemagne sur ordinateur, toute la Belgique sur mobile). Les
 // quarts de niveau sont permis le temps de ce cadrage seulement ; les zooms suivants (boutons,
 // molette) reviennent aux niveaux entiers.
+// Hauteur du bas de la carte cachée par la feuille de la liste (page carte, téléphone : voir
+// carte.js), à ajouter aux marges des cadrages pour que la zone cadrée reste visible.
+function margeSousCarte() {
+    return typeof window.margeBasCarte === 'function' ? window.margeBasCarte() : 0;
+}
+
 function cadrerSurEmprise(emprise, options) {
     map.options.zoomSnap = 0.25;
     map.fitBounds(emprise, options);
@@ -1301,7 +1307,7 @@ function cadrerAvecTerrainsProches(lat, lon, emprise) {
             .sort(function (a, b) { return a.km - b.km; })
             .slice(0, NB_TERRAINS_PROCHES)
             .forEach(function (x) { zone.extend([x.t.lat, x.t.lon]); });
-        cadrerSurEmprise(zone, { paddingTopLeft: [40, 90], paddingBottomRight: [40, 40], maxZoom: 16 });
+        cadrerSurEmprise(zone, { paddingTopLeft: [40, 90], paddingBottomRight: [40, 40 + margeSousCarte()], maxZoom: 16 });
     });
 }
 
@@ -1344,13 +1350,10 @@ function cadrerSurLieux(lieux) {
         map.removeLayer(searchMarker);
         searchMarker = null;
     }
-    if (lieux.length === 1) {
-        map.setView([lieux[0].lat, lieux[0].lon], 17);
-        return;
-    }
-    // Marge du haut plus grande : boutons de la carte (zoom, Me localiser, filtres, clubs)
+    // Marge du haut plus grande : boutons de la carte (zoom, Me localiser, filtres, clubs). Un
+    // seul lieu : l'emprise est un point, le zoom s'arrête à 17.
     cadrerSurEmprise(L.latLngBounds(lieux.map(function (l) { return [l.lat, l.lon]; })),
-        { paddingTopLeft: [40, 90], paddingBottomRight: [40, 40], maxZoom: 17 });
+        { paddingTopLeft: [40, 90], paddingBottomRight: [40, 40 + margeSousCarte()], maxZoom: 17 });
 }
 
 

@@ -1,7 +1,7 @@
 // Page carte (carte.html) : la liste des terrains de la zone affichée, et l'arrivée sur la page.
 //
-// Liste : à gauche de la carte sur ordinateur ; sur téléphone, elle s'ouvre par-dessus la carte
-// avec « Voir la liste » (le bouton retour du téléphone la referme). Elle suit la carte : à chaque
+// Liste : à gauche de la carte sur ordinateur ; sur téléphone, une feuille qui monte du bas de
+// l'écran, comme sur Komoot (voir « Feuille du téléphone » plus bas). Elle suit la carte : à chaque
 // déplacement, les lieux visibles, du plus proche au plus lointain (de la position cherchée ou
 // localisée si elle est à l'écran, sinon du centre de la carte), par paquets de PAR_PAQUET. Un
 // lieu, ce sont les pistes voisines réunies, comme sur les pages commune : mêmes tuiles, mêmes
@@ -30,7 +30,11 @@
     if (!liste || !tuiles) return;
 
     var PAR_PAQUET = 24;
-    var NB_PASTILLES = 4;   // au-delà, la tuile s'allonge trop dans une colonne étroite
+    // Pastilles des tuiles : sur une seule ligne, les plus utiles pour choisir un terrain d'abord ;
+    // celles qui ne tiennent pas sont remplacées par « +N » (compacterPastilles). La fiche les
+    // montre toutes.
+    var ORDRE_PASTILLES = ['wc', 'parking', 'arret', 'banc', 'abri_pluie', 'eau_potable', 'jeux',
+                           'calme', 'nature', 'eau', 'eclaire', 'voie_verte'];
 
     var index = null;          // data/recherche.json, voir chargerIndexRecherche dans script.js
     var proprietes = {};       // osm_id -> propriétés du terrain, pour les filtres
@@ -69,9 +73,11 @@
         if (l.s && translations[currentLang]['commune_surface_' + l.s]) details.push(t('commune_surface_' + l.s));
         if (distanceKm !== null) details.push(t('carte_a_distance').replace('{d}', formaterDistanceKm(distanceKm)));
 
-        var pastilles = (l.sp || []).map(function (cle) { return pastille(cle, ''); })
-            .concat((l.px || []).map(function (p) { return pastille(p[0], distanceCritere(p[1])); }))
-            .slice(0, NB_PASTILLES);
+        var criteres = (l.sp || []).map(function (cle) { return [cle, '']; })
+            .concat((l.px || []).map(function (p) { return [p[0], distanceCritere(p[1])]; }));
+        var rang = function (c) { var i = ORDRE_PASTILLES.indexOf(c[0]); return i < 0 ? 99 : i; };
+        var pastilles = criteres.sort(function (a, b) { return rang(a) - rang(b); })
+            .map(function (c) { return pastille(c[0], c[1]); });
 
         var resume = window.mapetanqueResumeNote(l.o);
         var note = resume
@@ -116,12 +122,21 @@
     // l'écran (distances affichées), sinon le centre de la carte (pas de distance affichée).
     function repere(zone) {
         if (userPosition && zone.contains(userPosition)) return { point: userPosition, distances: true };
-        var centre = map.getCenter();
+        var centre = zone.getCenter();
         return { point: [centre.lat, centre.lng], distances: false };
     }
 
+    // Partie de la carte que l'on voit : sur téléphone, la feuille en cache le bas.
+    function zoneVisible() {
+        var marge = margeBas();
+        if (!marge) return map.getBounds();
+        var taille = map.getSize();
+        return L.latLngBounds(map.containerPointToLatLng([0, 0]),
+            map.containerPointToLatLng([taille.x, Math.max(40, taille.y - marge)]));
+    }
+
     function calculer() {
-        var zone = map.getBounds();
+        var zone = zoneVisible();
         var ref = repere(zone);
         visibles = index.lieux
             .filter(function (l) { return zone.contains([l.lat, l.lon]) && passe(l); })
@@ -130,6 +145,27 @@
             })
             .sort(function (a, b) { return a.km - b.km; });
         visibles.distances = ref.distances;
+    }
+
+    // Une ligne de pastilles par tuile : on cache celles qui dépassent, en partant de la fin, et
+    // une pastille « +N » dit combien il en reste (au moins une pastille reste visible).
+    function compacterPastilles() {
+        tuiles.querySelectorAll('.commune-pastilles').forEach(function (ligne) {
+            var ancien = ligne.querySelector('.pastille-plus');
+            if (ancien) ancien.remove();
+            var items = Array.prototype.slice.call(ligne.children);
+            items.forEach(function (item) { item.hidden = false; });
+            var largeur = ligne.clientWidth;
+            if (!largeur || ligne.scrollWidth <= largeur) return;
+            var plus = document.createElement('span');
+            plus.className = 'commune-pastille pastille-plus';
+            ligne.appendChild(plus);
+            for (var n = items.length - 1; n >= 1; n--) {
+                items[n].hidden = true;
+                plus.textContent = '+' + (items.length - n);
+                if (ligne.scrollWidth <= largeur) break;
+            }
+        });
     }
 
     function afficher(nombre) {
@@ -146,6 +182,7 @@
             }).join('');
         }
         boutonPlus.hidden = montres >= visibles.length;
+        compacterPastilles();
     }
 
     function rafraichir() {
@@ -211,32 +248,145 @@
     tuiles.addEventListener('mouseleave', finSurvol);
     map.on('movestart', finSurvol);
 
-    // ----- Liste par-dessus la carte (téléphone) -----
+    // ----- Feuille du téléphone -----
+    // Sous 900 px, la liste est une feuille posée sur le bas de la carte, en trois positions :
+    //   aperçu  : le compteur et une tuile entière (au chargement), 60 % de la carte au plus ;
+    //   repliée : le compteur seul, pour voir toute la carte ;
+    //   dépliée : la liste sur toute la hauteur ; le bouton retour du téléphone la redescend.
+    // On la fait glisser du doigt (poignée, ou n'importe où tant qu'elle n'est pas dépliée), ou on
+    // touche la poignée et le compteur. La liste ne compte que la partie de la carte qu'on voit.
 
-    var voirListe = document.getElementById('carte-voir-liste');
+    var ECRAN_ETROIT = window.matchMedia('(max-width: 900px)');
+    var corps = document.querySelector('.carte-corps');
     var fermerListe = document.getElementById('carte-liste-fermer');
+    var etat = 'apercu';
 
-    function listeOuverte() {
-        return document.body.classList.contains('carte-liste-ouverte');
+    function hauteurCorps() { return corps.clientHeight; }
+
+    // Feuille repliée : la poignée et le compteur, jusqu'au-dessus de la première tuile (le compteur
+    // garde la même hauteur, ses deux lignes ayant leur place réservée, voir style-carte.css).
+    function hauteurRepliee() { return tuiles.offsetTop; }
+
+    // Hauteur de l'aperçu : le compteur et une tuile type (photo, titre, une ligne de détails, une
+    // ligne de pastilles), mesurée une fois sur une tuile fictive glissée dans la liste puis
+    // retirée. Toujours la même, qu'il y ait des terrains ou non : la feuille ne fait pas le
+    // yo-yo quand on déplace la carte. Remesurée si l'écran change de taille ; 60 % de la carte
+    // au plus.
+    var hauteurApercuMesuree = null;
+
+    function hauteurApercu() {
+        if (hauteurApercuMesuree === null) {
+            var essai = document.createElement('div');
+            essai.style.visibility = 'hidden';
+            essai.innerHTML = tuileHtml({ o: '', l: 'Mapetanque', p: 1, sp: ['banc'], lat: 0, lon: 0 }, null);
+            tuiles.insertBefore(essai, tuiles.firstChild);
+            hauteurApercuMesuree = tuiles.offsetTop + essai.offsetHeight + 14;
+            essai.remove();
+        }
+        return Math.max(hauteurRepliee() + 120, Math.min(hauteurApercuMesuree, Math.round(hauteurCorps() * 0.6)));
     }
 
-    if (voirListe) {
-        voirListe.addEventListener('click', function () {
-            document.body.classList.add('carte-liste-ouverte');
+    function decalagePour(e) {
+        if (e === 'deplie') return 0;
+        if (e === 'replie') return hauteurCorps() - hauteurRepliee();
+        return hauteurCorps() - hauteurApercu();
+    }
+
+
+    // Hauteur de carte cachée par la feuille, pour la liste et pour les cadrages (script.js)
+    function margeBas() {
+        return ECRAN_ETROIT.matches && etat !== 'deplie' ? hauteurCorps() - decalagePour(etat) : 0;
+    }
+    window.margeBasCarte = margeBas;
+
+    function poser(decalage, anime) {
+        liste.classList.toggle('glisse', !anime);
+        liste.style.transform = 'translateY(' + decalage + 'px)';
+        corps.style.setProperty('--feuille-visible', Math.max(0, hauteurCorps() - decalage) + 'px');
+    }
+
+    function changerEtat(nouvel, depuisHistorique) {
+        var ancien = etat;
+        etat = nouvel;
+        liste.classList.toggle('deplie', etat === 'deplie');
+        poser(decalagePour(etat), true);
+        if (etat === 'deplie' && ancien !== 'deplie' && !depuisHistorique) {
             history.pushState({ carteListe: true }, '');
+        }
+        if (ancien === 'deplie' && etat !== 'deplie') {
             liste.scrollTop = 0;
-        });
+            if (!depuisHistorique && history.state && history.state.carteListe) history.back();
+        }
+        // La partie visible de la carte a changé : la liste suit
+        if (etat !== 'deplie' && ancien !== etat) rafraichir();
     }
+
+    function mettreEnPlace() {
+        if (ECRAN_ETROIT.matches) {
+            poser(decalagePour(etat), false);
+        } else {
+            liste.style.transform = '';
+            liste.classList.remove('deplie', 'glisse');
+            corps.style.removeProperty('--feuille-visible');
+            etat = 'apercu';
+        }
+    }
+    mettreEnPlace();
+    window.addEventListener('resize', function () {
+        hauteurApercuMesuree = null;
+        compacterPastilles();
+        mettreEnPlace();
+    });
+
+    // Glisser du doigt
+    var glisse = null;
+    liste.addEventListener('touchstart', function (e) {
+        glisse = null;
+        if (!ECRAN_ETROIT.matches || e.touches.length !== 1) return;
+        var surEntete = !!e.target.closest('.carte-liste-poignee, .carte-liste-entete');
+        // Dépliée et déjà défilée : le doigt fait défiler la liste
+        if (etat === 'deplie' && !surEntete && liste.scrollTop > 0) return;
+        glisse = { y: e.touches[0].clientY, depart: decalagePour(etat), actuel: decalagePour(etat),
+                   bouge: false, contenuDeplie: etat === 'deplie' && !surEntete };
+    }, { passive: true });
+
+    liste.addEventListener('touchmove', function (e) {
+        if (!glisse) return;
+        var dy = e.touches[0].clientY - glisse.y;
+        if (!glisse.bouge) {
+            if (Math.abs(dy) < 8) return;
+            // Dépliée, vers le haut : c'est un défilement de la liste, pas un glissement
+            if (glisse.contenuDeplie && dy < 0) { glisse = null; return; }
+            glisse.bouge = true;
+        }
+        e.preventDefault();
+        glisse.actuel = Math.min(Math.max(glisse.depart + dy, 0), hauteurCorps() - hauteurRepliee());
+        poser(glisse.actuel, false);
+    }, { passive: false });
+
+    liste.addEventListener('touchend', function () {
+        if (!glisse || !glisse.bouge) { glisse = null; return; }
+        var ordre = ['deplie', 'apercu', 'replie'];
+        var rang = ordre.indexOf(etat);
+        var ecart = glisse.actuel - glisse.depart;
+        if (ecart < -50) rang = Math.max(0, rang - 1);
+        else if (ecart > 50) rang = Math.min(2, rang + 1);
+        glisse = null;
+        if (ordre[rang] === etat) poser(decalagePour(etat), true);
+        else changerEtat(ordre[rang]);
+    });
+
+    // Toucher la poignée ou le compteur : aperçu ↔ dépliée (repliée → aperçu)
+    liste.addEventListener('click', function (e) {
+        if (!ECRAN_ETROIT.matches || !e.target.closest('.carte-liste-poignee, .carte-liste-compte')) return;
+        changerEtat(etat === 'apercu' ? 'deplie' : 'apercu');
+    });
+
     if (fermerListe) {
-        fermerListe.addEventListener('click', function () {
-            if (history.state && history.state.carteListe) history.back();
-            else document.body.classList.remove('carte-liste-ouverte');
-        });
+        fermerListe.addEventListener('click', function () { changerEtat('apercu'); });
     }
     window.addEventListener('popstate', function () {
-        if (listeOuverte() && !(history.state && history.state.carteListe)) {
-            document.body.classList.remove('carte-liste-ouverte');
-        }
+        if (etat === 'deplie' && !(history.state && history.state.carteListe)) changerEtat('apercu', true);
     });
 
     // ----- Arrivée sur la page -----
@@ -281,6 +431,9 @@
 
     chargement.then(function (resultats) {
         index = resultats[0];
+        if (!window.location.search && ECRAN_ETROIT.matches) {
+            cadrerSurBelgique();   // le premier cadrage (script.js) ignorait la feuille
+        }
         if (parametres.get('commune')) {
             arriveeCommune(parametres.get('commune'), parametres.get('localite'));
         } else if (parametres.get('province')) {

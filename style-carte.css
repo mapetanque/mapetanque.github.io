@@ -139,8 +139,28 @@ body.page-carte {
 }
 
 .carte-liste .commune-pastille {
+    flex: none;
     padding: 3px 9px;
     font-size: 12.5px;
+    white-space: nowrap;
+}
+
+/* Une seule ligne de pastilles : celles qui dépassent sont cachées et comptées dans « +N »
+   (compacterPastilles dans carte.js). */
+.carte-liste .commune-pastilles {
+    flex-wrap: nowrap;
+    overflow: hidden;
+}
+
+.carte-liste .commune-pastille[hidden] {
+    display: none;
+}
+
+.carte-liste .pastille-plus {
+    border-color: transparent;
+    background: #f0f2ee;
+    color: #555;
+    font-weight: bold;
 }
 
 .carte-liste-vide {
@@ -183,7 +203,8 @@ body.page-carte {
     color: #3d7a2a;
 }
 
-/* Bouton « Carte » : seulement quand la liste est ouverte par-dessus la carte (téléphone) */
+/* Poignée et bouton « Carte » : seulement pour la feuille du téléphone (plus bas) */
+.carte-liste-poignee,
 .carte-liste-fermer {
     display: none;
 }
@@ -204,7 +225,7 @@ body.page-carte {
     min-height: 0;
 }
 
-/* --- Sur la carte : « Me localiser », message de recherche, « Voir la liste » ----------------- */
+/* --- Sur la carte : « Me localiser », message de recherche ---------------------------------- */
 
 .carte-localiser {
     position: absolute;
@@ -255,8 +276,7 @@ body.page-carte {
     display: none;
 }
 
-.carte-voir-liste,
-.carte-liste-ouverte .carte-liste-fermer {
+.carte-liste.deplie .carte-liste-fermer {
     position: fixed;
     left: 50%;
     bottom: calc(24px + env(safe-area-inset-bottom, 0px));
@@ -277,7 +297,6 @@ body.page-carte {
     cursor: pointer;
 }
 
-.carte-voir-liste svg,
 .carte-liste-fermer svg {
     width: 18px;
     height: 18px;
@@ -290,42 +309,91 @@ body.page-carte {
 }
 
 
-/* --- Écran étroit : la carte seule, la liste par-dessus ------------------------------------------ */
+/* --- Tablette et téléphone : en-tête calé sur celui des autres pages ----------------------------- */
+/* Mêmes marges que l'en-tête des autres pages (style.css) et une ligne de 40 px de haut (champ
+   compris) : la boule du logo tombe pile sous celle du menu mobile quand il s'ouvre. */
+@media (max-width: 1024px) {
+    .page-carte .header {
+        padding: 14px 15px 10px;
+    }
 
+    .carte-recherche input {
+        height: 40px;
+    }
+}
+
+/* --- Écran étroit : la liste devient une feuille qui monte du bas, comme sur Komoot ------------- */
+/* Trois positions (carte.js) : aperçu (la moitié de la carte, le compteur et la première tuile),
+   repliée (le compteur seul), dépliée (la liste sur toute la hauteur). carte.js pose le décalage
+   (transform) et la hauteur visible de la feuille (--feuille-visible), qui remonte « Me
+   localiser » et les mentions de la carte au-dessus d'elle. */
 @media (max-width: 900px) {
     .carte-liste {
-        display: none;
         position: absolute;
         inset: 0;
         z-index: 1040;
         width: auto;
+        padding-top: 0;
         border-right: none;
-        padding-bottom: 96px;   /* place pour le bouton « Carte » */
+        border-radius: 18px 18px 0 0;
+        box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.18);
+        overflow: hidden;
+        touch-action: none;
+        transform: translateY(50%);
+        transition: transform 0.25s ease, border-radius 0.25s ease;
     }
 
-    .carte-liste-ouverte .carte-liste {
+    .carte-liste.glisse {
+        transition: none;
+    }
+
+    /* Dépliée : la liste défile, place en bas pour le bouton « Carte » */
+    .carte-liste.deplie {
+        overflow-y: auto;
+        touch-action: pan-y;
+        border-radius: 0;
+        padding-bottom: 96px;
+    }
+
+    .carte-liste-poignee {
         display: block;
+        width: 42px;
+        height: 5px;
+        margin: 10px auto 8px;
+        border-radius: 3px;
+        background: #c9cfc4;
+        cursor: grab;
+    }
+
+    .carte-liste-entete {
+        justify-content: center;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    /* Les deux lignes du compteur gardent leur place, même vides (« Répartis sur N lieux »
+       n'apparaît pas toujours) : l'en-tête a toujours la même hauteur, la feuille aussi. */
+    #carte-liste-compte,
+    .carte-liste-lieux,
+    .carte-liste-lieux:empty {
+        display: block;
+        min-height: 1.25em;
     }
 
     .carte-liste-tuiles {
         grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     }
 
-    .carte-voir-liste,
-    .carte-liste-ouverte .carte-liste-fermer {
+    .carte-liste.deplie .carte-liste-fermer {
         display: inline-flex;
     }
 
-    .carte-liste-ouverte .carte-voir-liste {
-        display: none;
+    .page-carte .leaflet-bottom {
+        bottom: var(--feuille-visible, 0px);
     }
 }
 
 @media (max-width: 600px) {
-    .page-carte .header {
-        padding: 8px 12px;
-    }
-
     .page-carte .header-top-row {
         gap: 10px;
     }
@@ -340,7 +408,7 @@ body.page-carte {
         top: auto;
         left: auto;
         right: 12px;
-        bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+        bottom: calc(var(--feuille-visible, 0px) + 12px);
         width: 46px;
         height: 46px;
         padding: 0;

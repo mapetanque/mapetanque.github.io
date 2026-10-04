@@ -114,10 +114,13 @@
 <div id="menu-overlay"></div>
 
 <!-- Carte plein écran et liste des terrains de la zone affichée (carte.js). Sur ordinateur, la
-     liste est à gauche de la carte ; sur téléphone, elle s'ouvre par-dessus avec « Voir la liste ». -->
+     liste est à gauche de la carte ; sur téléphone, c'est une feuille qui monte du bas de l'écran
+     (aperçu, repliée ou dépliée), comme sur Komoot. -->
 <main class="carte-corps">
 
     <aside id="carte-liste" class="carte-liste" aria-label="Courts in the area shown">
+        <!-- Poignée de la feuille (téléphone) : à glisser ou à toucher -->
+        <div class="carte-liste-poignee" aria-hidden="true"></div>
         <div class="carte-liste-entete">
             <p class="carte-liste-compte" aria-live="polite">
                 <span id="carte-liste-compte"></span>
@@ -146,10 +149,6 @@
 
             <p id="searchError" class="search-error" role="status"></p>
 
-            <button type="button" id="carte-voir-liste" class="carte-voir-liste">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
-                <span data-i18n="carte_voir_liste">View the list</span>
-            </button>
         </div>
     </div>
 
