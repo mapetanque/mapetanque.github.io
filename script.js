@@ -930,7 +930,9 @@ function effacerFiltres() {
 // Posées dans #carte-pastilles (gabarit de la page carte). Le libellé d'une pastille de filtres
 // dit combien de ses critères sont cochés (« Sur place · 2 ») ; « Effacer les filtres » n'apparaît
 // qu'avec des filtres actifs.
-const GROUPES_FILTRES = {
+// Les pages de contenu (comment jouer, à propos…) ne chargent pas /criteres.js : sans ce garde,
+// l'erreur arrêtait tout le script, menu burger compris.
+const GROUPES_FILTRES = typeof FILTRES_SUR_PLACE === 'undefined' ? {} : {
     surPlace: { cles: FILTRES_SUR_PLACE, libelle: 'fiche_sur_place' },
     proximite: { cles: FILTRES_PROXIMITE, libelle: 'fiche_a_proximite' }
 };
