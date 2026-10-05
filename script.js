@@ -1407,8 +1407,8 @@ function nomLocaliteRecherche(nom) {
     return window.nomCommuneAffiche(nom, currentLang);
 }
 
+// Même titre que la fiche du terrain : « Terrain » + rue, jamais le nom OSM.
 function titreLieuRecherche(l) {
-    if (l.n) return l.n;
     return l.r ? t('popup_terrain_prefix') + ' ' + l.r : t('popup_terrain_default');
 }
 

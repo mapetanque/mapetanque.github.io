@@ -153,7 +153,6 @@ def photo_terrain(p, photos, plates):
 
 def decrire_lieu(pistes, criteres, ordre_proximite, photos, plates):
     rues = collections.Counter(t["nearest_street"] for t in pistes if t.get("nearest_street"))
-    noms = [t["name"] for t in pistes if t.get("name")]
     surPlace = []
     proximite = {}
     for t in pistes:
@@ -166,7 +165,6 @@ def decrire_lieu(pistes, criteres, ordre_proximite, photos, plates):
     photo = next((ph for ph in (photo_terrain(t, photos, plates) for t in pistes) if ph), None)
     return {
         "pistes": pistes,
-        "nom": noms[0] if noms else None,
         "rue": rues.most_common(1)[0][0] if rues else None,
         "localite": collections.Counter(t.get("commune") for t in pistes).most_common(1)[0][0],
         "surface": next((t["surface"] for t in pistes if t.get("surface")), None),
@@ -205,10 +203,11 @@ def html_pastille(cle, pictos, tr, complement=""):
 
 
 def titres_lieux(lieux, tr):
-    """Titre de chaque lieu, comme celui de sa fiche (nom OSM, sinon « Terrain » + rue). Deux
-    lieux distincts de la même rue porteraient le même titre : on les numérote, (1), (2)…"""
-    titres = [l["nom"] or (f'{tr["popup_terrain_prefix"]} {l["rue"]}' if l["rue"]
-                           else tr["popup_terrain_prefix"]) for l in lieux]
+    """Titre de chaque lieu, comme celui de sa fiche : « Terrain » + rue, sinon « Terrain de
+    pétanque ». Le nom OSM est ignoré, souvent générique (« Pétanque », « Petanqueveld »…).
+    Deux lieux distincts de la même rue porteraient le même titre : on les numérote, (1), (2)…"""
+    titres = [f'{tr["popup_terrain_prefix"]} {l["rue"]}' if l["rue"] else tr["popup_terrain_default"]
+              for l in lieux]
     total = collections.Counter(titres)
     vus = collections.Counter()
     resultat = []
@@ -416,7 +415,7 @@ def ecrire_recherche(communes, lieux_par_commune, centres, avec_page):
         for lieu in lieux:
             par_localite[lieu["localite"]].append(lieu)
             index["lieux"].append({k: v for k, v in (
-                ("o", lieu["pistes"][0]["osm_id"]), ("n", lieu["nom"]), ("r", lieu["rue"]),
+                ("o", lieu["pistes"][0]["osm_id"]), ("r", lieu["rue"]),
                 ("l", lieu["localite"]), ("c", commune["slug"]), ("p", len(lieu["pistes"])),
                 ("lat", round(lieu["lat"], 6)), ("lon", round(lieu["lon"], 6)),
                 ("s", lieu["surface"]), ("sp", lieu["surPlace"] or None),
@@ -620,8 +619,8 @@ def main():
     for ins, terrains in terrains_par_commune.items():
         lieux = [decrire_lieu(pistes, criteres, ordre_proximite, photos, plates)
                  for pistes in regrouper_lieux(terrains, groupes)]
-        # Plus de pistes d'abord, puis ceux qui ont une photo, puis par nom
-        lieux.sort(key=lambda l: (-len(l["pistes"]), l["photo"] is None, l["nom"] or l["rue"] or ""))
+        # Plus de pistes d'abord, puis ceux qui ont une photo, puis par rue
+        lieux.sort(key=lambda l: (-len(l["pistes"]), l["photo"] is None, l["rue"] or ""))
         lieux_par_commune[ins] = lieux
 
     avec_page = {ins for ins, lieux in lieux_par_commune.items() if len(lieux) >= MIN_LIEUX}

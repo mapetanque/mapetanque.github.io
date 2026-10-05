@@ -153,7 +153,8 @@ def main():
 
         promus.append({
             "osm_id": osm_id,
-            "nom": p.get("name") or p.get("nearest_street") or "",
+            # Rue seule, comme les épinglés et le titre de la fiche : le nom OSM est ignoré.
+            "nom": p.get("nearest_street") or "",
             "commune": p.get("commune") or "",
             "province": province,
             "region": region,
