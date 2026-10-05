@@ -205,11 +205,6 @@ function appliquerTraductions() {
     construirePied();
     construireMenu();
     mettreAJourStats();
-
-    // Régénérer le titre par défaut d'un éventuel marqueur de recherche déjà ouvert
-    if (typeof searchMarker !== 'undefined' && searchMarker && searchMarker.isPopupOpen()) {
-        searchMarker.getPopup().setContent(searchMarker._displayName || '');
-    }
 }
 
 // Recalcule la langue depuis l'URL quand l'utilisateur navigue avec les boutons précédent/suivant
@@ -1129,7 +1124,8 @@ document.addEventListener('keydown', function (e) {
 
 construirePastilles();
 
-// Icône réutilisée pour marquer une position (localisation ou résultat de recherche)
+// Icône réutilisée pour marquer une position (localisation ou résultat de recherche), sans
+// bulle : le point bleu se comprend seul.
 const positionIcon = L.divIcon({
     className: 'user-location',
     html: '<div></div>',
@@ -1182,11 +1178,10 @@ if (locateBtn) {
                 }
 
                 locateMarker = L.marker([lat, lon], {
-                    icon: positionIcon
+                    icon: positionIcon,
+                    interactive: false
                 })
-                .addTo(map)
-                .bindPopup(function () { return t('popup_here'); })
-                .openPopup();
+                .addTo(map);
 
             }, function() {
                 alert(t('geoloc_error'));
@@ -1258,7 +1253,7 @@ if (searchForm) {
             const resultat = resultats[0];
             // Zoom adapté à la nature du résultat (adresse précise, ville, région...)
             const bbox = resultat.boundingbox ? resultat.boundingbox.map(parseFloat) : null;
-            montrerLieuRecherche(parseFloat(resultat.lat), parseFloat(resultat.lon), resultat.display_name,
+            montrerLieuRecherche(parseFloat(resultat.lat), parseFloat(resultat.lon),
                 bbox ? [[bbox[0], bbox[2]], [bbox[1], bbox[3]]] : null);
 
         })
@@ -1290,7 +1285,7 @@ function cadrerAvecTerrainsProches(lat, lon, emprise) {
 // Lieu trouvé (adresse de Nominatim, ou commune sans terrain choisie dans les propositions) :
 // marqueur de position, carte cadrée dessus, flèche vers le terrain le plus proche.
 // emprise : [[sud, ouest], [nord, est]], ou null pour un zoom fixe.
-function montrerLieuRecherche(lat, lon, libelle, emprise) {
+function montrerLieuRecherche(lat, lon, emprise) {
     // Le point trouvé devient la référence pour le calcul de distance dans les popups des terrains
     definirPositionUtilisateur(lat, lon);
 
@@ -1306,16 +1301,7 @@ function montrerLieuRecherche(lat, lon, libelle, emprise) {
         map.removeLayer(searchMarker);
     }
 
-    searchMarker = L.marker([lat, lon], { icon: positionIcon })
-        .addTo(map)
-        // className : cette bulle ne contient qu'une ligne d'adresse, alors que le
-        // style par défaut des popups (.leaflet-popup-content) réserve 40px en haut
-        // pour la croix de fermeture des fiches terrain. Sans classe distincte, elle
-        // hériterait de cette marge et paraîtrait inutilement haute.
-        .bindPopup(libelle, { className: 'popup-adresse' })
-        .openPopup();
-
-    searchMarker._displayName = libelle;
+    searchMarker = L.marker([lat, lon], { icon: positionIcon, interactive: false }).addTo(map);
 }
 
 
@@ -1601,7 +1587,7 @@ function allerVersProposition(index, ligne) {
     }
     // Commune sans terrain : la carte autour d'elle, avec la flèche vers le terrain le plus proche
     const c = place.commune;
-    montrerLieuRecherche(c.lat, c.lon, place.nom,
+    montrerLieuRecherche(c.lat, c.lon,
         [[c.lat - 0.04, c.lon - 0.06], [c.lat + 0.04, c.lon + 0.06]]);
 }
 

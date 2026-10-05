@@ -420,7 +420,7 @@
             if (lieux.length === 1) ouvrirFicheSurPlace(lieux[0].o, lieux[0].lat, lieux[0].lon);
         } else {
             // Commune sans terrain : la carte autour d'elle, avec la flèche vers le plus proche
-            montrerLieuRecherche(c.lat, c.lon, nom, [[c.lat - 0.04, c.lon - 0.06], [c.lat + 0.04, c.lon + 0.06]]);
+            montrerLieuRecherche(c.lat, c.lon, [[c.lat - 0.04, c.lon - 0.06], [c.lat + 0.04, c.lon + 0.06]]);
         }
     }
 

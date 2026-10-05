@@ -2748,27 +2748,8 @@ html.menu-ouvert body {
     height: 26px;
 }
 
-/* Les deux sections suivantes étaient copiées à l'identique dans style-accueil-provinces.css
-   et style-province.css ; regroupées ici pour servir aussi à la page carte. */
-
-/* ===================== Bulle du résultat de recherche ===================== */
-
-/* Cette bulle ne contient qu'une ligne d'adresse, alors que .leaflet-popup-content réserve 40px
-   en haut et une barre de défilement, dimensionnés pour les fiches terrain. Résultat : une
-   bulle très haute autour d'une seule ligne de texte. On resserre ici, la classe étant posée
-   par bindPopup dans script.js.
-   La marge droite reste large : la croix de fermeture est en position absolue à right:12px et
-   viendrait sinon chevaucher la fin de l'adresse. */
-.leaflet-popup.popup-adresse .leaflet-popup-content {
-    margin: 12px 34px 12px 16px;
-    padding-right: 0;
-}
-
-/* La croix remonte en conséquence, pour rester alignée sur la première ligne de texte plutôt
-   que de flotter au-dessus. */
-.leaflet-popup.popup-adresse .leaflet-popup-close-button {
-    top: 6px !important;
-}
+/* La section suivante était copiée à l'identique dans style-accueil-provinces.css et
+   style-province.css ; regroupée ici pour servir aussi à la page carte. */
 
 /* ===================== Fil d'Ariane région > province dans les popups de terrain ===================== */
 
