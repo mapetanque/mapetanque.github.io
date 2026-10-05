@@ -258,7 +258,6 @@ const translations = {
         signalement_success_missing: "Merci ! Votre signalement a bien été reçu. Après vérification, le terrain sera ajouté à OpenStreetMap et apparaîtra sur la carte lors d'une prochaine mise à jour.",
         signalement_success_error: "Merci ! Votre signalement a bien été reçu, il sera vérifié avant toute correction.",
 
-        popup_here: "Vous êtes ici",
         geoloc_error: "Impossible de récupérer votre position.",
         geoloc_unsupported: "La géolocalisation n'est pas supportée par votre navigateur.",
         nearest_terrain_label: "Terrain le plus proche",
@@ -592,7 +591,6 @@ const translations = {
         signalement_success_missing: "Bedankt! Uw melding is goed ontvangen. Na controle wordt het terrein aan OpenStreetMap toegevoegd en verschijnt het bij een volgende update op de kaart.",
         signalement_success_error: "Bedankt! Uw melding is goed ontvangen en wordt gecontroleerd voordat er iets wordt aangepast.",
 
-        popup_here: "Je bent hier",
         geoloc_error: "Je locatie kon niet worden opgehaald.",
         geoloc_unsupported: "Geolocatie wordt niet ondersteund door je browser.",
         nearest_terrain_label: "Dichtstbijzijnde terrein",
@@ -926,7 +924,6 @@ const translations = {
         signalement_success_missing: "Danke! Ihre Meldung ist eingegangen. Nach der Prüfung wird der Platz in OpenStreetMap eingetragen und erscheint bei einer der nächsten Aktualisierungen auf der Karte.",
         signalement_success_error: "Danke! Ihre Meldung ist eingegangen und wird vor jeder Korrektur geprüft.",
 
-        popup_here: "Sie sind hier",
         geoloc_error: "Ihr Standort konnte nicht ermittelt werden.",
         geoloc_unsupported: "Geolokalisierung wird von Ihrem Browser nicht unterstützt.",
         nearest_terrain_label: "Nächstgelegener Platz",
@@ -1260,7 +1257,6 @@ const translations = {
         signalement_success_missing: "Thank you! Your report has been received. Once checked, the court will be added to OpenStreetMap and will appear on the map with a future update.",
         signalement_success_error: "Thank you! Your report has been received and will be checked before any correction.",
 
-        popup_here: "You are here",
         geoloc_error: "Your location could not be retrieved.",
         geoloc_unsupported: "Geolocation is not supported by your browser.",
         nearest_terrain_label: "Nearest court",
