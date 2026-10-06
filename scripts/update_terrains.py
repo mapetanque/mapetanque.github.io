@@ -10,11 +10,20 @@ from datetime import date
 OVERPASS_SERVERS = [
     "https://overpass-api.de/api/interpreter",
     "https://overpass.kumi.systems/api/interpreter",
-    "https://overpass.private.coffee/api/interpreter"
+    "https://overpass.private.coffee/api/interpreter",
+    "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
 ]
 
+# Pauses (en secondes) entre deux tours sur tous les serveurs : 5, 10 puis 20 min, soit
+# quatre tours. Au pire (tous les serveurs muets jusqu'au délai de 4 min), environ 1 h 40.
+PAUSES_ENTRE_TOURS = [5 * 60, 10 * 60, 20 * 60]
+
+OVERPASS_HEADERS = {
+    "User-Agent": "Mapetanque/1.0 (contact: mapetanque@outlook.be)"
+}
+
 QUERY = """
-[out:json][timeout:300];
+[out:json][timeout:180];
 
 area["ISO3166-1"="BE"]["admin_level"="2"]->.belgique;
 
@@ -282,35 +291,53 @@ def resoudre_photo(tags, precedente=None):
 
 print("Interrogation d'OpenStreetMap en cours...")
 
-osm_data = None
 
-for server in OVERPASS_SERVERS:
-    try:
-        print(f"→ Tentative avec {server}")
+def extraire_erreur_overpass(texte):
+    """
+    Le message utile d'une page d'erreur Overpass (ex. « The server is probably too busy… »),
+    au lieu des 500 premiers caractères de HTML, qui s'arrêtaient avant.
+    """
+    debut = texte.find("Error")
+    if debut == -1:
+        return texte[:200].strip()
+    fin = texte.find("</p>", debut)
+    message = texte[debut:fin if fin != -1 else debut + 300]
+    return " ".join(message.replace("</strong>", "").split())
 
-        response = requests.get(
-            server,
-            params={"data": QUERY},
-            headers={
-                "User-Agent": "Mapetanque/1.0"
-            },
-            timeout=300
-        )
 
-        response.raise_for_status()
+def interroger_overpass():
+    """
+    Les serveurs Overpass publics sont parfois saturés pendant des heures (erreur 504 « too busy »,
+    y compris pour une toute petite requête) : on fait plusieurs tours sur tous les serveurs, avec
+    une pause croissante entre deux tours, plutôt que d'abandonner au premier tour.
+    """
+    for tour, pause in enumerate(PAUSES_ENTRE_TOURS + [None], start=1):
+        print(f"Tour {tour}/{len(PAUSES_ENTRE_TOURS) + 1}")
+        for server in OVERPASS_SERVERS:
+            print(f"→ Tentative avec {server}")
+            try:
+                # POST : recommandé par Overpass, et la requête n'encombre plus le journal.
+                response = requests.post(
+                    server,
+                    data={"data": QUERY},
+                    headers=OVERPASS_HEADERS,
+                    timeout=240
+                )
+                if response.status_code != 200:
+                    print(f"✗ HTTP {response.status_code} : {extraire_erreur_overpass(response.text)}")
+                    continue
+                donnees = response.json()
+                print(f"✓ Réponse reçue depuis {server}")
+                return donnees
+            except Exception as e:
+                print(f"✗ {type(e).__name__} - {e}")
+        if pause:
+            print(f"Tous les serveurs ont échoué, nouvel essai dans {pause // 60} min...")
+            time.sleep(pause)
+    raise Exception("Tous les serveurs Overpass ont échoué, à chaque tour")
 
-        osm_data = response.json()
 
-        print(f"✓ Réponse reçue depuis {server}")
-        break
-
-    except Exception as e:
-        print(f"✗ Échec avec {server} : {type(e).__name__} - {e}")
-        if 'response' in locals():
-            print(response.text[:500])
-
-else:
-    raise Exception("Tous les serveurs Overpass ont échoué")
+osm_data = interroger_overpass()
 
 print(f"{len(osm_data['elements'])} objets reçus depuis OSM")
 
