@@ -1,6 +1,6 @@
 # Mapetanque.be
 
-> Carte interactive et gratuite des terrains de pétanque accessibles au public en Belgique : 1 743 terrains dans 507 communes, en Wallonie, en Flandre et à Bruxelles. Site en français, néerlandais, allemand et anglais.
+> Carte interactive et gratuite des terrains de pétanque accessibles au public en Belgique : 1 743 terrains dans 508 communes, en Wallonie, en Flandre et à Bruxelles. Site en français, néerlandais, allemand et anglais.
 
 Les terrains viennent d'OpenStreetMap et sont mis à jour chaque semaine ; les photos viennent de Mapillary. Sur la carte, chaque terrain a une fiche : emplacement, photos, itinéraire, notes et avis de visiteurs. Les clubs de pétanque peuvent aussi être affichés. Le site est gratuit, sans compte ni publicité, et son code est ouvert. Contact : mapetanque@outlook.be.
 
@@ -12,8 +12,8 @@ Les terrains viennent d'OpenStreetMap et sont mis à jour chaque semaine ; les p
   - [Namur](https://mapetanque.be/province-namur.html): 88 terrains dans 47 communes
   - [Luxembourg](https://mapetanque.be/province-luxembourg.html): 52 terrains dans 28 communes
   - [Brabant wallon](https://mapetanque.be/province-brabant-wallon.html): 48 terrains dans 21 communes
-- [Flandre](https://mapetanque.be/region-flandre.html): 1 185 terrains dans 286 communes
-  - [Flandre orientale](https://mapetanque.be/province-flandre-orientale.html): 299 terrains dans 66 communes
+- [Flandre](https://mapetanque.be/region-flandre.html): 1 185 terrains dans 287 communes
+  - [Flandre orientale](https://mapetanque.be/province-flandre-orientale.html): 299 terrains dans 67 communes
   - [Anvers](https://mapetanque.be/province-anvers.html): 286 terrains dans 62 communes
   - [Flandre occidentale](https://mapetanque.be/province-flandre-occidentale.html): 222 terrains dans 54 communes
   - [Limbourg](https://mapetanque.be/province-limbourg.html): 193 terrains dans 51 communes

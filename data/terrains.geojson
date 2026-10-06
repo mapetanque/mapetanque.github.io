@@ -1,6 +1,6 @@
 {
   "type": "FeatureCollection",
-  "mis_a_jour": "2026-10-01",
+  "mis_a_jour": "2026-10-06",
   "features": [
     {
       "type": "Feature",
@@ -2578,7 +2578,7 @@
         "sport": "boules",
         "osm_id": "way/48863327",
         "nearest_street": "Hemelsbreedte",
-        "commune": "Sint-Niklaas",
+        "commune": "Sinaai",
         "province": "flandre_orientale",
         "region": "flandre",
         "env": {
@@ -8261,9 +8261,9 @@
         "commune": "Bredene",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-atl3-2.xx.fbcdn.net/m1/v/t6/An8E1l4wAD-px3sqi8ZwbfPPb4Q4Hw3Cj0Frk0tUX4yx8viOmbXX1vK_1Xcydig3WgmY7WkA4sw312YUwoaWGEQT1t37vc6dMWnsOAZR5zox3sK49BZiq1dJ5-UTqjOb1UB4_n8_-x8PGbGUSJCp-Q?stp=s1024x576&edm=ALXxkZ8EAAAA&_nc_gid=8sO2lcBRE53EDrG6K2_Yaw&_nc_oc=Adq_FwhS4AsI_4xt7gLGd0prCE-xVBBxXo7Aa8B-Qk7eeGaZpU3hWWZ28P4B6TGwd7M&ccb=10-5&oh=00_AQPeHkhfHK6uwZzBbE9bq0t9x8FwD7uuFJPMH4cewaRwzw&oe=6AE6152B&_nc_sid=201bca",
+        "photo_url": "https://scontent-sea5-1.xx.fbcdn.net/m1/v/t6/An8E1l4wAD-px3sqi8ZwbfPPb4Q4Hw3Cj0Frk0tUX4yx8viOmbXX1vK_1Xcydig3WgmY7WkA4sw312YUwoaWGEQT1t37vc6dMWnsOAZR5zox3sK49BZiq1dJ5-UTqjOb1UB4_n8_-x8PGbGUSJCp-Q?stp=s1024x576&edm=ALXxkZ8EAAAA&_nc_gid=DcrkxGCwcBTCB7cYaHdP8g&_nc_oc=AdrcNqYGpFU30IEQCcf27gNOC5e8BNsctQjh8hzUwD4_SUgIRewkfx8x-a1DeHmirhc&ccb=10-5&oh=00_AQNDRadgjVtVbj58LjrU6rBUxHDj3uH4zyor3eHUlWIG2Q&oe=6AEC746B&_nc_sid=201bca",
         "photo_source": "mapillary",
-        "photo_credit_url": "https://www.mapillary.com/",
+        "photo_credit_url": "https://www.mapillary.com/app/?pKey=283988963431148&focus=photo",
         "env": {
           "calcule_le": "2026-10-01",
           "banc": 9,
@@ -11831,9 +11831,9 @@
         "commune": "Knokke-Heist",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-atl3-2.xx.fbcdn.net/m1/v/t6/An_826nXBC4N2y38_46JfHk8TYlVeq-hNAQyzdi3RGipbSCTiu-UDyRUbVxSsn3AtQHTJC5D0XSUSCYVrkOORldTwq1jZBjhb4xAKNsDBtL7z72Ymk2r6Lm5q-lmR7rzHlQbfvo134VEeJ8nxcqte8Q?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=MFazXcEjxDH22yDx90yFgA&_nc_oc=AdrhXVAGRH37TU4OdAnCrFjadJJW94bbUwxTNQ7a5w3qS2UNDvgevDhOjzlzIjnP4Nw&ccb=10-5&oh=00_AQPUWFdTTngAqt_wemlPDijfe2vAxWwmxNV8WNsCMM50oQ&oe=6AE61AB4&_nc_sid=201bca",
+        "photo_url": "https://scontent-sea5-1.xx.fbcdn.net/m1/v/t6/An_826nXBC4N2y38_46JfHk8TYlVeq-hNAQyzdi3RGipbSCTiu-UDyRUbVxSsn3AtQHTJC5D0XSUSCYVrkOORldTwq1jZBjhb4xAKNsDBtL7z72Ymk2r6Lm5q-lmR7rzHlQbfvo134VEeJ8nxcqte8Q?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=khRoNYMSkC-2KdyiZXBNsA&_nc_oc=AdpedJ1xLrpCBiSgA4Ztuga6R501V1PIXEsVR36YpB_TcuEFHjvUvZjMYHux7XTHbPc&ccb=10-5&oh=00_AQOyE3-uLMiJf5j80AywLEeK5lKvmlhK2262O2B8grFDrA&oe=6AEC79F4&_nc_sid=201bca",
         "photo_source": "mapillary",
-        "photo_credit_url": "https://www.mapillary.com/",
+        "photo_credit_url": "https://www.mapillary.com/app/?pKey=2585664148528878&focus=photo",
         "env": {
           "calcule_le": "2026-10-01",
           "jeux": 257,
@@ -14412,7 +14412,7 @@
         "surface": "gravel",
         "osm_id": "way/659291664",
         "nearest_street": "Filip de Pillecynlaan",
-        "commune": "Sint-Niklaas",
+        "commune": "Belsele",
         "province": "flandre_orientale",
         "region": "flandre",
         "env": {
@@ -15113,7 +15113,9 @@
       },
       "properties": {
         "leisure": "pitch",
+        "lit": "no",
         "sport": "boules",
+        "surface": "compacted",
         "osm_id": "way/682073021",
         "nearest_street": "Biest",
         "commune": "Gent",
@@ -15144,7 +15146,9 @@
       },
       "properties": {
         "leisure": "pitch",
+        "lit": "no",
         "sport": "boules",
+        "surface": "compacted",
         "osm_id": "way/682073022",
         "nearest_street": "Biest",
         "commune": "Gent",
@@ -15175,7 +15179,9 @@
       },
       "properties": {
         "leisure": "pitch",
+        "lit": "no",
         "sport": "boules",
+        "surface": "compacted",
         "osm_id": "way/682073023",
         "nearest_street": "Biest",
         "commune": "Gent",
@@ -20440,7 +20446,7 @@
         "sport": "boules",
         "osm_id": "way/822148570",
         "nearest_street": "Goed dreef",
-        "commune": "Sinaai",
+        "commune": "Sint-Niklaas",
         "province": "flandre_orientale",
         "region": "flandre",
         "env": {
@@ -20466,7 +20472,7 @@
         "sport": "boules",
         "osm_id": "way/822148571",
         "nearest_street": "Goed dreef",
-        "commune": "Sint-Niklaas",
+        "commune": "Sinaai",
         "province": "flandre_orientale",
         "region": "flandre",
         "env": {
@@ -23340,7 +23346,6 @@
         ]
       },
       "properties": {
-        "image": "https://www.moorslede.be/files/uploads/photoGallery/img_0521.jpg",
         "leisure": "pitch",
         "lit": "no",
         "sport": "boules",
@@ -23350,8 +23355,6 @@
         "commune": "Moorslede",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://www.moorslede.be/files/uploads/photoGallery/img_0521.jpg",
-        "photo_source": "image",
         "env": {
           "calcule_le": "2026-10-01",
           "banc": 1,
@@ -23376,7 +23379,6 @@
         ]
       },
       "properties": {
-        "image": "https://www.moorslede.be/files/uploads/photoGallery/img_0521.jpg",
         "leisure": "pitch",
         "lit": "no",
         "sport": "boules",
@@ -23386,8 +23388,6 @@
         "commune": "Moorslede",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://www.moorslede.be/files/uploads/photoGallery/img_0521.jpg",
-        "photo_source": "image",
         "env": {
           "calcule_le": "2026-10-01",
           "banc": 1,
@@ -23415,7 +23415,6 @@
         ]
       },
       "properties": {
-        "image": "https://www.moorslede.be/files/uploads/photoGallery/img_0521.jpg",
         "leisure": "pitch",
         "lit": "no",
         "sport": "boules",
@@ -23425,8 +23424,6 @@
         "commune": "Moorslede",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://www.moorslede.be/files/uploads/photoGallery/img_0521.jpg",
-        "photo_source": "image",
         "env": {
           "calcule_le": "2026-10-01",
           "banc": 1,
@@ -23454,7 +23451,6 @@
         ]
       },
       "properties": {
-        "image": "https://www.moorslede.be/files/uploads/photoGallery/img_0521.jpg",
         "leisure": "pitch",
         "lit": "no",
         "sport": "boules",
@@ -23464,8 +23460,6 @@
         "commune": "Moorslede",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://www.moorslede.be/files/uploads/photoGallery/img_0521.jpg",
-        "photo_source": "image",
         "env": {
           "calcule_le": "2026-10-01",
           "banc": 1,
@@ -50839,7 +50833,7 @@
         "sport": "petanque",
         "osm_id": "way/1412215072",
         "nearest_street": "Rue de la Cochette",
-        "commune": "Straimont",
+        "commune": "Herbeumont",
         "province": "luxembourg",
         "region": "wallonie",
         "env": {
@@ -51521,7 +51515,7 @@
         "sport": "boules",
         "osm_id": "way/1421208970",
         "nearest_street": "Klokke Roelandlaan",
-        "commune": "Sinaai",
+        "commune": "Sint-Niklaas",
         "province": "flandre_orientale",
         "region": "flandre",
         "env": {
@@ -54696,9 +54690,9 @@
         "commune": "Antwerpen",
         "province": "anvers",
         "region": "flandre",
-        "photo_url": "https://scontent-atl3-2.xx.fbcdn.net/m1/v/t6/An9eRdQmXCN4yubsaSpfzMly5AetIuhgH4M1EIfCu_o9OXHzHM2o7mt2bWV8R8YodldvBBeEv-Mw1TIfU24F2LquK6ClQlY0yt6zhb9sHWwZdbwWQcene-17tCznvEC2bj6_g9kqHsXJJZvcgGWADXY?stp=s1024x771&edm=ALXxkZ8EAAAA&_nc_gid=dBfDkBYn-r0Q3KNP4weqEg&_nc_oc=AdqJvkuBAdK6aluTVQimjnfC3wnIj64rLnMCRijxFo_8uK40mR7vE0m4GymZW1ERlj0&ccb=10-5&oh=00_AQMZbsVroN-Epw6rtcR1Ypmy6XSumiJAWX1pt6aLzgiFsA&oe=6AE60DE0&_nc_sid=201bca",
+        "photo_url": "https://scontent-sea5-1.xx.fbcdn.net/m1/v/t6/An9eRdQmXCN4yubsaSpfzMly5AetIuhgH4M1EIfCu_o9OXHzHM2o7mt2bWV8R8YodldvBBeEv-Mw1TIfU24F2LquK6ClQlY0yt6zhb9sHWwZdbwWQcene-17tCznvEC2bj6_g9kqHsXJJZvcgGWADXY?stp=s1024x771&edm=ALXxkZ8EAAAA&_nc_gid=QsCm6cJyynXih4gEP5d2Qg&_nc_oc=AdrYwRGtCvVUJdYYo3Mo47v0hcyNuNFJOxoqJtYPDCH49JEWI62y78C6GNq7FfPiORs&ccb=10-5&oh=00_AQMIMh4YtCR7_5f71Zli9syHtTalP0aMGX5x-ErXVdnBiQ&oe=6AEC6D20&_nc_sid=201bca",
         "photo_source": "mapillary",
-        "photo_credit_url": "https://www.mapillary.com/",
+        "photo_credit_url": "https://www.mapillary.com/app/?pKey=1257601666575631&focus=photo",
         "env": {
           "calcule_le": "2026-10-01",
           "banc": 2,
@@ -56755,9 +56749,9 @@
         "commune": "Nieuwpoort",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-atl3-2.xx.fbcdn.net/m1/v/t6/An_IcsQv0t9Niw27hAS6xszVl8KaCwqtEwaVsnC0X6h5obOnL9wJzqt49q1HZthHhpcg3aQQ_S52WEAEIn_enyZfgEQMSm4VpxuNT-y04WeYjRtg-jYtlfIGy2WX-MOFaTW5JP5mrnK6tnk0jVXQMQ?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=ZQ3ueLAL8KkQWOeUmLN6lQ&_nc_oc=AdplzdVKv4lQDvhzhXuBtkRfpUXGUYCrxN3-o9Lsf7K39YTetJPD84TjzyjJIY8Phxk&ccb=10-5&oh=00_AQM0_VT3olbkZ6sgOic3kDlKoABonas8jeBLiNIwobtFfA&oe=6AE60EA3&_nc_sid=201bca",
+        "photo_url": "https://scontent-sea5-1.xx.fbcdn.net/m1/v/t6/An_IcsQv0t9Niw27hAS6xszVl8KaCwqtEwaVsnC0X6h5obOnL9wJzqt49q1HZthHhpcg3aQQ_S52WEAEIn_enyZfgEQMSm4VpxuNT-y04WeYjRtg-jYtlfIGy2WX-MOFaTW5JP5mrnK6tnk0jVXQMQ?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=zjEqbDAQoq6clOGzz3fk4Q&_nc_oc=Adr6aWOyd9pEwSaM5K5hkQ3WUwUdJ0Qq9fNDLxXn35sBu7LVmTI9Yb84QCd5E5_7pfY&ccb=10-5&oh=00_AQMPKbywGBbGs-uQI_SAqPxdZ229ABjcDBlKbOqcwphNKQ&oe=6AEC6DE3&_nc_sid=201bca",
         "photo_source": "mapillary",
-        "photo_credit_url": "https://www.mapillary.com/",
+        "photo_credit_url": "https://www.mapillary.com/app/?pKey=1545369280832050&focus=photo",
         "env": {
           "calcule_le": "2026-10-01",
           "parking": 238,
@@ -56907,9 +56901,9 @@
         "commune": "Nieuwpoort",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-atl3-2.xx.fbcdn.net/m1/v/t6/An-7s0AaVZAJuquC6rZRN_Qw2oZZKfZW0pEdJPpdXib7Pd9_8IhZetiwdp9R5OOnBRiTZo-pcMs5tIXECBndV3Qv1MQoIf5dRqGNDSUQ6n-6j2Pj0tlGLMzm7eHBCXjZeZkSzpHquMHrV37D34NXw8o?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=vjWmjWwErrU-rA1t-hOlPQ&_nc_oc=AdrwlQB_lczyn2xldezBHBad9EKJwbyjKXBxOBDNLWGC9f-c-5GINb_SlbQ4RYKMs1o&ccb=10-5&oh=00_AQMa7dZYyaC5DXZB9aFphSCvw7_IPHOwpEioI9I1vD-nng&oe=6AE61F50&_nc_sid=201bca",
+        "photo_url": "https://scontent-sea5-1.xx.fbcdn.net/m1/v/t6/An-7s0AaVZAJuquC6rZRN_Qw2oZZKfZW0pEdJPpdXib7Pd9_8IhZetiwdp9R5OOnBRiTZo-pcMs5tIXECBndV3Qv1MQoIf5dRqGNDSUQ6n-6j2Pj0tlGLMzm7eHBCXjZeZkSzpHquMHrV37D34NXw8o?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=yv6hiCnL_FgqFFIQWwxnxw&_nc_oc=AdoaRXI37UC172ko05NtyShNeg7o8nwJh8zkxr-ZDDqwKChp7d7s_wbgdwpfJ5lYEzM&ccb=10-5&oh=00_AQOBtGPHQ8-TLYurIJEwA5D6veL9UPP6iS8_rZ14Hw3Epw&oe=6AEC7E90&_nc_sid=201bca",
         "photo_source": "mapillary",
-        "photo_credit_url": "https://www.mapillary.com/",
+        "photo_credit_url": "https://www.mapillary.com/app/?pKey=1845376466819094&focus=photo",
         "env": {
           "calcule_le": "2026-10-01",
           "jeux": 97,
@@ -56949,9 +56943,9 @@
         "commune": "Knokke-Heist",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-atl3-2.xx.fbcdn.net/m1/v/t6/An-mTENCLyapxTL4yvPcXs6AgL1g_Orx4tjMHHWFLByZQUkV8A54RcB7_jg209bKympEDMe0Nfz1Wwti6FNPGtEA3soUYQZqwPnSNnwec1bIvHej0RYY0AxUx-nUWegUButzN7hFINqnB73oyRqizWw?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=ygy2cgTlwxWdcgaB0sf3IQ&_nc_oc=AdpTaSGXgCrMvTDwvaCmOhme0Zf07HWLhMmLVrquI76O8-v3pDpxpOEWhUtNXMOpe_g&ccb=10-5&oh=00_AQMTO407fDJgunEL2Eh9Dalbyos7IOkoXxhn3fbkdaZtdQ&oe=6AE6259C&_nc_sid=201bca",
+        "photo_url": "https://scontent-sea5-1.xx.fbcdn.net/m1/v/t6/An-mTENCLyapxTL4yvPcXs6AgL1g_Orx4tjMHHWFLByZQUkV8A54RcB7_jg209bKympEDMe0Nfz1Wwti6FNPGtEA3soUYQZqwPnSNnwec1bIvHej0RYY0AxUx-nUWegUButzN7hFINqnB73oyRqizWw?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=BQxuk-XiHOhcbjfqhJL-WA&_nc_oc=AdobxCMmyvyvR_-I3NQDzKSK5ESOF0qWoUN52FpkygaHXDCCu_CPayGVH1XEXOdts1A&ccb=10-5&oh=00_AQPl_QZhtgEdXH5qEAXsxwe1KDsSg3y-rJc9OZKBOJPqJg&oe=6AEC84DC&_nc_sid=201bca",
         "photo_source": "mapillary",
-        "photo_credit_url": "https://www.mapillary.com/",
+        "photo_credit_url": "https://www.mapillary.com/app/?pKey=1967944690557231&focus=photo",
         "env": {
           "calcule_le": "2026-10-01",
           "banc": 17,
