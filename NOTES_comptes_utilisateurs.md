@@ -32,7 +32,7 @@ compte ajoute des choses (suivi de ses contributions, parties, badges), il n'en 
 | Historique de ses parties (date, terrain, durée, scores) + stats | Facile (table `parties`, stats en SQL) — meilleur rapport valeur/effort |
 | Indiquer son équipe dans une partie | Facile (simple champ) |
 | Noms des joueurs de chaque équipe | Facile en texte libre visible du seul propriétaire (RGPD : noms de tiers). Lier à de vrais comptes avec confirmation = nettement plus de travail |
-| Organiser des tournois (équipes, brackets) | Le plus lourd. v1 suggérée : un organisateur saisit tout, 1-2 formats, lien public en lecture seule. Des bibliothèques JS de brackets existent |
+| Organiser des tournois | Le plus lourd. v1 suggérée : un organisateur saisit tout, lien public en lecture seule. Deux formats sans élimination, championnat et système suisse (voir « Tournois ») : un tableau de classement et des appariements simples, pas besoin de bibliothèque de brackets |
 | Retrouver / éditer ses contributions | Faisable pour les contributions faites connecté. Anciennes contributions anonymes : votes et avis rattachables depuis le même navigateur (jetons localStorage `mapetanque_vote_…` et `mapetanque_auteur_avis`) ; photos et signalements non rattachables (aucun identifiant de navigateur). Photo déjà sur Mapillary : publiée depuis le compte Mapillary du site, donc retrait possible directement par Rémy ; le crédit (pseudo) est géré côté site |
 | Badges (photographe, joueur, critique, signalement) | Facile (seuils calculés sur les contributions) |
 | Points pondérés (ex. photo sur terrain sans photo 10 pts, sinon 2, max 3 photos par terrain et par compte) | Facile, à condition d'attribuer les points à la VALIDATION dans l'admin, jamais à l'envoi |
@@ -107,6 +107,63 @@ points, tournois, en temps voulu (tournois une fois l'usage confirmé).
     sous-traitant des mails (choisir sa région Europe si elle est proposée), Google si la
     connexion Google est retenue.
 - Vigilance : chaque mécanisme de points augmente la charge de modération (Rémy modère seul)
+
+## Tournois (étape ultérieure) — formats envisagés
+
+Deux formats adaptés aux tournois amicaux, présentés comme des alternatives simples et conviviales
+à l'élimination directe : tout le monde joue plusieurs parties.
+
+Accroche envisagée (à traduire en NL/DE/EN) : « Vous êtes trop nombreux pour une triplette ?
+Pensez à faire un tournoi ! », puis « Pour un tournoi amical, deux formats simples s'offrent à
+vous : le championnat et le système suisse. »
+
+### 1. Championnat
+
+Chaque équipe rencontre toutes les autres une fois. Le format le plus simple et le plus équitable
+pour un petit nombre d'équipes.
+
+- Idéal jusqu'à environ 6 doublettes ; tout le monde joue le même nombre de parties.
+- Exemple : 6 doublettes → 5 parties par équipe, 15 parties en tout, 5 rondes de 3 parties
+  simultanées (3 terrains).
+- Nombre impair d'équipes : à chaque ronde, une équipe est exemptée (ronde de repos). Le nombre
+  de parties par équipe ne change pas ; il y a une ronde de plus.
+- Classement : nombre de victoires, puis différentiel de points (points marqués − encaissés),
+  puis éventuellement la confrontation directe.
+- Durée : une partie en 13 points dure souvent 45 min à 1 h ; 5 rondes occupent donc une bonne
+  partie de la journée. Proposer des parties en 11, ou limitées dans le temps, pour les groupes
+  plus nombreux.
+- Calendrier calculé automatiquement (méthode classique de rotation, dite « méthode de Berger »).
+
+### 2. Système suisse
+
+Chaque équipe joue un nombre fixé de parties, sans rencontrer forcément toutes les autres. À chaque
+ronde, les équipes sont appariées selon leurs résultats précédents : on fait progressivement jouer
+ensemble des équipes de niveau proche.
+
+- Intéressant à partir d'environ 8 doublettes ; pas d'élimination, tout le monde profite de la
+  journée.
+- Exemple : 8 doublettes → 4 rondes, donc 4 parties par équipe (4 terrains). Avec 3 rondes, un
+  seul vainqueur aurait déjà gagné toutes ses parties ; la 4e affine le classement.
+- Appariement simple : ranger les équipes par victoires puis différentiel, apparier dans l'ordre
+  en évitant qu'une équipe rejoue contre la même. Variante encore plus simple, courante en
+  pétanque (souvent appelée « système Aurard » ou concours en 4 parties) : tirage au sort entre
+  équipes ayant le même nombre de victoires.
+- Nombre impair : une équipe exemptée par ronde, jamais deux fois la même ; l'exemption compte
+  comme une victoire avec un score conventionnel, à fixer et à afficher (13-7 par exemple).
+- Classement final : victoires, puis différentiel de points.
+- La ronde suivante ne peut être tirée qu'une fois tous les scores de la ronde saisis :
+  l'organisateur doit pouvoir saisir vite, et corriger un score.
+
+### Points d'organisation
+
+- Organisateur : compte obligatoire (créer, saisir les scores, corriger). Joueurs : aucun compte,
+  un lien public en lecture seule (calendrier, scores, classement), à partager par message.
+- Équipes en texte libre (noms des joueurs visibles seulement de l'organisateur, ou publics avec
+  leur accord : à décider, RGPD).
+- Données légères : une table `tournois` et une table `rencontres` (ronde, équipes, scores) ; le
+  classement se recalcule à chaque affichage, il n'y a que quelques dizaines de lignes.
+- Choix du format proposé selon le nombre d'équipes saisi : jusqu'à 6, championnat ; à partir de
+  8, système suisse ; 7, les deux possibles.
 
 ## Mise en œuvre — réflexion (7 octobre 2026, rien n'est codé)
 
