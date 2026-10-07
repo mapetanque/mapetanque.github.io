@@ -1,5 +1,5 @@
 /* Widget compteur de points (compteur.html et ses versions nl/de/en), construit par compteur.js.
-   Palette et typographie propres à cet outil (vert + terracotta, Quicksand + Space Grotesk) :
+   Palette et typographie propres à cet outil (vert + terracotta ; Arial, et Manrope pour les scores) :
    seule zone du site où cette identité visuelle distincte est utilisée. */
 
 :root{
@@ -31,7 +31,7 @@
   box-shadow: 0 8px 30px rgba(0,0,0,0.25);
 
   background: var(--bg);
-  font-family: 'Quicksand', sans-serif;
+  font-family: Arial, sans-serif;
   color: var(--sand);
   touch-action: manipulation;
   user-select: none;
@@ -164,7 +164,7 @@ body.fullscreen-lock {
 }
 
 .score{
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Manrope', Arial, sans-serif;
   font-weight: 700;
   font-size: min(28vh, 32vw);
   line-height: 1;
@@ -179,7 +179,7 @@ body.fullscreen-lock {
   position: absolute;
   top: 26%;
   left: 78%;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Manrope', Arial, sans-serif;
   font-weight: 700;
   font-size: 28px;
   line-height: 1;
@@ -235,7 +235,7 @@ body.fullscreen-lock {
   border: 1.5px solid rgba(255,255,255,.4);
   color: var(--sand);
   background: rgba(0,0,0,.12);
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Manrope', Arial, sans-serif;
   font-weight: 700;
   border-radius: 999px;
   padding: 7px 11px;
@@ -274,7 +274,7 @@ body.fullscreen-lock {
 }
 .bottombar button{
   background:none; border:none; color: var(--sand-dim);
-  font-family: 'Quicksand', sans-serif; font-weight:600;
+  font-family: inherit; font-weight:600;
   font-size: 13px; letter-spacing:.04em;
   padding: 8px 10px; cursor:pointer;
   display:flex; align-items:center; gap:6px;
@@ -315,18 +315,18 @@ body.fullscreen-lock {
   font-size: 12px; letter-spacing:.14em; text-transform:uppercase; color: var(--sand-dim);
 }
 .win .winner-name{
-  font-family:'Space Grotesk', sans-serif; font-weight:700;
+  font-family: 'Manrope', Arial, sans-serif; font-weight:700;
   font-size: 34px; color: var(--sand);
 }
 .win .final-score{
-  font-family:'Space Grotesk', sans-serif; font-weight:700;
+  font-family: 'Manrope', Arial, sans-serif; font-weight:700;
   font-size: 20px; color: var(--sand-dim);
 }
 .win button{
   margin-top: 8px;
   background: var(--sand); color: var(--bg);
   border:none; border-radius: 999px;
-  font-family:'Quicksand',sans-serif; font-weight:700;
+  font-family: inherit; font-weight:700;
   padding: 12px 26px; font-size: 15px; cursor:pointer;
 }
 .win button.secondary{
@@ -366,7 +366,7 @@ body.fullscreen-lock {
   font-size: 11px; letter-spacing:.08em; text-transform:uppercase; color: var(--sand-dim);
 }
 .modal-field input{
-  font-family:'Quicksand',sans-serif; font-weight:600; font-size:17px;
+  font-family: inherit; font-weight:600; font-size:17px;
   background: var(--bg-soft); color: var(--sand);
   border: 1.5px solid rgba(255,255,255,.25); border-radius: 10px;
   padding: 10px 12px; outline:none;
@@ -397,6 +397,6 @@ body.fullscreen-lock {
 .detail-menes .equipe::before{ content: ''; flex: 0 0 auto; width: 10px; height: 10px; border-radius: 50%; }
 .detail-menes .a .equipe::before{ background: var(--green); }
 .detail-menes .b .equipe::before{ background: var(--terracotta); }
-.detail-menes .points{ font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
-.detail-menes .apres{ font-family: 'Space Grotesk', sans-serif; color: var(--sand-dim); }
+.detail-menes .points{ font-family: 'Manrope', Arial, sans-serif; font-weight: 700; }
+.detail-menes .apres{ color: var(--sand-dim); }
 .detail-vide{ color: var(--sand-dim); font-size: 14px; }
