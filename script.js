@@ -931,6 +931,17 @@ const GROUPES_FILTRES = typeof FILTRES_SUR_PLACE === 'undefined' ? {} : {
     surPlace: { cles: FILTRES_SUR_PLACE, libelle: 'fiche_sur_place' },
     proximite: { cles: FILTRES_PROXIMITE, libelle: 'fiche_a_proximite' }
 };
+// Filtres demandés par l'adresse de la page carte (?filtre=eau, ou ?filtre=eau,parking : liens
+// des pastilles de l'accueil). Posés avant l'arrivée des terrains, ils s'appliquent quand
+// enregistrerTerrainsFiltrables() reçoit les marqueurs. Une clé inconnue est ignorée.
+if (PAGE_CARTE) {
+    const clesFiltres = Object.keys(GROUPES_FILTRES).reduce(function (liste, groupe) {
+        return liste.concat(GROUPES_FILTRES[groupe].cles);
+    }, []);
+    (new URLSearchParams(window.location.search).get('filtre') || '').split(',').forEach(function (cle) {
+        if (clesFiltres.indexOf(cle) !== -1) filtresActifs.add(cle);
+    });
+}
 const barrePastilles = document.getElementById('carte-pastilles');
 let groupeOuvert = null;    // groupe dont le panneau est ouvert
 let pastilleOuverte = null; // sa pastille
@@ -5366,6 +5377,14 @@ function calculerTerrainsAvecPhoto() {
 // Pose les chiffres dans le pied de page construit par construirePied(). Les « … » d'attente y
 // restent tant qu'un chargement n'a pas abouti ; la ligne de date reste masquée sans date.
 function mettreAJourStats() {
+    // Autres emplacements du nombre de terrains (titre de la section « respiration » de
+    // l'accueil) : leur chiffre écrit dans le HTML sert de repli jusqu'au chargement.
+    if (terrainsCount !== null) {
+        document.querySelectorAll('.nb-terrains-dynamique').forEach(function (el) {
+            el.textContent = formaterNombre(terrainsCount);
+        });
+    }
+
     const nbTerrains = document.getElementById('pied-nb-terrains');
     if (!nbTerrains) return;
 

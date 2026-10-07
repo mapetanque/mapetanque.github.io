@@ -54,6 +54,9 @@
          n'est modifiée par ce fichier. -->
     <link rel="stylesheet" href="/style-beaux-terrains.css">
     <link rel="stylesheet" href="/style-ombres.css">
+    <!-- Section « respiration » sous le carrousel : additif, et la police manuscrite Caveat -->
+    <link rel="stylesheet" href="/style-accueil-respiration.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap">
     <!-- Données structurées schema.org (Google, IA) : écrites par scripts/generer_referencement.py, ne pas modifier à la main. -->
     <script type="application/ld+json">
     {
@@ -298,6 +301,45 @@
 
         <div class="beaux-terrains-carrousel">
             <div class="beaux-terrains-scroller"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Section « respiration » : entre le carrousel et « Parcourir par région », elle renvoie vers la
+     page carte (styles : /style-accueil-respiration.css). Le nombre de terrains est réécrit par
+     mettreAJourStats() dans script.js, comme celui du pied de page ; le chiffre écrit ici sert de
+     repli. Les pastilles ouvrent la carte avec ce filtre déjà coché (?filtre=…, voir script.js). -->
+<section id="respiration" class="respiration">
+    <div class="respiration-contenu">
+        <div class="respiration-texte">
+            <img class="respiration-boule" src="/images/mapetanque-boule-crayon.svg" width="512" height="512" alt="" loading="lazy">
+            <p class="respiration-accroche" data-i18n="respiration_accroche">Votre prochaine partie vous attend !</p>
+            <h2 class="respiration-titre"><span class="nb-terrains-dynamique">1 743</span> <span data-i18n="respiration_titre">terrains à travers toute la Belgique</span></h2>
+            <p class="respiration-intro" data-i18n="respiration_texte">Au bord de l'eau, au centre-ville ou en pleine nature, abrité de la pluie ou éclairé le soir : trouvez celui qui vous convient.</p>
+            <div class="respiration-boutons">
+                <a href="/carte.html" class="respiration-bouton principal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg><span data-i18n="respiration_explorer">Explorer la carte</span></a>
+                <a href="/carte.html?moi=1" class="respiration-bouton secondaire"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span data-i18n="respiration_autour">Autour de moi</span></a>
+            </div>
+        </div>
+        <div class="respiration-visuel">
+            <div class="respiration-cadre">
+                <div class="respiration-annotation">
+                    <span data-i18n="respiration_slogan">Localisez - Partagez - jouez !</span>
+                    <img src="/images/fleche-crayon.svg" width="300" height="260" alt="" loading="lazy">
+                </div>
+                <div class="respiration-carte">
+                    <img src="/images/accueil-carte-parc.webp" width="1315" height="1000" alt="" loading="lazy">
+                    <svg class="respiration-marqueur" viewBox="0 0 29 45" aria-hidden="true"><g transform="translate(2,2)"><path d="M12.5 0C5.6 0 0 5.6 0 12.5c0 9.4 12.5 28.5 12.5 28.5s12.5-19.1 12.5-28.5C25 5.6 19.4 0 12.5 0z" fill="#74C15A" stroke="#fff" stroke-width="2"/><circle cx="12.5" cy="12.5" r="5" fill="#fff"/></g></svg>
+                </div>
+            </div>
+            <div class="respiration-pastilles">
+                <a href="/carte.html?filtre=eau" class="respiration-pastille en-avant"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg><span data-i18n="critere_eau">Au bord de l'eau</span></a>
+                <a href="/carte.html?filtre=calme" class="respiration-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></svg><span data-i18n="critere_calme">Au calme</span></a>
+                <a href="/carte.html?filtre=nature" class="respiration-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg><span data-i18n="critere_nature">Nature</span></a>
+                <a href="/carte.html?filtre=voie_verte" class="respiration-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg><span data-i18n="critere_voie_verte">Voie verte</span></a>
+                <a href="/carte.html?filtre=parking" class="respiration-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg><span data-i18n="critere_parking">Parking</span></a>
+                <a href="/carte.html?filtre=arret" class="respiration-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6 2 7"/><path d="M10 6h4"/><path d="m22 7-2-1"/><rect width="16" height="16" x="4" y="3" rx="2"/><path d="M4 11h16"/><path d="M8 15h.01"/><path d="M16 15h.01"/><path d="M6 19v2"/><path d="M18 21v-2"/></svg><span data-i18n="critere_arret">Bus / tram</span></a>
+            </div>
         </div>
     </div>
 </section>

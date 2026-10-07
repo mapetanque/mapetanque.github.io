@@ -128,13 +128,11 @@
 
 #regions-section {
     background-color: #ffffff;
-    /* Anciennement "50px 20px 60px" : ces valeurs supposaient region-section en dernière
-       position, suivant une section province au fond gris. Depuis l'inversion, elle est
-       intermédiaire entre le carrousel et #provinces-section. padding-top de 24px, combiné aux
-       24px déjà sous le carrousel (16px de padding du scroller + 8px de padding de
-       .beaux-terrains-accueil), donne ~48px au-dessus du titre ; 16px en bas, plus les 24px
-       du haut de #provinces-section, ~40px entre les tuiles des régions et le titre suivant. */
-    padding: 24px 20px 16px;
+    /* Écarts des bandes de l'accueil : 40px entre le bord haut d'une bande et son titre, 56px
+       sous son contenu (comme .communes-equipees). Régions et provinces forment une seule bande
+       blanche : 16px en bas ici, plus les 24px du haut de #provinces-section, ~40px entre les
+       tuiles des régions et le titre suivant. */
+    padding: 40px 20px 16px;
 }
 
 .regions-tiles-grid {

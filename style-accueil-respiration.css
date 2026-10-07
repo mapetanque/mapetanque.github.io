@@ -1,0 +1,221 @@
+/* =====================================================================================
+   Accueil — section « respiration » (entre le carrousel et « Parcourir par région »)
+   Fichier ADDITIF : style.css n'est pas modifié (même convention que style-beaux-terrains.css).
+   Une accroche, le nombre de terrains, deux boutons vers la page carte, et une carte illustrée
+   (images/accueil-carte-parc.webp) avec le marqueur du site, une annotation manuscrite (Caveat,
+   Google Fonts) et des pastilles qui ouvrent la carte filtrée.
+   ===================================================================================== */
+
+/* Gris clair des bandes de l'accueil (#f7f9f6) : l'accueil alterne blanc et gris, entre le
+   carrousel blanc au-dessus et « Parcourir par région » blanc en dessous. */
+.respiration {
+    background: #f7f9f6;
+    /* Écarts des bandes de l'accueil : 40px en haut, 56px en bas (voir #regions-section). */
+    padding: 40px 20px 56px;
+    overflow: hidden;
+    color: #333;
+}
+
+.respiration-contenu {
+    max-width: 1160px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: clamp(48px, 6vw, 88px);
+}
+
+/* ---- Colonne de texte ----
+   z-index: 0 en fait un contexte d'empilement : la boule en filigrane (z-index: -1) passe
+   derrière le texte et les boutons sans passer derrière le fond blanc de la section. */
+.respiration-texte {
+    flex: 1 1 360px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    z-index: 0;
+}
+
+.respiration-boule {
+    position: absolute;
+    z-index: -1;
+    left: 34%;
+    top: 38%;
+    width: clamp(220px, 28vw, 360px);
+    height: auto;
+    opacity: 0.4;
+    transform: rotate(-10deg);
+    pointer-events: none;
+}
+
+.respiration-accroche,
+.respiration-annotation span {
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    line-height: 1.1;
+    color: #4a8f36;
+}
+
+.respiration-accroche {
+    margin: 0;
+    font-size: 30px;
+    transform: rotate(-2deg);
+    transform-origin: left center;
+}
+
+.respiration-titre {
+    margin: 0;
+    font-size: clamp(30px, 3.6vw, 44px);
+    line-height: 1.12;
+    color: #333;
+}
+
+.respiration-intro {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.6;
+    color: #555;
+    max-width: 32em;
+}
+
+.respiration-boutons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+/* Mêmes couleurs et arrondi que le bouton « Me localiser » (#locateBtn dans style.css). */
+.respiration-bouton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 46px;
+    padding: 0 22px;
+    box-sizing: border-box;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+}
+.respiration-bouton svg { width: 18px; height: 18px; flex: none; }
+.respiration-bouton.principal { background: #74C15A; color: #fff; }
+.respiration-bouton.principal:hover { background: #56A03D; }
+.respiration-bouton.secondaire {
+    padding: 0 20px;
+    border: 1px solid #74C15A;
+    background: #fff;
+    color: #3d7a2a;
+}
+.respiration-bouton.secondaire:hover { background: #f2f8ee; }
+
+/* ---- Colonne de la carte ----
+   Le padding du haut laisse la place à l'annotation, qui dépasse au-dessus du cadre. */
+.respiration-visuel {
+    flex: 1.25 1 440px;
+    min-width: 0;
+    padding-top: clamp(80px, 10vw, 124px);
+}
+
+.respiration-cadre {
+    position: relative;
+    background: #fff;
+    padding: 8px;
+    border: 1px solid #e2e6de;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(30, 50, 20, 0.16);
+    transform: rotate(-1.5deg);
+}
+
+/* Annotation et flèche, accrochées au cadre : le bas du bloc (la pointe de la flèche) tombe
+   juste au-dessus du marqueur, quelle que soit la largeur de l'écran. Si l'image ou la position
+   du marqueur changent, ajuster left/width/bottom ici et left/top de .respiration-marqueur. */
+.respiration-annotation {
+    position: absolute;
+    left: 40%;
+    width: 50%;
+    bottom: 62%;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    pointer-events: none;
+}
+.respiration-annotation span {
+    font-size: clamp(21px, 2.2vw, 26px);
+    white-space: nowrap;
+    transform: rotate(-3deg);
+    transform-origin: right center;
+}
+.respiration-annotation img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-top: -4px;
+    /* Liseré blanc : détache le trait vert clair du vert du parc. */
+    filter: drop-shadow(0 0 1.5px #fff) drop-shadow(0 0 1.5px #fff);
+}
+
+.respiration-carte {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #eceee9;
+}
+.respiration-carte > img { display: block; width: 100%; height: auto; }
+
+/* Même pin que terrainMarkerIcon (script.js), un peu agrandi ; la pointe est sur le point. */
+.respiration-marqueur {
+    position: absolute;
+    left: 66.5%;
+    top: 53%;
+    width: 40px;
+    height: 62px;
+    transform: translate(-50%, -96%);
+    filter: drop-shadow(0 3px 4px rgba(20, 40, 10, 0.35));
+}
+
+/* ---- Pastilles : mêmes que les filtres de la carte (.filtre-pastille dans style.css) ----
+   Deux lignes de trois sur ordinateur (largeur maximale), à cheval sur le bas du cadre. */
+.respiration-pastilles {
+    position: relative;
+    z-index: 2;
+    max-width: 390px;
+    margin: -20px auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+}
+.respiration-pastille {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border: 1px solid #d6dccf;
+    border-radius: 999px;
+    background: #fff;
+    color: #333;
+    font-size: 13.5px;
+    line-height: 1.2;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+.respiration-pastille svg { width: 16px; height: 16px; flex: none; color: #3d7a2a; }
+.respiration-pastille:hover { border-color: #74C15A; }
+/* Pastille mise en avant (celle qui correspond à la carte illustrée) : l'aspect d'un filtre actif. */
+.respiration-pastille.en-avant { background: #74C15A; border-color: #74C15A; color: #fff; font-weight: bold; }
+.respiration-pastille.en-avant svg { color: #fff; }
+
+.respiration a:focus-visible { outline: 2px solid #74C15A; outline-offset: 2px; }
+
+/* Même retrait latéral que le carrousel sur téléphone (voir style-beaux-terrains.css). */
+@media (max-width: 640px) {
+    .respiration {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}

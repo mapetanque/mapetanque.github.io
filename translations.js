@@ -37,6 +37,13 @@ const translations = {
         stats_search_commune_placeholder: "Rechercher une commune…",
         // Carrousel "Les plus beaux terrains" (voir /beaux-terrains.js). Le titre affiché
         // dépend de la région détectée (page d'accueil) ou imposée (pages région).
+        // Section « respiration » de l'accueil (sous le carrousel). Le nombre de terrains est écrit devant respiration_titre.
+        respiration_accroche: "Votre prochaine partie vous attend !",
+        respiration_titre: "terrains à travers toute la Belgique",
+        respiration_texte: "Au bord de l'eau, au centre-ville ou en pleine nature, abrité de la pluie ou éclairé le soir : trouvez celui qui vous convient.",
+        respiration_explorer: "Explorer la carte",
+        respiration_autour: "Autour de moi",
+        respiration_slogan: "Localisez - Partagez - jouez !",
         beaux_terrains_titre_belgique: "Les plus beaux terrains en Belgique",
         beaux_terrains_titre_flandre: "Les plus beaux terrains en Flandre",
         beaux_terrains_titre_wallonie: "Les plus beaux terrains en Wallonie",
@@ -369,6 +376,13 @@ const translations = {
 
         stats_terrains_unit: "terreinen",
         stats_search_commune_placeholder: "Gemeente zoeken…",
+        // Section « respiration » de l'accueil (sous le carrousel). Le nombre de terrains est écrit devant respiration_titre.
+        respiration_accroche: "Je volgende partij wacht op je!",
+        respiration_titre: "terreinen in heel België",
+        respiration_texte: "Aan het water, in het centrum of midden in de natuur, overdekt of 's avonds verlicht: vind het terrein dat bij je past.",
+        respiration_explorer: "Verken de kaart",
+        respiration_autour: "In mijn buurt",
+        respiration_slogan: "Zoek - Deel - Speel!",
         // Carrousel "Les plus beaux terrains" : valeurs encore en français, À TRADUIRE.
         beaux_terrains_titre_belgique: "De mooiste terreinen in België",
         beaux_terrains_titre_flandre: "De mooiste terreinen in Vlaanderen",
@@ -702,6 +716,13 @@ const translations = {
 
         stats_terrains_unit: "Plätze",
         stats_search_commune_placeholder: "Gemeinde suchen…",
+        // Section « respiration » de l'accueil (sous le carrousel). Le nombre de terrains est écrit devant respiration_titre.
+        respiration_accroche: "Ihre nächste Partie wartet auf Sie!",
+        respiration_titre: "Plätze in ganz Belgien",
+        respiration_texte: "Am Wasser, im Stadtzentrum oder mitten in der Natur, überdacht oder abends beleuchtet: Finden Sie den Platz, der zu Ihnen passt.",
+        respiration_explorer: "Karte erkunden",
+        respiration_autour: "In meiner Nähe",
+        respiration_slogan: "Finden - Teilen - Spielen!",
         // Carrousel "Les plus beaux terrains" : valeurs encore en français, À TRADUIRE.
         beaux_terrains_titre_belgique: "Die schönsten Plätze in Belgien",
         beaux_terrains_titre_flandre: "Die schönsten Plätze in Flandern",
@@ -1035,6 +1056,13 @@ const translations = {
 
         stats_terrains_unit: "courts",
         stats_search_commune_placeholder: "Search for a municipality…",
+        // Section « respiration » de l'accueil (sous le carrousel). Le nombre de terrains est écrit devant respiration_titre.
+        respiration_accroche: "Your next game is waiting!",
+        respiration_titre: "courts all across Belgium",
+        respiration_texte: "By the water, in town or out in nature, sheltered from the rain or lit in the evening: find the court that suits you.",
+        respiration_explorer: "Explore the map",
+        respiration_autour: "Near me",
+        respiration_slogan: "Find - Share - Play!",
         // Carrousel "Les plus beaux terrains" (voir /beaux-terrains.js).
         beaux_terrains_titre_belgique: "The most beautiful courts in Belgium",
         beaux_terrains_titre_flandre: "The most beautiful courts in Flanders",

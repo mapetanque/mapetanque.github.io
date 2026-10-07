@@ -443,7 +443,9 @@
 
     chargement.then(function (resultats) {
         index = resultats[0];
-        if (!window.location.search && ECRAN_ETROIT.matches) {
+        // ?filtre=… (pastilles de l'accueil) ne cadre rien : la carte part sur la Belgique
+        var autresParametres = window.location.search.replace(/[?&]filtre=[^&]*/, '');
+        if (!autresParametres && ECRAN_ETROIT.matches) {
             cadrerSurBelgique();   // le premier cadrage (script.js) ignorait la feuille
         }
         if (parametres.get('commune')) {

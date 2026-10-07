@@ -167,12 +167,14 @@
 }
 
 /* ---- Fond de section (page d'accueil uniquement) ----
-   Même gris que celui utilisé auparavant par #provinces-section (désormais blanc, voir
-   style-accueil-provinces.css) : la bande grise se déplace du bloc provinces/régions vers le
-   carrousel, pour marquer une rupture visuelle entre la carte et le reste de la page. */
+   Blanc : l'accueil alterne blanc et gris (#f7f9f6) sous la bannière — carrousel blanc,
+   section « respiration » grise (style-accueil-respiration.css), régions et provinces blanches,
+   « Les communes les mieux équipées » grise. */
 .beaux-terrains-accueil {
-    background-color: #f7f9f6;
-    padding: 40px 20px 8px;
+    background-color: #fff;
+    /* 40px en bas + les 16px de padding du scroller : les 56px sous le contenu des autres bandes
+       de l'accueil (voir #regions-section dans style-accueil-provinces.css). */
+    padding: 40px 20px 40px;
 }
 
 /* ---- Titre : deux variantes selon la page ---- */
