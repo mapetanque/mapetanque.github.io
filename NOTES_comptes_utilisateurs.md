@@ -33,6 +33,7 @@ compte ajoute des choses (suivi de ses contributions, parties, badges), il n'en 
 | Indiquer son équipe dans une partie | Facile (simple champ) |
 | Noms des joueurs de chaque équipe | Facile en texte libre visible du seul propriétaire (RGPD : noms de tiers). Lier à de vrais comptes avec confirmation = nettement plus de travail |
 | Partie partagée en direct (les autres joueurs suivent et saisissent le score sur leur téléphone) | Moyen. Gratuit avec un Durable Object par partie (WebSocket) ; on rejoint en scannant un QR code, sans annuaire de comptes (voir « Partie partagée en direct ») |
+| Parties en cours sur un terrain (« partie en cours signalée », jamais « libre » ni « occupé ») | Facile techniquement (table D1 + une requête de la carte), mais peu utile tant qu'il y a peu d'utilisateurs. Variante plus prometteuse : « Partie ouverte, on cherche des joueurs » (voir « Parties en cours sur les terrains ») |
 | Organiser des tournois | Le plus lourd. v1 suggérée : un organisateur saisit tout, lien public en lecture seule. Deux formats sans élimination, championnat et système suisse (voir « Tournois ») : un tableau de classement et des appariements simples, pas besoin de bibliothèque de brackets |
 | Retrouver / éditer ses contributions | Faisable pour les contributions faites connecté. Anciennes contributions anonymes : votes et avis rattachables depuis le même navigateur (jetons localStorage `mapetanque_vote_…` et `mapetanque_auteur_avis`) ; photos et signalements non rattachables (aucun identifiant de navigateur). Photo déjà sur Mapillary : publiée depuis le compte Mapillary du site, donc retrait possible directement par Rémy ; le crédit (pseudo) est géré côté site |
 | Badges (photographe, joueur, critique, signalement) | Facile (seuils calculés sur les contributions) |
@@ -42,8 +43,9 @@ compte ajoute des choses (suivi de ses contributions, parties, badges), il n'en 
 | Plus tard : petits événements | Moyen (table événement), recoupe les tournois ; compte obligatoire + bouton de signalement |
 
 Ordre retenu (détail dans « Mise en œuvre ») : 1. comptes + rattachement des contributions
-envoyées connecté → 2. parties et stats, puis partie partagée en direct → 3. modification de ses contributions, badges et
-points, tournois, en temps voulu (tournois une fois l'usage confirmé).
+envoyées connecté → 2. parties et stats, puis partie partagée en direct et parties en cours
+sur la carte → 3. modification de ses contributions, badges et points,
+tournois, en temps voulu (tournois une fois l'usage confirmé).
 
 ## Authentification — décisions
 
@@ -226,6 +228,76 @@ RGPD (voir « Noms des joueurs » dans le tableau). Les joueurs sont sur le mêm
   conflit, la version de l'objet l'emporte, avec un court message.
 - Rien ne change pour qui ne partage pas : le compteur reste tel qu'aujourd'hui.
 
+## Parties en cours sur les terrains (étape ultérieure)
+
+Idée : indiquer sur la carte et les fiches qu'une partie est en cours sur un terrain, signalée par
+un joueur de la plateforme. Plus simple que la partie partagée : pas de temps réel, il suffit de
+savoir quels terrains ont une partie en cours.
+
+### Ce qu'on peut afficher honnêtement
+
+- On ne voit que les joueurs de la plateforme : un terrain sans signal n'est pas forcément libre
+  (des habitués y jouent sans l'appli). Au début, la carte serait presque toujours vide.
+- On ne connaît pas le nombre de pistes : OSM ne le donne pas, et plusieurs terrains proches
+  sont déjà regroupés (`groupes_terrains.json`). Une partie sur un boulodrome de 10 pistes ne
+  l'occupe pas.
+- Donc jamais « libre » ni « occupé » : seulement « 1 partie en cours, depuis environ 30 min »
+  (ou « 2 parties en cours »).
+
+### Comment le terrain est connu
+
+- Dans le compteur, au début de la partie : question facultative « Où jouez-vous ? », avec le
+  terrain le plus proche proposé d'après la position (modifiable). Le même choix pré-remplit
+  l'enregistrement de fin de partie (étape 2) et la partie partagée en direct.
+- Ou un bouton « Je joue ici » sur la fiche du terrain, pour qui n'utilise pas le compteur, avec
+  un bouton « J'ai fini » pour arrêter le signal.
+- Le signal s'arrête tout seul : à la fin de la partie, ou après environ 2 h sans mène saisie
+  (ou 2 h après « Je joue ici »).
+- Écarté : détecter la partie automatiquement par la géolocalisation. Envoyer sa position sans
+  action explicite pose un vrai problème de vie privée.
+
+### Vie privée
+
+On publie qu'une personne est à tel endroit en ce moment ; c'est le point sensible.
+
+- Anonyme : aucun pseudo, aucune heure précise (« depuis environ 30 min »).
+- Demandé à chaque partie, pas de réglage « toujours partager ».
+- Rien n'est gardé après expiration : la ligne est effacée (seule reste la partie que le joueur
+  enregistre lui-même dans son historique).
+- Risque faible mais pas nul : un joueur seul, sur un terrain isolé, aux mêmes heures. D'où
+  l'absence de nom et d'heure précise.
+- À ajouter à « Vos données », dans les 4 langues.
+
+### Technique
+
+- Pas besoin de compte. Une petite table D1 `parties_en_cours` : terrain, début, expiration,
+  empreinte IP du jour (anti-abus, comme pour les envois actuels).
+- La carte et les fiches font une seule requête au Worker, qui renvoie la liste des terrains
+  actifs. Réponse mise en cache environ 1 min (API Cache du Worker) pour ménager les quotas :
+  la requête ne lit que les lignes non expirées, avec un index sur l'expiration.
+- Effacement des lignes expirées : à chaque écriture (`DELETE … WHERE expiration < maintenant`),
+  pas besoin de Cron.
+- Faux signalements : mêmes limites par IP qu'aujourd'hui (quelques signaux par jour et par IP) ;
+  l'enjeu est faible puisque tout expire seul.
+
+### Variante : « Partie ouverte, on cherche des joueurs »
+
+Au lieu de « ce terrain est pris », le joueur indique lui-même que d'autres peuvent le rejoindre
+(par exemple « on cherche un 4e »).
+
+- Il l'active lui-même, ce qui règle la question de l'accord.
+- Répond à un vrai besoin (trouver des partenaires) et reste intéressant même avec peu
+  d'utilisateurs, contrairement au simple signal « partie en cours ».
+- Toujours anonyme ; tout au plus un court message choisi dans une liste (« on cherche un
+  joueur », « débutants bienvenus »), pas de texte libre : rien à modérer.
+- Bouton de signalement, comme pour les événements.
+
+### Place dans les étapes
+
+Après l'étape 2 : une fois que le compteur demande « Où jouez-vous ? », publier le signal ne
+demande qu'une table et deux routes. Commencer par la variante « partie ouverte » si l'on ne
+devait en garder qu'une.
+
 ## Mise en œuvre — réflexion (7 octobre 2026, rien n'est codé)
 
 ### Une page par fonction, jamais de doublon
@@ -309,6 +381,8 @@ de victoire :
 2. Enregistrement des parties depuis le compteur, historique et stats dans « Mon compte ».
    Ensuite, partie partagée en direct (QR code, Durable Object) : elle ne demande pas de compte,
    mais prend tout son intérêt quand chacun peut garder la partie dans son historique.
+   Puis, avec la question « Où jouez-vous ? » du compteur, les parties en cours sur la carte
+   (de préférence la variante « partie ouverte »).
 3. En temps voulu : modification de ses contributions, badges et points, tournois, événements.
 
 ### Avant de coder
