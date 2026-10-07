@@ -131,31 +131,36 @@ rien (et ferait ×4 avec les langues).
 - Pages existantes : seulement une balise script et l'emplacement du bouton dans l'en-tête, puis
   relancer les générateurs.
 
-### Signaler ce qui demande un compte
+### Ce qui change quand on est connecté
 
-- Proposer le compte au moment où il sert, jamais en bandeau permanent.
-- Une seule mention, discrète, qu'on peut fermer (le choix est retenu sur l'appareil).
-- Même pictogramme (silhouette) à côté de toute fonction réservée, partout sur le site.
-- Même phrase partout : « Gratuit, sans mot de passe : juste votre adresse mail. »
-- Une section « Pourquoi un compte ? » (dans « Mon compte » quand on n'est pas connecté) : ce
-  qu'on y gagne, ce qui est enregistré, lien vers « Vos données ».
-- La mention ne promet que ce qui existe déjà : si elle dit « retrouvez vos contributions »,
-  celles-ci doivent être visibles dans « Mon compte » dès cette étape.
-- Pas de mail de suivi (« votre photo est publiée ») : le quota Resend (100/jour) est réservé aux
-  connexions. Le suivi se consulte dans « Mon compte ».
+Deux cas bien distincts :
 
-Où, à l'étape 1 (pour que le compte soit cohérent sur tout le site dès le départ) :
+- Envois déjà possibles sans compte (photo, terrain manquant, erreur, note, avis) : être
+  connecté n'est qu'un confort. Le Worker range le compte avec l'envoi, et le formulaire
+  pré-remplit le pseudo. Aucune mention ni publicité dans ces formulaires : l'envoi anonyme
+  reste exactement tel qu'aujourd'hui, sans rien de plus à lire.
+- Fonctions qui n'existent qu'avec un compte (historique des parties, plus tard badges,
+  tournois) : là, le compte EST la fonction, il faut donc le proposer à l'endroit où elle sert
+  (par exemple l'écran de victoire du compteur), avec la même phrase partout : « Gratuit, sans
+  mot de passe : juste votre adresse mail. »
 
-| Interaction sans compte | Connecté | Pas connecté (mention discrète) |
+Pour que les avantages restent trouvables : le bouton « Se connecter / Mon compte » dans
+l'en-tête, et une section « Pourquoi un compte ? » sur la page Connexion (ce qu'on y gagne, dont
+le suivi de ses envois ; ce qui est enregistré ; lien vers « Vos données »).
+
+Pas de mail de suivi (« votre photo est publiée ») : le quota Resend (100/jour) est réservé aux
+connexions. Le suivi se consulte dans « Mon compte ».
+
+Comportements à prévoir dès l'étape 1, pour que le compte soit cohérent sur tout le site :
+
+| Interaction | Connecté | Pas connecté |
 |---|---|---|
-| Ajout d'une photo | Crédit pré-rempli avec le pseudo | « Avec un compte, suivez ce que devient votre photo » |
-| Signalement d'un terrain manquant | Envoi rattaché au compte | « Avec un compte, suivez votre signalement » |
-| Signalement d'une erreur | Envoi rattaché au compte | Même mention |
-| Note et avis (panneau « Noter ») | « Envoyé en tant que <pseudo> », pseudo pré-rempli | « Connectez-vous pour retrouver vos contributions » |
-| Compteur (étape 2) | Panneau « Enregistrer la partie » sur l'écran de victoire | « Garder cette partie dans votre historique » sur l'écran de victoire |
+| Ajout d'une photo | Envoi rattaché au compte, crédit pré-rempli avec le pseudo | Inchangé |
+| Signalement d'un terrain manquant | Envoi rattaché au compte | Inchangé |
+| Signalement d'une erreur | Envoi rattaché au compte | Inchangé |
+| Note et avis (panneau « Noter ») | Rattachés au compte, pseudo pré-rempli, une note et un avis par compte et par terrain | Inchangé (jetons du navigateur) |
 | En-tête de toutes les pages | « Mon compte » | « Se connecter » |
-
-Dans tous les cas, l'envoi anonyme reste exactement tel qu'aujourd'hui.
+| Compteur (étape 2) | Panneau « Enregistrer la partie » sur l'écran de victoire | Bouton « Garder cette partie dans votre historique » sur l'écran de victoire |
 
 ### Le compteur (étape 2)
 
@@ -180,7 +185,7 @@ de victoire :
    - les routes d'envoi existantes (photo, signalement de terrain manquant, d'erreur, note, avis)
      acceptent un jeton facultatif et rangent le compte avec l'envoi ;
    - « Mon compte » liste ces contributions avec leur statut (en attente, publiée, refusée) ;
-   - mentions discrètes aux endroits du tableau ci-dessus ;
+   - comportements « connecté » du tableau ci-dessus (sans mention dans les formulaires) ;
    - « Vos données » réécrite en 4 langues ;
    - facultatif : rattacher les votes et avis déjà envoyés depuis ce navigateur.
 2. Enregistrement des parties depuis le compteur, historique et stats dans « Mon compte ».
