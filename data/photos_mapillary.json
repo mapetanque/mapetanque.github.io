@@ -5916,5 +5916,19 @@
       "mapillary_id": "525150345322944",
       "credit_url": "https://www.mapillary.com/map/im/525150345322944"
     }
+  ],
+  "way/887667829": [
+    {
+      "mapillary_id": "952573664592869",
+      "credit_url": "https://www.mapillary.com/map/im/952573664592869",
+      "credit_nom": "Mapetanque"
+    }
+  ],
+  "way/915743883": [
+    {
+      "mapillary_id": "1507657294504336",
+      "credit_url": "https://www.mapillary.com/map/im/1507657294504336",
+      "credit_nom": "Mapetanque"
+    }
   ]
 }
