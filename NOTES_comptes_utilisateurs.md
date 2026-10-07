@@ -32,6 +32,7 @@ compte ajoute des choses (suivi de ses contributions, parties, badges), il n'en 
 | Historique de ses parties (date, terrain, durée, scores) + stats | Facile (table `parties`, stats en SQL) — meilleur rapport valeur/effort |
 | Indiquer son équipe dans une partie | Facile (simple champ) |
 | Noms des joueurs de chaque équipe | Facile en texte libre visible du seul propriétaire (RGPD : noms de tiers). Lier à de vrais comptes avec confirmation = nettement plus de travail |
+| Partie partagée en direct (les autres joueurs suivent et saisissent le score sur leur téléphone) | Moyen. Gratuit avec un Durable Object par partie (WebSocket) ; on rejoint en scannant un QR code, sans annuaire de comptes (voir « Partie partagée en direct ») |
 | Organiser des tournois | Le plus lourd. v1 suggérée : un organisateur saisit tout, lien public en lecture seule. Deux formats sans élimination, championnat et système suisse (voir « Tournois ») : un tableau de classement et des appariements simples, pas besoin de bibliothèque de brackets |
 | Retrouver / éditer ses contributions | Faisable pour les contributions faites connecté. Anciennes contributions anonymes : votes et avis rattachables depuis le même navigateur (jetons localStorage `mapetanque_vote_…` et `mapetanque_auteur_avis`) ; photos et signalements non rattachables (aucun identifiant de navigateur). Photo déjà sur Mapillary : publiée depuis le compte Mapillary du site, donc retrait possible directement par Rémy ; le crédit (pseudo) est géré côté site |
 | Badges (photographe, joueur, critique, signalement) | Facile (seuils calculés sur les contributions) |
@@ -41,7 +42,7 @@ compte ajoute des choses (suivi de ses contributions, parties, badges), il n'en 
 | Plus tard : petits événements | Moyen (table événement), recoupe les tournois ; compte obligatoire + bouton de signalement |
 
 Ordre retenu (détail dans « Mise en œuvre ») : 1. comptes + rattachement des contributions
-envoyées connecté → 2. parties et stats → 3. modification de ses contributions, badges et
+envoyées connecté → 2. parties et stats, puis partie partagée en direct → 3. modification de ses contributions, badges et
 points, tournois, en temps voulu (tournois une fois l'usage confirmé).
 
 ## Authentification — décisions
@@ -165,6 +166,66 @@ ensemble des équipes de niveau proche.
 - Choix du format proposé selon le nombre d'équipes saisi : jusqu'à 6, championnat ; à partir de
   8, système suisse ; 7, les deux possibles.
 
+## Partie partagée en direct (étape ultérieure)
+
+Besoin : quatre joueurs sur un terrain, l'un crée la partie dans le compteur, et les trois autres
+la voient sur leur téléphone en temps réel (et peuvent saisir les mènes).
+
+### Rejoindre : un QR code, pas d'annuaire
+
+Le plus délicat n'est pas le temps réel, c'est « ajouter les autres ». Les chercher par pseudo
+demanderait un annuaire de comptes consultable, une demande de confirmation et des questions de
+RGPD (voir « Noms des joueurs » dans le tableau). Les joueurs sont sur le même terrain, donc :
+
+- Le créateur touche « Partager la partie » : le compteur affiche un QR code et un code court
+  (par exemple `K7P2`, pour qui n'arrive pas à scanner).
+- Les autres le scannent avec l'appareil photo : le lien ouvre le compteur sur cette partie.
+  Scanner vaut accord : rien à confirmer, aucun annuaire.
+- Aucun compte pour suivre ou saisir. Le compte ne sert qu'à la fin, pour garder la partie dans
+  son historique (étape 2) : chaque joueur connecté l'enregistre dans le sien, rattachée au même
+  identifiant de partie partagée.
+- Code court : 4 caractères sans ambiguïté (sans O/0, I/1), valable le temps de la partie, puis
+  libéré. Il ne donne accès qu'au score, pas à un compte.
+- QR code : à générer dans le navigateur avec une petite bibliothèque copiée dans `lib/`, comme
+  Leaflet (aucune n'y est aujourd'hui).
+
+### Technique : un Durable Object par partie
+
+- Cloudflare Durable Objects, inclus dans l'offre Workers gratuite (version stockée en SQLite).
+  Chaque partie partagée a son objet ; les téléphones y restent connectés par WebSocket, et une
+  mène saisie est renvoyée aussitôt aux autres.
+- Quotas gratuits : 100 000 requêtes par jour, messages WebSocket reçus comptés à 20 pour 1.
+  Une partie, c'est environ 4 connexions et 20 à 30 mènes : quelques requêtes. Avec l'API
+  d'hibernation, une connexion qui attend la mène suivante ne coûte pas de durée. Relayer une
+  mène tient largement dans les 10 ms de CPU.
+- Écarté : interroger le Worker toutes les 5 s depuis chaque téléphone. Plus simple, mais environ
+  2 900 requêtes par heure de partie pour 4 téléphones, prises sur le même quota de 100 000
+  requêtes par jour que le reste du site : une dizaine de parties de 2–3 h suffirait à
+  l'atteindre.
+- Écarté : Supabase Realtime, Firebase. Un fournisseur et un sous-traitant RGPD de plus.
+- La partie en cours vit dans l'objet ; D1 ne reçoit que la partie terminée, pour l'historique.
+  Prévoir une alarme de l'objet pour effacer une partie abandonnée (par exemple après 24 h sans
+  mène).
+- Le navigateur ne peut pas ajouter d'en-tête `Authorization` à une WebSocket : le jeton de
+  session, s'il y en a un, part dans le premier message. L'adresse `workers.dev` convient.
+- À vérifier : comment les Workers sont déployés aujourd'hui (tableau de bord ou `wrangler`).
+  Un Durable Object se déclare dans la configuration du Worker avec une « migration », ce qui est
+  plus simple avec `wrangler`. Choisir aussi le Worker qui le porte (voir « Points techniques »).
+
+### Saisie à plusieurs et réseau
+
+- Deux joueurs saisissent la même mène en même temps : chaque envoi porte le numéro de mène
+  attendu (« mène 7 »). L'objet traite les messages un par un, accepte le premier et refuse le
+  second ; ce téléphone reçoit la mène déjà saisie. Même principe pour « annuler la dernière
+  mène ». Le compteur range déjà une entrée par mène (`state.menes` dans `compteur.js`), c'est la
+  bonne forme à synchroniser.
+- Variante plus simple pour une première version : seul le créateur saisit, les autres
+  regardent.
+- Réseau faible sur le terrain : le compteur continue de fonctionner hors ligne (la partie est
+  déjà gardée dans le navigateur). Les mènes en attente partent au retour du réseau ; en cas de
+  conflit, la version de l'objet l'emporte, avec un court message.
+- Rien ne change pour qui ne partage pas : le compteur reste tel qu'aujourd'hui.
+
 ## Mise en œuvre — réflexion (7 octobre 2026, rien n'est codé)
 
 ### Une page par fonction, jamais de doublon
@@ -246,6 +307,8 @@ de victoire :
    - « Vos données » réécrite en 4 langues ;
    - facultatif : rattacher les votes et avis déjà envoyés depuis ce navigateur.
 2. Enregistrement des parties depuis le compteur, historique et stats dans « Mon compte ».
+   Ensuite, partie partagée en direct (QR code, Durable Object) : elle ne demande pas de compte,
+   mais prend tout son intérêt quand chacun peut garder la partie dans son historique.
 3. En temps voulu : modification de ses contributions, badges et points, tournois, événements.
 
 ### Avant de coder
