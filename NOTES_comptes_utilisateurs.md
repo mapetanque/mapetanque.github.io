@@ -40,8 +40,9 @@ compte ajoute des choses (suivi de ses contributions, parties, badges), il n'en 
 | Plus tard : forum | À ne pas coder (charge de modération) ; plutôt un Discord ou groupe externe ; les avis par terrain couvrent une partie du besoin |
 | Plus tard : petits événements | Moyen (table événement), recoupe les tournois ; compte obligatoire + bouton de signalement |
 
-Ordre logique proposé : comptes (avec rattachement facultatif aux routes d'envoi existantes) →
-parties et stats → contributions → badges et points → tournois (une fois l'usage confirmé).
+Ordre retenu (détail dans « Mise en œuvre ») : 1. comptes + rattachement des contributions
+envoyées connecté → 2. parties et stats → 3. modification de ses contributions, badges et
+points, tournois, en temps voulu (tournois une fois l'usage confirmé).
 
 ## Authentification — décisions
 
@@ -106,6 +107,100 @@ parties et stats → contributions → badges et points → tournois (une fois l
     sous-traitant des mails (choisir sa région Europe si elle est proposée), Google si la
     connexion Google est retenue.
 - Vigilance : chaque mécanisme de points augmente la charge de modération (Rémy modère seul)
+
+## Mise en œuvre — réflexion (7 octobre 2026, rien n'est codé)
+
+### Une page par fonction, jamais de doublon
+
+Le site est statique (GitHub Pages) : le même fichier HTML est servi à tout le monde, et seul le
+navigateur sait si la personne est connectée. Dupliquer des pages « avec compte » n'apporterait
+rien (et ferait ×4 avec les langues).
+
+- Une page = une fonction, identique pour tous ; le JavaScript ajoute ce qu'il faut quand une
+  session existe (comme `compteur.js` restaure déjà la partie en cours depuis localStorage).
+- Un fichier commun `compte.js`, autonome comme `compteur.js` (pas dépendant de `script.js`) :
+  savoir si l'on est connecté et sous quel pseudo, prévenir la page quand ça change, ajouter
+  le jeton aux envois vers le Worker, afficher « Se connecter / Mon compte » dans l'en-tête.
+- La vraie protection est dans le Worker : une route réservée refuse toute requête sans jeton
+  valide. Masquer un bouton n'est qu'un confort.
+- Seules pages nouvelles, générées en 4 langues comme `a-propos`, en `noindex` et hors sitemap :
+  - Connexion : adresse, puis code ; c'est aussi la page d'arrivée du lien (bouton « Me
+    connecter »).
+  - Mon compte : pseudo, contributions et leur statut, parties et stats, suppression du compte.
+- Plus tard, un tournoi = une seule page `tournoi.html?id=…` remplie par le JavaScript.
+- Pages existantes : seulement une balise script et l'emplacement du bouton dans l'en-tête, puis
+  relancer les générateurs.
+
+### Signaler ce qui demande un compte
+
+- Proposer le compte au moment où il sert, jamais en bandeau permanent.
+- Une seule mention, discrète, qu'on peut fermer (le choix est retenu sur l'appareil).
+- Même pictogramme (silhouette) à côté de toute fonction réservée, partout sur le site.
+- Même phrase partout : « Gratuit, sans mot de passe : juste votre adresse mail. »
+- Une section « Pourquoi un compte ? » (dans « Mon compte » quand on n'est pas connecté) : ce
+  qu'on y gagne, ce qui est enregistré, lien vers « Vos données ».
+- La mention ne promet que ce qui existe déjà : si elle dit « retrouvez vos contributions »,
+  celles-ci doivent être visibles dans « Mon compte » dès cette étape.
+- Pas de mail de suivi (« votre photo est publiée ») : le quota Resend (100/jour) est réservé aux
+  connexions. Le suivi se consulte dans « Mon compte ».
+
+Où, à l'étape 1 (pour que le compte soit cohérent sur tout le site dès le départ) :
+
+| Interaction sans compte | Connecté | Pas connecté (mention discrète) |
+|---|---|---|
+| Ajout d'une photo | Crédit pré-rempli avec le pseudo | « Avec un compte, suivez ce que devient votre photo » |
+| Signalement d'un terrain manquant | Envoi rattaché au compte | « Avec un compte, suivez votre signalement » |
+| Signalement d'une erreur | Envoi rattaché au compte | Même mention |
+| Note et avis (panneau « Noter ») | « Envoyé en tant que <pseudo> », pseudo pré-rempli | « Connectez-vous pour retrouver vos contributions » |
+| Compteur (étape 2) | Panneau « Enregistrer la partie » sur l'écran de victoire | « Garder cette partie dans votre historique » sur l'écran de victoire |
+| En-tête de toutes les pages | « Mon compte » | « Se connecter » |
+
+Dans tous les cas, l'envoi anonyme reste exactement tel qu'aujourd'hui.
+
+### Le compteur (étape 2)
+
+Rien ne change pendant la partie (on l'utilise debout sur le terrain). Tout se passe sur l'écran
+de victoire :
+
+- Pas connecté : bouton « Garder cette partie dans votre historique » (avec le pictogramme) →
+  connexion → retour au compteur → partie enregistrée. La partie survit au détour parce qu'elle
+  est déjà gardée dans le navigateur (`mapetanque_compteur_partie`). C'est aussi pour ce cas
+  qu'il faut le code à 6 chiffres : si le lien s'ouvre dans le navigateur de l'appli mail, la
+  partie n'y est pas.
+- Connecté : panneau « Enregistrer la partie » : terrain (proposé d'après la position, le plus
+  proche, modifiable), « Mon équipe : A / B », joueurs de chaque équipe en texte libre ; score,
+  objectif et mènes sont déjà connus. Un bouton, et la partie apparaît dans « Mon compte ».
+- Variante pour plus tard : garder aussi les 10 dernières parties sur l'appareil sans compte,
+  importées à la création du compte (« vos parties ne sont que sur ce téléphone »).
+
+### Étapes
+
+1. Comptes, cohérents sur tout le site :
+   - connexion (lien + code), pages Connexion et Mon compte, bouton dans l'en-tête ;
+   - les routes d'envoi existantes (photo, signalement de terrain manquant, d'erreur, note, avis)
+     acceptent un jeton facultatif et rangent le compte avec l'envoi ;
+   - « Mon compte » liste ces contributions avec leur statut (en attente, publiée, refusée) ;
+   - mentions discrètes aux endroits du tableau ci-dessus ;
+   - « Vos données » réécrite en 4 langues ;
+   - facultatif : rattacher les votes et avis déjà envoyés depuis ce navigateur.
+2. Enregistrement des parties depuis le compteur, historique et stats dans « Mon compte ».
+3. En temps voulu : modification de ses contributions, badges et points, tournois, événements.
+
+### Avant de coder
+
+1. Décrire les parcours écran par écran : créer un compte depuis une fin de partie ou depuis
+   l'envoi d'une photo, se connecter sur un nouveau téléphone, envoyer un avis connecté,
+   supprimer son compte.
+2. Esquisser les tables :
+   - `comptes` : adresse, pseudo, date de création ;
+   - `sessions` : empreinte du jeton, compte, expiration ;
+   - `liens_connexion` : empreintes du lien et du code, expiration, essais ;
+   - `parties` : compte, terrain, date, objectif, scores, mon équipe, joueurs, mènes ;
+   - colonne facultative `compte_id` dans les tables actuelles (notes, avis, photos,
+     signalements).
+3. Lister les routes du Worker : nouvelles (demander un lien, vérifier, « moi », mes
+   contributions, parties) et existantes (jeton facultatif).
+4. Préparer les textes en 4 langues dans `translations.js` (clés `compte_*`).
 
 ## Prochaine étape
 
