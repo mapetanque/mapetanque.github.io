@@ -401,7 +401,183 @@ de victoire :
    contributions, parties) et existantes (jeton facultatif).
 4. Préparer les textes en 4 langues dans `translations.js` (clés `compte_*`).
 
+## Étape 1 — spécification (8 octobre 2026)
+
+Décidé : un troisième Worker, `mapetanque-comptes`, créé dans le tableau de bord Cloudflare
+comme les deux autres. Il porte la connexion et « Mon compte ». Les Workers existants ne font que
+lire le jeton de session (petite fonction copiée, voir « Lire le jeton dans les Workers
+existants »).
+
+### Configuration du Worker `mapetanque-comptes`
+
+- Liaison D1 `DB` : la base existante `mapetanque-notes` (la même que les deux autres Workers).
+- Secrets : `RESEND_API_KEY`, `TURNSTILE_SECRET`, `SEL_IP` (sel des empreintes IP, le même
+  principe que dans les Workers existants).
+- Variables : `EXPEDITEUR` (`mapetanque.be <connexion@mapetanque.be>`), `URL_SITE`
+  (`https://mapetanque.be`).
+- CORS : n'accepter que l'origine `https://mapetanque.be` (et `http://127.0.0.1:5500` pour Live
+  Server), répondre aux requêtes `OPTIONS` avec `Access-Control-Allow-Headers: Content-Type,
+  Authorization`.
+
+### Tables
+
+Dates au format de `datetime('now')` (`AAAA-MM-JJ HH:MM:SS`, UTC) et colonnes `cree` / `maj`,
+comme dans les tables existantes : les comparaisons d'échéance se font en texte.
+
+```sql
+-- Un compte = une adresse. L'identifiant est aléatoire : jamais l'adresse dans les autres tables.
+CREATE TABLE comptes (
+  id TEXT PRIMARY KEY,                 -- crypto.randomUUID()
+  email TEXT NOT NULL UNIQUE,          -- en minuscules, espaces retirés
+  pseudo TEXT,                         -- facultatif, 30 caractères au plus
+  langue TEXT NOT NULL DEFAULT 'fr',   -- fr, nl, de, en : langue des mails
+  cree TEXT NOT NULL DEFAULT (datetime('now')),
+  derniere_connexion TEXT
+);
+
+-- Seule l'empreinte du jeton est gardée : une fuite de la base ne donne accès à aucun compte.
+CREATE TABLE sessions (
+  empreinte TEXT PRIMARY KEY,          -- SHA-256 du jeton, en hexadécimal
+  compte_id TEXT NOT NULL REFERENCES comptes(id) ON DELETE CASCADE,
+  cree TEXT NOT NULL DEFAULT (datetime('now')),
+  expire TEXT NOT NULL                 -- cree + 1 an
+);
+CREATE INDEX sessions_compte ON sessions(compte_id);
+CREATE INDEX sessions_expire ON sessions(expire);
+
+-- Une ligne par mail envoyé. Le compte n'est créé qu'à la vérification, jamais à la demande.
+CREATE TABLE liens_connexion (
+  id TEXT PRIMARY KEY,                 -- identifiant de la demande, renvoyé au navigateur
+  email TEXT NOT NULL,
+  langue TEXT NOT NULL DEFAULT 'fr',   -- reprise par le compte s'il est créé
+  empreinte_lien TEXT NOT NULL UNIQUE, -- SHA-256 du jeton du lien
+  empreinte_code TEXT NOT NULL,        -- SHA-256 de (id + code) : le même code n'a pas la même empreinte d'une demande à l'autre
+  essais INTEGER NOT NULL DEFAULT 0,   -- essais de code ; 5 au plus
+  utilise INTEGER NOT NULL DEFAULT 0,
+  empreinte_ip TEXT NOT NULL,          -- empreinte IP du jour (limites anti-abus)
+  cree TEXT NOT NULL DEFAULT (datetime('now')),
+  expire TEXT NOT NULL                 -- cree + 15 min
+);
+CREATE INDEX liens_email ON liens_connexion(email, cree);
+CREATE INDEX liens_ip ON liens_connexion(empreinte_ip, cree);
+CREATE INDEX liens_cree ON liens_connexion(cree);
+```
+
+Pas de rattachement par `envois_visiteurs` (compteur journalier par IP des photos, avis et
+signalements) : y compter les demandes de lien prendrait sur le quota d'envois des visiteurs.
+
+Tables existantes, à l'étape 3 seulement (en même temps que la modification de leurs Workers,
+pour vérifier d'abord qu'aucun `INSERT` n'y est écrit sans liste de colonnes) :
+
+```sql
+-- Rattachement facultatif au compte (NULL = envoi anonyme, comme aujourd'hui).
+ALTER TABLE votes ADD COLUMN compte_id TEXT;
+ALTER TABLE avis ADD COLUMN compte_id TEXT;
+ALTER TABLE photos ADD COLUMN compte_id TEXT;
+ALTER TABLE signalements ADD COLUMN compte_id TEXT;
+CREATE INDEX votes_compte ON votes(compte_id);
+CREATE INDEX avis_compte ON avis(compte_id);
+CREATE INDEX photos_compte ON photos(compte_id);
+CREATE INDEX signalements_compte ON signalements(compte_id);
+```
+
+- `confirmations` n'a pas besoin de `compte_id` : les critères suivent le jeton du vote.
+- Vote connecté : le Worker cherche le jeton du vote du compte sur ce terrain
+  (`WHERE compte_id = ? AND osm_id = ?`) et le traite comme si le navigateur l'avait envoyé ;
+  `notes_agregees` reste mise à jour par le chemin actuel.
+- Avis connecté : `auteur` = `compte:<compte_id>`, si bien que le remplacement actuel (« un
+  nouvel avis remplace le précédent du même auteur ») vaut aussi pour le compte.
+- Statuts à afficher dans « Mon compte » : photos `en_attente` / `a_generer` = en attente,
+  `validee` / `envoyee` / `rattachee` = acceptée, `refusee` = refusée ; signalements `nouveau`,
+  `traite`, `refuse` ; avis : valeurs à relire dans le code du Worker admin. Les votes n'ont
+  pas de statut.
+
+Pas de clé étrangère sur les `compte_id` ajoutés : la suppression de compte les traite
+explicitement (voir la route `/compte/supprimer`).
+
+Nettoyage sans Cron : chaque `POST /compte/lien` efface les liens de plus de 24 h et les sessions
+expirées (`DELETE … WHERE expire < datetime('now')`, sur les index).
+
+### Routes de `mapetanque-comptes`
+
+Toutes en JSON. « Jeton » = en-tête `Authorization: Bearer <jeton de session>`.
+
+| Route | Entrée | Réponse | Remarques |
+|---|---|---|---|
+| `POST /compte/lien` | `email`, `langue`, `turnstile` | `{ demande }` | Même réponse que l'adresse ait un compte ou non. Envoie le mail (lien + code). |
+| `POST /compte/connexion` | `lien` (jeton du lien) | `{ jeton, compte }` | Appelée par le bouton « Me connecter » de la page d'arrivée, jamais à l'ouverture du lien. Crée le compte s'il n'existe pas. |
+| `POST /compte/code` | `demande`, `code` | `{ jeton, compte }` | 5 essais par demande, puis il faut redemander un mail. |
+| `GET /compte/moi` | jeton | `{ email, pseudo, langue, cree }` | 401 si le jeton est absent, inconnu ou expiré : la page oublie alors la session. |
+| `POST /compte/pseudo` | jeton, `pseudo` | `{ pseudo }` | 30 caractères au plus, vide = anonyme. |
+| `POST /compte/deconnexion` | jeton | `{ ok }` | Efface la session de cet appareil seulement. |
+| `GET /compte/contributions` | jeton | listes `votes`, `avis`, `photos`, `signalements` avec terrain, date et statut | Une requête par table, sur l'index `compte_id`. |
+| `POST /compte/supprimer` | jeton, `confirmation: true` | `{ ok }` | Efface le compte et ses sessions ; met `compte_id` à NULL dans les contributions (ou les efface : à décider, voir RGPD). |
+
+`compte` dans les réponses = `{ email, pseudo, langue }`, sans identifiant interne.
+
+### Limites anti-abus de `/compte/lien`
+
+- Turnstile vérifié côté Worker (`siteverify`) avant tout le reste.
+- 3 demandes par adresse et par heure ; 10 par empreinte IP et par jour.
+- Plafond global : refuser au-delà de 90 mails dans la journée (marge sous les 100 de Resend),
+  avec un message « réessayez demain » plutôt qu'un échec silencieux.
+- Toutes ces limites se comptent dans `liens_connexion` (index ci-dessus), sans table de plus.
+
+### Jetons et mail
+
+- Jeton de session et jeton du lien : 32 octets aléatoires (`crypto.getRandomValues`) en
+  base64url. Code : 6 chiffres aléatoires.
+- Lien du mail : `https://mapetanque.be/connexion.html#lien=<jeton>` (version NL/DE/EN selon la
+  langue de la demande). Le jeton est après `#` : il n'est jamais envoyé au serveur (GitHub
+  Pages) ni dans l'en-tête Referer.
+- La page d'arrivée retire aussitôt `#lien=…` de l'adresse (`history.replaceState`).
+- Mail en texte simple + HTML minimal, dans la langue de la demande ; une seule fonction
+  `envoyerMail(env, a, sujet, texte, html)` parle à Resend.
+- Côté navigateur, le jeton de session est rangé dans `localStorage` (`mapetanque_session`),
+  avec l'adresse et le pseudo pour afficher l'en-tête sans requête.
+
+### Lire le jeton dans les Workers existants
+
+Routes concernées : `POST /vote` et `POST /confirmation` (`mapetanque-notes`), `POST /avis/envoi`,
+`/photos/envoi`, `/signalements/envoi` (`mapetanque-admin`).
+
+- Une fonction `compteDepuisRequete(request, env)` copiée dans les deux Workers : lit l'en-tête,
+  calcule l'empreinte, cherche une session non expirée, renvoie `compte_id` ou `null`. Jeton
+  absent ou invalide = envoi anonyme, jamais une erreur.
+- Ces routes reçoivent aujourd'hui des requêtes sans en-tête particulier (`/avis/envoi` part en
+  FormData). Avec `Authorization`, le navigateur envoie d'abord une requête `OPTIONS` : les deux
+  Workers doivent y répondre avec `Authorization` dans `Access-Control-Allow-Headers`, sinon
+  l'envoi échoue pour les personnes connectées.
+- Vote ou avis connecté : le Worker remplace la contribution du compte sur ce terrain (au lieu
+  de celle du jeton du navigateur).
+
+### Ordre de réalisation
+
+1. Créer les tables (console D1), puis le Worker `mapetanque-comptes` avec `/compte/lien`,
+   `/compte/connexion`, `/compte/code`, `/compte/moi`, `/compte/deconnexion`. Tester depuis
+   PowerShell (`Invoke-RestMethod`) avant toute page.
+2. `compte.js`, page Connexion (4 langues, `noindex`, hors sitemap), bouton « Se connecter /
+   Mon compte » dans l'en-tête, clés `compte_*` dans `translations.js`.
+3. `compteDepuisRequete` et CORS dans les deux Workers existants ; `compte.js` ajoute le jeton
+   aux envois.
+4. Page Mon compte : pseudo, contributions et statut, déconnexion, suppression.
+5. « Vos données » réécrite en 4 langues, avant la mise en ligne du bouton dans l'en-tête.
+
 ## Prochaine étape
 
-Créer le compte Resend et ajouter les enregistrements DNS chez OVH (SPF, DKIM, DMARC ; prévoir le
-temps de propagation).
+Fait le 8 octobre 2026 : compte Resend créé, domaine `mapetanque.be` vérifié (région Ireland
+eu-west-1, suivi des clics et des ouvertures désactivé). DNS chez OVH : TXT
+`resend._domainkey` (DKIM), CNAME `rsend` et `send` (Resend ne demande plus de MX ni de SPF),
+TXT `_dmarc` en `p=none`. La clé API n'est pas encore créée : la faire au moment de créer le
+Worker, avec la permission « Sending access » limitée à `mapetanque.be`, et la coller
+directement dans ses secrets.
+
+Fait le 8 octobre 2026 : tables `comptes`, `sessions`, `liens_connexion` créées ; Worker
+`mapetanque-comptes` déployé avec `/compte/lien`, `/compte/connexion`, `/compte/code`,
+`/compte/moi`, `/compte/deconnexion`, testé depuis PowerShell (mail reçu, lien direct sans
+redirection Resend, mauvais code refusé, connexion par code, `/compte/moi`). Turnstile encore
+désactivé (`TURNSTILE_ACTIF` = `non`) : à passer à `oui` avant de mettre le bouton
+« Se connecter » en ligne.
+
+Suite : point 2 de l'« Ordre de réalisation » (`compte.js`, page Connexion, bouton dans
+l'en-tête).
