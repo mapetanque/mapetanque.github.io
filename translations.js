@@ -40,7 +40,7 @@ const translations = {
         // Section « respiration » de l'accueil (sous le carrousel). Le nombre de terrains est écrit devant respiration_titre.
         respiration_accroche: "Votre prochaine partie vous attend !",
         respiration_titre: "terrains à travers toute la Belgique",
-        respiration_texte: "Au bord de l'eau, au centre-ville ou en pleine nature, abrité de la pluie ou éclairé le soir : trouvez celui qui vous convient.",
+        respiration_texte: "En ville, au bord de l’eau ou en pleine nature, à l’abri de la pluie ou éclairé le soir : trouvez le terrain qui vous convient.",
         respiration_explorer: "Explorer la carte",
         respiration_autour: "Autour de moi",
         respiration_slogan: "Localisez - Partagez - jouez !",
