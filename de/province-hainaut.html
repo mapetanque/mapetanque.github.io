@@ -237,12 +237,12 @@
 <div class="province-bande-texte">
 <div class="province-bande-interieur">
     <p class="province-intro">
-        Hennegau zählt <strong>97 Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>31 Gemeinden</strong>. In Farciennes verfügte der Pétanque Club Le Pays Noir 2023 über 7 Innen- und 20 Außenplätze, insgesamt also 27 Bahnen. Damit ist er wohl die größte Pétanque-Anlage Belgiens.
+        Hennegau zählt <strong>106 Pétanque-Plätze</strong> auf Mapetanque.be, verteilt auf <strong>31 Gemeinden</strong>. In Farciennes verfügte der Pétanque Club Le Pays Noir 2023 über 7 Innen- und 20 Außenplätze, insgesamt also 27 Bahnen. Damit ist er wohl die größte Pétanque-Anlage Belgiens.
     </p>
 
     <!-- La carte est sur /carte.html : ce bouton l'ouvre cadrée sur la zone de la page. -->
     <p class="province-voir-carte">
-        <a href="/de/carte.html?province=hainaut" class="bouton-voir-carte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg><span>Die 97 Plätze auf der Karte ansehen</span></a>
+        <a href="/de/carte.html?province=hainaut" class="bouton-voir-carte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg><span>Die 106 Plätze auf der Karte ansehen</span></a>
     </p>
 
     <div class="province-communes-section">
@@ -251,6 +251,7 @@
         <!-- Liste écrite par generate_provinces.py (lisible sans JavaScript, donc par les
              moteurs de recherche et les IA) ; le script plus bas branche les clics sur la carte. -->
         <div class="commune-list repliee" id="communeList">
+            <div class="commune-item" data-commune="Silly" data-terrains="10" data-recherche-clef="silly"><a href="/de/commune/silly.html"><span>Silly </span><span class="commune-count">(10 Plätze)</span></a></div>
             <div class="commune-item" data-commune="Mons" data-terrains="9" data-recherche-clef="bergen | mons"><a href="/de/commune/mons.html"><span>Mons </span><span class="commune-count">(9 Plätze)</span></a></div>
             <div class="commune-item" data-commune="Binche" data-terrains="8" data-recherche-clef="binche"><a href="/de/commune/binche.html"><span>Binche </span><span class="commune-count">(8 Plätze)</span></a></div>
             <div class="commune-item" data-commune="Les Bons Villers" data-terrains="8" data-recherche-clef="les bons villers"><a href="/de/commune/les-bons-villers.html"><span>Les Bons Villers </span><span class="commune-count">(8 Plätze)</span></a></div>
@@ -260,7 +261,7 @@
             <div class="commune-item" data-commune="Tournai" data-terrains="6" data-recherche-clef="doornik | tournai"><a href="/de/commune/tournai.html"><span>Tournai </span><span class="commune-count">(6 Plätze)</span></a></div>
             <div class="commune-item" data-commune="Quaregnon" data-terrains="5" data-recherche-clef="quaregnon"><a href="/de/commune/quaregnon.html"><span>Quaregnon </span><span class="commune-count">(5 Plätze)</span></a></div>
             <div class="commune-item" data-commune="Antoing" data-terrains="3" data-recherche-clef="antoing"><a href="/de/carte.html?commune=antoing"><span>Antoing </span><span class="commune-count">(3 Plätze)</span></a></div>
-            <div class="commune-item" data-commune="Enghien - Edingen" data-terrains="3" data-recherche-clef="edingen | enghien | enghien - edingen"><a href="/de/commune/enghien-edingen.html"><span>Edingen </span><span class="commune-count">(3 Plätze)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Enghien - Edingen" data-terrains="3" data-recherche-clef="edingen | enghien | enghien - edingen"><a href="/de/commune/enghien-edingen.html"><span>Edingen </span><span class="commune-count">(3 Plätze)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Froidchapelle" data-terrains="3" data-recherche-clef="froidchapelle"><a href="/de/commune/froidchapelle.html"><span>Froidchapelle </span><span class="commune-count">(3 Plätze)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Comines-Warneton - Komen-Waasten" data-terrains="3" data-recherche-clef="comines-warneton | comines-warneton - komen-waasten | komen-waasten"><a href="/de/carte.html?commune=comines-warneton-komen-waasten"><span>Komen-Waasten </span><span class="commune-count">(3 Plätze)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Mouscron" data-terrains="3" data-recherche-clef="mouscron"><a href="/de/commune/mouscron.html"><span>Mouscron </span><span class="commune-count">(3 Plätze)</span></a></div>
@@ -280,7 +281,6 @@
             <div class="commune-item commune-repliee" data-commune="Erquelinnes" data-terrains="1" data-recherche-clef="erquelinnes"><a href="/de/carte.html?commune=erquelinnes"><span>Erquelinnes </span><span class="commune-count">(1 Platz)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Frameries" data-terrains="1" data-recherche-clef="frameries"><a href="/de/carte.html?commune=frameries"><span>Frameries </span><span class="commune-count">(1 Platz)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Ham-sur-Heure-Nalinnes" data-terrains="1" data-recherche-clef="ham-sur-heure-nalinnes"><a href="/de/carte.html?commune=ham-sur-heure-nalinnes"><span>Ham-sur-Heure-Nalinnes </span><span class="commune-count">(1 Platz)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Silly" data-terrains="1" data-recherche-clef="silly"><a href="/de/carte.html?commune=silly"><span>Silly </span><span class="commune-count">(1 Platz)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Thuin" data-terrains="1" data-recherche-clef="thuin"><a href="/de/carte.html?commune=thuin"><span>Thuin </span><span class="commune-count">(1 Platz)</span></a></div>
             <div class="commune-item commune-vide" style="display: none" data-recherche-clef="aiseau-presles"><p>Aiseau-Presles: noch kein Platz erfasst. Der nächste liegt in <a href="/de/commune/sambreville.html">Sambreville</a>, 3 km entfernt.</p></div>
             <div class="commune-item commune-vide" style="display: none" data-recherche-clef="anderlues"><p>Anderlues: noch kein Platz erfasst. Der nächste liegt in <a href="/de/commune/binche.html">Binche</a>, 5 km entfernt.</p></div>
@@ -319,7 +319,7 @@
             <div class="commune-item commune-vide" style="display: none" data-recherche-clef="saint-ghislain"><p>Saint-Ghislain: noch kein Platz erfasst. Der nächste liegt in <a href="/de/commune/mons.html">Mons</a>, 7 km entfernt.</p></div>
             <div class="commune-item commune-vide" style="display: none" data-recherche-clef="seneffe"><p>Seneffe: noch kein Platz erfasst. Der nächste liegt in <a href="/de/carte.html?lat=50.5902089&amp;lon=4.3225756">Nivelles</a>, 6 km entfernt.</p></div>
             <div class="commune-item commune-vide" style="display: none" data-recherche-clef="sivry-rance"><p>Sivry-Rance: noch kein Platz erfasst. Der nächste liegt in <a href="/de/commune/froidchapelle.html">Froidchapelle</a>, 10 km entfernt.</p></div>
-            <div class="commune-item commune-vide" style="display: none" data-recherche-clef="soignies"><p>Soignies: noch kein Platz erfasst. Der nächste liegt in <a href="/de/commune/ecaussinnes.html">Écaussinnes</a>, 9 km entfernt.</p></div>
+            <div class="commune-item commune-vide" style="display: none" data-recherche-clef="soignies"><p>Soignies: noch kein Platz erfasst. Der nächste liegt in <a href="/de/commune/silly.html">Silly</a>, 8 km entfernt.</p></div>
         </div>
         <p class="commune-no-result" id="communeNoResult">Keine Gemeinde gefunden.</p>
         <button type="button" class="commune-voir-tout" id="communeVoirTout"
@@ -331,15 +331,15 @@
         <div class="tuiles-provinces">
             <a href="/de/region-wallonie.html" class="tuile-province" style="background-image: url('/images/provinces/tuile-wallonie.webp');">
                 <span class="tuile-province-nom">Wallonien</span>
-                <span class="tuile-province-nombre">437 Plätze</span>
+                <span class="tuile-province-nombre">444 Plätze</span>
             </a>
             <a href="/de/province-liege.html" class="tuile-province" style="background-image: url('/images/provinces/tuile-liege.webp');">
                 <span class="tuile-province-nom">Lüttich</span>
-                <span class="tuile-province-nombre">152 Plätze</span>
+                <span class="tuile-province-nombre">148 Plätze</span>
             </a>
             <a href="/de/province-namur.html" class="tuile-province" style="background-image: url('/images/provinces/tuile-namur.webp');">
                 <span class="tuile-province-nom">Namur</span>
-                <span class="tuile-province-nombre">88 Plätze</span>
+                <span class="tuile-province-nombre">89 Plätze</span>
             </a>
             <a href="/de/province-luxembourg.html" class="tuile-province" style="background-image: url('/images/provinces/tuile-luxembourg.webp');">
                 <span class="tuile-province-nom">Luxemburg</span>
@@ -347,7 +347,7 @@
             </a>
             <a href="/de/province-brabant-wallon.html" class="tuile-province" style="background-image: url('/images/provinces/tuile-brabant-wallon.webp');">
                 <span class="tuile-province-nom">Wallonisch-Brabant</span>
-                <span class="tuile-province-nombre">48 Plätze</span>
+                <span class="tuile-province-nombre">49 Plätze</span>
             </a>
         </div>
     </div>

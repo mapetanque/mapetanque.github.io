@@ -237,12 +237,12 @@
 <div class="province-bande-texte">
 <div class="province-bande-interieur">
     <p class="province-intro">
-        Le Hainaut compte <strong>97 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>31 communes</strong>. À Farciennes, le Pétanque Club Le Pays Noir disposait, en 2023, de 7 terrains intérieurs et 20 terrains extérieurs, soit 27 pistes au total. Il pourrait ainsi être le plus grand complexe de pétanque de Belgique.
+        Le Hainaut compte <strong>106 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>31 communes</strong>. À Farciennes, le Pétanque Club Le Pays Noir disposait, en 2023, de 7 terrains intérieurs et 20 terrains extérieurs, soit 27 pistes au total. Il pourrait ainsi être le plus grand complexe de pétanque de Belgique.
     </p>
 
     <!-- La carte est sur /carte.html : ce bouton l'ouvre cadrée sur la zone de la page. -->
     <p class="province-voir-carte">
-        <a href="/carte.html?province=hainaut" class="bouton-voir-carte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg><span>Voir les 97 terrains sur la carte</span></a>
+        <a href="/carte.html?province=hainaut" class="bouton-voir-carte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg><span>Voir les 106 terrains sur la carte</span></a>
     </p>
 
     <div class="province-communes-section">
@@ -251,6 +251,7 @@
         <!-- Liste écrite par generate_provinces.py (lisible sans JavaScript, donc par les
              moteurs de recherche et les IA) ; le script plus bas branche les clics sur la carte. -->
         <div class="commune-list repliee" id="communeList">
+            <div class="commune-item" data-commune="Silly" data-terrains="10" data-recherche-clef="silly"><a href="/commune/silly.html"><span>Silly </span><span class="commune-count">(10 terrains)</span></a></div>
             <div class="commune-item" data-commune="Mons" data-terrains="9" data-recherche-clef="bergen | mons"><a href="/commune/mons.html"><span>Mons </span><span class="commune-count">(9 terrains)</span></a></div>
             <div class="commune-item" data-commune="Binche" data-terrains="8" data-recherche-clef="binche"><a href="/commune/binche.html"><span>Binche </span><span class="commune-count">(8 terrains)</span></a></div>
             <div class="commune-item" data-commune="Les Bons Villers" data-terrains="8" data-recherche-clef="les bons villers"><a href="/commune/les-bons-villers.html"><span>Les Bons Villers </span><span class="commune-count">(8 terrains)</span></a></div>
@@ -260,7 +261,7 @@
             <div class="commune-item" data-commune="Tournai" data-terrains="6" data-recherche-clef="doornik | tournai"><a href="/commune/tournai.html"><span>Tournai </span><span class="commune-count">(6 terrains)</span></a></div>
             <div class="commune-item" data-commune="Quaregnon" data-terrains="5" data-recherche-clef="quaregnon"><a href="/commune/quaregnon.html"><span>Quaregnon </span><span class="commune-count">(5 terrains)</span></a></div>
             <div class="commune-item" data-commune="Antoing" data-terrains="3" data-recherche-clef="antoing"><a href="/carte.html?commune=antoing"><span>Antoing </span><span class="commune-count">(3 terrains)</span></a></div>
-            <div class="commune-item" data-commune="Comines-Warneton - Komen-Waasten" data-terrains="3" data-recherche-clef="comines-warneton | comines-warneton - komen-waasten | komen-waasten"><a href="/carte.html?commune=comines-warneton-komen-waasten"><span>Comines-Warneton </span><span class="commune-count">(3 terrains)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Comines-Warneton - Komen-Waasten" data-terrains="3" data-recherche-clef="comines-warneton | comines-warneton - komen-waasten | komen-waasten"><a href="/carte.html?commune=comines-warneton-komen-waasten"><span>Comines-Warneton </span><span class="commune-count">(3 terrains)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Enghien - Edingen" data-terrains="3" data-recherche-clef="edingen | enghien | enghien - edingen"><a href="/commune/enghien-edingen.html"><span>Enghien </span><span class="commune-count">(3 terrains)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Froidchapelle" data-terrains="3" data-recherche-clef="froidchapelle"><a href="/commune/froidchapelle.html"><span>Froidchapelle </span><span class="commune-count">(3 terrains)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Mouscron" data-terrains="3" data-recherche-clef="mouscron"><a href="/commune/mouscron.html"><span>Mouscron </span><span class="commune-count">(3 terrains)</span></a></div>
@@ -280,7 +281,6 @@
             <div class="commune-item commune-repliee" data-commune="Erquelinnes" data-terrains="1" data-recherche-clef="erquelinnes"><a href="/carte.html?commune=erquelinnes"><span>Erquelinnes </span><span class="commune-count">(1 terrain)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Frameries" data-terrains="1" data-recherche-clef="frameries"><a href="/carte.html?commune=frameries"><span>Frameries </span><span class="commune-count">(1 terrain)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Ham-sur-Heure-Nalinnes" data-terrains="1" data-recherche-clef="ham-sur-heure-nalinnes"><a href="/carte.html?commune=ham-sur-heure-nalinnes"><span>Ham-sur-Heure-Nalinnes </span><span class="commune-count">(1 terrain)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Silly" data-terrains="1" data-recherche-clef="silly"><a href="/carte.html?commune=silly"><span>Silly </span><span class="commune-count">(1 terrain)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Thuin" data-terrains="1" data-recherche-clef="thuin"><a href="/carte.html?commune=thuin"><span>Thuin </span><span class="commune-count">(1 terrain)</span></a></div>
             <div class="commune-item commune-vide" style="display: none" data-recherche-clef="aiseau-presles"><p>Aiseau-Presles : aucun terrain recensé pour l'instant. Le plus proche se trouve à <a href="/commune/sambreville.html">Sambreville</a>, à 3 km.</p></div>
             <div class="commune-item commune-vide" style="display: none" data-recherche-clef="anderlues"><p>Anderlues : aucun terrain recensé pour l'instant. Le plus proche se trouve à <a href="/commune/binche.html">Binche</a>, à 5 km.</p></div>
@@ -319,7 +319,7 @@
             <div class="commune-item commune-vide" style="display: none" data-recherche-clef="saint-ghislain"><p>Saint-Ghislain : aucun terrain recensé pour l'instant. Le plus proche se trouve à <a href="/commune/mons.html">Mons</a>, à 7 km.</p></div>
             <div class="commune-item commune-vide" style="display: none" data-recherche-clef="seneffe"><p>Seneffe : aucun terrain recensé pour l'instant. Le plus proche se trouve à <a href="/carte.html?lat=50.5902089&amp;lon=4.3225756">Nivelles</a>, à 6 km.</p></div>
             <div class="commune-item commune-vide" style="display: none" data-recherche-clef="sivry-rance"><p>Sivry-Rance : aucun terrain recensé pour l'instant. Le plus proche se trouve à <a href="/commune/froidchapelle.html">Froidchapelle</a>, à 10 km.</p></div>
-            <div class="commune-item commune-vide" style="display: none" data-recherche-clef="soignies"><p>Soignies : aucun terrain recensé pour l'instant. Le plus proche se trouve à <a href="/commune/ecaussinnes.html">Écaussinnes</a>, à 9 km.</p></div>
+            <div class="commune-item commune-vide" style="display: none" data-recherche-clef="soignies"><p>Soignies : aucun terrain recensé pour l'instant. Le plus proche se trouve à <a href="/commune/silly.html">Silly</a>, à 8 km.</p></div>
         </div>
         <p class="commune-no-result" id="communeNoResult">Aucune commune trouvée.</p>
         <button type="button" class="commune-voir-tout" id="communeVoirTout"
@@ -331,15 +331,15 @@
         <div class="tuiles-provinces">
             <a href="/region-wallonie.html" class="tuile-province" style="background-image: url('/images/provinces/tuile-wallonie.webp');">
                 <span class="tuile-province-nom">Wallonie</span>
-                <span class="tuile-province-nombre">437 terrains</span>
+                <span class="tuile-province-nombre">444 terrains</span>
             </a>
             <a href="/province-liege.html" class="tuile-province" style="background-image: url('/images/provinces/tuile-liege.webp');">
                 <span class="tuile-province-nom">Liège</span>
-                <span class="tuile-province-nombre">152 terrains</span>
+                <span class="tuile-province-nombre">148 terrains</span>
             </a>
             <a href="/province-namur.html" class="tuile-province" style="background-image: url('/images/provinces/tuile-namur.webp');">
                 <span class="tuile-province-nom">Namur</span>
-                <span class="tuile-province-nombre">88 terrains</span>
+                <span class="tuile-province-nombre">89 terrains</span>
             </a>
             <a href="/province-luxembourg.html" class="tuile-province" style="background-image: url('/images/provinces/tuile-luxembourg.webp');">
                 <span class="tuile-province-nom">Luxembourg</span>
@@ -347,7 +347,7 @@
             </a>
             <a href="/province-brabant-wallon.html" class="tuile-province" style="background-image: url('/images/provinces/tuile-brabant-wallon.webp');">
                 <span class="tuile-province-nom">Brabant wallon</span>
-                <span class="tuile-province-nombre">48 terrains</span>
+                <span class="tuile-province-nombre">49 terrains</span>
             </a>
         </div>
     </div>

@@ -1,6 +1,6 @@
 {
   "type": "FeatureCollection",
-  "mis_a_jour": "2026-10-06",
+  "mis_a_jour": "2026-10-08",
   "features": [
     {
       "type": "Feature",
@@ -1187,39 +1187,6 @@
           },
           "eau": {
             "ruisseau": 193
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.5889206,
-          50.6212086
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "node/9038485039",
-        "nearest_street": "Avenue Reine Élisabeth",
-        "commune": "Liège",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 13,
-          "parking": 226,
-          "arret": 151,
-          "voie_verte": 218,
-          "routes": {
-            "secondary": 118,
-            "residential": 16
-          },
-          "eau": {
-            "riviere": 150
           }
         }
       }
@@ -4983,7 +4950,7 @@
         "sport": "boules",
         "osm_id": "way/268152713",
         "nearest_street": "Place du Roi Albert",
-        "commune": "Pousset",
+        "commune": "Remicourt",
         "province": "liege",
         "region": "wallonie",
         "env": {
@@ -8261,7 +8228,7 @@
         "commune": "Bredene",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-sea5-1.xx.fbcdn.net/m1/v/t6/An8E1l4wAD-px3sqi8ZwbfPPb4Q4Hw3Cj0Frk0tUX4yx8viOmbXX1vK_1Xcydig3WgmY7WkA4sw312YUwoaWGEQT1t37vc6dMWnsOAZR5zox3sK49BZiq1dJ5-UTqjOb1UB4_n8_-x8PGbGUSJCp-Q?stp=s1024x576&edm=ALXxkZ8EAAAA&_nc_gid=DcrkxGCwcBTCB7cYaHdP8g&_nc_oc=AdrcNqYGpFU30IEQCcf27gNOC5e8BNsctQjh8hzUwD4_SUgIRewkfx8x-a1DeHmirhc&ccb=10-5&oh=00_AQNDRadgjVtVbj58LjrU6rBUxHDj3uH4zyor3eHUlWIG2Q&oe=6AEC746B&_nc_sid=201bca",
+        "photo_url": "https://scontent-iad3-2.xx.fbcdn.net/m1/v/t6/An8E1l4wAD-px3sqi8ZwbfPPb4Q4Hw3Cj0Frk0tUX4yx8viOmbXX1vK_1Xcydig3WgmY7WkA4sw312YUwoaWGEQT1t37vc6dMWnsOAZR5zox3sK49BZiq1dJ5-UTqjOb1UB4_n8_-x8PGbGUSJCp-Q?stp=s1024x576&edm=ALXxkZ8EAAAA&_nc_gid=ns5sLA0n05d01WZ8d5W4xA&_nc_oc=AdqGMPh5UkyQUsKPtNj2KywGkK0AvoMv6L728nazoh6eHcSkqo1A2YGMfdf7MOzqbGw&ccb=10-5&oh=00_AQMuq5xTdaCl99x8D3_-Me-kGiFSpiVAH4Kee5GzbFZwig&oe=6AEF4FAB&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=283988963431148&focus=photo",
         "env": {
@@ -8933,7 +8900,7 @@
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/430723300",
-        "nearest_street": "Bondgenotenstraat",
+        "nearest_street": "Hoefstraat",
         "commune": "Halle",
         "province": "brabant_flamand",
         "region": "flandre",
@@ -11831,7 +11798,7 @@
         "commune": "Knokke-Heist",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-sea5-1.xx.fbcdn.net/m1/v/t6/An_826nXBC4N2y38_46JfHk8TYlVeq-hNAQyzdi3RGipbSCTiu-UDyRUbVxSsn3AtQHTJC5D0XSUSCYVrkOORldTwq1jZBjhb4xAKNsDBtL7z72Ymk2r6Lm5q-lmR7rzHlQbfvo134VEeJ8nxcqte8Q?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=khRoNYMSkC-2KdyiZXBNsA&_nc_oc=AdpedJ1xLrpCBiSgA4Ztuga6R501V1PIXEsVR36YpB_TcuEFHjvUvZjMYHux7XTHbPc&ccb=10-5&oh=00_AQOyE3-uLMiJf5j80AywLEeK5lKvmlhK2262O2B8grFDrA&oe=6AEC79F4&_nc_sid=201bca",
+        "photo_url": "https://scontent-iad3-2.xx.fbcdn.net/m1/v/t6/An_826nXBC4N2y38_46JfHk8TYlVeq-hNAQyzdi3RGipbSCTiu-UDyRUbVxSsn3AtQHTJC5D0XSUSCYVrkOORldTwq1jZBjhb4xAKNsDBtL7z72Ymk2r6Lm5q-lmR7rzHlQbfvo134VEeJ8nxcqte8Q?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=fGIQbix1KBgRP0Aw-enIoQ&_nc_oc=AdohiNEqtbwU_MiPb99zvUV91aMGh1XtmmvaSGEclF9hefTgOrxT2Nv0csWBe4yyoMA&ccb=10-5&oh=00_AQPFQqpUchSgRMyQnKDDKirVE0_y3hbFDeqTuZpfsp9V4g&oe=6AEF1CF4&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=2585664148528878&focus=photo",
         "env": {
@@ -17294,13 +17261,15 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          3.8601459,
-          50.4313284
+          3.8600684,
+          50.4313271
         ]
       },
       "properties": {
         "leisure": "pitch",
+        "lit": "yes",
         "sport": "boules",
+        "surface": "fine_gravel",
         "osm_id": "way/729314695",
         "nearest_street": "Rue Liénard",
         "commune": "Quaregnon",
@@ -17326,13 +17295,15 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          3.8601202,
-          50.4314337
+          3.8601211,
+          50.4314346
         ]
       },
       "properties": {
         "leisure": "pitch",
+        "lit": "no",
         "sport": "boules",
+        "surface": "clay",
         "osm_id": "way/729314696",
         "nearest_street": "Rue Liénard",
         "commune": "Quaregnon",
@@ -20446,7 +20417,7 @@
         "sport": "boules",
         "osm_id": "way/822148570",
         "nearest_street": "Goed dreef",
-        "commune": "Sint-Niklaas",
+        "commune": "Sinaai",
         "province": "flandre_orientale",
         "region": "flandre",
         "env": {
@@ -21671,7 +21642,7 @@
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/847327128",
-        "nearest_street": "Rue des Abruns",
+        "nearest_street": "Rue de Trixhes",
         "commune": "Vivegnis",
         "province": "liege",
         "region": "wallonie",
@@ -41833,7 +41804,9 @@
       },
       "properties": {
         "leisure": "pitch",
+        "lit": "yes",
         "sport": "boules",
+        "surface": "grass",
         "osm_id": "way/1233480249",
         "nearest_street": "N607",
         "commune": "Liège",
@@ -49833,96 +49806,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          5.6195324,
-          50.6275261
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1386053143",
-        "nearest_street": "Impasse de la Mutualité",
-        "commune": "Liège",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "parking": 178,
-          "arret": 163,
-          "voie_verte": 331,
-          "routes": {
-            "primary": 171,
-            "residential": 37
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.619492,
-          50.6275399
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1386053144",
-        "nearest_street": "Impasse de la Mutualité",
-        "commune": "Liège",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "parking": 178,
-          "arret": 163,
-          "voie_verte": 333,
-          "routes": {
-            "primary": 170,
-            "residential": 37
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6194537,
-          50.6275541
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1386053145",
-        "nearest_street": "Impasse de la Mutualité",
-        "commune": "Liège",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "parking": 178,
-          "arret": 162,
-          "voie_verte": 335,
-          "routes": {
-            "primary": 169,
-            "residential": 38
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           3.5172484,
           50.9807909
         ]
@@ -54690,7 +54573,7 @@
         "commune": "Antwerpen",
         "province": "anvers",
         "region": "flandre",
-        "photo_url": "https://scontent-sea5-1.xx.fbcdn.net/m1/v/t6/An9eRdQmXCN4yubsaSpfzMly5AetIuhgH4M1EIfCu_o9OXHzHM2o7mt2bWV8R8YodldvBBeEv-Mw1TIfU24F2LquK6ClQlY0yt6zhb9sHWwZdbwWQcene-17tCznvEC2bj6_g9kqHsXJJZvcgGWADXY?stp=s1024x771&edm=ALXxkZ8EAAAA&_nc_gid=QsCm6cJyynXih4gEP5d2Qg&_nc_oc=AdrYwRGtCvVUJdYYo3Mo47v0hcyNuNFJOxoqJtYPDCH49JEWI62y78C6GNq7FfPiORs&ccb=10-5&oh=00_AQMIMh4YtCR7_5f71Zli9syHtTalP0aMGX5x-ErXVdnBiQ&oe=6AEC6D20&_nc_sid=201bca",
+        "photo_url": "https://scontent-iad3-2.xx.fbcdn.net/m1/v/t6/An9eRdQmXCN4yubsaSpfzMly5AetIuhgH4M1EIfCu_o9OXHzHM2o7mt2bWV8R8YodldvBBeEv-Mw1TIfU24F2LquK6ClQlY0yt6zhb9sHWwZdbwWQcene-17tCznvEC2bj6_g9kqHsXJJZvcgGWADXY?stp=s1024x771&edm=ALXxkZ8EAAAA&_nc_gid=N3ckyJ_m2ib6496UyAKNZg&_nc_oc=AdpMZF8No-6q4Tk99rrYk2UvNTT9ZGLL2bdVb7Nb68zRfRSrxn3SbJGhzjJhvqY9zPs&ccb=10-5&oh=00_AQP6QPh0rYvJFfAcc0Uw6jNE6iwwM4PMCgYwAOw7qZbWtg&oe=6AEF4860&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1257601666575631&focus=photo",
         "env": {
@@ -56749,7 +56632,7 @@
         "commune": "Nieuwpoort",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-sea5-1.xx.fbcdn.net/m1/v/t6/An_IcsQv0t9Niw27hAS6xszVl8KaCwqtEwaVsnC0X6h5obOnL9wJzqt49q1HZthHhpcg3aQQ_S52WEAEIn_enyZfgEQMSm4VpxuNT-y04WeYjRtg-jYtlfIGy2WX-MOFaTW5JP5mrnK6tnk0jVXQMQ?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=zjEqbDAQoq6clOGzz3fk4Q&_nc_oc=Adr6aWOyd9pEwSaM5K5hkQ3WUwUdJ0Qq9fNDLxXn35sBu7LVmTI9Yb84QCd5E5_7pfY&ccb=10-5&oh=00_AQMPKbywGBbGs-uQI_SAqPxdZ229ABjcDBlKbOqcwphNKQ&oe=6AEC6DE3&_nc_sid=201bca",
+        "photo_url": "https://scontent-iad3-2.xx.fbcdn.net/m1/v/t6/An_IcsQv0t9Niw27hAS6xszVl8KaCwqtEwaVsnC0X6h5obOnL9wJzqt49q1HZthHhpcg3aQQ_S52WEAEIn_enyZfgEQMSm4VpxuNT-y04WeYjRtg-jYtlfIGy2WX-MOFaTW5JP5mrnK6tnk0jVXQMQ?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=l1pGkPXONJZs0Ccdt0xBQA&_nc_oc=Adph5OLyDT6ZnFIX31cIOEp2ykDmSFnBa-NQUN46qmlk-lbwwEqbtb6bWscUnccLCxY&ccb=10-5&oh=00_AQNoCXhz2_kQUYSlm7WVVpy8VsnlWe1RoXp2vdYeZmGxsA&oe=6AEF4923&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1545369280832050&focus=photo",
         "env": {
@@ -56901,7 +56784,7 @@
         "commune": "Nieuwpoort",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-sea5-1.xx.fbcdn.net/m1/v/t6/An-7s0AaVZAJuquC6rZRN_Qw2oZZKfZW0pEdJPpdXib7Pd9_8IhZetiwdp9R5OOnBRiTZo-pcMs5tIXECBndV3Qv1MQoIf5dRqGNDSUQ6n-6j2Pj0tlGLMzm7eHBCXjZeZkSzpHquMHrV37D34NXw8o?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=yv6hiCnL_FgqFFIQWwxnxw&_nc_oc=AdoaRXI37UC172ko05NtyShNeg7o8nwJh8zkxr-ZDDqwKChp7d7s_wbgdwpfJ5lYEzM&ccb=10-5&oh=00_AQOBtGPHQ8-TLYurIJEwA5D6veL9UPP6iS8_rZ14Hw3Epw&oe=6AEC7E90&_nc_sid=201bca",
+        "photo_url": "https://scontent-iad3-2.xx.fbcdn.net/m1/v/t6/An-7s0AaVZAJuquC6rZRN_Qw2oZZKfZW0pEdJPpdXib7Pd9_8IhZetiwdp9R5OOnBRiTZo-pcMs5tIXECBndV3Qv1MQoIf5dRqGNDSUQ6n-6j2Pj0tlGLMzm7eHBCXjZeZkSzpHquMHrV37D34NXw8o?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=LpP7-Rso7dzLeH0jD0jK_Q&_nc_oc=Adq5PhFgmt2RB5uo5lMtAd_iB18h2MNHvBBHl2ziAeiN6VJai8v1uVFh2uiNkpAMpgo&ccb=10-5&oh=00_AQNCOReS85edSBpmAdE9mA26aNEwyFHGDc1K9uEc7hBkMg&oe=6AEF59D0&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1845376466819094&focus=photo",
         "env": {
@@ -56943,7 +56826,7 @@
         "commune": "Knokke-Heist",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-sea5-1.xx.fbcdn.net/m1/v/t6/An-mTENCLyapxTL4yvPcXs6AgL1g_Orx4tjMHHWFLByZQUkV8A54RcB7_jg209bKympEDMe0Nfz1Wwti6FNPGtEA3soUYQZqwPnSNnwec1bIvHej0RYY0AxUx-nUWegUButzN7hFINqnB73oyRqizWw?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=BQxuk-XiHOhcbjfqhJL-WA&_nc_oc=AdobxCMmyvyvR_-I3NQDzKSK5ESOF0qWoUN52FpkygaHXDCCu_CPayGVH1XEXOdts1A&ccb=10-5&oh=00_AQPl_QZhtgEdXH5qEAXsxwe1KDsSg3y-rJc9OZKBOJPqJg&oe=6AEC84DC&_nc_sid=201bca",
+        "photo_url": "https://scontent-iad3-2.xx.fbcdn.net/m1/v/t6/An-mTENCLyapxTL4yvPcXs6AgL1g_Orx4tjMHHWFLByZQUkV8A54RcB7_jg209bKympEDMe0Nfz1Wwti6FNPGtEA3soUYQZqwPnSNnwec1bIvHej0RYY0AxUx-nUWegUButzN7hFINqnB73oyRqizWw?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=W5BxjZ0gHEvnqNXWlGBqqA&_nc_oc=AdqhTTvXLwL5pGs8P_j5Eu9xxv1dwi7EGhuHHgmv8o9u78borIiAvJkfN-aiH76Gxeo&ccb=10-5&oh=00_AQOKZRhBU7xPBRdGukRBKmt6TknGzDRwBj6IonKd5dXuWw&oe=6AEF27DC&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1967944690557231&focus=photo",
         "env": {
@@ -57057,6 +56940,331 @@
           },
           "nature": {
             "parc": 0.0
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.9499068,
+          50.6098124
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "leisure": "pitch",
+        "sport": "petanque",
+        "osm_id": "way/1566297705",
+        "nearest_street": "Rue de l'Enseignement",
+        "commune": "Thoricourt",
+        "province": "hainaut",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-08",
+          "parking": 77,
+          "arret": 107,
+          "routes": {
+            "residential": 12,
+            "unclassified": 32
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.9499309,
+          50.6097979
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "leisure": "pitch",
+        "sport": "petanque",
+        "osm_id": "way/1566297706",
+        "nearest_street": "Rue de l'Enseignement",
+        "commune": "Thoricourt",
+        "province": "hainaut",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-08",
+          "parking": 79,
+          "arret": 108,
+          "routes": {
+            "residential": 12,
+            "unclassified": 34
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.949955,
+          50.6097838
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "leisure": "pitch",
+        "sport": "petanque",
+        "osm_id": "way/1566297707",
+        "nearest_street": "Rue de l'Enseignement",
+        "commune": "Thoricourt",
+        "province": "hainaut",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-08",
+          "parking": 81,
+          "arret": 110,
+          "routes": {
+            "residential": 12,
+            "unclassified": 36
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.9499772,
+          50.6097689
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "leisure": "pitch",
+        "sport": "petanque",
+        "osm_id": "way/1566297708",
+        "nearest_street": "Rue de l'Enseignement",
+        "commune": "Thoricourt",
+        "province": "hainaut",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-08",
+          "parking": 82,
+          "arret": 111,
+          "routes": {
+            "residential": 12,
+            "unclassified": 38
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.9500027,
+          50.6097553
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "leisure": "pitch",
+        "sport": "petanque",
+        "osm_id": "way/1566297709",
+        "nearest_street": "Rue de l'Enseignement",
+        "commune": "Thoricourt",
+        "province": "hainaut",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-08",
+          "parking": 84,
+          "arret": 113,
+          "routes": {
+            "residential": 11
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.9500228,
+          50.6097391
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "leisure": "pitch",
+        "sport": "petanque",
+        "osm_id": "way/1566297710",
+        "nearest_street": "Rue de l'Enseignement",
+        "commune": "Thoricourt",
+        "province": "hainaut",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-08",
+          "parking": 86,
+          "arret": 114,
+          "routes": {
+            "residential": 12
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.9500444,
+          50.6097242
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "leisure": "pitch",
+        "sport": "petanque",
+        "osm_id": "way/1566297711",
+        "nearest_street": "Rue de l'Enseignement",
+        "commune": "Thoricourt",
+        "province": "hainaut",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-08",
+          "parking": 88,
+          "arret": 116,
+          "routes": {
+            "residential": 12
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.9500686,
+          50.609711
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "leisure": "pitch",
+        "sport": "petanque",
+        "osm_id": "way/1566297712",
+        "nearest_street": "Rue de l'Enseignement",
+        "commune": "Thoricourt",
+        "province": "hainaut",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-08",
+          "parking": 90,
+          "arret": 117,
+          "routes": {
+            "residential": 12
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.9500927,
+          50.6096956
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "leisure": "pitch",
+        "sport": "petanque",
+        "osm_id": "way/1566297713",
+        "nearest_street": "Rue de l'Enseignement",
+        "commune": "Thoricourt",
+        "province": "hainaut",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-08",
+          "parking": 91,
+          "arret": 119,
+          "routes": {
+            "residential": 12
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.8784203,
+          50.3127727
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1566489465",
+        "nearest_street": null,
+        "commune": "Anhée",
+        "province": "namur",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-08",
+          "banc": 2,
+          "jeux": 62,
+          "wc": 40,
+          "parking": 52,
+          "arret": 177,
+          "voie_verte": 33,
+          "routes": {
+            "primary": 155,
+            "residential": 11
+          },
+          "eau": {
+            "riviere": 37
+          },
+          "nature": {
+            "parc": 2.9
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.4182813,
+          50.7140581
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "surface": "sand",
+        "osm_id": "way/1566536927",
+        "nearest_street": "Drève d'Argenteuil",
+        "commune": "Waterloo",
+        "province": "brabant_wallon",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-08",
+          "parking": 453,
+          "arret": 228,
+          "routes": {
+            "motorway": 360
+          },
+          "eau": {
+            "ruisseau": 131
           }
         }
       }

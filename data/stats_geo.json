@@ -1,22 +1,22 @@
 {
   "wallonie": {
-    "total": 437,
+    "total": 444,
     "provinces": {
       "liege": {
-        "total": 152,
+        "total": 148,
         "communes": {
           "Fléron": 3,
-          "Liège": 25,
           "Ougrée": 1,
           "Filot": 1,
           "Bütgenbach": 1,
+          "Liège": 21,
           "Bra": 1,
           "Ouffet": 1,
           "Verviers": 2,
           "Visé": 2,
           "Blegny": 4,
           "Wanze": 2,
-          "Pousset": 1,
+          "Remicourt": 1,
           "Braives": 2,
           "Malmedy": 3,
           "Fexhe-le-Haut-Clocher": 1,
@@ -77,7 +77,7 @@
         }
       },
       "namur": {
-        "total": 88,
+        "total": 89,
         "communes": {
           "Hamois": 1,
           "Vencimont": 1,
@@ -125,7 +125,8 @@
           "Yvoir": 1,
           "Hastière-Lavaux": 1,
           "Blaimont": 1,
-          "Houyet": 2
+          "Houyet": 2,
+          "Anhée": 1
         }
       },
       "luxembourg": {
@@ -162,7 +163,7 @@
         }
       },
       "brabant_wallon": {
-        "total": 48,
+        "total": 49,
         "communes": {
           "Walhain-Saint-Paul": 2,
           "Genappe": 1,
@@ -177,7 +178,7 @@
           "Court-Saint-Etienne": 1,
           "Chaumont-Gistoux": 1,
           "Huppaye": 2,
-          "Waterloo": 3,
+          "Waterloo": 4,
           "Mont-Saint-Guibert": 2,
           "Nivelles": 2,
           "Villers-la-Ville": 2,
@@ -188,7 +189,7 @@
         }
       },
       "hainaut": {
-        "total": 97,
+        "total": 106,
         "communes": {
           "Mouscron": 3,
           "Loverval": 1,
@@ -229,7 +230,8 @@
           "Harchies": 1,
           "Beaumont": 1,
           "Gerpinnes": 3,
-          "Villers-Poterie": 1
+          "Villers-Poterie": 1,
+          "Thoricourt": 9
         }
       }
     },
@@ -374,7 +376,7 @@
           "Hamme": 4,
           "Sint-Martens-Latem": 5,
           "Aalst": 13,
-          "Sinaai": 3,
+          "Sinaai": 4,
           "Mere": 2,
           "Etikhove": 1,
           "De Pinte": 8,
@@ -390,7 +392,7 @@
           "Deinze": 8,
           "Gijzenzele": 1,
           "Zingem": 2,
-          "Sint-Niklaas": 12,
+          "Sint-Niklaas": 11,
           "Assenede": 1,
           "Lede": 4,
           "Merelbeke": 9,
