@@ -11,6 +11,7 @@ _squelette.py, partagée avec generer_la_petanque.py.
 Les pages existantes sont écrasées : modifier le contenu ci-dessous, puis relancer.
 """
 
+import re
 from pathlib import Path
 
 from _squelette import construire_page, echap
@@ -105,40 +106,10 @@ CONTENU = {
         },
         {
             "titre": "Vos données",
-            "paragraphes": [
-                "En bref : pas de cookie publicitaire, pas de compte, et rien n'est transmis à "
-                "qui que ce soit. Votre langue et vos préférences d'affichage restent sur "
-                "votre appareil.",
-                "Ce qui est enregistré quand vous…",
-            ],
-            # Une puce par action : l'action en gras, puis ce qui est enregistré.
-            "liste": [
-                ("notez un terrain",
-                 " : la note seule. Une empreinte chiffrée (adresse IP + terrain + mois), qui "
-                 "ne permet pas de vous identifier et change chaque mois, empêche de noter "
-                 "plusieurs fois le même terrain."),
-                ("envoyez une photo",
-                 " : la photo, réduite et débarrassée de ses métadonnées (ni modèle "
-                 "d'appareil, ni GPS ; seule la date est gardée, car Mapillary l'exige). Elle "
-                 "est placée sur le terrain, pas là où vous êtes. Votre prénom ou pseudo "
-                 "éventuel sert seulement à vous créditer. Elle attend ma vérification sur un "
-                 "serveur européen, 30 jours au plus. Si je la retiens, elle est publiée sur "
-                 "Mapillary sous licence CC BY-SA, avec les visages et les plaques floutés. "
-                 "Sinon, elle est supprimée."),
-                ("rédigez un avis",
-                 " : le texte, votre prénom ou pseudo éventuel, la langue et votre note. Un "
-                 "identifiant aléatoire gardé par votre navigateur permet à un nouvel avis de "
-                 "remplacer l'ancien. L'avis est publié après relecture ; refusé ou remplacé, "
-                 "il est supprimé au bout de 30 jours."),
-                ("signalez un terrain ou une erreur",
-                 " : l'emplacement et votre commentaire, supprimés au plus tard un an après."),
-            ],
-            "paragraphes_apres": [
-                "Pour limiter les abus, une empreinte chiffrée de votre adresse IP compte vos "
-                "envois de la journée ; elle est effacée au bout de quelques jours.",
-                "Le site est hébergé par GitHub Pages et les envois passent par Cloudflare, "
-                "qui tiennent leurs propres journaux techniques. Pour faire retirer une photo "
-                "ou un avis : mapetanque@outlook.be.",
+            # Résumé : le détail est dans confidentialite.html. Les crochets marquent le lien.
+            "paragraphes_lien": [
+                "Pas de publicité ni de pistage, aucun cookie, et le compte est facultatif. Le "
+                "détail figure dans la [politique de confidentialité].",
             ],
         },
         {
@@ -185,39 +156,9 @@ CONTENU = {
         },
         {
             "titre": "Je gegevens",
-            "paragraphes": [
-                "Kort gezegd: geen reclamecookies, geen account, en niets wordt aan wie dan "
-                "ook doorgegeven. Je taal en je weergavevoorkeuren blijven op je toestel.",
-                "Wat er wordt opgeslagen wanneer je…",
-            ],
-            # Une puce par action : l'action en gras, puis ce qui est enregistré.
-            "liste": [
-                ("een terrein beoordeelt",
-                 ": alleen de beoordeling. Een versleutelde vingerafdruk (IP-adres + terrein + "
-                 "maand), die niet naar jou terugleidt en elke maand verandert, voorkomt dat "
-                 "je hetzelfde terrein meermaals beoordeelt."),
-                ("een foto verstuurt",
-                 ": de foto, verkleind en ontdaan van metagegevens (geen toestelmodel, geen "
-                 "GPS; alleen de opnamedatum blijft, omdat Mapillary die vereist). Ze wordt op "
-                 "het terrein geplaatst, niet waar jij bent. Je eventuele voornaam of bijnaam "
-                 "dient alleen voor de naamsvermelding. De foto wacht op een Europese server "
-                 "tot ik ze nakijk, hoogstens 30 dagen. Als ik ze weerhoud, wordt ze op "
-                 "Mapillary gepubliceerd onder de CC BY-SA-licentie, met gezichten en "
-                 "nummerplaten onherkenbaar gemaakt. Anders wordt ze verwijderd."),
-                ("een recensie schrijft",
-                 ": de tekst, je eventuele voornaam of bijnaam, de taal en je beoordeling. Een "
-                 "willekeurige code die je browser bewaart, laat een nieuwe recensie de "
-                 "vorige vervangen. De recensie verschijnt na controle; een geweigerde of "
-                 "vervangen recensie wordt na 30 dagen verwijderd."),
-                ("een terrein of een fout meldt",
-                 ": de plaats en je opmerking, uiterlijk na een jaar verwijderd."),
-            ],
-            "paragraphes_apres": [
-                "Om misbruik te beperken, telt een versleutelde vingerafdruk van je IP-adres "
-                "je verzendingen van de dag; die wordt na enkele dagen gewist.",
-                "De site wordt gehost door GitHub Pages en de verzendingen lopen via "
-                "Cloudflare, die hun eigen technische logboeken bijhouden. Om een foto of "
-                "recensie te laten verwijderen: mapetanque@outlook.be.",
+            "paragraphes_lien": [
+                "Geen reclame of tracking, geen cookies, en een account is niet verplicht. "
+                "Alle details staan in de [privacyverklaring].",
             ],
         },
         {
@@ -264,40 +205,9 @@ CONTENU = {
         },
         {
             "titre": "Ihre Daten",
-            "paragraphes": [
-                "Kurz gesagt: keine Werbe-Cookies, kein Konto, und nichts wird an Dritte "
-                "weitergegeben. Ihre Sprache und Ihre Anzeigeeinstellungen bleiben auf Ihrem "
-                "Gerät.",
-                "Was gespeichert wird, wenn Sie …",
-            ],
-            # Une puce par action : l'action en gras, puis ce qui est enregistré.
-            "liste": [
-                ("einen Platz bewerten",
-                 ": nur die Bewertung. Ein verschlüsselter Fingerabdruck (IP-Adresse + Platz + "
-                 "Monat), der keinen Rückschluss auf Sie zulässt und sich jeden Monat ändert, "
-                 "verhindert, dass Sie denselben Platz mehrfach bewerten."),
-                ("ein Foto einsenden",
-                 ": das Foto, verkleinert und ohne Metadaten (weder Gerätemodell noch GPS; nur "
-                 "das Aufnahmedatum bleibt, weil Mapillary es verlangt). Es wird dem Platz "
-                 "zugeordnet, nicht Ihrem Standort. Ihr eventueller Vorname oder Spitzname "
-                 "dient allein der Namensnennung. Das Foto wartet auf einem europäischen "
-                 "Server auf meine Prüfung, höchstens 30 Tage. Nehme ich es an, wird es unter "
-                 "der CC-BY-SA-Lizenz auf Mapillary veröffentlicht, mit unkenntlich gemachten "
-                 "Gesichtern und Kennzeichen. Andernfalls wird es gelöscht."),
-                ("eine Rezension schreiben",
-                 ": der Text, Ihr eventueller Vorname oder Spitzname, die Sprache und Ihre "
-                 "Bewertung. Eine zufällige Kennung in Ihrem Browser sorgt dafür, dass eine "
-                 "neue Rezension die vorherige ersetzt. Die Rezension erscheint nach Prüfung; "
-                 "eine abgelehnte oder ersetzte Rezension wird nach 30 Tagen gelöscht."),
-                ("einen Platz oder einen Fehler melden",
-                 ": der Ort und Ihr Kommentar, spätestens nach einem Jahr gelöscht."),
-            ],
-            "paragraphes_apres": [
-                "Um Missbrauch zu begrenzen, zählt ein verschlüsselter Fingerabdruck Ihrer IP-"
-                "Adresse Ihre Einsendungen des Tages; er wird nach einigen Tagen gelöscht.",
-                "Die Website wird von GitHub Pages gehostet, und die Einsendungen laufen über "
-                "Cloudflare; diese Anbieter führen ihre eigenen technischen Protokolle. Um ein "
-                "Foto oder eine Rezension entfernen zu lassen: mapetanque@outlook.be.",
+            "paragraphes_lien": [
+                "Keine Werbung und kein Tracking, keine Cookies, und ein Konto ist freiwillig. "
+                "Die Einzelheiten stehen in der [Datenschutzerklärung].",
             ],
         },
         {
@@ -342,39 +252,9 @@ CONTENU = {
         },
         {
             "titre": "Your data",
-            "paragraphes": [
-                "In short: no advertising cookies, no account, and nothing is passed on to "
-                "anyone. Your language and display preferences stay on your device.",
-                "What is stored when you…",
-            ],
-            # Une puce par action : l'action en gras, puis ce qui est enregistré.
-            "liste": [
-                ("rate a court",
-                 ": the rating alone. A hashed fingerprint (IP address + court + month), which "
-                 "cannot be traced back to you and changes every month, prevents you from "
-                 "rating the same court more than once."),
-                ("send a photo",
-                 ": the photo, shrunk and stripped of its metadata (no device model, no GPS; "
-                 "only the date it was taken is kept, because Mapillary requires it). It is "
-                 "placed at the court, not where you are. Your optional first name or nickname "
-                 "is only used to credit you. The photo waits on a European server for me to "
-                 "check it, for 30 days at most. If I keep it, it is published on Mapillary "
-                 "under a CC BY-SA licence, with faces and licence plates blurred. Otherwise, "
-                 "it is deleted."),
-                ("write a review",
-                 ": the text, your optional first name or nickname, the site language and your "
-                 "rating. A random identifier kept by your browser lets a new review replace "
-                 "your previous one. Reviews are published after moderation; a rejected or "
-                 "replaced review is deleted after 30 days."),
-                ("report a court or an error",
-                 ": the location and your comment, deleted within a year at the latest."),
-            ],
-            "paragraphes_apres": [
-                "To limit abuse, a hashed fingerprint of your IP address counts your uploads "
-                "for the day; it is erased after a few days.",
-                "The site is hosted by GitHub Pages and uploads go through Cloudflare, which "
-                "keep their own technical logs. To have a photo or review removed: "
-                "mapetanque@outlook.be.",
+            "paragraphes_lien": [
+                "No advertising or tracking, no cookies, and an account is optional. The "
+                "details are in the [privacy policy].",
             ],
         },
         {
@@ -449,6 +329,12 @@ def bloc_contenu(langue):
 
         for para in section.get("paragraphes_apres", []):
             morceaux.append(f"                <p>{echap(para)}</p>")
+
+        # Paragraphes dont le passage entre crochets mène à la politique de confidentialité
+        for para in section.get("paragraphes_lien", []):
+            lien = f'<a href="/{META[langue]["prefixe"]}confidentialite.html">' + r"\1</a>"
+            texte = re.sub(r"\[([^]]+)\]", lien, echap(para))
+            morceaux.append(f"                <p>{texte}</p>")
 
         if section.get("contact"):
             morceaux.append(

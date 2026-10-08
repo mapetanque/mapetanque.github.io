@@ -3150,6 +3150,7 @@ function construirePied() {
                     <li><a href="${prefixe}la-petanque.html">${t('menu_la_petanque')}</a></li>
                     <li><a href="${prefixe}a-propos.html">${t('menu_about')}</a></li>
                     <li><a href="${prefixe}a-propos.html#contact">${t('pied_contact')}</a></li>
+                    <li><a href="${prefixe}confidentialite.html">${t('pied_confidentialite')}</a></li>
                 </ul>
             </nav>
 

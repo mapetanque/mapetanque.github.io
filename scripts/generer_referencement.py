@@ -43,7 +43,7 @@ DOSSIERS_LANGUES = ("", "nl/", "de/", "en/")
 
 # Ordre des pages dans le sitemap et dans llms.txt (les autres suivent, par ordre alphabétique)
 ORDRE_PAGES = ["index.html", "carte.html", "comment-jouer.html", "compteur.html", "la-petanque.html",
-               "a-propos.html"]
+               "a-propos.html", "confidentialite.html"]
 
 ID_SITE = f"{BASE}/#site"
 ID_AUTEUR = f"{BASE}/#mapetanque"
@@ -468,7 +468,7 @@ def ecrire_llms(pages):
         "## Optional",
         "",
     ]
-    lignes += [l for l in (lien("a-propos.html"),) if l]
+    lignes += [l for l in (lien("a-propos.html"), lien("confidentialite.html")) if l]
 
     contenu = "\n".join(lignes) + "\n"
     if not CHEMIN_LLMS.exists() or CHEMIN_LLMS.read_text(encoding="utf-8") != contenu:

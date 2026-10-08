@@ -55,3 +55,4 @@ Une page pour chacune des 255 communes ayant des terrains à au moins deux endro
 ## Optional
 
 - [À propos](https://mapetanque.be/a-propos.html): Pourquoi Mapetanque.be existe, sur quelles données libres le site s'appuie (OpenStreetMap, Mapillary), ce qu'il fait de vos données, et comment me contacter.
+- [Confidentialité](https://mapetanque.be/confidentialite.html): Ce que Mapetanque.be enregistre quand vous l'utilisez, pourquoi, combien de temps, qui d'autre y a accès, et comment faire valoir vos droits.
