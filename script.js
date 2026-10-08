@@ -1895,6 +1895,21 @@ shareCopyBtn.addEventListener('click', function () {
 });
 
 
+// ===================== Compte du visiteur dans les envois =====================
+// Connecté (page Connexion, compte.js), le jeton de session part avec chaque envoi (photo,
+// signalement, note, critères, avis) : le Worker range alors l'envoi avec le compte. Sans
+// session, ou si elle a expiré, l'envoi reste anonyme, comme avant. Lu directement dans le
+// stockage du navigateur (même clé que compte.js), compte.js n'étant chargé que sur la page
+// Connexion. Les Workers acceptent l'en-tête Authorization (CORS) depuis l'étape 3 des comptes.
+function entetesCompte() {
+    try {
+        var session = JSON.parse(localStorage.getItem('mapetanque_session') || 'null');
+        return session && typeof session.jeton === 'string' ? { 'Authorization': 'Bearer ' + session.jeton } : {};
+    } catch (e) {
+        return {};
+    }
+}
+
 // ===================== Modale "Ajouter une photo" =====================
 // Même schéma que le panneau de partage ci-dessus (#share-panel/#share-overlay). Ouverte depuis
 // le bouton "Ajouter une photo" d'une popup de terrain sans photo — voir brancherPhotosPopup.
@@ -2431,7 +2446,7 @@ if (addPhotoForm) {
                     if (champCredit && champCredit.value) donnees.set('credit_nom', champCredit.value);
                     if (honeypot) donnees.set('_gotcha', honeypot.value || '');
 
-                    return fetch(URL_ENVOI_PHOTO, { method: 'POST', body: donnees });
+                    return fetch(URL_ENVOI_PHOTO, { method: 'POST', headers: entetesCompte(), body: donnees });
                 });
             }).then(function (reponse) {
                 return reponse.text().then(function (texte) {
@@ -2901,7 +2916,7 @@ function envoyerSignalement(evt) {
     bouton.disabled = true;
     afficherStatutSignalement('add_photo_sending', 'sending');
 
-    fetch(URL_ENVOI_SIGNALEMENT, { method: 'POST', body: donnees })
+    fetch(URL_ENVOI_SIGNALEMENT, { method: 'POST', headers: entetesCompte(), body: donnees })
         .then(function (reponse) {
             if (reponse.status === 429) {
                 afficherStatutSignalement('signalement_error_limit', 'error');
@@ -4937,7 +4952,7 @@ function brancherFicheTerrain(e, feature) {
 
         fetch(MAPETANQUE_URL_NOTES + '/vote', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: Object.assign({ 'Content-Type': 'application/json' }, entetesCompte()),
             body: JSON.stringify({
                 osm_id: cible,
                 note: note,
@@ -5000,7 +5015,7 @@ function brancherFicheTerrain(e, feature) {
 
         fetch(MAPETANQUE_URL_NOTES + '/confirmation', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: Object.assign({ 'Content-Type': 'application/json' }, entetesCompte()),
             body: JSON.stringify({ osm_id: cible, jeton: vote.jeton, criteres: criteres })
         })
             .then(function (r) {
@@ -5073,7 +5088,7 @@ function brancherFicheTerrain(e, feature) {
         bouton.disabled = true;
         erreur.hidden = true;
 
-        fetch(MAPETANQUE_URL_AVIS_ENVOI, { method: 'POST', body: donnees })
+        fetch(MAPETANQUE_URL_AVIS_ENVOI, { method: 'POST', headers: entetesCompte(), body: donnees })
             .then(function (r) {
                 return r.json().catch(function () { return {}; }).then(function (corps) {
                     if (r.ok) return;

@@ -591,9 +591,21 @@ La page est en ligne mais aucun lien n'y mène encore (et `noindex`).
 Page Confidentialité en ligne depuis le 8 octobre 2026 (point 5 fait) ; « Vos données » d'À
 propos n'en est plus qu'un résumé.
 
-Suite : point 3 (`compteDepuisRequete` et CORS dans `mapetanque-notes` et `mapetanque-admin`,
-colonnes `compte_id`, jeton joint aux envois), puis point 4 (page Mon compte, avec « Mes
-envois », `/compte/contributions` et la suppression du compte). Le bouton « Se connecter /
+Fait le 8 octobre 2026 (point 3) : colonnes `compte_id` (+ index) dans `votes`, `avis`,
+`photos`, `signalements`. `mapetanque-notes` : CORS avec `Authorization`,
+`compteDepuisRequete` ; note connectée = la note du compte sur ce terrain est remplacée (même
+depuis un autre appareil), sinon celle du navigateur est rattachée au compte, sinon une nouvelle
+note est créée avec le compte. `mapetanque-admin` : `compteDepuisRequete` et
+`rattacherAuCompte` (UPDATE après l'INSERT, un échec laisse l'envoi anonyme) pour photos et
+signalements ; avis connecté : `auteur` = `compte:<id>` (le remplacement d'un avis par le
+suivant vaut donc pour le compte) et `compte_id` rempli. `script.js` : `entetesCompte()` joint
+le jeton aux cinq envois. Testé : note et avis connectés rangés avec le compte.
+Pas encore fait : rattacher à la première connexion les envois anonymes déjà faits depuis ce
+navigateur (votes `mapetanque_vote_…`, avis `mapetanque_auteur_avis`), et pré-remplir le pseudo
+dans les formulaires d'avis et de photo.
+
+Suite : point 4 (page Mon compte, avec « Mes envois », `/compte/contributions` et la
+suppression du compte). Le bouton « Se connecter /
 Mon compte » de l'en-tête ne sera mis en ligne qu'ensuite : l'écran 1 promet « Suivez vos
 envois ». Les raccourcis « Mes envois » et « Mes parties » de l'écran 4 de la maquette
 viendront avec la page Mon compte.
