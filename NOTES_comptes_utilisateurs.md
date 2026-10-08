@@ -579,5 +579,21 @@ redirection Resend, mauvais code refusé, connexion par code, `/compte/moi`). Tu
 désactivé (`TURNSTILE_ACTIF` = `non`) : à passer à `oui` avant de mettre le bouton
 « Se connecter » en ligne.
 
-Suite : point 2 de l'« Ordre de réalisation » (`compte.js`, page Connexion, bouton dans
-l'en-tête).
+Fait le 8 octobre 2026 : page Connexion en 4 langues (`connexion.html`, générée par
+`scripts/generer_connexion.py`), d'après la maquette validée (`maquettes/connexion/`, gardée en
+local) : `compte.js` (session), `connexion.js` (quatre états : adresse, code en 6 cases avec
+validation au 6e chiffre, arrivée par le lien, connecté avec pastille et pseudo proposé juste
+après la connexion), `boule-crayon.js` (boule crayonnée qui tourne pendant l'attente du code).
+Route `POST /compte/pseudo` ajoutée au Worker. Turnstile activé (`TURNSTILE_ACTIF` = `oui`).
+Testé avec Live Server (127.0.0.1:5501) : connexion par code, par lien, code faux, pseudo.
+La page est en ligne mais aucun lien n'y mène encore (et `noindex`).
+
+Page Confidentialité en ligne depuis le 8 octobre 2026 (point 5 fait) ; « Vos données » d'À
+propos n'en est plus qu'un résumé.
+
+Suite : point 3 (`compteDepuisRequete` et CORS dans `mapetanque-notes` et `mapetanque-admin`,
+colonnes `compte_id`, jeton joint aux envois), puis point 4 (page Mon compte, avec « Mes
+envois », `/compte/contributions` et la suppression du compte). Le bouton « Se connecter /
+Mon compte » de l'en-tête ne sera mis en ligne qu'ensuite : l'écran 1 promet « Suivez vos
+envois ». Les raccourcis « Mes envois » et « Mes parties » de l'écran 4 de la maquette
+viendront avec la page Mon compte.

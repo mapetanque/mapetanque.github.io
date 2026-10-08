@@ -1,0 +1,379 @@
+/* =============================================================================================
+   Page « Connexion » (connexion.html, générée par scripts/generer_connexion.py).
+   Fichier additif, comme style-a-propos.css : la page charge style-comment-jouer.css pour
+   l'en-tête et le conteneur .rules-content, puis cette feuille pour les quatre états dessinés
+   par connexion.js. Mise en page validée sur maquettes/connexion/index.html.
+============================================================================================= */
+
+/* Le titre de la page (« Connexion ») reste pour les lecteurs d'écran et l'onglet, mais chaque
+   état a son propre titre, plus parlant, juste au-dessus du formulaire. */
+.hero-headline {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+.connexion {
+    max-width: 460px;
+    margin: 0 auto;
+}
+
+.connexion .centre {
+    text-align: center;
+}
+
+.connexion-titre {
+    font-family: 'Manrope', Arial, sans-serif;
+    font-size: 25px;
+    line-height: 1.2;
+    font-weight: 800;
+    color: #1f2a1c;
+    margin: 0 0 18px;
+}
+
+.connexion-titre-arrivee {
+    margin-top: 24px;
+}
+
+.connexion-chapo {
+    font-size: 15px;
+    line-height: 1.55;
+    color: #555;
+    margin: -8px 0 18px;
+}
+
+.connexion-adresse {
+    color: #1f2a1c;
+    overflow-wrap: anywhere;   /* adresses mail longues sur téléphone */
+}
+
+.connexion-carte {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #fff;
+    border: 1px solid #e3e6df;
+    border-radius: 16px;
+    padding: 18px 16px;
+    box-shadow: 0 2px 10px rgba(31, 42, 28, 0.05);
+}
+
+.connexion-label {
+    font-size: 13.5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.connexion-champ {
+    font-size: 16px;   /* 16 px au moins : iOS ne zoome pas sur le champ */
+    padding: 11px 12px;
+    border: 1.5px solid #d6d9d2;
+    border-radius: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    background: #fff;
+    color: #222;
+}
+
+.connexion-champ:focus {
+    outline: none;
+    border-color: #74C15A;
+    box-shadow: 0 0 0 3px rgba(116, 193, 90, 0.18);
+}
+
+/* Champ d'adresse avec l'enveloppe à gauche */
+.connexion-champ-picto {
+    position: relative;
+}
+
+.connexion-champ-picto svg {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    width: 18px;
+    height: 18px;
+    margin-top: -9px;
+    color: #8a9185;
+    pointer-events: none;
+}
+
+.connexion-champ-picto .connexion-champ {
+    padding-left: 40px;
+}
+
+.connexion-turnstile:empty {
+    display: none;
+}
+
+.connexion-bouton {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    background: #74C15A;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 13px 16px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.connexion-bouton:hover {
+    background: #63a84c;
+}
+
+.connexion-bouton:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.connexion-bouton.grand {
+    padding: 16px;
+    font-size: 16px;
+}
+
+.connexion-bouton.secondaire {
+    background: #fff;
+    color: #444;
+    border: 1.5px solid #d6d9d2;
+}
+
+.connexion-bouton.secondaire:hover {
+    background: #f1f3ef;
+}
+
+.connexion-mention {
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: #777;
+    margin: 0;
+}
+
+.connexion-statut {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #3d7a2a;
+    margin: 0;
+}
+
+.connexion-statut:empty {
+    display: none;
+}
+
+.connexion-statut.erreur {
+    color: #b3261e;
+}
+
+.connexion-liens {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+}
+
+.connexion-lien-texte {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 13.5px;
+    color: #4a8f36;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+}
+
+/* --- Code en six cases (3 + 3) -------------------------------------------------------------
+   Un seul champ transparent posé sur les cases : il reçoit la saisie, les cases l'affichent. */
+.connexion-cases {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.connexion-case {
+    width: 40px;
+    height: 50px;
+    border: 1.5px solid #d6d9d2;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Manrope', Arial, sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: #1f2a1c;
+    background: #fff;
+}
+
+.connexion-case.actif {
+    border-color: #74C15A;
+    box-shadow: 0 0 0 3px rgba(116, 193, 90, 0.18);
+}
+
+.connexion-case.actif:empty::after {
+    content: "";
+    width: 2px;
+    height: 24px;
+    background: #74C15A;
+    animation: connexion-curseur 1s steps(1) infinite;
+}
+
+@keyframes connexion-curseur {
+    50% { opacity: 0; }
+}
+
+.connexion-case-tiret {
+    width: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    font-size: 18px;
+}
+
+.connexion-cases input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    font-size: 16px;   /* iOS ne zoome pas */
+    border: none;
+    padding: 0;
+    caret-color: transparent;
+    cursor: text;
+}
+
+/* --- Boule crayonnée (boule-crayon.js) : 70 px dont une marge pour le tremblement du trait,
+   soit une boule de 64 px, comme la pastille de l'état connecté ---------------------------- */
+.connexion-boule {
+    display: block;
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 10px;
+}
+
+/* --- État connecté --------------------------------------------------------------------- */
+.connexion-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: #74C15A;
+    color: #fff;
+    font-family: 'Manrope', Arial, sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 4px auto 14px;
+    box-shadow: 0 0 0 5px #e7f4e1;
+}
+
+.connexion-pseudo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: #f7f9f6;
+    border: 1px dashed #c9d8c1;
+    border-radius: 12px;
+    padding: 12px;
+}
+
+.connexion-pseudo-ligne {
+    display: flex;
+    gap: 8px;
+}
+
+.connexion-pseudo-ligne .connexion-champ {
+    flex: 1;
+    min-width: 0;
+    padding: 9px 10px;
+}
+
+.connexion-pseudo-ligne .connexion-bouton {
+    padding: 0 16px;
+}
+
+/* --- « Pourquoi un compte ? » ----------------------------------------------------------- */
+.connexion-pourquoi {
+    margin-top: 26px;
+}
+
+.connexion-pourquoi h2 {
+    font-family: 'Manrope', Arial, sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    color: #1f2a1c;
+    margin: 0 0 14px;
+}
+
+.connexion-avantage {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.connexion-picto {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    background: #e7f4e1;
+    color: #3f8a2c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.connexion-picto svg {
+    width: 20px;
+    height: 20px;
+}
+
+.connexion-avantage strong {
+    display: block;
+    font-size: 14.5px;
+    color: #222;
+    margin-bottom: 2px;
+}
+
+.connexion-avantage span {
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: #666;
+}
+
+.connexion-avantage .connexion-bientot {
+    font-size: 10.5px;
+    font-weight: bold;
+    color: #4a8f36;
+    background: #e7f4e1;
+    border-radius: 6px;
+    padding: 1px 6px;
+    margin-left: 6px;
+    vertical-align: 1px;
+}
+
+.connexion-donnees {
+    font-size: 13px;
+    border-top: 1px solid #e3e6df;
+    padding-top: 12px;
+    margin: 4px 0 0;
+}
+
+.connexion-donnees a {
+    color: #4a8f36;
+    text-underline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .connexion-case.actif:empty::after {
+        animation: none;
+    }
+}

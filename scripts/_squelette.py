@@ -45,6 +45,7 @@ def construire_page(
     contenu,
     feuilles_sup=(),
     tete_sup="",
+    scripts_sup=(),
     banniere=None,
     credit=None,
     langues_publiees=LANGUES,
@@ -63,6 +64,8 @@ def construire_page(
     contenu           HTML complet remplaçant l'intérieur de .rules-content
     feuilles_sup      feuilles de style à charger après style-comment-jouer.css
     tete_sup          balisage inséré juste avant </head>, ex. des données structurées
+    scripts_sup       adresses de scripts chargés juste après script.js, dans cet ordre
+                      (ils peuvent donc utiliser t() et currentLang)
     banniere          chemin d'une photo : la page prend une bannière photo au lieu de
                       l'en-tête sobre du squelette (pages commune)
     credit            texte du crédit sous la bannière (seulement avec `banniere`)
@@ -123,6 +126,16 @@ def construire_page(
 
     if tete_sup:
         src = src.replace("</head>", "    " + tete_sup + "\n</head>", 1)
+
+    if scripts_sup:
+        balise_script = '<script src="/script.js"></script>'
+        if balise_script not in src:
+            raise SystemExit(f"{balise_script} introuvable dans {squelette}")
+        src = src.replace(
+            balise_script,
+            balise_script + "".join(f'\n<script src="{s}"></script>' for s in scripts_sup),
+            1,
+        )
 
     # --- Bannière -----------------------------------------------------------------------
     # Le squelette a l'en-tête sobre des pages de contenu (fond blanc, logo foncé, sans photo :
