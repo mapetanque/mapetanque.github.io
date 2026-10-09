@@ -1,7 +1,7 @@
 # Charte graphique de Mapetanque
 
-Référence pour tout nouveau développement (pages, composants, visuels). Résumé du guide visuel
-(diaporama), version 1.0, octobre 2026.
+Référence pour tout nouveau développement (pages, composants, visuels). Résumé du guide visuel,
+version 1.0, octobre 2026 : `charte/guide-visuel-mapetanque.pdf` (21 diapositives).
 
 ## Logo
 
