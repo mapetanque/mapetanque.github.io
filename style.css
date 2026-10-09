@@ -7,8 +7,26 @@ html, body {
     margin: 0;
 }
 
+/* Typographie de la charte (CHARTE.md) : Figtree pour tout le texte courant, Manrope pour les
+   titres, les chiffres mis en avant et les boutons. Polices déclarées dans polices.css. */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Figtree', Arial, sans-serif;
+    color: #1D2619;
+}
+
+h1, h2, h3, h4,
+.hero-headline,
+.fiche-titre,
+#locateBtn,
+#browseListBtn,
+.filtres-voir,
+.add-photo-submit-btn,
+.respiration-bouton,
+.fiche .fiche-btn,
+.avis-btn-envoyer,
+.btn-open-compteur,
+.petanque-cta-carte {
+    font-family: 'Manrope', Arial, sans-serif;
 }
 
 /* Bloc "carte plein écran" : header + contrôles + carte occupent exactement la hauteur visible
@@ -181,12 +199,13 @@ body.fullscreen-lock {
     flex-shrink: 0;
 }
 
-/* Grand titre au-dessus des contrôles de recherche, inspiré d'AllTrails */
+/* Grand titre au-dessus des contrôles de recherche, inspiré d'AllTrails.
+   Charte : Manrope 800, 44 px sur ordinateur, 30 px sur téléphone. */
 .hero-headline {
     text-align: center;
-    font-weight: 700;
-    font-size: 32px;
-    color: #333;
+    font-weight: 800;
+    font-size: 44px;
+    color: #1D2619;
     margin: 32px 0 4px;
     line-height: 1.25;
 }
@@ -228,7 +247,7 @@ body.fullscreen-lock {
     padding: 8px 14px;
     font-size: 14px;
     font-weight: bold;
-    color: #444;
+    color: #1D2619;
     border-radius: 20px;
     white-space: nowrap;
     transition: color 0.15s ease, background-color 0.15s ease;
@@ -340,7 +359,7 @@ body.fullscreen-lock {
     text-align: center;
     padding: 6px 9px;
     border-radius: 7px;
-    color: #555;
+    color: #56604F;
     text-shadow: none;
 }
 
@@ -409,7 +428,7 @@ body.fullscreen-lock {
 #game-nav-inline .nav-explorer-lien {
     padding: 9px 12px;
     border-radius: 8px;
-    color: #333;
+    color: #1D2619;
     font-size: 14px;
     font-weight: bold;
     text-decoration: none;
@@ -438,7 +457,7 @@ body.fullscreen-lock {
     padding: 8px 14px;
     font-size: 14px;
     font-weight: bold;
-    color: #444;
+    color: #1D2619;
     cursor: pointer;
     border-radius: 20px;
     white-space: nowrap;
@@ -471,7 +490,7 @@ body.fullscreen-lock {
     }
 
     .hero-headline {
-        font-size: 22px;
+        font-size: 30px;
         margin: 22px 0 4px;
     }
 
@@ -522,6 +541,7 @@ body.fullscreen-lock {
     background-color: #74C15A;
     color: white;
     font-size: 16px;
+    font-weight: 700;
     text-decoration: none;
     cursor: pointer;
 }
@@ -640,7 +660,7 @@ body.fullscreen-lock {
     gap: 10px;
     padding: 8px 14px;
     cursor: pointer;
-    color: #333;
+    color: #1D2619;
 }
 
 .search-suggestion.active,
@@ -677,7 +697,7 @@ body.fullscreen-lock {
 .search-suggestion-contexte {
     font-size: 12.5px;
     font-weight: 400;
-    color: #777;
+    color: #56604F;
 }
 
 /* Terrains d'une commune ou d'un village : en retrait, sous lui */
@@ -711,7 +731,7 @@ body.fullscreen-lock {
     margin-top: 4px;
     padding-top: 10px;
     border-top: 1px solid #eee;
-    color: #666;
+    color: #56604F;
 }
 
 .search-suggestion-adresse .search-suggestion-picto {
@@ -741,7 +761,7 @@ body.fullscreen-lock {
 .search-suggestion-indication {
     padding: 14px 16px;
     font-size: 14px;
-    color: #777;
+    color: #56604F;
 }
 
 /* Téléphone : la recherche passe en plein écran dès qu'on touche le champ (classe posée par
@@ -869,6 +889,16 @@ body.fullscreen-lock {
         width: 100%;
         max-width: none;
     }
+
+    /* Le champ est dans .search-ligne (ajoutée par script.js), elle-même en flex dans le
+       formulaire : sans ça, la ligne garde la largeur naturelle du champ (~250px) au lieu de
+       remplir le formulaire, et le bouton + le champ paraissent décalés à gauche. Pas en plein
+       écran : le formulaire y est en colonne, la ligne s'étirerait en hauteur. */
+    .controls .search-form:not(.search-form-plein-ecran) .search-ligne,
+    .controls .search-ligne input {
+        flex: 1 1 0;
+        min-width: 0;
+    }
 }
 
 /* Photo un peu moins haute sur mobile — allège le contenu total du popup, pour réduire le
@@ -979,7 +1009,7 @@ body.fullscreen-lock {
     padding: 10px 8px;
     border-radius: 8px;
     text-decoration: none;
-    color: #333;
+    color: #1D2619;
     font-size: 15px;
     border: none;
     background: none;
@@ -998,7 +1028,7 @@ body.fullscreen-lock {
     align-items: center;
     justify-content: center;
     width: 22px;
-    color: #555;
+    color: #56604F;
 }
 
 .share-icon svg {
@@ -1155,7 +1185,7 @@ body.fullscreen-lock {
         font-size: 24px;
         line-height: 36px;
         text-align: center;
-        color: #333;
+        color: #1D2619;
         z-index: 1;
     }
 
@@ -1238,7 +1268,7 @@ body.fullscreen-lock {
         font-size: 20px;
         line-height: 32px;
         text-align: center;
-        color: #333;
+        color: #1D2619;
         z-index: 1;
         cursor: pointer;
     }
@@ -1270,7 +1300,7 @@ body.fullscreen-lock {
 .popup-link-icon {
     display: inline-flex;
     vertical-align: middle;
-    color: #666;
+    color: #56604F;
 }
 
 .popup-icon svg,
@@ -1340,8 +1370,8 @@ body.fullscreen-lock {
     align-items: center;
     gap: 6px;
     background: rgba(255, 255, 255, 0.92);
-    color: #1d1d1d;
-    font: bold 12px/1 Arial, sans-serif;
+    color: #1D2619;
+    font: bold 12px/1 'Figtree', Arial, sans-serif;
     white-space: nowrap;
     padding: 6px 10px 6px 6px;
     border-radius: 999px;
@@ -1608,10 +1638,9 @@ body.fullscreen-lock {
     flex-direction: column;
     box-sizing: border-box;
     background: #fff;
-    font-family: Arial, sans-serif;
     font-size: 13.5px;
     line-height: 1.4;
-    color: #333;
+    color: #1D2619;
 }
 #filtres-panneau[hidden] { display: none; }
 #filtres-panneau.deroulant {
@@ -1640,10 +1669,10 @@ body.fullscreen-lock {
 
 .filtres-tete { display: flex; align-items: center; justify-content: space-between; padding: 16px 16px 6px 20px; }
 #filtres-panneau.deroulant .filtres-tete { display: none; }
-.filtres-tete h2 { margin: 0; font-size: 18px; color: #222; }
+.filtres-tete h2 { margin: 0; font-size: 18px; color: #1D2619; }
 .filtres-fermer {
     width: 36px; height: 36px; border: 0; border-radius: 50%;
-    background: #f2f2f2; color: #333; font-size: 18px; cursor: pointer;
+    background: #f2f2f2; color: #1D2619; font-size: 18px; cursor: pointer;
 }
 .filtres-corps {
     flex: 1;
@@ -1676,7 +1705,7 @@ body.fullscreen-lock {
     border: 1px solid #d6dccf;
     border-radius: 999px;
     background: #fff;
-    color: #333;
+    color: #1D2619;
     font: inherit;
     font-size: 13.5px;
     line-height: 1.2;
@@ -1754,7 +1783,7 @@ body.fullscreen-lock {
     max-width: calc(100vw - 16px);
 
     background: white;
-    color: #333;
+    color: #1D2619;
     font-size: 13px;
     line-height: 1.5;
 
@@ -2096,7 +2125,7 @@ html.menu-ouvert body {
    <footer class="pied"></footer> vide. Fond sombre : le logo, vert et blanc, est fait pour ça. */
 
 .pied {
-    --pied-fond: #1b2218;
+    --pied-fond: #1D2619;
     --pied-texte: #e9ede6;
     --pied-discret: #9ba696;
     --pied-ligne: rgba(255, 255, 255, 0.09);
@@ -2468,7 +2497,7 @@ html.menu-ouvert body {
 .add-photo-field-label {
     font-size: 12.5px;
     font-weight: bold;
-    color: #444;
+    color: #1D2619;
     margin-bottom: -4px;
 }
 
@@ -2499,7 +2528,7 @@ html.menu-ouvert body {
     border: 1.5px solid #74C15A;
     border-radius: 6px;
     background: #fff;
-    color: #2e7d32;
+    color: #3D7A2A;
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
@@ -2525,7 +2554,7 @@ html.menu-ouvert body {
 
 .add-photo-pick-summary {
     font-size: 12.5px;
-    color: #444;
+    color: #1D2619;
 }
 
 .add-photo-pick-clear {
@@ -2555,7 +2584,7 @@ html.menu-ouvert body {
     align-items: flex-start;
     gap: 8px;
     font-size: 12px;
-    color: #555;
+    color: #56604F;
     line-height: 1.4;
     cursor: pointer;
 }
@@ -2578,7 +2607,7 @@ html.menu-ouvert body {
 }
 
 .add-photo-submit-btn:hover {
-    background: #63a84c;
+    background: #56A03D;
 }
 
 .add-photo-submit-btn:disabled {
@@ -2593,7 +2622,7 @@ html.menu-ouvert body {
     min-height: 16px;
 }
 
-.add-photo-status.success { color: #2e7d32; font-weight: bold; }
+.add-photo-status.success { color: #3D7A2A; font-weight: bold; }
 .add-photo-status.error { color: #c62828; font-weight: bold; }
 .add-photo-file-hint {
     font-size: 11px;
@@ -2605,7 +2634,7 @@ html.menu-ouvert body {
 .add-photo-tip {
     font-size: 12px;
     line-height: 1.45;
-    color: #555;
+    color: #56604F;
     background: #f4f9f1;
     border-left: 3px solid #74C15A;
     border-radius: 4px;
@@ -2628,7 +2657,7 @@ html.menu-ouvert body {
     align-items: center;
     justify-content: center;
     gap: 7px;
-    color: #555;
+    color: #56604F;
 }
 
 .add-photo-status.sending::before {

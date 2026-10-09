@@ -121,7 +121,7 @@ body.page-carte {
     margin-top: 2px;
     font-size: 13px;
     font-weight: normal;
-    color: #777;
+    color: #56604F;
 }
 
 .carte-liste-lieux:empty {
@@ -171,13 +171,13 @@ body.page-carte {
 .carte-liste .pastille-plus {
     border-color: transparent;
     background: #f0f2ee;
-    color: #555;
+    color: #56604F;
     font-weight: bold;
 }
 
 .carte-liste-vide {
     margin: 8px 0;
-    color: #666;
+    color: #56604F;
     font-size: 14px;
     line-height: 1.5;
 }

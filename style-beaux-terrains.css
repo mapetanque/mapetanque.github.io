@@ -86,9 +86,9 @@
         align-items: center;
         justify-content: center;
         font-size: 17px;
-        color: #444;
+        color: #1D2619;
     }
-    .carrousel-fleche:hover span { border-color: #74C15A; color: #4a8f36; }
+    .carrousel-fleche:hover span { border-color: #74C15A; color: #3D7A2A; }
 }
 .tuile-terrain:hover { transform: translateY(-2px); }
 .tuile-terrain:hover .tuile-photo { box-shadow: 0 6px 18px rgba(30, 50, 20, 0.18); }
@@ -128,7 +128,7 @@
 .tuile-nom {
     font-size: 15px;
     font-weight: bold;
-    color: #222;
+    color: #1D2619;
     margin: 0 0 2px;
     white-space: nowrap;
     overflow: hidden;
@@ -139,7 +139,7 @@
 .tuile-terrain .popup-breadcrumb {
     margin-bottom: 2px;
     font-size: 12.5px;
-    color: #4a8f36;
+    color: #3D7A2A;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -147,7 +147,7 @@
 
 .tuile-extrait {
     font-size: 12.5px;
-    color: #666;
+    color: #56604F;
     margin: 0;
     white-space: nowrap;
     overflow: hidden;
@@ -161,7 +161,7 @@
    en dessous du paragraphe est donc porté uniquement par ces marges. */
 .popup-description {
     font-size: 13.5px;
-    color: #444;
+    color: #1D2619;
     line-height: 1.5;
     margin: 10px 0;
 }
@@ -184,14 +184,14 @@
 .beaux-terrains-accueil h2 {
     margin: 0 0 24px;
     font-size: 26px;
-    color: #333;
+    color: #1D2619;
     text-align: left;
 }
 /* Pages région : même titre que sur l'accueil, comme les autres sections de ces pages. */
 .beaux-terrains-region h2 {
     margin: 0 0 24px;
     font-size: 26px;
-    color: #333;
+    color: #1D2619;
 }
 
 @media (max-width: 640px) {
@@ -226,7 +226,7 @@
     display: inline-block;
     line-height: 1;
     font-size: 17px;
-    color: #4a8f36;
+    color: #3D7A2A;
 }
 .note-etoile.vide { color: #c4ccbd; }
 
@@ -242,7 +242,7 @@
     overflow: hidden;
 }
 .tuile-note .note-etoile { font-size: 14px; }
-.tuile-note-chiffre { font-size: 12.5px; color: #666; }
+.tuile-note-chiffre { font-size: 12.5px; color: #56604F; }
 .tuile-note-vide { font-size: 12.5px; color: #999; }
 
 
@@ -255,14 +255,14 @@
    qu'une classe seule et l'emporteraient (c'était la cause du blanc au-dessus des avis).
    ===================================================================================== */
 
-.fiche { font-size: 13.5px; line-height: 1.45; color: #333; }
+.fiche { font-size: 13.5px; line-height: 1.45; color: #1D2619; }
 .fiche p { margin: 0; }
 
 /* Le fil d'Ariane et le titre passent à côté de la croix de fermeture du panneau. */
 .fiche > .popup-breadcrumb,
 .fiche > .fiche-titre { padding-right: 44px; }
 .fiche .popup-breadcrumb { font-size: 12.5px; margin-bottom: 2px; }
-.fiche-titre { font-size: 19px; font-weight: 700; line-height: 1.25; color: #222; }
+.fiche-titre { font-size: 19px; font-weight: 700; line-height: 1.25; color: #1D2619; }
 
 /* ---- Ligne de résumé : « ★ 4,2 (9) · 2 avis · 1,2 km · Accès public probable » ----
    Un <span> par morceau : un morceau vide disparaît, et le point de séparation n'est posé que
@@ -273,7 +273,7 @@
     align-items: center;
     margin-top: 4px;
     font-size: 13px;
-    color: #555;
+    color: #56604F;
 }
 .fiche-resume > span:empty { display: none; }
 .fiche-resume > span:not(:empty) ~ span:not(:empty)::before { content: "·"; margin: 0 7px; color: #bbb; }
@@ -353,10 +353,10 @@
 .fiche .fiche-btn span { overflow: hidden; text-overflow: ellipsis; }
 .fiche .fiche-btn svg { width: 16px; height: 16px; flex: none; }
 .fiche .fiche-btn:hover { background: #f3f8f0; }
-.fiche .fiche-btn[aria-expanded="true"] { background: #eef5e9; }
+.fiche .fiche-btn[aria-expanded="true"] { background: #E7F4E1; }
 .fiche .fiche-btn-plein,
 .fiche .fiche-btn-plein:hover { background: #74C15A; color: #fff; }
-.fiche .fiche-btn-plein:hover { background: #68b34f; border-color: #68b34f; }
+.fiche .fiche-btn-plein:hover { background: #56A03D; border-color: #56A03D; }
 .fiche .fiche-btn:focus-visible { outline: 2px solid #74C15A; outline-offset: 2px; }
 
 /* ---- Panneaux « Noter » et « N avis », juste sous les boutons ---- */
@@ -364,10 +364,10 @@
 .fiche-panneau[hidden] { display: none; }
 
 .noter-note { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.noter-libelle { font-size: 13px; color: #666; }
-.noter-libelle.ok { color: #333; font-weight: 600; }
-.note-vote-message { font-size: 12.5px; color: #4a8f36; }
-.note-erreur { color: #b04a3a; }
+.noter-libelle { font-size: 13px; color: #56604F; }
+.noter-libelle.ok { color: #1D2619; font-weight: 600; }
+.note-vote-message { font-size: 12.5px; color: #3D7A2A; }
+.note-erreur { color: #C62828; }
 
 /* Les étoiles de vote sont de vrais <button> : accessibles au clavier et annoncés comme
    contrôles. C'est la seule rangée de cinq étoiles de la fiche. */
@@ -382,13 +382,13 @@
     color: #c4ccbd;
     cursor: pointer;
 }
-.note-vote-etoile.active { color: #4a8f36; }
+.note-vote-etoile.active { color: #3D7A2A; }
 .note-vote-etoile:focus-visible { outline: 2px solid #74C15A; outline-offset: 2px; }
 
 /* Cases des joueurs (après un vote) */
 .noter-criteres { margin-top: 12px; }
 .noter-criteres[hidden] { display: none; }
-.noter-sous-titre { margin-bottom: 8px; font-size: 13px; color: #555; }
+.noter-sous-titre { margin-bottom: 8px; font-size: 13px; color: #56604F; }
 .noter-cases { display: flex; flex-wrap: wrap; gap: 8px; }
 .critere-case {
     display: inline-flex;
@@ -398,7 +398,7 @@
     border: 1px solid #d6dccf;
     border-radius: 999px;
     background: #fff;
-    color: #333;
+    color: #1D2619;
     font: inherit;
     font-size: 13px;
     line-height: 1.2;
@@ -408,18 +408,18 @@
 .critere-case[aria-pressed="true"] { background: #74C15A; border-color: #74C15A; color: #fff; }
 .critere-case:disabled { opacity: 0.7; cursor: default; }
 .critere-case:focus-visible { outline: 2px solid #74C15A; outline-offset: 2px; }
-.fiche .noter-erreur { margin-top: 8px; font-size: 12.5px; color: #b04a3a; }
+.fiche .noter-erreur { margin-top: 8px; font-size: 12.5px; color: #C62828; }
 
 /* Formulaire d'avis : le champ seul à l'ouverture, la suite au premier caractère. */
 .avis-form { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
 .avis-suite { display: flex; flex-direction: column; gap: 8px; }
 .avis-suite[hidden] { display: none; }
-.avis-form label { font-size: 13px; font-weight: 600; color: #333; }
+.avis-form label { font-size: 13px; font-weight: 600; color: #1D2619; }
 .avis-facultatif { font-size: 11.5px; font-weight: 400; color: #999; }
 .avis-form textarea,
 .avis-form input[type="text"] {
     width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1px solid #ddd; border-radius: 8px;
-    background: #fff; font: inherit; font-size: 13.5px; color: #333;
+    background: #fff; font: inherit; font-size: 13.5px; color: #1D2619;
 }
 .avis-form textarea { min-height: 86px; resize: vertical; }
 .avis-form textarea:focus,
@@ -429,7 +429,7 @@
 .avis-compteur.presque { color: #b56a00; font-weight: 600; }
 .fiche .avis-mention { font-size: 11.5px; line-height: 1.4; color: #888; }
 .fiche .avis-info { padding: 8px 10px; border-radius: 8px; background: #eef3fb; color: #1f4e8c; font-size: 12.5px; }
-.fiche .avis-erreur { font-size: 12.5px; color: #b04a3a; }
+.fiche .avis-erreur { font-size: 12.5px; color: #C62828; }
 .avis-boutons { display: flex; justify-content: flex-end; gap: 8px; }
 .avis-btn { padding: 8px 14px; border-radius: 8px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
 .avis-btn-envoyer { background: #74C15A; border: 1px solid #74C15A; color: #fff; }
@@ -438,7 +438,7 @@
 
 /* Liste des avis : sans carte grise autour de chaque avis, le panneau suffit. */
 .fiche-panneau-avis .avis { margin-bottom: 12px; }
-.fiche .avis-texte { font-size: 13.5px; line-height: 1.45; color: #333; overflow-wrap: anywhere; }
+.fiche .avis-texte { font-size: 13.5px; line-height: 1.45; color: #1D2619; overflow-wrap: anywhere; }
 .avis-meta { margin-top: 3px; font-size: 12px; color: #888; }
 .avis-note .note-etoile { font-size: 13px; vertical-align: -1px; }
 .fiche-lien-texte {
@@ -466,7 +466,7 @@
     padding: 5px 11px;
     border: 0;
     border-radius: 999px;
-    background: #eef5e9;
+    background: #E7F4E1;
     color: #3d7a2a;
     font: inherit;
     font-size: 12.5px;
@@ -491,7 +491,7 @@
     font-size: 11.5px;
     font-weight: 700;
 }
-.fiche .criteres-detail { margin-top: 8px; font-size: 12.5px; color: #555; }
+.fiche .criteres-detail { margin-top: 8px; font-size: 12.5px; color: #56604F; }
 
 /* ---- Lien « pour aller plus loin », juste au-dessus du pied : page de la commune
    (lienPageCommuneHtml dans script.js) ou, sur une page commune, la carte (commune.js) ---- */
@@ -523,7 +523,7 @@
     font-size: 12.5px;
     text-decoration: none;
 }
-.fiche .fiche-pied a:hover { color: #666; text-decoration: underline; }
+.fiche .fiche-pied a:hover { color: #56604F; text-decoration: underline; }
 .fiche-pied svg { width: 14px; height: 14px; }
 
 
@@ -550,7 +550,7 @@
 .fiche-club-pastille svg { width: 14px; height: 14px; }
 
 .fiche-club-adresse { display: flex; align-items: flex-start; gap: 8px; margin-top: 12px; }
-.fiche-club-adresse svg { width: 17px; height: 17px; flex: none; margin-top: 1px; color: #666; }
+.fiche-club-adresse svg { width: 17px; height: 17px; flex: none; margin-top: 1px; color: #56604F; }
 
 .fiche .fiche-federation {
     display: flex;
@@ -559,7 +559,7 @@
     padding: 12px 14px;
     border: 1px solid #e3e7df;
     border-radius: 12px;
-    color: #333;
+    color: #1D2619;
     text-decoration: none;
 }
 .fiche .fiche-federation:hover { border-color: #74C15A; }

@@ -27,7 +27,7 @@ const PAGE_HORS_LIGNE = `<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mapetanque</title>
 <style>
-body { font-family: system-ui, sans-serif; background: #f7f9f6; color: #1b2218;
+body { font-family: system-ui, sans-serif; background: #f7f9f6; color: #1D2619;
        display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
 main { max-width: 26rem; padding: 2rem; text-align: center; }
 img { width: 72px; height: 72px; }

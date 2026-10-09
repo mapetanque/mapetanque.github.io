@@ -2160,8 +2160,8 @@ const CSS_ASTUCE_PAYSAGE = `
     stroke-linejoin: round; animation: astuce-paysage-pointe 3.6s infinite; }
 .astuce-paysage-tel { transform-box: view-box; transform-origin: 24px 24px;
     animation: astuce-paysage-tel 3.6s infinite; }
-.astuce-paysage-coque { fill: #fff; stroke: #555; stroke-width: 2.4; }
-.astuce-paysage-hp { stroke: #555; stroke-width: 2; stroke-linecap: round; }
+.astuce-paysage-coque { fill: #fff; stroke: #56604F; stroke-width: 2.4; }
+.astuce-paysage-hp { stroke: #56604F; stroke-width: 2; stroke-linecap: round; }
 .astuce-paysage-ecran { opacity: 0; animation: astuce-paysage-ecran 3.6s infinite; }
 @keyframes astuce-paysage-tout { 0% { opacity: 0; } 6% { opacity: 1; } 88% { opacity: 1; } 97%, 100% { opacity: 0; } }
 @keyframes astuce-paysage-fleche {
@@ -2511,12 +2511,12 @@ const CSS_SIGNALEMENT = `
 #signalement-modal .signalement-zone { border-top: 1px solid #eee; padding-top: 16px; }
 #signalement-modal .signalement-bloc { display: flex; flex-direction: column; gap: 10px; }
 #signalement-modal .signalement-bloc[hidden] { display: none; }
-#signalement-modal .signalement-intro { font-size: 12.5px; line-height: 1.45; color: #555; margin: 0; }
+#signalement-modal .signalement-intro { font-size: 12.5px; line-height: 1.45; color: #56604F; margin: 0; }
 #signalement-modal .signalement-recherche { display: flex; gap: 6px; }
 #signalement-modal .signalement-recherche input { flex: 1; min-width: 0; }
 #signalement-modal .signalement-recherche button {
     flex: none; width: 38px; display: flex; align-items: center; justify-content: center;
-    border: 1px solid #ddd; border-radius: 6px; background: white; color: #555; cursor: pointer;
+    border: 1px solid #ddd; border-radius: 6px; background: white; color: #56604F; cursor: pointer;
 }
 #signalement-modal .signalement-recherche button:hover { color: #56A03D; border-color: #74C15A; }
 #signalement-modal .signalement-recherche button svg { width: 17px; height: 17px; }
@@ -2525,7 +2525,7 @@ const CSS_SIGNALEMENT = `
 }
 #signalement-modal .signalement-legende { font-size: 11px; color: #888; margin: -4px 0 0; }
 #signalement-modal textarea.add-photo-text-input { min-height: 84px; resize: vertical; font-family: inherit; }
-#signalement-modal .signalement-osm { font-size: 12px; color: #777; text-align: center; margin: 2px 0 0; }
+#signalement-modal .signalement-osm { font-size: 12px; color: #56604F; text-align: center; margin: 2px 0 0; }
 #signalement-modal .signalement-osm a { color: #56A03D; font-weight: bold; text-decoration: none; white-space: nowrap; }
 #signalement-modal .signalement-osm a:hover { text-decoration: underline; }
 .signalement-epingle { filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.45)); }

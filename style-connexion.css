@@ -30,7 +30,7 @@
     font-size: 25px;
     line-height: 1.2;
     font-weight: 800;
-    color: #1f2a1c;
+    color: #1D2619;
     margin: 0 0 18px;
 }
 
@@ -41,12 +41,12 @@
 .connexion-chapo {
     font-size: 15px;
     line-height: 1.55;
-    color: #555;
+    color: #56604F;
     margin: -8px 0 18px;
 }
 
 .connexion-adresse {
-    color: #1f2a1c;
+    color: #1D2619;
     overflow-wrap: anywhere;   /* adresses mail longues sur téléphone */
 }
 
@@ -64,7 +64,7 @@
 .connexion-label {
     font-size: 13.5px;
     font-weight: bold;
-    color: #333;
+    color: #1D2619;
 }
 
 .connexion-champ {
@@ -75,7 +75,7 @@
     width: 100%;
     box-sizing: border-box;
     background: #fff;
-    color: #222;
+    color: #1D2619;
 }
 
 .connexion-champ:focus {
@@ -123,7 +123,7 @@
 }
 
 .connexion-bouton:hover {
-    background: #63a84c;
+    background: #56A03D;
 }
 
 .connexion-bouton:disabled {
@@ -138,7 +138,7 @@
 
 .connexion-bouton.secondaire {
     background: #fff;
-    color: #444;
+    color: #1D2619;
     border: 1.5px solid #d6d9d2;
 }
 
@@ -149,7 +149,7 @@
 .connexion-mention {
     font-size: 12.5px;
     line-height: 1.5;
-    color: #777;
+    color: #56604F;
     margin: 0;
 }
 
@@ -180,7 +180,7 @@
     border: none;
     padding: 0;
     font-size: 13.5px;
-    color: #4a8f36;
+    color: #3D7A2A;
     text-decoration: underline;
     text-underline-offset: 3px;
     cursor: pointer;
@@ -206,7 +206,7 @@
     font-family: 'Manrope', Arial, sans-serif;
     font-size: 24px;
     font-weight: 800;
-    color: #1f2a1c;
+    color: #1D2619;
     background: #fff;
 }
 
@@ -309,7 +309,7 @@
     font-family: 'Manrope', Arial, sans-serif;
     font-size: 17px;
     font-weight: 800;
-    color: #1f2a1c;
+    color: #1D2619;
     margin: 0 0 14px;
 }
 
@@ -339,20 +339,20 @@
 .connexion-avantage strong {
     display: block;
     font-size: 14.5px;
-    color: #222;
+    color: #1D2619;
     margin-bottom: 2px;
 }
 
 .connexion-avantage span {
     font-size: 13.5px;
     line-height: 1.45;
-    color: #666;
+    color: #56604F;
 }
 
 .connexion-avantage .connexion-bientot {
     font-size: 10.5px;
     font-weight: bold;
-    color: #4a8f36;
+    color: #3D7A2A;
     background: #e7f4e1;
     border-radius: 6px;
     padding: 1px 6px;
@@ -368,7 +368,7 @@
 }
 
 .connexion-donnees a {
-    color: #4a8f36;
+    color: #3D7A2A;
     text-underline-offset: 3px;
 }
 

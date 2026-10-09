@@ -11,7 +11,7 @@
 .petanque-intro {
     font-size: 18px;
     line-height: 1.6;
-    color: #333;
+    color: #1D2619;
     margin: 24px 0 16px;
 }
 
@@ -26,7 +26,7 @@
     font-size: 14px;
     font-weight: bold;
     text-decoration: none;
-    color: #2f6b1f;
+    color: #3D7A2A;
     padding: 8px 16px;
     border: 1.5px solid #c9dcc0;
     border-radius: 999px;
@@ -47,9 +47,9 @@
 
 .petanque-section h2 {
     font-family: 'Manrope', Arial, sans-serif;
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 700;
-    color: #333;
+    color: #1D2619;
     margin: 0 0 26px;
     padding-bottom: 8px;
     border-bottom: 2px solid #eceee9;
@@ -58,13 +58,13 @@
 .petanque-section p {
     font-size: 15.5px;
     line-height: 1.7;
-    color: #444;
+    color: #1D2619;
     margin: 0 0 16px;
 }
 
 .petanque-transition {
     font-weight: bold;
-    color: #333 !important;
+    color: #1D2619 !important;
     margin-top: 24px !important;
 }
 
@@ -80,8 +80,8 @@
 }
 
 .petanque-section p a:hover {
-    color: #2f6b1f;
-    text-decoration-color: #2f6b1f;
+    color: #3D7A2A;
+    text-decoration-color: #3D7A2A;
 }
 
 /* --- Frise chronologique ------------------------------------------------------------------- */
@@ -108,13 +108,13 @@
     font-weight: 700;
     font-size: 20px;
     line-height: 1.3;
-    color: #2f6b1f;
+    color: #3D7A2A;
 }
 
 .jalon-lieu {
     display: block;
     font-size: 13px;
-    color: #666;
+    color: #56604F;
     margin-top: 2px;
 }
 
@@ -123,7 +123,7 @@
    différence tient à la forme et au remplissage, pas seulement à la couleur. */
 .jalon-contenu {
     position: relative;
-    border-left: 2px solid #d9e8d2;
+    border-left: 2px solid #E7F4E1;
     padding: 0 0 32px 26px;
 }
 
@@ -165,7 +165,7 @@
     top: 0;
     width: 2px;
     height: 10px;
-    background: #d9e8d2;
+    background: #E7F4E1;
 }
 
 .jalon-titre {
@@ -179,7 +179,7 @@
     font-family: 'Manrope', Arial, sans-serif;
     font-size: 18px;
     font-weight: 700;
-    color: #333;
+    color: #1D2619;
     margin: 0;
     line-height: 1.35;
 }
@@ -189,11 +189,11 @@
     align-items: center;
     gap: 6px;
     padding: 2px 10px 2px 8px;
-    border: 1.5px solid #333;
+    border: 1.5px solid #1D2619;
     border-radius: 999px;
     font-size: 12px;
     font-weight: bold;
-    color: #333;
+    color: #1D2619;
     background: #fff;
     white-space: nowrap;
 }
@@ -246,12 +246,12 @@
 }
 
 .petanque-cta-carte:hover {
-    background: #5ea845;
-    border-color: #5ea845;
+    background: #56A03D;
+    border-color: #56A03D;
 }
 
 .petanque-cta-regles {
-    color: #2f6b1f;
+    color: #3D7A2A;
     border: 2px solid #74C15A;
 }
 
@@ -267,7 +267,7 @@
     }
 
     .petanque-section h2 {
-        font-size: 20px;
+        font-size: 22px;
     }
 
     .petanque-section p {
@@ -286,7 +286,7 @@
         position: relative;
         text-align: left;
         padding: 0 0 4px 26px;
-        border-left: 2px solid #d9e8d2;
+        border-left: 2px solid #E7F4E1;
         display: flex;
         flex-wrap: wrap;
         align-items: baseline;

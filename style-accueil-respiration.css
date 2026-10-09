@@ -13,7 +13,7 @@
     /* Écarts des bandes de l'accueil : 40px en haut, 56px en bas (voir #regions-section). */
     padding: 40px 20px 56px;
     overflow: hidden;
-    color: #333;
+    color: #1D2619;
 }
 
 .respiration-contenu {
@@ -55,7 +55,7 @@
     font-family: 'Caveat', cursive;
     font-weight: 700;
     line-height: 1.1;
-    color: #4a8f36;
+    color: #3D7A2A;
 }
 
 .respiration-accroche {
@@ -69,14 +69,14 @@
     margin: 0;
     font-size: clamp(30px, 3.6vw, 44px);
     line-height: 1.12;
-    color: #333;
+    color: #1D2619;
 }
 
 .respiration-intro {
     margin: 0;
     font-size: 18px;
     line-height: 1.6;
-    color: #555;
+    color: #56604F;
     max-width: 32em;
 }
 
@@ -110,7 +110,7 @@
     background: #fff;
     color: #3d7a2a;
 }
-.respiration-bouton.secondaire:hover { background: #f2f8ee; }
+.respiration-bouton.secondaire:hover { background: #E7F4E1; }
 
 /* ---- Colonne de la carte ----
    Le padding du haut laisse la place à l'annotation, qui dépasse au-dessus du cadre. */
@@ -198,7 +198,7 @@
     border: 1px solid #d6dccf;
     border-radius: 999px;
     background: #fff;
-    color: #333;
+    color: #1D2619;
     font-size: 13.5px;
     line-height: 1.2;
     text-decoration: none;

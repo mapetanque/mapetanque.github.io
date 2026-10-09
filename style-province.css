@@ -59,7 +59,7 @@
 
 .hero-banner .hero-headline {
     text-align: left;
-    font-size: 42px;
+    font-size: 44px;
     max-width: 700px;
     margin: 14px 0 0;
 }
@@ -137,7 +137,7 @@
 .province-communes-section h2,
 .other-provinces-section h2 {
     font-size: 26px;
-    color: #333;
+    color: #1D2619;
     margin: 0 0 24px;
 }
 
@@ -146,7 +146,7 @@
 .province-intro {
     font-size: 16px;
     line-height: 1.65;
-    color: #444;
+    color: #1D2619;
     margin: 0 0 20px;
 }
 
@@ -213,7 +213,7 @@
     padding: 11px 2px;
     text-decoration: none;
     font-size: 14.5px;
-    color: #444;
+    color: #1D2619;
     font-weight: 600;
     transition: color 0.15s ease;
 }
@@ -234,7 +234,7 @@
     padding: 11px 2px;
     font-size: 14px;
     line-height: 1.5;
-    color: #777;
+    color: #56604F;
 }
 
 .commune-vide a {
@@ -257,7 +257,7 @@
     font-family: inherit;
     font-size: 14px;
     font-weight: 600;
-    color: #444;
+    color: #1D2619;
     cursor: pointer;
     transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
@@ -368,11 +368,10 @@
         padding-bottom: 26px;
     }
 
-    /* Sans ça, notre H1 (42px, plus spécifique) écrase la réduction mobile prévue par
-       style.css pour .hero-headline (32px -> 22px) : même réduction proportionnelle
-       appliquée ici, pour rester cohérent avec le comportement de la page d'accueil. */
+    /* Sans ça, notre H1 (44px, plus spécifique) écrase la réduction mobile prévue par
+       style.css pour .hero-headline (44px -> 30px, échelle de la charte). */
     .hero-banner .hero-headline {
-        font-size: 28px;
+        font-size: 30px;
         max-width: 100%;
     }
 

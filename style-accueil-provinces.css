@@ -114,7 +114,7 @@
 .provinces-container h2 {
     margin: 0 0 22px;
     font-size: 26px;
-    color: #333;
+    color: #1D2619;
     text-align: center;
 }
 
@@ -188,7 +188,7 @@
 .communes-equipees-intro {
     margin: 0 0 28px;
     text-align: center;
-    color: #777;
+    color: #56604F;
     font-size: 15px;
 }
 
@@ -226,7 +226,7 @@
     align-items: center;
     gap: 12px;
     padding: 10px 0;
-    color: #333;
+    color: #1D2619;
     text-decoration: none;
 }
 
@@ -297,7 +297,7 @@
    de la photo, en plus grand (la recherche est la porte d'entrée vers la carte). */
 @media (min-width: 1025px) {
     .hero-banner .hero-headline {
-        font-size: 42px;
+        font-size: 44px;
         margin-top: 66px;
     }
 

@@ -11,12 +11,12 @@
 .commune-intro {
     font-size: 16px;
     line-height: 1.7;
-    color: #444;
+    color: #1D2619;
     margin: 8px 0 40px;
 }
 
 .commune-section { margin: 0 0 48px; }
-.commune-section h2 { font-size: 26px; color: #333; margin: 0 0 20px; }
+.commune-section h2 { font-size: 26px; color: #1D2619; margin: 0 0 20px; }
 /* scroll-margin-top : cible des propositions de la recherche (#bioul), un peu d'air au-dessus */
 .commune-localite { font-size: 19px; color: #3d7a2a; margin: 28px 0 14px; scroll-margin-top: 16px; }
 .commune-localite:first-of-type { margin-top: 0; }
@@ -70,11 +70,11 @@
     flex: 1;
     padding: 14px 16px 16px;
 }
-.commune-terrain-nom { margin: 0; font-size: 17px; color: #333; }
-.commune-terrain-details { color: #777; font-size: 14px; }
+.commune-terrain-nom { margin: 0; font-size: 17px; color: #1D2619; }
+.commune-terrain-details { color: #56604F; font-size: 14px; }
 
 /* Note des joueurs, ajoutée par /commune.js quand elle arrive du Worker */
-.commune-terrain-note { color: #555; font-size: 14px; }
+.commune-terrain-note { color: #56604F; font-size: 14px; }
 .commune-terrain-note .note-etoile { font-size: 15px; vertical-align: -1px; }
 
 .commune-pastilles { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -86,7 +86,7 @@
     border: 1px solid #d6dccf;
     border-radius: 999px;
     font-size: 13px;
-    color: #444;
+    color: #1D2619;
     background: #fff;
 }
 .commune-pastille svg { width: 15px; height: 15px; color: #3d7a2a; }
@@ -113,7 +113,7 @@
     padding: 16px;
     border: 1px solid #e2e6de;
     border-radius: 14px;
-    color: #444;
+    color: #1D2619;
     line-height: 1.5;
 }
 .commune-club a { color: inherit; }
@@ -129,7 +129,7 @@
     padding: 11px 2px;
     border-bottom: 1px solid #f0f2ee;
     text-decoration: none;
-    color: #444;
+    color: #1D2619;
     font-weight: 600;
     font-size: 14.5px;
 }
@@ -156,10 +156,10 @@
     font-size: 15px;
 }
 .communes-index-filtre input:focus { outline: none; border-color: #74C15A; box-shadow: 0 0 0 2px rgba(116, 193, 90, 0.25); }
-.communes-index-aucune { color: #777; }
+.communes-index-aucune { color: #56604F; }
 
 .communes-index-region { margin: 0 0 40px; }
-.communes-index-region h2 { font-size: 26px; color: #333; margin: 0 0 8px; }
+.communes-index-region h2 { font-size: 26px; color: #1D2619; margin: 0 0 8px; }
 .communes-index-province h3 { font-size: 17px; margin: 22px 0 8px; }
 .communes-index-province h3 a { color: #3d7a2a; text-decoration: none; }
 .communes-index-province h3 a:hover { text-decoration: underline; }
@@ -181,7 +181,7 @@
     border-bottom: 1px solid #f0f2ee;
     font-size: 15px;
 }
-.communes-index-liste a { color: #333; font-weight: 600; text-decoration: none; }
+.communes-index-liste a { color: #1D2619; font-weight: 600; text-decoration: none; }
 .communes-index-liste a:hover { color: #74C15A; }
 .communes-index-liste span { color: #999; white-space: nowrap; font-size: 14px; }
 
