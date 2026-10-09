@@ -181,7 +181,8 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 ├── manifest.webmanifest              # Fiche de l'application installable (PWA)
 ├── sw.js                             # Service worker de l'application (doit rester à la racine)
 ├── images/
-│   ├── mapetanque-logo-blanc.svg     # Logo complet (boule + texte vectorisé), en-tête sur bannière
+│   ├── mapetanque-logo.svg           # Logo complet (boule + texte vectorisé), en-tête sur bannière photo
+│   ├── mapetanque-logo-fonce.svg     # Même logo, « etanque » foncé, en-tête sur fond clair
 │   ├── mapetanque-boule.svg          # Boule seule (en-tête mobile, favicon SVG, page admin)
 │   ├── mapetanque-partage.png        # Image de partage Open Graph (1200 × 630)
 │   ├── banniere-accueil.webp         # Bannière photo de l'accueil
