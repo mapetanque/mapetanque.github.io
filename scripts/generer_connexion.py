@@ -75,7 +75,7 @@ for langue, meta in META.items():
         feuilles_sup=("/style-connexion.css",),
         # Page personnelle, sans intérêt dans un moteur de recherche
         tete_sup='<meta name="robots" content="noindex">',
-        scripts_sup=("/compte.js", "/boule-crayon.js", "/connexion.js", TURNSTILE),
+        scripts_sup=("/compte.js", "/boule-tournante.js", "/connexion.js", TURNSTILE),
     )
     print(f"{meta['prefixe']}connexion.html : {taille} octets")
 

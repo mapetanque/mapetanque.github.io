@@ -249,13 +249,13 @@
     cursor: text;
 }
 
-/* --- Boule crayonnée (boule-crayon.js) : 70 px dont une marge pour le tremblement du trait,
-   soit une boule de 64 px, comme la pastille de l'état connecté ---------------------------- */
+/* --- Boule qui tourne (boule-tournante.js) : 64 px, comme la pastille de l'état connecté.
+   Marges calculées pour garder la hauteur de l'ancienne boule crayonnée (70 px + 10 px). ---- */
 .connexion-boule {
     display: block;
-    width: 70px;
-    height: 70px;
-    margin: 0 auto 10px;
+    width: 64px;
+    height: 64px;
+    margin: 3px auto 13px;
 }
 
 /* --- État connecté --------------------------------------------------------------------- */

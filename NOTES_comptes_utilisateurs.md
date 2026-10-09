@@ -583,7 +583,7 @@ Fait le 8 octobre 2026 : page Connexion en 4 langues (`connexion.html`, génér�
 `scripts/generer_connexion.py`), d'après la maquette validée (`maquettes/connexion/`, gardée en
 local) : `compte.js` (session), `connexion.js` (quatre états : adresse, code en 6 cases avec
 validation au 6e chiffre, arrivée par le lien, connecté avec pastille et pseudo proposé juste
-après la connexion), `boule-crayon.js` (boule crayonnée qui tourne pendant l'attente du code).
+après la connexion), `boule-tournante.js` (boule pleine qui tourne pendant l'attente du code).
 Route `POST /compte/pseudo` ajoutée au Worker. Turnstile activé (`TURNSTILE_ACTIF` = `oui`).
 Testé avec Live Server (127.0.0.1:5501) : connexion par code, par lien, code faux, pseudo.
 La page est en ligne mais aucun lien n'y mène encore (et `noindex`).

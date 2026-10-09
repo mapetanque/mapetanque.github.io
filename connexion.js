@@ -10,10 +10,10 @@
 //                 ouvrent les liens toutes seules ne le gâchent pas ;
 //   - connecte  : pastille avec l'initiale, adresse du compte, pseudo proposé juste après la
 //                 connexion s'il n'y en a pas encore, bouton « Me déconnecter ».
-// Pendant l'attente du code, la boule crayonnée tourne (boule-crayon.js).
+// Pendant l'attente du code, la boule tourne (boule-tournante.js).
 // ?retour=/chemin : page où revenir une fois connecté (par exemple le compteur).
 //
-// Chargé après script.js (t, currentLang), compte.js (window.mapetanqueCompte) et boule-crayon.js.
+// Chargé après script.js (t, currentLang), compte.js (window.mapetanqueCompte) et boule-tournante.js.
 (function () {
     var zone = document.getElementById('connexion');
     if (!zone || !window.mapetanqueCompte) return;
@@ -206,7 +206,7 @@
             '  </div>' +
             '</form>');
         if (message) afficherStatut(message, true);
-        if (window.BouleCrayon) window.BouleCrayon.demarrer(zone.querySelector('.connexion-boule'));
+        if (window.BouleTournante) window.BouleTournante.demarrer(zone.querySelector('.connexion-boule'));
 
         var champ = zone.querySelector('#connexion-code');
         var bouton = zone.querySelector('.connexion-bouton');

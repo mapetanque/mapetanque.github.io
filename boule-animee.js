@@ -213,7 +213,6 @@
             enCours = true;
 
             // Le canvas se pose exactement sur l'image, qui est masquée le temps de l'animation.
-            // Sa classe lui donne la même ombre portée que le logo (style-ombres.css).
             const canvas = document.createElement('canvas');
             canvas.width = canvas.height = Math.round(cote * (window.devicePixelRatio || 1));
             canvas.className = 'logo-anime';
