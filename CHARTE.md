@@ -8,7 +8,8 @@ Référence pour tout nouveau développement (pages, composants, visuels). Résu
 - Deux parties toujours ensemble : le symbole (une boule de pétanque, ses stries et le cochonnet
   posé devant elle, dessinés en négatif) et le logotype « Mapetanque ».
 - « Map » prend la couleur de la boule, « etanque » celle du texte.
-- Sans ombre, transparence, contour, rotation ni déformation. Toujours à partir des fichiers SVG,
+- Toujours dans la même orientation, logo complet comme symbole seul : ni rotation, ni miroir.
+- Sans ombre, transparence, contour ni déformation. Toujours à partir des fichiers SVG,
   jamais redessiné ni recomposé.
 
 ### Grille
