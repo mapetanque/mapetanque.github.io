@@ -2,8 +2,8 @@
    Accueil — section « respiration » (entre le carrousel et « Parcourir par région »)
    Fichier ADDITIF : style.css n'est pas modifié (même convention que style-beaux-terrains.css).
    Une accroche, le nombre de terrains, deux boutons vers la page carte, et une carte illustrée
-   (images/accueil-carte-parc.webp) avec le marqueur du site, une annotation manuscrite (Caveat,
-   Google Fonts) et des pastilles qui ouvrent la carte filtrée.
+   (images/accueil-carte-parc.webp) avec le marqueur du site et des pastilles qui ouvrent la
+   carte filtrée. En filigrane autour du texte, quelques pictos du site aux couleurs de la charte.
    ===================================================================================== */
 
 /* Gris clair des bandes de l'accueil (#f7f9f6) : l'accueil alterne blanc et gris, entre le
@@ -26,7 +26,7 @@
 }
 
 /* ---- Colonne de texte ----
-   z-index: 0 en fait un contexte d'empilement : la boule en filigrane (z-index: -1) passe
+   z-index: 0 en fait un contexte d'empilement : les pictos en filigrane (z-index: -1) passent
    derrière le texte et les boutons sans passer derrière le fond blanc de la section. */
 .respiration-texte {
     flex: 1 1 360px;
@@ -38,20 +38,34 @@
     z-index: 0;
 }
 
-.respiration-boule {
+/* Pictos en filigrane : au trait, comme ailleurs sur le site, mais agrandis (57 px, trait
+   affiné pour rester léger) et à demi transparents. Placés dans les vides autour du texte (au-
+   dessus de l'accroche, gouttière de droite, sous les boutons), jamais dessous. Positions en %
+   de la colonne de texte, choisies sur la maquette (maquettes/zone-respiration-v2/). */
+.respiration-pictos {
     position: absolute;
+    inset: 0;
     z-index: -1;
-    left: 34%;
-    top: 38%;
-    width: clamp(220px, 28vw, 360px);
-    height: auto;
-    opacity: 0.4;
-    transform: rotate(-10deg);
     pointer-events: none;
 }
+.respiration-picto {
+    position: absolute;
+    width: 57px;
+    height: 57px;
+    opacity: 0.5;
+}
+.respiration-picto svg { display: block; width: 100%; height: 100%; stroke-width: 1.4; }
+.respiration-picto.vert { color: #74C15A; }
+.respiration-picto.feuillage { color: #3D7A2A; }
+.respiration-picto.terre { color: #B5502E; }
+.respiration-picto.p1 { left: 4%;    top: -30%; transform: rotate(-12deg); }
+.respiration-picto.p2 { left: 46%;   top: -24%; transform: rotate(10deg); }
+.respiration-picto.p3 { left: 93.5%; top: -9%;  transform: rotate(-6deg); }
+.respiration-picto.p4 { left: 102%;  top: 69%;  transform: rotate(14deg); }
+.respiration-picto.p5 { left: 64%;   top: 109%; transform: rotate(-10deg); }
+.respiration-picto.p6 { left: 8%;    top: 124%; transform: rotate(8deg); }
 
-.respiration-accroche,
-.respiration-annotation span {
+.respiration-accroche {
     font-family: 'Caveat', cursive;
     font-weight: 700;
     line-height: 1.1;
@@ -112,12 +126,10 @@
 }
 .respiration-bouton.secondaire:hover { background: #E7F4E1; }
 
-/* ---- Colonne de la carte ----
-   Le padding du haut laisse la place à l'annotation, qui dépasse au-dessus du cadre. */
+/* ---- Colonne de la carte ---- */
 .respiration-visuel {
     flex: 1.25 1 440px;
     min-width: 0;
-    padding-top: clamp(80px, 10vw, 124px);
 }
 
 .respiration-cadre {
@@ -128,35 +140,6 @@
     border-radius: 18px;
     box-shadow: 0 10px 30px rgba(30, 50, 20, 0.16);
     transform: rotate(-1.5deg);
-}
-
-/* Annotation et flèche, accrochées au cadre : le bas du bloc (la pointe de la flèche) tombe
-   juste au-dessus du marqueur, quelle que soit la largeur de l'écran. Si l'image ou la position
-   du marqueur changent, ajuster left/width/bottom ici et left/top de .respiration-marqueur. */
-.respiration-annotation {
-    position: absolute;
-    left: 40%;
-    width: 50%;
-    bottom: 62%;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    pointer-events: none;
-}
-.respiration-annotation span {
-    font-size: clamp(21px, 2.2vw, 26px);
-    white-space: nowrap;
-    transform: rotate(-3deg);
-    transform-origin: right center;
-}
-.respiration-annotation img {
-    display: block;
-    width: 100%;
-    height: auto;
-    margin-top: -4px;
-    /* Liseré blanc : détache le trait vert clair du vert du parc. */
-    filter: drop-shadow(0 0 1.5px #fff) drop-shadow(0 0 1.5px #fff);
 }
 
 .respiration-carte {
@@ -218,4 +201,13 @@
         padding-left: 16px;
         padding-right: 16px;
     }
+
+    /* Le texte prend toute la largeur : seuls les deux pictos du haut restent, dans une bande
+       libre au-dessus de l'accroche. */
+    .respiration-texte { margin-top: 48px; }
+    .respiration-picto { width: 44px; height: 44px; }
+    .respiration-picto.p3, .respiration-picto.p4,
+    .respiration-picto.p5, .respiration-picto.p6 { display: none; }
+    .respiration-picto.p1 { left: 2%;  top: -58px; }
+    .respiration-picto.p2 { left: 72%; top: -62px; }
 }

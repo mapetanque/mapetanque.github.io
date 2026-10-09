@@ -103,7 +103,7 @@ Correspondance avec les couleurs encore présentes dans le code :
   - **Plein** : formes de la marque (boule, marqueur de carte), en vert Mapetanque ou en blanc,
     avec des découpes en négatif comme la boule.
   - **Trait** : pictos et informations.
-- Pas de dessin au crayon (la boule crayonnée et la flèche crayon de l'accueil sont à retirer).
+- Pas de dessin au crayon (la boule crayonnée et la flèche crayon ont été retirées du site en octobre 2026).
 - Pictos : grille de 24 px, zone utile de 20 px, trait de 2 px, extrémités et angles arrondis,
   couleur héritée du texte (`currentColor`), affichage entre 20 et 24 px. Référence : Lucide
   (licence ISC) ; à défaut, dessiner dans le même style (comme le banc et les jeux).
