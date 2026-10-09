@@ -1421,8 +1421,8 @@
   ],
   "way/892395767": [
     {
-      "mapillary_id": "742650613068489",
-      "credit_url": "https://www.mapillary.com/map/im/742650613068489"
+      "mapillary_id": "323609426009201",
+      "credit_url": "https://www.mapillary.com/map/im/323609426009201"
     }
   ],
   "way/892395768": [
@@ -5929,6 +5929,25 @@
       "mapillary_id": "1507657294504336",
       "credit_url": "https://www.mapillary.com/map/im/1507657294504336",
       "credit_nom": "Mapetanque"
+    }
+  ],
+  "way/1010704020": [
+    {
+      "mapillary_id": "1323494219265974",
+      "credit_url": "https://www.mapillary.com/app/?pKey=1323494219265974&focus=photo&x=0.9484264301516685&y=0.4943145026911956&zoom=0",
+      "miniature_locale": "/images/mapillary-360/1323494219265974-20261009083538.webp"
+    }
+  ],
+  "way/1544882500": [
+    {
+      "mapillary_id": "1109204471522420",
+      "credit_url": "https://www.mapillary.com/map/im/1109204471522420"
+    }
+  ],
+  "way/887667828": [
+    {
+      "mapillary_id": "952573664592869",
+      "credit_url": "https://www.mapillary.com/map/im/952573664592869"
     }
   ]
 }
