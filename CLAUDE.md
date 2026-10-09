@@ -38,3 +38,5 @@ pas encore fusionnée doit l'être (ou être abandonnée) avant de reprendre ces
 - Privilégier des solutions légères et faciles à maintenir.
 - Relancer `scripts/generate_provinces.py` après toute modification de gabarit ou de traduction.
 - Libellés du site en quatre langues (FR, NL, DE, EN) dans `translations.js`.
+- Charte graphique dans `CHARTE.md` (logo, polices, couleurs, pictos) : s'y tenir pour tout nouveau
+  développement.
