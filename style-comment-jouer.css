@@ -33,7 +33,8 @@
     bottom: 0;
     background: linear-gradient(
         to bottom,
-        rgba(0, 0, 0, 0.42) 0%,
+        rgba(0, 0, 0, 0.55) 0%,
+        rgba(0, 0, 0, 0.30) 16%,
         rgba(0, 0, 0, 0.10) 32%,
         rgba(0, 0, 0, 0.10) 50%,
         rgba(0, 0, 0, 0.55) 100%

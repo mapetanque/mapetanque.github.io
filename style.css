@@ -1882,13 +1882,15 @@ html.menu-ouvert body {
 }
 
 /* Calé sur la boule de 34px de la bannière (.logo en mobile) pour que les deux se superposent :
-   dans le logo complet, la boule fait 117,88 des 136 unités de haut, d'où 34 × 136 / 117,88 =
-   39,2px ; elle commence à 2px du bord gauche du logo, d'où le retrait de -7px qui la pose à 15px
-   du bord de l'écran, comme dans la bannière. */
+   dans le logo complet, la boule fait 117,88 des 137 unités de haut, d'où 34 × 137 / 117,88 =
+   39,5px ; elle commence à 2px du bord gauche du logo, d'où le retrait de -7px qui la pose à 15px
+   du bord de l'écran, comme dans la bannière. La boule est un peu au-dessus du milieu du logo
+   (65,2 sur 137 unités) : la marge du haut la redescend de 1px, sur celle de la bannière. */
 .menu-logo {
     display: block;
-    height: 39.2px;
+    height: 39.5px;
     width: auto;
+    margin-top: 1.9px;
     margin-left: -7px;
 }
 
