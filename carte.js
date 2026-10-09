@@ -70,7 +70,6 @@
 
         var details = [nomLieu(l)];
         if (l.p > 1) details.push(t('commune_pistes').replace('{n}', l.p));
-        if (l.s && translations[currentLang]['commune_surface_' + l.s]) details.push(t('commune_surface_' + l.s));
         if (distanceKm !== null) details.push(t('carte_a_distance').replace('{d}', formaterDistanceKm(distanceKm)));
 
         var criteres = (l.sp || []).map(function (cle) { return [cle, '']; })

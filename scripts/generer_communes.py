@@ -167,7 +167,6 @@ def decrire_lieu(pistes, criteres, ordre_proximite, photos, plates):
         "pistes": pistes,
         "rue": rues.most_common(1)[0][0] if rues else None,
         "localite": collections.Counter(t.get("commune") for t in pistes).most_common(1)[0][0],
-        "surface": next((t["surface"] for t in pistes if t.get("surface")), None),
         "surPlace": surPlace,
         "proximite": sorted(proximite.items(), key=lambda kv: ordre_proximite.index(kv[0])),
         "photo": photo,
@@ -221,11 +220,10 @@ def titres_lieux(lieux, tr):
 
 def html_lieu(lieu, titre, prefixe, tr, pictos, niveau_titre):
     titre = echap(titre)
+    # Seul le nombre de pistes est affiché : le type de surface d'OSM n'est pas assez fiable.
     details = []
     if len(lieu["pistes"]) > 1:
         details.append(tr["commune_pistes"].replace("{n}", str(len(lieu["pistes"]))))
-    if lieu["surface"] and f'commune_surface_{lieu["surface"]}' in tr:
-        details.append(tr[f'commune_surface_{lieu["surface"]}'])
 
     pastilles = [html_pastille(c, pictos, tr) for c in lieu["surPlace"]]
     pastilles += [html_pastille(c, pictos, tr, distance_critere(d)) for c, d in lieu["proximite"]]
@@ -418,7 +416,7 @@ def ecrire_recherche(communes, lieux_par_commune, centres, avec_page):
                 ("o", lieu["pistes"][0]["osm_id"]), ("r", lieu["rue"]),
                 ("l", lieu["localite"]), ("c", commune["slug"]), ("p", len(lieu["pistes"])),
                 ("lat", round(lieu["lat"], 6)), ("lon", round(lieu["lon"], 6)),
-                ("s", lieu["surface"]), ("sp", lieu["surPlace"] or None),
+                ("sp", lieu["surPlace"] or None),
                 ("px", [[c, round(d)] for c, d in lieu["proximite"]] or None),
                 ("ph", list(lieu["photo"]) if lieu["photo"] else None)) if v is not None})
         for loc, lieux_loc in par_localite.items():
