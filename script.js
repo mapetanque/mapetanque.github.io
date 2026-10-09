@@ -2608,6 +2608,9 @@ function construireModaleSignalement() {
                 <label class="add-photo-field-label" for="signalement-commentaire" id="signalement-commentaire-label"></label>
                 <textarea id="signalement-commentaire" name="commentaire" rows="4" maxlength="1000" class="add-photo-text-input"></textarea>
 
+                <label class="add-photo-field-label" for="signalement-email" data-cle="signalement_field_email"></label>
+                <input type="email" id="signalement-email" name="email" required maxlength="254" autocomplete="email" class="add-photo-text-input">
+
                 <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none !important">
 
                 <button type="submit" class="add-photo-submit-btn" data-cle="signalement_submit"></button>
@@ -2855,6 +2858,13 @@ function ouvrirModaleSignalement(options) {
             : 'signalement_comment_placeholder_error';
     commentaire.placeholder = t(commentaire.dataset.i18nPlaceholder);
 
+    // E-mail obligatoire, pour pouvoir recontacter l'auteur d'un signalement incomplet.
+    // Visiteur connecté : l'adresse de son compte est proposée d'office (il peut la changer).
+    try {
+        const session = JSON.parse(localStorage.getItem('mapetanque_session') || 'null');
+        if (session && typeof session.email === 'string') elementSignalement('#signalement-email').value = session.email;
+    } catch (e) { }
+
     // Un club ne se corrige pas dans OpenStreetMap : pas d'invitation à le faire.
     elementSignalement('.signalement-osm').hidden = contexteSignalement.type === 'club';
     texteSignalement(elementSignalement('#signalement-lien-osm'),
@@ -2911,6 +2921,7 @@ function envoyerSignalement(evt) {
     }
 
     donnees.set('commentaire', formulaire.querySelector('[name="commentaire"]').value.trim());
+    donnees.set('email', formulaire.querySelector('[name="email"]').value.trim());
     donnees.set('_gotcha', formulaire.querySelector('[name="_gotcha"]').value || '');
 
     bouton.disabled = true;

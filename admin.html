@@ -3280,6 +3280,18 @@ function carteSignalement(s) {
     commentaire.textContent = s.commentaire || "Pas de commentaire.";
     carte.appendChild(commentaire);
 
+    // Adresse de l'auteur (obligatoire depuis le 9 octobre 2026 ; absente des plus anciens).
+    if (s.email) {
+        const contact = document.createElement("div");
+        contact.className = "signalement-lieu";
+        const lien = document.createElement("a");
+        lien.href = "mailto:" + encodeURIComponent(s.email)
+            + "?subject=" + encodeURIComponent("Votre signalement sur mapetanque.be");
+        lien.textContent = s.email;
+        contact.append("Contact : ", lien);
+        carte.appendChild(contact);
+    }
+
     // Liens : le site au bon endroit, l'éditeur OSM (sur l'élément lui-même pour une erreur).
     // Un club ne vient pas d'OSM : lien vers sa fiche seulement, la correction se fait dans
     // club/clubs_petanque_belgique_propre.csv (puis club/enrichir_clubs.py).

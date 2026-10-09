@@ -272,6 +272,7 @@ const translations = {
         federation_pfv_detail: "PFV · clubs de Flandre",
         federation_site: "Site",
         signalement_comment_placeholder_club: "Par exemple : adresse ou site web incorrect, club disparu, mauvaise fédération…",
+        signalement_field_email: "Votre e-mail (pour vous recontacter si besoin, jamais publié)",
         // Filtres de la carte (voir « Filtres de la carte » dans script.js)
         filtres_effacer: "Effacer",
         filtres_voir_n: "Voir les %n terrains",
@@ -648,6 +649,7 @@ const translations = {
         federation_pfv_detail: "PFV · Vlaamse clubs",
         federation_site: "Website",
         signalement_comment_placeholder_club: "Bijvoorbeeld: verkeerd adres of verkeerde website, club bestaat niet meer, verkeerde federatie…",
+        signalement_field_email: "Uw e-mail (om u indien nodig te contacteren, nooit gepubliceerd)",
         // Filtres de la carte (voir « Filtres de la carte » dans script.js)
         filtres_effacer: "Wissen",
         filtres_voir_n: "Bekijk de %n terreinen",
@@ -1024,6 +1026,7 @@ const translations = {
         federation_pfv_detail: "PFV · Vereine in Flandern",
         federation_site: "Website",
         signalement_comment_placeholder_club: "Zum Beispiel: falsche Adresse oder Website, Verein existiert nicht mehr, falscher Verband…",
+        signalement_field_email: "Ihre E-Mail-Adresse (für eventuelle Rückfragen, wird nie veröffentlicht)",
         // Filtres de la carte (voir « Filtres de la carte » dans script.js)
         filtres_effacer: "Zurücksetzen",
         filtres_voir_n: "%n Plätze anzeigen",
@@ -1400,6 +1403,7 @@ const translations = {
         federation_pfv_detail: "PFV · clubs in Flanders",
         federation_site: "Website",
         signalement_comment_placeholder_club: "For example: wrong address or website, club no longer exists, wrong federation…",
+        signalement_field_email: "Your email (so we can get back to you if needed, never published)",
         // Filtres de la carte (voir « Filtres de la carte » dans script.js)
         filtres_effacer: "Clear",
         filtres_voir_n: "Show the %n courts",
