@@ -47,7 +47,7 @@
                     if (pied.parentElement.querySelector('.fiche-lien-bloc')) return;
                     var lien = document.createElement('a');
                     lien.className = 'fiche-lien-bloc';
-                    lien.href = urlPageCarte('?lat=' + c[1] + '&lon=' + c[0]);
+                    lien.href = urlPageCarte('?lat=' + c[1] + '&lon=' + c[0] + '&voir=1');
                     lien.innerHTML = PICTO_CARTE + '<span>' + t('commune_voir_carte') + '</span>'
                         + '<span aria-hidden="true">→</span>';
                     pied.before(lien);

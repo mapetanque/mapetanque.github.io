@@ -4315,7 +4315,7 @@ function ajouterLienVoirCarte(lat, lon) {
                 if (pied.parentElement.querySelector('.fiche-lien-voir-carte')) return;
                 const lien = document.createElement('a');
                 lien.className = 'fiche-lien-bloc fiche-lien-voir-carte';
-                lien.href = urlPageCarte('?lat=' + lat + '&lon=' + lon);
+                lien.href = urlPageCarte('?lat=' + lat + '&lon=' + lon + '&voir=1');
                 lien.innerHTML = PICTO_VOIR_CARTE + '<span>' + t('commune_voir_carte') + '</span>'
                     + '<span aria-hidden="true">→</span>';
                 pied.before(lien);
@@ -4361,13 +4361,15 @@ terrainsGeojson
 
         // Lien de partage d'un terrain précis (?lat=...&lon=...) : centrer et ouvrir son popup.
         // Exclut le cas ?club=1&lat=...&lon=... (lien de partage d'un club, pas d'un terrain —
-        // voir la résolution dédiée dans le chargement des clubs plus bas).
+        // voir la résolution dédiée dans le chargement des clubs plus bas). Avec &voir=1 (lien
+        // « Voir sur la carte » d'une fiche), le terrain est seulement montré, sans sa fiche.
         const urlParams = new URLSearchParams(window.location.search);
         const paramLat = parseFloat(urlParams.get('lat'));
         const paramLon = parseFloat(urlParams.get('lon'));
 
         if (urlParams.get('club') !== '1' && !isNaN(paramLat) && !isNaN(paramLon)) {
-            allerVersTerrain(paramLat, paramLon);
+            if (urlParams.get('voir') === '1') montrerTerrain(paramLat, paramLon);
+            else allerVersTerrain(paramLat, paramLon);
         }
 
     });
@@ -5325,6 +5327,30 @@ function allerVersTerrain(lat, lon) {
 
     const top = document.getElementById('top');
     if (top) top.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Lien « Voir sur la carte » d'une fiche (?lat=…&lon=…&voir=1) : la fiche vient d'être lue,
+// on montre donc le terrain sur la carte, sans la rouvrir par-dessus. Cadrage de cadrerSurLieux
+// (zoom 17, où les amas sont défaits ; feuille du téléphone comprise), puis le marqueur sautille
+// pour se faire repérer. Les amas ne dessinent le marqueur qu'un peu après la fin du
+// déplacement : on le guette quelques fois.
+function montrerTerrain(lat, lon) {
+    window.mapetanqueRevelerTerrain(lat, lon);
+    map.once('moveend', function () {
+        let essais = 20;
+        (function chercher() {
+            let element = null;
+            markers.eachLayer(function (layer) {
+                const pos = layer.getLatLng();
+                if (Math.abs(pos.lat - lat) < 0.0001 && Math.abs(pos.lng - lon) < 0.0001) {
+                    element = layer.getElement && layer.getElement();
+                }
+            });
+            if (element) element.classList.add('marqueur-montre');
+            else if (--essais > 0) setTimeout(chercher, 100);
+        })();
+    });
+    cadrerSurLieux([{ lat: lat, lon: lon }]);
 }
 
 // Centre la carte sur un club précis et ouvre son popup (si le marqueur correspondant est trouvé

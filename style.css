@@ -1557,6 +1557,25 @@ body.fullscreen-lock {
     filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.45));
 }
 
+/* Terrain montré par « Voir sur la carte » (montrerTerrain dans script.js) : il sautille trois
+   fois. Sur le dessin, Leaflet plaçant le marqueur lui-même par transform. */
+.marqueur-montre svg {
+    animation: marqueur-sautille 0.6s ease-in-out 3;
+    transform-origin: 50% 100%;
+}
+
+@keyframes marqueur-sautille {
+    0%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-12px); }
+    70% { transform: translateY(0) scaleY(0.92); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .marqueur-montre svg {
+        animation: none;
+    }
+}
+
 /* Marqueur invisible sur lequel se construit une fiche ouverte depuis une liste ou un carrousel
    (ouvrirFicheSurPlace dans script.js) */
 .marqueur-fiche-invisible {
