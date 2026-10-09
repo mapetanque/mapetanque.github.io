@@ -1927,9 +1927,14 @@ const URL_ENVOI_PHOTO = "https://mapetanque-admin.mapetanque.workers.dev/photos/
 // revérifiée par le Worker (le contrôle côté navigateur se contourne).
 const TAILLE_MAX_PHOTO = 20 * 1024 * 1024;
 
-// Nombre de photos par envoi. Au-delà, l'attente devient longue et la file de modération se
-// remplit sans bénéfice : une poignée de bonnes photos vaut mieux qu'une rafale.
-const MAX_PHOTOS_PAR_ENVOI = 5;
+// Nombre de photos par terrain et par personne : son compte si elle est connectée, sinon
+// l'identifiant aléatoire de ce navigateur (mapetanqueAuteurAvis). Les photos refusées ne comptent
+// pas. Une poignée de bonnes photos vaut mieux qu'une rafale de presque identiques à vérifier.
+// Le Worker fait foi (MAX_PHOTOS_PAR_AUTEUR) : il donne à l'ouverture de la modale le nombre de
+// photos restantes, et refuse (HTTP 409) celles qui dépassent.
+const MAX_PHOTOS_PAR_ENVOI = 3;
+const URL_PHOTOS_RESTANTES = "https://mapetanque-admin.mapetanque.workers.dev/photos/restantes";
+let photosRestantes = null;   // null : pas encore connu, ou Worker injoignable (il tranchera à l'envoi)
 
 // Côté le plus long après redimensionnement. Largement suffisant pour Mapillary, et divise par
 // dix ou vingt le poids d'une photo de téléphone moderne.
@@ -1961,8 +1966,47 @@ window.ouvrirModaleAjoutPhoto = function (osmId, terrainTitre) {
             addPhotoStatus.className = 'add-photo-status';
         }
         if (addPhotoSubmitBtn) addPhotoSubmitBtn.disabled = false;
+        verifierPhotosRestantes(osmId || '');
     }
 };
+
+// Texte du nombre de photos restantes pour ce terrain (n sur MAX_PHOTOS_PAR_ENVOI).
+function textePhotosRestantes(n) {
+    if (n <= 0) return t('add_photo_quota_none').replace('{n}', MAX_PHOTOS_PAR_ENVOI);
+    if (n === 1) return t('add_photo_quota_one');
+    return t(n >= MAX_PHOTOS_PAR_ENVOI ? 'add_photo_quota_max' : 'add_photo_quota_rest').replace('{n}', n);
+}
+
+// Demande au Worker combien de photos ce visiteur peut encore envoyer pour ce terrain, et
+// l'affiche au-dessus du bouton d'envoi (bouton désactivé s'il n'en reste aucune). Sans réponse,
+// rien n'est affiché : le formulaire reste utilisable et le Worker vérifie de toute façon.
+function verifierPhotosRestantes(osmId) {
+    photosRestantes = null;
+    let info = document.getElementById('add-photo-quota');
+    if (!info && addPhotoSubmitBtn) {
+        info = document.createElement('p');
+        info.id = 'add-photo-quota';
+        info.className = 'add-photo-file-hint';
+        addPhotoSubmitBtn.before(info);
+    }
+    if (!info) return;
+    info.hidden = true;
+    if (!osmId) return;
+
+    const auteur = mapetanqueAuteurAvis();
+    fetch(URL_PHOTOS_RESTANTES + '?osm_id=' + encodeURIComponent(osmId)
+        + (auteur ? '&auteur=' + encodeURIComponent(auteur) : ''), { headers: entetesCompte() })
+        .then(function (reponse) { return reponse.ok ? reponse.json() : null; })
+        .then(function (donnees) {
+            // La modale a pu être rouverte sur un autre terrain entre-temps.
+            if (!donnees || !Number.isInteger(donnees.restantes) || addPhotoModal.dataset.osmId !== osmId) return;
+            photosRestantes = donnees.restantes;
+            info.textContent = textePhotosRestantes(photosRestantes);
+            info.hidden = false;
+            if (photosRestantes <= 0 && addPhotoSubmitBtn) addPhotoSubmitBtn.disabled = true;
+        })
+        .catch(function () { });
+}
 
 // --- Préparation du formulaire ------------------------------------------------------------
 // Le bloc #add-photo-modal est présent à l'identique dans 15 pages statiques et 2 gabarits :
@@ -2394,6 +2438,10 @@ if (addPhotoForm) {
 
         if (!fichiers.length) return;
 
+        if (photosRestantes !== null && fichiers.length > photosRestantes) {
+            afficherStatut(null, 'error', textePhotosRestantes(photosRestantes));
+            return;
+        }
         if (fichiers.length > MAX_PHOTOS_PAR_ENVOI) {
             afficherStatut('add_photo_error_too_many', 'error');
             return;
@@ -2409,15 +2457,18 @@ if (addPhotoForm) {
         const osmId = addPhotoForm.querySelector('[name="fi-text-terrain-osm-id"]').value || '';
         const champCredit = addPhotoForm.querySelector('[name="credit_nom"]');
         const honeypot = addPhotoForm.querySelector('[name="_gotcha"]');
+        const auteur = mapetanqueAuteurAvis();
 
         // Envois l'un après l'autre plutôt qu'en parallèle : la progression est lisible, et une
         // photo refusée par le serveur n'emporte pas les autres.
         let envoyees = 0;
+        let limiteAtteinte = false;   // le Worker a refusé une photo : plafond par terrain atteint
 
         function envoyerSuivante(index) {
             if (index >= fichiers.length) {
                 if (envoyees === 0) {
-                    afficherStatut('add_photo_error', 'error');
+                    if (limiteAtteinte) afficherStatut(null, 'error', textePhotosRestantes(0));
+                    else afficherStatut('add_photo_error', 'error');
                     if (addPhotoSubmitBtn) addPhotoSubmitBtn.disabled = false;
                     return;
                 }
@@ -2445,11 +2496,13 @@ if (addPhotoForm) {
                     if (datePrise) donnees.set('date_prise', datePrise);
                     if (champCredit && champCredit.value) donnees.set('credit_nom', champCredit.value);
                     if (honeypot) donnees.set('_gotcha', honeypot.value || '');
+                    if (auteur) donnees.set('auteur', auteur);
 
                     return fetch(URL_ENVOI_PHOTO, { method: 'POST', headers: entetesCompte(), body: donnees });
                 });
             }).then(function (reponse) {
                 return reponse.text().then(function (texte) {
+                    if (reponse.status === 409) limiteAtteinte = true;
                     if (!reponse.ok) throw new Error('Réponse HTTP ' + reponse.status + ' : ' + texte);
                     envoyees++;
                 });
@@ -4693,8 +4746,10 @@ function echapperAvis(texte) {
         .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
-// Identifiant aléatoire de ce navigateur pour les avis : il permet seulement qu'un nouvel avis
-// remplace le précédent sur le même terrain. Il n'identifie personne et n'est jamais publié.
+// Identifiant aléatoire de ce navigateur, pour les avis et les photos : il permet qu'un nouvel avis
+// remplace le précédent sur le même terrain, et limite le nombre de photos par terrain
+// (MAX_PHOTOS_PAR_ENVOI). Il n'identifie personne et n'est jamais publié. Son nom de fonction et
+// sa clé datent des avis : les garder évite de perdre le lien avec les avis déjà envoyés.
 function mapetanqueAuteurAvis() {
     try {
         var existant = localStorage.getItem('mapetanque_auteur_avis');
