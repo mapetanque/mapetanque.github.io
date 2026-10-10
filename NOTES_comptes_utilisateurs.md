@@ -827,6 +827,41 @@ CREATE INDEX joueurs_compte ON joueurs(compte_id);
   et heure de chaque mène, format, joueurs, place du titulaire, case « Garder ».
 - « Vos données » (4 langues) : ajouter les parties et le carnet de noms.
 
+### Phase 1 codée (10 octobre 2026, branche `claude/parties-compteur`)
+
+Côté site, prêt à tester :
+- `compteur.js` : panneau « Équipes » (remplace « Renommer » ; format, joueurs, nom d'équipe,
+  « Changer d'équipe », case « Garder »), pastille « Vous », « Ajouter un joueur » avec les noms
+  récents (gardés sur le téléphone, `mapetanque_compteur_joueurs`, et carnet du compte par
+  `/compte/joueurs`), pastilles +1 à +3 en tête-à-tête, heure de chaque mène (`t`), carte de
+  l'écran de fin (tous les cas de « À la fin »), terrain proposé ou « Ajouter le terrain »
+  (terrains à moins de 5 km tirés de `data/recherche.json`, proposé d'office à moins de 500 m),
+  annonce du vainqueur en Caveat.
+- File d'envoi `mapetanque_parties_a_envoyer` : la dernière action sur une partie (enregistrer
+  ou retirer) part au Worker, au retour du réseau si besoin (événement `online`, retour sur la
+  page). Chaque entrée garde l'adresse du compte qui a joué : elle n'est envoyée qu'avec la
+  session de ce compte. « Annuler le dernier point » après une victoire retire la partie ;
+  modifier les équipes ou le terrain la renvoie (même identifiant, remplacée).
+- `compte.js` chargé sur les quatre pages du compteur ; `translations.js?v=3`,
+  `compteur.js?v=2`, `style-compteur.css?v=2` ; clés `compteur_*` en 4 langues (celles de
+  « Renommer » retirées).
+- Confidentialité (4 langues) : parties et noms des joueurs, leur durée de conservation, la
+  position lue seulement à la demande et jamais envoyée, effacement avec le compte.
+
+Côté Worker, à faire par Rémy (code et SQL dans `workers/comptes-parties.js`) :
+1. Console D1 : créer `parties` et `joueurs` (les `CREATE` de l'en-tête du fichier).
+2. Coller le fichier à la fin du code de `mapetanque-comptes`, et en tête de son `fetch` :
+   `const reponseParties = await routesParties(request, env); if (reponseParties) return reponseParties;`
+3. Dans `/compte/supprimer`, effacer `parties` et `joueurs` du compte (deux lignes données en
+   tête du fichier) : ne pas compter sur `ON DELETE CASCADE`.
+4. Déployer, puis tester avec Live Server (port 5500 ou 5501, tous deux acceptés).
+
+Essayé dans le cloud : les routes sur une base SQLite qui imite D1 (21 essais : enregistrer,
+remplacer, refus des parties trop courtes, pas finies, d'un autre compte…), puis le compteur
+dans Chromium avec ce faux Worker (37 essais : équipes, partie trop courte, enregistrée,
+annulée, retirée, changement d'équipe après coup, terrain, tête-à-tête, hors ligne puis retour
+du réseau, partie jouée sans compte puis connexion, version néerlandaise).
+
 ## Étape 2, phase 2 — page « Mes parties » (décidé le 10 octobre 2026)
 
 Maquette validée par Rémy le 10 octobre 2026 (artefact « Mes parties Mapetanque » sur claude.ai).

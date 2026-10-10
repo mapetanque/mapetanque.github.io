@@ -110,6 +110,10 @@ CONTENU = {
                  " : votre adresse mail, votre pseudo éventuel, la langue des mails et les "
                  "dates de création et de dernière connexion. Ce que vous envoyez en étant "
                  "connecté est rattaché au compte. Votre adresse n'est jamais affichée."),
+                ("jouez avec le compteur en étant connecté",
+                 " : chaque partie terminée (date, durée, format, scores, mènes, votre équipe), "
+                 "les noms des autres joueurs tels que vous les tapez et, si vous l'indiquez, le "
+                 "terrain. Ces noms ne sont visibles que par vous."),
             ],
             "paragraphes_apres": [
                 "La connexion ne conserve que des empreintes chiffrées du lien, du code et de "
@@ -130,6 +134,7 @@ CONTENU = {
             "titre": "Durée de conservation",
             "liste": [
                 ("Compte", " : jusqu'à sa suppression."),
+                ("Parties et noms des joueurs", " : jusqu'à ce que vous les retiriez, ou jusqu'à la suppression du compte."),
                 ("Session", " : un an, ou jusqu'à la déconnexion."),
                 ("Lien et code de connexion", " : valables 15 minutes, effacés après 24 heures."),
                 ("Photo",
@@ -169,10 +174,14 @@ CONTENU = {
             "titre": "Stockage sur votre appareil",
             "paragraphes": [
                 "Le site ne dépose aucun cookie. Votre navigateur garde la langue, les réglages "
-                "de la carte, la partie en cours du compteur, vos notes et avis (pour éviter "
-                "les doublons) et, si vous êtes connecté, votre session. Ces informations, "
-                "nécessaires au fonctionnement du site, s'effacent depuis les réglages du "
-                "navigateur.",
+                "de la carte, la partie en cours du compteur et les noms de ses joueurs, vos "
+                "notes et avis (pour éviter les doublons) et, si vous êtes connecté, votre "
+                "session. Ces informations, nécessaires au fonctionnement du site, s'effacent "
+                "depuis les réglages du navigateur.",
+                "Votre position n'est lue qu'à votre demande (« Me localiser » sur la carte, "
+                "terrain d'une partie au compteur) et si vous l'autorisez. Elle sert sur place, "
+                "dans le navigateur, et n'est ni envoyée ni gardée : seul le terrain choisi est "
+                "enregistré avec la partie.",
             ],
         },
         {
@@ -181,8 +190,8 @@ CONTENU = {
                 "Vous pouvez accéder à vos données, les corriger, en obtenir une copie, vous "
                 "opposer à leur traitement ou en demander la suppression : depuis « Mon "
                 "compte » ou à l'adresse mapetanque@outlook.be. Réponse sous un mois.",
-                "La suppression du compte est immédiate : adresse, pseudo et sessions sont "
-                "effacés ; vos notes, avis et photos restent, mais deviennent anonymes. Les "
+                "La suppression du compte est immédiate : adresse, pseudo, sessions, parties et "
+                "noms des joueurs sont effacés ; vos notes, avis et photos restent, mais deviennent anonymes. Les "
                 "photos publiées sur Mapillary y restent sous licence libre, sauf demande de "
                 "retrait.",
                 "Vous pouvez aussi introduire une réclamation auprès de l'Autorité de "
@@ -234,6 +243,10 @@ CONTENU = {
                  ": je e-mailadres, je eventuele bijnaam, de taal van de e-mails en de datum "
                  "van aanmaak en van je laatste aanmelding. Wat je verstuurt terwijl je "
                  "aangemeld bent, wordt aan je account gekoppeld. Je adres wordt nooit getoond."),
+                ("met de scoreteller speelt terwijl je aangemeld bent",
+                 ": elke afgelopen partij (datum, duur, spelvorm, scores, rondes, je team), de "
+                 "namen van de andere spelers zoals je ze intypt en, als je die opgeeft, de "
+                 "baan. Alleen jij ziet die namen."),
             ],
             "paragraphes_apres": [
                 "Voor het aanmelden worden alleen versleutelde vingerafdrukken van de link, de "
@@ -254,6 +267,7 @@ CONTENU = {
             "titre": "Bewaartermijn",
             "liste": [
                 ("Account", ": tot het verwijderd wordt."),
+                ("Partijen en namen van spelers", ": tot je ze verwijdert, of tot je account verwijderd wordt."),
                 ("Sessie", ": een jaar, of tot je je afmeldt."),
                 ("Aanmeldlink en -code", ": 15 minuten geldig, na 24 uur gewist."),
                 ("Foto",
@@ -293,10 +307,14 @@ CONTENU = {
             "titre": "Opslag op je toestel",
             "paragraphes": [
                 "De site plaatst geen cookies. Je browser bewaart de taal, de kaartinstellingen, "
-                "de lopende partij in de scoreteller, je beoordelingen en recensies (om dubbels "
-                "te vermijden) en, als je aangemeld bent, je sessie. Die gegevens zijn nodig "
-                "voor de werking van de site; je kunt ze wissen in de instellingen van je "
-                "browser.",
+                "de lopende partij in de scoreteller en de namen van de spelers, je "
+                "beoordelingen en recensies (om dubbels te vermijden) en, als je aangemeld bent, "
+                "je sessie. Die gegevens zijn nodig voor de werking van de site; je kunt ze "
+                "wissen in de instellingen van je browser.",
+                "Je locatie wordt alleen gelezen als je erom vraagt ('Localiseer mij' op de kaart, "
+                "baan van een partij in de scoreteller) en als je het toestaat. Ze wordt ter "
+                "plaatse in de browser gebruikt en niet verstuurd of bewaard: alleen de gekozen "
+                "baan wordt met de partij bewaard.",
             ],
         },
         {
@@ -305,8 +323,8 @@ CONTENU = {
                 "Je kunt je gegevens inzien, verbeteren, er een kopie van krijgen, je verzetten "
                 "tegen de verwerking ervan of vragen om ze te verwijderen: via 'Mijn account' "
                 "of op mapetanque@outlook.be. Antwoord binnen een maand.",
-                "Je account wordt onmiddellijk verwijderd: adres, bijnaam en sessies worden "
-                "gewist; je beoordelingen, recensies en foto's blijven, maar worden anoniem. "
+                "Je account wordt onmiddellijk verwijderd: adres, bijnaam, sessies, partijen en "
+                "namen van spelers worden gewist; je beoordelingen, recensies en foto's blijven, maar worden anoniem. "
                 "Foto's die op Mapillary gepubliceerd zijn, blijven daar onder vrije licentie, "
                 "tenzij je vraagt ze te verwijderen.",
                 "Je kunt ook een klacht indienen bij de Gegevensbeschermingsautoriteit.",
@@ -359,6 +377,10 @@ CONTENU = {
                  "sowie das Datum der Erstellung und der letzten Anmeldung. Was Sie im "
                  "angemeldeten Zustand einsenden, wird Ihrem Konto zugeordnet. Ihre Adresse wird "
                  "nie angezeigt."),
+                ("angemeldet mit dem Punktezähler spielen",
+                 ": jede beendete Partie (Datum, Dauer, Spielform, Punktestand, Runden, Ihr "
+                 "Team), die Namen der anderen Spieler so, wie Sie sie eingeben, und, falls Sie "
+                 "ihn angeben, der Platz. Nur Sie sehen diese Namen."),
             ],
             "paragraphes_apres": [
                 "Für die Anmeldung werden nur verschlüsselte Fingerabdrücke des Links, des Codes "
@@ -379,6 +401,7 @@ CONTENU = {
             "titre": "Speicherdauer",
             "liste": [
                 ("Konto", ": bis zu seiner Löschung."),
+                ("Partien und Namen der Spieler", ": bis Sie sie entfernen oder Ihr Konto gelöscht wird."),
                 ("Sitzung", ": ein Jahr oder bis zur Abmeldung."),
                 ("Anmeldelink und -code", ": 15 Minuten gültig, nach 24 Stunden gelöscht."),
                 ("Foto",
@@ -419,10 +442,15 @@ CONTENU = {
             "titre": "Speicherung auf Ihrem Gerät",
             "paragraphes": [
                 "Die Website setzt keine Cookies. Ihr Browser speichert die Sprache, die "
-                "Karteneinstellungen, die laufende Partie im Punktezähler, Ihre Bewertungen und "
-                "Rezensionen (um Doppelungen zu vermeiden) und, wenn Sie angemeldet sind, Ihre "
-                "Sitzung. Diese Angaben sind für den Betrieb der Website erforderlich; Sie "
-                "können sie in den Einstellungen Ihres Browsers löschen.",
+                "Karteneinstellungen, die laufende Partie im Punktezähler und die Namen ihrer "
+                "Spieler, Ihre Bewertungen und Rezensionen (um Doppelungen zu vermeiden) und, "
+                "wenn Sie angemeldet sind, Ihre Sitzung. Diese Angaben sind für den Betrieb der "
+                "Website erforderlich; Sie können sie in den Einstellungen Ihres Browsers "
+                "löschen.",
+                "Ihr Standort wird nur auf Ihre Anfrage gelesen („Mein Standort“ auf der Karte, "
+                "Platz einer Partie im Punktezähler) und nur, wenn Sie es erlauben. Er wird vor "
+                "Ort im Browser verwendet, weder gesendet noch gespeichert: Nur der gewählte "
+                "Platz wird mit der Partie gespeichert.",
             ],
         },
         {
@@ -431,8 +459,8 @@ CONTENU = {
                 "Sie können Ihre Daten einsehen, berichtigen, eine Kopie erhalten, der "
                 "Verarbeitung widersprechen oder ihre Löschung verlangen: unter „Mein Konto“ "
                 "oder unter mapetanque@outlook.be. Antwort innerhalb eines Monats.",
-                "Die Löschung des Kontos erfolgt sofort: Adresse, Spitzname und Sitzungen werden "
-                "gelöscht; Ihre Bewertungen, Rezensionen und Fotos bleiben erhalten, werden "
+                "Die Löschung des Kontos erfolgt sofort: Adresse, Spitzname, Sitzungen, Partien "
+                "und Namen der Spieler werden gelöscht; Ihre Bewertungen, Rezensionen und Fotos bleiben erhalten, werden "
                 "aber anonym. Auf Mapillary veröffentlichte Fotos bleiben dort unter freier "
                 "Lizenz, sofern Sie nicht ihre Entfernung verlangen.",
                 "Sie können außerdem Beschwerde bei der belgischen Datenschutzbehörde einreichen.",
@@ -482,6 +510,10 @@ CONTENU = {
                  ": your email address, your optional nickname, the language of your emails, "
                  "and the dates of creation and last sign-in. What you send while signed in is "
                  "linked to your account. Your address is never displayed."),
+                ("play with the score counter while signed in",
+                 ": each finished game (date, length, format, scores, ends, your team), the "
+                 "names of the other players as you type them and, if you add it, the court. "
+                 "Only you can see these names."),
             ],
             "paragraphes_apres": [
                 "Signing in only stores hashed fingerprints of the link, the code and the "
@@ -502,6 +534,7 @@ CONTENU = {
             "titre": "Retention period",
             "liste": [
                 ("Account", ": until it is deleted."),
+                ("Games and player names", ": until you remove them, or until your account is deleted."),
                 ("Session", ": one year, or until you sign out."),
                 ("Sign-in link and code", ": valid for 15 minutes, erased after 24 hours."),
                 ("Photo",
@@ -541,9 +574,14 @@ CONTENU = {
             "titre": "Storage on your device",
             "paragraphes": [
                 "The site sets no cookies. Your browser keeps your language, map settings, the "
-                "game in progress in the score counter, your ratings and reviews (to avoid "
-                "duplicates) and, if you are signed in, your session. This information is "
-                "needed for the site to work; you can clear it in your browser settings.",
+                "game in progress in the score counter and its player names, your ratings and "
+                "reviews (to avoid duplicates) and, if you are signed in, your session. This "
+                "information is needed for the site to work; you can clear it in your browser "
+                "settings.",
+                "Your location is only read when you ask for it ('Locate me' on the map, the "
+                "court of a game in the score counter) and if you allow it. It is used on the "
+                "spot, in your browser, and is neither sent nor kept: only the chosen court is "
+                "saved with the game.",
             ],
         },
         {
@@ -552,8 +590,8 @@ CONTENU = {
                 "You can access your data, correct it, obtain a copy, object to its processing "
                 "or ask for it to be deleted: from 'My account' or at mapetanque@outlook.be. "
                 "Reply within one month.",
-                "Deleting your account takes effect immediately: address, nickname and "
-                "sessions are erased; your ratings, reviews and photos remain, but become "
+                "Deleting your account takes effect immediately: address, nickname, sessions, "
+                "games and player names are erased; your ratings, reviews and photos remain, but become "
                 "anonymous. Photos published on Mapillary stay there under an open licence, "
                 "unless you ask for them to be removed.",
                 "You may also lodge a complaint with the Belgian Data Protection Authority.",
