@@ -113,7 +113,7 @@ CONTENU = {
             ],
             "paragraphes_apres": [
                 "La connexion ne conserve que des empreintes chiffrées du lien, du code et de "
-                "la session. Une empreinte chiffrée de l'adresse IP limite le nombre d'envois "
+                "la session. Une empreinte chiffrée de l'adresse IP limite le nombre de contributions "
                 "et de demandes de connexion par jour.",
             ],
         },
@@ -146,7 +146,7 @@ CONTENU = {
             "titre": "Prestataires et services tiers",
             "liste": [
                 ("Cloudflare",
-                 " : traitement des envois et des connexions, base de données, photos en "
+                 " : traitement des contributions et des connexions, base de données, photos en "
                  "attente, mesure d'audience, protection anti-robots."),
                 ("Resend", " : envoi des mails de connexion, depuis l'Europe."),
                 ("Google",
@@ -238,7 +238,7 @@ CONTENU = {
             "paragraphes_apres": [
                 "Voor het aanmelden worden alleen versleutelde vingerafdrukken van de link, de "
                 "code en de sessie bewaard. Een versleutelde vingerafdruk van het IP-adres "
-                "beperkt het aantal verzendingen en aanmeldingsverzoeken per dag.",
+                "beperkt het aantal bijdragen en aanmeldingsverzoeken per dag.",
             ],
         },
         {
@@ -271,7 +271,7 @@ CONTENU = {
             "titre": "Dienstverleners en externe diensten",
             "liste": [
                 ("Cloudflare",
-                 ": verwerking van verzendingen en aanmeldingen, database, foto's in "
+                 ": verwerking van bijdragen en aanmeldingen, database, foto's in "
                  "afwachting, bezoekersstatistieken, bescherming tegen robots."),
                 ("Resend", ": verzending van de aanmeldingsmails, vanuit Europa."),
                 ("Google",
@@ -363,7 +363,7 @@ CONTENU = {
             "paragraphes_apres": [
                 "Für die Anmeldung werden nur verschlüsselte Fingerabdrücke des Links, des Codes "
                 "und der Sitzung gespeichert. Ein verschlüsselter Fingerabdruck der IP-Adresse "
-                "begrenzt die Zahl der Einsendungen und Anmeldeanfragen pro Tag.",
+                "begrenzt die Zahl der Beiträge und Anmeldeanfragen pro Tag.",
             ],
         },
         {
@@ -397,7 +397,7 @@ CONTENU = {
             "titre": "Dienstleister und Drittdienste",
             "liste": [
                 ("Cloudflare",
-                 ": Verarbeitung von Einsendungen und Anmeldungen, Datenbank, Fotos in "
+                 ": Verarbeitung von Beiträgen und Anmeldungen, Datenbank, Fotos in "
                  "Prüfung, Besucherstatistik, Schutz vor Bots."),
                 ("Resend", ": Versand der Anmelde-E-Mails, aus Europa."),
                 ("Google",
@@ -485,7 +485,7 @@ CONTENU = {
             ],
             "paragraphes_apres": [
                 "Signing in only stores hashed fingerprints of the link, the code and the "
-                "session. A hashed fingerprint of the IP address limits the number of uploads "
+                "session. A hashed fingerprint of the IP address limits the number of contributions "
                 "and sign-in requests per day.",
             ],
         },
@@ -519,7 +519,7 @@ CONTENU = {
             "titre": "Service providers and third-party services",
             "liste": [
                 ("Cloudflare",
-                 ": processing of uploads and sign-ins, database, photos awaiting review, "
+                 ": processing of contributions and sign-ins, database, photos awaiting review, "
                  "visitor statistics, bot protection."),
                 ("Resend", ": sending of sign-in emails, from Europe."),
                 ("Google",

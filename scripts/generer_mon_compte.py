@@ -1,7 +1,7 @@
 """
 Génère mon-compte.html, nl/mon-compte.html, de/mon-compte.html et en/mon-compte.html.
 
-Comme la page Connexion, la page ne contient qu'un emplacement vide : pseudo, « Mes envois »,
+Comme la page Connexion, la page ne contient qu'un emplacement vide : pseudo, « Mes contributions »,
 déconnexion et suppression du compte sont dessinés par mon-compte.js, dans la langue de la page,
 à partir des clés compte_* et moncompte_* de translations.js. Sans session, mon-compte.js renvoie
 vers la page Connexion. Voir NOTES_comptes_utilisateurs.md.
