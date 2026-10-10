@@ -38,7 +38,7 @@ const ORIGINES_PARTIES = ['https://mapetanque.be', 'http://127.0.0.1:5500', 'htt
 const PARTIES_PAR_JOUR = 40;        // largement au-dessus d'une vraie journée de jeu
 const DUREE_MIN_PARTIE = 5 * 60;    // secondes : en dessous, c'est un essai du compteur
 const MENES_MIN_PARTIE = 3;
-const LONGUEUR_NOM = 20;
+const LONGUEUR_NOM_JOUEUR = 20;
 
 async function routesParties(request, env) {
     const url = new URL(request.url);
@@ -47,7 +47,7 @@ async function routesParties(request, env) {
 
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: entetesParties(request) });
 
-    const compteId = await compteDeLaSession(request, env);
+    const compteId = await compteSessionParties(request, env);
     if (!compteId) return jsonParties(request, { erreur: 'session' }, 401);
 
     try {
@@ -80,7 +80,7 @@ function jsonParties(request, donnees, statut) {
 }
 
 // Même règle que les autres routes du compte : seule l'empreinte SHA-256 du jeton est en base.
-async function compteDeLaSession(request, env) {
+async function compteSessionParties(request, env) {
     const entete = request.headers.get('Authorization') || '';
     const jeton = entete.startsWith('Bearer ') ? entete.slice(7).trim() : '';
     if (!jeton) return null;
@@ -92,19 +92,19 @@ async function compteDeLaSession(request, env) {
 }
 
 // « 2026-10-10T14:03:00.000Z » -> « 2026-10-10 14:03:00 », le format des autres tables
-function dateBase(ms) {
+function dateBaseParties(ms) {
     return new Date(ms).toISOString().slice(0, 19).replace('T', ' ');
 }
 
 // Même normalisation que pseudo_cle : sans accents, sans majuscules, espaces simples
-function cleNom(nom) {
+function cleNomJoueur(nom) {
     return nom.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
 }
 
-function nomPropre(nom) {
+function nomJoueurPropre(nom) {
     if (typeof nom !== 'string') return null;
     const n = nom.replace(/[\u0000-\u001f\u007f<>]/g, '').replace(/\s+/g, ' ').trim();
-    return n && n.length <= LONGUEUR_NOM ? n : null;
+    return n && n.length <= LONGUEUR_NOM_JOUEUR ? n : null;
 }
 
 // Vérifie la partie envoyée par le compteur et la ramène à ce qui sera enregistré. Le score est
@@ -148,19 +148,19 @@ function verifierPartie(d) {
         const places = d.format - (d.mon_equipe === equipe ? 1 : 0);
         if (liste.length > places) return erreur('joueurs');
         for (const nom of liste) {
-            const n = nomPropre(nom);
+            const n = nomJoueurPropre(nom);
             if (!n) return erreur('joueurs');
-            if (!joueurs.a.concat(joueurs.b).some(x => cleNom(x) === cleNom(n))) joueurs[equipe].push(n);
+            if (!joueurs.a.concat(joueurs.b).some(x => cleNomJoueur(x) === cleNomJoueur(n))) joueurs[equipe].push(n);
         }
     }
-    const nomA = d.nom_a ? nomPropre(d.nom_a) : null;
-    const nomB = d.nom_b ? nomPropre(d.nom_b) : null;
+    const nomA = d.nom_a ? nomJoueurPropre(d.nom_a) : null;
+    const nomB = d.nom_b ? nomJoueurPropre(d.nom_b) : null;
     if ((d.nom_a && !nomA) || (d.nom_b && !nomB)) return erreur('noms');
     const terrain = typeof d.terrain === 'string' && /^(node|way|relation)\/\d{1,15}$/.test(d.terrain) ? d.terrain : null;
 
     return {
         partie: {
-            id: d.id, debut: dateBase(debut + menes[0].t * 1000), fin: dateBase(debut + menes[menes.length - 1].t * 1000),
+            id: d.id, debut: dateBaseParties(debut + menes[0].t * 1000), fin: dateBaseParties(debut + menes[menes.length - 1].t * 1000),
             objectif: d.objectif, format: d.format, mon_equipe: d.mon_equipe, score_a: a, score_b: b,
             victoire: (d.mon_equipe === 'a' ? a : b) === d.objectif ? 1 : 0,
             nom_a: nomA, nom_b: nomB, joueurs, menes, terrain
@@ -190,13 +190,13 @@ async function enregistrerPartie(request, env, compteId) {
         await env.DB.batch(noms.map(nom => env.DB.prepare(
             "INSERT INTO joueurs (id, compte_id, nom, cle) VALUES (?, ?, ?, ?) " +
             "ON CONFLICT(compte_id, cle) DO UPDATE SET utilise = datetime('now')"
-        ).bind(crypto.randomUUID(), compteId, nom, cleNom(nom))));
-        const cles = noms.map(cleNom);
+        ).bind(crypto.randomUUID(), compteId, nom, cleNomJoueur(nom))));
+        const cles = noms.map(cleNomJoueur);
         const lignes = await env.DB.prepare('SELECT id, cle FROM joueurs WHERE compte_id = ? AND cle IN (' + cles.map(() => '?').join(',') + ')')
             .bind(compteId, ...cles).all();
         (lignes.results || []).forEach(l => { ids[l.cle] = l.id; });
     }
-    const joueurs = { a: p.joueurs.a.map(n => ids[cleNom(n)]), b: p.joueurs.b.map(n => ids[cleNom(n)]) };
+    const joueurs = { a: p.joueurs.a.map(n => ids[cleNomJoueur(n)]), b: p.joueurs.b.map(n => ids[cleNomJoueur(n)]) };
 
     await env.DB.prepare(
         'INSERT INTO parties (id, compte_id, debut, fin, objectif, format, mon_equipe, score_a, score_b, victoire, nom_a, nom_b, joueurs, menes, terrain) ' +
