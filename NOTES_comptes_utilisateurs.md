@@ -755,6 +755,7 @@ claude.ai). Deux phases : d'abord le compteur qui enregistre, ensuite la page «
 - Une partie gagnée est enregistrée seule si elle a duré au moins 3 mènes et 5 minutes (temps
   entre le premier et le dernier point). En dessous, c'est un essai du compteur : pas
   d'enregistrement, et pas de bouton pour forcer.
+  L'écran de fin dit seulement « Partie trop courte : pas enregistrée ».
 - Partie interrompue (pluie, départ, « Nouvelle partie » en cours de jeu) : ignorée.
 - Écran de victoire, connecté : « Vous gagnez ! » (Caveat) ou « {équipe} gagne », puis un résumé
   « Enregistrée dans Mes parties » : victoire ou défaite et score vu de son côté, fanny
