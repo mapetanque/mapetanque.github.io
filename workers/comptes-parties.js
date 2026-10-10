@@ -20,40 +20,7 @@
 //         env.DB.prepare('DELETE FROM joueurs WHERE compte_id = ?').bind(compteId)
 //     ]);
 //
-// Tables (console D1 de la base mapetanque-notes) :
-//
-//     CREATE TABLE parties (
-//       id TEXT PRIMARY KEY,               -- tiré par le téléphone : renvoyer la même partie la remplace
-//       compte_id TEXT NOT NULL REFERENCES comptes(id) ON DELETE CASCADE,
-//       debut TEXT NOT NULL,               -- premier point, AAAA-MM-JJ HH:MM:SS (UTC)
-//       fin TEXT NOT NULL,                 -- point gagnant
-//       objectif INTEGER NOT NULL,         -- 11 ou 13
-//       format INTEGER NOT NULL,           -- 1, 2 ou 3 joueurs par équipe
-//       mon_equipe TEXT NOT NULL,          -- 'a' ou 'b'
-//       score_a INTEGER NOT NULL,
-//       score_b INTEGER NOT NULL,
-//       victoire INTEGER NOT NULL,         -- 1 si l'équipe du titulaire a gagné
-//       nom_a TEXT,                        -- nom d'équipe saisi, sinon NULL
-//       nom_b TEXT,
-//       joueurs TEXT NOT NULL,             -- JSON {"a":[id joueur…],"b":[…]}, sans le titulaire
-//       menes TEXT NOT NULL,               -- JSON [{"e":"a","p":3,"t":95},…] : équipe, points, secondes depuis le début
-//       terrain TEXT,                      -- identifiant OSM du terrain (way/123…), facultatif
-//       cree TEXT NOT NULL DEFAULT (datetime('now')),
-//       maj TEXT
-//     );
-//     CREATE INDEX parties_compte ON parties(compte_id, fin);
-//     CREATE INDEX parties_cree ON parties(compte_id, cree);
-//
-//     CREATE TABLE joueurs (
-//       id TEXT PRIMARY KEY,
-//       compte_id TEXT NOT NULL REFERENCES comptes(id) ON DELETE CASCADE,
-//       nom TEXT NOT NULL,                 -- 20 caractères au plus, tel que tapé
-//       cle TEXT NOT NULL,                 -- nom sans accents ni majuscules : « Julie » et « julie » sont le même joueur
-//       compte_lie TEXT,                   -- étape B (compte de l'ami, après son accord)
-//       utilise TEXT NOT NULL DEFAULT (datetime('now')),   -- dernière partie : ordre des « joueurs récents »
-//       cree TEXT NOT NULL DEFAULT (datetime('now'))
-//     );
-//     CREATE UNIQUE INDEX joueurs_compte_cle ON joueurs(compte_id, cle);
+// Tables : workers/comptes-parties.sql, à coller dans la console D1 de la base mapetanque-notes.
 //
 // Routes (en-tête Authorization: Bearer <jeton de session>, réponses JSON) :
 //

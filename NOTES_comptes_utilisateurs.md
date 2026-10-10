@@ -848,8 +848,9 @@ Côté site, prêt à tester :
 - Confidentialité (4 langues) : parties et noms des joueurs, leur durée de conservation, la
   position lue seulement à la demande et jamais envoyée, effacement avec le compte.
 
-Côté Worker, à faire par Rémy (code et SQL dans `workers/comptes-parties.js`) :
-1. Console D1 : créer `parties` et `joueurs` (les `CREATE` de l'en-tête du fichier).
+Côté Worker, à faire par Rémy (code dans `workers/comptes-parties.js`, tables dans
+`workers/comptes-parties.sql`) :
+1. Console D1 : coller `workers/comptes-parties.sql` (tables `parties` et `joueurs`).
 2. Coller le fichier à la fin du code de `mapetanque-comptes`, et en tête de son `fetch` :
    `const reponseParties = await routesParties(request, env); if (reponseParties) return reponseParties;`
 3. Dans `/compte/supprimer`, effacer `parties` et `joueurs` du compte (deux lignes données en
