@@ -8,10 +8,12 @@
 //   - arrivee   : page ouverte depuis le lien du mail (#lien=…), bouton « Me connecter ». C'est
 //                 ce clic qui consomme le lien, pas l'ouverture de la page : les messageries qui
 //                 ouvrent les liens toutes seules ne le gâchent pas ;
-//   - connecte  : pastille avec l'initiale, adresse du compte, bouton « Me déconnecter ». Tant
-//                 que le compte n'a pas de pseudo, il est demandé ici avant tout le reste : il
-//                 est obligatoire et unique sur le site (vérifié par le Worker), pour qu'on
-//                 sache qui joue avec qui dans les parties.
+//   - connecte  : seulement tant que le compte n'a pas de pseudo, demandé ici avant tout le
+//                 reste : il est obligatoire et unique sur le site (vérifié par le Worker), pour
+//                 qu'on sache qui joue avec qui dans les parties.
+// Une fois connecté avec un pseudo, on quitte la page, comme sur la plupart des sites : retour à
+// la page d'où l'on venait (?retour=), sinon l'accueil. Déjà connecté en arrivant ici : « Mon
+// compte ».
 // Pendant l'attente du code, la boule tourne (boule-tournante.js).
 // ?retour=/chemin : page où revenir une fois connecté (par exemple le compteur).
 //
@@ -20,6 +22,7 @@
     var zone = document.getElementById('connexion');
     if (!zone || !window.mapetanqueCompte) return;
     var compte = window.mapetanqueCompte;
+    var prefixe = currentLang === 'fr' ? '/' : '/' + currentLang + '/';
 
     // Clé publique du widget Turnstile « mapetanque.be (Spin) » (tableau de bord Cloudflare).
     // Publique par nature (elle figure dans la page). Vide : pas de widget, le Worker doit alors
@@ -35,6 +38,7 @@
         email_invalide: 'compte_err_email',
         turnstile: 'compte_err_turnstile',
         trop_de_demandes: 'compte_err_trop',
+        trop_de_demandes_jour: 'compte_err_trop_jour',   // 10 demandes par connexion internet et par jour
         quota_journalier: 'compte_err_quota',
         code_invalide: 'compte_err_code',
         trop_d_essais: 'compte_err_essais',
@@ -86,19 +90,14 @@
         statut.classList.toggle('erreur', !!erreur);
     }
 
-    // Connecté : l'état « connecte », qui demande d'abord un pseudo si le compte n'en a pas
-    // encore. Avec un pseudo déjà choisi, il n'y a rien à demander : retour direct à la page
-    // d'où l'on venait, s'il y en a une. Le retour est gardé avec la demande : après le lien du
-    // mail, l'adresse de la page ne le porte plus.
+    // Connecté : direction la page d'où l'on venait, sinon l'accueil ; mais d'abord le pseudo si
+    // le compte n'en a pas encore (état « connecte »). Le retour est gardé avec la demande :
+    // après le lien du mail, l'adresse de la page ne le porte plus.
     var retourApresPseudo = null;
 
     function apresConnexion(reponse, retour) {
         compte.ouvrir(reponse);
         ecrireDemande(null);
-        if (retour && compte.session().pseudo) {
-            window.location.href = retour;
-            return;
-        }
         retourApresPseudo = retour || null;
         afficherConnecte();
     }
@@ -322,13 +321,19 @@
     // Sans pseudo (première connexion, ou compte créé avant qu'il soit obligatoire), le
     // formulaire du pseudo remplace « Continuer » : on ne quitte pas la page sans en avoir un.
     // Ensuite, le pseudo se change dans « Mon compte ».
-    function afficherConnecte(message) {
+    // destination : où aller si le compte a déjà un pseudo, à défaut de ?retour= (l'accueil, ou
+    // « Mon compte » quand on arrive ici déjà connecté).
+    function afficherConnecte(message, destination) {
         var session = compte.session();
         if (!session) {
             afficherAdresse();
             return;
         }
         var retour = retourDemande() || retourApresPseudo;
+        if (session.pseudo) {
+            window.location.replace(retour || destination || prefixe);
+            return;
+        }
         var nom = session.pseudo || session.email;
         var titre = session.pseudo ? t('compte_bonjour').replace('{pseudo}', session.pseudo) : t('compte_titre_connecte');
         var pseudoHtml = !session.pseudo
@@ -347,7 +352,6 @@
             '<p class="connexion-chapo centre">' + echapper(t('compte_connecte')).replace('{email}', '<strong class="connexion-adresse">' + echapper(session.email) + '</strong>') + '</p>' +
             '<div class="connexion-carte">' +
             pseudoHtml +
-            (retour && session.pseudo ? '  <a class="connexion-bouton" href="' + echapper(retour) + '">' + echapper(t('compte_continuer')) + '</a>' : '') +
             '  <button type="button" class="connexion-bouton secondaire" data-action="deconnecter">' + echapper(t('compte_deconnecter')) + '</button>' +
             '  <p class="connexion-statut centre" role="status"></p>' +
             '</div>');
@@ -379,8 +383,7 @@
                     if (reponse.statut === 200) {
                         // Pseudo tel que le Worker l'a enregistré (nettoyé, 20 caractères au plus)
                         compte.majPseudo(reponse.donnees.pseudo);
-                        if (retour) window.location.href = retour;
-                        else afficherConnecte(t('compte_pseudo_enregistre'));
+                        window.location.href = retour || prefixe;
                     } else {
                         afficherStatut(messageErreur(reponse.donnees), true);
                         champ.focus();
@@ -390,7 +393,6 @@
     }
 
     function pourquoiHtml() {
-        var prefixe = currentLang === 'fr' ? '/' : '/' + currentLang + '/';
         function avantage(picto, titre, texte) {
             return '  <div class="connexion-avantage">' +
                 '    <div class="connexion-picto">' + picto + '</div>' +
@@ -420,7 +422,7 @@
     if (lienDansAdresse()) {
         // rien d'autre : la page attend le clic sur « Me connecter »
     } else if (compte.session()) {
-        afficherConnecte();
+        afficherConnecte(null, prefixe + 'mon-compte.html');
         // Session expirée ou effacée depuis un autre appareil : retour au formulaire.
         compte.verifier().then(function (session) {
             if (!session) afficherAdresse();

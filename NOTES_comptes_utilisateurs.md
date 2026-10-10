@@ -690,3 +690,13 @@ avis part sur la même piste que l'ancien pour le remplacer, et repasse par la m
 « Retirer mon avis » (deux appuis) : route `POST /compte/avis/retirer` du Worker des comptes,
 immédiate et sans modération (accepté par Rémy) ; l'avis disparaît du site au renouvellement du
 paquet public (5 minutes). `mapetanque-admin` joint à un avis connecté la note du compte.
+
+Abandonné le 10 octobre 2026 : rattacher au compte les notes, avis et photos envoyés sans compte
+depuis le navigateur. Risque d'attraper les envois d'un autre sur un appareil partagé, et Rémy
+préfère la règle simple : pour qu'un avis soit dans son compte, on se connecte avant de le
+laisser. (La route `/compte/rattacher` n'a pas été mise en ligne.)
+
+Après la connexion (10 octobre 2026, demandé par Rémy) : on quitte la page Connexion, comme sur
+la plupart des sites : retour à la page d'où l'on venait (`?retour=`), sinon l'accueil. Le pseudo
+est d'abord demandé si le compte n'en a pas. Arriver sur la page Connexion en étant déjà connecté
+mène à « Mon compte ».
