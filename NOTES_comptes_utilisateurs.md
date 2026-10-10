@@ -826,3 +826,49 @@ CREATE INDEX joueurs_compte ON joueurs(compte_id);
   et heure de chaque mène, format, joueurs, place du titulaire, case « Garder ».
 - « Vos données » (4 langues) : ajouter les parties et le carnet de noms.
 
+## Étape 2, phase 2 — page « Mes parties » (décidé le 10 octobre 2026)
+
+Maquette validée par Rémy le 10 octobre 2026 (artefact « Mes parties Mapetanque » sur claude.ai).
+
+- Page à part `mes-parties.html`, en 4 langues, `noindex` et hors sitemap comme Mon compte.
+  Accès : bloc « Mes parties » de Mon compte devenu un résumé (« 46 parties · 65 % de
+  victoires · dernière le 9 oct. » + lien), lien « Enregistrée dans Mes parties » de l'écran de
+  fin du compteur, menu du compte.
+- Filtres en haut, appliqués à toute la page : période (30 jours, cette année, tout ; « Tout »
+  par défaut) et format (toutes, tête-à-tête, doublette, triplette, avec leur nombre). Toucher
+  un partenaire ou un adversaire ajoute le filtre « Avec ou contre {nom} ».
+- Ordre des blocs :
+  1. chiffres clés : victoires (anneau, « 30 sur 46 »), forme des 10 dernières (V/D, la plus
+     récente à droite), série en cours, écart moyen de points, fannys données / prises, durée
+     moyenne ;
+  2. « Avec qui » : partenaires / adversaires, comptés par joueur (pas par équipe), victoires
+     sur parties et pourcentage avec une jauge ;
+  3. parties, de la plus récente à la plus ancienne, groupées par mois (« Octobre 2026 ·
+     3 parties · 0 victoire ») ; 5 d'abord, puis « Afficher 10 de plus » et « Réduire ». Sous
+     la liste, « Voir l'activité par mois » déroule un graphique (victoires et défaites
+     empilées) : souvent creux, il ne prend pas de place par défaut ;
+  4. records : plus belle remontée (« de 4 – 11 à 13 – 12 »), plus longue série, plus grosse
+     mène, partie la plus longue ;
+  5. terrains les plus joués (3), avec le nombre de parties sans terrain indiqué ;
+  6. « Carnet de joueurs » (sans compteur à droite) : renommer un nom ; donner le nom d'un autre
+     joueur du carnet fusionne les deux.
+- Fiche d'une partie (panneau) : victoire ou défaite et score, date et heure, équipes, format et
+  objectif, durée et mènes, terrain (ou « Ajouter le terrain » par la recherche du site, sans
+  position), graphique mène par mène (nos mènes vers le haut, les leurs vers le bas), boutons
+  « Modifier les équipes », « Changer le terrain », « Retirer » (confirmation dans le panneau).
+- Page vide : « Pas encore de partie » (Caveat), « Vos parties s'enregistrent automatiquement
+  quand vous utilisez le compteur en étant identifié. », bouton « Ouvrir le compteur ».
+- Calculs dans le navigateur à partir de la liste complète (une requête par visite, pas de
+  calcul de nuit).
+- Carnet et comptes : le carnet garde les noms tapés par le titulaire. Renommer ne relie pas à
+  un compte. À l'étape B, une entrée est reliée au compte d'un ami quand il accepte
+  l'invitation : elle garde son nom (« Julie ») avec « compte Mapetanque : Jolie » en dessous,
+  et les parties passées avec lui peuvent lui être proposées en une fois (il garde celles qu'il
+  veut). Une entrée reliée garde son lien quand on la renomme.
+- Terrain d'une partie : « Ajouter le terrain » sur l'écran de fin du compteur (le plus proche
+  d'après la position, demandée seulement à ce moment), ou plus tard dans la fiche par la
+  recherche. Encore ouvert : proposer d'office le terrain le plus proche quand la position est
+  déjà autorisée, et reprendre le terrain de la partie précédente pour une revanche le même jour.
+- Étape B, en haut de la page : « Julie vous propose une partie », avec Garder ou Refuser.
+- Plus tard : partager une partie ou ses stats en image, comparer avec ses amis (après l'étape B).
+
