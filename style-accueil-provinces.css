@@ -355,17 +355,32 @@
    chevaucher le « i » du crédit photo ou être coupé — voir « Signalements » dans script.js.
    Même police que « Me localiser », en 14px, graisse normale, blanc souligné. */
 .hero-signalement {
-    /* Centré verticalement entre le bas des boutons et le bord de la bannière : le bloc occupe
-       tout l'espace restant (flex: 1) et y centre le lien. La marge négative du haut reprend les
-       10px de marge sous .controls, pour que le milieu soit pris à partir du bas des boutons. */
+    /* Placé entre le bas des boutons et le bord de la bannière, plus près du bord : le bloc occupe
+       tout l'espace restant (flex: 1) et le partage en 3/4 au-dessus du lien, 1/4 en dessous
+       (deux cales, ::before et ::after). L'écart avec le bord est ainsi la moitié de celui qu'on
+       aurait en centrant. La marge négative du haut reprend les 10px de marge sous .controls,
+       pour que l'espace soit compté à partir du bas des boutons. */
     flex: 1 1 auto;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
     margin: -10px 0 0;
     padding: 0 15px;
     text-align: center;
     line-height: 1.25;
+}
+
+.hero-signalement::before,
+.hero-signalement::after {
+    content: "";
+}
+
+.hero-signalement::before {
+    flex: 3 1 0;
+}
+
+.hero-signalement::after {
+    flex: 1 1 0;
 }
 
 @media (max-width: 1024px) {
