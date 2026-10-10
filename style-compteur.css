@@ -112,7 +112,6 @@ body.fullscreen-lock {
   padding: 5px 12px; border-radius: 16px; color: var(--sand-dim);
 }
 .target-toggle button.active{ background: var(--sand); color: var(--bg); font-weight:700; }
-.mene-count{ font-variant-numeric: tabular-nums; }
 
 /* halves */
 .halves{
@@ -148,20 +147,44 @@ body.fullscreen-lock {
   flex: 0 0 auto;
 }
 
+/* Nom de l'équipe : un bouton, qui ouvre le panneau « Équipes » */
 .name{
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: inherit;
   font-size: 14px;
   font-weight: 700;
   letter-spacing: .08em;
   text-transform: uppercase;
   color: rgba(255,255,255,.85);
+  background: none;
+  border: none;
+  cursor: pointer;
   padding: 4px 10px;
   border-radius: 8px;
   max-width: 90%;
   text-align:center;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
+.name .texte-nom{ overflow: hidden; text-overflow: ellipsis; }
+
+/* Pastille « Vous » : connecté, sur l'équipe du titulaire du compte */
+.pastille-vous{
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--sand);
+  color: var(--bg);
+  border-radius: 999px;
+  padding: 3px 8px 3px 6px;
+  font-family: 'Manrope', Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+}
+.pastille-vous svg{ width: 11px; height: 11px; stroke-width: 2.6; }
 
 .score{
   font-family: 'Manrope', Arial, sans-serif;
@@ -281,6 +304,7 @@ body.fullscreen-lock {
   white-space: nowrap;
 }
 .bottombar button:disabled{ opacity:.35; }
+.bottombar button svg{ width: 15px; height: 15px; }
 /* Petits téléphones : les trois boutons tiennent sur une ligne même en néerlandais
    (« Namen wijzigen ») */
 @media (max-width: 380px){
@@ -314,9 +338,11 @@ body.fullscreen-lock {
 .win .trophy-line{
   font-size: 12px; letter-spacing:.14em; text-transform:uppercase; color: var(--sand-dim);
 }
+/* Annonce du vainqueur : écriture manuscrite (Caveat), comme le prévoit la charte */
 .win .winner-name{
-  font-family: 'Manrope', Arial, sans-serif; font-weight:700;
-  font-size: 34px; color: var(--sand);
+  font-family: 'Caveat', 'Manrope', Arial, sans-serif; font-weight:700;
+  font-size: 44px; line-height: 1.05; color: #fff;
+  text-wrap: balance;
 }
 .win .final-score{
   font-family: 'Manrope', Arial, sans-serif; font-weight:700;
@@ -400,3 +426,126 @@ body.fullscreen-lock {
 .detail-menes .points{ font-family: 'Manrope', Arial, sans-serif; font-weight: 700; }
 .detail-menes .apres{ color: var(--sand-dim); }
 .detail-vide{ color: var(--sand-dim); font-size: 14px; }
+
+/* ---------- Écran de fin : carte de la partie enregistrée ---------- */
+.win{ overflow-y: auto; }
+.win.show{ justify-content: safe center; }
+.carte-partie{
+  width: min(340px, 100%);
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 16px;
+  padding: 12px 14px;
+  text-align: left;
+  display: grid;
+  gap: 8px;
+  font-size: 13.5px;
+  line-height: 1.4;
+  position: relative;
+  z-index: 1;
+}
+.carte-partie[hidden]{ display: none; }
+.carte-partie svg{ width: 15px; height: 15px; flex: 0 0 auto; }
+.tete-carte{ display: flex; align-items: center; gap: 7px; font-family: 'Manrope', Arial, sans-serif; font-weight: 700; font-size: 13px; color: #9fd585; }
+.tete-carte svg{ width: 16px; height: 16px; }
+.tete-carte.neutre{ color: var(--sand); }
+.ligne-carte{ display: flex; align-items: flex-start; gap: 8px; color: var(--sand); }
+.ligne-carte > svg{ color: var(--sand-dim); margin-top: 2px; }
+.ligne-carte > span{ min-width: 0; }
+.carte-partie .discret{ color: var(--sand-dim); font-size: 12.5px; }
+.resultat{ font-weight: 700; }
+.resultat.v{ color: #9fd585; }
+.resultat.d{ color: #f0a383; }
+.fanny{ background: var(--sand); color: var(--bg); font-family: 'Manrope', Arial, sans-serif; font-weight: 800; font-size: 10px; line-height: 1; letter-spacing: .08em; text-transform: uppercase; border-radius: 999px; padding: 3px 7px; }
+.liens-carte{ display: flex; flex-wrap: wrap; gap: 6px; }
+/* .win button est le gros bouton de l'écran de fin : ces liens en annulent l'allure */
+.win .lien-carte{
+  margin: 0;
+  background: rgba(255,255,255,.1);
+  color: var(--sand);
+  border: none;
+  border-radius: 999px;
+  padding: 6px 11px;
+  font-size: 12.5px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.win .lien-carte svg{ width: 13px; height: 13px; }
+.win .lien-carte.plein{ background: var(--sand); color: var(--bg); padding: 9px 14px; font-size: 13.5px; }
+.win .lien-carte.petit{ padding: 3px 9px; margin-left: 2px; }
+.choix-equipe{ display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.win .choix-equipe .lien-carte{ justify-content: center; border-radius: 10px; padding: 9px 6px; color: #fff; font-size: 13px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: block; }
+.win .choix-equipe .equipe-a{ background: var(--green); }
+.win .choix-equipe .equipe-b{ background: var(--terracotta); }
+.win .choix-equipe .aucune{ grid-column: 1 / -1; font-weight: 600; background: rgba(255,255,255,.1); }
+
+/* ---------- Feuilles : « Équipes », « Ajouter un joueur », terrains proches ---------- */
+.feuille{
+  position: absolute; inset: 0;
+  z-index: 30;
+  background: rgba(10,9,7,.6);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  opacity: 0; pointer-events: none; visibility: hidden;
+  transition: opacity .25s ease, visibility 0s linear .25s;
+  user-select: text; -webkit-user-select: text;
+}
+.feuille.show{ opacity: 1; pointer-events: auto; visibility: visible; transition: opacity .25s ease; }
+#joueurModal, #terrainModal{ z-index: 35; }
+.feuille-corps{
+  background: var(--bg);
+  border-radius: 22px 22px 0 0;
+  padding: 16px 16px max(18px, env(safe-area-inset-bottom));
+  max-height: 92%;
+  overflow-y: auto;
+  display: grid;
+  gap: 14px;
+  transform: translateY(16px);
+  transition: transform .25s ease;
+}
+.feuille.show .feuille-corps{ transform: none; }
+@media (prefers-reduced-motion: reduce){ .feuille-corps{ transition: none; transform: none; } }
+.feuille-tete{ display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.feuille-titre{ font-family: 'Manrope', Arial, sans-serif; font-weight: 800; font-size: 18px; }
+.fermer-feuille{ background: var(--bg-soft); border: none; color: var(--sand); width: 34px; height: 34px; border-radius: 50%; cursor: pointer; font-size: 15px; flex: 0 0 auto; }
+.formats{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.formats button{ background: var(--bg-soft); border: 1.5px solid transparent; color: var(--sand); border-radius: 12px; padding: 8px 4px; cursor: pointer; display: grid; gap: 2px; font-family: inherit; }
+.formats button b{ font-family: 'Manrope', Arial, sans-serif; font-weight: 800; font-size: 15px; }
+.formats button span{ font-size: 11px; color: var(--sand-dim); }
+.formats button.actif{ border-color: var(--sand); }
+.blocs-equipes{ display: grid; gap: 14px; }
+.bloc-equipe{ display: grid; gap: 6px; }
+.titre-equipe{ display: flex; align-items: center; gap: 8px; font-family: 'Manrope', Arial, sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--sand-dim); }
+.titre-equipe::before{ content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--green); }
+.bloc-equipe.b .titre-equipe::before{ background: var(--terracotta); }
+.feuille .champ{
+  background: var(--bg-soft); color: var(--sand);
+  border: 1.5px solid var(--line); border-radius: 10px;
+  font-family: inherit; font-weight: 600; font-size: 16px;
+  padding: 8px 10px; width: 100%; min-width: 0; outline: none;
+}
+.feuille .champ:focus{ border-color: var(--sand); }
+.joueur{ display: flex; align-items: center; gap: 8px; background: var(--bg-soft); border-radius: 10px; padding: 6px 6px 6px 12px; min-height: 42px; font-size: 15px; font-weight: 600; }
+.joueur .n{ flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.joueur .vous{ color: var(--sand-dim); font-weight: 400; }
+.joueur button{ background: none; border: none; color: var(--sand-dim); cursor: pointer; padding: 6px 8px; font-family: inherit; font-size: 13px; display: inline-flex; align-items: center; gap: 5px; }
+.joueur button svg, .place-libre svg{ width: 15px; height: 15px; }
+.place-libre{ background: none; border: 1.5px dashed var(--line); color: var(--sand-dim); border-radius: 10px; min-height: 42px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 7px; padding: 0 12px; }
+.case-garder{ display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: var(--sand); background: var(--bg-soft); border-radius: 12px; padding: 10px 12px; cursor: pointer; }
+.case-garder[hidden]{ display: none; }
+.case-garder input{ width: 18px; height: 18px; margin: 1px 0 0; accent-color: #74C15A; flex: 0 0 auto; }
+.case-garder small{ display: block; color: var(--sand-dim); font-size: 12px; margin-top: 2px; }
+.note-feuille{ font-size: 12.5px; color: var(--sand-dim); margin: 0; }
+.note-feuille[hidden], .recents-zone[hidden]{ display: none; }
+.bouton-plein{ background: var(--sand); color: var(--bg); border: none; border-radius: 999px; font-family: inherit; font-weight: 700; font-size: 15px; padding: 11px 22px; cursor: pointer; }
+.recents-zone{ display: grid; gap: 8px; }
+.recents{ display: flex; flex-wrap: wrap; gap: 6px; }
+.recents button{ background: var(--bg-soft); border: 1px solid var(--line); color: var(--sand); border-radius: 999px; padding: 8px 14px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+.saisie-joueur{ display: flex; gap: 6px; }
+.saisie-joueur .bouton-plein{ padding: 9px 16px; }
+.liste-terrains{ display: grid; gap: 6px; }
+.terrain-choix{ display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; background: var(--bg-soft); border: none; color: var(--sand); border-radius: 10px; padding: 10px 12px; font-family: inherit; font-size: 14px; text-align: left; cursor: pointer; }
+.terrain-choix svg{ width: 16px; height: 16px; color: var(--sand-dim); }
+.terrain-choix small{ color: var(--sand-dim); font-size: 12.5px; white-space: nowrap; }
+
