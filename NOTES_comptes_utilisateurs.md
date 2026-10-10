@@ -199,6 +199,21 @@ RGPD (voir « Noms des joueurs » dans le tableau). Les joueurs sont sur le mêm
 - QR code : à générer dans le navigateur avec une petite bibliothèque copiée dans `lib/`, comme
   Leaflet (aucune n'y est aujourd'hui).
 
+### Le QR code comme invitation (piste, 10 octobre 2026)
+
+- Ni application ni installation : l'appareil photo du téléphone lit le QR code et ouvre le site
+  dans le navigateur, sur le compteur de cette partie.
+- Aucun compte pour suivre ou saisir. Le compte est proposé à la fin, sur l'écran de victoire :
+  « Garder cette partie dans votre historique » → Connexion (Google en un toucher, ou adresse)
+  → pseudo → retour au compteur → partie enregistrée. Le QR code sert donc aussi à faire
+  connaître le site et à créer des comptes, sans rien demander pendant la partie.
+- En rejoignant, on choisit sa place parmi les joueurs saisis par le créateur (« Qui êtes-vous ? ») :
+  ce choix donne son équipe et relie ce nom de son carnet à son compte. Scanner vaut accord,
+  comme pour l'étape B.
+- Variante bien plus légère, sans temps réel ni Durable Object : un QR code (ou un lien) montré
+  seulement en fin de partie, pour que les autres joueurs la gardent dans leur historique. C'est
+  l'un des moyens envisagés pour l'étape B.
+
 ### Technique : un Durable Object par partie
 
 - Cloudflare Durable Objects, inclus dans l'offre Workers gratuite (version stockée en SQLite).
@@ -361,6 +376,9 @@ Comportements à prévoir dès l'étape 1, pour que le compte soit cohérent sur
 | Compteur (étape 2) | Panneau « Enregistrer la partie » sur l'écran de victoire | Bouton « Garder cette partie dans votre historique » sur l'écran de victoire |
 
 ### Le compteur (étape 2)
+
+Remplacé le 10 octobre 2026 par « Étape 2 — enregistrement des parties » (fin du fichier) :
+enregistrement automatique, pastille « Vous » et panneau « Équipes ». Gardé pour l'historique.
 
 Rien ne change pendant la partie (on l'utilise debout sur le terrain). Tout se passe sur l'écran
 de victoire :
@@ -704,3 +722,107 @@ Après la connexion (10 octobre 2026, demandé par Rémy) : on quitte la page Co
 la plupart des sites : retour à la page d'où l'on venait (`?retour=`), sinon l'accueil. Le pseudo
 est d'abord demandé si le compte n'en a pas. Arriver sur la page Connexion en étant déjà connecté
 mène à « Mon compte ».
+
+## Étape 2 — enregistrement des parties (décidé le 10 octobre 2026)
+
+Maquette cliquable validée par Rémy le 10 octobre 2026 (artefact « Compteur connecté » sur
+claude.ai). Deux phases : d'abord le compteur qui enregistre, ensuite la page « Mes parties »
+(liste et statistiques), avec sa propre maquette.
+
+### Pendant la partie : rien de plus à faire
+
+- Le compteur démarre pareil, connecté ou non : on marque tout de suite.
+- Connecté : une pastille « Vous » sur une moitié. Elle dit « vous êtes connecté » et « vous jouez
+  dans cette équipe ». Posée d'office sur l'équipe A, ensuite sur l'équipe de la partie
+  précédente. Aucune question au départ. La toucher (ou le nom d'équipe) ouvre « Équipes ».
+- Le bouton « Renommer » devient « Équipes », pour tout le monde :
+  - format : 1 contre 1 (tête-à-tête), 2 contre 2 (doublette), 3 contre 3 (triplette) ; par
+    défaut celui de la partie précédente, doublette la première fois ;
+  - places de chaque équipe selon le format, pouvant rester vides ; « Changer d'équipe » sur sa
+    propre ligne ; nom d'équipe facultatif ;
+  - connecté : « Ajouter un partenaire / un adversaire » propose les joueurs récents du carnet
+    (un toucher) ou un prénom à taper ; case « Garder cette partie dans Mes parties » (cochée ;
+    à décocher quand on compte pour d'autres) ;
+  - pas connecté : noms seulement, gardés sur le téléphone.
+- En tête-à-tête, pastilles +2 et +3 seulement (3 boules par joueur). Jeu à 4 boules : pas prévu.
+- Équipes inégales (2 contre 3) : pas prévues. Chacun pour soi à trois : hors sujet.
+- Nom affiché sur le compteur : le nom d'équipe s'il est saisi, sinon les prénoms
+  (« Vous & Julie », « Marc · Paul »), sinon « Équipe A / B ».
+- « Nouvelle partie » garde les joueurs (revanche sans rien régler).
+
+### À la fin : enregistrement automatique
+
+- Une partie gagnée est enregistrée seule si elle a duré au moins 3 mènes et 5 minutes (temps
+  entre le premier et le dernier point). En dessous, c'est un essai du compteur : pas
+  d'enregistrement, et pas de bouton pour forcer.
+- Partie interrompue (pluie, départ, « Nouvelle partie » en cours de jeu) : ignorée.
+- Écran de victoire, connecté : « Vous gagnez ! » (Caveat) ou « {équipe} gagne », puis un résumé
+  « Enregistrée dans Mes parties » : victoire ou défaite et score vu de son côté, fanny
+  (13 – 0) signalée, nombre de mènes et durée, « Avec Julie, contre Marc et Paul » (ou
+  « Doublette, joueurs non précisés »), « Ajouter le terrain » (le plus proche d'après la
+  position, modifiable, facultatif). Boutons « Modifier les équipes » et « Retirer ».
+- « Annuler le dernier point » après la victoire, puis nouvelle victoire : la même partie est
+  remplacée (identifiant tiré par le téléphone, voir plus bas).
+- Pas connecté : « Garder cette partie dans votre historique » (« Gratuit, sans mot de passe :
+  juste votre adresse mail. ») → Connexion → retour au compteur → « Dans quelle équipe
+  jouiez-vous ? » (et « Lequel de ces joueurs êtes-vous ? » si l'équipe est pleine, ou « Je
+  n'ai pas joué ») → partie enregistrée.
+- Pas de réseau : la partie attend sur le téléphone (localStorage) et part au retour du réseau ;
+  l'écran de fin dit « Sera enregistrée dès que possible ».
+
+### Ajouter un ami : trois étapes
+
+- A, avec l'enregistrement : carnet de noms privé (« Julie »), visible du seul titulaire du
+  compte. Suffit pour les stats par partenaire et par adversaire.
+- B, après « Mes parties » : relier un nom du carnet à un compte. L'autre reçoit la partie avec
+  Garder ou Refuser ; rien n'est partagé avant son acceptation. Après un premier « Garder », les
+  parties suivantes avec la même personne peuvent arriver directement (toujours retirables).
+  Moyen d'inviter à choisir : pseudo exact (unique, sans annuaire ni recherche), QR code montré
+  en fin de partie, ou lien envoyé par message.
+- C, ensuite : partie partagée en direct (voir « Partie partagée en direct »).
+
+### Données
+
+```sql
+-- Brouillon, à relire avant création dans la console D1.
+CREATE TABLE parties (
+  id TEXT PRIMARY KEY,               -- tiré par le téléphone (crypto.randomUUID) : renvoyer la même partie la remplace
+  compte_id TEXT NOT NULL REFERENCES comptes(id) ON DELETE CASCADE,
+  debut TEXT NOT NULL,               -- premier point (UTC, format datetime('now'))
+  fin TEXT NOT NULL,                 -- point gagnant
+  objectif INTEGER NOT NULL,         -- 11 ou 13
+  format INTEGER NOT NULL,           -- 1, 2 ou 3 joueurs par équipe
+  mon_equipe TEXT NOT NULL,          -- 'a' ou 'b'
+  score_a INTEGER NOT NULL,
+  score_b INTEGER NOT NULL,
+  victoire INTEGER NOT NULL,         -- 1 si mon équipe a gagné
+  nom_a TEXT, nom_b TEXT,            -- noms d'équipe saisis, sinon NULL
+  joueurs TEXT NOT NULL,             -- JSON { a: [joueur_id…], b: [joueur_id…] }, sans le titulaire
+  menes TEXT NOT NULL,               -- JSON, la forme de state.menes dans compteur.js
+  terrain_osm_id TEXT,               -- facultatif
+  cree TEXT NOT NULL DEFAULT (datetime('now')),
+  maj TEXT
+);
+CREATE INDEX parties_compte ON parties(compte_id, fin);
+
+-- Carnet de joueurs, privé à chaque compte. compte_lie servira à l'étape B.
+CREATE TABLE joueurs (
+  id TEXT PRIMARY KEY,
+  compte_id TEXT NOT NULL REFERENCES comptes(id) ON DELETE CASCADE,
+  nom TEXT NOT NULL,                 -- 20 caractères au plus
+  compte_lie TEXT,
+  cree TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX joueurs_compte ON joueurs(compte_id);
+```
+
+- Routes, dans `mapetanque-comptes` (il porte déjà la session) : enregistrer ou remplacer une
+  partie, la retirer, lister mes parties, lister et corriger mon carnet. Le Worker vérifie à
+  nouveau le seuil (3 mènes, 5 minutes) et la cohérence du score.
+- La suppression du compte efface ses parties et son carnet (`ON DELETE CASCADE` ; à vérifier
+  que `PRAGMA foreign_keys` est actif dans D1, sinon effacer explicitement dans
+  `/compte/supprimer`).
+- `compteur.js` garde en plus dans sa sauvegarde : identifiant de partie, heure du premier point
+  et heure de chaque mène, format, joueurs, place du titulaire, case « Garder ».
+- « Vos données » (4 langues) : ajouter les parties et le carnet de noms.
+
