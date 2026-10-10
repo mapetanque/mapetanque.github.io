@@ -100,7 +100,6 @@
       <button type="button" data-t="11">11</button>
       <button type="button" data-t="13">13</button>
     </div>
-    <div class="mene-count" id="meneLabel"></div>
     <button type="button" id="resetBtn">${libelle('compteur_nouvelle_partie')}</button>
     <button type="button" class="fullscreen-toggle-btn" id="fullscreenToggleBtn"></button>
   </div>
@@ -180,7 +179,6 @@
     boulesA: $('boulesA'), boulesB: $('boulesB'),
     nameA: $('nameA'), nameB: $('nameB'),
     controlsA: $('controlsA'), controlsB: $('controlsB'),
-    meneLabel: $('meneLabel'),
     undoBtn: $('undoBtn'),
     resetBtn: $('resetBtn'),
     win: $('winOverlay'),
@@ -334,7 +332,6 @@
     renderBoules(el.boulesB, state.scoreB);
     renderPastilles(el.controlsA);
     renderPastilles(el.controlsB);
-    el.meneLabel.textContent = libelle('compteur_mene', { n: state.menes.length });
     renderNom('a', el.nameA);
     renderNom('b', el.nameB);
     // La pastille « Vous » vue pendant la partie vaut réponse à « dans quelle équipe jouiez-vous ? »

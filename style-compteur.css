@@ -112,7 +112,6 @@ body.fullscreen-lock {
   padding: 5px 12px; border-radius: 16px; color: var(--sand-dim);
 }
 .target-toggle button.active{ background: var(--sand); color: var(--bg); font-weight:700; }
-.mene-count{ font-variant-numeric: tabular-nums; }
 
 /* halves */
 .halves{
