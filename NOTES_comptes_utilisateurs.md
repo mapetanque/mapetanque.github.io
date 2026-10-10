@@ -681,3 +681,12 @@ Proposé le 10 octobre 2026 (à confirmer par Rémy) : « Mes parties » reste u
 statistiques (nombre, scores, durée, victoires et défaites, par catégorie et par date) et
 graphiques. Tant que l'enregistrement des parties n'existe pas, la carte « bientôt » reste telle
 quelle.
+
+Modification des notes et avis (10 octobre 2026, site prêt, pas encore poussé) : dans « Mes
+envois », une note ou un avis mène à la fiche ouverte sur « Noter » (`carte.html?…&noter=1`).
+Connecté, le panneau reprend la note et le dernier avis du compte (`/compte/contributions`,
+chargé à la première ouverture de « Noter »), même donnés depuis un autre appareil ; un nouvel
+avis part sur la même piste que l'ancien pour le remplacer, et repasse par la modération.
+« Retirer mon avis » (deux appuis) : route `POST /compte/avis/retirer` du Worker des comptes,
+immédiate et sans modération (accepté par Rémy) ; l'avis disparaît du site au renouvellement du
+paquet public (5 minutes). `mapetanque-admin` joint à un avis connecté la note du compte.

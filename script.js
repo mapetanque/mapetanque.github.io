@@ -1916,6 +1916,26 @@ function entetesCompte() {
     return session ? { 'Authorization': 'Bearer ' + session.jeton } : {};
 }
 
+// Note et avis du compte (route /compte/contributions du Worker des comptes), pour que le panneau
+// « Noter » d'une fiche les reprenne, même s'ils ont été donnés depuis un autre appareil. Une
+// seule requête par page, faite à la première ouverture de « Noter » ; oubliée après un envoi.
+var MAPETANQUE_URL_COMPTES = "https://mapetanque-comptes.mapetanque.workers.dev";
+var contributionsCompte = null;
+
+function chargerContributionsCompte() {
+    if (!sessionCompte()) return Promise.resolve(null);
+    if (!contributionsCompte) {
+        contributionsCompte = fetch(MAPETANQUE_URL_COMPTES + '/compte/contributions', { headers: entetesCompte() })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .catch(function () { return null; });
+    }
+    return contributionsCompte;
+}
+
+function oublierContributionsCompte() {
+    contributionsCompte = null;
+}
+
 // ===================== Modale "Ajouter une photo" =====================
 // Même schéma que le panneau de partage ci-dessus (#share-panel/#share-overlay). Ouverte depuis
 // le bouton "Ajouter une photo" d'une popup de terrain sans photo — voir brancherPhotosPopup.
@@ -4917,6 +4937,41 @@ function brancherFicheTerrain(e, feature) {
     var noteActuelle = 0;        // note de ce navigateur, état de repos des étoiles
     var envoiEnCours = false;
 
+    // Connecté : note et avis du compte sur ce terrain (ou une piste de son groupe), repris de
+    // /compte/contributions. cible = la piste où ils sont rangés : un nouvel avis n'y remplace
+    // le précédent que s'il part sur la même piste.
+    var compte = { cible: null, note: 0, avis: null, avisPublie: false };
+
+    function cibleFiche() {
+        return compte.cible || terrainCible(osmId);
+    }
+
+    // Vote de ce navigateur (avec son jeton, qui ouvre les cases des joueurs), sinon note du compte
+    function voteFiche() {
+        return mapetanqueVoteLocal(cibleFiche()) || (compte.note ? { note: compte.note } : null);
+    }
+
+    function appliquerCompte(donnees) {
+        if (!donnees) return;
+        var membres = membresGroupe(osmId);
+        var vote = (donnees.votes || []).filter(function (v) { return membres.indexOf(v.osm_id) !== -1; })[0];
+        var avis = (donnees.avis || []).filter(function (a) {
+            return membres.indexOf(a.osm_id) !== -1 && (a.statut === 'en_attente' || a.statut === 'publie');
+        });
+        compte.avis = avis[0] || null;   // le plus récent : la version en attente s'il y en a une
+        compte.avisPublie = avis.some(function (a) { return a.statut === 'publie'; });
+        compte.note = vote ? vote.note : 0;
+        compte.cible = (compte.avis && compte.avis.osm_id) || (vote && vote.osm_id) || null;
+        if (!panneauNoter.firstChild) return;
+        etatNote();
+        majInfoAvis();
+        var zoneTexte = panneauNoter.querySelector('.avis-form textarea');
+        if (zoneTexte && compte.avis && !zoneTexte.value) {
+            zoneTexte.value = compte.avis.texte;
+            zoneTexte.dispatchEvent(new Event('input'));
+        }
+    }
+
     function construireNoter() {
         var suffixe = osmId.replace('/', '-');
         var etoiles = '';
@@ -4943,7 +4998,7 @@ function brancherFicheTerrain(e, feature) {
             // Avis : le champ est là dès l'ouverture (un avis sans note reste permis) ; le reste du
             // formulaire n'apparaît qu'au premier caractère.
             + '<form class="avis-form" novalidate>'
-            + (mapetanqueAvisDejaEnvoye(terrainCible(osmId)) ? '<p class="avis-info">' + t('avis_remplacera') + '</p>' : '')
+            + '<div class="avis-info" hidden></div>'
             + '<label for="avis-texte-' + suffixe + '">' + t('fiche_votre_avis') + ' <span class="avis-facultatif">' + t('avis_facultatif') + '</span></label>'
             + '<textarea id="avis-texte-' + suffixe + '" name="texte" maxlength="' + AVIS_TAILLE_MAX + '" placeholder="' + t('fiche_avis_exemple') + '"></textarea>'
             + '<div class="avis-suite" hidden>'
@@ -4963,11 +5018,67 @@ function brancherFicheTerrain(e, feature) {
         });
         brancherFormulaire();
         etatNote();
+        majInfoAvis();
+        chargerContributionsCompte().then(appliquerCompte);
+    }
+
+    // Au-dessus du champ d'avis : l'avis déjà donné par le compte (à modifier ou à retirer), ou
+    // celui envoyé depuis ce navigateur sans compte (« remplacera le précédent »).
+    function majInfoAvis() {
+        var info = panneauNoter.querySelector('.avis-info');
+        if (!info) return;
+        if (compte.avis) {
+            info.innerHTML = '<p>' + t(compte.avis.statut === 'en_attente' ? 'avis_modif_attente' : 'avis_modif_info') + '</p>'
+                + '<button type="button" class="fiche-lien-texte avis-retirer">' + t('avis_retirer') + '</button>';
+            info.querySelector('.avis-retirer').addEventListener('click', retirerAvis);
+            info.hidden = false;
+        } else if (mapetanqueAvisDejaEnvoye(cibleFiche())) {
+            info.innerHTML = '<p>' + t('avis_remplacera') + '</p>';
+            info.hidden = false;
+        } else {
+            info.hidden = true;
+        }
+    }
+
+    // Retrait par son auteur : immédiat, sans modération (route /compte/avis/retirer). Premier
+    // appui : demande de confirmation sur le bouton même ; second appui : retrait.
+    function retirerAvis(evt) {
+        var bouton = evt.currentTarget;
+        if (!bouton.classList.contains('confirmer')) {
+            bouton.classList.add('confirmer');
+            bouton.textContent = t('avis_retirer_confirmer');
+            return;
+        }
+        bouton.disabled = true;
+        fetch(MAPETANQUE_URL_COMPTES + '/compte/avis/retirer', {
+            method: 'POST',
+            headers: Object.assign({ 'Content-Type': 'application/json' }, entetesCompte()),
+            body: JSON.stringify({ osm_id: compte.avis.osm_id })
+        })
+            .then(function (r) {
+                if (!r.ok) throw new Error('HTTP ' + r.status);
+                oublierContributionsCompte();
+                compte.avis = null;
+                compte.avisPublie = false;
+                var formulaire = panneauNoter.querySelector('.avis-form');
+                var message = document.createElement('div');
+                message.className = 'avis-merci';
+                message.textContent = '✓ ' + t('avis_retire');
+                if (formulaire) formulaire.replaceWith(message);
+            })
+            .catch(function () {
+                bouton.disabled = false;
+                var erreur = panneauNoter.querySelector('.avis-erreur');
+                if (erreur) {
+                    erreur.textContent = t('avis_erreur');
+                    erreur.hidden = false;
+                }
+            });
     }
 
     // État du panneau d'après le vote mémorisé sur cet appareil : étoiles, libellé, cases, mention.
     function etatNote() {
-        var vote = mapetanqueVoteLocal(terrainCible(osmId));
+        var vote = voteFiche();
         noteActuelle = vote ? vote.note : 0;
         peindre(noteActuelle);
         afficherLibelle(vote ? '✓ ' + t('fiche_note_enregistree') : t('notation_votre_note'), vote ? 'ok' : '');
@@ -5020,7 +5131,7 @@ function brancherFicheTerrain(e, feature) {
         peindre(note);
 
         // Piste voisine déjà notée depuis ce navigateur : on modifie ce vote-là (voir terrainCible).
-        var cible = terrainCible(osmId);
+        var cible = cibleFiche();
         var voteExistant = mapetanqueVoteLocal(cible);
 
         fetch(MAPETANQUE_URL_NOTES + '/vote', {
@@ -5046,6 +5157,8 @@ function brancherFicheTerrain(e, feature) {
                 }
 
                 mapetanqueMemoriserVote(cible, note, data.jeton);
+                if (compte.note) compte.note = note;
+                oublierContributionsCompte();
 
                 // Le Worker renvoie l'agrégat à jour de la piste : on le recopie dans le cache local
                 // plutôt que de relancer un GET /notes, mis en cache 5 min et qui renverrait
@@ -5064,7 +5177,7 @@ function brancherFicheTerrain(e, feature) {
 
     // --- Cases des joueurs -------------------------------------------------------------------
     function majCases() {
-        var confirmes = mapetanqueConfirmationsLocales(terrainCible(osmId));
+        var confirmes = mapetanqueConfirmationsLocales(cibleFiche());
         panneauNoter.querySelectorAll('.critere-case').forEach(function (bouton) {
             bouton.setAttribute('aria-pressed', String(confirmes.indexOf(bouton.getAttribute('data-critere')) !== -1));
         });
@@ -5073,7 +5186,7 @@ function brancherFicheTerrain(e, feature) {
     // Cocher confirme (ou rafraîchit la date), décocher retire. La case change tout de suite et
     // revient en arrière si l'envoi échoue.
     function basculerCase(bouton) {
-        var cible = terrainCible(osmId);
+        var cible = cibleFiche();
         var vote = mapetanqueVoteLocal(cible);
         if (!vote || !vote.jeton || bouton.disabled) return;
 
@@ -5114,7 +5227,7 @@ function brancherFicheTerrain(e, feature) {
     function majMention() {
         var mention = panneauNoter.querySelector('.avis-mention');
         if (!mention) return;
-        var vote = mapetanqueVoteLocal(terrainCible(osmId));
+        var vote = voteFiche();
         mention.textContent = t('avis_mention')
             + (vote ? ' ' + t('fiche_note_jointe').replace('%n', vote.note + ' ★') : '');
     }
@@ -5155,7 +5268,7 @@ function brancherFicheTerrain(e, feature) {
         var erreur = formulaire.querySelector('.avis-erreur');
         // Même piste que le vote : la note jointe à l'avis est retrouvée par ce jeton, et un
         // nouvel avis remplace le précédent du même auteur sur la même piste.
-        var cible = terrainCible(osmId);
+        var cible = cibleFiche();
         var vote = mapetanqueVoteLocal(cible);
         var auteur = mapetanqueAuteurAvis();
 
@@ -5183,6 +5296,7 @@ function brancherFicheTerrain(e, feature) {
             })
             .then(function () {
                 mapetanqueMemoriserAvisEnvoye(cible);
+                oublierContributionsCompte();
                 var merci = document.createElement('div');
                 merci.className = 'avis-merci';
                 merci.textContent = '✓ ' + t('avis_merci');
@@ -5217,8 +5331,16 @@ function brancherFicheTerrain(e, feature) {
     EVENEMENTS.forEach(function (nom) { window.addEventListener(nom, surDonnees); });
 
     majResume();
-    deplierAvisParDefaut();
+    if (NOTER_A_L_OUVERTURE) {
+        NOTER_A_L_OUVERTURE = false;
+        basculer(panneauNoter);
+    } else {
+        deplierAvisParDefaut();
+    }
 }
+
+// Lien « Modifier » d'une note ou d'un avis dans « Mon compte » (carte.html?lat=…&lon=…&noter=1)
+var NOTER_A_L_OUVERTURE = new URLSearchParams(window.location.search).get('noter') === '1';
 
 
 // ===================== Chargement des clubs affiliés =====================

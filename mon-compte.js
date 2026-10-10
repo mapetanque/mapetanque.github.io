@@ -161,14 +161,18 @@
     // Réponse de /compte/contributions : { votes, avis, photos, signalements }, chaque liste du
     // plus récent au plus ancien. Tout est ramené ici à une même forme pour la liste.
 
+    // Note et avis : le lien ouvre la fiche directement sur « Noter » (&noter=1), où ils se
+    // modifient (et où l'avis se retire)
     function envoiTerrain(type, ligne) {
         var l = lieux[ligne.osm_id];
+        var modifiable = type === 'note' || type === 'avis';
         return {
             type: type,
             date: ligne.date,
             titre: l ? titreLieuRecherche(l) : (ligne.titre || t('popup_terrain_default')),
             lieu: l ? lieuTerrain(l) : '',
-            lien: l ? lienCarte(l.lat, l.lon) : null
+            lien: l ? lienCarte(l.lat, l.lon) + (modifiable ? '&noter=1' : '') : null,
+            modifiable: modifiable && !!l
         };
     }
 
@@ -233,7 +237,8 @@
             detail = echapper(e.detail);
         }
         var cote = (e.statut ? '<span class="mc-statut ' + e.statut[1] + '">' + echapper(t('moncompte_statut_' + e.statut[0])) + '</span>' : '')
-            + '<span class="mc-date">' + echapper(dateCourte(e.date)) + '</span>';
+            + '<span class="mc-date">' + echapper(dateCourte(e.date)) + '</span>'
+            + (e.modifiable ? '<span class="mc-modifier">' + echapper(t('moncompte_modifier')) + ' ›</span>' : '');
         var corps = '<span class="connexion-picto mc-picto">' + PICTOS[e.type] + '</span>'
             + '<span class="mc-envoi-corps">'
             + '<span class="mc-envoi-titre">' + echapper(e.titre) + '</span>'
