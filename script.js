@@ -1987,6 +1987,7 @@ window.ouvrirModaleAjoutPhoto = function (osmId, terrainTitre) {
         addPhotoForm.querySelector('[name="fi-text-terrain-lien-osm"]').value = osmId
             ? `https://www.openstreetmap.org/${osmId}`
             : '';
+        afficherCreditPhoto();
         if (addPhotoStatus) {
             addPhotoStatus.textContent = '';
             addPhotoStatus.className = 'add-photo-status';
@@ -2058,7 +2059,34 @@ if (addPhotoForm) {
             etiquette.dataset.i18n = 'add_photo_field_credit_label';
             etiquette.textContent = t('add_photo_field_credit_label');
         }
+
+        // À la place du champ quand on est connecté (voir afficherCreditPhoto)
+        const signature = document.createElement('p');
+        signature.id = 'add-photo-signature';
+        signature.className = 'add-photo-signature';
+        signature.style.display = 'none';
+        champCredit.after(signature);
     }
+}
+
+// Connecté avec un pseudo : la photo est créditée au pseudo du compte, sans champ à remplir, comme
+// les avis (le Worker prend de toute façon celui du compte) ; il ne se change que dans Mon compte.
+// Sinon, prénom ou pseudo libre et facultatif.
+function afficherCreditPhoto() {
+    const champCredit = addPhotoForm.querySelector('[name="credit_nom"]');
+    const signature = document.getElementById('add-photo-signature');
+    if (!champCredit || !signature) return;
+    const session = sessionCompte();
+    const pseudo = session && session.pseudo ? session.pseudo : '';
+    const etiquette = champCredit.previousElementSibling;
+
+    champCredit.value = pseudo;
+    champCredit.style.display = pseudo ? 'none' : '';
+    if (etiquette) etiquette.style.display = pseudo ? 'none' : '';
+    signature.style.display = pseudo ? '' : 'none';
+    signature.innerHTML = pseudo
+        ? t('add_photo_credit_signe').replace('{pseudo}', '<strong>' + echapperAvis(pseudo) + '</strong>')
+        : '';
 }
 
 // --- Bouton "Ajouter des photos" -----------------------------------------------------------
@@ -2689,6 +2717,7 @@ function construireModaleSignalement() {
 
                 <label class="add-photo-field-label" for="signalement-email" data-cle="signalement_field_email"></label>
                 <input type="email" id="signalement-email" name="email" required maxlength="254" autocomplete="email" class="add-photo-text-input">
+                <p class="add-photo-signature" id="signalement-email-compte" style="display:none"></p>
 
                 <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none !important">
 
@@ -2938,11 +2967,20 @@ function ouvrirModaleSignalement(options) {
     commentaire.placeholder = t(commentaire.dataset.i18nPlaceholder);
 
     // E-mail obligatoire, pour pouvoir recontacter l'auteur d'un signalement incomplet.
-    // Visiteur connecté : l'adresse de son compte est proposée d'office (il peut la changer).
-    try {
-        const session = JSON.parse(localStorage.getItem('mapetanque_session') || 'null');
-        if (session && typeof session.email === 'string') elementSignalement('#signalement-email').value = session.email;
-    } catch (e) { }
+    // Visiteur connecté : c'est l'adresse de son compte, affichée sans champ à remplir (le Worker
+    // prend de toute façon celle du compte), comme le pseudo des avis et des photos.
+    const session = sessionCompte();
+    const emailCompte = session && typeof session.email === 'string' ? session.email : '';
+    const champEmail = elementSignalement('#signalement-email');
+    const libelleEmail = elementSignalement('label[for="signalement-email"]');
+    const infoEmail = elementSignalement('#signalement-email-compte');
+    champEmail.value = emailCompte;
+    champEmail.style.display = emailCompte ? 'none' : '';
+    libelleEmail.style.display = emailCompte ? 'none' : '';
+    infoEmail.style.display = emailCompte ? '' : 'none';
+    infoEmail.innerHTML = emailCompte
+        ? t('signalement_email_compte').replace('{email}', '<strong>' + echapperAvis(emailCompte) + '</strong>')
+        : '';
 
     // Un club ne se corrige pas dans OpenStreetMap : pas d'invitation à le faire.
     elementSignalement('.signalement-osm').hidden = contexteSignalement.type === 'club';

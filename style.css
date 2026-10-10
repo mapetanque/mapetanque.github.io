@@ -2624,6 +2624,13 @@ html.menu-ouvert body {
     color: #1D2619;
     margin-bottom: -4px;
 }
+/* Pseudo (photos) ou adresse (signalements) du compte connecté, à la place du champ libre */
+.add-photo-signature {
+    margin: 0;
+    font-size: 13px;
+    color: #56604F;
+}
+.add-photo-signature strong { color: #1D2619; }
 
 .add-photo-file-input,
 .add-photo-text-input {

@@ -230,6 +230,7 @@ const translations = {
         add_photo_clear: "Retirer",
         add_photo_field_email_label: "Votre e-mail (facultatif, pour vous recontacter si besoin)",
         add_photo_field_credit_label: "Prénom ou pseudo à créditer (facultatif)",
+        add_photo_credit_signe: "Photo créditée à votre pseudo {pseudo}",
         add_photo_error_too_many: "Trois photos maximum par terrain, merci d'en retirer.",
         add_photo_quota_max: "Vous pouvez ajouter jusqu'à {n} photos pour ce terrain.",
         add_photo_quota_rest: "Vous pouvez encore ajouter {n} photos pour ce terrain.",
@@ -283,6 +284,7 @@ const translations = {
         federation_site: "Site",
         signalement_comment_placeholder_club: "Par exemple : adresse ou site web incorrect, club disparu, mauvaise fédération…",
         signalement_field_email: "Votre e-mail (pour vous recontacter si besoin, jamais publié)",
+        signalement_email_compte: "Si besoin, nous vous recontacterons à l'adresse de votre compte, {email} (jamais publiée)",
         // Filtres de la carte (voir « Filtres de la carte » dans script.js)
         filtres_effacer: "Effacer",
         filtres_voir_n: "Voir les %n terrains",
@@ -674,6 +676,7 @@ const translations = {
         add_photo_clear: "Verwijderen",
         add_photo_field_email_label: "Uw e-mail (optioneel, om u eventueel opnieuw te contacteren)",
         add_photo_field_credit_label: "Voornaam of pseudoniem voor de naamsvermelding (optioneel)",
+        add_photo_credit_signe: "Foto vermeld onder uw bijnaam {pseudo}",
         add_photo_error_too_many: "Maximaal drie foto's per terrein, gelieve er enkele weg te laten.",
         add_photo_quota_max: "U kunt tot {n} foto's toevoegen voor dit terrein.",
         add_photo_quota_rest: "U kunt nog {n} foto's toevoegen voor dit terrein.",
@@ -728,6 +731,7 @@ const translations = {
         federation_site: "Website",
         signalement_comment_placeholder_club: "Bijvoorbeeld: verkeerd adres of verkeerde website, club bestaat niet meer, verkeerde federatie…",
         signalement_field_email: "Uw e-mail (om u indien nodig te contacteren, nooit gepubliceerd)",
+        signalement_email_compte: "Indien nodig contacteren we u op het adres van uw account, {email} (nooit gepubliceerd)",
         // Filtres de la carte (voir « Filtres de la carte » dans script.js)
         filtres_effacer: "Wissen",
         filtres_voir_n: "Bekijk de %n terreinen",
@@ -1119,6 +1123,7 @@ const translations = {
         add_photo_clear: "Entfernen",
         add_photo_field_email_label: "Ihre E-Mail (optional, falls wir Sie kontaktieren müssen)",
         add_photo_field_credit_label: "Vorname oder Pseudonym für die Namensnennung (optional)",
+        add_photo_credit_signe: "Foto wird unter Ihrem Spitznamen {pseudo} genannt",
         add_photo_error_too_many: "Höchstens drei Fotos pro Platz, bitte entfernen Sie einige.",
         add_photo_quota_max: "Sie können bis zu {n} Fotos für diesen Platz hinzufügen.",
         add_photo_quota_rest: "Sie können noch {n} Fotos für diesen Platz hinzufügen.",
@@ -1173,6 +1178,7 @@ const translations = {
         federation_site: "Website",
         signalement_comment_placeholder_club: "Zum Beispiel: falsche Adresse oder Website, Verein existiert nicht mehr, falscher Verband…",
         signalement_field_email: "Ihre E-Mail-Adresse (für eventuelle Rückfragen, wird nie veröffentlicht)",
+        signalement_email_compte: "Bei Rückfragen kontaktieren wir Sie unter der Adresse Ihres Kontos, {email} (wird nie veröffentlicht)",
         // Filtres de la carte (voir « Filtres de la carte » dans script.js)
         filtres_effacer: "Zurücksetzen",
         filtres_voir_n: "%n Plätze anzeigen",
@@ -1565,6 +1571,7 @@ const translations = {
         add_photo_clear: "Remove",
         add_photo_field_email_label: "Your email (optional, in case we need to get back to you)",
         add_photo_field_credit_label: "First name or nickname to credit (optional)",
+        add_photo_credit_signe: "Photo credited to your nickname {pseudo}",
         add_photo_error_too_many: "Three photos max per court, please remove some.",
         add_photo_quota_max: "You can add up to {n} photos for this court.",
         add_photo_quota_rest: "You can add {n} more photos for this court.",
@@ -1618,6 +1625,7 @@ const translations = {
         federation_site: "Website",
         signalement_comment_placeholder_club: "For example: wrong address or website, club no longer exists, wrong federation…",
         signalement_field_email: "Your email (so we can get back to you if needed, never published)",
+        signalement_email_compte: "If needed, we'll get back to you at your account's address, {email} (never published)",
         // Filtres de la carte (voir « Filtres de la carte » dans script.js)
         filtres_effacer: "Clear",
         filtres_voir_n: "Show the %n courts",
