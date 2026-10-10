@@ -434,7 +434,7 @@ comme dans les tables existantes : les comparaisons d'échéance se font en text
 CREATE TABLE comptes (
   id TEXT PRIMARY KEY,                 -- crypto.randomUUID()
   email TEXT NOT NULL UNIQUE,          -- en minuscules, espaces retirés
-  pseudo TEXT,                         -- facultatif, 30 caractères au plus
+  pseudo TEXT,                         -- obligatoire depuis le 10 octobre 2026, 20 caractères au plus
   langue TEXT NOT NULL DEFAULT 'fr',   -- fr, nl, de, en : langue des mails
   cree TEXT NOT NULL DEFAULT (datetime('now')),
   derniere_connexion TEXT
@@ -513,7 +513,7 @@ Toutes en JSON. « Jeton » = en-tête `Authorization: Bearer <jeton de session>
 | `POST /compte/connexion` | `lien` (jeton du lien) | `{ jeton, compte }` | Appelée par le bouton « Me connecter » de la page d'arrivée, jamais à l'ouverture du lien. Crée le compte s'il n'existe pas. |
 | `POST /compte/code` | `demande`, `code` | `{ jeton, compte }` | 5 essais par demande, puis il faut redemander un mail. |
 | `GET /compte/moi` | jeton | `{ email, pseudo, langue, cree }` | 401 si le jeton est absent, inconnu ou expiré : la page oublie alors la session. |
-| `POST /compte/pseudo` | jeton, `pseudo` | `{ pseudo }` | 30 caractères au plus. Obligatoire et unique depuis le 10 octobre 2026 (voir « Pseudo obligatoire et unique ») : erreurs `pseudo_vide`, `pseudo_pris` (409), `pseudo_invalide`. |
+| `POST /compte/pseudo` | jeton, `pseudo` | `{ pseudo }` | 20 caractères au plus (30 jusqu'au 10 octobre 2026). Obligatoire et unique depuis le 10 octobre 2026 (voir « Pseudo obligatoire et unique ») : erreurs `pseudo_vide`, `pseudo_pris` (409), `pseudo_invalide`. |
 | `POST /compte/deconnexion` | jeton | `{ ok }` | Efface la session de cet appareil seulement. |
 | `GET /compte/contributions` | jeton | listes `votes`, `avis`, `photos`, `signalements` avec terrain, date et statut | Une requête par table, sur l'index `compte_id`. |
 | `POST /compte/supprimer` | jeton, `confirmation: true` | `{ ok }` | Efface le compte et ses sessions ; met `compte_id` à NULL dans les contributions et les rend anonymes (pseudo des avis, crédit des photos : voir RGPD). |
@@ -674,3 +674,10 @@ et correction de l'envoi des signalements (variable `email` jamais déclarée de
 9 octobre : tous les signalements échouaient).
 Suite : ligne compte en haut du menu mobile et lien dans la barre de l'ordinateur ; puis
 modification de ses notes et avis depuis « Mon compte ».
+
+Proposé le 10 octobre 2026 (à confirmer par Rémy) : « Mes parties » reste un résumé court dans
+« Mon compte » (trois chiffres : parties jouées, part de victoires, dernière partie) avec un lien
+« Voir mes statistiques » vers une page à part (`mes-parties.html`) : historique filtrable,
+statistiques (nombre, scores, durée, victoires et défaites, par catégorie et par date) et
+graphiques. Tant que l'enregistrement des parties n'existe pas, la carte « bientôt » reste telle
+quelle.

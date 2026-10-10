@@ -333,7 +333,7 @@
             return '<form class="mc-pseudo-form" novalidate>' +
                 '  <label class="connexion-label" for="mc-pseudo">' + echapper(t('compte_pseudo_label')) + '</label>' +
                 '  <div class="connexion-pseudo-ligne">' +
-                '    <input type="text" id="mc-pseudo" class="connexion-champ" maxlength="30" autocomplete="nickname" placeholder="' + echapper(t('compte_pseudo_aide')) + '" value="' + echapper(session.pseudo || '') + '">' +
+                '    <input type="text" id="mc-pseudo" class="connexion-champ" maxlength="20" autocomplete="nickname" placeholder="' + echapper(t('compte_pseudo_aide')) + '" value="' + echapper(session.pseudo || '') + '">' +
                 '    <button type="submit" class="connexion-bouton">' + echapper(t('compte_pseudo_ok')) + '</button>' +
                 '  </div>' +
                 '  <p class="connexion-mention">' + echapper(t('compte_pseudo_pourquoi')) + '</p>' +

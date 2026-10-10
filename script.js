@@ -266,6 +266,7 @@ function construireNavBureau() {
             ${lien(prefixe + 'la-petanque.html', 'game-nav-link petanque', t('menu_la_petanque'))}
         </span>
         <nav id="desktop-nav">
+            <span class="nav-compte-zone">${lienCompteBureauHtml(prefixe)}</span>
             <span id="lang-switcher-inline">${langues}</span>
         </nav>`;
 
@@ -5265,6 +5266,55 @@ const ICONES_MENU = {
     telephone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>'
 };
 
+// ===================== Ligne du compte (menu mobile, barre de l'ordinateur) =====================
+// Maquette validée : maquettes/mon-compte/index.html, écrans 6 et 7. Connecté : pastille avec
+// l'initiale, pseudo (ou adresse) et « Voir mon compte » ; pas connecté : picto personne et
+// « Se connecter ». Lu dans la session gardée par le navigateur (sessionCompte), sans requête.
+function pictoPersonne() {
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+}
+
+function ligneCompteMenuHtml(prefixe) {
+    const session = sessionCompte();
+    if (session) {
+        const nom = session.pseudo || session.email || '';
+        return `<a class="menu-compte" href="${prefixe}mon-compte.html"${attributPageCourante(prefixe + 'mon-compte.html')}>
+                <span class="menu-compte-pastille" aria-hidden="true">${echapperAvis(nom.charAt(0).toUpperCase())}</span>
+                <span class="menu-compte-texte"><b>${echapperAvis(nom)}</b><span>${t('menu_voir_compte')}</span></span>
+                <span class="menu-compte-fleche">${ICONES_MENU.fleche}</span>
+            </a>`;
+    }
+    return `<a class="menu-compte" href="${prefixe}connexion.html"${attributPageCourante(prefixe + 'connexion.html')}>
+                <span class="menu-compte-pastille vide">${pictoPersonne()}</span>
+                <span class="menu-compte-texte"><b>${t('menu_se_connecter')}</b><span>${t('menu_se_connecter_aide')}</span></span>
+                <span class="menu-compte-fleche">${ICONES_MENU.fleche}</span>
+            </a>`;
+}
+
+// Barre de l'ordinateur, avant les langues : pastille verte « Se connecter », puis la même
+// pastille avec le pseudo (ou l'adresse) une fois connecté.
+function lienCompteBureauHtml(prefixe) {
+    const session = sessionCompte();
+    if (session) {
+        const nom = session.pseudo || session.email || '';
+        return `<a href="${prefixe}mon-compte.html" class="nav-compte" title="${t('menu_voir_compte')}">${echapperAvis(nom)}</a>`;
+    }
+    return `<a href="${prefixe}connexion.html" class="nav-compte">${t('menu_se_connecter')}</a>`;
+}
+
+// Connexion, déconnexion ou pseudo changé (dans cette page ou un autre onglet)
+function majLigneCompte() {
+    const prefixe = currentLang === 'fr' ? '/' : '/' + currentLang + '/';
+    const zone = document.querySelector('.menu-compte-zone');
+    if (zone) zone.innerHTML = ligneCompteMenuHtml(prefixe);
+    const bureau = document.querySelector('.nav-compte-zone');
+    if (bureau) bureau.innerHTML = lienCompteBureauHtml(prefixe);
+}
+window.addEventListener('mapetanque:compte', majLigneCompte);
+window.addEventListener('storage', function (e) {
+    if (e.key === 'mapetanque_session') majLigneCompte();
+});
+
 function construireMenu() {
     if (!sideMenu) return;
 
@@ -5289,6 +5339,8 @@ function construireMenu() {
                 <a href="${prefixe}"><img class="menu-logo" src="/images/mapetanque-logo-fonce.svg" width="226" height="39" alt="Mapetanque"></a>
                 <button type="button" class="menu-fermer" aria-label="${t('close_menu')}">${ICONES_MENU.fermer}</button>
             </div>
+
+            <div class="menu-compte-zone menu-apparait" style="--delai: 0.1s">${ligneCompteMenuHtml(prefixe)}</div>
 
             <div class="menu-installer menu-apparait" data-installer hidden style="--delai: 0.16s">
                 <button type="button" class="menu-installer-bouton">${ICONES_MENU.telephone}${t('pied_installer')}</button>

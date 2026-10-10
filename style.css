@@ -264,6 +264,34 @@ body.fullscreen-lock {
     color: #74C15A;
 }
 
+/* Compte, dans la barre de l'ordinateur : pastille verte « Se connecter », puis la même avec le
+   pseudo une fois connecté (20 caractères au plus : coupé au-delà de 160 px). */
+.nav-compte-zone {
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+}
+
+.nav-compte {
+    display: block;
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 7px 15px;
+    border-radius: 999px;
+    background: #74C15A;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    transition: background-color 0.15s ease;
+}
+
+.nav-compte:hover {
+    background: #56A03D;
+}
+
 /* Sélecteur de langue discret (repli manuel ; la détection automatique suffit dans l'immense
    majorité des cas, donc pas besoin d'un bouton bien visible comme avant) */
 #lang-switcher-inline {
@@ -1940,6 +1968,81 @@ html.menu-ouvert body {
 .menu-entete + .menu-section,
 .menu-installer[hidden] + .menu-section {
     margin-top: 40px;
+}
+
+/* Ligne du compte, tout en haut du menu (maquettes/mon-compte/, écrans 6 et 7) : pastille avec
+   l'initiale (connecté) ou picto personne, nom ou « Se connecter », flèche. */
+.menu-compte {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    max-width: 520px;
+    margin-top: 22px;
+    padding: 4px 14px 20px 0;
+    border-bottom: 1px solid #E2E6DE;
+    text-decoration: none;
+    color: #1D2619;
+}
+
+.menu-compte-pastille {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #74C15A;
+    box-shadow: 0 0 0 4px #E7F4E1;
+    font-family: 'Manrope', Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: #fff;
+}
+
+.menu-compte-pastille.vide {
+    background: #E7F4E1;
+    box-shadow: none;
+    color: #3D7A2A;
+}
+
+.menu-compte-pastille svg {
+    width: 22px;
+    height: 22px;
+}
+
+.menu-compte-texte {
+    flex: 1;
+    min-width: 0;
+}
+
+.menu-compte-texte b {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: 'Manrope', Arial, sans-serif;
+    font-size: 19px;
+    font-weight: 800;
+}
+
+.menu-compte-texte span {
+    font-size: 14px;
+    color: #56604F;
+}
+
+.menu-compte-fleche {
+    display: flex;
+    color: #3D7A2A;
+}
+
+.menu-compte-fleche svg {
+    width: 20px;
+    height: 20px;
+}
+
+.menu-compte-zone + .menu-installer {
+    margin-top: 22px;
 }
 
 /* « Installer l'application » : grand bouton sous l'en-tête, sombre comme le pied de page, avec
