@@ -1901,13 +1901,18 @@ shareCopyBtn.addEventListener('click', function () {
 // session, ou si elle a expiré, l'envoi reste anonyme, comme avant. Lu directement dans le
 // stockage du navigateur (même clé que compte.js), compte.js n'étant chargé que sur la page
 // Connexion. Les Workers acceptent l'en-tête Authorization (CORS) depuis l'étape 3 des comptes.
-function entetesCompte() {
+function sessionCompte() {
     try {
         var session = JSON.parse(localStorage.getItem('mapetanque_session') || 'null');
-        return session && typeof session.jeton === 'string' ? { 'Authorization': 'Bearer ' + session.jeton } : {};
+        return session && typeof session.jeton === 'string' ? session : null;
     } catch (e) {
-        return {};
+        return null;
     }
+}
+
+function entetesCompte() {
+    var session = sessionCompte();
+    return session ? { 'Authorization': 'Bearer ' + session.jeton } : {};
 }
 
 // ===================== Modale "Ajouter une photo" =====================
@@ -4942,8 +4947,7 @@ function brancherFicheTerrain(e, feature) {
             + '<textarea id="avis-texte-' + suffixe + '" name="texte" maxlength="' + AVIS_TAILLE_MAX + '" placeholder="' + t('fiche_avis_exemple') + '"></textarea>'
             + '<div class="avis-suite" hidden>'
             + '<div class="avis-compteur" aria-live="polite">0 / ' + AVIS_TAILLE_MAX + '</div>'
-            + '<label for="avis-pseudo-' + suffixe + '">' + t('avis_champ_pseudo') + ' <span class="avis-facultatif">' + t('avis_facultatif') + '</span></label>'
-            + '<input type="text" id="avis-pseudo-' + suffixe + '" name="pseudo" maxlength="40" autocomplete="nickname" placeholder="' + t('avis_anonyme') + '">'
+            + champPseudoAvis(suffixe)
             // Champ piège : invisible pour un visiteur, rempli par les robots.
             + '<input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="avis-piege" aria-hidden="true">'
             + '<p class="avis-mention"></p>'
@@ -5129,6 +5133,18 @@ function brancherFicheTerrain(e, feature) {
             bouton.disabled = zoneTexte.value.trim().length < 3;
         });
         formulaire.addEventListener('submit', envoyerAvis);
+    }
+
+    // Connecté avec un pseudo : l'avis est signé du pseudo du compte, sans champ à remplir (le
+    // Worker prend de toute façon celui du compte). Sinon, prénom ou pseudo facultatif.
+    function champPseudoAvis(suffixe) {
+        var session = sessionCompte();
+        if (session && session.pseudo) {
+            return '<p class="avis-signature">' + t('avis_signe').replace('{pseudo}', '<strong>' + echapperAvis(session.pseudo) + '</strong>') + '</p>'
+                + '<input type="hidden" name="pseudo" value="' + echapperAvis(session.pseudo) + '">';
+        }
+        return '<label for="avis-pseudo-' + suffixe + '">' + t('avis_champ_pseudo') + ' <span class="avis-facultatif">' + t('avis_facultatif') + '</span></label>'
+            + '<input type="text" id="avis-pseudo-' + suffixe + '" name="pseudo" maxlength="40" autocomplete="nickname" placeholder="' + t('avis_anonyme') + '">';
     }
 
     function envoyerAvis(evt) {

@@ -8,8 +8,10 @@
 //   - arrivee   : page ouverte depuis le lien du mail (#lien=…), bouton « Me connecter ». C'est
 //                 ce clic qui consomme le lien, pas l'ouverture de la page : les messageries qui
 //                 ouvrent les liens toutes seules ne le gâchent pas ;
-//   - connecte  : pastille avec l'initiale, adresse du compte, pseudo proposé juste après la
-//                 connexion s'il n'y en a pas encore, bouton « Me déconnecter ».
+//   - connecte  : pastille avec l'initiale, adresse du compte, bouton « Me déconnecter ». Tant
+//                 que le compte n'a pas de pseudo, il est demandé ici avant tout le reste : il
+//                 est obligatoire et unique sur le site (vérifié par le Worker), pour qu'on
+//                 sache qui joue avec qui dans les parties.
 // Pendant l'attente du code, la boule tourne (boule-tournante.js).
 // ?retour=/chemin : page où revenir une fois connecté (par exemple le compteur).
 //
@@ -38,7 +40,10 @@
         trop_d_essais: 'compte_err_essais',
         lien_expire: 'compte_err_expire',
         lien_utilise: 'compte_err_utilise',
-        lien_invalide: 'compte_err_lien'
+        lien_invalide: 'compte_err_lien',
+        pseudo_vide: 'compte_err_pseudo_vide',
+        pseudo_pris: 'compte_err_pseudo_pris',
+        pseudo_invalide: 'compte_err_pseudo_invalide'
     };
 
     function echapper(texte) {
@@ -81,14 +86,21 @@
         statut.classList.toggle('erreur', !!erreur);
     }
 
-    // Connecté : l'état « connecte », qui propose un pseudo si le compte n'en a pas encore.
-    // Avec un pseudo déjà choisi, il n'y a rien à demander : retour direct à la page d'où l'on
-    // venait, s'il y en a une.
+    // Connecté : l'état « connecte », qui demande d'abord un pseudo si le compte n'en a pas
+    // encore. Avec un pseudo déjà choisi, il n'y a rien à demander : retour direct à la page
+    // d'où l'on venait, s'il y en a une. Le retour est gardé avec la demande : après le lien du
+    // mail, l'adresse de la page ne le porte plus.
+    var retourApresPseudo = null;
+
     function apresConnexion(reponse, retour) {
         compte.ouvrir(reponse);
         ecrireDemande(null);
-        if (retour && compte.session().pseudo) window.location.href = retour;
-        else afficherConnecte(null, true);
+        if (retour && compte.session().pseudo) {
+            window.location.href = retour;
+            return;
+        }
+        retourApresPseudo = retour || null;
+        afficherConnecte();
     }
 
 
@@ -307,24 +319,26 @@
         });
     }
 
-    // proposerPseudo : seulement juste après une connexion, quand le compte n'a pas encore de
-    // pseudo (ensuite, le pseudo se change dans « Mon compte »).
-    function afficherConnecte(message, proposerPseudo) {
+    // Sans pseudo (première connexion, ou compte créé avant qu'il soit obligatoire), le
+    // formulaire du pseudo remplace « Continuer » : on ne quitte pas la page sans en avoir un.
+    // Ensuite, le pseudo se change dans « Mon compte ».
+    function afficherConnecte(message) {
         var session = compte.session();
         if (!session) {
             afficherAdresse();
             return;
         }
-        var retour = retourDemande();
+        var retour = retourDemande() || retourApresPseudo;
         var nom = session.pseudo || session.email;
         var titre = session.pseudo ? t('compte_bonjour').replace('{pseudo}', session.pseudo) : t('compte_titre_connecte');
-        var pseudoHtml = proposerPseudo && !session.pseudo
+        var pseudoHtml = !session.pseudo
             ? '  <form class="connexion-pseudo" novalidate>' +
-              '    <label class="connexion-label" for="connexion-pseudo">' + echapper(t('compte_pseudo_label')) + '</label>' +
+              '    <label class="connexion-label" for="connexion-pseudo">' + echapper(t('compte_pseudo_choisir')) + '</label>' +
               '    <div class="connexion-pseudo-ligne">' +
-              '      <input type="text" id="connexion-pseudo" class="connexion-champ" maxlength="30" autocomplete="nickname" placeholder="' + echapper(t('compte_pseudo_aide')) + '">' +
+              '      <input type="text" id="connexion-pseudo" class="connexion-champ" maxlength="30" autocomplete="nickname" required placeholder="' + echapper(t('compte_pseudo_aide')) + '">' +
               '      <button type="submit" class="connexion-bouton">' + echapper(t('compte_pseudo_ok')) + '</button>' +
               '    </div>' +
+              '    <p class="connexion-mention">' + echapper(t('compte_pseudo_pourquoi')) + '</p>' +
               '  </form>'
             : '';
         poserEtat('connecte',
@@ -333,7 +347,7 @@
             '<p class="connexion-chapo centre">' + echapper(t('compte_connecte')).replace('{email}', '<strong class="connexion-adresse">' + echapper(session.email) + '</strong>') + '</p>' +
             '<div class="connexion-carte">' +
             pseudoHtml +
-            (retour ? '  <a class="connexion-bouton" href="' + echapper(retour) + '">' + echapper(t('compte_continuer')) + '</a>' : '') +
+            (retour && session.pseudo ? '  <a class="connexion-bouton" href="' + echapper(retour) + '">' + echapper(t('compte_continuer')) + '</a>' : '') +
             '  <button type="button" class="connexion-bouton secondaire" data-action="deconnecter">' + echapper(t('compte_deconnecter')) + '</button>' +
             '  <p class="connexion-statut centre" role="status"></p>' +
             '</div>');
@@ -347,12 +361,14 @@
 
         var formPseudo = zone.querySelector('.connexion-pseudo');
         if (!formPseudo) return;
+        formPseudo.querySelector('input').focus();
         formPseudo.addEventListener('submit', function (e) {
             e.preventDefault();
             var champ = formPseudo.querySelector('input');
             var bouton = formPseudo.querySelector('button');
             var pseudo = champ.value.trim();
             if (!pseudo) {
+                afficherStatut(t('compte_err_pseudo_vide'), true);
                 champ.focus();
                 return;
             }
@@ -363,9 +379,11 @@
                     if (reponse.statut === 200) {
                         // Pseudo tel que le Worker l'a enregistré (nettoyé, 30 caractères au plus)
                         compte.majPseudo(reponse.donnees.pseudo);
-                        afficherConnecte(t('compte_pseudo_enregistre'));
+                        if (retour) window.location.href = retour;
+                        else afficherConnecte(t('compte_pseudo_enregistre'));
                     } else {
                         afficherStatut(messageErreur(reponse.donnees), true);
+                        champ.focus();
                     }
                 });
         });
@@ -406,7 +424,7 @@
         // Session expirée ou effacée depuis un autre appareil : retour au formulaire.
         compte.verifier().then(function (session) {
             if (!session) afficherAdresse();
-            else if (zone.dataset.etat === 'connecte') afficherConnecte();
+            else if (zone.dataset.etat === 'connecte' && !(zone.querySelector('#connexion-pseudo') || {}).value) afficherConnecte();
         });
     } else if (lireDemande()) {
         afficherCode(lireDemande());

@@ -1,0 +1,313 @@
+/* =============================================================================================
+   Page « Mon compte » (mon-compte.html, générée par scripts/generer_mon_compte.py).
+   Fichier additif : la page charge style-connexion.css (cartes, boutons, pastille, pictos de la
+   page Connexion), puis cette feuille pour ce qui lui est propre. Mise en page validée sur
+   maquettes/mon-compte/index.html, couleurs de la charte (CHARTE.md).
+============================================================================================= */
+
+.mc-titre {
+    font-family: 'Manrope', Arial, sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    color: #1D2619;
+    margin: 28px 0 12px;
+}
+
+.mc-titre-suppression {
+    margin-top: 12px;
+}
+
+.mc-lien {
+    color: #3D7A2A;
+    text-underline-offset: 3px;
+}
+
+.mc-apres-liste {
+    margin-top: 12px;
+}
+
+/* --- Pseudo : une ligne, « Modifier » ouvre le champ sur place ----------------------------- */
+.mc-pseudo-ligne {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.mc-libelle {
+    display: block;
+    font-size: 13px;
+    color: #56604F;
+    margin-bottom: 2px;
+}
+
+.mc-pseudo-valeur {
+    font-size: 15px;
+    color: #1D2619;
+    overflow-wrap: anywhere;
+}
+
+.mc-pseudo-aucun {
+    font-size: 15px;
+    color: #8a9185;
+}
+
+.mc-pseudo-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.mc-annuler {
+    align-self: flex-start;
+}
+
+/* --- Filtres, qui servent aussi de résumé -------------------------------------------------- */
+.mc-filtres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.mc-filtre {
+    font-family: inherit;
+    font-size: 13px;
+    padding: 6px 11px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid #d6d9d2;
+    color: #1D2619;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.mc-filtre:hover {
+    border-color: #74C15A;
+}
+
+.mc-filtre b {
+    margin-left: 4px;
+}
+
+.mc-filtre.actif {
+    background: #1D2619;
+    border-color: #1D2619;
+    color: #fff;
+}
+
+/* --- Liste des envois ---------------------------------------------------------------------- */
+.mc-envois {
+    background: #fff;
+    border: 1px solid #E2E6DE;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.mc-envois ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.mc-envois li + li {
+    border-top: 1px solid #eef0ec;
+}
+
+.mc-envoi {
+    display: flex;
+    gap: 11px;
+    align-items: flex-start;
+    padding: 11px 12px;
+    color: inherit;
+    text-decoration: none;
+}
+
+a.mc-envoi:hover {
+    background: #F7F9F6;
+}
+
+.mc-picto {
+    width: 34px;
+    height: 34px;
+}
+
+.mc-picto svg {
+    width: 18px;
+    height: 18px;
+}
+
+.mc-envoi-corps {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.mc-envoi-titre {
+    font-size: 14px;
+    font-weight: bold;
+    color: #1D2619;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mc-envoi-lieu {
+    font-size: 12.5px;
+    color: #56604F;
+    margin-top: 1px;
+}
+
+.mc-envoi-detail {
+    font-size: 13px;
+    line-height: 1.4;
+    color: #56604F;
+    margin-top: 4px;
+}
+
+.mc-etoiles {
+    color: #f2a93b;
+    letter-spacing: 1px;
+}
+
+.mc-etoiles i {
+    color: #d9dcd5;
+    font-style: normal;
+}
+
+.mc-envoi-cote {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+    flex-shrink: 0;
+}
+
+.mc-date {
+    font-size: 12px;
+    color: #56604F;
+}
+
+.mc-statut {
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 6px;
+    padding: 2px 7px;
+    white-space: nowrap;
+}
+
+/* En attente : terre battue en accent ; accepté ou publié : vert ; refusé : gris */
+.mc-statut.attente {
+    background: #F8E8E1;
+    color: #B5502E;
+}
+
+.mc-statut.ok {
+    background: #E7F4E1;
+    color: #3D7A2A;
+}
+
+.mc-statut.non {
+    background: #efefed;
+    color: #56604F;
+}
+
+.mc-voir-plus {
+    display: block;
+    width: 100%;
+    font-family: inherit;
+    font-size: 13.5px;
+    color: #3D7A2A;
+    background: none;
+    border: none;
+    border-top: 1px solid #eef0ec;
+    padding: 12px;
+    cursor: pointer;
+}
+
+.mc-voir-plus:hover {
+    background: #F7F9F6;
+}
+
+/* --- Compte sans envoi --------------------------------------------------------------------- */
+.mc-vide {
+    text-align: center;
+}
+
+.mc-vide p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #56604F;
+    margin: 0;
+}
+
+.mc-raccourcis {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.mc-raccourci {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: left;
+    color: #1D2619;
+    text-decoration: none;
+    background: #fff;
+    border: 1px solid #E2E6DE;
+    border-radius: 12px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.mc-raccourci:hover {
+    border-color: #74C15A;
+}
+
+/* --- Mes parties (annoncé) ----------------------------------------------------------------- */
+.mc-parties {
+    margin-bottom: 0;
+    opacity: 0.85;
+}
+
+/* --- Suppression --------------------------------------------------------------------------- */
+.mc-supprimer {
+    margin: 22px 0 8px;
+}
+
+.mc-lien-danger {
+    font-family: inherit;
+    font-size: 13.5px;
+    color: #C62828;
+    background: none;
+    border: none;
+    padding: 0;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+}
+
+.mc-effets {
+    margin: 0 0 18px;
+    padding-left: 20px;
+    font-size: 15px;
+    line-height: 1.55;
+    color: #1D2619;
+}
+
+.mc-effets li {
+    margin-bottom: 8px;
+}
+
+.connexion-bouton.mc-danger {
+    background: #C62828;
+}
+
+.connexion-bouton.mc-danger:hover {
+    background: #a91f1f;
+}

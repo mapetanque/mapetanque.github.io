@@ -102,9 +102,14 @@ tournois, en temps voulu (tournois une fois l'usage confirmé).
   à réessayer). Limiter aussi les envois de lien par adresse et par IP : avec 100 mails/jour, un
   formulaire rempli en boucle bloquerait toutes les connexions de la journée.
 - RGPD :
-  - suppression de compte avec effacement réel. Les avis publiés sont supprimés ou détachés du
-    compte (à décider) ; les photos déjà sur Mapillary restent sous CC BY-SA, sauf demande de
-    retrait.
+  - suppression de compte avec effacement réel. Décidé le 8 octobre 2026 : les contributions
+    restent mais deviennent vraiment anonymes, comme le promet confidentialite.html. Pas
+    seulement `compte_id` à NULL : on retire aussi le pseudo affiché avec les avis (`avis.pseudo`
+    à NULL, `auteur` `compte:<id>` remplacé par une valeur qui ne mène plus au compte) et le
+    crédit des photos (`photos.credit_nom` à NULL), pour qu'on ne voie plus que « Anonyme ».
+    Les photos déjà sur Mapillary restent sous CC BY-SA, sauf demande de retrait. Penser au
+    crédit déjà écrit dans data/photos_mapillary.json (exporterPhotosMapillary garde un
+    `credit_nom` existant) : le retirer aussi à l'export suivant.
   - réécrire la section « Vos données » en FR/NL/DE/EN. Elle dit aujourd'hui « pas de compte, et
     rien n'est transmis à qui que ce soit ». Ajouter : ce que contient un compte, Resend comme
     sous-traitant des mails (choisir sa région Europe si elle est proposée), Google si la
@@ -508,10 +513,10 @@ Toutes en JSON. « Jeton » = en-tête `Authorization: Bearer <jeton de session>
 | `POST /compte/connexion` | `lien` (jeton du lien) | `{ jeton, compte }` | Appelée par le bouton « Me connecter » de la page d'arrivée, jamais à l'ouverture du lien. Crée le compte s'il n'existe pas. |
 | `POST /compte/code` | `demande`, `code` | `{ jeton, compte }` | 5 essais par demande, puis il faut redemander un mail. |
 | `GET /compte/moi` | jeton | `{ email, pseudo, langue, cree }` | 401 si le jeton est absent, inconnu ou expiré : la page oublie alors la session. |
-| `POST /compte/pseudo` | jeton, `pseudo` | `{ pseudo }` | 30 caractères au plus, vide = anonyme. |
+| `POST /compte/pseudo` | jeton, `pseudo` | `{ pseudo }` | 30 caractères au plus. Obligatoire et unique depuis le 10 octobre 2026 (voir « Pseudo obligatoire et unique ») : erreurs `pseudo_vide`, `pseudo_pris` (409), `pseudo_invalide`. |
 | `POST /compte/deconnexion` | jeton | `{ ok }` | Efface la session de cet appareil seulement. |
 | `GET /compte/contributions` | jeton | listes `votes`, `avis`, `photos`, `signalements` avec terrain, date et statut | Une requête par table, sur l'index `compte_id`. |
-| `POST /compte/supprimer` | jeton, `confirmation: true` | `{ ok }` | Efface le compte et ses sessions ; met `compte_id` à NULL dans les contributions (ou les efface : à décider, voir RGPD). |
+| `POST /compte/supprimer` | jeton, `confirmation: true` | `{ ok }` | Efface le compte et ses sessions ; met `compte_id` à NULL dans les contributions et les rend anonymes (pseudo des avis, crédit des photos : voir RGPD). |
 
 `compte` dans les réponses = `{ email, pseudo, langue }`, sans identifiant interne.
 
@@ -563,6 +568,41 @@ Routes concernées : `POST /vote` et `POST /confirmation` (`mapetanque-notes`), 
 4. Page Mon compte : pseudo, contributions et statut, déconnexion, suppression.
 5. « Vos données » réécrite en 4 langues, avant la mise en ligne du bouton dans l'en-tête.
 
+
+## Pseudo obligatoire et unique (décidé le 10 octobre 2026)
+
+Pourquoi : pour les parties et leurs statistiques, il faut savoir qui joue avec qui ; plusieurs
+« Anonyme » rendraient l'historique illisible. Le pseudo du compte n'est pas imposé aux
+contributions publiques : le formulaire d'avis garde son propre champ pseudo, facultatif.
+
+- Demandé juste après la première connexion, sur la page Connexion, avant tout le reste (pas de
+  bouton « Continuer » sans pseudo). Un compte créé avant cette règle est arrêté au même endroit,
+  et « Mon compte » ouvre directement le champ.
+- Unique sans tenir compte des majuscules, des accents ni des espaces en trop : « Rémy » et
+  « remy » sont le même pseudo. Le Worker garde une clé normalisée dans une colonne à index
+  unique (`pseudo_cle`) ; l'index protège aussi de deux inscriptions simultanées.
+- Mots réservés refusés (`pseudo_invalide`) : anonyme, mapetanque, admin, administrateur,
+  moderateur (comparés sur la clé normalisée). 2 caractères au moins.
+- Suppression du compte : la ligne `comptes` disparaît, le pseudo redevient libre.
+
+```sql
+-- Vérifier d'abord qu'aucun doublon n'existe déjà (sinon l'index unique échoue) :
+SELECT lower(pseudo), COUNT(*) FROM comptes WHERE pseudo IS NOT NULL GROUP BY 1 HAVING COUNT(*) > 1;
+ALTER TABLE comptes ADD COLUMN pseudo_cle TEXT;
+CREATE UNIQUE INDEX comptes_pseudo_cle ON comptes(pseudo_cle);
+```
+
+Fait le 10 octobre 2026 : colonne `pseudo_cle` et index unique créés dans D1 (aucun doublon).
+
+Avis d'une personne connectée (décidé le 10 octobre 2026, Rémy) : signé du pseudo du compte,
+sans champ pseudo dans le formulaire (« Publié sous votre pseudo … », `script.js`). Côté Workers :
+`/avis/envoi` prend le pseudo du compte, jamais celui envoyé ; `/compte/pseudo` met aussi à jour
+`avis.pseudo` des avis du compte, pour que tous ses avis suivent un changement de pseudo.
+
+Les pseudos déjà enregistrés reçoivent leur clé au prochain passage par `/compte/pseudo`, ou
+par un UPDATE unique fait depuis le Worker (la normalisation des accents se fait en JavaScript,
+pas en SQL).
+
 ## Prochaine étape
 
 Fait le 8 octobre 2026 : compte Resend créé, domaine `mapetanque.be` vérifié (région Ireland
@@ -609,3 +649,28 @@ suppression du compte). Le bouton « Se connecter /
 Mon compte » de l'en-tête ne sera mis en ligne qu'ensuite : l'écran 1 promet « Suivez vos
 envois ». Les raccourcis « Mes envois » et « Mes parties » de l'écran 4 de la maquette
 viendront avec la page Mon compte.
+
+Fait le 10 octobre 2026 (côté site, pas encore poussé) : page Mon compte en 4 langues
+(`mon-compte.html`, générée par `scripts/generer_mon_compte.py` ; `mon-compte.js`,
+`style-mon-compte.css`, clés `moncompte_*`), d'après la maquette validée. Sans session, renvoi
+vers Connexion avec `?retour=`. Nom et lieu des terrains tirés de `data/recherche.json` (et de
+`data/groupes_terrains.json` pour les terrains regroupés). Après suppression : un mot de fin dans
+la page plutôt qu'un message sur l'accueil (pas de mécanisme de message sur l'accueil à créer).
+Pseudo obligatoire et unique côté Connexion et Mon compte. Testé avec un Worker simulé.
+Reste : routes `/compte/contributions` et `/compte/supprimer`, règles du pseudo dans
+`/compte/pseudo` (code du Worker à reprendre du tableau de bord), puis la ligne compte du menu.
+
+Forme attendue de `/compte/contributions`, chaque liste du plus récent au plus ancien, `date` =
+`cree` de la ligne : `votes` `[{ osm_id, note, date }]`, `avis` `[{ osm_id, texte, statut,
+date }]` avec `statut` ramené à `en_attente` / `publie` / `refuse` / `retire` (avis remplacés
+exclus), `photos` `[{ osm_id, statut, date }]` (statut brut ; refusées de plus de 30 jours
+exclues), `signalements` `[{ type, osm_id, titre, lat, lon, statut, date }]`.
+
+Fait le 10 octobre 2026 : Workers mis à jour et testés par Rémy. `mapetanque-comptes` :
+`/compte/contributions`, `/compte/supprimer`, pseudo obligatoire et unique (`pseudo_cle`, mots
+réservés, pas d'allure de lien), les avis du compte suivent son pseudo. `mapetanque-admin` :
+avis connecté signé du pseudo du compte, crédit retiré de l'export quand `credit_nom` est vidé,
+et correction de l'envoi des signalements (variable `email` jamais déclarée depuis le
+9 octobre : tous les signalements échouaient).
+Suite : ligne compte en haut du menu mobile et lien dans la barre de l'ordinateur ; puis
+modification de ses notes et avis depuis « Mon compte ».

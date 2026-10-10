@@ -98,6 +98,11 @@
             }
         },
 
+        // Compte supprimé (/compte/supprimer) : le Worker a déjà effacé toutes les sessions.
+        oublier: function () {
+            ecrire(null);
+        },
+
         // Demande au Worker si la session vaut toujours (expirée, effacée depuis un autre appareil…)
         // et met à jour l'adresse et le pseudo. Worker injoignable : la session est gardée.
         verifier: function () {
@@ -112,6 +117,7 @@
                     session.email = reponse.donnees.email;
                     session.pseudo = reponse.donnees.pseudo || null;
                     session.langue = reponse.donnees.langue;
+                    session.cree = reponse.donnees.cree;   // date de création, pour « Mon compte »
                     ecrire(session);
                 }
                 return lire();

@@ -416,6 +416,9 @@
 .avis-suite[hidden] { display: none; }
 .avis-form label { font-size: 13px; font-weight: 600; color: #1D2619; }
 .avis-facultatif { font-size: 11.5px; font-weight: 400; color: #999; }
+/* Connecté : l'avis est signé du pseudo du compte, à la place du champ pseudo */
+.fiche .avis-signature { margin: 0; font-size: 13px; color: #56604F; }
+.fiche .avis-signature strong { color: #1D2619; }
 .avis-form textarea,
 .avis-form input[type="text"] {
     width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1px solid #ddd; border-radius: 8px;
