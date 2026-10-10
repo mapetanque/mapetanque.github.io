@@ -851,11 +851,12 @@ Côté site, prêt à tester :
 Côté Worker, à faire par Rémy (code dans `workers/comptes-parties.js`, tables dans
 `workers/comptes-parties.sql`) :
 1. Console D1 : coller `workers/comptes-parties.sql` (tables `parties` et `joueurs`).
-2. Coller le fichier à la fin du code de `mapetanque-comptes`, et en tête de son `fetch` :
-   `const reponseParties = await routesParties(request, env); if (reponseParties) return reponseParties;`
-3. Dans `/compte/supprimer`, effacer `parties` et `joueurs` du compte (deux lignes données en
-   tête du fichier) : ne pas compter sur `ON DELETE CASCADE`.
-4. Déployer, puis tester avec Live Server (port 5500 ou 5501, tous deux acceptés).
+2. Remplacer tout le code de `mapetanque-comptes` par le fichier complet préparé le 10 octobre
+   2026 à partir du code en ligne (routes des parties branchées dans le `fetch`, une par ligne ;
+   `supprimerCompte` efface aussi `parties` et `joueurs`). La section ajoutée est copiée dans
+   `workers/comptes-parties.js` ; elle utilise `json`, `lireJson` et `compteDepuisRequete` du
+   Worker.
+3. Déployer, puis tester avec Live Server (port 5500 ou 5501, tous deux acceptés).
 
 Essayé dans le cloud : les routes sur une base SQLite qui imite D1 (21 essais : enregistrer,
 remplacer, refus des parties trop courtes, pas finies, d'un autre compte…), puis le compteur
