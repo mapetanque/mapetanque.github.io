@@ -3,7 +3,7 @@
 // Mise en page validée sur maquettes/mon-compte/index.html. Dessinée dans #mon-compte :
 //   - en-tête : pastille, « Bonjour {pseudo} ! », adresse du compte ;
 //   - pseudo sur une ligne, « Modifier » (ou « Choisir ») ouvre le champ sur place ;
-//   - « Mes envois » (route /compte/contributions) : filtres qui servent aussi de résumé,
+//   - « Mes contributions » (route /compte/contributions) : filtres qui servent aussi de résumé,
 //     5 envois, puis « Afficher N de plus » et « Réduire » comme dans les propositions de la
 //     recherche ; chaque envoi mène au terrain sur la carte ;
 //   - « Mes parties » annoncé (bientôt), déconnexion, suppression du compte (écran de
