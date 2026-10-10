@@ -868,8 +868,13 @@ Maquette validée par Rémy le 10 octobre 2026 (artefact « Mes parties Mapetanq
   veut). Une entrée reliée garde son lien quand on la renomme.
 - Terrain d'une partie : « Ajouter le terrain » sur l'écran de fin du compteur (le plus proche
   d'après la position, demandée seulement à ce moment), ou plus tard dans la fiche par la
-  recherche. Encore ouvert : proposer d'office le terrain le plus proche quand la position est
-  déjà autorisée, et reprendre le terrain de la partie précédente pour une revanche le même jour.
+  recherche.
+- Décidé le 10 octobre 2026 : si la position est déjà autorisée pour mapetanque.be (par exemple
+  avec « Me localiser » de la carte ; `navigator.permissions.query({ name: 'geolocation' })`),
+  l'écran de fin propose d'office le terrain le plus proche (« Parc d'Avroy · changer ·
+  retirer »). Sinon, bouton « Ajouter le terrain », et la demande du navigateur n'apparaît que si
+  on le touche. Une revanche le même jour reprend le terrain de la partie précédente. Un site ne
+  lit jamais la position en arrière-plan : seulement page ouverte, au moment du calcul.
 - Étape B, en haut de la page : « Julie vous propose une partie », avec Garder ou Refuser.
 - Plus tard : partager une partie ou ses stats en image, comparer avec ses amis (après l'étape B).
 
