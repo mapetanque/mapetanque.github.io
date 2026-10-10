@@ -65,9 +65,12 @@ tournois, en temps voulu (tournois une fois l'usage confirmé).
   quelconques est réservé au plan Workers payant (5 $/mois), et le domaine d'envoi doit avoir son
   DNS chez Cloudflare.
 - Écarté : boîte mail OVH via SMTP (possible, mais quotas, délivrabilité moindre, pas de suivi)
-- Optionnel, pas encore décidé : « Se connecter avec Google » (gratuit ; jeton signé vérifié par
-  le Worker avec les clés publiques de Google, vérification RSA légère qui tient dans la limite
-  CPU ; à mentionner dans « Vos données »)
+- RETENU le 10 octobre 2026 : « Continuer avec Google » en plus du lien magique (gratuit ;
+  bouton Google Identity Services sur la page Connexion, jeton signé vérifié par le Worker avec
+  les clés publiques de Google, vérification RSA légère qui tient dans la limite CPU ; Google
+  ajouté dans « Vos données »). Côté site : `GOOGLE_CLIENT_ID` dans connexion.js (vide = pas de
+  bouton, la page ne contacte pas Google). Côté Worker : route `POST /compte/google`, brouillon
+  dans maquettes/worker-comptes-google.js (non suivi).
 - Écarté : connexion Apple (adhésion Apple Developer obligatoire, 99 $/an)
 - Une adresse mail = un compte, quelle que soit la méthode de connexion
 
@@ -511,6 +514,7 @@ Toutes en JSON. « Jeton » = en-tête `Authorization: Bearer <jeton de session>
 |---|---|---|---|
 | `POST /compte/lien` | `email`, `langue`, `turnstile` | `{ demande }` | Même réponse que l'adresse ait un compte ou non. Envoie le mail (lien + code). |
 | `POST /compte/connexion` | `lien` (jeton du lien) | `{ jeton, compte }` | Appelée par le bouton « Me connecter » de la page d'arrivée, jamais à l'ouverture du lien. Crée le compte s'il n'existe pas. |
+| `POST /compte/google` | `credential` (jeton Google), `langue` | `{ jeton, compte }` | Jeton vérifié (signature, `iss`, `aud` = `GOOGLE_CLIENT_ID`, `exp`), `email_verified` exigé. Crée le compte s'il n'existe pas. Erreurs `google_invalide`, `google_non_verifie`. |
 | `POST /compte/code` | `demande`, `code` | `{ jeton, compte }` | 5 essais par demande, puis il faut redemander un mail. |
 | `GET /compte/moi` | jeton | `{ email, pseudo, langue, cree }` | 401 si le jeton est absent, inconnu ou expiré : la page oublie alors la session. |
 | `POST /compte/pseudo` | jeton, `pseudo` | `{ pseudo }` | 20 caractères au plus (30 jusqu'au 10 octobre 2026). Obligatoire et unique depuis le 10 octobre 2026 (voir « Pseudo obligatoire et unique ») : erreurs `pseudo_vide`, `pseudo_pris` (409), `pseudo_invalide`. |

@@ -104,6 +104,34 @@
     padding-left: 40px;
 }
 
+/* Bouton Google (dessiné par Google dans un cadre, on ne règle que sa place), puis « ou » entre
+   deux traits avant le formulaire du mail. Caché tant que le bouton n'est pas posé. */
+.connexion-google[hidden] {
+    display: none;
+}
+
+.connexion-google-bouton {
+    display: flex;
+    justify-content: center;
+    min-height: 44px;   /* place réservée : le formulaire ne saute pas quand le bouton arrive */
+}
+
+.connexion-ou {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 14px 0 0;
+    font-size: 13px;
+    color: #8a9185;
+}
+
+.connexion-ou::before,
+.connexion-ou::after {
+    content: "";
+    flex: 1;
+    border-top: 1px solid #e3e6df;
+}
+
 .connexion-turnstile:empty {
     display: none;
 }

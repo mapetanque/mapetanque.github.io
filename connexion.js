@@ -1,8 +1,9 @@
 // ===================== Page Connexion =====================
 // connexion.html (et ses versions nl/, de/, en/), générée par scripts/generer_connexion.py.
 // Une seule page pour l'inscription et la connexion : on donne son adresse, on reçoit un mail
-// avec un lien et un code à 6 chiffres. Quatre états, dessinés dans #connexion :
-//   - adresse   : formulaire « Recevoir un lien de connexion » (avec Turnstile) ;
+// avec un lien et un code à 6 chiffres. Ou bien on passe par son compte Google (bouton au-dessus
+// du formulaire) : même compte si l'adresse est la même. Quatre états, dessinés dans #connexion :
+//   - adresse   : bouton Google, puis formulaire « Recevoir un lien de connexion » (avec Turnstile) ;
 //   - code      : mail envoyé, saisie du code (le lien peut s'ouvrir dans un autre navigateur,
 //                 celui de l'appli mail : le code sert alors à se connecter ici) ;
 //   - arrivee   : page ouverte depuis le lien du mail (#lien=…), bouton « Me connecter ». C'est
@@ -29,6 +30,11 @@
     // avoir TURNSTILE_ACTIF à « non ».
     var TURNSTILE_CLE_SITE = '0x4AAAAAAEbmkcpE7Yn7QhEM';
 
+    // Identifiant client OAuth « Web » de Google Cloud (publique par nature, comme la clé
+    // Turnstile). Vide : pas de bouton Google, et la page ne contacte pas Google. Le Worker doit
+    // avoir le même identifiant dans GOOGLE_CLIENT_ID.
+    var GOOGLE_CLIENT_ID = '91669499037-s7vrh0tvulprac4f9lgrihqhpjofaqu7.apps.googleusercontent.com';
+
     // Demande en cours, gardée le temps de la validité du code : un téléphone qui recharge la
     // page au retour de l'appli mail retrouve ainsi la saisie du code.
     var CLE_DEMANDE = 'mapetanque_connexion_demande';
@@ -45,6 +51,8 @@
         lien_expire: 'compte_err_expire',
         lien_utilise: 'compte_err_utilise',
         lien_invalide: 'compte_err_lien',
+        google_invalide: 'compte_err_google',      // jeton Google refusé par le Worker
+        google_non_verifie: 'compte_err_google',   // adresse non vérifiée chez Google
         pseudo_vide: 'compte_err_pseudo_vide',
         pseudo_pris: 'compte_err_pseudo_pris',
         pseudo_invalide: 'compte_err_pseudo_invalide'
@@ -130,6 +138,63 @@
     }
 
 
+    // --- Google -----------------------------------------------------------------------------
+    // Bouton « Se connecter avec Google » (Google Identity Services). Google renvoie un jeton
+    // signé (credential) que le Worker vérifie avec les clés publiques de Google avant d'ouvrir
+    // la session (/compte/google) : la page ne voit jamais rien d'autre. La bibliothèque n'est
+    // chargée qu'à l'affichage du formulaire : une personne déjà connectée ne contacte pas Google.
+    // Bibliothèque bloquée (bloqueur de publicité…) : pas de bouton, le mail reste possible.
+    var googleCharge = false;
+    var googleInitialise = false;
+
+    function chargerGoogle() {
+        if (!GOOGLE_CLIENT_ID || googleCharge) return;
+        googleCharge = true;
+        var script = document.createElement('script');
+        script.src = 'https://accounts.google.com/gsi/client';
+        script.async = true;
+        script.onload = poserGoogle;
+        document.head.appendChild(script);
+    }
+
+    function poserGoogle() {
+        var bloc = zone.querySelector('.connexion-google');
+        var cadre = bloc && bloc.querySelector('.connexion-google-bouton');
+        if (!cadre || cadre.childElementCount || !window.google || !window.google.accounts) return;
+        if (!googleInitialise) {
+            window.google.accounts.id.initialize({
+                client_id: GOOGLE_CLIENT_ID,
+                callback: connexionGoogle,
+                context: 'signin',
+                ux_mode: 'popup'
+            });
+            googleInitialise = true;
+        }
+        bloc.hidden = false;   // avant le dessin : le bouton prend la largeur du cadre
+        window.google.accounts.id.renderButton(cadre, {
+            type: 'standard',
+            theme: 'outline',
+            size: 'large',
+            text: 'continue_with',
+            logo_alignment: 'center',
+            locale: currentLang,
+            width: Math.min(400, cadre.offsetWidth || 300)   // Google : 400 px au plus
+        });
+    }
+
+    function connexionGoogle(reponseGoogle) {
+        afficherStatut(t('compte_connexion_en_cours'));
+        compte.appel('POST', '/compte/google', { credential: reponseGoogle.credential, langue: currentLang })
+            .then(function (reponse) {
+                if (reponse.statut === 200 && reponse.donnees.jeton) {
+                    apresConnexion(reponse.donnees, retourDemande());
+                } else {
+                    afficherStatut(messageErreur(reponse.donnees), true);
+                }
+            });
+    }
+
+
     // --- États ----------------------------------------------------------------------------
     // Mise en page validée sur maquettes/connexion/index.html. L'état courant est noté dans
     // zone.dataset.etat (adresse, code, arrivee, connecte).
@@ -146,8 +211,12 @@
     function afficherAdresse(message, emailPrecedent) {
         widgetTurnstile = null;
         poserEtat('adresse',
-            '<h2 class="connexion-titre">' + echapper(t('compte_titre_adresse')) + '</h2>' +
+            '<h2 class="connexion-titre">' + echapper(t(GOOGLE_CLIENT_ID ? 'compte_titre_choix' : 'compte_titre_adresse')) + '</h2>' +
             '<form class="connexion-carte" novalidate>' +
+            '  <div class="connexion-google" hidden>' +
+            '    <div class="connexion-google-bouton"></div>' +
+            '    <p class="connexion-ou"><span>' + echapper(t('compte_ou')) + '</span></p>' +
+            '  </div>' +
             '  <label class="connexion-label" for="connexion-email">' + echapper(t('compte_champ_email')) + '</label>' +
             '  <div class="connexion-champ-picto">' + PICTO_ENVELOPPE +
             '    <input type="email" id="connexion-email" class="connexion-champ" autocomplete="email" required maxlength="254" value="' + echapper(emailPrecedent || '') + '">' +
@@ -159,6 +228,8 @@
             pourquoiHtml());
         if (message) afficherStatut(message, true);
         poserTurnstile();
+        chargerGoogle();
+        poserGoogle();
 
         var formulaire = zone.querySelector('form');
         var champ = zone.querySelector('#connexion-email');

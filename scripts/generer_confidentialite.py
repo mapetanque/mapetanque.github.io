@@ -149,6 +149,9 @@ CONTENU = {
                  " : traitement des envois et des connexions, base de données, photos en "
                  "attente, mesure d'audience, protection anti-robots."),
                 ("Resend", " : envoi des mails de connexion, depuis l'Europe."),
+                ("Google",
+                 " : connexion avec un compte Google, si vous la choisissez. Google nous "
+                 "transmet votre adresse mail, jamais votre mot de passe."),
                 ("GitHub Pages", " : hébergement du site."),
                 ("Mapillary", " : publication des photos retenues."),
             ],
@@ -271,6 +274,9 @@ CONTENU = {
                  ": verwerking van verzendingen en aanmeldingen, database, foto's in "
                  "afwachting, bezoekersstatistieken, bescherming tegen robots."),
                 ("Resend", ": verzending van de aanmeldingsmails, vanuit Europa."),
+                ("Google",
+                 ": aanmelden met een Google-account, als u daarvoor kiest. Google geeft ons "
+                 "uw e-mailadres door, nooit uw wachtwoord."),
                 ("GitHub Pages", ": hosting van de site."),
                 ("Mapillary", ": publicatie van de weerhouden foto's."),
             ],
@@ -394,6 +400,9 @@ CONTENU = {
                  ": Verarbeitung von Einsendungen und Anmeldungen, Datenbank, Fotos in "
                  "Prüfung, Besucherstatistik, Schutz vor Bots."),
                 ("Resend", ": Versand der Anmelde-E-Mails, aus Europa."),
+                ("Google",
+                 ": Anmeldung mit einem Google-Konto, wenn Sie diese wählen. Google übermittelt "
+                 "uns Ihre E-Mail-Adresse, niemals Ihr Passwort."),
                 ("GitHub Pages", ": Hosting der Website."),
                 ("Mapillary", ": Veröffentlichung der angenommenen Fotos."),
             ],
@@ -513,6 +522,9 @@ CONTENU = {
                  ": processing of uploads and sign-ins, database, photos awaiting review, "
                  "visitor statistics, bot protection."),
                 ("Resend", ": sending of sign-in emails, from Europe."),
+                ("Google",
+                 ": sign-in with a Google account, if you choose it. Google passes on your "
+                 "email address to us, never your password."),
                 ("GitHub Pages", ": hosting of the site."),
                 ("Mapillary", ": publication of accepted photos."),
             ],
