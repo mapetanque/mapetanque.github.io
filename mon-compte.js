@@ -4,7 +4,8 @@
 //   - en-tête : pastille, « Bonjour {pseudo} ! », adresse du compte ;
 //   - pseudo sur une ligne, « Modifier » (ou « Choisir ») ouvre le champ sur place ;
 //   - « Mes envois » (route /compte/contributions) : filtres qui servent aussi de résumé,
-//     5 envois puis « Voir les N autres », chaque envoi mène au terrain sur la carte ;
+//     5 envois, puis « Afficher N de plus » et « Réduire » comme dans les propositions de la
+//     recherche ; chaque envoi mène au terrain sur la carte ;
 //   - « Mes parties » annoncé (bientôt), déconnexion, suppression du compte (écran de
 //     confirmation dans la page, route /compte/supprimer).
 // Sans session (ou session refusée par le Worker) : renvoi vers la page Connexion, qui ramène
@@ -20,12 +21,13 @@
     var prefixe = currentLang === 'fr' ? '/' : '/' + currentLang + '/';
     var locale = { fr: 'fr-BE', nl: 'nl-BE', de: 'de-BE', en: 'en-GB' }[currentLang] || 'fr-BE';
     var ADRESSE_CONTACT = 'mapetanque@outlook.be';
-    var PAR_PAGE = 5;
+    var PAR_PAGE = 5;         // envois montrés d'abord
+    var PAS = 10;             // envois ajoutés par « Afficher N de plus »
 
     var envois = null;        // liste de tous les envois, du plus récent au plus ancien
     var erreurEnvois = false;
     var filtre = 'tout';
-    var toutMontrer = false;
+    var nbMontres = PAR_PAGE;
     var lieux = null;         // osm_id -> lieu de data/recherche.json (nom et position du terrain)
     var communes = null;      // slug -> commune de data/recherche.json
     var quitte = false;       // déconnexion ou suppression voulue ici : pas de renvoi vers Connexion
@@ -281,11 +283,11 @@
 
         var type = FILTRES.filter(function (f) { return f[0] === filtre; })[0][1];
         var visibles = type ? envois.filter(function (e) { return e.type === type; }) : envois;
-        var montres = toutMontrer ? visibles : visibles.slice(0, PAR_PAGE);
+        var montres = visibles.slice(0, nbMontres);
         var reste = visibles.length - montres.length;
-        var voirPlus = reste
-            ? '<button type="button" class="mc-voir-plus">' + echapper(reste === 1 ? t('moncompte_voir_autre') : t('moncompte_voir_autres').replace('{n}', reste)) + '</button>'
-            : '';
+        // Mêmes libellés que les propositions de la recherche (recherche_plus, recherche_moins)
+        var voirPlus = (reste ? '<button type="button" class="mc-voir-plus" data-action="plus">' + echapper(t('recherche_plus').replace('{n}', Math.min(PAS, reste))) + '</button>' : '')
+            + (montres.length > PAR_PAGE ? '<button type="button" class="mc-voir-plus" data-action="moins">' + echapper(t('recherche_moins')) + '</button>' : '');
 
         cadre.innerHTML =
             '<div class="mc-filtres">' + filtres + '</div>' +
@@ -296,14 +298,22 @@
         cadre.querySelectorAll('.mc-filtre').forEach(function (bouton) {
             bouton.addEventListener('click', function () {
                 filtre = bouton.dataset.filtre;
-                toutMontrer = false;
+                nbMontres = PAR_PAGE;
                 dessinerEnvois();
             });
         });
-        var bouton = cadre.querySelector('.mc-voir-plus');
-        if (bouton) bouton.addEventListener('click', function () {
-            toutMontrer = true;
+        var plus = cadre.querySelector('[data-action="plus"]');
+        if (plus) plus.addEventListener('click', function () {
+            nbMontres += PAS;
             dessinerEnvois();
+            var suivant = cadre.querySelectorAll('.mc-envois li')[nbMontres - PAS];
+            if (suivant) suivant.querySelector('.mc-envoi').focus({ preventScroll: true });
+        });
+        var moins = cadre.querySelector('[data-action="moins"]');
+        if (moins) moins.addEventListener('click', function () {
+            nbMontres = PAR_PAGE;
+            dessinerEnvois();
+            zone.querySelector('.mc-filtres').scrollIntoView({ block: 'nearest' });
         });
     }
 
