@@ -202,6 +202,7 @@
     var PICTO_ENVELOPPE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>';
     var PICTO_ENVOIS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>';
     var PICTO_PARTIES = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="16" y2="11"/><line x1="8" y1="15" x2="12" y2="15"/></svg>';
+    var PICTO_DIRECT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3"/><path d="M21 14v.01"/><path d="M14 21h.01"/><path d="M21 21h-4v-4"/></svg>';
 
     function poserEtat(etat, html) {
         zone.dataset.etat = etat;
@@ -472,8 +473,9 @@
         }
         return '<section class="connexion-pourquoi">' +
             '  <h2>' + echapper(t('compte_pourquoi_titre')) + '</h2>' +
+            avantage(PICTO_PARTIES, echapper(t('compte_avantage_parties_titre')), t('compte_avantage_compteur')) +
+            avantage(PICTO_DIRECT, echapper(t('compte_avantage_direct_titre')), t('compte_avantage_direct')) +
             avantage(PICTO_ENVOIS, echapper(t('compte_avantage_envois_titre')), t('compte_avantage_envois')) +
-            avantage(PICTO_PARTIES, echapper(t('compte_avantage_parties_titre')) + '<span class="connexion-bientot">' + echapper(t('compte_bientot')) + '</span>', t('compte_avantage_parties')) +
             '  <p class="connexion-donnees"><a href="' + prefixe + 'confidentialite.html">' + echapper(t('compte_vos_donnees')) + '</a></p>' +
             '</section>';
     }
