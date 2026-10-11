@@ -1,0 +1,459 @@
+/* =====================================================================================
+   Accueil — zone « compte » (sous la zone carte, avant « Parcourir par région »)
+   Fichier ADDITIF, comme style-accueil-respiration.css. Maquette validée le 11/10/2026 :
+   maquettes/accueil-compte/index.html (variante A).
+   Une bande vert nuit : à gauche l'accroche, le titre et quatre onglets (parties, statistiques,
+   score en direct, contributions) ; à droite un téléphone dessiné qui montre l'écran de l'onglet
+   choisi, coupé par le bas de la bande. Connecté, la colonne de gauche montre les chiffres du
+   compte. Les écrans du téléphone sont écrits par /accueil-compte.js.
+   ===================================================================================== */
+
+.compte-accueil {
+    background: #1D2619;
+    color: #fff;
+    padding: 52px 20px 0;
+    overflow: hidden;
+}
+
+.compte-accueil-contenu {
+    max-width: 1160px;
+    margin: 0 auto;
+    display: flex;
+    gap: clamp(32px, 5vw, 72px);
+    align-items: flex-end;
+}
+
+/* Connecté, le texte est court : centré en hauteur plutôt que posé en bas de la bande. */
+.compte-accueil[data-etat="connecte"] .compte-accueil-contenu { align-items: center; }
+
+/* ---- Colonne de texte ---- */
+.compte-accueil-texte {
+    flex: 1 1 420px;
+    min-width: 0;
+    padding-bottom: 52px;
+}
+
+.compte-accueil-bloc {
+    display: grid;
+    gap: 18px;
+    justify-items: start;
+}
+.compte-accueil-bloc[hidden] { display: none; }
+
+.compte-accueil-accroche {
+    margin: 0;
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.1;
+    color: #fff;
+    transform: rotate(-2deg);
+    transform-origin: left center;
+}
+
+.compte-accueil-titre {
+    margin: 0;
+    font-family: 'Manrope', Arial, sans-serif;
+    font-weight: 800;
+    font-size: 32px;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: #fff;
+    text-wrap: balance;
+    max-width: 19em;
+}
+
+/* Onglets : seul l'onglet choisi montre son texte (accordéon), pour garder la bande basse. */
+.compte-accueil-onglets {
+    display: grid;
+    gap: 6px;
+    width: 100%;
+    max-width: 540px;
+}
+
+.compte-accueil-onglet {
+    position: relative;
+    display: grid;
+    grid-template-columns: 38px 1fr;
+    column-gap: 14px;
+    align-items: center;
+    width: 100%;
+    padding: 10px 14px 10px 10px;
+    border: 1px solid transparent;
+    border-radius: 16px;
+    background: transparent;
+    color: #fff;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    overflow: hidden;
+}
+.compte-accueil-onglet:hover { background: rgba(255, 255, 255, 0.05); }
+.compte-accueil-onglet[aria-selected="true"] {
+    background: rgba(116, 193, 90, 0.12);
+    border-color: rgba(116, 193, 90, 0.45);
+}
+
+.compte-accueil-rond {
+    grid-row: span 2;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: rgba(255, 255, 255, 0.08);
+    color: #74C15A;
+}
+.compte-accueil-rond svg { width: 20px; height: 20px; }
+.compte-accueil-onglet[aria-selected="true"] .compte-accueil-rond { background: #74C15A; color: #fff; }
+
+.compte-accueil-onglet strong {
+    font-family: 'Manrope', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 1.25;
+}
+
+.compte-accueil-onglet-texte {
+    display: none;
+    margin-top: 3px;
+    font-size: 15px;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.75);
+}
+.compte-accueil-onglet[aria-selected="true"] .compte-accueil-onglet-texte { display: block; }
+
+/* Fil qui se remplit pendant les 6 s de l'onglet, quand les écrans défilent seuls. */
+.compte-accueil-fil {
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    bottom: 0;
+    height: 2px;
+    background: #74C15A;
+    transform: scaleX(0);
+    transform-origin: left;
+}
+.compte-accueil[data-auto="oui"] .compte-accueil-onglet[aria-selected="true"] .compte-accueil-fil {
+    animation: compte-accueil-fil 6s linear forwards;
+}
+@keyframes compte-accueil-fil { to { transform: scaleX(1); } }
+
+/* ---- Boutons ---- */
+.compte-accueil-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 16px;
+    margin-top: 4px;
+}
+
+.compte-accueil-bouton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 46px;
+    padding: 0 22px;
+    box-sizing: border-box;
+    border-radius: 20px;
+    font-family: 'Manrope', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.compte-accueil-bouton svg { width: 18px; height: 18px; flex: none; }
+.compte-accueil-bouton.principal { background: #74C15A; color: #fff; }
+.compte-accueil-bouton.principal:hover { background: #56A03D; }
+.compte-accueil-bouton.clair { border: 1px solid rgba(255, 255, 255, 0.45); color: #fff; }
+.compte-accueil-bouton.clair:hover { background: rgba(255, 255, 255, 0.08); }
+
+.compte-accueil-promesse {
+    margin: 0;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #fff;
+}
+
+/* ---- Connecté : chiffres du compte ---- */
+.compte-accueil-chiffres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 36px;
+}
+.compte-accueil-chiffres[hidden] { display: none; }
+.compte-accueil-chiffres div { display: grid; }
+.compte-accueil-chiffres b {
+    font-family: 'Manrope', Arial, sans-serif;
+    font-weight: 800;
+    font-size: 40px;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: #74C15A;
+}
+.compte-accueil-chiffres span { font-size: 14px; color: rgba(255, 255, 255, 0.75); }
+
+.compte-accueil-info {
+    margin: 0;
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.8);
+}
+.compte-accueil-info:empty { display: none; }
+
+/* ---- Téléphone ---- */
+.compte-accueil-visuel {
+    position: relative;
+    flex: 0 0 340px;
+    height: 470px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Disque vert derrière le téléphone : une boule, en aplat (registre « plein » de la charte). */
+.compte-accueil-boule {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    width: 330px;
+    height: 330px;
+    border-radius: 50%;
+    background: #74C15A;
+    transform: translateX(-46%);
+}
+
+.compte-accueil-tel {
+    position: relative;
+    width: 272px;
+    height: 548px;
+    padding: 9px;
+    box-sizing: border-box;
+    border-radius: 40px;
+    background: #0f140d;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.35);
+    transform: rotate(2.5deg);
+}
+
+.compte-accueil-ecran {
+    position: relative;
+    height: 100%;
+    border-radius: 32px;
+    overflow: hidden;
+    background: #F7F9F6;
+    color: #1D2619;
+    font-family: 'Figtree', Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.35;
+}
+
+/* Carte du QR code, posée à côté du téléphone pendant l'onglet « score en direct » */
+.compte-accueil-qr {
+    position: absolute;
+    left: -18px;
+    top: 190px;
+    z-index: 2;
+    display: grid;
+    justify-items: center;
+    gap: 4px;
+    padding: 10px;
+    border-radius: 16px;
+    background: #fff;
+    color: #1D2619;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+    transform: rotate(-4deg);
+    transition: opacity 0.4s, transform 0.4s;
+}
+.compte-accueil-qr svg { display: block; width: 84px; height: 84px; }
+.compte-accueil-qr b { font: 800 15px/1 'Manrope', Arial, sans-serif; letter-spacing: 0.16em; }
+.compte-accueil-qr small { font-size: 10.5px; color: #56604F; }
+.compte-accueil:not([data-onglet="2"]) .compte-accueil-qr,
+.compte-accueil[data-etat="connecte"] .compte-accueil-qr {
+    opacity: 0;
+    transform: rotate(-4deg) translateY(10px);
+    pointer-events: none;
+}
+
+/* ---- Écrans ---- */
+.ca-ec {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+}
+.ca-ec.visible { opacity: 1; }
+
+.ca-barre {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 26px 16px 12px;
+    background: #fff;
+    border-bottom: 1px solid #E2E6DE;
+    font: 800 17px/1 'Manrope', Arial, sans-serif;
+}
+.ca-barre i { width: 18px; height: 18px; border-radius: 50%; background: #74C15A; }
+
+.ca-titre {
+    margin: 2px 14px 6px;
+    font: 700 11px/1 'Manrope', Arial, sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #56604F;
+}
+.ca-titre.haut { margin-top: 14px; }
+
+.ca-liste {
+    list-style: none;
+    margin: 0 12px;
+    padding: 0;
+    background: #fff;
+    border: 1px solid #E2E6DE;
+    border-radius: 12px;
+    overflow: hidden;
+}
+.ca-liste li { display: flex; align-items: center; gap: 10px; padding: 9px 10px; }
+.ca-liste li + li { border-top: 1px solid #E2E6DE; }
+.ca-liste li > div { flex: 1; min-width: 0; }
+.ca-liste b { display: block; font: 600 12px/1.3 'Figtree', Arial, sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ca-liste small { display: block; font-size: 11.5px; color: #56604F; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ca-liste li.ca-mois { justify-content: space-between; padding: 6px 10px; background: #F7F9F6; }
+.ca-liste li.ca-mois b { flex: none; font: 700 12px 'Manrope', Arial, sans-serif; }
+.ca-liste li.ca-mois small { font-size: 11px; }
+
+.ca-res {
+    flex: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font: 800 11px 'Manrope', Arial, sans-serif;
+    color: #fff;
+}
+.ca-res.v { background: #74C15A; }
+.ca-res.d { background: #B5502E; }
+.ca-sc { font: 800 14px/1 'Manrope', Arial, sans-serif; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* Statistiques : mêmes blocs que la page Mes parties */
+.ca-seg {
+    display: flex;
+    gap: 3px;
+    margin: 10px 12px 0;
+    padding: 3px;
+    border-radius: 999px;
+    background: #E2E6DE;
+    font-size: 11px;
+    font-weight: 600;
+    color: #56604F;
+}
+.ca-seg span { flex: 1; padding: 4px 0; border-radius: 999px; text-align: center; white-space: nowrap; }
+.ca-seg .on { background: #fff; color: #1D2619; }
+
+.ca-tuiles { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 10px 12px 12px; }
+.ca-tuile {
+    display: grid;
+    gap: 1px;
+    padding: 7px 9px;
+    background: #fff;
+    border: 1px solid #E2E6DE;
+    border-radius: 12px;
+    min-width: 0;
+}
+.ca-tuile.grande { grid-column: span 2; grid-template-columns: 62px 1fr; align-items: center; gap: 12px; }
+.ca-tuile.grande > div { display: grid; gap: 1px; }
+.ca-tuile .lib { font-size: 10.5px; color: #56604F; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ca-tuile b { font: 800 20px/1.1 'Manrope', Arial, sans-serif; font-variant-numeric: tabular-nums; }
+.ca-tuile b small { margin-left: 3px; font: 600 11px 'Figtree', Arial, sans-serif; color: #56604F; }
+.ca-tuile .sous { font-size: 10px; color: #56604F; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ca-anneau { display: block; width: 62px; height: 62px; }
+.ca-anneau text { font: 800 15px 'Manrope', Arial, sans-serif; fill: #1D2619; }
+
+.ca-joueurs li { display: grid; grid-template-columns: 1fr auto; gap: 4px 8px; }
+.ca-joueurs .nomj { font: 700 13px 'Manrope', Arial, sans-serif; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ca-joueurs .ch { font-size: 11px; color: #56604F; white-space: nowrap; }
+.ca-joueurs .ch b { display: inline; margin-left: 4px; font: 800 12px 'Manrope', Arial, sans-serif; color: #1D2619; }
+.ca-jauge { grid-column: span 2; height: 5px; border-radius: 3px; background: #E2E6DE; overflow: hidden; }
+.ca-jauge span { display: block; height: 100%; background: #74C15A; }
+
+/* Compteur (sa palette sombre propre, comme style-compteur.css) */
+.ca-cpt { background: #1c1b17; color: #f2ece0; }
+.ca-cpt-haut {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 26px 14px 10px;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #a89e8c;
+}
+.ca-direct { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: #9fd585; }
+.ca-direct::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #9fd585;
+    animation: ca-pouls 1.6s ease-in-out infinite;
+}
+@keyframes ca-pouls { 50% { opacity: 0.3; } }
+.ca-moitie { position: relative; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
+.ca-moitie.a { background: #4c7a3d; }
+.ca-moitie.b { background: #b5502e; border-top: 1px solid rgba(0, 0, 0, 0.35); }
+.ca-nom-eq { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.88); }
+.ca-sc-grand { font: 700 88px/1 'Manrope', Arial, sans-serif; font-variant-numeric: tabular-nums; color: #f2ece0; }
+.ca-suivi {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.45);
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.ca-suivi::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #9fd585; }
+.ca-cpt-bas { display: flex; justify-content: space-around; padding: 10px 6px 16px; font-size: 11px; color: #a89e8c; }
+.ca-cpt-bas .on { padding: 2px 8px; border-radius: 8px; background: #26241e; outline: 1px solid #3a372f; color: #f2ece0; }
+
+/* Contributions */
+.ca-vign { flex: none; width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center; background: #E7F4E1; color: #3D7A2A; }
+.ca-vign svg { width: 17px; height: 17px; }
+.ca-vign.photo { background: linear-gradient(170deg, #9cc7e2 0 38%, #6f9a4c 38% 62%, #c9a77d 62%); }
+.ca-statut { flex: none; padding: 3px 8px; border-radius: 999px; font-size: 10.5px; font-weight: 700; white-space: nowrap; }
+.ca-statut.ok { background: #E7F4E1; color: #3D7A2A; }
+.ca-statut.att { background: #F7F9F6; color: #56604F; border: 1px solid #E2E6DE; }
+.ca-aide { margin: 10px 16px 0; font-size: 11.5px; color: #56604F; }
+
+.compte-accueil a:focus-visible,
+.compte-accueil button:focus-visible { outline: 2px solid #74C15A; outline-offset: 2px; }
+
+/* ---- Tablette et téléphone : le téléphone passe sous le texte, réduit et coupé plus haut ---- */
+@media (max-width: 760px) {
+    .compte-accueil { padding: 40px 16px 0; }
+    .compte-accueil-contenu { flex-direction: column; align-items: stretch; gap: 8px; }
+    .compte-accueil-texte { flex-basis: auto; padding-bottom: 8px; }
+    .compte-accueil-bloc { gap: 14px; }
+    .compte-accueil-titre { font-size: 22px; }
+    .compte-accueil-onglets { gap: 2px; }
+    .compte-accueil-onglet { padding: 8px 10px 8px 8px; column-gap: 12px; grid-template-columns: 34px 1fr; }
+    .compte-accueil-rond { width: 34px; height: 34px; }
+    .compte-accueil-onglet strong { font-size: 16px; }
+    .compte-accueil-visuel { flex: none; height: 230px; }
+    .compte-accueil-boule { top: 24px; width: 210px; height: 210px; }
+    .compte-accueil-tel { transform: rotate(2.5deg) scale(0.8); transform-origin: top center; }
+    .compte-accueil-qr { left: calc(50% - 160px); top: 70px; transform: rotate(-4deg) scale(0.85); }
+    .compte-accueil-chiffres b { font-size: 32px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ca-ec, .compte-accueil-qr { transition: none; }
+    .ca-direct::before { animation: none; }
+}

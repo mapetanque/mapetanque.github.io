@@ -56,6 +56,7 @@
     <link rel="stylesheet" href="/style-ombres.css">
     <!-- Section « respiration » sous le carrousel : additif, et la police manuscrite Caveat -->
     <link rel="stylesheet" href="/style-accueil-respiration.css">
+<link rel="stylesheet" href="/style-accueil-compte.css">
     <link rel="stylesheet" href="/polices.css">
     <!-- Données structurées schema.org (Google, IA) : écrites par scripts/generer_referencement.py, ne pas modifier à la main. -->
     <script type="application/ld+json">
@@ -312,15 +313,13 @@
 <section id="respiration" class="respiration">
     <div class="respiration-contenu">
         <div class="respiration-texte">
-            <!-- Pictos du site en filigrane (banc, abri, eau, nature, éclairage, voie verte),
+            <!-- Pictos du site en filigrane (banc, eau, nature, éclairage),
                  aux couleurs de la charte : remplacent la boule crayonnée. -->
             <div class="respiration-pictos" aria-hidden="true">
                 <span class="respiration-picto p1 vert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M6 7v6M18 7v6"/><path d="M3 13h18"/><path d="M5 13v6M19 13v6"/></svg></span>
-                <span class="respiration-picto p2 terre"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12a10.06 10.06 1 0 0-20 0Z"/><path d="M12 12v8a2 2 0 0 0 4 0"/><path d="M12 2v1"/></svg></span>
                 <span class="respiration-picto p3 feuillage"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg></span>
                 <span class="respiration-picto p4 vert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></span>
                 <span class="respiration-picto p5 terre"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></span>
-                <span class="respiration-picto p6 feuillage"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg></span>
             </div>
             <p class="respiration-accroche" data-i18n="respiration_accroche">Je volgende partij wacht op je!</p>
             <h2 class="respiration-titre"><span class="nb-terrains-dynamique">1.743</span> <span data-i18n="respiration_titre">terreinen in heel België</span></h2>
@@ -338,16 +337,74 @@
                 </div>
             </div>
             <div class="respiration-pastilles">
-                <a href="/nl/carte.html?filtre=eau" class="respiration-pastille en-avant"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg><span data-i18n="critere_eau">Aan het water</span></a>
                 <a href="/nl/carte.html?filtre=calme" class="respiration-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></svg><span data-i18n="critere_calme">Rustig</span></a>
                 <a href="/nl/carte.html?filtre=nature" class="respiration-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg><span data-i18n="critere_nature">Natuur</span></a>
-                <a href="/nl/carte.html?filtre=voie_verte" class="respiration-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg><span data-i18n="critere_voie_verte">Groene wandelroute</span></a>
                 <a href="/nl/carte.html?filtre=parking" class="respiration-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg><span data-i18n="critere_parking">Parking</span></a>
-                <a href="/nl/carte.html?filtre=arret" class="respiration-pastille"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6 2 7"/><path d="M10 6h4"/><path d="m22 7-2-1"/><rect width="16" height="16" x="4" y="3" rx="2"/><path d="M4 11h16"/><path d="M8 15h.01"/><path d="M16 15h.01"/><path d="M6 19v2"/><path d="M18 21v-2"/></svg><span data-i18n="critere_arret">Bus / tram</span></a>
             </div>
         </div>
     </div>
 </section>
+
+<!-- Section « compte » : sous la zone carte, elle montre ce qu'apporte un compte (styles :
+     /style-accueil-compte.css, script : /accueil-compte.js, maquette validée le 11/10/2026 dans
+     maquettes/accueil-compte/). Connecté, le bloc « connecte » remplace le bloc « visiteur » et
+     montre les chiffres du compte. Les écrans du téléphone sont écrits par le script. -->
+<section id="compte-accueil" class="compte-accueil" data-onglet="0" data-etat="visiteur" aria-labelledby="compte-accueil-titre">
+    <div class="compte-accueil-contenu">
+        <div class="compte-accueil-texte">
+            <div class="compte-accueil-bloc visiteur">
+                <p class="compte-accueil-accroche" data-i18n="compte_accueil_accroche">Hier raak je de draad niet kwijt!</p>
+                <h2 class="compte-accueil-titre" id="compte-accueil-titre" data-i18n="compte_accueil_titre">Een account om niets meer te missen</h2>
+                <div class="compte-accueil-onglets" role="tablist">
+                <button type="button" class="compte-accueil-onglet" role="tab" aria-selected="true">
+                    <span class="compte-accueil-rond"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span>
+                    <strong data-i18n="compte_accueil_parties_titre">Uw partijen, bewaard</strong>
+                    <span class="compte-accueil-onglet-texte" data-i18n="compte_accueil_parties_texte">De scoreteller bewaart elke partij: de stand, het terrein, de spelers.</span>
+                    <span class="compte-accueil-fil"></span>
+                </button>
+                <button type="button" class="compte-accueil-onglet" role="tab" aria-selected="false">
+                    <span class="compte-accueil-rond"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></span>
+                    <strong data-i18n="compte_accueil_stats_titre">Uw statistieken</strong>
+                    <span class="compte-accueil-onglet-texte" data-i18n="compte_accueil_stats_texte">Winstpercentage, huidige reeks: uw cijfers worden vanzelf berekend.</span>
+                    <span class="compte-accueil-fil"></span>
+                </button>
+                <button type="button" class="compte-accueil-onglet" role="tab" aria-selected="false">
+                    <span class="compte-accueil-rond"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></span>
+                    <strong data-i18n="compte_accueil_direct_titre">De stand live, bij uw vrienden</strong>
+                    <span class="compte-accueil-onglet-texte" data-i18n="compte_accueil_direct_texte">De spelers scannen een QR-code en volgen de partij op hun telefoon.</span>
+                    <span class="compte-accueil-fil"></span>
+                </button>
+                <button type="button" class="compte-accueil-onglet" role="tab" aria-selected="false">
+                    <span class="compte-accueil-rond"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg></span>
+                    <strong data-i18n="compte_accueil_envois_titre">Uw foto's en recensies, gevolgd</strong>
+                    <span class="compte-accueil-onglet-texte" data-i18n="compte_accueil_envois_texte">Vind uw foto's en meldingen terug. Bewerk of verwijder uw scores en recensies.</span>
+                    <span class="compte-accueil-fil"></span>
+                </button>
+                </div>
+                <div class="compte-accueil-actions">
+                    <a href="/nl/connexion.html" class="compte-accueil-bouton principal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span data-i18n="compte_accueil_creer">Mijn account aanmaken</span></a>
+                </div>
+                <p class="compte-accueil-promesse" data-i18n="compte_accueil_promesse">Gratis en zonder reclame!</p>
+            </div>
+            <div class="compte-accueil-bloc connecte" hidden>
+                <p class="compte-accueil-accroche"></p>
+                <h2 class="compte-accueil-titre"></h2>
+                <div class="compte-accueil-chiffres" hidden></div>
+                <p class="compte-accueil-info"></p>
+                <div class="compte-accueil-actions">
+                    <a href="/nl/compteur.html" class="compte-accueil-bouton principal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg><span data-i18n="compteur_nouvelle_partie">Nieuw spel</span></a>
+                    <a href="/nl/mes-parties.html" class="compte-accueil-bouton clair" data-i18n="moncompte_parties_titre">Mijn partijen</a>
+                </div>
+            </div>
+        </div>
+        <div class="compte-accueil-visuel" aria-hidden="true">
+            <div class="compte-accueil-boule"></div>
+            <div class="compte-accueil-qr"></div>
+            <div class="compte-accueil-tel"><div class="compte-accueil-ecran"></div></div>
+        </div>
+    </div>
+</section>
+
 
 <!-- Section "Parcourir par région" : affichée avant les provinces, Bruxelles y figure à sa
      vraie place (ce n'est pas une province) et renvoie directement vers sa page dédiée
@@ -474,6 +531,7 @@
 <!-- Carrousel "Les plus beaux terrains" : après script.js, dont il utilise allerVersTerrain()
      pour ouvrir la fiche du bon terrain au clic sur une tuile. -->
 <script src="/beaux-terrains.js"></script>
+<script src="/accueil-compte.js"></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
 
 

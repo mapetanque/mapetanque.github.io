@@ -10,8 +10,10 @@
    carrousel blanc au-dessus et « Parcourir par région » blanc en dessous. */
 .respiration {
     background: #f7f9f6;
-    /* Écarts des bandes de l'accueil : 40px en haut, 56px en bas (voir #regions-section). */
-    padding: 40px 20px 56px;
+    /* Un peu plus que les autres bandes de l'accueil (40px en haut, 56px en bas, voir
+       #regions-section) : le banc au-dessus de l'accroche et l'ampoule sous les boutons gardent
+       de l'air jusqu'aux bords de la bande. */
+    padding: 78px 20px 64px;
     overflow: hidden;
     color: #1D2619;
 }
@@ -58,12 +60,12 @@
 .respiration-picto.vert { color: #74C15A; }
 .respiration-picto.feuillage { color: #3D7A2A; }
 .respiration-picto.terre { color: #B5502E; }
-.respiration-picto.p1 { left: 4%;    top: -30%; transform: rotate(-12deg); }
-.respiration-picto.p2 { left: 46%;   top: -24%; transform: rotate(10deg); }
+/* 11/10/2026 (Rémy) : parapluie et vélo retirés, le banc à l'ancienne place du parapluie mais
+   plus bas, l'ampoule remontée : rien n'est plus coupé depuis que la section est moins haute. */
+.respiration-picto.p1 { left: 46%;   top: -19%; transform: rotate(-12deg); }
 .respiration-picto.p3 { left: 93.5%; top: -9%;  transform: rotate(-6deg); }
 .respiration-picto.p4 { left: 102%;  top: 69%;  transform: rotate(14deg); }
-.respiration-picto.p5 { left: 64%;   top: 109%; transform: rotate(-10deg); }
-.respiration-picto.p6 { left: 8%;    top: 124%; transform: rotate(8deg); }
+.respiration-picto.p5 { left: 64%;   top: 97%; transform: rotate(-10deg); }
 
 .respiration-accroche {
     font-family: 'Caveat', cursive;
@@ -148,7 +150,17 @@
     overflow: hidden;
     background: #eceee9;
 }
-.respiration-carte > img { display: block; width: 100%; height: auto; }
+/* Carte recadrée en bandeau (2:1 au lieu de 4:3) pour qu'elle ne dépasse plus de loin la colonne
+   de texte. object-position reprend la hauteur du marqueur (53 %) : le recadrage se fait autour
+   de lui, et sa position en % reste juste. */
+.respiration-carte > img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+    object-position: 50% 53%;
+}
 
 /* Même pin que terrainMarkerIcon (script.js), un peu agrandi ; la pointe est sur le point. */
 .respiration-marqueur {
@@ -202,12 +214,19 @@
         padding-right: 16px;
     }
 
-    /* Le texte prend toute la largeur : seuls les deux pictos du haut restent, dans une bande
-       libre au-dessus de l'accroche. */
+    /* Le texte prend toute la largeur : le banc et l'eau dans la bande libre au-dessus de
+       l'accroche, la feuille et l'ampoule à droite des deux boutons (placés depuis le bas de la
+       colonne, où sont les boutons). */
     .respiration-texte { margin-top: 48px; }
     .respiration-picto { width: 44px; height: 44px; }
-    .respiration-picto.p3, .respiration-picto.p4,
-    .respiration-picto.p5, .respiration-picto.p6 { display: none; }
-    .respiration-picto.p1 { left: 2%;  top: -58px; }
-    .respiration-picto.p2 { left: 72%; top: -62px; }
+    .respiration-picto.p1 { left: 72%; top: -56px; }
+    .respiration-picto.p3 { left: 34%; top: -50px; }
+    .respiration-picto.p4 { left: 80%; top: auto; bottom: 62px; }
+    .respiration-picto.p5 { left: 64%; top: auto; bottom: -2px; }
+
+    /* Sur téléphone, ni carte illustrée (elle doublait la hauteur de la section) ni pastilles :
+       restent le texte et les deux boutons vers la carte. */
+    .respiration { padding-top: 32px; padding-bottom: 40px; }
+    .respiration-intro { font-size: 16px; line-height: 1.55; }
+    .respiration-visuel { display: none; }
 }
