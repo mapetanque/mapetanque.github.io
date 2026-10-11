@@ -390,6 +390,56 @@
         margin: 4px 0 0; padding: 4px 10px; border-left: 3px solid #c8d8bd; background: #fafbf8;
         line-height: 1.4; overflow-wrap: anywhere;
     }
+    /* --- Onglet Utilisateurs --------------------------------------------- */
+    #comptesBloc { display: flex; flex-direction: column; overflow: hidden; }
+    #comptesRecherche { width: min(360px, 80vw); }
+    #comptesCompteur { font-size: 15px; font-weight: 700; }
+    .compte-ligne {
+        display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 4px 14px; align-items: center;
+        width: 100%; padding: 12px 20px; border: none; border-bottom: 1px solid var(--bord);
+        background: none; color: var(--encre); font: inherit; text-align: left; cursor: pointer;
+    }
+    .compte-ligne:hover { background: #fafbf8; }
+    .compte-pastille {
+        width: 40px; height: 40px; border-radius: 50%; background: var(--vert); color: white;
+        display: flex; align-items: center; justify-content: center; font-weight: 750; font-size: 17px;
+    }
+    .compte-nom { font-weight: 700; font-size: 15px; overflow-wrap: anywhere; }
+    .sans-pseudo { color: var(--doux); font-style: italic; font-weight: 600; }
+    .compte-meta { font-size: 13px; color: var(--doux); overflow-wrap: anywhere; }
+    .compte-envois { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+    #comptesSuite { padding: 8px 12px; text-align: center; }
+    #ficheCompte { border: none; border-radius: 14px; padding: 0; width: min(720px, 96vw); max-height: 94vh; }
+    #ficheCompte::backdrop { background: rgba(0, 0, 0, 0.55); }
+    .fiche-infos { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 16px; margin: 0; font-size: 14px; }
+    .fiche-infos dt { color: var(--doux); }
+    .fiche-infos dd { margin: 0; overflow-wrap: anywhere; }
+    .fiche-section h3 { margin: 12px 0 4px; font-size: 15px; }
+    .fiche-envoi { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; padding: 7px 0; border-bottom: 1px solid var(--bord); font-size: 14px; }
+    .fiche-envoi:last-child { border-bottom: none; }
+    .fiche-envoi .fiche-date { margin-left: auto; color: var(--doux); font-size: 13px; }
+    .fiche-envoi blockquote { flex-basis: 100%; margin: 2px 0 0; padding: 4px 10px; border-left: 3px solid #c8d8bd; background: #fafbf8; overflow-wrap: anywhere; }
+    .fiche-vide { font-size: 14px; color: var(--doux); }
+    .etiquette.ok { background: var(--vert-clair); color: var(--vert); }
+    .etiquette.attente { background: var(--orange-clair); color: var(--orange); }
+    .etiquette.non { background: var(--rouge-clair); color: var(--rouge); }
+    .fiche-confirmation { padding: 14px 16px; border-radius: 10px; border: 2px solid var(--rouge); background: var(--rouge-clair); font-size: 14px; }
+    .fiche-confirmation p { margin: 8px 0 10px; line-height: 1.45; }
+    .fiche-confirmation[hidden] { display: none; }
+    .fiche-erreur { color: var(--rouge); font-weight: 600; margin-bottom: 8px; }
+    .fiche-erreur:empty { display: none; }
+    .fiche-pied {
+        position: sticky; bottom: 0; margin: 0 -22px -20px; padding: 12px 22px; background: var(--surface);
+        border-top: 1px solid var(--bord); display: flex; flex-direction: column; gap: 12px;
+    }
+    .fiche-supprimer { margin-right: auto; color: var(--rouge); border-color: #d9b3ad; }
+    .fiche-supprimer[hidden] { display: none; }
+    #ficheConfirmer:disabled { opacity: 0.5; cursor: default; }
+    @media (max-width: 640px) {
+        .compte-ligne { grid-template-columns: 40px minmax(0, 1fr); padding: 12px 14px; }
+        .compte-envois { grid-column: 2; justify-content: flex-start; }
+    }
+
     @media (max-width: 1100px) { .kpis-compacts { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
     /* --- Écrans étroits (iPad en portrait, téléphone) --------------------- */
@@ -434,6 +484,7 @@
         <button type="button" role="tab" id="onglet-notes" aria-controls="panneau-notes" aria-selected="false">Notes/Avis</button>
         <button type="button" role="tab" id="onglet-visites" aria-controls="panneau-visites" aria-selected="false">Visites</button>
         <button type="button" role="tab" id="onglet-signalements" aria-controls="panneau-signalements" aria-selected="false">Signalements</button>
+        <button type="button" role="tab" id="onglet-utilisateurs" aria-controls="panneau-utilisateurs" aria-selected="false">Utilisateurs</button>
     </nav>
 </header>
 
@@ -597,6 +648,36 @@
     </div>
 </section>
 
+<section id="panneau-utilisateurs" role="tabpanel" aria-labelledby="onglet-utilisateurs" hidden>
+    <div class="panneau a-venir" id="comptesAttente">Chargement des comptes…</div>
+    <div class="kpis" id="comptesKpis" hidden></div>
+    <div class="panneau bloc" id="comptesSemaines" hidden>
+        <div><h2>Inscriptions par semaine</h2><div class="bloc-sous-titre">26 dernières semaines</div></div>
+        <div class="graphique" id="comptesSemainesGraphique"></div>
+    </div>
+    <section class="panneau" id="comptesBloc" hidden aria-labelledby="titreComptes">
+        <div class="barre-outils">
+            <h2 id="titreComptes">Comptes</h2>
+            <div class="ligne-outils">
+                <label>Rechercher un pseudo ou une adresse
+                    <input type="search" id="comptesRecherche" placeholder="ex. Julie, @gmail.com">
+                </label>
+                <label>Trier
+                    <select id="comptesTri">
+                        <option value="cree">Inscrits récemment</option>
+                        <option value="connexion">Connectés récemment</option>
+                        <option value="actifs">Les plus actifs</option>
+                    </select>
+                </label>
+            </div>
+            <div id="comptesCompteur" aria-live="polite"></div>
+        </div>
+        <div id="comptesListe"></div>
+        <div id="comptesVide" class="a-venir" hidden>Aucun compte ne correspond.</div>
+        <div id="comptesSuite" hidden><button type="button" class="lien-outil" id="comptesTout"></button></div>
+    </section>
+</section>
+
 </main>
 
 <dialog id="galerie" aria-labelledby="galerieTitre">
@@ -612,6 +693,31 @@
             <span class="galerie-bilan" id="galerieBilan"></span>
             <button type="button" class="btn" id="galerieAnnuler">Annuler</button>
             <button type="button" class="btn btn-valider" id="galerieEnregistrer">Enregistrer</button>
+        </div>
+    </div>
+</dialog>
+
+<dialog id="ficheCompte" aria-labelledby="ficheTitre">
+    <div class="cadrage-corps">
+        <h2 id="ficheTitre">Compte</h2>
+        <dl class="fiche-infos" id="ficheInfos"></dl>
+        <div id="ficheEnvois"></div>
+        <div class="fiche-pied">
+        <div class="fiche-confirmation" id="ficheConfirmation" hidden>
+            <b id="ficheConfirmationTitre"></b>
+            <p>Ses notes, avis et photos restent sur le site, mais signés « Anonyme » ; ses signalements
+                perdent leur adresse. Son compte, ses parties, son carnet de joueurs et ses connexions
+                sont effacés, et son pseudo redevient libre. On ne peut pas revenir en arrière.</p>
+            <div class="fiche-erreur" id="ficheErreur"></div>
+            <div class="cadrage-actions">
+                <button type="button" class="btn" id="ficheAnnulerSuppression">Annuler</button>
+                <button type="button" class="btn btn-refuser" id="ficheConfirmer">Oui, supprimer le compte</button>
+            </div>
+        </div>
+        <div class="cadrage-actions">
+            <button type="button" class="btn fiche-supprimer" id="ficheSupprimer">Supprimer le compte…</button>
+            <button type="button" class="btn" id="ficheFermer" autofocus>Fermer</button>
+        </div>
         </div>
     </div>
 </dialog>
@@ -1688,7 +1794,7 @@ document.querySelectorAll("[data-vers-onglet]").forEach(element => {
 
 /* ===================== Onglets ===================== */
 
-const ONGLETS = ["terrains", "notes", "visites", "signalements"];
+const ONGLETS = ["terrains", "notes", "visites", "signalements", "utilisateurs"];
 
 // L'onglet affiché est noté dans l'adresse (#notes, #visites) : un rechargement de la page
 // y revient directement.
@@ -1703,6 +1809,7 @@ function afficherOnglet(nom) {
     if (nom === "notes") afficherNotes();
     if (nom === "visites") afficherVisites();
     if (nom === "signalements") dessinerSignalements();
+    if (nom === "utilisateurs") afficherComptes();
 }
 
 ONGLETS.forEach(o => {
@@ -3340,6 +3447,342 @@ function changerStatutSignalement(s, statut) {
     dessinerSignalements();
     ecrire("/admin/signalements", { id: s.id, statut: statut });
 }
+
+
+/* ===================== Utilisateurs ===================== */
+// Comptes des visiteurs (table comptes du Worker des comptes, même base D1 ; routes /admin/comptes
+// du Worker admin, référence dans workers/admin-comptes.js). Lus à la première ouverture de
+// l'onglet seulement : la liste compte les envois de chaque compte, inutile de la relire à chaque
+// ouverture de l'admin. Adresses masquées dans la liste, en entier dans la fiche.
+// Une seule action : supprimer un compte, avec la même anonymisation que « Supprimer mon compte ».
+// Contrairement au reste de la page, elle attend la réponse du Worker avant de changer
+// l'affichage : on ne revient pas en arrière.
+
+let COMPTES = null;             // { comptes: [...], par_semaine: [...] }
+let COMPTES_CHARGEMENT = null;  // promesse du chargement en cours
+let COMPTES_TOUT = false;       // false : seulement les COMPTES_PAR_PAGE premiers de la liste
+const COMPTES_PAR_PAGE = 100;
+let FICHE = null;               // compte affiché dans la fiche
+
+// Statuts des envois, écrits comme dans « Mon compte » : [libellé, classe de l'étiquette].
+const ETATS_PHOTO_COMPTE = {
+    en_attente: ["En attente", "attente"], a_generer: ["Acceptée", "ok"], validee: ["Acceptée", "ok"],
+    envoyee: ["Acceptée", "ok"], rattachee: ["Publiée", "ok"], refusee: ["Refusée", "non"]
+};
+const ETATS_AVIS_COMPTE = {
+    en_attente: ["En attente", "attente"], publie: ["Publié", "ok"], refuse: ["Refusé", "non"], retire: ["Retiré", "non"]
+};
+const CLASSES_SIGNALEMENT = { nouveau: "attente", traite: "ok", refuse: "non" };
+
+function chargerComptes() {
+    if (!COMPTES_CHARGEMENT) {
+        COMPTES_CHARGEMENT = appeler("/admin/comptes")
+            .then(r => r.json())
+            .then(donnees => { COMPTES = donnees; })
+            .catch(() => {
+                COMPTES_CHARGEMENT = null;   // nouvel essai à la prochaine ouverture de l'onglet
+                document.getElementById("comptesAttente").textContent =
+                    "Comptes indisponibles (la route /admin/comptes répond-elle ?).";
+            });
+    }
+    return COMPTES_CHARGEMENT;
+}
+
+async function afficherComptes() {
+    if (!COMPTES) await chargerComptes();
+    if (!COMPTES || document.getElementById("panneau-utilisateurs").hidden) return;
+    dessinerKpisComptes();
+    dessinerSemainesComptes();
+    dessinerComptes();
+    document.getElementById("comptesAttente").hidden = true;
+    montrer("comptesKpis", "comptesSemaines", "comptesBloc");
+}
+
+function envoisDe(c) {
+    return (c.votes || 0) + (c.avis || 0) + (c.photos || 0) + (c.signalements || 0);
+}
+
+function pluriel(n, singulier, plurielTexte) {
+    return nombre(n) + " " + (n > 1 ? plurielTexte || singulier + "s" : singulier);
+}
+
+function dessinerKpisComptes() {
+    const liste = COMPTES.comptes;
+    const depuis = (date, jours) => !!date && joursDepuis(date) < jours;
+    const j7 = liste.filter(c => depuis(c.cree, 7)).length;
+    const j7Avant = liste.filter(c => !depuis(c.cree, 7) && depuis(c.cree, 14)).length;
+    const connexions = liste.filter(c => depuis(c.derniere_connexion, 30)).length;
+    const contributeurs = liste.filter(c => envoisDe(c) > 0).length;
+    const joueurs = liste.filter(c => c.parties > 0).length;
+    const premier = liste.length ? liste[liste.length - 1].cree : null;
+    document.getElementById("comptesKpis").innerHTML =
+        carteKpi("Comptes", nombre(liste.length), premier ? "le premier créé le " + dateCourte(premier) : "aucun pour l'instant") +
+        carteKpi("Nouveaux comptes", nombre(j7), variation(j7, j7Avant)) +
+        carteKpi("Connexions", nombre(connexions), "connexions ces 30 derniers jours (pas les visites : une connexion dure un an)") +
+        carteKpi("Comptes actifs", nombre(contributeurs), "ont noté, commenté, envoyé une photo ou signalé · " + pluriel(joueurs, "a enregistré", "ont enregistré") + " une partie");
+}
+
+// 26 semaines, y compris celles sans inscription (même construction que l'onglet Notes/Avis).
+function dessinerSemainesComptes() {
+    const parSemaine = {};
+    COMPTES.par_semaine.forEach(s => { parSemaine[s.semaine] = s.comptes; });
+    const barres = [];
+    let lundi = lundiDe(new Date().toISOString().slice(0, 10));
+    for (let i = 0; i < 26; i++) {
+        const [a, m, j] = lundi.split("-");
+        const n = parSemaine[lundi] || 0;
+        barres.unshift({ libelle: j + "/" + m, valeur: n,
+                         infobulle: "Semaine du " + j + "/" + m + "/" + a + " : " + pluriel(n, "inscription") });
+        lundi = decalerJour(lundi, -7);
+    }
+    document.getElementById("comptesSemainesGraphique").innerHTML =
+        barresVerticales(barres, { titre: "Inscriptions par semaine", pasLibelle: 3 });
+}
+
+// Recherche sans accents ni majuscules : « remy » trouve « Rémy ».
+function cleRecherche(texte) {
+    return String(texte || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+}
+
+function adresseMasquee(email) {
+    const [local, domaine] = String(email || "").split("@");
+    return local.slice(0, local.length > 3 ? 2 : 1) + "•••@" + (domaine || "");
+}
+
+function dessinerComptes() {
+    const recherche = cleRecherche(document.getElementById("comptesRecherche").value.trim());
+    const tri = document.getElementById("comptesTri").value;
+    // La liste arrive du plus récent au plus ancien : c'est le tri « Inscrits récemment ».
+    let liste = COMPTES.comptes.filter(c => !recherche
+        || cleRecherche(c.pseudo).includes(recherche) || cleRecherche(c.email).includes(recherche));
+    if (tri === "connexion") {
+        liste = liste.slice().sort((a, b) => String(b.derniere_connexion || "").localeCompare(String(a.derniere_connexion || "")));
+    } else if (tri === "actifs") {
+        liste = liste.slice().sort((a, b) => (envoisDe(b) + (b.parties || 0)) - (envoisDe(a) + (a.parties || 0)));
+    }
+
+    const total = COMPTES.comptes.length;
+    document.getElementById("comptesCompteur").textContent = liste.length === total
+        ? pluriel(total, "compte")
+        : pluriel(liste.length, "compte") + " sur " + nombre(total);
+
+    const visibles = COMPTES_TOUT ? liste : liste.slice(0, COMPTES_PAR_PAGE);
+    const conteneur = document.getElementById("comptesListe");
+    conteneur.innerHTML = "";
+    visibles.forEach(c => conteneur.appendChild(ligneCompte(c)));
+    document.getElementById("comptesVide").hidden = liste.length > 0;
+    const reste = liste.length - visibles.length;
+    document.getElementById("comptesSuite").hidden = reste <= 0;
+    document.getElementById("comptesTout").textContent = "Afficher les " + nombre(reste) + " autres";
+}
+
+function etiquette(texte, classe) {
+    const e = document.createElement("span");
+    e.className = "etiquette" + (classe ? " " + classe : "");
+    e.textContent = texte;
+    return e;
+}
+
+function nomPseudo(c, element) {
+    if (c.pseudo) {
+        element.textContent = c.pseudo;
+    } else {
+        element.innerHTML = '<span class="sans-pseudo">sans pseudo</span>';
+    }
+    return element;
+}
+
+function ligneCompte(c) {
+    const ligne = document.createElement("button");
+    ligne.type = "button";
+    ligne.className = "compte-ligne";
+
+    const pastille = document.createElement("span");
+    pastille.className = "compte-pastille";
+    pastille.setAttribute("aria-hidden", "true");
+    pastille.textContent = c.pseudo ? c.pseudo.charAt(0).toUpperCase() : "?";
+
+    const texte = document.createElement("span");
+    const nom = nomPseudo(c, document.createElement("span"));
+    nom.className = "compte-nom";
+    const meta = document.createElement("span");
+    meta.className = "compte-meta";
+    meta.textContent = [
+        adresseMasquee(c.email),
+        "inscrit le " + dateCourte(c.cree),
+        c.derniere_connexion ? "connecté le " + dateCourte(c.derniere_connexion) : null,
+        c.langue ? String(c.langue).toUpperCase() : null
+    ].filter(Boolean).join(" · ");
+    texte.append(nom, document.createElement("br"), meta);
+
+    const envois = document.createElement("span");
+    envois.className = "compte-envois";
+    [[c.votes, "note"], [c.avis, "avis", "avis"], [c.photos, "photo"], [c.signalements, "signalement"], [c.parties, "partie"]]
+        .forEach(([n, singulier, plurielTexte]) => { if (n) envois.appendChild(etiquette(pluriel(n, singulier, plurielTexte))); });
+    if (!envois.children.length) envois.appendChild(etiquette("aucun envoi"));
+
+    ligne.append(pastille, texte, envois);
+    ligne.addEventListener("click", () => ouvrirFiche(c));
+    return ligne;
+}
+
+document.getElementById("comptesRecherche").addEventListener("input", () => { COMPTES_TOUT = false; dessinerComptes(); });
+document.getElementById("comptesTri").addEventListener("change", () => { COMPTES_TOUT = false; dessinerComptes(); });
+document.getElementById("comptesTout").addEventListener("click", () => { COMPTES_TOUT = true; dessinerComptes(); });
+
+/* ---- Fiche d'un compte ---- */
+
+function ligneInfo(libelle, contenu) {
+    const dt = document.createElement("dt");
+    dt.textContent = libelle;
+    const dd = document.createElement("dd");
+    dd.append(contenu);
+    document.getElementById("ficheInfos").append(dt, dd);
+}
+
+// Nom du terrain (terrains.geojson, comme les avis) et lien vers sa fiche sur le site.
+function terrainFiche(osmId) {
+    const bloc = document.createElement("span");
+    const t = terrainAvis(osmId);
+    bloc.textContent = [t.nom, t.commune].filter(Boolean).join(" · ");
+    if (isFinite(t.lat) && isFinite(t.lon)) {
+        bloc.append(" ");
+        bloc.appendChild(lienExterne("↗", "/carte.html?lat=" + Number(t.lat).toFixed(6) + "&lon=" + Number(t.lon).toFixed(6)));
+    }
+    return bloc;
+}
+
+function envoiFiche(morceaux, date, citation) {
+    const ligne = document.createElement("div");
+    ligne.className = "fiche-envoi";
+    morceaux.filter(Boolean).forEach(m => ligne.append(m));
+    const quand = document.createElement("span");
+    quand.className = "fiche-date";
+    quand.textContent = dateCourte(date);
+    ligne.appendChild(quand);
+    if (citation) {
+        const bloc = document.createElement("blockquote");
+        bloc.textContent = citation;
+        ligne.appendChild(bloc);
+    }
+    return ligne;
+}
+
+function sectionFiche(titre, lignes) {
+    if (!lignes.length) return null;
+    const section = document.createElement("div");
+    section.className = "fiche-section";
+    const h = document.createElement("h3");
+    h.textContent = titre + " (" + lignes.length + ")";
+    section.appendChild(h);
+    lignes.forEach(l => section.appendChild(l));
+    return section;
+}
+
+async function ouvrirFiche(c) {
+    FICHE = c;
+    nomPseudo(c, document.getElementById("ficheTitre"));
+    document.getElementById("ficheInfos").innerHTML = "";
+    const courriel = document.createElement("a");
+    courriel.href = "mailto:" + encodeURIComponent(c.email);
+    courriel.textContent = c.email;
+    ligneInfo("Adresse", courriel);
+    ligneInfo("Langue", String(c.langue || "fr").toUpperCase());
+    ligneInfo("Inscrit le", dateCourte(c.cree));
+    ligneInfo("Dernière connexion", c.derniere_connexion ? dateCourte(c.derniere_connexion) : "—");
+    const envois = document.getElementById("ficheEnvois");
+    envois.textContent = "Chargement des envois…";
+    envois.className = "fiche-vide";
+    document.getElementById("ficheConfirmation").hidden = true;
+    document.getElementById("ficheSupprimer").hidden = false;
+    document.getElementById("ficheErreur").textContent = "";
+    const dialogue = document.getElementById("ficheCompte");
+    if (!dialogue.open) dialogue.showModal();
+
+    let detail;
+    try {
+        [detail] = await Promise.all([
+            appeler("/admin/comptes/detail?id=" + encodeURIComponent(c.id)).then(r => r.json()),
+            chargerGeoTerrains()
+        ]);
+    } catch (e) {
+        if (FICHE === c) envois.textContent = "Envois indisponibles (voir le bandeau rouge).";
+        return;
+    }
+    if (FICHE !== c) return;   // une autre fiche a été ouverte entre-temps
+
+    const parties = detail.parties || {};
+    ligneInfo("Parties", parties.nombre
+        ? pluriel(parties.nombre, "partie") + ", la dernière le " + dateCourte(parties.derniere)
+        : "aucune");
+    ligneInfo("Appareils connectés", nombre(detail.appareils));
+
+    const sections = [
+        sectionFiche("Notes", detail.votes.map(v =>
+            envoiFiche([terrainFiche(v.osm_id), etiquette("★ " + v.note)], v.date))),
+        sectionFiche("Avis", detail.avis.map(a => {
+            const etat = ETATS_AVIS_COMPTE[a.statut] || [a.statut, ""];
+            return envoiFiche([terrainFiche(a.osm_id), etiquette(etat[0], etat[1])], a.cree, a.texte);
+        })),
+        sectionFiche("Photos", detail.photos.map(p => {
+            const etat = ETATS_PHOTO_COMPTE[p.statut] || [p.statut, ""];
+            return envoiFiche([terrainFiche(p.osm_id), etiquette(etat[0], etat[1])], p.cree);
+        })),
+        sectionFiche("Signalements", detail.signalements.map(s => {
+            const quoi = document.createElement("span");
+            quoi.textContent = [TYPES_SIGNALEMENT[s.type] || s.type, s.titre || s.osm_id].filter(Boolean).join(" · ");
+            return envoiFiche([quoi, etiquette(ETATS_SIGNALEMENT[s.statut] || s.statut, CLASSES_SIGNALEMENT[s.statut])], s.cree);
+        }))
+    ].filter(Boolean);
+    envois.innerHTML = "";
+    envois.className = "";
+    if (sections.length) {
+        sections.forEach(s => envois.appendChild(s));
+    } else {
+        envois.className = "fiche-vide";
+        envois.textContent = "Aucune note, aucun avis, aucune photo ni aucun signalement.";
+    }
+}
+
+document.getElementById("ficheFermer").addEventListener("click", () => document.getElementById("ficheCompte").close());
+
+document.getElementById("ficheSupprimer").addEventListener("click", () => {
+    document.getElementById("ficheConfirmationTitre").textContent =
+        "Supprimer le compte de " + (FICHE.pseudo || FICHE.email) + " ?";
+    document.getElementById("ficheErreur").textContent = "";
+    document.getElementById("ficheSupprimer").hidden = true;
+    document.getElementById("ficheConfirmation").hidden = false;
+    document.getElementById("ficheAnnulerSuppression").focus();
+});
+
+document.getElementById("ficheAnnulerSuppression").addEventListener("click", () => {
+    document.getElementById("ficheConfirmation").hidden = true;
+    document.getElementById("ficheSupprimer").hidden = false;
+});
+
+document.getElementById("ficheConfirmer").addEventListener("click", async () => {
+    const compte = FICHE;
+    const bouton = document.getElementById("ficheConfirmer");
+    bouton.disabled = true;
+    try {
+        await appeler("/admin/comptes/supprimer", {
+            method: "POST",
+            body: JSON.stringify({ id: compte.id, confirmation: true })
+        });
+    } catch (e) {
+        document.getElementById("ficheErreur").textContent = "La suppression a échoué : " + e.message + ". Le compte est intact.";
+        bouton.disabled = false;
+        return;
+    }
+    bouton.disabled = false;
+    COMPTES.comptes = COMPTES.comptes.filter(x => x !== compte);
+    // Le graphique compte les comptes existants : il perd lui aussi cette inscription.
+    const semaine = lundiDe(String(compte.cree).slice(0, 10));
+    const ligne = COMPTES.par_semaine.find(s => s.semaine === semaine);
+    if (ligne) ligne.comptes = Math.max(0, ligne.comptes - 1);
+    document.getElementById("ficheCompte").close();
+    afficherComptes();
+});
 
 
 /* ===================== Démarrage ===================== */
