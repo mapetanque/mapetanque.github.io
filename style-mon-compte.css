@@ -275,10 +275,14 @@ a.mc-envoi:hover {
     border-color: #74C15A;
 }
 
-/* --- Mes parties (annoncé) ----------------------------------------------------------------- */
+/* --- Mes parties : résumé et lien vers mes-parties.html ------------------------------------ */
 .mc-parties {
     margin-bottom: 0;
-    opacity: 0.85;
+}
+
+.mc-parties-lien {
+    font-size: 14.5px;
+    font-weight: bold;
 }
 
 /* --- Suppression --------------------------------------------------------------------------- */

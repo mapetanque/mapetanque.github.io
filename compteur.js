@@ -700,7 +700,11 @@
       } else {
         terrain = '<div class="liens-carte">' + bouton('terrain', PICTOS.lieu + echapper(libelle('compteur_ajouter_terrain'))) + '</div>';
       }
-      h = '<div class="tete-carte' + (statut === 'ok' ? '' : ' neutre') + '">' + (statut === 'ok' ? PICTOS.ok : PICTOS.info) + echapper(libelle(titres[statut])) + '</div>' +
+      // Une fois enregistrée, le titre mène à la page « Mes parties »
+      const titre = statut === 'ok'
+        ? '<a href="' + (langue === 'fr' ? '/' : '/' + langue + '/') + 'mes-parties.html">' + echapper(libelle(titres[statut])) + '</a>'
+        : echapper(libelle(titres[statut]));
+      h = '<div class="tete-carte' + (statut === 'ok' ? '' : ' neutre') + '">' + (statut === 'ok' ? PICTOS.ok : PICTOS.info) + titre + '</div>' +
         '<div class="ligne-carte"><span class="resultat ' + (gagne ? 'v' : 'd') + '">' + echapper(libelle(gagne ? 'compteur_victoire' : 'compteur_defaite')) + ' ' + moiScore + ' – ' + leurScore + '</span>' + fanny + '</div>' +
         ligne(PICTOS.horloge, echapper(libelle('compteur_duree', { menes: state.menes.length, minutes }))) +
         ligne(PICTOS.equipes, echapper(texteJoueurs())) +

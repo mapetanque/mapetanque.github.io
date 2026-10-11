@@ -3,11 +3,13 @@
 // Mise en page validée sur maquettes/mon-compte/index.html. Dessinée dans #mon-compte :
 //   - en-tête : pastille, « Bonjour {pseudo} ! », adresse du compte ;
 //   - pseudo sur une ligne, « Modifier » (ou « Choisir ») ouvre le champ sur place ;
+//   - « Mes parties » : résumé (route /compte/parties) et lien vers mes-parties.html, placé
+//     au-dessus des contributions ;
 //   - « Mes contributions » (route /compte/contributions) : filtres qui servent aussi de résumé,
 //     5 envois, puis « Afficher N de plus » et « Réduire » comme dans les propositions de la
 //     recherche ; chaque envoi mène au terrain sur la carte ;
-//   - « Mes parties » annoncé (bientôt), déconnexion, suppression du compte (écran de
-//     confirmation dans la page, route /compte/supprimer).
+//   - déconnexion, suppression du compte (écran de confirmation dans la page, route
+//     /compte/supprimer).
 // Sans session (ou session refusée par le Worker) : renvoi vers la page Connexion, qui ramène
 // ici une fois connecté (?retour=).
 //
@@ -341,6 +343,37 @@
     }
 
 
+    // --- Mes parties : résumé ---------------------------------------------------------------
+    // « 46 parties · 65 % de victoires · dernière le 9 oct. », la page mes-parties.html faisant
+    // le reste. Réponse indisponible : la phrase d'annonce reste, le lien aussi.
+
+    var resumeParties = null;   // texte du résumé, une fois les parties lues
+
+    function dessinerResumeParties() {
+        var resume = zone.querySelector('.mc-parties-resume');
+        if (resume && resumeParties) resume.textContent = resumeParties;
+    }
+
+    function chargerResumeParties() {
+        compte.appel('GET', '/compte/parties').then(function (reponse) {
+            if (reponse.statut !== 200) return;
+            var liste = reponse.donnees.parties || [];
+            if (!liste.length) {
+                resumeParties = t('moncompte_parties_aucune');
+            } else {
+                var victoires = liste.filter(function (p) { return Number(p.victoire) === 1; }).length;
+                var derniere = liste.reduce(function (d, p) { return String(p.fin) > d ? String(p.fin) : d; }, '');
+                var un = currentLang === 'fr' ? liste.length < 2 : liste.length === 1;
+                resumeParties = t('moncompte_parties_resume')
+                    .replace('{parties}', t(un ? 'mesparties_parties_1' : 'mesparties_parties_n').replace('{n}', liste.length))
+                    .replace('{pct}', Math.round(100 * victoires / liste.length))
+                    .replace('{date}', dateCourte(derniere));
+            }
+            dessinerResumeParties();
+        });
+    }
+
+
     // --- Page -------------------------------------------------------------------------------
 
     function pseudoHtml(session, enEdition) {
@@ -444,17 +477,19 @@
             '<div class="mc-entete"></div>' +
             '<div class="connexion-carte mc-pseudo"></div>' +
 
-            '<h2 class="mc-titre">' + echapper(t('moncompte_envois_titre')) + '</h2>' +
-            '<div class="mc-envois-zone"></div>' +
-
+            // Mes parties avant Mes contributions : un bloc court, au-dessus d'une liste longue
             '<h2 class="mc-titre">' + echapper(t('moncompte_parties_titre')) + '</h2>' +
             '<div class="connexion-carte">' +
             '  <div class="connexion-avantage mc-parties">' +
             '    <div class="connexion-picto">' + PICTOS.parties + '</div>' +
-            '    <div><strong>' + echapper(t('moncompte_parties_nom')) + '<span class="connexion-bientot">' + echapper(t('compte_bientot')) + '</span></strong>' +
-            '    <span>' + echapper(t('compte_avantage_parties')) + '</span></div>' +
+            '    <div><strong>' + echapper(t('moncompte_parties_nom')) + '</strong>' +
+            '    <span class="mc-parties-resume">' + echapper(t('compte_avantage_parties')) + '</span></div>' +
             '  </div>' +
+            '  <a class="mc-lien mc-parties-lien" href="' + prefixe + 'mes-parties.html">' + echapper(t('moncompte_parties_voir')) + '</a>' +
             '</div>' +
+
+            '<h2 class="mc-titre">' + echapper(t('moncompte_envois_titre')) + '</h2>' +
+            '<div class="mc-envois-zone"></div>' +
 
             '<h2 class="mc-titre">' + echapper(t('moncompte_compte_titre')) + '</h2>' +
             '<div class="connexion-carte">' +
@@ -467,6 +502,7 @@
         dessinerEntete();
         brancherPseudo(!compte.session().pseudo);
         dessinerEnvois();
+        dessinerResumeParties();
 
         zone.querySelector('[data-action="deconnecter"]').addEventListener('click', function () {
             quitte = true;
@@ -536,6 +572,7 @@
     }
     afficherPage();
     chargerEnvois();
+    chargerResumeParties();
 
     // Pseudo changé ou session effacée depuis un autre appareil : la page se met à jour
     compte.verifier().then(function (session) {

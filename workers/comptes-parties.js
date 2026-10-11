@@ -194,3 +194,108 @@ async function listerJoueurs(request, env, origine) {
     .bind(compte.id).all();
   return json({ joueurs: results.map(j => ({ nom: j.nom })) }, 200, origine);
 }
+
+// ===================== Parties, phase 2 : page « Mes parties » =====================
+// Deux routes de plus pour la page mes-parties.html (fiche d'une partie et carnet de joueurs).
+// Section à coller à la suite de la précédente. Branchement dans le fetch du Worker :
+//
+//   if (request.method === "POST" && chemin === "/compte/parties/modifier") return await modifierPartie(request, env, origine);
+//   if (request.method === "POST" && chemin === "/compte/joueurs/renommer") return await renommerJoueur(request, env, origine);
+//
+// Routes (jeton de session dans l'en-tête Authorization) :
+//   POST /compte/parties/modifier   { id, format, mon_equipe, joueurs: { a: [noms], b: [noms] }, terrain }
+//                                   équipes ou terrain d'une partie déjà enregistrée ; le score et
+//                                   les mènes ne changent pas, la victoire suit l'équipe du
+//                                   titulaire                                -> { ok }
+//   POST /compte/joueurs/renommer   { ancien, nouveau }  corrige un nom du carnet ; si le nouveau
+//                                   nom est déjà dans le carnet, les deux joueurs n'en font plus
+//                                   qu'un                                    -> { ok, fusion }
+// Erreurs : 401 non_connecte ; 404 partie_introuvable, joueur_introuvable ; 400 partie_invalide
+// (avec detail), nom_invalide.
+
+// Identifiants du carnet pour ces noms, créés au besoin. Contrairement à l'enregistrement d'une
+// partie, corriger une partie ancienne ne fait pas remonter ses joueurs dans les « récents ».
+async function idsCarnetParties(env, compteId, noms) {
+  const ids = {};
+  if (!noms.length) return ids;
+  await env.DB.batch(noms.map(nom => env.DB.prepare(
+    "INSERT INTO joueurs (id, compte_id, nom, cle) VALUES (?, ?, ?, ?) ON CONFLICT(compte_id, cle) DO NOTHING"
+  ).bind(crypto.randomUUID(), compteId, nom, cleNomJoueur(nom))));
+  const cles = noms.map(cleNomJoueur);
+  const { results } = await env.DB.prepare(
+    "SELECT id, cle FROM joueurs WHERE compte_id = ? AND cle IN (" + cles.map(() => "?").join(",") + ")"
+  ).bind(compteId, ...cles).all();
+  results.forEach(l => { ids[l.cle] = l.id; });
+  return ids;
+}
+
+async function modifierPartie(request, env, origine) {
+  const compte = await compteDepuisRequete(request, env);
+  if (!compte) return json({ erreur: "non_connecte" }, 401, origine);
+  const d = await lireJson(request);
+  const p = await env.DB.prepare("SELECT id, objectif, score_a, score_b FROM parties WHERE id = ? AND compte_id = ?")
+    .bind(typeof d.id === "string" ? d.id : "", compte.id).first();
+  if (!p) return json({ erreur: "partie_introuvable" }, 404, origine);
+
+  const invalide = detail => json({ erreur: "partie_invalide", detail }, 400, origine);
+  if (![1, 2, 3].includes(d.format)) return invalide("format");
+  if (d.mon_equipe !== "a" && d.mon_equipe !== "b") return invalide("mon_equipe");
+  // Mêmes règles que verifierPartie : places selon le format, un nom une seule fois
+  const joueurs = { a: [], b: [] };
+  for (const equipe of ["a", "b"]) {
+    const liste = (d.joueurs && Array.isArray(d.joueurs[equipe])) ? d.joueurs[equipe] : [];
+    if (liste.length > d.format - (d.mon_equipe === equipe ? 1 : 0)) return invalide("joueurs");
+    for (const nom of liste) {
+      const n = nomJoueurPropre(nom);
+      if (!n) return invalide("joueurs");
+      if (!joueurs.a.concat(joueurs.b).some(x => cleNomJoueur(x) === cleNomJoueur(n))) joueurs[equipe].push(n);
+    }
+  }
+  if (d.terrain !== null && !(typeof d.terrain === "string" && /^(node|way|relation)\/[0-9]{1,16}$/.test(d.terrain))) return invalide("terrain");
+
+  const ids = await idsCarnetParties(env, compte.id, joueurs.a.concat(joueurs.b));
+  const parId = { a: joueurs.a.map(n => ids[cleNomJoueur(n)]), b: joueurs.b.map(n => ids[cleNomJoueur(n)]) };
+  const victoire = (d.mon_equipe === "a" ? p.score_a : p.score_b) === p.objectif ? 1 : 0;
+  await env.DB.prepare(
+    "UPDATE parties SET format = ?, mon_equipe = ?, victoire = ?, joueurs = ?, terrain = ?, maj = datetime('now') WHERE id = ? AND compte_id = ?"
+  ).bind(d.format, d.mon_equipe, victoire, JSON.stringify(parId), d.terrain, p.id, compte.id).run();
+  return json({ ok: true }, 200, origine);
+}
+
+async function renommerJoueur(request, env, origine) {
+  const compte = await compteDepuisRequete(request, env);
+  if (!compte) return json({ erreur: "non_connecte" }, 401, origine);
+  const d = await lireJson(request);
+  const nouveau = nomJoueurPropre(d.nouveau);
+  if (!nouveau || typeof d.ancien !== "string") return json({ erreur: "nom_invalide" }, 400, origine);
+  const ancien = await env.DB.prepare("SELECT id, compte_lie FROM joueurs WHERE compte_id = ? AND cle = ?")
+    .bind(compte.id, cleNomJoueur(d.ancien)).first();
+  if (!ancien) return json({ erreur: "joueur_introuvable" }, 404, origine);
+  const cible = await env.DB.prepare("SELECT id FROM joueurs WHERE compte_id = ? AND cle = ?")
+    .bind(compte.id, cleNomJoueur(nouveau)).first();
+
+  // Simple correction, y compris des majuscules ou des accents (« julie » → « Julie »)
+  if (!cible || cible.id === ancien.id) {
+    await env.DB.prepare("UPDATE joueurs SET nom = ?, cle = ? WHERE id = ?").bind(nouveau, cleNomJoueur(nouveau), ancien.id).run();
+    return json({ ok: true, fusion: false }, 200, origine);
+  }
+
+  // Fusion (« Julei » → « Julie ») : les parties de l'ancien passent au joueur déjà présent, qui
+  // garde son nom ; l'ancien disparaît du carnet. Une entrée reliée à un compte (étape B) garde
+  // son lien.
+  const { results } = await env.DB.prepare("SELECT id, joueurs FROM parties WHERE compte_id = ? AND joueurs LIKE ?")
+    .bind(compte.id, '%"' + ancien.id + '"%').all();
+  const requetes = results.map(partie => {
+    const j = JSON.parse(partie.joueurs || "{}");
+    const a = j.a || [], b = j.b || [];
+    // Les deux noms dans la même partie, chacun dans une équipe : le joueur reste là où il était
+    const ailleurs = a.includes(ancien.id) ? b.includes(cible.id) : a.includes(cible.id);
+    const changer = l => (ailleurs ? l.filter(x => x !== ancien.id) : l.map(x => x === ancien.id ? cible.id : x))
+      .filter((x, i, t) => t.indexOf(x) === i);
+    return env.DB.prepare("UPDATE parties SET joueurs = ? WHERE id = ?").bind(JSON.stringify({ a: changer(a), b: changer(b) }), partie.id);
+  });
+  requetes.push(env.DB.prepare("UPDATE joueurs SET compte_lie = COALESCE(compte_lie, ?), utilise = datetime('now') WHERE id = ?").bind(ancien.compte_lie, cible.id));
+  requetes.push(env.DB.prepare("DELETE FROM joueurs WHERE id = ?").bind(ancien.id));
+  await env.DB.batch(requetes);
+  return json({ ok: true, fusion: true }, 200, origine);
+}

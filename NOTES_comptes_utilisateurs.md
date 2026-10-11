@@ -876,17 +876,17 @@ Maquette validée par Rémy le 10 octobre 2026 (artefact « Mes parties Mapetanq
   par défaut) et format (toutes, tête-à-tête, doublette, triplette, avec leur nombre). Toucher
   un partenaire ou un adversaire ajoute le filtre « Avec ou contre {nom} ».
 - Ordre des blocs :
-  1. chiffres clés : victoires (anneau, « 30 sur 46 »), forme des 10 dernières (V/D, la plus
-     récente à droite), série en cours, écart moyen de points, fannys données / prises, durée
-     moyenne ;
+  1. chiffres clés : victoires (anneau, « 30 sur 46 »), série en cours, écart moyen de
+     points, fannys données / prises, durée moyenne (la forme des 10 dernières, V/D, retirée par
+     Rémy le 11 octobre 2026) ;
   2. « Avec qui » : partenaires / adversaires, comptés par joueur (pas par équipe), victoires
      sur parties et pourcentage avec une jauge ;
   3. parties, de la plus récente à la plus ancienne, groupées par mois (« Octobre 2026 ·
      3 parties · 0 victoire ») ; 5 d'abord, puis « Afficher 10 de plus » et « Réduire ». Sous
      la liste, « Voir l'activité par mois » déroule un graphique (victoires et défaites
      empilées) : souvent creux, il ne prend pas de place par défaut ;
-  4. records : plus belle remontée (« de 4 – 11 à 13 – 12 »), plus longue série, plus grosse
-     mène, partie la plus longue ;
+  4. records : plus belle remontée (« de 4 – 11 à 13 – 12 »), plus longue série, partie la
+     plus longue (plus grosse mène retirée par Rémy le 11 octobre 2026) ;
   5. terrains les plus joués (3), avec le nombre de parties sans terrain indiqué ;
   6. « Carnet de joueurs » (sans compteur à droite) : renommer un nom ; donner le nom d'un autre
      joueur du carnet fusionne les deux.
@@ -915,3 +915,32 @@ Maquette validée par Rémy le 10 octobre 2026 (artefact « Mes parties Mapetanq
 - Étape B, en haut de la page : « Julie vous propose une partie », avec Garder ou Refuser.
 - Plus tard : partager une partie ou ses stats en image, comparer avec ses amis (après l'étape B).
 
+### Phase 2 codée (11 octobre 2026)
+
+Côté site, prêt à tester :
+- `mes-parties.html` en 4 langues (`scripts/generer_mes_parties.py`, `noindex`, hors sitemap),
+  `mes-parties.js`, `style-mes-parties.css` ; fil d'Ariane Accueil › Mon compte › Mes parties.
+  Tout ce qui est décidé plus haut, sauf ce qui attend l'étape B (invitations, « Proposer à »,
+  « compte Mapetanque : … » dans le carnet).
+- Fiche d'une partie : « Modifier les équipes » (format, partenaires, adversaires, « Changer
+  d'équipe » ; la victoire suit), terrain ajouté, changé ou retiré par une recherche parmi les
+  terrains du site (rue, localité, commune), « Retirer » avec confirmation.
+- Carnet : « Renommer » ; le nom d'un autre joueur du carnet fusionne les deux (une partie où
+  ils étaient adversaires garde le joueur à sa place). Le carnet n'affiche que les noms présents
+  dans au moins une partie.
+- Mon compte : le bloc « Mes parties » n'est plus « bientôt » : résumé (« 46 parties · 54 % de
+  victoires · dernière le 8 oct. ») et lien. Compteur : « Enregistrée dans Mes parties » est un
+  lien (`compteur.js?v=3`, `style-compteur.css?v=3`, `translations.js?v=4`).
+- Pas encore fait : l'entrée « Mes parties » dans le menu du compte (il n'y a pour l'instant
+  qu'une ligne vers Mon compte, menu à dessiner).
+
+Côté Worker, à faire par Rémy : la section « Parties, phase 2 » de `workers/comptes-parties.js`
+(routes `/compte/parties/modifier` et `/compte/joueurs/renommer`) se colle à la suite de celle de
+la phase 1, avec ses deux lignes de branchement dans le `fetch`. Pas de nouvelle table.
+
+Essayé le 11 octobre 2026 : le vrai code de `workers/comptes-parties.js` sur une base SQLite qui
+imite D1 (node:sqlite), avec 46 parties d'exemple, puis la page dans le navigateur (téléphone et
+ordinateur) : filtres, « Avec qui » et filtre d'un joueur, liste et « Afficher 10 de plus »,
+activité par mois, records, terrains, fiche, modification des équipes (places refusées, changement
+d'équipe), terrain, retrait, renommage, fusion (aussi entre adversaires), nom refusé, page vide,
+version néerlandaise, résumé de Mon compte, partie du compteur envoyée puis lien vers la page.

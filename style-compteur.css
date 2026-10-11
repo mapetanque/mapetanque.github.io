@@ -449,6 +449,7 @@ body.fullscreen-lock {
 .tete-carte{ display: flex; align-items: center; gap: 7px; font-family: 'Manrope', Arial, sans-serif; font-weight: 700; font-size: 13px; color: #9fd585; }
 .tete-carte svg{ width: 16px; height: 16px; }
 .tete-carte.neutre{ color: var(--sand); }
+.tete-carte a{ color: inherit; text-underline-offset: 3px; }
 .ligne-carte{ display: flex; align-items: flex-start; gap: 8px; color: var(--sand); }
 .ligne-carte > svg{ color: var(--sand-dim); margin-top: 2px; }
 .ligne-carte > span{ min-width: 0; }
