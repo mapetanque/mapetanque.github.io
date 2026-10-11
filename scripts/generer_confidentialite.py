@@ -165,6 +165,9 @@ CONTENU = {
                  "transmet votre adresse mail, jamais votre mot de passe."),
                 ("GitHub Pages", " : hébergement du site."),
                 ("Mapillary", " : publication des photos retenues."),
+                ("Ko-fi",
+                 " : dons, si vous choisissez de soutenir le site. Le paiement se fait sur "
+                 "son site : Mapetanque.be ne voit jamais vos coordonnées bancaires."),
             ],
             "paragraphes_apres": [
                 "Votre navigateur contacte aussi directement, et leur transmet donc votre "
@@ -305,6 +308,9 @@ CONTENU = {
                  "uw e-mailadres door, nooit uw wachtwoord."),
                 ("GitHub Pages", ": hosting van de site."),
                 ("Mapillary", ": publicatie van de weerhouden foto's."),
+                ("Ko-fi",
+                 ": giften, als u ervoor kiest de site te steunen. De betaling gebeurt op "
+                 "hun site: Mapetanque.be ziet nooit uw bankgegevens."),
             ],
             "paragraphes_apres": [
                 "Je browser maakt ook rechtstreeks contact met de volgende diensten, die dus je "
@@ -446,6 +452,9 @@ CONTENU = {
                  "uns Ihre E-Mail-Adresse, niemals Ihr Passwort."),
                 ("GitHub Pages", ": Hosting der Website."),
                 ("Mapillary", ": Veröffentlichung der angenommenen Fotos."),
+                ("Ko-fi",
+                 ": Spenden, wenn Sie die Website unterstützen möchten. Die Zahlung erfolgt "
+                 "auf deren Website: Mapetanque.be sieht Ihre Bankdaten nie."),
             ],
             "paragraphes_apres": [
                 "Ihr Browser kontaktiert außerdem direkt folgende Dienste, die dabei Ihre "
@@ -584,6 +593,9 @@ CONTENU = {
                  "email address to us, never your password."),
                 ("GitHub Pages", ": hosting of the site."),
                 ("Mapillary", ": publication of accepted photos."),
+                ("Ko-fi",
+                 ": donations, if you choose to support the site. Payment takes place on "
+                 "their site: Mapetanque.be never sees your bank details."),
             ],
             "paragraphes_apres": [
                 "Your browser also contacts the following services directly, which therefore "

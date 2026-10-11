@@ -80,35 +80,51 @@
     "date": "2026-10-09"
   },
   "https://mapetanque.be/a-propos.html": {
-    "empreinte": "83b3a94f62d7c5f3",
-    "date": "2026-10-09"
+    "empreinte": "9396a2dec4ea07a2",
+    "date": "2026-10-11"
   },
   "https://mapetanque.be/nl/a-propos.html": {
-    "empreinte": "ea34de502034c0b0",
-    "date": "2026-10-09"
+    "empreinte": "5ddfdf9e450716e3",
+    "date": "2026-10-11"
   },
   "https://mapetanque.be/de/a-propos.html": {
-    "empreinte": "12aec38a62acd142",
-    "date": "2026-10-09"
+    "empreinte": "dc875a09eb7a810d",
+    "date": "2026-10-11"
   },
   "https://mapetanque.be/en/a-propos.html": {
-    "empreinte": "e91cbc4cd3cd191c",
-    "date": "2026-10-09"
+    "empreinte": "8ea7df23c1698e3e",
+    "date": "2026-10-11"
+  },
+  "https://mapetanque.be/soutenir.html": {
+    "empreinte": "4758f88c4d6c918f",
+    "date": "2026-10-11"
+  },
+  "https://mapetanque.be/nl/soutenir.html": {
+    "empreinte": "2f8d44aee4fb982a",
+    "date": "2026-10-11"
+  },
+  "https://mapetanque.be/de/soutenir.html": {
+    "empreinte": "6defc31808db2e05",
+    "date": "2026-10-11"
+  },
+  "https://mapetanque.be/en/soutenir.html": {
+    "empreinte": "c48119bb957e8184",
+    "date": "2026-10-11"
   },
   "https://mapetanque.be/confidentialite.html": {
-    "empreinte": "14ef6d64275ee7d7",
+    "empreinte": "bc908b731e37981d",
     "date": "2026-10-11"
   },
   "https://mapetanque.be/nl/confidentialite.html": {
-    "empreinte": "3b5fd9f9424c0e74",
+    "empreinte": "a40b6f356779abc0",
     "date": "2026-10-11"
   },
   "https://mapetanque.be/de/confidentialite.html": {
-    "empreinte": "2ea7d4a9329709ae",
+    "empreinte": "38ea8fbe7432259a",
     "date": "2026-10-11"
   },
   "https://mapetanque.be/en/confidentialite.html": {
-    "empreinte": "1d50086cc80a9005",
+    "empreinte": "9ef021f37241db72",
     "date": "2026-10-11"
   },
   "https://mapetanque.be/communes.html": {
