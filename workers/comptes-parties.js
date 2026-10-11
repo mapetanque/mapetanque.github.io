@@ -351,6 +351,11 @@ async function renommerJoueur(request, env, origine) {
 //   rejoints : [{ equipe, nom, pseudo }]
 // Erreurs : 401 non_connecte ; 404 introuvable ; 400 etat_invalide, place_invalide, place_prise,
 // marqueur ; 429 trop_de_partages.
+//
+// Score en direct (étape 2) : chaque mène, chaque place prise et l'enregistrement de la partie
+// sont relayés au Worker mapetanque-direct (workers/direct/), qui les pousse aux téléphones
+// connectés. Liaison de service à ajouter dans les réglages de ce Worker : nom DIRECT, service
+// mapetanque-direct. Sans elle, rien ne change : la page de l'ami garde « Actualiser ».
 
 const PARTAGES_PAR_JOUR = 40;
 const DUREE_PARTAGE = "-7 days";   // un code sert encore 7 jours après la dernière mène
@@ -359,6 +364,16 @@ const UUID_PARTIE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{1
 
 function codePartage() {
   return Array.from(crypto.getRandomValues(new Uint8Array(4)), x => LETTRES_CODE[x % LETTRES_CODE.length]).join("");
+}
+
+// Relais au Worker du direct ; une panne de celui-ci ne doit jamais faire échouer la route
+async function relayerDirect(env, code, donnees) {
+  if (!env.DIRECT || !code) return;
+  try {
+    await env.DIRECT.relayer(code, donnees);
+  } catch (e) {
+    console.error("direct", e && e.message ? e.message : e);
+  }
 }
 
 function codeDemande(texte) {
@@ -433,7 +448,9 @@ async function creerPartage(request, env, origine) {
   if (existant) {
     if (existant.compte_id !== compte.id) return json({ erreur: "etat_invalide" }, 400, origine);
     await env.DB.prepare("UPDATE partages SET etat = ?, maj = datetime('now') WHERE code = ?").bind(JSON.stringify(etat), existant.code).run();
-    return json({ code: existant.code, rejoints: rejointsPublics(await rejointsPartage(env, d.partie_id)) }, 200, origine);
+    const rejoints = rejointsPublics(await rejointsPartage(env, d.partie_id));
+    await relayerDirect(env, existant.code, { type: "etat", etat, rejoints, maj: Date.now() });
+    return json({ code: existant.code, rejoints }, 200, origine);
   }
 
   // Les codes expirés sont libérés ; les places prises (partage_joueurs) restent, pour les copies
@@ -463,7 +480,9 @@ async function majPartage(request, env, origine) {
     .bind(codeDemande(d.code), compte.id).first();
   if (!p) return json({ erreur: "introuvable" }, 404, origine);
   await env.DB.prepare("UPDATE partages SET etat = ?, maj = datetime('now') WHERE code = ?").bind(JSON.stringify(etat), p.code).run();
-  return json({ ok: true, rejoints: rejointsPublics(await rejointsPartage(env, p.partie_id)) }, 200, origine);
+  const rejoints = rejointsPublics(await rejointsPartage(env, p.partie_id));
+  await relayerDirect(env, p.code, { type: "etat", etat, rejoints, maj: Date.now() });
+  return json({ ok: true, rejoints }, 200, origine);
 }
 
 // Page de l'ami (partie.html) : la partie, qui a rejoint, et sa propre place s'il est connecté
@@ -518,6 +537,7 @@ async function rejoindrePartage(request, env, origine) {
     "INSERT INTO partage_joueurs (partie_id, compte_id, equipe, nom) VALUES (?, ?, ?, ?)"
     + " ON CONFLICT(partie_id, compte_id) DO UPDATE SET equipe = excluded.equipe, nom = excluded.nom"
   ).bind(p.partie_id, compte.id, d.equipe, nom).run();
+  await relayerDirect(env, p.code, { type: "etat", etat, rejoints: rejointsPublics(await rejointsPartage(env, p.partie_id)), maj: Date.now() });
   // Partie déjà enregistrée par le marqueur (scannée après la fin) : la copie arrive tout de suite
   await synchroniserCopies(env, p.partie_id);
   return json({ ok: true }, 200, origine);
@@ -604,4 +624,7 @@ async function synchroniserCopies(env, partieId) {
     rejoints.forEach(autre => { if (autre.compte_id !== r.compte_id && nomDans(autre)) lots.push(relier(r.compte_id, nomDans(autre), autre.compte_id)); });
   }
   if (lots.length) await env.DB.batch(lots);
+  // Les pages des joueurs qui suivent la partie relisent leur statut (« Enregistrée dans vos parties »)
+  const partage = await env.DB.prepare("SELECT code FROM partages WHERE partie_id = ?").bind(partieId).first();
+  if (partage) await relayerDirect(env, partage.code, { type: "enregistree" });
 }

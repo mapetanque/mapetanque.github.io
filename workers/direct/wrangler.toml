@@ -1,0 +1,19 @@
+# Configuration du Worker mapetanque-direct (score en direct des parties partagées).
+# Mise en ligne depuis ce dossier : npx wrangler deploy
+# (une seule fois avant, pour relier Wrangler au compte Cloudflare : npx wrangler login)
+
+name = "mapetanque-direct"
+main = "index.js"
+compatibility_date = "2026-06-01"
+workers_dev = true
+
+# Un objet par partie partagée, retrouvé par le code de la partie
+[[durable_objects.bindings]]
+name = "PARTIES"
+class_name = "PartieDirect"
+
+# Création de la classe d'objets, stockée en SQLite (seule version de l'offre gratuite).
+# Une migration déjà appliquée ne se modifie jamais : on en ajoute une nouvelle (tag v2…).
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["PartieDirect"]

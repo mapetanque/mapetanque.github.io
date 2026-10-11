@@ -8,8 +8,9 @@
 //     marqueur ou une place libre, ou « Je regarde seulement ». Scanner vaut accord : la partie
 //     arrivera dans ses parties ;
 //   - sans compte : « Suivre le score », ou se connecter pour garder la partie ;
-//   - dans la partie, ou spectateur : le score, relu avec « Actualiser » (pas encore de direct) ;
-//     à la fin, « Enregistrée dans vos parties ».
+//   - dans la partie, ou spectateur : le score en direct (WebSocket vers le Worker
+//     mapetanque-direct, workers/direct/) ; si la connexion tombe, « Actualiser » le relit, et
+//     la page se reconnecte d'elle-même ; à la fin, « Enregistrée dans vos parties ».
 // Routes du Worker des comptes : GET /partage et POST /partage/rejoindre (workers/comptes-parties.js).
 //
 // Chargé après script.js (t, currentLang, echapperAvis) et compte.js (window.mapetanqueCompte).
@@ -21,6 +22,8 @@
     var prefixe = currentLang === 'fr' ? '/' : '/' + currentLang + '/';
     var locale = { fr: 'fr-BE', nl: 'nl-BE', de: 'de-BE', en: 'en-GB' }[currentLang] || 'fr-BE';
     var CLE_SPECTATEUR = 'mapetanque_partie_spectateur';   // codes suivis sans prendre de place (cet onglet)
+    var URL_DIRECT = 'wss://mapetanque-direct.mapetanque.workers.dev';
+    var PING = 30000;         // ms : garde la connexion ouverte (réponse sans réveiller le serveur)
 
     var code = codeDemande(new URLSearchParams(window.location.search).get('code'));
     var donnees = null;       // réponse de GET /partage
@@ -29,6 +32,15 @@
     var luA = null;           // heure de la dernière lecture
     var envoiEnCours = false;
     var spectateur = lireSpectateur();
+    var gain = null;          // dernière mène reçue en direct : « +3 » sur la ligne de l'équipe
+    var majConnue = 0;        // heure (ms) de l'état affiché : un état plus ancien reçu ensuite est ignoré
+
+    // Connexion du direct
+    var ws = null;
+    var direct = false;       // connexion ouverte : le score arrive seul
+    var essaisDirect = 0;
+    var minuteurDirect = null;
+    var minuteurPing = null;
 
     function picto(chemins) {
         return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + chemins + '</svg>';
@@ -121,6 +133,7 @@
     function etiquette() {
         var et = donnees.etat;
         if (et.termine) return '<span class="pt-etiq gris">' + echapper(t('partie_terminee')) + '</span>';
+        if (direct) return '<span class="pt-etiq direct"><i></i>' + echapper(libelle('partie_en_direct', { n: et.menes.length + 1 })) + '</span>';
         if (!et.menes.length) return '<span class="pt-etiq">' + echapper(t('partie_pas_commencee')) + '</span>';
         return '<span class="pt-etiq"><i></i>' + echapper(libelle('partie_en_cours', { n: et.menes.length + 1 })) + '</span>';
     }
@@ -129,7 +142,9 @@
         var moi = equipeMoi();
         var cote = function (e) {
             return '<div class="pt-eq ' + e + '"><span class="pt-n">' + (moi === e ? '<span class="pt-vous">' + PICTOS.vous + echapper(t('compteur_vous')) + '</span>' : '')
-                + '<span class="pt-noms">' + echapper(nomEquipe(e)) + '</span></span><span class="pt-s">' + score(e) + '</span></div>';
+                + '<span class="pt-noms">' + echapper(nomEquipe(e)) + '</span></span>'
+                + (gain && gain.e === e ? '<span class="pt-gain" aria-hidden="true">+' + gain.p + '</span>' : '')
+                + '<span class="pt-s">' + score(e) + '</span></div>';
         };
         var et = donnees.etat;
         var der = et.menes[et.menes.length - 1];
@@ -139,6 +154,7 @@
     }
 
     function boutonActualiser() {
+        if (direct) return '';
         var heure = luA ? luA.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' }) : '';
         return '<div class="pt-actualiser"><button type="button" class="pt-btn ligne" data-action="actualiser"' + (envoiEnCours ? ' disabled' : '') + '>'
             + PICTOS.actualiser + echapper(t('partie_actualiser')) + '</button>'
@@ -173,6 +189,7 @@
         else if (compte.session()) h += blocChoix();
         else h += blocInvite();
         zone.innerHTML = h;
+        gain = null;   // l'animation ne se rejoue pas au dessin suivant
     }
 
     function dessinerCode() {
@@ -270,6 +287,9 @@
                 donnees = reponse.donnees;
                 erreur = '';
                 luA = new Date();
+                // Dernière mise à jour de la partie dans la base (« AAAA-MM-JJ HH:MM:SS », UTC, à la seconde)
+                var maj = Date.parse(String(donnees.maj || '').replace(' ', 'T') + 'Z');
+                if (maj > majConnue) majConnue = maj;
             } else if (reponse.statut === 404) {
                 erreur = 'introuvable';
                 donnees = null;
@@ -277,8 +297,97 @@
                 erreur = 'reseau';
             }
             dessiner();
+            if (donnees && !fini()) brancherDirect(); else debrancherDirect();
         });
     }
+
+
+    // --- Score en direct ----------------------------------------------------------------------
+    // Une connexion WebSocket par page ouverte, fermée quand la page passe en arrière-plan (le
+    // téléphone n'a pas à la garder en poche) et rouverte au retour, avec une relecture complète.
+    // Coupée : nouvel essai après 2, 4, 8… secondes (30 au plus), et « Actualiser » en attendant.
+
+    // Plus rien à attendre : partie finie, et sa propre copie enregistrée (ou simple spectateur)
+    function fini() {
+        if (!donnees.etat.termine) return false;
+        return !donnees.moi || donnees.moi.enregistree || donnees.moi.retiree;
+    }
+
+    function brancherDirect() {
+        if (ws || !code || !('WebSocket' in window) || document.visibilityState !== 'visible') return;
+        clearTimeout(minuteurDirect);
+        try {
+            ws = new WebSocket(URL_DIRECT + '/partie/' + encodeURIComponent(code));
+        } catch (e) {
+            ws = null;
+            return;
+        }
+        var cette = ws;
+        ws.onopen = function () {
+            if (ws !== cette) return;
+            // Reconnexion après une coupure : des mènes ont pu être jouées entre-temps, on relit tout
+            var reprise = essaisDirect > 0;
+            direct = true;
+            essaisDirect = 0;
+            if (reprise) lire();
+            minuteurPing = setInterval(function () { try { cette.send('ping'); } catch (e) { } }, PING);
+            dessiner();
+        };
+        ws.onmessage = function (ev) {
+            if (ws !== cette || ev.data === 'pong') return;
+            var m;
+            try { m = JSON.parse(ev.data); } catch (e) { return; }
+            recevoir(m);
+        };
+        ws.onclose = function () {
+            if (ws !== cette) return;
+            var etaitDirect = direct;
+            ws = null;
+            direct = false;
+            clearInterval(minuteurPing);
+            if (etaitDirect) dessiner();
+            if (donnees && !fini() && document.visibilityState === 'visible') {
+                minuteurDirect = setTimeout(brancherDirect, Math.min(30000, 2000 * Math.pow(2, essaisDirect++)));
+            }
+        };
+    }
+
+    function debrancherDirect() {
+        clearTimeout(minuteurDirect);
+        clearInterval(minuteurPing);
+        if (!ws) return;
+        var ancienne = ws;
+        ws = null;
+        direct = false;
+        try { ancienne.close(); } catch (e) { }
+    }
+
+    // { type: "etat", etat, rejoints } après chaque mène ou place prise ; { type: "enregistree" }
+    // quand le marqueur a enregistré la partie (les copies sont faites : on relit son statut)
+    function recevoir(m) {
+        if (!donnees) return;
+        if (m.type === 'etat' && m.etat && Array.isArray(m.etat.menes)) {
+            // Dernier état gardé par le serveur du direct, plus ancien que celui déjà affiché
+            if (m.maj && m.maj < majConnue) return;
+            if (m.maj) majConnue = m.maj;
+            var avant = donnees.etat.menes.length;
+            donnees.etat = m.etat;
+            if (Array.isArray(m.rejoints)) donnees.rejoints = m.rejoints;
+            var der = m.etat.menes[m.etat.menes.length - 1];
+            gain = m.etat.menes.length > avant && der ? { e: der.e, p: der.p } : null;
+            luA = new Date();
+            dessiner();
+            if (fini()) debrancherDirect();
+        } else if (m.type === 'enregistree') {
+            lire();
+        }
+    }
+
+    document.addEventListener('visibilitychange', function () {
+        if (!code) return;
+        if (document.visibilityState === 'visible') lire();
+        else debrancherDirect();
+    });
 
     function rejoindre(equipe, nom) {
         statut = '';

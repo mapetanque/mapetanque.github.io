@@ -52,6 +52,15 @@
     background: #3D7A2A;
 }
 
+/* En direct : le point pulse */
+.pt-etiq.direct i {
+    animation: pt-pouls 1.6s ease-in-out infinite;
+}
+
+@keyframes pt-pouls {
+    50% { opacity: 0.25; }
+}
+
 .pt-etiq.gris {
     color: #56604F;
     background: #EEF0EC;
@@ -117,6 +126,38 @@
     width: 11px;
     height: 11px;
     stroke-width: 2.6;
+}
+
+/* « +3 » de la mène reçue en direct, qui s'envole puis disparaît */
+.pt-eq {
+    position: relative;
+}
+
+.pt-gain {
+    position: absolute;
+    right: 76px;
+    top: 50%;
+    font-family: 'Manrope', Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #f2ece0;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 999px;
+    padding: 3px 10px;
+    pointer-events: none;
+    animation: pt-envol 1.2s ease-out forwards;
+}
+
+@keyframes pt-envol {
+    0% { transform: translateY(-30%); opacity: 0; }
+    20% { transform: translateY(-50%); opacity: 1; }
+    100% { transform: translateY(-140%); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pt-etiq.direct i { animation: none; }
+    .pt-gain { animation: pt-fondu 1.6s forwards; }
+    @keyframes pt-fondu { 0%, 60% { opacity: 1; transform: translateY(-50%); } 100% { opacity: 0; transform: translateY(-50%); } }
 }
 
 .pt-s {

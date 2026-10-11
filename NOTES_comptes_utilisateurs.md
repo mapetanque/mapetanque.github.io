@@ -1072,3 +1072,29 @@ place libre, Marc sur son nom, score relu, fin de partie enregistrée chez les t
 code inconnu, sans compte (retour après connexion), « Partager » sans compte, barre du bas en
 néerlandais et en allemand à 360 px.
 
+### Étape 2 en ligne : score en direct (11 octobre 2026)
+
+- Worker `mapetanque-direct` (`workers/direct/index.js`, `wrangler.toml`), mis en ligne par Rémy
+  avec `npx wrangler deploy` depuis `workers/direct` (après `npx wrangler login`). Ne jamais le
+  modifier dans le tableau de bord. Un Durable Object `PartieDirect` par code de partie (SQLite,
+  migration `v1`) : WebSocket des pages qui suivent (origines du site et de Live Server
+  seulement), dernier état gardé pour qui arrive en cours de route, effacé 24 h après la
+  dernière mène (alarme), « ping » servi sans réveil (auto-réponse), 40 connexions au plus.
+- `mapetanque-comptes` relaie par une liaison de service `DIRECT` (Settings → Bindings → Service
+  binding, ajoutée par Rémy) et un appel de méthode (`env.DIRECT.relayer(code, donnees)`) :
+  chaque mène (`/compte/partage/etat`), le partage retrouvé, chaque place prise, et
+  « enregistrée » après les copies. Chaque état porte son heure (`maj`, ms). Sans liaison ou en
+  panne, rien n'échoue (`relayerDirect` attrape l'erreur) : la page garde « Actualiser ».
+- `partie.js` : « En direct · mène N » (point qui pulse), « +N » sur la ligne de l'équipe,
+  connexion fermée quand la page passe en arrière-plan et rouverte au retour avec relecture
+  complète ; coupure : « Actualiser », nouvel essai après 2, 4, 8… s (30 au plus), relecture à la
+  reconnexion, état plus ancien que celui affiché ignoré ; fin de partie : relecture à
+  « enregistrée », puis connexion fermée. `translations.js?v=6`.
+- Essais : vrai Durable Object sous `wrangler dev` (11 essais), routes des comptes (41), puis
+  navigateur à deux sessions (mène reçue en moins d'une demi-seconde, fin de partie, coupure et
+  reconnexion avec le bon score) ; testé en ligne par Rémy le 11 octobre 2026.
+- Piège local sous Windows : `wrangler dev` lancé depuis un dossier au chemin très long ne crée
+  aucun Durable Object (fichier SQLite au-delà de 260 caractères, « internal error ») ; utiliser
+  `--persist-to` vers un chemin court (`workers/direct/.wrangler/state`, ignoré par git).
+- Plus tard, si besoin : la vue de l'ami en compteur sombre de la maquette, un deuxième marqueur.
+
