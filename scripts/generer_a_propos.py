@@ -113,6 +113,14 @@ CONTENU = {
             ],
         },
         {
+            "titre": "Soutenir le site",
+            "page_lien": "soutenir.html",
+            "paragraphes_lien": [
+                "Mapetanque.be est entièrement gratuit. Si vous souhaitez participer à ses "
+                "frais, vous pouvez [m'offrir un café].",
+            ],
+        },
+        {
             "titre": "Qui suis-je ?",
             "paragraphes": [
                 "Liégeois de naissance et toujours installé dans la région, je joue à la "
@@ -159,6 +167,14 @@ CONTENU = {
             "paragraphes_lien": [
                 "Geen reclame of tracking, geen cookies, en een account is niet verplicht. "
                 "Alle details staan in de [privacyverklaring].",
+            ],
+        },
+        {
+            "titre": "De site steunen",
+            "page_lien": "soutenir.html",
+            "paragraphes_lien": [
+                "Mapetanque.be is volledig gratis. Wil je bijdragen aan de kosten, dan kan je "
+                "[me op een koffie trakteren].",
             ],
         },
         {
@@ -211,6 +227,14 @@ CONTENU = {
             ],
         },
         {
+            "titre": "Die Website unterstützen",
+            "page_lien": "soutenir.html",
+            "paragraphes_lien": [
+                "Mapetanque.be ist völlig kostenlos. Wenn Sie sich an den Kosten beteiligen "
+                "möchten, können Sie [mir einen Kaffee spendieren].",
+            ],
+        },
+        {
             "titre": "Wer ich bin",
             "paragraphes": [
                 "Gebürtiger Lütticher und dort noch immer zu Hause, spiele ich seit meiner "
@@ -255,6 +279,14 @@ CONTENU = {
             "paragraphes_lien": [
                 "No advertising or tracking, no cookies, and an account is optional. The "
                 "details are in the [privacy policy].",
+            ],
+        },
+        {
+            "titre": "Support the site",
+            "page_lien": "soutenir.html",
+            "paragraphes_lien": [
+                "Mapetanque.be is completely free. If you'd like to help with its costs, you "
+                "can [treat me to a coffee].",
             ],
         },
         {
@@ -330,9 +362,11 @@ def bloc_contenu(langue):
         for para in section.get("paragraphes_apres", []):
             morceaux.append(f"                <p>{echap(para)}</p>")
 
-        # Paragraphes dont le passage entre crochets mène à la politique de confidentialité
+        # Paragraphes dont le passage entre crochets mène à une autre page du site : la
+        # politique de confidentialité, sauf si la section en indique une autre (page_lien)
         for para in section.get("paragraphes_lien", []):
-            lien = f'<a href="/{META[langue]["prefixe"]}confidentialite.html">' + r"\1</a>"
+            cible = section.get("page_lien", "confidentialite.html")
+            lien = f'<a href="/{META[langue]["prefixe"]}{cible}">' + r"\1</a>"
             texte = re.sub(r"\[([^]]+)\]", lien, echap(para))
             morceaux.append(f"                <p>{texte}</p>")
 

@@ -43,7 +43,7 @@ DOSSIERS_LANGUES = ("", "nl/", "de/", "en/")
 
 # Ordre des pages dans le sitemap et dans llms.txt (les autres suivent, par ordre alphabétique)
 ORDRE_PAGES = ["index.html", "carte.html", "comment-jouer.html", "compteur.html", "la-petanque.html",
-               "a-propos.html", "confidentialite.html"]
+               "a-propos.html", "soutenir.html", "confidentialite.html"]
 
 ID_SITE = f"{BASE}/#site"
 ID_AUTEUR = f"{BASE}/#mapetanque"

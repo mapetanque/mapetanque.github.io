@@ -1,0 +1,58 @@
+/* =============================================================================================
+   Page « Soutenir » (dons).
+   Fichier additif : la page charge style-a-propos.css pour ses sections de texte, puis cette
+   feuille pour le bouton de don et le mot de remerciement.
+============================================================================================= */
+
+/* --- Bloc du bouton : fond brume, comme le bloc de contact de « À propos » --- */
+
+.soutenir-appel {
+    background: #F7F9F6;
+    border-radius: 10px;
+    padding: 24px 20px;
+    margin: 22px 0 26px;
+    text-align: center;
+}
+
+.soutenir-bouton {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #74C15A;
+    color: #fff;
+    font-family: 'Manrope', Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 13px 26px;
+    border-radius: 999px;
+    transition: background-color 0.15s ease;
+}
+
+.soutenir-bouton:hover {
+    background: #56A03D;
+}
+
+.soutenir-bouton svg {
+    width: 22px;
+    height: 22px;
+    flex: none;
+}
+
+.apropos-section .soutenir-note {
+    font-size: 13px;
+    color: #56604F;
+    margin: 12px 0 0;
+}
+
+/* --- Remerciement : écriture manuscrite (Caveat), une fois sur la page, comme le prévoit la
+   charte --- */
+
+.apropos-section .soutenir-merci {
+    font-family: 'Caveat', 'Manrope', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.2;
+    color: #3D7A2A;
+    text-align: center;
+}
