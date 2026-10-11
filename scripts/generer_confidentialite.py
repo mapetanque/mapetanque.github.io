@@ -114,6 +114,11 @@ CONTENU = {
                  " : chaque partie terminée (date, durée, format, scores, mènes, votre équipe), "
                  "les noms des autres joueurs tels que vous les tapez et, si vous l'indiquez, le "
                  "terrain. Ces noms ne sont visibles que par vous."),
+                ("partagez une partie",
+                 " : son code de 4 caractères et l'état de la partie. Toute personne qui a le "
+                 "code voit le score, les noms des joueurs et votre pseudo. Les joueurs qui la "
+                 "rejoignent la reçoivent dans leurs parties ; leur nom est alors relié à leur "
+                 "compte, dans leur carnet comme dans le vôtre."),
             ],
             "paragraphes_apres": [
                 "La connexion ne conserve que des empreintes chiffrées du lien, du code et de "
@@ -135,6 +140,7 @@ CONTENU = {
             "liste": [
                 ("Compte", " : jusqu'à sa suppression."),
                 ("Parties et noms des joueurs", " : jusqu'à ce que vous les retiriez, ou jusqu'à la suppression du compte."),
+                ("Code d'une partie partagée", " : il ne sert plus 7 jours après la dernière mène."),
                 ("Session", " : un an, ou jusqu'à la déconnexion."),
                 ("Lien et code de connexion", " : valables 15 minutes, effacés après 24 heures."),
                 ("Photo",
@@ -247,6 +253,11 @@ CONTENU = {
                  ": elke afgelopen partij (datum, duur, spelvorm, scores, rondes, je team), de "
                  "namen van de andere spelers zoals je ze intypt en, als je die opgeeft, de "
                  "baan. Alleen jij ziet die namen."),
+                ("een partij deelt",
+                 ": de code van 4 tekens en de stand van de partij. Wie de code heeft, ziet de "
+                 "stand, de namen van de spelers en je bijnaam. Spelers die meedoen, krijgen de "
+                 "partij bij hun partijen; hun naam wordt dan aan hun account gekoppeld, in hun "
+                 "spelerslijst en in de jouwe."),
             ],
             "paragraphes_apres": [
                 "Voor het aanmelden worden alleen versleutelde vingerafdrukken van de link, de "
@@ -268,6 +279,7 @@ CONTENU = {
             "liste": [
                 ("Account", ": tot het verwijderd wordt."),
                 ("Partijen en namen van spelers", ": tot je ze verwijdert, of tot je account verwijderd wordt."),
+                ("Code van een gedeelde partij", ": werkt niet meer 7 dagen na de laatste ronde."),
                 ("Sessie", ": een jaar, of tot je je afmeldt."),
                 ("Aanmeldlink en -code", ": 15 minuten geldig, na 24 uur gewist."),
                 ("Foto",
@@ -381,6 +393,11 @@ CONTENU = {
                  ": jede beendete Partie (Datum, Dauer, Spielform, Punktestand, Runden, Ihr "
                  "Team), die Namen der anderen Spieler so, wie Sie sie eingeben, und, falls Sie "
                  "ihn angeben, der Platz. Nur Sie sehen diese Namen."),
+                ("eine Partie teilen",
+                 ": ihr Code aus 4 Zeichen und der Stand der Partie. Wer den Code hat, sieht den "
+                 "Stand, die Namen der Spieler und Ihren Spitznamen. Spieler, die beitreten, "
+                 "erhalten die Partie in ihren Partien; ihr Name wird dann mit ihrem Konto "
+                 "verknüpft, in ihrer Spielerliste wie in Ihrer."),
             ],
             "paragraphes_apres": [
                 "Für die Anmeldung werden nur verschlüsselte Fingerabdrücke des Links, des Codes "
@@ -402,6 +419,7 @@ CONTENU = {
             "liste": [
                 ("Konto", ": bis zu seiner Löschung."),
                 ("Partien und Namen der Spieler", ": bis Sie sie entfernen oder Ihr Konto gelöscht wird."),
+                ("Code einer geteilten Partie", ": gilt bis 7 Tage nach der letzten Runde."),
                 ("Sitzung", ": ein Jahr oder bis zur Abmeldung."),
                 ("Anmeldelink und -code", ": 15 Minuten gültig, nach 24 Stunden gelöscht."),
                 ("Foto",
@@ -514,6 +532,11 @@ CONTENU = {
                  ": each finished game (date, length, format, scores, ends, your team), the "
                  "names of the other players as you type them and, if you add it, the court. "
                  "Only you can see these names."),
+                ("share a game",
+                 ": its 4-character code and the state of the game. Anyone with the code sees "
+                 "the score, the players' names and your nickname. Players who join get the game "
+                 "in their games; their name is then linked to their account, in their player "
+                 "list and in yours."),
             ],
             "paragraphes_apres": [
                 "Signing in only stores hashed fingerprints of the link, the code and the "
@@ -535,6 +558,7 @@ CONTENU = {
             "liste": [
                 ("Account", ": until it is deleted."),
                 ("Games and player names", ": until you remove them, or until your account is deleted."),
+                ("Code of a shared game", ": stops working 7 days after the last end."),
                 ("Session", ": one year, or until you sign out."),
                 ("Sign-in link and code", ": valid for 15 minutes, erased after 24 hours."),
                 ("Photo",

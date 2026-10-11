@@ -781,6 +781,9 @@ claude.ai). Deux phases : d'abord le compteur qui enregistre, ensuite la page «
   Moyen d'inviter à choisir : pseudo exact (unique, sans annuaire ni recherche), QR code montré
   en fin de partie, ou lien envoyé par message.
 - C, ensuite : partie partagée en direct (voir « Partie partagée en direct »).
+- Décidé le 11 octobre 2026 : B et C ne font plus qu'une étape, avec un seul QR code (voir
+  « Étapes B et C fusionnées : la partie partagée », en fin de fichier). L'invitation par pseudo
+  est remise à plus tard.
 
 ### Données
 
@@ -944,3 +947,128 @@ ordinateur) : filtres, « Avec qui » et filtre d'un joueur, liste et « Affiche
 activité par mois, records, terrains, fiche, modification des équipes (places refusées, changement
 d'équipe), terrain, retrait, renommage, fusion (aussi entre adversaires), nom refusé, page vide,
 version néerlandaise, résumé de Mon compte, partie du compteur envoyée puis lien vers la page.
+
+## Étapes B et C fusionnées : la partie partagée (décidé le 11 octobre 2026)
+
+Rémy : inviter un ami a plus d'intérêt au début de la partie qu'à la fin, pour qu'il suive aussi
+le score ; et si le même geste le relie à la partie dans ses statistiques, l'étape B n'a plus
+besoin d'exister à part.
+
+### Un seul QR code : « Rejoindre cette partie »
+
+Le même QR code (ou le même lien envoyé par message, avec un code court pour qui ne scanne pas)
+fait selon le moment :
+
+| Scanné… | L'ami voit | Ce qui est enregistré |
+|---|---|---|
+| pendant la partie | le score en direct sur son téléphone | à la fin, la partie arrive aussi dans ses parties |
+| après la partie | le résumé de la partie | la partie arrive dans ses parties |
+| sans compte | le score ou le résumé, sans rien créer | rien ; « Connectez-vous pour garder cette partie » |
+
+- En rejoignant, l'ami choisit sa place : son équipe, puis « Lequel de ces joueurs êtes-vous ? »
+  parmi les noms saisis par le marqueur, ou une place libre. Ce choix relie l'entrée du carnet du
+  marqueur (« Julie ») à son compte (`joueurs.compte_lie`) : c'est l'ancienne étape B.
+- Scanner vaut accord : pas de « Garder / Refuser » à part. Chacun peut retirer la partie de ses
+  parties, comme aujourd'hui.
+- Code valable pendant la partie, puis quelques jours pour « ajouter à mes stats » ; ensuite il
+  ne sert plus. Une place prise ne peut pas l'être une deuxième fois.
+- Pas de réseau sur le terrain : le compteur continue seul ; le QR code de fin de partie (ou le
+  lien) sert plus tard.
+
+### Ce qui change
+
+- La partie existe sur le serveur dès que le QR code est montré, pas seulement à la fin ; chaque
+  mène part ensuite au serveur. C'est le plus gros changement du compteur.
+- Un seul marqueur pour commencer (celui qui a lancé la partie), les autres regardent. Saisie à
+  plusieurs plus tard (voir « Saisie à plusieurs et réseau »).
+- Score en direct : le Durable Object prévu plus haut (« Technique : un Durable Object par
+  partie »). La relecture toutes les 5 s reste écartée pour le quota de requêtes du site
+  (proposée par erreur dans la conversation du 11 octobre, puis corrigée). Reste à vérifier
+  qu'un Durable Object se déploie depuis le tableau de bord, sans `wrangler`.
+- À la fin, la partie est enregistrée dans les parties de chaque joueur connecté qui a rejoint,
+  rattachée au même identifiant de partie. Les statistiques par partenaire et adversaire de
+  chacun restent tirées de son propre carnet.
+
+### Quota et mise en ligne (précisé le 11 octobre 2026)
+
+- Ordre de grandeur pour 200 joueurs un même jour (150 parties partagées de 45 min, 3 téléphones
+  qui suivent) : relecture toutes les 5 s ≈ 250 000 requêtes, toutes les 15 s ≈ 80 000, pour un
+  quota gratuit de 100 000 par jour commun à tous les Workers du compte (au-delà, connexion,
+  notes, avis et photos tombent aussi jusqu'à minuit UTC). Durable Object : une dizaine à une
+  trentaine de requêtes par partie, ≈ 4 500 par jour. Tarifs à revérifier avant de coder.
+- Le Durable Object ne pèse rien de plus pour le téléphone (WebSocket intégré au navigateur, pas
+  de bibliothèque). Ce qui est plus délicat : reconnexions (veille, réseau faible), alarme pour
+  effacer une partie abandonnée, jeton envoyé dans le premier message.
+- Mise en ligne : Worker à part `mapetanque-direct`, code et `wrangler.toml` dans
+  `workers/direct/`, déployé par Rémy avec `npx wrangler deploy` (une fois avant :
+  `npx wrangler login`). Ce Worker n'est jamais modifié dans le tableau de bord ; les autres
+  restent collés dans le tableau de bord comme aujourd'hui.
+- L'étape 1 n'a pas besoin du Durable Object : routes D1 classiques ; l'ami qui a rejoint peut
+  voir le score avec un bouton « Actualiser » (une requête par toucher).
+
+### Ordre de réalisation
+
+1. Code de partie (QR code, lien, code court) : rejoindre, choisir sa place, partie enregistrée
+   chez chacun à la fin.
+2. Score en direct pour ceux qui ont rejoint.
+3. Plus tard : un deuxième marqueur, l'invitation par pseudo exact.
+
+Maquette du 11 octobre 2026 : artefact « Partie partagée Mapetanque » sur claude.ai (copie locale
+`maquettes/partie-partagee/index.html`, non suivie par git). Deux téléphones côte à côte (Rémy qui
+marque, Julie qui scanne), pendant ou après la partie, avec ou sans compte.
+
+Décidé par Rémy le 11 octobre 2026 :
+- « Partager » : 4ᵉ bouton de la barre du bas du compteur, à côté de « Équipes ».
+- Suivre sans compte : oui (score affiché, connexion proposée pour garder la partie).
+- « Je regarde seulement » : oui, pour un spectateur ; rien n'est enregistré chez lui.
+- Code court sous le QR code, à taper sur la page du compteur : oui.
+- Un seul marqueur pour commencer : oui.
+- Écran « Qui êtes-vous ? » pendant la partie : pas de phrase d'explication sous les choix (« Vous
+  verrez le score en direct… » retirée).
+- Écran de fin : « Partager la partie » (même nom que le bouton de la barre, même QR code), pour un
+  joueur qui n'a pas scanné pendant le jeu. Affiché tant qu'au moins un joueur n'a pas rejoint,
+  retiré quand tous l'ont fait. Les noms tapés dans « Équipes » ne comptent pas : seul un joueur
+  qui a scanné a rejoint.
+
+### Étape 1 codée (11 octobre 2026)
+
+Côté site, prêt à tester :
+- Compteur : 4ᵉ bouton « Partager » (feuille : QR code, code court, « Envoyer le lien » par le
+  partage du téléphone ou copie, places avec « a rejoint » / « pas encore » / « Place libre »,
+  « Actualiser »). Demande d'être connecté. Une fois partagée, chaque mène part au Worker
+  (`/compte/partage/etat`), qui répond qui a rejoint. Un joueur venu sur une place libre entre
+  dans l'équipe du compteur sous son pseudo (« Vous & Jolie »). Écran de fin : « Aussi chez
+  Jolie et Marc », et « Partager la partie » tant qu'une place n'a pas été prise.
+- QR code dessiné par `lib/qrcode-generator-1.4.4/qrcode.js` (Kazuhiko Arase, licence MIT, copié
+  depuis npm), chargé seulement au premier « Partager ».
+- Page `partie.html` en 4 langues (`scripts/generer_partie.py`, `partie.js`, `style-partie.css`,
+  `noindex`) : code à taper, « Qui êtes-vous ? » (noms saisis par le marqueur, « Autre joueur »
+  pour une place libre, « Je regarde seulement »), sans compte « Suivre le score » ou connexion
+  (retour sur la partie), score relu avec « Actualiser », fin « Enregistrée dans vos parties ».
+- Sous le compteur, lien « Un ami partage sa partie ? Rejoindre avec son code ».
+- `translations.js?v=5` sur le compteur, Mon compte, Mes parties et la partie partagée : le
+  service worker sert d'abord sa copie en cache, qui pouvait dater d'avant les nouvelles clés.
+- Confidentialité (4 langues) : ce que voit qui a le code, copie chez les joueurs, carnets
+  reliés, code valable 7 jours après la dernière mène.
+
+Côté Worker (`mapetanque-comptes`), à faire par Rémy :
+1. Console D1 : coller `workers/comptes-partages.sql` (tables `partages`, `partage_joueurs`,
+   colonne `parties.origine`). Les phases 1 et 2 doivent être en place.
+2. Code : la section « Parties partagées » à la fin de `workers/comptes-parties.js`, avec ses
+   quatre lignes de branchement et deux lignes dans `supprimerCompte`. Trois fonctions des
+   sections précédentes ont changé : `enregistrerPartie` et `modifierPartie` (appel à
+   `synchroniserCopies`), `retirerPartie` (retire aussi les copies).
+
+Copies : une par joueur qui a rejoint (`parties.origine` = partie du marqueur), vue de son côté ;
+recréées à chaque enregistrement ou correction par le marqueur ; une copie retirée par son joueur
+ne revient pas (`partage_joueurs.copie` reste renseignée) ; « Annuler le dernier point » après la
+victoire retire les copies avec la partie. Limite connue : si le marqueur décoche « Garder cette
+partie » (il compte pour d'autres) ou dit « Je n'ai pas joué », rien n'est enregistré, ni chez
+lui ni chez les autres.
+
+Essayé le 11 octobre 2026 : 41 essais des routes (vrai code du Worker sur node:sqlite, quatre
+comptes) ; puis dans le navigateur, deux sessions sur deux ports : partage, QR code, Julie sur une
+place libre, Marc sur son nom, score relu, fin de partie enregistrée chez les trois, places prises,
+code inconnu, sans compte (retour après connexion), « Partager » sans compte, barre du bas en
+néerlandais et en allemand à 360 px.
+

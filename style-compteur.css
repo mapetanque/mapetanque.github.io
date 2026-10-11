@@ -305,8 +305,12 @@ body.fullscreen-lock {
 }
 .bottombar button:disabled{ opacity:.35; }
 .bottombar button svg{ width: 15px; height: 15px; }
-/* Petits téléphones : les trois boutons tiennent sur une ligne même en néerlandais
-   (« Namen wijzigen ») */
+/* Quatre boutons (Annuler, Mènes, Équipes, Partager) : resserrés sur un téléphone */
+@media (max-width: 480px){
+  .bottombar{ gap: 2px; padding-left: 8px; padding-right: 8px; justify-content: space-between; }
+  .bottombar button{ padding: 8px 6px; font-size: 12.5px; letter-spacing: 0; gap: 5px; }
+}
+/* Petits téléphones : les quatre boutons tiennent sur une ligne même en néerlandais */
 @media (max-width: 380px){
   .topbar{ padding-left: 8px; padding-right: 8px; }
   .topbar button{ padding: 6px 4px; }
@@ -493,7 +497,7 @@ body.fullscreen-lock {
   user-select: text; -webkit-user-select: text;
 }
 .feuille.show{ opacity: 1; pointer-events: auto; visibility: visible; transition: opacity .25s ease; }
-#joueurModal, #terrainModal{ z-index: 35; }
+#joueurModal, #terrainModal, #partageModal{ z-index: 35; }
 .feuille-corps{
   background: var(--bg);
   border-radius: 22px 22px 0 0;
@@ -550,3 +554,28 @@ body.fullscreen-lock {
 .terrain-choix svg{ width: 16px; height: 16px; color: var(--sand-dim); }
 .terrain-choix small{ color: var(--sand-dim); font-size: 12.5px; white-space: nowrap; }
 
+/* ---------- Feuille « Partager la partie » : QR code, code court, places ---------- */
+.partage-corps{ display: grid; gap: 14px; }
+.qr-partage{ display: grid; justify-items: center; gap: 8px; }
+.qr-image{ width: min(200px, 60vw); aspect-ratio: 1; background: #fff; border-radius: 14px; padding: 6px; }
+.qr-image[hidden]{ display: none; }
+.qr-image svg{ display: block; width: 100%; height: 100%; }
+.code-partage{ font-family: 'Manrope', Arial, sans-serif; font-weight: 800; font-size: 26px; letter-spacing: .2em; text-align: center; }
+.code-partage small{ display: block; font-family: 'Figtree', Arial, sans-serif; font-weight: 400; font-size: 12px; letter-spacing: 0; color: var(--sand-dim); }
+.places-partage{ display: grid; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.place-partage{ display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 9px 12px; font-size: 14px; font-weight: 600; }
+.place-partage + .place-partage{ border-top: 1px solid var(--line); }
+.place-partage .n{ display: flex; align-items: center; gap: 8px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.place-partage .n::before{ content: ''; flex: 0 0 auto; width: 9px; height: 9px; border-radius: 50%; background: var(--green); }
+.place-partage.b .n::before{ background: var(--terracotta); }
+.place-partage.libre{ color: var(--sand-dim); font-weight: 400; }
+.etat-place{ flex: 0 0 auto; font-size: 12.5px; font-weight: 400; color: var(--sand-dim); }
+.etat-place.ok{ color: #9fd585; font-weight: 700; }
+.actions-partage{ display: flex; flex-wrap: wrap; gap: 8px; }
+.bouton-ligne{ display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex: 1 1 auto; background: none; color: var(--sand); border: 1px solid var(--line); border-radius: 999px; font-family: inherit; font-weight: 700; font-size: 14px; padding: 9px 14px; cursor: pointer; }
+.bouton-ligne svg{ width: 15px; height: 15px; }
+.partage-corps .note-feuille:empty{ display: none; }
+
+/* Sous le compteur, hors de sa palette sombre : lien vers partie.html pour qui a un code */
+.compteur-lien-code{ margin: 14px 0 0; text-align: center; font-size: 14px; color: #56604F; }
+.compteur-lien-code a{ color: #3D7A2A; font-weight: 600; text-underline-offset: 3px; }

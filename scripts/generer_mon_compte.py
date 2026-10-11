@@ -75,6 +75,12 @@ for langue, meta in META.items():
         tete_sup='<meta name="robots" content="noindex">',
         scripts_sup=("/compte.js", "/mon-compte.js"),
     )
+
+    # translations.js à une adresse versionnée, comme sur le compteur : le service worker sert
+    # d'abord sa copie en cache, qui peut dater d'avant les clés de la page
+    cible = RACINE / meta["prefixe"] / "mon-compte.html"
+    html = cible.read_text(encoding="utf-8")
+    cible.write_text(html.replace('<script src="/translations.js"></script>', '<script src="/translations.js?v=5"></script>'), encoding="utf-8")
     print(f"{meta['prefixe']}mon-compte.html : {taille} octets")
 
 # Données structurées des autres pages, sitemap.xml et llms.txt (mon-compte.html en est écartée)

@@ -37,7 +37,7 @@
     <!-- En-tête sans bannière photo des pages de contenu -->
     <link rel="stylesheet" href="/style-entete-sobre.css">
     <!-- Styles du widget compteur : palette et typographie propres à cet outil -->
-    <link rel="stylesheet" href="/style-compteur.css?v=3">
+    <link rel="stylesheet" href="/style-compteur.css?v=4">
     <!-- Données structurées schema.org (Google, IA) : écrites par scripts/generer_referencement.py, ne pas modifier à la main. -->
     <script type="application/ld+json">
     {
@@ -204,6 +204,9 @@
 <!-- Contenu construit par compteur.js -->
 <div class="compteur-widget" id="compteurWidget"></div>
 
+<!-- Partie partagée par un autre joueur : le code affiché sous son QR code (partie.html) -->
+<p class="compteur-lien-code">Un ami partage sa partie ? <a href="/partie.html">Rejoindre avec son code</a></p>
+
 </div><!-- /.rules-content -->
 
 </div><!-- /#top -->
@@ -219,7 +222,7 @@
 
 <!-- ?v= : adresse neuve, pour que le service worker ne serve pas une ancienne copie sans les
      textes compteur_* (cache d'autres pages du site). À augmenter quand on en ajoute. -->
-<script src="/translations.js?v=4"></script>
+<script src="/translations.js?v=5"></script>
 <script>window.MAPETANQUE_SKIP_DEFAULT_MARKERS = true;</script>
 <script src="/chargeur-photo.js"></script>
     <script src="/script.js"></script>
@@ -228,7 +231,7 @@
 <script src="/compte.js"></script>
 <!-- Widget compteur : logique, textes (translations.js) et construction du HTML.
      ?v= : même raison que pour translations.js, avec style-compteur.css. -->
-<script src="/compteur.js?v=3"></script>
+<script src="/compteur.js?v=4"></script>
 
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
 </body>

@@ -1,5 +1,21 @@
 -- Tables de l'enregistrement des parties (Worker mapetanque-comptes, routes dans
 -- workers/comptes-parties.js). À coller tel quel dans la console D1 de la base mapetanque-notes.
+--
+-- Ce que contiennent les colonnes (expliqué ici, en tête : la console D1 refuse un texte qui
+-- se termine par des commentaires après le dernier « ; », « Requests without any query ») :
+--   parties.id          tiré par le téléphone : renvoyer la même partie la remplace
+--   parties.debut, fin  premier point et point gagnant, AAAA-MM-JJ HH:MM:SS (UTC)
+--   parties.objectif    11 ou 13
+--   parties.format      1, 2 ou 3 joueurs par équipe
+--   parties.mon_equipe  'a' ou 'b' : équipe du titulaire du compte
+--   parties.victoire    1 si l'équipe du titulaire a gagné
+--   parties.nom_a, nom_b  noms d'équipe saisis, sinon NULL
+--   parties.joueurs     JSON {"a":[id joueur…],"b":[…]}, sans le titulaire
+--   parties.menes       JSON [{"e":"a","p":3,"t":95},…] : équipe, points, secondes depuis le début
+--   parties.terrain     identifiant OSM du terrain (way/123…), facultatif
+--   joueurs.cle         nom sans accents ni majuscules : « Julie » et « julie » sont le même joueur
+--   joueurs.compte_lie  étape B : compte de l'ami, après son accord
+--   joueurs.utilise     dernière partie : ordre des « joueurs récents »
 
 CREATE TABLE parties (
   id TEXT PRIMARY KEY,
@@ -33,18 +49,3 @@ CREATE TABLE joueurs (
   cree TEXT NOT NULL DEFAULT (datetime('now'))
 );
 CREATE UNIQUE INDEX joueurs_compte_cle ON joueurs(compte_id, cle);
-
--- Ce que contiennent les colonnes :
---   parties.id          tiré par le téléphone : renvoyer la même partie la remplace
---   parties.debut, fin  premier point et point gagnant, AAAA-MM-JJ HH:MM:SS (UTC)
---   parties.objectif    11 ou 13
---   parties.format      1, 2 ou 3 joueurs par équipe
---   parties.mon_equipe  'a' ou 'b' : équipe du titulaire du compte
---   parties.victoire    1 si l'équipe du titulaire a gagné
---   parties.nom_a, nom_b  noms d'équipe saisis, sinon NULL
---   parties.joueurs     JSON {"a":[id joueur…],"b":[…]}, sans le titulaire
---   parties.menes       JSON [{"e":"a","p":3,"t":95},…] : équipe, points, secondes depuis le début
---   parties.terrain     identifiant OSM du terrain (way/123…), facultatif
---   joueurs.cle         nom sans accents ni majuscules : « Julie » et « julie » sont le même joueur
---   joueurs.compte_lie  étape B : compte de l'ami, après son accord
---   joueurs.utilise     dernière partie : ordre des « joueurs récents »

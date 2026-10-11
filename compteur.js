@@ -5,6 +5,9 @@
 // Utilise compte.js (window.mapetanqueCompte) quand il est chargé : connecté, la partie terminée
 // est enregistrée dans « Mes parties » (Worker des comptes, routes /compte/parties et
 // /compte/joueurs). Voir NOTES_comptes_utilisateurs.md, « Étape 2 — enregistrement des parties ».
+// « Partager » montre un QR code « Rejoindre cette partie » (routes /compte/partage) : les autres
+// joueurs l'ouvrent sur partie.html et la partie arrive aussi dans leurs parties. Voir « Étapes B
+// et C fusionnées : la partie partagée ».
 (function(){
   const widget = document.getElementById('compteurWidget');
   if (!widget) return;
@@ -68,7 +71,9 @@
     plus: picto('<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>'),
     croix: picto('<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>'),
     crayon: picto('<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>'),
-    entrer: picto('<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/>')
+    entrer: picto('<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/>'),
+    qr: picto('<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM21 14v.01M14 21h.01M17 21h4v-4"/>'),
+    envoyer: picto('<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>')
   };
 
   // ---------- Construction du widget ----------
@@ -112,6 +117,7 @@
     <button type="button" id="undoBtn" disabled><span aria-hidden="true">↺</span> ${libelle('compteur_annuler')}</button>
     <button type="button" id="menesBtn"><span aria-hidden="true">☰</span> ${libelle('compteur_menes')}</button>
     <button type="button" id="equipesBtn">${PICTOS.equipes} ${libelle('compteur_equipes')}</button>
+    <button type="button" id="partagerBtn">${PICTOS.qr} ${libelle('compteur_partager')}</button>
   </div>
 
   <div class="win" id="winOverlay" role="dialog" aria-modal="true" aria-labelledby="winnerName">
@@ -162,6 +168,13 @@
     </div>
   </div>
 
+  <div class="feuille" id="partageModal" role="dialog" aria-modal="true" aria-labelledby="partageTitre">
+    <div class="feuille-corps">
+      ${enteteFeuille('partageTitre', libelle('compteur_partager_titre'))}
+      <div class="partage-corps" id="partageCorps"></div>
+    </div>
+  </div>
+
   <div class="feuille" id="terrainModal" role="dialog" aria-modal="true" aria-labelledby="terrainTitre">
     <div class="feuille-corps">
       ${enteteFeuille('terrainTitre', libelle('compteur_terrains_proches'))}
@@ -194,10 +207,12 @@
     blocsEquipes: $('blocsEquipes'),
     joueurModal: $('joueurModal'),
     terrainModal: $('terrainModal'),
+    partageModal: $('partageModal'),
+    partageCorps: $('partageCorps'),
     annonce: $('annonce'),
     fullscreenToggleBtn: $('fullscreenToggleBtn'),
   };
-  const PANNEAUX = [el.terrainModal, el.joueurModal, el.equipesModal, el.menesModal];   // du plus haut au plus bas
+  const PANNEAUX = [el.terrainModal, el.partageModal, el.joueurModal, el.equipesModal, el.menesModal];   // du plus haut au plus bas
 
   // ---------- État de la partie ----------
 
@@ -227,6 +242,7 @@
     envoi: '',           // '', 'en_cours', 'ok', 'attente' (hors ligne), 'echec'
     terrain: null,       // { o: identifiant OSM, nom, d: distance en m }
     terrainJour: '',     // jour où le terrain a été choisi : une revanche le même jour le reprend
+    partage: null,       // { code, rejoints: [{ equipe, nom, pseudo }] } une fois la partie partagée
   };
   const history = [];
 
@@ -279,6 +295,8 @@
     if (state.menes.length && !state.debut) state.debut = Date.now();
     state.menes.forEach(m => { if (typeof m.t !== 'number') m.t = 0; });
     if (state.envoi === 'en_cours') state.envoi = 'attente';
+    if (!state.partage || typeof state.partage.code !== 'string') state.partage = null;
+    else if (!Array.isArray(state.partage.rejoints)) state.partage.rejoints = [];
   }
 
   function snapshot(){
@@ -640,6 +658,187 @@
     ouvrirPanneau(el.terrainModal, el.terrainModal.querySelector('[data-fermer]'));
   }
 
+  // ---------- Partager la partie ----------
+  // Un seul QR code « Rejoindre cette partie » : pendant la partie, les autres joueurs suivent le
+  // score sur partie.html (« Actualiser ») ; à la fin, la partie arrive aussi dans leurs parties.
+  // Partager demande d'être connecté (le Worker sait ainsi qui marque) et du réseau. Une fois la
+  // partie partagée, chaque mène part au Worker (/compte/partage/etat), qui répond qui a rejoint.
+
+  const QR_LIB = '/lib/qrcode-generator-1.4.4/qrcode.js';
+  let qrCharge = null;          // promesse : bibliothèque du QR code, chargée au premier partage
+  let etatPartageUi = '';       // '', 'chargement', 'reseau', 'erreur', 'connexion'
+  let messagePartage = '';      // « Lien copié »
+
+  function prefixeLangue(){ return langue === 'fr' ? '/' : '/' + langue + '/'; }
+  function lienPartage(){ return location.origin + prefixeLangue() + 'partie.html?code=' + state.partage.code; }
+
+  function chargerQr(){
+    if (!qrCharge) {
+      qrCharge = new Promise((ok, refus) => {
+        const script = document.createElement('script');
+        script.src = QR_LIB;
+        script.onload = () => (window.qrcode ? ok(window.qrcode) : refus(new Error('qr')));
+        script.onerror = () => { qrCharge = null; refus(new Error('qr')); };
+        document.head.appendChild(script);
+      });
+    }
+    return qrCharge;
+  }
+
+  // Ce que voient les autres joueurs : la forme de la partie et ses mènes (le Worker recalcule le score)
+  function etatPartage(){
+    return {
+      objectif: state.target, format: state.format, mon_equipe: state.moi,
+      nom_a: state.nameA || null, nom_b: state.nameB || null,
+      joueurs: { a: state.joueurs.a.slice(), b: state.joueurs.b.slice() },
+      menes: state.menes.map(m => ({ e: m.equipe, p: m.points, t: m.t })),
+      debut: state.debut
+    };
+  }
+
+  function rejoints(){ return state.partage ? state.partage.rejoints : []; }
+  // Nom d'un joueur qui a rejoint : celui qu'il a choisi parmi les noms saisis, sinon son pseudo
+  function nomRejoint(r){ return r.nom || r.pseudo || ''; }
+  // Places des autres joueurs : « Partager la partie » reste sur l'écran de fin tant qu'il en reste
+  function placesRestantes(){ return 2 * state.format - 1 - rejoints().length; }
+
+  // Un joueur venu sur une place libre entre dans son équipe sous son pseudo (s'il reste de la
+  // place) : le compteur affiche ainsi « Vous & Jolie », et la partie enregistrée le compte
+  function majRejoints(liste){
+    if (!state.partage || !Array.isArray(liste)) return;
+    state.partage.rejoints = liste;
+    let ajout = false;
+    liste.forEach(r => {
+      if (r.nom || !r.pseudo || (r.equipe !== 'a' && r.equipe !== 'b')) return;
+      const dejaLa = state.joueurs.a.concat(state.joueurs.b).some(n => cleNom(n) === cleNom(r.pseudo));
+      if (!dejaLa && state.joueurs[r.equipe].length < places(r.equipe)) { state.joueurs[r.equipe].push(r.pseudo); ajout = true; }
+    });
+    if (ajout) {
+      render();
+      if (state.finished && etatFin() === 'enregistree') mettreEnFile('enregistrer');
+      else envoyerEtatPartage();
+    }
+    sauvegarderPartie();
+    if (el.partageModal.classList.contains('show')) renderPartage();
+    if (el.win.classList.contains('show')) renderCarte();
+  }
+
+  // Score envoyé après chaque mène (regroupé si plusieurs actions se suivent) ; sans réseau, le
+  // suivant part au retour de la connexion
+  let minuteurEtat = null;
+  function envoyerEtatPartage(){
+    if (!state.partage || !session() || !compte) return;
+    clearTimeout(minuteurEtat);
+    minuteurEtat = setTimeout(async () => {
+      const code = state.partage && state.partage.code;
+      if (!code) return;
+      const r = await compte.appel('POST', '/compte/partage/etat', { code, etat: etatPartage() });
+      if (!state.partage || state.partage.code !== code) return;
+      if (r.statut === 200) majRejoints(r.donnees.rejoints);
+      else if (r.statut === 404) { state.partage = null; sauvegarderPartie(); }   // code expiré : un autre sera tiré
+    }, 400);
+  }
+
+  // Crée le partage, ou retrouve le même code (le Worker dit aussi qui a rejoint entre-temps)
+  async function demanderPartage(){
+    if (!session() || !compte) { etatPartageUi = 'connexion'; renderPartage(); return; }
+    if (!state.id) { state.id = nouvelIdentifiant(); sauvegarderPartie(); }
+    etatPartageUi = state.partage ? '' : 'chargement';
+    renderPartage();
+    const r = await compte.appel('POST', '/compte/partage', { partie_id: state.id, etat: etatPartage() });
+    if (r.statut === 200) {
+      state.partage = { code: r.donnees.code, rejoints: Array.isArray(r.donnees.rejoints) ? r.donnees.rejoints : [] };
+      etatPartageUi = '';
+      sauvegarderPartie();
+    } else if (!state.partage) {
+      etatPartageUi = r.statut === 0 ? 'reseau' : r.statut === 401 ? 'connexion' : 'erreur';
+      if (r.statut === 401 && compte.verifier) compte.verifier();
+    }
+    if (el.partageModal.classList.contains('show')) renderPartage();
+    if (el.win.classList.contains('show')) renderCarte();
+  }
+
+  function ouvrirPartage(){
+    messagePartage = '';
+    ouvrirPanneau(el.partageModal, el.partageModal.querySelector('[data-fermer]'));
+    demanderPartage();
+  }
+
+  function renderPartage(){
+    const c = el.partageCorps;
+    if (etatPartageUi === 'connexion') {
+      c.innerHTML = '<p class="note-feuille">' + echapper(libelle('compteur_partage_connexion')) + '</p>' +
+        '<button type="button" class="bouton-plein" data-action="connexion">' + echapper(libelle('menu_se_connecter')) + '</button>';
+      return;
+    }
+    if (!state.partage) {
+      const cle = { reseau: 'compteur_partage_reseau', erreur: 'compte_err_generique' }[etatPartageUi] || 'compteur_partage_chargement';
+      c.innerHTML = '<p class="note-feuille">' + echapper(libelle(cle)) + '</p>' +
+        (etatPartageUi === 'reseau' || etatPartageUi === 'erreur' ? '<button type="button" class="bouton-plein" data-action="reessayer">' + echapper(libelle('compteur_reessayer')) + '</button>' : '');
+      return;
+    }
+    // Places de chaque équipe : le marqueur, les noms saisis (rejoint ou pas encore), les joueurs
+    // venus sur une place libre, puis les places encore libres
+    const s = session();
+    let places = '';
+    ['a', 'b'].forEach(e => {
+      const lignePlace = (n, etat, ok, libre) => '<div class="place-partage ' + e + (libre ? ' libre' : '') + '"><span class="n">' + echapper(n) + '</span>' +
+        (etat ? '<span class="etat-place' + (ok ? ' ok' : '') + '">' + echapper(etat) + '</span>' : '') + '</div>';
+      const venus = rejoints().filter(r => r.equipe === e);
+      if (state.moi === e) places += lignePlace((s && (s.pseudo || s.email)) || libelle('compteur_vous'), libelle('compteur_marqueur'), true);
+      const surNom = r => state.joueurs[e].some(n => cleNom(n) === cleNom(nomRejoint(r)));
+      state.joueurs[e].forEach(n => {
+        const venu = venus.some(r => cleNom(nomRejoint(r)) === cleNom(n));
+        places += lignePlace(n, libelle(venu ? 'compteur_a_rejoint' : 'compteur_pas_encore'), venu);
+      });
+      // Venus sur une place libre, sans place dans l'équipe du compteur (équipe déjà pleine)
+      const enPlus = venus.filter(r => !r.nom && !surNom(r));
+      enPlus.forEach(r => { places += lignePlace(r.pseudo || '', libelle('compteur_a_rejoint'), true); });
+      const libres = state.format - (state.moi === e ? 1 : 0) - state.joueurs[e].length - enPlus.length;
+      for (let k = 0; k < libres; k++) places += lignePlace(libelle('compteur_place_libre'), '', false, true);
+    });
+    c.innerHTML =
+      '<p class="note-feuille">' + echapper(libelle(state.finished ? 'compteur_partager_explication_fin' : 'compteur_partager_explication')) + '</p>' +
+      '<div class="qr-partage"><div class="qr-image" id="qrImage"></div>' +
+      '<div class="code-partage">' + echapper(state.partage.code) + '<small>' + echapper(libelle('compteur_code_aide')) + '</small></div></div>' +
+      '<div class="places-partage">' + places + '</div>' +
+      '<div class="actions-partage">' +
+      '<button type="button" class="bouton-ligne" data-action="envoyerLien">' + PICTOS.envoyer + ' ' + echapper(libelle('compteur_envoyer_lien')) + '</button>' +
+      '<button type="button" class="bouton-ligne" data-action="actualiser">' + echapper(libelle('compteur_actualiser')) + '</button></div>' +
+      '<p class="note-feuille" role="status">' + echapper(messagePartage) + '</p>' +
+      '<button type="button" class="bouton-plein" data-fermer>' + echapper(libelle('compteur_ok')) + '</button>';
+    const lien = lienPartage();
+    chargerQr().then(qrcode => {
+      const zone = $('qrImage');
+      if (!zone) return;
+      const qr = qrcode(0, 'M');
+      qr.addData(lien);
+      qr.make();
+      zone.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true, alt: libelle('compteur_qr_alt') });
+    }).catch(() => { const zone = $('qrImage'); if (zone) zone.hidden = true; });   // le code et le lien suffisent
+  }
+
+  el.partageCorps.addEventListener('click', async (ev)=>{
+    const b = ev.target.closest('[data-action]');
+    if (!b) return;
+    const action = b.dataset.action;
+    if (action === 'connexion') { location.href = prefixeLangue() + 'connexion.html?retour=' + encodeURIComponent(location.pathname); return; }
+    if (action === 'reessayer' || action === 'actualiser') { messagePartage = ''; demanderPartage(); return; }
+    if (action === 'envoyerLien' && state.partage) {
+      const lien = lienPartage();
+      // Partage du téléphone (WhatsApp, SMS…) s'il existe, sinon le lien est copié
+      if (navigator.share) {
+        try { await navigator.share({ title: libelle('compteur_partage_message'), url: lien }); return; }
+        catch (e) { if (e && e.name === 'AbortError') return; }
+      }
+      try { await navigator.clipboard.writeText(lien); messagePartage = libelle('compteur_lien_copie'); }
+      catch (e) { messagePartage = lien; }
+      renderPartage();
+    }
+  });
+
+  $('partagerBtn').addEventListener('click', ouvrirPartage);
+
   // ---------- Carte de l'écran de fin ----------
 
   function ligne(pictoHtml, contenu){
@@ -700,6 +899,9 @@
       } else {
         terrain = '<div class="liens-carte">' + bouton('terrain', PICTOS.lieu + echapper(libelle('compteur_ajouter_terrain'))) + '</div>';
       }
+      // Partie partagée : elle arrive aussi chez les joueurs qui l'ont rejointe
+      const venus = rejoints().map(nomRejoint).filter(Boolean);
+      const aussi = venus.length ? ligne(PICTOS.ok, echapper(libelle('compteur_aussi_chez', { noms: listeEt(venus) }))) : '';
       // Une fois enregistrée, le titre mène à la page « Mes parties »
       const titre = statut === 'ok'
         ? '<a href="' + (langue === 'fr' ? '/' : '/' + langue + '/') + 'mes-parties.html">' + echapper(libelle(titres[statut])) + '</a>'
@@ -708,8 +910,10 @@
         '<div class="ligne-carte"><span class="resultat ' + (gagne ? 'v' : 'd') + '">' + echapper(libelle(gagne ? 'compteur_victoire' : 'compteur_defaite')) + ' ' + moiScore + ' – ' + leurScore + '</span>' + fanny + '</div>' +
         ligne(PICTOS.horloge, echapper(libelle('compteur_duree', { menes: state.menes.length, minutes }))) +
         ligne(PICTOS.equipes, echapper(texteJoueurs())) +
+        aussi +
         terrain +
-        '<div class="liens-carte">' + bouton('equipes', PICTOS.crayon + echapper(libelle('compteur_modifier_equipes'))) +
+        '<div class="liens-carte">' + (placesRestantes() > 0 ? bouton('partager', PICTOS.qr + echapper(libelle('compteur_partager_titre'))) : '') +
+        bouton('equipes', PICTOS.crayon + echapper(libelle('compteur_modifier_equipes'))) +
         bouton('retirer', PICTOS.croix + echapper(libelle('compteur_retirer_partie'))) + '</div>';
     }
     carte.innerHTML = h;
@@ -744,6 +948,7 @@
     if (action === 'terrain') { ouvrirTerrains(); return; }
     if (action === 'sansTerrain') { choisirTerrain(null); return; }
     if (action === 'equipes') { ouvrirEquipes(); return; }
+    if (action === 'partager') { ouvrirPartage(); return; }
     render();
     afficherVictoire(false);
   });
@@ -775,7 +980,7 @@
     if(state.finished) return;
     garderEcranAllume();
     snapshot();
-    if (!state.menes.length) { state.id = nouvelIdentifiant(); state.debut = Date.now(); }
+    if (!state.menes.length) { if (!state.id || !state.partage) state.id = nouvelIdentifiant(); state.debut = Date.now(); }
     if(team === 'a') state.scoreA = Math.min(state.scoreA + pts, state.target);
     else state.scoreB = Math.min(state.scoreB + pts, state.target);
     const t = Math.max(0, Math.round((Date.now() - state.debut) / 1000));
@@ -784,6 +989,7 @@
     signalerGain(team, pts);
     annoncerScore();
     checkWin();
+    envoyerEtatPartage();
   }
 
   function undo(){
@@ -798,6 +1004,7 @@
     render();
     annoncerScore();
     if(state.finished) afficherVictoire(false);
+    envoyerEtatPartage();
   }
 
   // Remise à zéro annulable (on ne vide pas l'historique) : un toucher malheureux sur
@@ -810,7 +1017,7 @@
     state.scoreB = 0;
     state.menes = [];
     state.finished = false;
-    Object.assign(state, { id: null, debut: null, garder: true, moiVu: false, pasJoue: false, quiEstMoi: null, retiree: false, envoi: '' });
+    Object.assign(state, { id: null, debut: null, garder: true, moiVu: false, pasJoue: false, quiEstMoi: null, retiree: false, envoi: '', partage: null });
     messageTerrain = '';
     cacherVictoire();
     render();
@@ -878,6 +1085,7 @@
   function apresEquipes(){
     const apres = JSON.stringify([state.format, state.moi, state.joueurs, state.nameA, state.nameB, state.garder]);
     if (apres === equipesAvant) return;
+    envoyerEtatPartage();
     if (state.finished) {
       if (etatFin() === 'enregistree') mettreEnFile('enregistrer');
       else if (!state.garder && state.envoi) mettreEnFile('retirer');
@@ -1092,7 +1300,7 @@
     if (state.finished) afficherVictoire(false);
     envoyerFile();
   });
-  window.addEventListener('online', envoyerFile);
+  window.addEventListener('online', ()=>{ envoyerFile(); envoyerEtatPartage(); });
 
   definirPleinEcran(false);
   restaurerPartie();
@@ -1101,4 +1309,5 @@
   render();
   if (state.finished) afficherVictoire(false);
   envoyerFile();
+  envoyerEtatPartage();   // partie partagée : qui a rejoint pendant que la page était fermée
 })();
