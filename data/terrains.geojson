@@ -2265,8 +2265,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          5.6107037,
-          50.6271997
+          5.6106946,
+          50.6271539
         ]
       },
       "properties": {
@@ -2284,8 +2284,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          5.6108327,
-          50.6273133
+          5.6108271,
+          50.6272933
         ]
       },
       "properties": {
@@ -4955,7 +4955,7 @@
         "sport": "boules",
         "osm_id": "way/268152713",
         "nearest_street": "Place du Roi Albert",
-        "commune": "Pousset",
+        "commune": "Remicourt",
         "province": "liege",
         "region": "wallonie",
         "env": {
@@ -8235,7 +8235,7 @@
         "commune": "Bredene",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-sjc6-1.xx.fbcdn.net/m1/v/t6/AQObaG_zKxPNxY1BHdliPXiUvSdMTkKQA6pmE-NerE_3VYcrX7RGQyNFPdqBszIfj5_TYWfl3Mfv7Ofqyw1xxm3fGmkkBGGJzTawzvxsDb240yD0xR5x-EMisXtxc__yAC_292cfY8BZCxaqyjfabkCdSYtngpkwMputRxapyFMKFQ?stp=s1024x576&edm=ALXxkZ8EAAAA&_nc_gid=45JjDbClL40ymiRFarl5-A&_nc_oc=Ado54U1zhldc6G2QXo2hN4whhwqltiN4EG-YjS0l0x9FFi2mhFmbv-dAWs6Z6WONOs8&ccb=10-5&oh=00_AQO8CIhiOjDJVU5ohN59cISnUc3zCb0Fv3dNRCa3nvXdtg&oe=6AF42B98&_nc_sid=201bca",
+        "photo_url": "https://scontent-iad3-1.xx.fbcdn.net/m1/v/t6/AQObaG_zKxPNxY1BHdliPXiUvSdMTkKQA6pmE-NerE_3VYcrX7RGQyNFPdqBszIfj5_TYWfl3Mfv7Ofqyw1xxm3fGmkkBGGJzTawzvxsDb240yD0xR5x-EMisXtxc__yAC_292cfY8BZCxaqyjfabkCdSYtngpkwMputRxapyFMKFQ?stp=s1024x576&edm=ALXxkZ8EAAAA&_nc_gid=Yxipwceb69vJhTtiQvoH_w&_nc_oc=Adro_7qTuKBXGMh1vJaxQJtxGI61WanuSnITjC63ZcewW3SKgEPu5L6MhSLhuXORhlA&ccb=10-5&oh=00_AQM9Mw878k0x4skzlyuOF1kNrI4zAKXpyqACLBdUqkfmFQ&oe=6AF463D8&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=283988963431148&focus=photo",
         "env": {
@@ -8907,7 +8907,7 @@
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/430723300",
-        "nearest_street": "Bondgenotenstraat",
+        "nearest_street": "Hoefstraat",
         "commune": "Halle",
         "province": "brabant_flamand",
         "region": "flandre",
@@ -11805,7 +11805,7 @@
         "commune": "Knokke-Heist",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-sjc6-1.xx.fbcdn.net/m1/v/t6/AQMf_Yb7sgn2HtrhW_6VC0c3gNeSEqWcQrStUCOJgQQS_cGjvetA2ZiQTBxMFUq625Le4tBrGfxkE5kCmz4LxQPtyjoh4DWxfgxhM8HEYMnM_IZHy_emxlqMC6g7rrsPAg3kBJYIsFnsMxUPt82Xc0wmmChwgRq1je69gRbfpQwEZa4?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=sOAff-UgEWuCadETUaZWOA&_nc_oc=Adrz5fP1lSpg52QWFp8TljjuXKwOYYX3z_xYCeHD56PPNyl0tE7wZ3dKePDalqG5qSA&ccb=10-5&oh=00_AQNhLjtXDGGshmzmCIerpwP7-W0TtdLJHSdPJcYiELuPpA&oe=6AF43715&_nc_sid=201bca",
+        "photo_url": "https://scontent-iad3-1.xx.fbcdn.net/m1/v/t6/AQMf_Yb7sgn2HtrhW_6VC0c3gNeSEqWcQrStUCOJgQQS_cGjvetA2ZiQTBxMFUq625Le4tBrGfxkE5kCmz4LxQPtyjoh4DWxfgxhM8HEYMnM_IZHy_emxlqMC6g7rrsPAg3kBJYIsFnsMxUPt82Xc0wmmChwgRq1je69gRbfpQwEZa4?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=OJLVEY8T8t69W_2PqdR9XA&_nc_oc=AdpgTsJ6gwu8wNhbLuea2-KgOx1LdSgrepSKOhalS5pKrdqFd2v00A10z4SFeYRl-yk&ccb=10-5&oh=00_AQNbCx2jkZOEoJnMFnqf9ZhSIwFmPDkMZLbScOZChIM2Kg&oe=6AF46F55&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=2585664148528878&focus=photo",
         "env": {
@@ -14386,7 +14386,7 @@
         "surface": "gravel",
         "osm_id": "way/659291664",
         "nearest_street": "Filip de Pillecynlaan",
-        "commune": "Sint-Niklaas",
+        "commune": "Belsele",
         "province": "flandre_orientale",
         "region": "flandre",
         "env": {
@@ -20450,7 +20450,7 @@
         "sport": "boules",
         "osm_id": "way/822148571",
         "nearest_street": "Goed dreef",
-        "commune": "Sinaai",
+        "commune": "Sint-Niklaas",
         "province": "flandre_orientale",
         "region": "flandre",
         "env": {
@@ -21649,7 +21649,7 @@
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/847327128",
-        "nearest_street": "Rue de Trixhes",
+        "nearest_street": "Rue des Abruns",
         "commune": "Vivegnis",
         "province": "liege",
         "region": "wallonie",
@@ -41674,7 +41674,7 @@
         "sport": "boules",
         "osm_id": "way/1229868993",
         "nearest_street": "Rue de l'École",
-        "commune": "Incourt",
+        "commune": "Roux-Miroir",
         "province": "brabant_wallon",
         "region": "wallonie",
         "env": {
@@ -51378,7 +51378,7 @@
         "sport": "boules",
         "osm_id": "way/1421208970",
         "nearest_street": "Klokke Roelandlaan",
-        "commune": "Sinaai",
+        "commune": "Sint-Niklaas",
         "province": "flandre_orientale",
         "region": "flandre",
         "env": {
@@ -54553,7 +54553,7 @@
         "commune": "Antwerpen",
         "province": "anvers",
         "region": "flandre",
-        "photo_url": "https://scontent-sjc6-1.xx.fbcdn.net/m1/v/t6/AQPfI6agvNEEMVKpP3RM558SjkEFr8qPLAFX83Byiw3SePq3c058M97fBB8BBpiRuiQGYx9aPGAwlDCLMH-kNrdWnpxsYkdF7Lv22yJ0fVVMowwxoTS0c1izmxwC_qQvATZVEsQK-Sf_oMR1OI24ZA-52JzH2VaGT8A-gvgPzUlcOis?stp=s1024x771&edm=ALXxkZ8EAAAA&_nc_gid=cJt1-RFPEzOb8HcLdwc8nw&_nc_oc=Adr14M3Hit3k-PCkJfTOQC-7oxzs3JZLekVE-_v-jF15DDNjc9rD1Glbh6Zq2WmoF-c&ccb=10-5&oh=00_AQN7Mvrx_Xnxp-6L69WhM6wtqozS4j0PDaqHXejZiwc-zg&oe=6AF44A60&_nc_sid=201bca",
+        "photo_url": "https://scontent-iad3-1.xx.fbcdn.net/m1/v/t6/AQPfI6agvNEEMVKpP3RM558SjkEFr8qPLAFX83Byiw3SePq3c058M97fBB8BBpiRuiQGYx9aPGAwlDCLMH-kNrdWnpxsYkdF7Lv22yJ0fVVMowwxoTS0c1izmxwC_qQvATZVEsQK-Sf_oMR1OI24ZA-52JzH2VaGT8A-gvgPzUlcOis?stp=s1024x771&edm=ALXxkZ8EAAAA&_nc_gid=ezSDnz0u9QNV-PDzUu_gZg&_nc_oc=Adr6qylF-J7N-MwuTx7MvbaexsZaCqYB28Db-MQCgE6R3mFCYAYaBY7UwFsnu3pJJ1U&ccb=10-5&oh=00_AQN_3vod0bJnkLthOmIzWw7Se8rPvUY20qoQLBLAw4-Kpg&oe=6AF482A0&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1257601666575631&focus=photo",
         "env": {
@@ -56612,7 +56612,7 @@
         "commune": "Nieuwpoort",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-sjc6-1.xx.fbcdn.net/m1/v/t6/AQMOt-M_fs3kMGJ_cV0h0_kKwpcgrAm0Yu0v3qEl6fnjae5RZ4Y3EdlkIwQJBnVjoIzSVVB-ttm9P4a9WVmTY8Ss8YtnJdt8RO3u2NHAyxpk3Ysqsqm9z1NU3bl9_UAyme7RmjTao85pmNXfE7Rgxnfo18XkakJ7GYbqHitmw7V5FA?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=fa90WR8JL_LQHbGpyFb3Sg&_nc_oc=AdqW2AuhV55mi46Grqqy8c78IGmLBKC0zKow2VAM2gtL8jkmQxdBcGAgKuXNqZgt6a8&ccb=10-5&oh=00_AQNlcSMj730Tjp1tclRzetyG9obb_xIrrESpUf5_jVxzMQ&oe=6AF445A1&_nc_sid=201bca",
+        "photo_url": "https://scontent-iad3-1.xx.fbcdn.net/m1/v/t6/AQMOt-M_fs3kMGJ_cV0h0_kKwpcgrAm0Yu0v3qEl6fnjae5RZ4Y3EdlkIwQJBnVjoIzSVVB-ttm9P4a9WVmTY8Ss8YtnJdt8RO3u2NHAyxpk3Ysqsqm9z1NU3bl9_UAyme7RmjTao85pmNXfE7Rgxnfo18XkakJ7GYbqHitmw7V5FA?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=ge0fFlJn-4g-2gWT2OWySA&_nc_oc=AdplyQ3nAyHbphgreG36EiA7W_e4hOB9nOWWgI8-fDmyAPQGQwcuiTCSV7SQ3aNvZ28&ccb=10-5&oh=00_AQMlHodpbnn6V5ZKuTX5twbXhNobFtOZNdxADoEAzmuEgg&oe=6AF47DE1&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1545369280832050&focus=photo",
         "env": {
@@ -56764,7 +56764,7 @@
         "commune": "Nieuwpoort",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-sjc6-1.xx.fbcdn.net/m1/v/t6/AQPfOMAvtcfdVkelBlQG8MmhkCTBsFsDU8vyOJNR5iy2fAjiZRiqLE3RJgJ1IyQmXPsdgj6sU9hDNMYwUtg7zuJ5t5acOGHbCdXZ2gOTsuvJldom2B7Q_WddocWOD0xj_igU-iVI1uDHQeuUk55oluPKEkPr1_q3-XDBUUGKvwCTcmk?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=8iCYEQ32MXjez36b2lHatA&_nc_oc=AdqniFRQv_qlkobm2uPPwjVhAY1tAGkUdhAJ_xH694510FewEZi9aRnwigV8jT1ZkEU&ccb=10-5&oh=00_AQNLkYJjptY9b6luZERE0Jc1U04G1O97LJlFFo-mPlgbAw&oe=6AF447A5&_nc_sid=201bca",
+        "photo_url": "https://scontent-iad3-1.xx.fbcdn.net/m1/v/t6/AQPfOMAvtcfdVkelBlQG8MmhkCTBsFsDU8vyOJNR5iy2fAjiZRiqLE3RJgJ1IyQmXPsdgj6sU9hDNMYwUtg7zuJ5t5acOGHbCdXZ2gOTsuvJldom2B7Q_WddocWOD0xj_igU-iVI1uDHQeuUk55oluPKEkPr1_q3-XDBUUGKvwCTcmk?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=qix1zUbDzq3s0gKWFWiyHg&_nc_oc=Adpv1Hi9QBdCLP4S8_NLiEJhLUV6Hl0XdPvak4bXLoh2tRvRoFipHSkV6QvYh1_XzwY&ccb=10-5&oh=00_AQNrr-mYFw1N9ipX5mrw5fjt8_uPWA6UskyhM_0GbedgSw&oe=6AF47FE5&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1845376466819094&focus=photo",
         "env": {
@@ -56806,7 +56806,7 @@
         "commune": "Knokke-Heist",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-sjc6-1.xx.fbcdn.net/m1/v/t6/AQOMIrOhJmwR3NQ111tyTgDNNwT-xcI3tMvwRysfwbnkRVigPysgVDgzRm5f1CyVI__7XMnNN_DK4ycpGRvDKuUJKRWPFayH7v41n5OA4EmSOMFz8jPHqzw9BKZtbJkI9Zj8Ma3RX6gJDEH5HsV0LRjhUgEAutkZbhcxECFHFGpal40?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=EdgiSqDG7F0tzsq_cK9eOQ&_nc_oc=AdqXKlA4cW5iCEX3TrJplAY6AesIaPXnsd1ae8iO5aiguIk76uwzTwIqIHk7Q0ANluE&ccb=10-5&oh=00_AQMLVoK8q-Ohg4JNdQjHk69WEwpoKjx-oSezatqs36CXOA&oe=6AF43E49&_nc_sid=201bca",
+        "photo_url": "https://scontent-iad3-1.xx.fbcdn.net/m1/v/t6/AQOMIrOhJmwR3NQ111tyTgDNNwT-xcI3tMvwRysfwbnkRVigPysgVDgzRm5f1CyVI__7XMnNN_DK4ycpGRvDKuUJKRWPFayH7v41n5OA4EmSOMFz8jPHqzw9BKZtbJkI9Zj8Ma3RX6gJDEH5HsV0LRjhUgEAutkZbhcxECFHFGpal40?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=SMp-W0Q3vARNQ7y-11WZmg&_nc_oc=AdpZwVgUhohneStjn236E2fmyyFwyces91H8GsUDJgTkMwFjLAsj3Scz-mKTKJdQ-hw&ccb=10-5&oh=00_AQNps0lHGoyTAQkZFoJ_uUFiQIMHunbYYvmV-QQ0vBn_Yw&oe=6AF47689&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1967944690557231&focus=photo",
         "env": {
@@ -57304,6 +57304,196 @@
         "commune": "Antwerpen",
         "province": "anvers",
         "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6252548,
+          50.1676134
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1567660169",
+        "nearest_street": "Maboge",
+        "commune": "La Roche-en-Ardenne",
+        "province": "luxembourg",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6252851,
+          50.1676128
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1567660170",
+        "nearest_street": "Maboge",
+        "commune": "La Roche-en-Ardenne",
+        "province": "luxembourg",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6253162,
+          50.1676122
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1567660171",
+        "nearest_street": "Maboge",
+        "commune": "La Roche-en-Ardenne",
+        "province": "luxembourg",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6253469,
+          50.1676116
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1567660172",
+        "nearest_street": "Maboge",
+        "commune": "La Roche-en-Ardenne",
+        "province": "luxembourg",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6253773,
+          50.1676109
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1567660173",
+        "nearest_street": "Maboge",
+        "commune": "La Roche-en-Ardenne",
+        "province": "luxembourg",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6254077,
+          50.1676102
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1567660174",
+        "nearest_street": "Maboge",
+        "commune": "La Roche-en-Ardenne",
+        "province": "luxembourg",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6254385,
+          50.1676094
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1567660175",
+        "nearest_street": "Maboge",
+        "commune": "La Roche-en-Ardenne",
+        "province": "luxembourg",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6254688,
+          50.1676087
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1567660176",
+        "nearest_street": "Maboge",
+        "commune": "La Roche-en-Ardenne",
+        "province": "luxembourg",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6254992,
+          50.1676077
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1567660177",
+        "nearest_street": "Maboge",
+        "commune": "La Roche-en-Ardenne",
+        "province": "luxembourg",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.62553,
+          50.1676071
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1567660178",
+        "nearest_street": "Maboge",
+        "commune": "La Roche-en-Ardenne",
+        "province": "luxembourg",
+        "region": "wallonie"
       }
     }
   ]

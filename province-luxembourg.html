@@ -239,12 +239,12 @@
 <div class="province-bande-texte">
 <div class="province-bande-interieur">
     <p class="province-intro">
-        La province de Luxembourg compte <strong>52 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>25 communes</strong>. Arlon, son chef-lieu, arrive en tête avec 7 terrains, devant Vielsalm avec 6. Elle peut se targuer d'avoir vu naître Claudy Weibel, double champion du monde de pétanque, sacré en triplette en 2000 puis en tête-à-tête en 2015. Anecdote historique : en 1961, un boulodrome de 3 000 m² a été aménagé au pied de la centrale électrique de Saint-Hubert. Le bâtiment a été entièrement ravagé par un incendie en 82 avant d'être reconstruit.
+        La province de Luxembourg compte <strong>62 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>25 communes</strong>. Arlon, son chef-lieu, arrive en tête avec 7 terrains, devant Vielsalm avec 6. Elle peut se targuer d'avoir vu naître Claudy Weibel, double champion du monde de pétanque, sacré en triplette en 2000 puis en tête-à-tête en 2015. Anecdote historique : en 1961, un boulodrome de 3 000 m² a été aménagé au pied de la centrale électrique de Saint-Hubert. Le bâtiment a été entièrement ravagé par un incendie en 82 avant d'être reconstruit.
     </p>
 
     <!-- La carte est sur /carte.html : ce bouton l'ouvre cadrée sur la zone de la page. -->
     <p class="province-voir-carte">
-        <a href="/carte.html?province=luxembourg" class="bouton-voir-carte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg><span>Voir les 52 terrains sur la carte</span></a>
+        <a href="/carte.html?province=luxembourg" class="bouton-voir-carte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg><span>Voir les 62 terrains sur la carte</span></a>
     </p>
 
     <div class="province-communes-section">
@@ -253,6 +253,7 @@
         <!-- Liste écrite par generate_provinces.py (lisible sans JavaScript, donc par les
              moteurs de recherche et les IA) ; le script plus bas branche les clics sur la carte. -->
         <div class="commune-list repliee" id="communeList">
+            <div class="commune-item" data-commune="La Roche-en-Ardenne" data-terrains="11" data-recherche-clef="la roche-en-ardenne"><a href="/commune/la-roche-en-ardenne.html"><span>La Roche-en-Ardenne </span><span class="commune-count">(11 terrains)</span></a></div>
             <div class="commune-item" data-commune="Arlon" data-terrains="7" data-recherche-clef="arlon"><a href="/commune/arlon.html"><span>Arlon </span><span class="commune-count">(7 terrains)</span></a></div>
             <div class="commune-item" data-commune="Vielsalm" data-terrains="6" data-recherche-clef="vielsalm"><a href="/commune/vielsalm.html"><span>Vielsalm </span><span class="commune-count">(6 terrains)</span></a></div>
             <div class="commune-item" data-commune="Gouvy" data-terrains="3" data-recherche-clef="gouvy"><a href="/carte.html?commune=gouvy"><span>Gouvy </span><span class="commune-count">(3 terrains)</span></a></div>
@@ -262,7 +263,7 @@
             <div class="commune-item" data-commune="Bastogne" data-terrains="2" data-recherche-clef="bastogne"><a href="/commune/bastogne.html"><span>Bastogne </span><span class="commune-count">(2 terrains)</span></a></div>
             <div class="commune-item" data-commune="Durbuy" data-terrains="2" data-recherche-clef="durbuy"><a href="/commune/durbuy.html"><span>Durbuy </span><span class="commune-count">(2 terrains)</span></a></div>
             <div class="commune-item" data-commune="Habay" data-terrains="2" data-recherche-clef="habay"><a href="/commune/habay.html"><span>Habay </span><span class="commune-count">(2 terrains)</span></a></div>
-            <div class="commune-item" data-commune="Léglise" data-terrains="2" data-recherche-clef="leglise"><a href="/commune/leglise.html"><span>Léglise </span><span class="commune-count">(2 terrains)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Léglise" data-terrains="2" data-recherche-clef="leglise"><a href="/commune/leglise.html"><span>Léglise </span><span class="commune-count">(2 terrains)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Rendeux" data-terrains="2" data-recherche-clef="rendeux"><a href="/carte.html?commune=rendeux"><span>Rendeux </span><span class="commune-count">(2 terrains)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Tenneville" data-terrains="2" data-recherche-clef="tenneville"><a href="/commune/tenneville.html"><span>Tenneville </span><span class="commune-count">(2 terrains)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Vaux-sur-Sûre" data-terrains="2" data-recherche-clef="vaux-sur-sure"><a href="/carte.html?commune=vaux-sur-sure"><span>Vaux-sur-Sûre </span><span class="commune-count">(2 terrains)</span></a></div>
@@ -272,7 +273,6 @@
             <div class="commune-item commune-repliee" data-commune="Fauvillers" data-terrains="1" data-recherche-clef="fauvillers"><a href="/carte.html?commune=fauvillers"><span>Fauvillers </span><span class="commune-count">(1 terrain)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Herbeumont" data-terrains="1" data-recherche-clef="herbeumont"><a href="/carte.html?commune=herbeumont"><span>Herbeumont </span><span class="commune-count">(1 terrain)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Houffalize" data-terrains="1" data-recherche-clef="houffalize"><a href="/carte.html?commune=houffalize"><span>Houffalize </span><span class="commune-count">(1 terrain)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="La Roche-en-Ardenne" data-terrains="1" data-recherche-clef="la roche-en-ardenne"><a href="/carte.html?commune=la-roche-en-ardenne"><span>La Roche-en-Ardenne </span><span class="commune-count">(1 terrain)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Marche-en-Famenne" data-terrains="1" data-recherche-clef="marche-en-famenne"><a href="/carte.html?commune=marche-en-famenne"><span>Marche-en-Famenne </span><span class="commune-count">(1 terrain)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Meix-devant-Virton" data-terrains="1" data-recherche-clef="meix-devant-virton"><a href="/carte.html?commune=meix-devant-virton"><span>Meix-devant-Virton </span><span class="commune-count">(1 terrain)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Rouvroy" data-terrains="1" data-recherche-clef="rouvroy"><a href="/carte.html?commune=rouvroy"><span>Rouvroy </span><span class="commune-count">(1 terrain)</span></a></div>
@@ -307,7 +307,7 @@
         <div class="tuiles-provinces">
             <a href="/region-wallonie.html" class="tuile-province" style="background-image: url('/images/provinces/tuile-wallonie.webp');">
                 <span class="tuile-province-nom">Wallonie</span>
-                <span class="tuile-province-nombre">446 terrains</span>
+                <span class="tuile-province-nombre">456 terrains</span>
             </a>
             <a href="/province-liege.html" class="tuile-province" style="background-image: url('/images/provinces/tuile-liege.webp');">
                 <span class="tuile-province-nom">Liège</span>

@@ -1,6 +1,6 @@
 {
   "wallonie": {
-    "total": 446,
+    "total": 456,
     "provinces": {
       "liege": {
         "total": 150,
@@ -16,7 +16,7 @@
           "Visé": 2,
           "Blegny": 4,
           "Wanze": 2,
-          "Pousset": 1,
+          "Remicourt": 1,
           "Braives": 2,
           "Malmedy": 3,
           "Fexhe-le-Haut-Clocher": 1,
@@ -130,13 +130,13 @@
         }
       },
       "luxembourg": {
-        "total": 52,
+        "total": 62,
         "communes": {
           "Haut-Fays": 1,
           "Saint-Hubert": 3,
           "Bastogne": 2,
           "Ronzon": 2,
-          "La Roche-en-Ardenne": 1,
+          "La Roche-en-Ardenne": 11,
           "Léglise": 2,
           "Marche-en-Famenne": 1,
           "Vielsalm": 6,
@@ -184,7 +184,7 @@
           "Villers-la-Ville": 2,
           "Rebecq-Rognon": 1,
           "Ramillies": 1,
-          "Incourt": 1,
+          "Roux-Miroir": 1,
           "Beauvechain": 1
         }
       },
@@ -376,7 +376,7 @@
           "Hamme": 4,
           "Sint-Martens-Latem": 5,
           "Aalst": 13,
-          "Sinaai": 6,
+          "Sinaai": 4,
           "Mere": 2,
           "Etikhove": 1,
           "De Pinte": 8,
@@ -401,7 +401,7 @@
           "Huise": 1,
           "Kieldrecht": 2,
           "Lokeren": 16,
-          "Sint-Niklaas": 10,
+          "Belsele": 1,
           "Temse": 2,
           "Watervliet": 1,
           "Neigem": 1,
@@ -411,6 +411,7 @@
           "Lovendegem": 1,
           "Steendorp": 2,
           "Landskouter": 1,
+          "Sint-Niklaas": 11,
           "Lochristi": 1,
           "Munkzwalm": 2,
           "Sint-Lievens-Houtem": 2,
