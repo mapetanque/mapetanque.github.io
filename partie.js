@@ -7,7 +7,7 @@
 //   - connecté, pas encore dans la partie : « Qui êtes-vous ? » parmi les noms saisis par le
 //     marqueur ou une place libre, ou « Je regarde seulement ». Scanner vaut accord : la partie
 //     arrivera dans ses parties ;
-//   - sans compte : « Suivre le score », ou se connecter pour garder la partie ;
+//   - sans compte : le score suivi d'office, et se connecter pour garder la partie ;
 //   - dans la partie, ou spectateur : le score en direct (WebSocket vers le Worker
 //     mapetanque-direct, workers/direct/) ; si la connexion tombe, « Actualiser » le relit, et
 //     la page se reconnecte d'elle-même ; à la fin, « Enregistrée dans vos parties ».
@@ -189,9 +189,8 @@
         var h = '<div class="pt-tete"><h2>' + echapper(libelle('partie_de', { pseudo: donnees.marqueur || '…' })) + '</h2>' + etiquette() + '</div>'
             + tableauScore();
         if (donnees.marqueur_moi) h += blocMarqueur();
-        else if (donnees.moi || spectateur) h += blocSuivi();
-        else if (compte.session()) h += blocChoix();
-        else h += blocInvite();
+        else if (donnees.moi || spectateur || !compte.session()) h += blocSuivi();
+        else h += blocChoix();
         zone.innerHTML = h;
         gain = null;   // l'animation ne se rejoue pas au dessin suivant
     }
@@ -224,7 +223,7 @@
             + '<a class="pt-btn vert" href="' + prefixe + 'compteur.html">' + echapper(t('mesparties_ouvrir_compteur')) + '</a></div>';
     }
 
-    // Dans la partie, ou « Je regarde seulement » : le score à relire, puis la fin
+    // Dans la partie, « Je regarde seulement », ou sans compte : le score à relire, puis la fin
     function blocSuivi() {
         var et = donnees.etat;
         var moi = donnees.moi;
@@ -251,7 +250,11 @@
                 h += '<button type="button" class="pt-lien" data-action="choisir">' + echapper(t('partie_je_jouais')) + '</button>';
             }
         }
-        if (!moi && !et.termine) h += '<button type="button" class="pt-lien" data-action="choisir">' + echapper(t(compte.session() ? 'partie_je_joue' : 'partie_connexion')) + '</button>';
+        if (!moi && !et.termine) {
+            if (compte.session()) h += '<button type="button" class="pt-lien" data-action="choisir">' + echapper(t('partie_je_joue')) + '</button>';
+            else h += '<button type="button" class="pt-btn vert" data-action="connexion">' + echapper(t('partie_connexion')) + '</button>'
+                + '<p class="pt-mention">' + echapper(t('partie_gratuit')) + '</p>';
+        }
         return h + '</div>';
     }
 
@@ -284,14 +287,6 @@
             + '<p class="pt-compte"><span class="pt-pastille" aria-hidden="true">' + echapper((session.pseudo || session.email || '?').charAt(0).toUpperCase()) + '</span>'
             + echapper(libelle('partie_connecte', { pseudo: session.pseudo || session.email })) + '</p>';
         return h + '</div>';
-    }
-
-    function blocInvite() {
-        var termine = donnees.etat.termine;
-        return '<div class="pt-carte">'
-            + (termine ? '' : '<button type="button" class="pt-btn vert" data-action="regarder">' + echapper(t('partie_suivre')) + '</button>')
-            + '<button type="button" class="pt-btn ' + (termine ? 'vert' : 'ligne') + '" data-action="connexion">' + echapper(t(termine ? 'partie_connexion_fin' : 'partie_connexion')) + '</button>'
-            + '<p class="pt-mention">' + echapper(t('partie_gratuit')) + '</p></div>';
     }
 
 
