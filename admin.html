@@ -588,7 +588,7 @@
         </div>
     </div>
     <div class="panneau file-avis" id="terrainsActifsBloc" hidden>
-        <div class="file-avis-titre"><span id="terrainsActifsTitre">Terrains notés ou commentés</span><span class="file-avis-aide">du plus noté au moins noté</span></div>
+        <div class="file-avis-titre"><span id="terrainsActifsTitre">Terrains notés ou commentés</span><span class="file-avis-aide">du plus récent au plus ancien</span></div>
         <div id="terrainsActifsListe"></div>
     </div>
 </section>
@@ -2940,7 +2940,9 @@ function modererAvis(a, decision) {
 
 // Terrains notés ou commentés, en bas de l'onglet : moyenne et nombre de notes (paquet public
 // des notes, piste par piste, sans le cumul des pistes voisines que fait le site), puis les avis
-// reçus, publiés ou en attente. Du terrain qui a reçu le plus de notes et d'avis au moins actif.
+// reçus, publiés ou en attente. Du plus récent au plus ancien, d'après la date du dernier avis
+// reçu (le paquet des notes ne porte pas de date) ; les terrains seulement notés viennent
+// ensuite, du plus noté au moins noté.
 let NOTES_PUBLIQUES = null;   // osm_id -> [somme, nombre]
 
 function dessinerTerrainsActifs() {
@@ -2958,8 +2960,14 @@ function dessinerTerrainsActifs() {
         AVIS.en_attente.map(a => Object.assign({ en_attente: true }, a)).concat(AVIS.publies)
             .forEach(a => terrainDe(a.osm_id).avis.push(a));
     }
+    const dateAvis = a => String(a.cree || a.maj || "");
+    Object.values(parTerrain).forEach(t => {
+        t.avis.sort((a, b) => dateAvis(b).localeCompare(dateAvis(a)));
+        t.dernier = t.avis.length ? dateAvis(t.avis[0]) : "";
+    });
     const terrains = Object.values(parTerrain).sort((a, b) =>
-        (b.votes + b.avis.length) - (a.votes + a.avis.length)
+        b.dernier.localeCompare(a.dernier)
+        || (b.votes + b.avis.length) - (a.votes + a.avis.length)
         || String(terrainAvis(a.osm_id).nom).localeCompare(String(terrainAvis(b.osm_id).nom), "fr"));
 
     document.getElementById("terrainsActifsBloc").hidden = terrains.length === 0;
