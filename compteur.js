@@ -74,7 +74,9 @@
     entrer: picto('<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/>'),
     qr: picto('<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM21 14v.01M14 21h.01M17 21h4v-4"/>'),
     envoyer: picto('<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>'),
-    aide: picto('<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>')
+    aide: picto('<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>'),
+    // Passer, reprendre la main (Lucide « hand »)
+    main: picto('<path d="M18 11V6a2 2 0 0 0-4 0v5"/><path d="M14 10V4a2 2 0 0 0-4 0v6"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/>')
   };
 
   // Feuille « Comment ça marche ? » : les gestes du compteur, et la règle « une seule personne
@@ -132,9 +134,11 @@
 
   <div class="halves">${moitie('a')}
     <div class="divider"></div>${moitie('b')}
+    <div class="bandeau-main" id="bandeauMain" role="status" hidden></div>
   </div>
 
   <div class="bottombar">
+    <button type="button" id="reprendreBtn" class="reprendre" hidden>${PICTOS.main} ${libelle('compteur_reprendre_main')}</button>
     <button type="button" id="undoBtn" disabled><span aria-hidden="true">↺</span> ${libelle('compteur_annuler')}</button>
     <button type="button" id="menesBtn"><span aria-hidden="true">☰</span> ${libelle('compteur_menes')}</button>
     <button type="button" id="equipesBtn">${PICTOS.equipes} ${libelle('compteur_equipes')}</button>
@@ -170,7 +174,6 @@
         <span>${libelle('compteur_garder')}<small>${libelle('compteur_garder_aide')}</small></span>
       </label>
       <p class="note-feuille" id="noteInvite">${libelle('compteur_noms_invite')}</p>
-      <button type="button" class="bouton-plein" data-fermer>${libelle('compteur_ok')}</button>
     </div>
   </div>
 
@@ -222,6 +225,9 @@
     nameA: $('nameA'), nameB: $('nameB'),
     controlsA: $('controlsA'), controlsB: $('controlsB'),
     undoBtn: $('undoBtn'),
+    reprendreBtn: $('reprendreBtn'),
+    bandeauMain: $('bandeauMain'),
+    equipesBtn: $('equipesBtn'),
     resetBtn: $('resetBtn'),
     win: $('winOverlay'),
     winnerName: $('winnerName'),
@@ -272,8 +278,20 @@
     terrain: null,       // { o: identifiant OSM, nom, d: distance en m }
     terrainJour: '',     // jour où le terrain a été choisi : une revanche le même jour le reprend
     partage: null,       // { code, rejoints: [{ equipe, nom, pseudo }] } une fois la partie partagée
+    main: null,          // partie partagée : nom du joueur qui a la main (null : c'est nous qui marquons)
   };
   const history = [];
+
+  // Connexion au direct (voir « Passer la main »), déclarée ici : render() la branche ou la coupe
+  const URL_DIRECT = 'wss://mapetanque-direct.mapetanque.workers.dev';
+  const PING = 30000;           // ms : garde la connexion ouverte (réponse sans réveiller le serveur)
+  let ws = null;
+  let essaisDirect = 0;
+  let minuteurDirect = null;
+  let minuteurPing = null;
+  let majDistante = 0;          // heure (ms) du dernier état reçu : un état plus ancien est ignoré
+  let messageMain = '';         // « Julie marque maintenant : votre compteur suit son score »
+  let minuteurMessageMain = null;
 
   function places(equipe){
     return state.format - (session() && state.moi === equipe ? 1 : 0);
@@ -326,7 +344,11 @@
     if (state.envoi === 'en_cours') state.envoi = 'attente';
     if (!state.partage || typeof state.partage.code !== 'string') state.partage = null;
     else if (!Array.isArray(state.partage.rejoints)) state.partage.rejoints = [];
+    if (!state.partage || typeof state.main !== 'string' || !state.main) state.main = null;
   }
+
+  // Un autre joueur a la main : le compteur suit son score sans pouvoir marquer
+  function suit(){ return !!(state.partage && state.main); }
 
   function snapshot(){
     history.push(JSON.stringify(state));
@@ -390,8 +412,23 @@
       btn.setAttribute('aria-pressed', actif);
     });
 
+    // Un autre joueur a la main : moitiés inertes, « Reprendre la main » à la place d'« Annuler »,
+    // ni « Équipes », ni « Nouvelle partie », ni 11/13
+    const enSuivi = suit();
+    widget.classList.toggle('compteur-suit', enSuivi);
+    el.reprendreBtn.hidden = !enSuivi;
+    el.undoBtn.hidden = enSuivi;
+    el.equipesBtn.hidden = enSuivi;
+    el.resetBtn.disabled = enSuivi && !state.finished;
+    [...el.targetToggle.children].forEach(btn => { btn.disabled = enSuivi && !state.finished; });
+    $('undoWinBtn').hidden = enSuivi;
+    const texteBandeau = messageMain || (enSuivi ? libelle('partie_marque', { pseudo: state.main }) : '');
+    el.bandeauMain.innerHTML = texteBandeau ? PICTOS.crayon + '<span>' + echapper(texteBandeau) + '</span>' : '';
+    el.bandeauMain.hidden = !texteBandeau;
+
     if (el.win.classList.contains('show')) renderCarte();
     sauvegarderPartie();
+    if (doitSuivreDirect()) brancherDirect(); else debrancherDirect();
   }
 
   // Score lu par les lecteurs d'écran après chaque action (zone aria-live)
@@ -753,24 +790,36 @@
   }
 
   // Score envoyé après chaque mène (regroupé si plusieurs actions se suivent) ; sans réseau, le
-  // suivant part au retour de la connexion
+  // suivant part au retour de la connexion. Rien quand un autre joueur a la main : son score fait
+  // foi. Le Worker refuse aussi (409 main) si la main a été prise entre-temps : le compteur
+  // reprend alors le score du serveur.
   let minuteurEtat = null;
   function envoyerEtatPartage(){
-    if (!state.partage || !session() || !compte) return;
+    if (!state.partage || !session() || !compte || state.main) return;
     clearTimeout(minuteurEtat);
-    minuteurEtat = setTimeout(async () => {
-      const code = state.partage && state.partage.code;
-      if (!code) return;
-      const r = await compte.appel('POST', '/compte/partage/etat', { code, etat: etatPartage() });
-      if (!state.partage || state.partage.code !== code) return;
-      if (r.statut === 200) majRejoints(r.donnees.rejoints);
-      else if (r.statut === 404) { state.partage = null; sauvegarderPartie(); }   // code expiré : un autre sera tiré
-    }, 400);
+    minuteurEtat = setTimeout(envoyerEtatMaintenant, 400);
   }
 
-  // Crée le partage, ou retrouve le même code (le Worker dit aussi qui a rejoint entre-temps)
+  async function envoyerEtatMaintenant(){
+    clearTimeout(minuteurEtat);
+    const code = state.partage && state.partage.code;
+    if (!code || !session() || !compte || state.main) return;
+    const r = await compte.appel('POST', '/compte/partage/etat', { code, etat: etatPartage() });
+    if (!state.partage || state.partage.code !== code) return;
+    if (r.statut === 200) majRejoints(r.donnees.rejoints);
+    else if (r.statut === 409 && r.donnees.erreur === 'main') {
+      majRejoints(r.donnees.rejoints);
+      adopterDistant(r.donnees.etat, r.donnees.main, true);
+    }
+    else if (r.statut === 404) { state.partage = null; state.main = null; sauvegarderPartie(); render(); }   // code expiré : un autre sera tiré
+  }
+
+  // Crée le partage, ou retrouve le même code (le Worker dit aussi qui a rejoint entre-temps, et
+  // qui a la main)
   async function demanderPartage(){
     if (!session() || !compte) { etatPartageUi = 'connexion'; renderPartage(); return; }
+    // Un autre joueur a la main : le code est connu, le direct tient la feuille à jour
+    if (state.partage && state.main) { etatPartageUi = ''; renderPartage(); return; }
     if (!state.id) { state.id = nouvelIdentifiant(); sauvegarderPartie(); }
     etatPartageUi = state.partage ? '' : 'chargement';
     renderPartage();
@@ -778,7 +827,9 @@
     if (r.statut === 200) {
       state.partage = { code: r.donnees.code, rejoints: Array.isArray(r.donnees.rejoints) ? r.donnees.rejoints : [] };
       etatPartageUi = '';
+      if (r.donnees.main) adopterDistant(r.donnees.etat, r.donnees.main, true);
       sauvegarderPartie();
+      render();
     } else if (!state.partage) {
       etatPartageUi = r.statut === 0 ? 'reseau' : r.statut === 401 ? 'connexion' : 'erreur';
       if (r.statut === 401 && compte.verifier) compte.verifier();
@@ -806,23 +857,28 @@
         (etatPartageUi === 'reseau' || etatPartageUi === 'erreur' ? '<button type="button" class="bouton-plein" data-action="reessayer">' + echapper(libelle('compteur_reessayer')) + '</button>' : '');
       return;
     }
-    // Places de chaque équipe : le marqueur, les noms saisis (rejoint ou pas encore), les joueurs
-    // venus sur une place libre, puis les places encore libres
+    // Places de chaque équipe : soi-même, les noms saisis (rejoint ou pas encore), les joueurs
+    // venus sur une place libre, puis les places encore libres. Qui a la main est signalé ; à côté
+    // de chaque joueur qui a rejoint, « Lui passer la main » (pas après la fin de la partie).
     const s = session();
+    const aLaMain = n => !!state.main && cleNom(n) === cleNom(state.main);
     let places = '';
     ['a', 'b'].forEach(e => {
-      const lignePlace = (n, etat, ok, libre) => '<div class="place-partage ' + e + (libre ? ' libre' : '') + '"><span class="n">' + echapper(n) + '</span>' +
-        (etat ? '<span class="etat-place' + (ok ? ' ok' : '') + '">' + echapper(etat) + '</span>' : '') + '</div>';
+      const lignePlace = (n, etat, ok, libre, passer) => '<div class="place-partage ' + e + (libre ? ' libre' : '') + '"><span class="n">' + echapper(n) + '</span>' +
+        (etat ? '<span class="etat-place' + (ok ? ' ok' : '') + '">' + echapper(etat) + '</span>' : '') +
+        (passer ? '<button type="button" class="passer-main" data-action="passer" data-equipe="' + e + '" data-nom="' + echapper(n) + '">' + PICTOS.main + echapper(libelle('compteur_passer_main')) + '</button>' : '') + '</div>';
+      const ligneVenu = n => aLaMain(n) ? lignePlace(n, libelle('compteur_a_la_main'), true)
+        : lignePlace(n, state.finished ? libelle('compteur_a_rejoint') : '', true, false, !state.finished);
       const venus = rejoints().filter(r => r.equipe === e);
-      if (state.moi === e) places += lignePlace((s && (s.pseudo || s.email)) || libelle('compteur_vous'), libelle('compteur_marqueur'), true);
+      if (state.moi === e) places += lignePlace((s && (s.pseudo || s.email)) || libelle('compteur_vous'), state.main ? '' : libelle('compteur_a_la_main'), true);
       const surNom = r => state.joueurs[e].some(n => cleNom(n) === cleNom(nomRejoint(r)));
       state.joueurs[e].forEach(n => {
         const venu = venus.some(r => cleNom(nomRejoint(r)) === cleNom(n));
-        places += lignePlace(n, libelle(venu ? 'compteur_a_rejoint' : 'compteur_pas_encore'), venu);
+        places += venu ? ligneVenu(n) : lignePlace(n, libelle('compteur_pas_encore'), false);
       });
       // Venus sur une place libre, sans place dans l'équipe du compteur (équipe déjà pleine)
       const enPlus = venus.filter(r => !r.nom && !surNom(r));
-      enPlus.forEach(r => { places += lignePlace(r.pseudo || '', libelle('compteur_a_rejoint'), true); });
+      enPlus.forEach(r => { places += ligneVenu(r.pseudo || ''); });
       const libres = state.format - (state.moi === e ? 1 : 0) - state.joueurs[e].length - enPlus.length;
       for (let k = 0; k < libres; k++) places += lignePlace(libelle('compteur_place_libre'), '', false, true);
     });
@@ -834,8 +890,7 @@
       '<div class="actions-partage">' +
       '<button type="button" class="bouton-ligne" data-action="envoyerLien">' + PICTOS.envoyer + ' ' + echapper(libelle('compteur_envoyer_lien')) + '</button>' +
       '<button type="button" class="bouton-ligne" data-action="actualiser">' + echapper(libelle('compteur_actualiser')) + '</button></div>' +
-      '<p class="note-feuille" role="status">' + echapper(messagePartage) + '</p>' +
-      '<button type="button" class="bouton-plein" data-fermer>' + echapper(libelle('compteur_ok')) + '</button>';
+      '<p class="note-feuille" role="status">' + echapper(messagePartage) + '</p>';
     const lien = lienPartage();
     chargerQr().then(qrcode => {
       const zone = $('qrImage');
@@ -853,6 +908,7 @@
     const action = b.dataset.action;
     if (action === 'connexion') { location.href = prefixeLangue() + 'connexion.html?retour=' + encodeURIComponent(location.pathname); return; }
     if (action === 'reessayer' || action === 'actualiser') { messagePartage = ''; demanderPartage(); return; }
+    if (action === 'passer') { passerMain({ equipe: b.dataset.equipe, nom: b.dataset.nom }); return; }
     if (action === 'envoyerLien' && state.partage) {
       const lien = lienPartage();
       // Partage du téléphone (WhatsApp, SMS…) s'il existe, sinon le lien est copié
@@ -867,6 +923,144 @@
   });
 
   $('partagerBtn').addEventListener('click', ouvrirPartage);
+
+  // ---------- Passer la main ----------
+  // Partie partagée : un seul joueur marque à la fois, mais ce peut être un autre que le créateur.
+  // Le créateur la donne (« Lui passer la main » dans la feuille Partager), ou un joueur qui a
+  // rejoint la prend sur partie.html. Le compteur suit alors le score en direct (WebSocket vers le
+  // Worker mapetanque-direct, comme partie.js), sans pouvoir marquer, jusqu'à « Reprendre la
+  // main ». La partie reste celle du créateur : son compteur l'enregistre à la fin, comme toujours.
+
+  // Message bref dans le bandeau (main reprise, réseau absent…), puis le bandeau normal
+  function annoncerMain(texte){
+    messageMain = texte;
+    el.annonce.textContent = texte;
+    clearTimeout(minuteurMessageMain);
+    minuteurMessageMain = setTimeout(() => { messageMain = ''; render(); }, 6000);
+    render();
+  }
+
+  // Le score du serveur remplace celui du compteur : mènes de celui qui a la main, ou après un
+  // refus (main prise pendant que ce compteur marquait sans réseau). main : nom de qui a la main,
+  // null quand elle nous revient. Les noms, le format et l'objectif restent ceux du compteur.
+  function adopterDistant(etat, main, conflit){
+    if (!state.partage || !etat || !Array.isArray(etat.menes)) return;
+    const etaitFinie = state.finished, avant = state.menes.length, avaitMain = !state.main;
+    const objectif = etat.objectif === 11 || etat.objectif === 13 ? etat.objectif : state.target;
+    let a = 0, b = 0;
+    state.menes = etat.menes.map(m => {
+      if (m.e === 'a') a = Math.min(objectif, a + m.p); else b = Math.min(objectif, b + m.p);
+      return { equipe: m.e, points: m.p, a, b, t: typeof m.t === 'number' ? m.t : 0 };
+    });
+    state.target = objectif;
+    state.scoreA = a;
+    state.scoreB = b;
+    if (etat.debut) state.debut = etat.debut;
+    state.main = main || null;
+    state.finished = a >= objectif || b >= objectif;
+    // Les états d'avant ne correspondent plus au score : « Annuler » repart d'ici
+    history.length = 0;
+    el.undoBtn.disabled = true;
+    if (conflit && main && avaitMain) annoncerMain(libelle('compteur_main_prise', { nom: main }));
+
+    if (state.finished && !etaitFinie) {
+      render();
+      afficherVictoire(true);
+      el.annonce.textContent = el.winnerName.textContent + ', ' + el.finalScore.textContent;
+      finDePartie();
+      return;
+    }
+    if (!state.finished && etaitFinie) {
+      // Dernière mène annulée par celui qui a la main : la partie n'est plus terminée
+      if (state.envoi) annulerEnregistrement();
+      cacherVictoire();
+    }
+    render();
+    const der = state.menes[state.menes.length - 1];
+    if (state.menes.length > avant && der) { signalerGain(der.equipe, der.points); annoncerScore(); }
+  }
+
+  async function changerMain(vers){
+    const code = state.partage && state.partage.code;
+    if (!code || !compte || !session()) return;
+    // Nos dernières mènes partent d'abord : celui qui reçoit la main repart du bon score
+    if (!state.main) await envoyerEtatMaintenant();
+    const r = await compte.appel('POST', '/partage/main', { code, vers });
+    if (!state.partage || state.partage.code !== code) return;
+    if (r.statut === 200) {
+      majRejoints(r.donnees.rejoints);
+      if (r.donnees.maj) majDistante = Math.max(majDistante, r.donnees.maj);
+      adopterDistant(r.donnees.etat, r.donnees.main);
+      if (!r.donnees.main) annoncerMain(libelle('compteur_main_reprise'));
+    } else {
+      annoncerMain(libelle(r.statut === 0 ? 'compteur_partage_reseau' : 'compte_err_generique'));
+    }
+    if (el.partageModal.classList.contains('show')) renderPartage();
+  }
+
+  function passerMain(joueur){ changerMain(joueur); }
+
+  el.reprendreBtn.addEventListener('click', () => changerMain('moi'));
+
+  // Le direct reste branché tant que la partie est partagée et pas finie (pour savoir aussitôt
+  // qu'un joueur prend la main), et après la fin tant qu'un autre a la main (il peut encore
+  // annuler la dernière mène). Coupé quand la page passe en arrière-plan.
+  function doitSuivreDirect(){
+    return !!(state.partage && session() && (!state.finished || state.main));
+  }
+
+  function brancherDirect(){
+    if (ws || !doitSuivreDirect() || !('WebSocket' in window) || document.visibilityState !== 'visible') return;
+    clearTimeout(minuteurDirect);
+    let cette;
+    try { cette = ws = new WebSocket(URL_DIRECT + '/partie/' + encodeURIComponent(state.partage.code)); }
+    catch (e) { ws = null; return; }
+    ws.onopen = () => {
+      if (ws !== cette) return;
+      essaisDirect = 0;
+      minuteurPing = setInterval(() => { try { cette.send('ping'); } catch (e) { } }, PING);
+    };
+    ws.onmessage = (ev) => {
+      if (ws !== cette || ev.data === 'pong') return;
+      let m;
+      try { m = JSON.parse(ev.data); } catch (e) { return; }
+      recevoirDirect(m);
+    };
+    ws.onclose = () => {
+      if (ws !== cette) return;
+      ws = null;
+      clearInterval(minuteurPing);
+      if (doitSuivreDirect() && document.visibilityState === 'visible') {
+        minuteurDirect = setTimeout(brancherDirect, Math.min(30000, 2000 * Math.pow(2, essaisDirect++)));
+      }
+    };
+  }
+
+  function debrancherDirect(){
+    clearTimeout(minuteurDirect);
+    clearInterval(minuteurPing);
+    if (!ws) return;
+    const ancienne = ws;
+    ws = null;
+    try { ancienne.close(); } catch (e) { }
+  }
+
+  // { type: "etat", etat, rejoints, main, maj } : à la connexion (dernier état connu), puis après
+  // chaque mène, place prise ou main passée. Tant que ce compteur a la main, ce sont ses propres
+  // mènes qui reviennent : seul « qui a rejoint » est repris.
+  function recevoirDirect(m){
+    if (!state.partage || !m || m.type !== 'etat' || !m.etat) return;
+    if (m.maj && m.maj < majDistante) return;
+    if (m.maj) majDistante = m.maj;
+    if (Array.isArray(m.rejoints)) majRejoints(m.rejoints);
+    if (!('main' in m)) return;   // relais d'avant « Passer la main »
+    if (m.main || state.main) {
+      const rendue = !m.main && state.main;
+      adopterDistant(m.etat, m.main);
+      if (rendue) annoncerMain(libelle('compteur_main_reprise'));
+    }
+    if (el.partageModal.classList.contains('show')) renderPartage();
+  }
 
   // ---------- Carte de l'écran de fin ----------
 
@@ -1001,12 +1195,13 @@
 
   document.addEventListener('visibilitychange', ()=>{
     if(verrouSouhaite && document.visibilityState === 'visible') garderEcranAllume();
-    if(document.visibilityState === 'visible') envoyerFile();
+    if(document.visibilityState === 'visible') { envoyerFile(); brancherDirect(); }
+    else debrancherDirect();   // le téléphone n'a pas à garder la connexion en poche
   });
 
   // Un appel = une mène gagnée par cette équipe (1 à 6 points)
   function addPoints(team, pts){
-    if(state.finished) return;
+    if(state.finished || suit()) return;
     garderEcranAllume();
     snapshot();
     if (!state.menes.length) { if (!state.id || !state.partage) state.id = nouvelIdentifiant(); state.debut = Date.now(); }
@@ -1022,6 +1217,7 @@
   }
 
   function undo(){
+    if (suit()) return;
     const prev = history.pop();
     if(!prev) return;
     const etaitFinie = state.finished, idAvant = state.id, envoyee = !!state.envoi;
@@ -1040,13 +1236,14 @@
   // « Nouvelle partie » ou sur 11/13 ne fait pas perdre la partie en cours. Équipes, joueurs,
   // format et terrain restent : la revanche ne demande rien.
   function newGame(nouvelleCible){
+    if (suit() && !state.finished) return;   // partie finie : la revanche reste possible
     if(state.scoreA || state.scoreB || state.menes.length) snapshot();
     if(nouvelleCible) state.target = nouvelleCible;
     state.scoreA = 0;
     state.scoreB = 0;
     state.menes = [];
     state.finished = false;
-    Object.assign(state, { id: null, debut: null, garder: true, moiVu: false, pasJoue: false, quiEstMoi: null, retiree: false, envoi: '', partage: null });
+    Object.assign(state, { id: null, debut: null, garder: true, moiVu: false, pasJoue: false, quiEstMoi: null, retiree: false, envoi: '', partage: null, main: null });
     messageTerrain = '';
     cacherVictoire();
     render();
@@ -1057,6 +1254,7 @@
   // sur son nom (panneau « Équipes »)
   [['a', el.teamA], ['b', el.teamB]].forEach(([team, teamEl])=>{
     teamEl.addEventListener('click', (e)=>{
+      if (suit()) return;
       if (e.target.closest('.name')) { ouvrirEquipes(); return; }
       const chip = e.target.closest('.chip');
       addPoints(team, chip ? Number(chip.dataset.pts) : 1);
@@ -1106,6 +1304,7 @@
   let equipesAvant = '';   // pour ne renvoyer la partie terminée que si quelque chose a changé
 
   function ouvrirEquipes(){
+    if (suit()) return;
     equipesAvant = JSON.stringify([state.format, state.moi, state.joueurs, state.nameA, state.nameB, state.garder]);
     renderEquipes();
     ouvrirPanneau(el.equipesModal, el.equipesModal.querySelector('[data-fermer]'));

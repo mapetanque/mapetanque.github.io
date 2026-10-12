@@ -343,7 +343,7 @@ async function renommerJoueur(request, env, origine) {
 //                               retrouve)                                -> { code, rejoints }
 //   POST /compte/partage/etat   { code, etat }        score après une mène -> { ok, rejoints }
 //   GET  /partage?code=K7P2     jeton facultatif      -> { code, marqueur, etat, rejoints, moi,
-//                                                          marqueur_moi }
+//                                                          marqueur_moi, main, main_moi }
 //                               moi : { equipe, nom, enregistree, retiree } si l'on a rejoint
 //   POST /partage/rejoindre     { code, equipe, nom } nom : un des noms saisis par le marqueur,
 //                               ou null pour une place libre             -> { ok }
@@ -356,6 +356,24 @@ async function renommerJoueur(request, env, origine) {
 // sont relayés au Worker mapetanque-direct (workers/direct/), qui les pousse aux téléphones
 // connectés. Liaison de service à ajouter dans les réglages de ce Worker : nom DIRECT, service
 // mapetanque-direct. Sans elle, rien ne change : la page de l'ami garde « Actualiser ».
+//
+// Passer la main (12/10/2026) : un seul joueur marque à la fois, mais ce n'est plus forcément le
+// créateur de la partie. partages.main = compte qui a la main (NULL : le créateur) ; colonne
+// ajoutée par workers/comptes-partages-main.sql. Le créateur garde la partie dans son compte et
+// l'enregistre à la fin ; celui qui a la main marque depuis partie.html. Deux routes de plus :
+//
+//   if (request.method === "POST" && chemin === "/partage/mene") return await meneMain(request, env, origine);
+//   if (request.method === "POST" && chemin === "/partage/main") return await passerMain(request, env, origine);
+//
+//   POST /partage/mene  { code, n, e, p } ou { code, n, annuler: true }
+//                       n : nombre de mènes que voyait le joueur   -> { etat, maj }
+//   POST /partage/main  { code, vers }  vers : "moi" (un joueur qui a rejoint prend la main, le
+//                       créateur la reprend), "createur" (la rendre), ou { equipe, nom } (la
+//                       donner à un joueur qui a rejoint)          -> { etat, main, maj }
+// Erreurs en plus : 409 main (on n'a pas la main), 409 decale (le score a changé entre-temps),
+// 403 pas_joueur. POST /compte/partage/etat répond 409 main (avec etat, main, rejoints) au
+// créateur quand un autre a la main : son compteur reprend alors le score du serveur.
+// Chaque message du direct porte « main » : le nom de qui a la main dans la partie, ou null.
 
 const PARTAGES_PAR_JOUR = 40;
 const DUREE_PARTAGE = "-7 days";   // un code sert encore 7 jours après la dernière mène
@@ -430,9 +448,27 @@ function rejointsPublics(liste) {
   return liste.map(r => ({ equipe: r.equipe, nom: r.nom || null, pseudo: r.pseudo || null }));
 }
 
+// Compte qui a la main, s'il a bien rejoint la partie (un compte supprimé entre-temps n'a plus
+// de place : la main revient au créateur). null : le créateur.
+function mainEffective(p, rejoints) {
+  return p.main && rejoints.some(r => r.compte_id === p.main) ? p.main : null;
+}
+
+// Nom de qui a la main, tel qu'il apparaît dans la partie (nom choisi, sinon pseudo) ; null : le créateur
+function nomMain(p, rejoints) {
+  const id = mainEffective(p, rejoints);
+  const r = id ? rejoints.find(x => x.compte_id === id) : null;
+  return r ? (r.nom || r.pseudo || null) : null;
+}
+
+// Nouvel état de la partie pour les téléphones qui la suivent
+async function relayerEtat(env, p, etat, rejoints, maj) {
+  await relayerDirect(env, p.code, { type: "etat", etat, rejoints: rejointsPublics(rejoints), main: nomMain(p, rejoints), maj: maj || Date.now() });
+}
+
 async function partageActif(env, code) {
   return await env.DB.prepare(
-    "SELECT code, partie_id, compte_id, etat, maj FROM partages WHERE code = ? AND maj > datetime('now', ?)"
+    "SELECT code, partie_id, compte_id, etat, maj, main FROM partages WHERE code = ? AND maj > datetime('now', ?)"
   ).bind(code, DUREE_PARTAGE).first();
 }
 
@@ -444,13 +480,18 @@ async function creerPartage(request, env, origine) {
   if (typeof d.partie_id !== "string" || !UUID_PARTIE.test(d.partie_id) || !etat) return json({ erreur: "etat_invalide" }, 400, origine);
 
   // Partie déjà partagée (le compteur a été rechargé) : même code
-  const existant = await env.DB.prepare("SELECT code, compte_id FROM partages WHERE partie_id = ?").bind(d.partie_id).first();
+  const existant = await env.DB.prepare("SELECT code, compte_id, etat, main FROM partages WHERE partie_id = ?").bind(d.partie_id).first();
   if (existant) {
     if (existant.compte_id !== compte.id) return json({ erreur: "etat_invalide" }, 400, origine);
-    await env.DB.prepare("UPDATE partages SET etat = ?, maj = datetime('now') WHERE code = ?").bind(JSON.stringify(etat), existant.code).run();
-    const rejoints = rejointsPublics(await rejointsPartage(env, d.partie_id));
-    await relayerDirect(env, existant.code, { type: "etat", etat, rejoints, maj: Date.now() });
-    return json({ code: existant.code, rejoints }, 200, origine);
+    const liste = await rejointsPartage(env, d.partie_id);
+    // Un autre joueur a la main : son score fait foi, le compteur le reprend
+    if (mainEffective(existant, liste)) {
+      return json({ code: existant.code, rejoints: rejointsPublics(liste), main: nomMain(existant, liste), etat: JSON.parse(existant.etat) }, 200, origine);
+    }
+    await env.DB.prepare("UPDATE partages SET etat = ?, maj = datetime('now'), main = NULL WHERE code = ?").bind(JSON.stringify(etat), existant.code).run();
+    existant.main = null;
+    await relayerEtat(env, existant, etat, liste);
+    return json({ code: existant.code, rejoints: rejointsPublics(liste), main: null }, 200, origine);
   }
 
   // Les codes expirés sont libérés ; les places prises (partage_joueurs) restent, pour les copies
@@ -469,20 +510,28 @@ async function creerPartage(request, env, origine) {
   return json({ erreur: "code_indisponible" }, 503, origine);
 }
 
-// Score après une mène (ou équipes changées) ; la réponse dit qui a rejoint entre-temps
+// Score après une mène (ou équipes changées), envoyé par le compteur du créateur ; la réponse
+// dit qui a rejoint entre-temps. Refusé quand un autre joueur a la main (409 main, avec le score
+// du serveur, que le compteur reprend : ses mènes tapées sans réseau entre-temps sont perdues).
 async function majPartage(request, env, origine) {
   const compte = await compteDepuisRequete(request, env);
   if (!compte) return json({ erreur: "non_connecte" }, 401, origine);
   const d = await lireJson(request);
   const etat = verifierEtatPartage(d.etat);
   if (!etat) return json({ erreur: "etat_invalide" }, 400, origine);
-  const p = await env.DB.prepare("SELECT code, partie_id FROM partages WHERE code = ? AND compte_id = ?")
+  const p = await env.DB.prepare("SELECT code, partie_id, etat, main FROM partages WHERE code = ? AND compte_id = ?")
     .bind(codeDemande(d.code), compte.id).first();
   if (!p) return json({ erreur: "introuvable" }, 404, origine);
-  await env.DB.prepare("UPDATE partages SET etat = ?, maj = datetime('now') WHERE code = ?").bind(JSON.stringify(etat), p.code).run();
-  const rejoints = rejointsPublics(await rejointsPartage(env, p.partie_id));
-  await relayerDirect(env, p.code, { type: "etat", etat, rejoints, maj: Date.now() });
-  return json({ ok: true, rejoints }, 200, origine);
+  const liste = await rejointsPartage(env, p.partie_id);
+  const refus = q => json({ erreur: "main", main: nomMain(q, liste), etat: JSON.parse(q.etat), rejoints: rejointsPublics(liste) }, 409, origine);
+  if (mainEffective(p, liste)) return refus(p);
+  // La main a pu être prise depuis la lecture : on ne remplace l'état que si elle n'a pas bougé
+  const r = await env.DB.prepare("UPDATE partages SET etat = ?, maj = datetime('now'), main = NULL WHERE code = ? AND main IS ?")
+    .bind(JSON.stringify(etat), p.code, p.main).run();
+  if (!r.meta.changes) return refus(await env.DB.prepare("SELECT code, etat, main FROM partages WHERE code = ?").bind(p.code).first());
+  p.main = null;
+  await relayerEtat(env, p, etat, liste);
+  return json({ ok: true, rejoints: rejointsPublics(liste) }, 200, origine);
 }
 
 // Page de l'ami (partie.html) : la partie, qui a rejoint, et sa propre place s'il est connecté
@@ -499,9 +548,11 @@ async function lirePartage(request, env, origine) {
     const copie = r.copie ? await env.DB.prepare("SELECT id FROM parties WHERE id = ? AND compte_id = ?").bind(r.copie, compte.id).first() : null;
     moi = { equipe: r.equipe, nom: r.nom || null, enregistree: !!copie, retiree: !!r.copie && !copie };
   }
+  const main = mainEffective(p, rejoints);
   return json({
     code: p.code, marqueur: marqueur ? marqueur.pseudo : null, etat: JSON.parse(p.etat),
     rejoints: rejointsPublics(rejoints), moi, marqueur_moi: !!compte && compte.id === p.compte_id, maj: p.maj,
+    main: nomMain(p, rejoints), main_moi: !!compte && (main ? main === compte.id : compte.id === p.compte_id),
   }, 200, origine);
 }
 
@@ -537,10 +588,85 @@ async function rejoindrePartage(request, env, origine) {
     "INSERT INTO partage_joueurs (partie_id, compte_id, equipe, nom) VALUES (?, ?, ?, ?)"
     + " ON CONFLICT(partie_id, compte_id) DO UPDATE SET equipe = excluded.equipe, nom = excluded.nom"
   ).bind(p.partie_id, compte.id, d.equipe, nom).run();
-  await relayerDirect(env, p.code, { type: "etat", etat, rejoints: rejointsPublics(await rejointsPartage(env, p.partie_id)), maj: Date.now() });
+  await relayerEtat(env, p, etat, await rejointsPartage(env, p.partie_id));
   // Partie déjà enregistrée par le marqueur (scannée après la fin) : la copie arrive tout de suite
   await synchroniserCopies(env, p.partie_id);
   return json({ ok: true }, 200, origine);
+}
+
+// Celui qui a la main marque une mène, ou annule la dernière, depuis partie.html. n : nombre de
+// mènes qu'il voyait ; si le score a changé entre-temps (autre mène, main reprise), rien n'est
+// fait et sa page relit la partie. L'heure de la mène est celle du serveur, comptée depuis le
+// premier point de la partie.
+async function meneMain(request, env, origine) {
+  const compte = await compteDepuisRequete(request, env);
+  if (!compte) return json({ erreur: "non_connecte" }, 401, origine);
+  const d = await lireJson(request);
+  const p = await partageActif(env, codeDemande(d.code));
+  if (!p) return json({ erreur: "introuvable" }, 404, origine);
+  const liste = await rejointsPartage(env, p.partie_id);
+  if (mainEffective(p, liste) !== compte.id) return json({ erreur: "main" }, 409, origine);
+  const etat = JSON.parse(p.etat);
+  if (d.n !== etat.menes.length) return json({ erreur: "decale" }, 409, origine);
+  const menes = etat.menes.slice();
+  let debut = etat.debut;
+  if (d.annuler === true) {
+    if (!menes.length) return json({ erreur: "etat_invalide" }, 400, origine);
+    menes.pop();
+  } else {
+    if (etat.termine || (d.e !== "a" && d.e !== "b") || !Number.isInteger(d.p) || d.p < 1 || d.p > (etat.format === 1 ? 3 : 6)) {
+      return json({ erreur: "etat_invalide" }, 400, origine);
+    }
+    if (!debut) debut = Date.now();
+    const avant = menes.length ? menes[menes.length - 1].t : 0;
+    menes.push({ e: d.e, p: d.p, t: Math.min(86400, Math.max(avant, Math.round((Date.now() - debut) / 1000))) });
+  }
+  const nouvel = verifierEtatPartage(Object.assign({}, etat, { menes, debut }));
+  if (!nouvel) return json({ erreur: "etat_invalide" }, 400, origine);
+  // Une seule écriture gagne : celle qui trouve encore la main et le même nombre de mènes
+  const r = await env.DB.prepare(
+    "UPDATE partages SET etat = ?, maj = datetime('now') WHERE code = ? AND main = ? AND json_array_length(etat, '$.menes') = ?"
+  ).bind(JSON.stringify(nouvel), p.code, compte.id, etat.menes.length).run();
+  if (!r.meta.changes) return json({ erreur: "decale" }, 409, origine);
+  const maj = Date.now();
+  await relayerEtat(env, p, nouvel, liste, maj);
+  return json({ etat: nouvel, maj }, 200, origine);
+}
+
+// Passer la main. vers : "moi" (un joueur qui a rejoint la prend, sans demander : le créateur
+// peut la reprendre ; le créateur qui envoie « moi » la reprend), "createur" (le créateur la
+// reprend, ou celui qui l'a la rend), { equipe, nom } (le créateur, ou celui qui a la main, la
+// donne à un joueur qui a rejoint ; nom : celui de la partie, sinon son pseudo).
+async function passerMain(request, env, origine) {
+  const compte = await compteDepuisRequete(request, env);
+  if (!compte) return json({ erreur: "non_connecte" }, 401, origine);
+  const d = await lireJson(request);
+  const p = await partageActif(env, codeDemande(d.code));
+  if (!p) return json({ erreur: "introuvable" }, 404, origine);
+  const liste = await rejointsPartage(env, p.partie_id);
+  const createur = p.compte_id === compte.id;
+  let nouveau;
+  if (d.vers === "moi") {
+    if (createur) nouveau = null;
+    else if (liste.some(r => r.compte_id === compte.id)) nouveau = compte.id;
+    else return json({ erreur: "pas_joueur" }, 403, origine);
+  } else {
+    if (!createur && mainEffective(p, liste) !== compte.id) return json({ erreur: "main" }, 409, origine);
+    if (d.vers === "createur") {
+      nouveau = null;
+    } else {
+      const v = d.vers && typeof d.vers === "object" ? d.vers : {};
+      const cible = liste.find(r => r.equipe === v.equipe && cleNomJoueur(r.nom || r.pseudo || "") === cleNomJoueur(String(v.nom || "")));
+      if (!cible) return json({ erreur: "place_invalide" }, 400, origine);
+      nouveau = cible.compte_id;
+    }
+  }
+  await env.DB.prepare("UPDATE partages SET main = ? WHERE code = ?").bind(nouveau, p.code).run();
+  p.main = nouveau;
+  const etat = JSON.parse(p.etat);
+  const maj = Date.now();
+  await relayerEtat(env, p, etat, liste, maj);
+  return json({ etat, main: nomMain(p, liste), rejoints: rejointsPublics(liste), maj }, 200, origine);
 }
 
 // Partie du marqueur enregistrée (ou corrigée) : chaque joueur qui l'a rejointe en reçoit une

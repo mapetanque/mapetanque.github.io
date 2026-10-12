@@ -118,7 +118,8 @@ CONTENU = {
                  " : son code de 4 caractères et l'état de la partie. Toute personne qui a le "
                  "code voit le score, les noms des joueurs et votre pseudo. Les joueurs qui la "
                  "rejoignent la reçoivent dans leurs parties ; leur nom est alors relié à leur "
-                 "compte, dans leur carnet comme dans le vôtre."),
+                 "compte, dans leur carnet comme dans le vôtre. L'un d'eux peut marquer à votre "
+                 "place : la partie retient alors qui a la main."),
             ],
             "paragraphes_apres": [
                 "La connexion ne conserve que des empreintes chiffrées du lien, du code et de "
@@ -260,7 +261,8 @@ CONTENU = {
                  ": de code van 4 tekens en de stand van de partij. Wie de code heeft, ziet de "
                  "stand, de namen van de spelers en je bijnaam. Spelers die meedoen, krijgen de "
                  "partij bij hun partijen; hun naam wordt dan aan hun account gekoppeld, in hun "
-                 "spelerslijst en in de jouwe."),
+                 "spelerslijst en in de jouwe. Een van hen kan in jouw plaats tellen: de partij "
+                 "onthoudt dan wie telt."),
             ],
             "paragraphes_apres": [
                 "Voor het aanmelden worden alleen versleutelde vingerafdrukken van de link, de "
@@ -403,7 +405,8 @@ CONTENU = {
                  ": ihr Code aus 4 Zeichen und der Stand der Partie. Wer den Code hat, sieht den "
                  "Stand, die Namen der Spieler und Ihren Spitznamen. Spieler, die beitreten, "
                  "erhalten die Partie in ihren Partien; ihr Name wird dann mit ihrem Konto "
-                 "verknüpft, in ihrer Spielerliste wie in Ihrer."),
+                 "verknüpft, in ihrer Spielerliste wie in Ihrer. Einer von ihnen kann an Ihrer "
+                 "Stelle zählen: Die Partie speichert dann, wer zählt."),
             ],
             "paragraphes_apres": [
                 "Für die Anmeldung werden nur verschlüsselte Fingerabdrücke des Links, des Codes "
@@ -545,7 +548,8 @@ CONTENU = {
                  ": its 4-character code and the state of the game. Anyone with the code sees "
                  "the score, the players' names and your nickname. Players who join get the game "
                  "in their games; their name is then linked to their account, in their player "
-                 "list and in yours."),
+                 "list and in yours. One of them can score for you: the game then records who "
+                 "is scoring."),
             ],
             "paragraphes_apres": [
                 "Signing in only stores hashed fingerprints of the link, the code and the "

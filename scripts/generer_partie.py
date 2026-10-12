@@ -22,7 +22,7 @@ RACINE = Path(__file__).resolve().parent.parent
 
 # Adresse versionnée de translations.js, comme sur le compteur : le service worker sert d'abord sa
 # copie en cache, qui peut dater d'avant les clés partie_*.
-TRADUCTIONS = "/translations.js?v=7"
+TRADUCTIONS = "/translations.js?v=8"
 
 META = {
     "fr": {
@@ -76,14 +76,24 @@ for langue, meta in META.items():
         h1=meta["h1"],
         fil=(accueil, [(compteur, f"/{meta['prefixe']}compteur.html")], courant),
         contenu=contenu,
-        feuilles_sup=("/style-partie.css",),
+        feuilles_sup=("/style-partie.css?v=2",),
         # Page de passage, propre à chaque partie : sans intérêt dans un moteur de recherche
         tete_sup='<meta name="robots" content="noindex">',
-        scripts_sup=("/compte.js", "/partie.js"),
+        scripts_sup=("/compte.js", "/partie.js?v=2"),
     )
     html = cible.read_text(encoding="utf-8")
     assert '<script src="/translations.js"></script>' in html
-    cible.write_text(html.replace('<script src="/translations.js"></script>', f'<script src="{TRADUCTIONS}"></script>'), encoding="utf-8")
+    html = html.replace('<script src="/translations.js"></script>', f'<script src="{TRADUCTIONS}"></script>')
+    # Page sombre, comme le compteur qu'on y suit (style-partie.css, « Page et en-tête sombres ») :
+    # fond foncé, logo en version négative, barre du téléphone assortie
+    for avant, apres in (
+        ("<body>", '<body class="page-sombre">'),
+        ("/images/mapetanque-logo-fonce.svg", "/images/mapetanque-logo.svg"),
+        ('<meta name="robots" content="noindex">', '<meta name="robots" content="noindex">\n    <meta name="theme-color" content="#1c1b17">'),
+    ):
+        assert html.count(avant) == 1, avant
+        html = html.replace(avant, apres)
+    cible.write_text(html, encoding="utf-8")
     print(f"{meta['prefixe']}partie.html : {cible.stat().st_size} octets")
 
 # Données structurées des autres pages, sitemap.xml et llms.txt (partie.html en est écartée)

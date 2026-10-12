@@ -2,9 +2,35 @@
    Page « Partie partagée » (partie.html, générée par scripts/generer_partie.py).
    Fichier additif, comme style-mes-parties.css : la page charge style-comment-jouer.css pour
    l'en-tête et le conteneur .rules-content, puis cette feuille. Tout est dessiné par partie.js.
-   Maquette : artefact « Partie partagée Mapetanque » (maquettes/partie-partagee/). Couleurs de la
-   charte (CHARTE.md) ; vert et terre cuite des deux équipes, comme dans le compteur.
+   Maquette : artefact « Partie partagée Mapetanque » (maquettes/partie-partagee/).
+   Page sombre (12/10/2026, demandé par Rémy) : la palette du compteur (style-compteur.css), qu'on
+   suit ici sur un autre téléphone ; moins de batterie sur les écrans OLED. Logo en version
+   principale négative (images/mapetanque-logo.svg), posé par le générateur avec la classe
+   .page-sombre du <body>. Vert et terre cuite des deux équipes, comme dans le compteur.
 ============================================================================================= */
+
+/* --- Page et en-tête sombres ------------------------------------------------------------- */
+body.page-sombre {
+    background: #1c1b17;
+    color: #f2ece0;
+}
+
+.page-sombre .entete-sobre #menu-button,
+.page-sombre .entete-sobre .province-breadcrumb,
+.page-sombre .entete-sobre .province-breadcrumb a,
+.page-sombre .entete-sobre .hero-headline {
+    color: #f2ece0;
+}
+
+.page-sombre .entete-sobre .province-breadcrumb a:hover {
+    color: #9fd585;
+}
+
+/* Ordinateur : les trois rubriques du menu (leurs listes déroulantes gardent leur panneau clair) */
+.page-sombre .entete-sobre .game-nav-link,
+.page-sombre .entete-sobre #lang-switcher-inline .lang-toggle {
+    color: #f2ece0;
+}
 
 .partie-partagee,
 .partie-partagee * {
@@ -29,7 +55,7 @@
     font-size: 22px;
     font-weight: 800;
     line-height: 1.2;
-    color: #1D2619;
+    color: #f2ece0;
 }
 
 .pt-etiq {
@@ -39,8 +65,8 @@
     font-family: 'Manrope', Arial, sans-serif;
     font-size: 12px;
     font-weight: 700;
-    color: #3D7A2A;
-    background: #E7F4E1;
+    color: #9fd585;
+    background: rgba(159, 213, 133, 0.14);
     border-radius: 999px;
     padding: 4px 10px;
 }
@@ -49,7 +75,7 @@
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: #3D7A2A;
+    background: #9fd585;
 }
 
 /* En direct : le point pulse */
@@ -62,8 +88,8 @@
 }
 
 .pt-etiq.gris {
-    color: #56604F;
-    background: #EEF0EC;
+    color: #a89e8c;
+    background: #26241e;
 }
 
 /* --- Score : une ligne par équipe ------------------------------------------------------- */
@@ -171,13 +197,13 @@
 .pt-mention {
     margin: 0;
     font-size: 13px;
-    color: #56604F;
+    color: #a89e8c;
 }
 
 /* --- Cartes ------------------------------------------------------------------------------ */
 .pt-carte {
-    background: #fff;
-    border: 1px solid #E2E6DE;
+    background: #26241e;
+    border: 1px solid #3a372f;
     border-radius: 16px;
     padding: 16px;
     display: grid;
@@ -207,7 +233,7 @@
     gap: 7px;
     font-size: 13px;
     font-weight: 600;
-    color: #56604F;
+    color: #a89e8c;
 }
 
 .pt-etiquette i {
@@ -234,22 +260,22 @@
     font-family: inherit;
     font-size: 15px;
     font-weight: 600;
-    color: #1D2619;
-    background: #fff;
-    border: 1px solid #E2E6DE;
+    color: #f2ece0;
+    background: #26241e;
+    border: 1px solid #3a372f;
     border-radius: 999px;
     padding: 8px 15px;
     cursor: pointer;
 }
 
 .pt-choix:hover:not(:disabled) {
-    border-color: #74C15A;
+    border-color: #a89e8c;
 }
 
 .pt-choix.pris {
-    color: #7D8676;
-    background: #EEF0EC;
-    border-color: #EEF0EC;
+    color: #6f675a;
+    background: #1c1b17;
+    border-color: #3a372f;
     cursor: default;
 }
 
@@ -283,22 +309,22 @@
 }
 
 .pt-btn.vert {
-    background: #74C15A;
-    color: #fff;
+    background: #f2ece0;
+    color: #1c1b17;
 }
 
 .pt-btn.vert:hover {
-    background: #56A03D;
+    background: #ffffff;
 }
 
 .pt-btn.ligne {
-    background: #fff;
-    color: #1D2619;
-    border: 1px solid #E2E6DE;
+    background: transparent;
+    color: #f2ece0;
+    border: 1px solid #3a372f;
 }
 
 .pt-btn.ligne:hover {
-    border-color: #74C15A;
+    border-color: #a89e8c;
 }
 
 .pt-btn svg {
@@ -310,7 +336,7 @@
     font-family: inherit;
     font-size: 14px;
     font-weight: 600;
-    color: #3D7A2A;
+    color: #9fd585;
     background: none;
     border: none;
     padding: 0;
@@ -325,7 +351,7 @@
     align-items: center;
     gap: 6px 12px;
     font-size: 13px;
-    color: #56604F;
+    color: #a89e8c;
 }
 
 .pt-ok {
@@ -335,7 +361,7 @@
     font-family: 'Manrope', Arial, sans-serif;
     font-size: 15px;
     font-weight: 700;
-    color: #3D7A2A;
+    color: #9fd585;
 }
 
 .pt-ok svg {
@@ -350,16 +376,105 @@
     font-size: 30px;
     font-weight: 700;
     line-height: 1.1;
-    color: #3D7A2A;
+    color: #f2ece0;
 }
 
 .pt-statut {
     font-size: 13.5px;
-    color: #C62828;
+    color: #f28b7d;
 }
 
 .pt-statut:empty {
     display: none;
+}
+
+.pt-statut.info {
+    color: #9fd585;
+    font-weight: 600;
+}
+
+/* --- Passer la main ----------------------------------------------------------------------
+   Étiquettes sous le titre (« En direct », « Julie marque »), et score tactile pour le joueur
+   qui a la main : toucher une ligne = +1, pastilles +2 à +6 comme dans le compteur. */
+.pt-etiqs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.pt-etiq svg {
+    width: 12px;
+    height: 12px;
+}
+
+.pt-etiq.fort {
+    color: #1c1b17;
+    background: #9fd585;
+}
+
+button.pt-eq {
+    width: 100%;
+    border: 0;
+    margin: 0;
+    font: inherit;
+    text-align: left;
+    flex-wrap: wrap;
+    row-gap: 8px;
+    padding: 14px 16px;
+    cursor: pointer;
+}
+
+button.pt-eq:active:not(:disabled) {
+    filter: brightness(1.1);
+}
+
+button.pt-eq:disabled {
+    cursor: default;
+}
+
+button.pt-eq:focus-visible {
+    outline: 3px solid #f2ece0;
+    outline-offset: -3px;
+}
+
+.pt-eq.tactile .pt-n {
+    flex: 1 1 auto;
+}
+
+.pt-pts {
+    order: 3;
+    flex: 1 0 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.pt-pt {
+    font-family: 'Manrope', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    color: #f2ece0;
+    background: rgba(0, 0, 0, 0.12);
+    border: 1.5px solid rgba(255, 255, 255, 0.45);
+    border-radius: 999px;
+    padding: 8px 11px;
+}
+
+.pt-lien-picto {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.pt-lien-picto svg {
+    width: 16px;
+    height: 16px;
+}
+
+.pt-lien:disabled {
+    opacity: 0.6;
+    cursor: default;
 }
 
 .pt-compte {
@@ -367,7 +482,7 @@
     align-items: center;
     gap: 8px;
     font-size: 13px;
-    color: #56604F;
+    color: #a89e8c;
 }
 
 .pt-pastille {
@@ -410,7 +525,7 @@
     padding: 8px;
     border-radius: 50%;
     background: rgba(116, 193, 90, 0.14);
-    color: #3D7A2A;
+    color: #9fd585;
 }
 
 .pt-facons-liste li > span {
@@ -449,20 +564,20 @@
     letter-spacing: 0.2em;
     text-transform: uppercase;
     padding: 8px 12px;
-    border: 1px solid #E2E6DE;
+    border: 1px solid #3a372f;
     border-radius: 12px;
-    background: #F7F9F6;
-    color: #1D2619;
+    background: #1c1b17;
+    color: #f2ece0;
 }
 
 .pt-champ:focus {
     outline: none;
-    border-color: #74C15A;
-    background: #fff;
+    border-color: #a89e8c;
+    background: #26241e;
 }
 
 .partie-partagee button:focus-visible,
 .partie-partagee a:focus-visible {
-    outline: 2px solid #3D7A2A;
+    outline: 2px solid #9fd585;
     outline-offset: 2px;
 }

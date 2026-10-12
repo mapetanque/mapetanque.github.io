@@ -1043,8 +1043,10 @@ Côté site, prêt à tester :
   depuis npm), chargé seulement au premier « Partager ».
 - Page `partie.html` en 4 langues (`scripts/generer_partie.py`, `partie.js`, `style-partie.css`,
   `noindex`) : code à taper, « Qui êtes-vous ? » (noms saisis par le marqueur, « Autre joueur »
-  pour une place libre, « Je regarde seulement »), sans compte « Suivre le score » ou connexion
-  (retour sur la partie), score relu avec « Actualiser », fin « Enregistrée dans vos parties ».
+  pour une place libre, « Je regarde seulement »), sans compte le score suivi d'office et la
+  connexion (retour sur la partie), score relu avec « Actualiser », fin « Enregistrée dans vos
+  parties ». Le bouton « Suivre le score » des visiteurs sans compte a été retiré le 12/10/2026
+  (6d03a340) : le direct était déjà ouvert avant le clic, qui ne changeait rien au score.
 - Sous le compteur, lien « Un ami partage sa partie ? Rejoindre avec son code ».
 - `translations.js?v=5` sur le compteur, Mon compte, Mes parties et la partie partagée : le
   service worker sert d'abord sa copie en cache, qui pouvait dater d'avant les nouvelles clés.
@@ -1098,3 +1100,59 @@ néerlandais et en allemand à 360 px.
   `--persist-to` vers un chemin court (`workers/direct/.wrangler/state`, ignoré par git).
 - Plus tard, si besoin : la vue de l'ami en compteur sombre de la maquette, un deuxième marqueur.
 
+
+## Passer la main (décidé et codé le 12 octobre 2026)
+
+Rémy voulait que les autres joueurs puissent marquer. Plusieurs marqueurs en même temps
+(mènes numérotées, question « C'est une autre mène ? ») a paru trop complexe : on garde **un seul
+joueur à la fois**, mais la main peut passer. Maquette : artefact « Passer la main Mapetanque »
+(`maquettes/passer-la-main/`).
+
+- Deux rôles : le **créateur** (la partie est dans son compte, il règle les équipes, son compteur
+  l'enregistre à la fin et crée les copies, comme avant) et **la main** (celui qui marque les mènes
+  et peut annuler la dernière, même marquée par un autre).
+- Qui peut avoir la main : les joueurs connectés qui ont rejoint la partie. Pas les spectateurs
+  (« Je regarde seulement »), ni les visiteurs sans compte.
+- Rémy la donne (« Lui passer la main » à côté de chaque joueur qui a rejoint, dans la feuille
+  Partager) ; un joueur la prend sur `partie.html` (« Marquer à la place de Rémy »), **sans
+  confirmation ni demande** (décidé par Rémy) ; Rémy la reprend (« Reprendre la main », qui
+  remplace « Annuler » dans la barre du bas) ; le joueur la rend (« Rendre la main à Rémy »).
+- Celui qui a la main marque sur `partie.html` : score tactile (+1 en touchant une équipe,
+  pastilles +2 à +6, +3 au plus en tête-à-tête), « Annuler la dernière mène », étiquette
+  « Vous marquez ». Les autres voient « Julie marque ».
+- Compteur de Rémy pendant ce temps : bandeau « Julie marque », moitiés inertes, ni « Équipes »,
+  ni « Nouvelle partie », ni 11/13 (sauf partie finie : la revanche reste possible). Il suit le
+  score par le direct (même WebSocket que `partie.js`, branché tant que la partie est partagée et
+  pas finie). Dernière mène marquée par Julie : victoire et enregistrement chez Rémy comme s'il
+  l'avait marquée ; dernière mène annulée : la partie sort de « Mes parties » (comme Annuler).
+- Rémy hors ligne pendant que Julie prend la main : ses mènes tapées entre-temps sont refusées
+  (409 `main`), son compteur reprend le score du serveur et dit « Julie a pris la main : votre
+  compteur suit son score ».
+- Worker : colonne `partages.main` (`workers/comptes-partages-main.sql`, NULL = le créateur ;
+  un compte qui a quitté la partie n'a plus la main). Routes `POST /partage/mene` (mène ou
+  annulation, avec le nombre de mènes vues : une seule écriture gagne, sinon 409 `decale`) et
+  `POST /partage/main`. `/compte/partage/etat` refuse le créateur quand un autre a la main ;
+  `/compte/partage` ne remplace plus l'état dans ce cas. `GET /partage` rend `main` et `main_moi` ;
+  chaque message du direct porte `main` (nom dans la partie, ou null). Le Worker du direct ne
+  change pas.
+- Textes : `compteur_marqueur` remplacé par `compteur_a_la_main` ; aide du compteur, explication
+  de la feuille Partager, aide d'un code introuvable et Confidentialité revues dans les quatre
+  langues. `translations.js?v=8`, `compteur.js` et `style-compteur.css` en `?v=6`.
+- Page de la partie en sombre (demandé par Rémy le même jour : batterie, cohérence avec le
+  compteur) : palette du compteur, logo en version principale négative, `theme-color` foncé,
+  classe `page-sombre` sur le `<body>`, posés par `scripts/generer_partie.py` ;
+  `style-partie.css` et `partie.js` en `?v=2`. Les listes déroulantes du menu gardent leur
+  panneau clair.
+- Revenir à la partie suivie (décidé par Rémy le même jour) : le téléphone retient la dernière
+  partie ouverte sur `partie.html` (`mapetanque_partie_suivie`, pas pour le créateur), tant
+  qu'elle n'est pas finie et 12 heures après la dernière visite. « Jouer › Rejoindre une partie »
+  (`partie.html` sans code) y ramène directement, son code passant dans l'adresse ; code disparu :
+  l'écran du code, sans message. « Entrer un autre code » (`?autre=1`) en bas de la page mène
+  toujours à l'écran du code. Boutons OK retirés des feuilles Équipes et Partager (la croix
+  suffit).
+- Worker complet à coller : `maquettes/worker-comptes-main.js` (code du tableau de bord collé
+  par Rémy le 12 octobre 2026, plus les deux routes et la section des parties partagées à jour).
+- Essais : banc local (vrai code du Worker sur `node:sqlite`, relais WebSocket fait main) : 30
+  vérifications des routes, puis navigateur à deux sessions (prendre, marquer en direct, reprendre,
+  donner depuis la feuille, fin de partie marquée par Julie et enregistrée chez les deux, dernière
+  mène annulée, conflit hors ligne).

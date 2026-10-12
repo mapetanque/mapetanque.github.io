@@ -585,6 +585,30 @@ body.fullscreen-lock {
 .place-partage.libre{ color: var(--sand-dim); font-weight: 400; }
 .etat-place{ flex: 0 0 auto; font-size: 12.5px; font-weight: 400; color: var(--sand-dim); }
 .etat-place.ok{ color: #9fd585; font-weight: 700; }
+.passer-main{ flex: 0 0 auto; display: inline-flex; align-items: center; gap: 5px; background: none; color: var(--sand); border: 1px solid var(--sand-dim); border-radius: 999px; font-family: inherit; font-size: 12.5px; font-weight: 700; padding: 5px 10px; cursor: pointer; }
+.passer-main svg{ width: 14px; height: 14px; }
+
+/* ---------- Passer la main ----------
+   Un autre joueur marque : bandeau « Julie marque » en haut des moitiés, qui ne réagissent plus
+   au toucher (pastilles et « Touchez pour +1 » cachées), et « Reprendre la main » en évidence. */
+.halves{ position: relative; }
+.bandeau-main{
+  position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 4;
+  display: flex; align-items: center; gap: 7px; max-width: calc(100% - 24px);
+  background: var(--sand); color: var(--bg); border-radius: 999px; padding: 6px 14px;
+  font-family: 'Manrope', Arial, sans-serif; font-size: 13px; font-weight: 700;
+  box-shadow: 0 4px 14px rgba(0,0,0,.3); pointer-events: none;
+}
+.bandeau-main[hidden]{ display: none; }
+.bandeau-main span{ overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bandeau-main svg{ flex: 0 0 auto; width: 14px; height: 14px; color: var(--green); }
+.compteur-suit .team{ cursor: default; filter: saturate(.8); }
+.compteur-suit .team:active{ filter: saturate(.8); }
+.compteur-suit .controls, .compteur-suit .hint{ visibility: hidden; }
+.compteur-suit .team .name{ cursor: default; }
+.bottombar button[hidden]{ display: none; }
+.bottombar button.reprendre{ color: var(--bg); background: var(--sand); border-radius: 999px; padding: 8px 14px; font-weight: 700; }
+.topbar button:disabled{ opacity: .35; cursor: default; }
 .actions-partage{ display: flex; flex-wrap: wrap; gap: 8px; }
 .bouton-ligne{ display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex: 1 1 auto; background: none; color: var(--sand); border: 1px solid var(--line); border-radius: 999px; font-family: inherit; font-weight: 700; font-size: 14px; padding: 9px 14px; cursor: pointer; }
 .bouton-ligne svg{ width: 15px; height: 15px; }
