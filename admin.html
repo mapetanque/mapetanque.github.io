@@ -146,6 +146,11 @@
     .puce:disabled { opacity: 0.45; cursor: default; }
     #compteur { font-size: 15px; font-weight: 700; }
     #listeVide { padding: 30px 20px; text-align: center; color: var(--doux); }
+    #paginationTerrains {
+        display: flex; gap: 12px; justify-content: center; align-items: center; flex-wrap: wrap;
+        padding: 16px 20px; font-size: 14px; color: var(--doux); font-variant-numeric: tabular-nums;
+    }
+    #paginationTerrains .puce:disabled { visibility: hidden; }
 
     /* --- Terrains : cartes ----------------------------------------------- */
     #conteneur { display: flex; flex-direction: column; }
@@ -548,6 +553,11 @@
         </div>
         <div id="conteneur"></div>
         <div id="listeVide" hidden>Aucun terrain ne correspond. Un second clic sur la puce active revient à « Tous ».</div>
+        <nav id="paginationTerrains" aria-label="Pages de terrains" hidden>
+            <button type="button" class="puce" id="pagePrecedente">‹ Précédents</button>
+            <span id="pageTerrains"></span>
+            <button type="button" class="puce" id="pageSuivante">Suivants ›</button>
+        </nav>
     </section>
 
 </section>
@@ -1643,7 +1653,7 @@ function mettreAJourCriteres() {
             bouton.addEventListener("click", () => {
                 if (coche) CRITERES_ACTIFS.delete(cle); else CRITERES_ACTIFS.add(cle);
                 mettreAJourCriteres();
-                appliquerFiltres();
+                appliquerFiltres(0);
             });
             ligne.appendChild(bouton);
         });
@@ -1658,7 +1668,7 @@ function mettreAJourCriteres() {
         effacer.addEventListener("click", () => {
             CRITERES_ACTIFS.clear();
             mettreAJourCriteres();
-            appliquerFiltres();
+            appliquerFiltres(0);
         });
         zone.appendChild(effacer);
     }
@@ -1703,6 +1713,7 @@ function trierListe() {
 
     const conteneur = document.getElementById("conteneur");
     ordre.forEach(t => conteneur.appendChild(CARTES[t.osm_id]));
+    appliquerFiltres(0);
 }
 
 // Les puces, avec leurs compteurs.
@@ -1721,7 +1732,7 @@ function mettreAJourProgression() {
             // Un second clic sur la puce active revient à « Tous ».
             FILTRE = (FILTRE === code && code !== "tous") ? "tous" : code;
             mettreAJourProgression();
-            appliquerFiltres();
+            appliquerFiltres(0);
         });
         zone.appendChild(bouton);
     });
@@ -1731,30 +1742,55 @@ function mettreAJourProgression() {
     mettreAJourTableauBord();
 }
 
-function appliquerFiltres() {
-    const recherche = document.getElementById("recherche").value.trim().toLowerCase();
-    let affiches = 0;
+// La liste est affichée par pages de TERRAINS_PAR_PAGE cartes, dans l'ordre du tri choisi.
+// Un changement de filtre, de critère, de recherche ou de tri revient à la première page ;
+// une décision sur un terrain garde la page courante (le terrain traité peut en sortir, le
+// suivant prend sa place).
+const TERRAINS_PAR_PAGE = 50;
+let PAGE_TERRAINS = 0;
 
-    TERRAINS.forEach(t => {
-        const carte = CARTES[t.osm_id];
-        const visible = (!recherche || carte.dataset.recherche.includes(recherche))
-            && correspond(t.osm_id, FILTRE)
-            && passeCriteres(t.osm_id);
-        carte.hidden = !visible;
-        if (visible) affiches++;
+function appliquerFiltres(page) {
+    if (page !== undefined) PAGE_TERRAINS = page;
+    const recherche = document.getElementById("recherche").value.trim().toLowerCase();
+
+    const cartes = Array.from(document.getElementById("conteneur").children);
+    const retenues = cartes.filter(carte => {
+        const cle = TERRAINS_PAR_ID[carte.dataset.cle].osm_id;   // identifiant d'origine, pas le texte du dataset
+        return (!recherche || carte.dataset.recherche.includes(recherche))
+            && correspond(cle, FILTRE)
+            && passeCriteres(cle);
     });
+    const pages = Math.max(1, Math.ceil(retenues.length / TERRAINS_PAR_PAGE));
+    PAGE_TERRAINS = Math.min(Math.max(PAGE_TERRAINS, 0), pages - 1);
+    const debut = PAGE_TERRAINS * TERRAINS_PAR_PAGE;
+    const fin = Math.min(debut + TERRAINS_PAR_PAGE, retenues.length);
+    const affichees = new Set(retenues.slice(debut, fin));
+    cartes.forEach(carte => { carte.hidden = !affichees.has(carte); });
 
     const libelle = FILTRES.find(f => f[0] === FILTRE)[1];
     const criteres = Array.from(CRITERES_ACTIFS).map(cle =>
         LIBELLES_CRITERES[cle] + (cle.startsWith("j_") ? " (joueurs)" : ""));
-    document.getElementById("compteur").textContent = affiches + " terrain(s) affiché(s)"
+    document.getElementById("compteur").textContent = retenues.length + " terrain(s)"
+        + (pages > 1 ? " (" + (debut + 1) + " à " + fin + " affichés)" : "")
         + (FILTRE === "tous" ? "" : " — filtre « " + libelle + " »")
         + (criteres.length ? " — critères « " + criteres.join(", ") + " »" : "")
         + (recherche ? " — recherche « " + recherche + " »" : "");
-    document.getElementById("listeVide").hidden = affiches > 0;
+    document.getElementById("listeVide").hidden = retenues.length > 0;
+
+    document.getElementById("paginationTerrains").hidden = pages <= 1;
+    document.getElementById("pageTerrains").textContent = "Page " + (PAGE_TERRAINS + 1) + " / " + pages;
+    document.getElementById("pagePrecedente").disabled = PAGE_TERRAINS === 0;
+    document.getElementById("pageSuivante").disabled = PAGE_TERRAINS >= pages - 1;
 }
 
-document.getElementById("recherche").addEventListener("input", appliquerFiltres);
+function changerPageTerrains(pas) {
+    appliquerFiltres(PAGE_TERRAINS + pas);
+    document.getElementById("terrains").scrollIntoView({ behavior: "smooth" });
+}
+
+document.getElementById("pagePrecedente").addEventListener("click", () => changerPageTerrains(-1));
+document.getElementById("pageSuivante").addEventListener("click", () => changerPageTerrains(1));
+document.getElementById("recherche").addEventListener("input", () => appliquerFiltres(0));
 document.getElementById("tri").addEventListener("change", trierListe);
 
 
@@ -1776,7 +1812,7 @@ function mettreAJourTableauBord() {
 document.getElementById("kpiNouveaux").addEventListener("click", () => {
     FILTRE = "nouveaux";
     mettreAJourProgression();
-    appliquerFiltres();
+    appliquerFiltres(0);
     document.getElementById("terrains").scrollIntoView({ behavior: "smooth" });
 });
 
