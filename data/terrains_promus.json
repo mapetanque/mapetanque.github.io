@@ -26,5 +26,19 @@
       9,
       2
     ]
+  },
+  {
+    "osm_id": "way/1546244470",
+    "nom": "Ravel 5 (Ligne 38)",
+    "commune": "Beyne-Heusay",
+    "province": "Liège",
+    "region": "Wallonie",
+    "lat": 50.6185466,
+    "lon": 5.6556101,
+    "miniature": "/images/mapillary-plates/1338651543535943.webp",
+    "votes": [
+      8,
+      2
+    ]
   }
 ]

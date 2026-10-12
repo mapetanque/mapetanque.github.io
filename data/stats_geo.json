@@ -1,22 +1,22 @@
 {
   "wallonie": {
-    "total": 444,
+    "total": 446,
     "provinces": {
       "liege": {
-        "total": 148,
+        "total": 150,
         "communes": {
           "Fléron": 3,
           "Ougrée": 1,
           "Filot": 1,
           "Bütgenbach": 1,
-          "Liège": 21,
+          "Liège": 23,
           "Bra": 1,
           "Ouffet": 1,
           "Verviers": 2,
           "Visé": 2,
           "Blegny": 4,
           "Wanze": 2,
-          "Remicourt": 1,
+          "Pousset": 1,
           "Braives": 2,
           "Malmedy": 3,
           "Fexhe-le-Haut-Clocher": 1,
@@ -184,7 +184,7 @@
           "Villers-la-Ville": 2,
           "Rebecq-Rognon": 1,
           "Ramillies": 1,
-          "Roux-Miroir": 1,
+          "Incourt": 1,
           "Beauvechain": 1
         }
       },
@@ -238,7 +238,7 @@
     "communes": {}
   },
   "flandre": {
-    "total": 1185,
+    "total": 1186,
     "provinces": {
       "brabant_flamand": {
         "total": 185,
@@ -367,7 +367,7 @@
         }
       },
       "flandre_orientale": {
-        "total": 299,
+        "total": 301,
         "communes": {
           "Dendermonde": 5,
           "Wetteren": 3,
@@ -376,7 +376,7 @@
           "Hamme": 4,
           "Sint-Martens-Latem": 5,
           "Aalst": 13,
-          "Sinaai": 4,
+          "Sinaai": 6,
           "Mere": 2,
           "Etikhove": 1,
           "De Pinte": 8,
@@ -392,7 +392,6 @@
           "Deinze": 8,
           "Gijzenzele": 1,
           "Zingem": 2,
-          "Sint-Niklaas": 11,
           "Assenede": 1,
           "Lede": 4,
           "Merelbeke": 9,
@@ -401,8 +400,8 @@
           "Geraardsbergen": 2,
           "Huise": 1,
           "Kieldrecht": 2,
-          "Lokeren": 14,
-          "Belsele": 1,
+          "Lokeren": 16,
+          "Sint-Niklaas": 10,
           "Temse": 2,
           "Watervliet": 1,
           "Neigem": 1,
@@ -498,7 +497,7 @@
         }
       },
       "limbourg": {
-        "total": 193,
+        "total": 192,
         "communes": {
           "Peer": 3,
           "Koninksem": 2,
@@ -522,7 +521,7 @@
           "Houthalen": 5,
           "Kinrooi": 6,
           "Sint-Truiden": 7,
-          "Tessenderlo": 2,
+          "Tessenderlo": 1,
           "Heusden-Zolder": 1,
           "Werm": 1,
           "Tongeren": 5,
