@@ -73,8 +73,26 @@
     crayon: picto('<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>'),
     entrer: picto('<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/>'),
     qr: picto('<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM21 14v.01M14 21h.01M17 21h4v-4"/>'),
-    envoyer: picto('<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>')
+    envoyer: picto('<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>'),
+    aide: picto('<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>')
   };
+
+  // Feuille « Comment ça marche ? » : les gestes du compteur, et la règle « une seule personne
+  // crée la partie ». Les noms des boutons sont repris de leurs propres libellés.
+  function aideHtml(){
+    const noms = {
+      annuler: libelle('compteur_annuler'), menes: libelle('compteur_menes'),
+      equipes: libelle('compteur_equipes'), changer: libelle('compteur_changer_equipe'),
+      partager: libelle('compteur_partager'), mesparties: libelle('moncompte_parties_titre')
+    };
+    return [
+      [PICTOS.plus, 'compteur_aide_marquer'],
+      [PICTOS.equipes, 'compteur_aide_equipes'],
+      [PICTOS.qr, 'compteur_aide_seul'],
+      [PICTOS.ok, 'compteur_aide_parties'],
+      [ICON_MAXIMIZE, 'compteur_aide_plein_ecran']
+    ].map(([p, cle]) => '<li>' + p + '<span><b>' + echapper(libelle(cle)) + '</b>' + echapper(libelle(cle + '_texte', noms)) + '</span></li>').join('');
+  }
 
   // ---------- Construction du widget ----------
 
@@ -106,7 +124,10 @@
       <button type="button" data-t="13">13</button>
     </div>
     <button type="button" id="resetBtn">${libelle('compteur_nouvelle_partie')}</button>
-    <button type="button" class="fullscreen-toggle-btn" id="fullscreenToggleBtn"></button>
+    <span class="topbar-icones">
+      <button type="button" class="icone-topbar" id="aideBtn" aria-label="${echapper(libelle('compteur_aide'))}" title="${echapper(libelle('compteur_aide'))}">${PICTOS.aide}</button>
+      <button type="button" class="fullscreen-toggle-btn" id="fullscreenToggleBtn"></button>
+    </span>
   </div>
 
   <div class="halves">${moitie('a')}
@@ -182,6 +203,14 @@
     </div>
   </div>
 
+  <div class="feuille" id="aideModal" role="dialog" aria-modal="true" aria-labelledby="aideTitre">
+    <div class="feuille-corps">
+      ${enteteFeuille('aideTitre', libelle('compteur_aide'))}
+      <ul class="aide-liste">${aideHtml()}</ul>
+      <div class="aide-pied" id="aidePied"></div>
+    </div>
+  </div>
+
   <div class="sr-only" id="annonce" aria-live="polite"></div>
 </div>`;
 
@@ -212,7 +241,7 @@
     annonce: $('annonce'),
     fullscreenToggleBtn: $('fullscreenToggleBtn'),
   };
-  const PANNEAUX = [el.terrainModal, el.partageModal, el.joueurModal, el.equipesModal, el.menesModal];   // du plus haut au plus bas
+  const PANNEAUX = [$('aideModal'), el.terrainModal, el.partageModal, el.joueurModal, el.equipesModal, el.menesModal];   // du plus haut au plus bas
 
   // ---------- État de la partie ----------
 
@@ -1286,6 +1315,21 @@
     const panneau = PANNEAUX.find(p => p.classList.contains('show'));
     if (panneau) fermerPanneau(panneau);
     else if (widget.classList.contains('fullscreen-active')) definirPleinEcran(false);
+  });
+
+  // ---------- Aide ----------
+
+  // Feuille « Comment ça marche ? » : en bas, « Se connecter » pour un visiteur, sinon « OK »
+  const aideModal = $('aideModal');
+  $('aideBtn').addEventListener('click', () => {
+    $('aidePied').innerHTML = session()
+      ? '<button type="button" class="bouton-plein" data-fermer>' + echapper(libelle('compteur_ok')) + '</button>'
+      : '<button type="button" class="bouton-plein" data-action="connexion">' + PICTOS.entrer + ' ' + echapper(libelle('menu_se_connecter')) + '</button>' +
+        '<p class="note-feuille">' + echapper(libelle('compteur_gratuit')) + '</p>';
+    ouvrirPanneau(aideModal, aideModal.querySelector('[data-fermer]'));
+  });
+  aideModal.addEventListener('click', (ev) => {
+    if (ev.target.closest('[data-action="connexion"]')) location.href = prefixeLangue() + 'connexion.html?retour=' + encodeURIComponent(location.pathname);
   });
 
   // ---------- Démarrage ----------

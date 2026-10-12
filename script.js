@@ -218,9 +218,9 @@ window.addEventListener('popstate', function () {
 // Comme le menu mobile (construireMenu) et le pied de page (construirePied), la barre de
 // navigation est construite ici : les pages n'ont qu'un <div class="header-nav-group"> vide.
 // Un changement de menu se fait donc à un seul endroit, pour tout le site et les quatre langues.
-//   « Explorer ▾ » (menu déroulant, mêmes liens que dans le menu mobile et le pied de page),
-//   Comment jouer, Compteur de points, La pétanque, puis le sélecteur de langue.
-// « À propos » n'y est plus : il reste dans le pied de page.
+// Trois rubriques, les trois axes du site, chacune en menu déroulant (mêmes liens que dans le
+// menu mobile et le pied de page) : « Explorer ▾ », « Chercher ▾ », « Jouer ▾ » ; puis le compte
+// et le sélecteur de langue. « La pétanque » et « À propos » sont dans le pied de page.
 
 // Liens « Explorer » : régions, provinces, communes. Partagés par les trois menus.
 function liensExplorer(prefixe) {
@@ -233,11 +233,42 @@ function liensExplorer(prefixe) {
     ];
 }
 
+// Liens « Chercher » : la carte, et la carte centrée sur la position du visiteur
+function liensChercher(prefixe) {
+    return [
+        [prefixe + 'carte.html', t('menu_carte')],
+        [prefixe + 'carte.html?moi=1', t('respiration_autour')]
+    ];
+}
+
+// Liens « Jouer » : compteur, partie partagée (par son code), historique, règles
+function liensJouer(prefixe) {
+    return [
+        [prefixe + 'compteur.html', t('menu_nouvelle_partie')],
+        [prefixe + 'partie.html', t('menu_rejoindre')],
+        [prefixe + 'mes-parties.html', t('menu_mes_parties')],
+        [prefixe + 'comment-jouer.html', t('menu_regles')]
+    ];
+}
+
+// Les trois rubriques, dans l'ordre des menus
+function rubriquesMenu(prefixe) {
+    return [
+        [t('pied_explorer'), liensExplorer(prefixe)],
+        [t('nav_chercher'), liensChercher(prefixe)],
+        [t('nav_jouer'), liensJouer(prefixe)]
+    ];
+}
+
 // Lien vers la page en cours : mis en évidence (aria-current). Pas les ancres (« Toutes les
-// provinces » mène à une section de l'accueil, pas à une page).
+// provinces » mène à une section de l'accueil, pas à une page). Un lien avec paramètres
+// (« Autour de moi » : carte.html?moi=1) ne l'est qu'avec les mêmes paramètres.
 function attributPageCourante(href) {
     if (href.includes('#')) return '';
-    return new URL(href, window.location.href).pathname === window.location.pathname ? ' aria-current="page"' : '';
+    const url = new URL(href, window.location.href);
+    if (url.pathname !== window.location.pathname) return '';
+    if (url.search && url.search !== window.location.search) return '';
+    return ' aria-current="page"';
 }
 
 const PICTO_CHEVRON = '<svg viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -246,52 +277,56 @@ function construireNavBureau() {
     const groupe = document.querySelector('.header-nav-group');
     if (!groupe) return;
     const prefixe = currentLang === 'fr' ? '/' : '/' + currentLang + '/';
-    const lien = function (href, classe, texte) {
-        return `<a href="${href}" class="${classe}"${attributPageCourante(href)}>${texte}</a>`;
-    };
-    const explorer = liensExplorer(prefixe).map(function (l) { return lien(l[0], 'nav-explorer-lien', l[1]); }).join('');
+    const deroulants = rubriquesMenu(prefixe).map(function (rubrique) {
+        const liens = rubrique[1].map(function (l) {
+            return `<a href="${l[0]}" class="nav-deroulant-lien"${attributPageCourante(l[0])}>${l[1]}</a>`;
+        }).join('');
+        return `
+            <span class="nav-deroulant">
+                <button type="button" class="game-nav-link nav-deroulant-bouton" aria-haspopup="true" aria-expanded="false">${rubrique[0]}<span class="nav-deroulant-chevron">${PICTO_CHEVRON}</span></button>
+                <span class="nav-deroulant-menu" hidden>${liens}</span>
+            </span>`;
+    }).join('');
     // Même page dans l'autre langue, avec ses paramètres (page carte : ?commune=…)
     const langues = LANGUES_DISPONIBLES.map(function (langue) {
         return `<a href="${urlPageDansLangue(langue)}${window.location.search}" class="lang-link" data-lang="${langue}" hreflang="${langue}">${langue.toUpperCase()}</a>`;
     }).join('');
 
     groupe.innerHTML = `
-        <span id="game-nav-inline">
-            <span class="nav-explorer">
-                <button type="button" class="game-nav-link nav-explorer-bouton" aria-haspopup="true" aria-expanded="false">${t('pied_explorer')}<span class="nav-explorer-chevron">${PICTO_CHEVRON}</span></button>
-                <span class="nav-explorer-menu" hidden>${explorer}</span>
-            </span>
-            ${lien(prefixe + 'comment-jouer.html', 'game-nav-link jouer', t('menu_comment_jouer'))}
-            ${lien(prefixe + 'compteur.html', 'game-nav-link compteur', t('menu_compteur'))}
-            ${lien(prefixe + 'la-petanque.html', 'game-nav-link petanque', t('menu_la_petanque'))}
+        <span id="game-nav-inline">${deroulants}
         </span>
         <nav id="desktop-nav">
             <span class="nav-compte-zone">${lienCompteBureauHtml(prefixe)}</span>
             <span id="lang-switcher-inline">${langues}</span>
         </nav>`;
 
-    // Menu « Explorer » : s'ouvre au clic, se referme en cliquant ailleurs ou avec Échap
-    const conteneur = groupe.querySelector('.nav-explorer');
-    const bouton = conteneur.querySelector('.nav-explorer-bouton');
-    const menu = conteneur.querySelector('.nav-explorer-menu');
-    const ouvrir = function (ouvert) {
-        menu.hidden = !ouvert;
-        bouton.setAttribute('aria-expanded', String(ouvert));
+    // Menus déroulants : un seul ouvert à la fois ; s'ouvrent au clic, se referment en cliquant
+    // ailleurs ou avec Échap
+    const conteneurs = Array.from(groupe.querySelectorAll('.nav-deroulant'));
+    const ouvrir = function (conteneur, ouvert) {
+        conteneur.querySelector('.nav-deroulant-menu').hidden = !ouvert;
+        conteneur.querySelector('.nav-deroulant-bouton').setAttribute('aria-expanded', String(ouvert));
         conteneur.classList.toggle('ouvert', ouvert);
     };
-    bouton.addEventListener('click', function (e) {
-        e.stopPropagation();
-        ouvrir(menu.hidden);
+    conteneurs.forEach(function (conteneur) {
+        const menu = conteneur.querySelector('.nav-deroulant-menu');
+        conteneur.querySelector('.nav-deroulant-bouton').addEventListener('click', function (e) {
+            e.stopPropagation();
+            const ouvert = menu.hidden;
+            conteneurs.forEach(function (c) { ouvrir(c, false); });
+            ouvrir(conteneur, ouvert);
+        });
+        menu.addEventListener('click', function () { ouvrir(conteneur, false); });
     });
-    menu.addEventListener('click', function () { ouvrir(false); });
     document.addEventListener('click', function (e) {
-        if (!conteneur.contains(e.target)) ouvrir(false);
+        conteneurs.forEach(function (c) { if (!c.contains(e.target)) ouvrir(c, false); });
     });
     document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && !menu.hidden) {
-            ouvrir(false);
-            bouton.focus();
-        }
+        if (e.key !== 'Escape') return;
+        const ouvert = conteneurs.find(function (c) { return c.classList.contains('ouvert'); });
+        if (!ouvert) return;
+        ouvrir(ouvert, false);
+        ouvert.querySelector('.nav-deroulant-bouton').focus();
     });
 
     // Choix de la langue : mémorisé avant de suivre le lien, comme dans le menu mobile
@@ -3277,6 +3312,17 @@ function construirePied() {
                     <button type="button" class="pied-bouton pied-bouton-texte">${ICONES_PIED.telephone}<span>${t('pied_installer')}</span></button>
                     <p class="pied-installer-aide" hidden>${texteAideInstallation()}</p>
                 </div>
+                <div class="pied-col-partage">
+                    <h2 class="pied-titre">${t('pied_partager')}</h2>
+                    <p class="pied-partage-texte">${t('pied_partage_texte')}</p>
+                    <div class="pied-partage">
+                        <a class="pied-bouton" href="https://wa.me/?text=${texteEncode}%20${urlEncodee}" target="_blank" rel="noopener" title="${t('share_whatsapp')}" aria-label="${t('share_whatsapp')}">${ICONES_PIED.whatsapp}</a>
+                        <a class="pied-bouton" href="https://www.facebook.com/sharer/sharer.php?u=${urlEncodee}" target="_blank" rel="noopener" title="${t('share_facebook')}" aria-label="${t('share_facebook')}">${ICONES_PIED.facebook}</a>
+                        <a class="pied-bouton" href="https://twitter.com/intent/tweet?url=${urlEncodee}&amp;text=${texteEncode}" target="_blank" rel="noopener" title="${t('share_twitter')}" aria-label="${t('share_twitter')}">${ICONES_PIED.x}</a>
+                        <a class="pied-bouton" href="mailto:?subject=${texteEncode}&amp;body=${urlEncodee}" title="${t('share_email')}" aria-label="${t('share_email')}">${ICONES_PIED.email}</a>
+                        <button type="button" class="pied-bouton pied-bouton-texte pied-copier">${ICONES_PIED.lien}<span>${t('share_copy')}</span></button>
+                    </div>
+                </div>
             </div>
 
             <nav class="pied-col">
@@ -3288,10 +3334,15 @@ function construirePied() {
             </nav>
 
             <nav class="pied-col">
+                <h2 class="pied-titre">${t('nav_jouer')}</h2>
+                <ul class="pied-liens">
+                    ${liensJouer(prefixe).map(function (l) { return `<li><a href="${l[0]}">${l[1]}</a></li>`; }).join('')}
+                </ul>
+            </nav>
+
+            <nav class="pied-col">
                 <h2 class="pied-titre">${t('pied_le_site')}</h2>
                 <ul class="pied-liens">
-                    <li><a href="${prefixe}comment-jouer.html">${t('menu_comment_jouer')}</a></li>
-                    <li><a href="${prefixe}compteur.html">${t('menu_compteur')}</a></li>
                     <li><a href="${prefixe}la-petanque.html">${t('menu_la_petanque')}</a></li>
                     <li><a href="${prefixe}a-propos.html">${t('menu_about')}</a></li>
                     <li><a href="${prefixe}a-propos.html#contact">${t('pied_contact')}</a></li>
@@ -3300,17 +3351,6 @@ function construirePied() {
                 </ul>
             </nav>
 
-            <div class="pied-col-partage">
-                <h2 class="pied-titre">${t('pied_partager')}</h2>
-                <p class="pied-partage-texte">${t('pied_partage_texte')}</p>
-                <div class="pied-partage">
-                    <a class="pied-bouton" href="https://wa.me/?text=${texteEncode}%20${urlEncodee}" target="_blank" rel="noopener" title="${t('share_whatsapp')}" aria-label="${t('share_whatsapp')}">${ICONES_PIED.whatsapp}</a>
-                    <a class="pied-bouton" href="https://www.facebook.com/sharer/sharer.php?u=${urlEncodee}" target="_blank" rel="noopener" title="${t('share_facebook')}" aria-label="${t('share_facebook')}">${ICONES_PIED.facebook}</a>
-                    <a class="pied-bouton" href="https://twitter.com/intent/tweet?url=${urlEncodee}&amp;text=${texteEncode}" target="_blank" rel="noopener" title="${t('share_twitter')}" aria-label="${t('share_twitter')}">${ICONES_PIED.x}</a>
-                    <a class="pied-bouton" href="mailto:?subject=${texteEncode}&amp;body=${urlEncodee}" title="${t('share_email')}" aria-label="${t('share_email')}">${ICONES_PIED.email}</a>
-                    <button type="button" class="pied-bouton pied-bouton-texte pied-copier">${ICONES_PIED.lien}<span>${t('share_copy')}</span></button>
-                </div>
-            </div>
         </div>
 
         <div class="pied-bas">
@@ -5517,16 +5557,21 @@ function construireMenu() {
                 </ul>
             </div>
 
-            <div class="menu-section menu-section-liens menu-apparait" style="--delai: 0.3s">
-                <h2 class="menu-titre">${t('pied_le_site')}</h2>
-                <ul class="menu-liens">
-                    ${lienPage(prefixe + 'comment-jouer.html', t('menu_comment_jouer'))}
-                    ${lienPage(prefixe + 'compteur.html', t('menu_compteur'))}
-                    ${lienPage(prefixe + 'la-petanque.html', t('menu_la_petanque'))}
+            <div class="menu-section menu-apparait" style="--delai: 0.28s">
+                <h2 class="menu-titre">${t('nav_chercher')}</h2>
+                <ul class="menu-pastilles">
+                    ${liensChercher(prefixe).map(function (l) { return pastille(l[0], l[1]); }).join('')}
                 </ul>
             </div>
 
-            <div class="menu-langues menu-apparait" style="--delai: 0.4s">
+            <div class="menu-section menu-section-liens menu-apparait" style="--delai: 0.34s">
+                <h2 class="menu-titre">${t('nav_jouer')}</h2>
+                <ul class="menu-liens">
+                    ${liensJouer(prefixe).map(function (l) { return lienPage(l[0], l[1]); }).join('')}
+                </ul>
+            </div>
+
+            <div class="menu-langues menu-apparait" style="--delai: 0.42s">
                 <span class="menu-titre">${t('pied_langue')}</span>
                 <div class="menu-langues-liste">${langues}</div>
             </div>

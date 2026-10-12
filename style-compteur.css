@@ -67,13 +67,27 @@ body.fullscreen-lock {
   white-space: nowrap;
 }
 
+/* Titre de la page masqué sur un téléphone (en hauteur ou en largeur), pour laisser l'écran au
+   compteur ; Google et les lecteurs d'écran gardent leur <h1>. */
+@media (max-width: 767px), (max-height: 500px){
+  .hero-headline.titre-masque{
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
 .app{
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.fullscreen-toggle-btn{
+/* Boutons à pictos de la barre du haut : aide « ? » et plein écran */
+.topbar-icones{ display: flex; align-items: center; }
+.fullscreen-toggle-btn, .icone-topbar{
   background: none;
   border: none;
   color: var(--sand-dim);
@@ -84,8 +98,8 @@ body.fullscreen-lock {
   padding: 4px;
   margin-left: 8px;
 }
-.fullscreen-toggle-btn svg{ width: 18px; height: 18px; }
-.fullscreen-toggle-btn:hover{ color: var(--sand); }
+.fullscreen-toggle-btn svg, .icone-topbar svg{ width: 18px; height: 18px; }
+.fullscreen-toggle-btn:hover, .icone-topbar:hover{ color: var(--sand); }
 
 /* top bar */
 .topbar{
@@ -577,5 +591,15 @@ body.fullscreen-lock {
 .partage-corps .note-feuille:empty{ display: none; }
 
 /* Sous le compteur, hors de sa palette sombre : lien vers partie.html pour qui a un code */
+/* ---------- Feuille « Comment ça marche ? » ---------- */
+.aide-liste{ list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.aide-liste li{ display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: start; }
+.aide-liste svg{ box-sizing: content-box; width: 18px; height: 18px; padding: 8px; border-radius: 50%; background: var(--bg-soft); color: var(--sand); }
+.aide-liste span{ font-size: 13.5px; line-height: 1.45; color: var(--sand-dim); }
+.aide-liste b{ display: block; margin-bottom: 1px; font-family: 'Manrope', Arial, sans-serif; font-size: 15px; color: var(--sand); }
+.aide-pied{ display: grid; gap: 8px; }
+.aide-pied .bouton-plein{ display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.aide-pied .bouton-plein svg{ width: 17px; height: 17px; }
+
 .compteur-lien-code{ margin: 14px 0 0; text-align: center; font-size: 14px; color: #56604F; }
 .compteur-lien-code a{ color: #3D7A2A; font-weight: 600; text-underline-offset: 3px; }

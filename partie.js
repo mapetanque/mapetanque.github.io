@@ -49,7 +49,11 @@
         ok: picto('<circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/>'),
         vous: picto('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>'),
         actualiser: picto('<polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>'),
-        plus: picto('<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>')
+        plus: picto('<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>'),
+        // Les trois façons de rejoindre (écran sans code)
+        qr: picto('<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM21 14v.01M14 21h.01M17 21h4v-4"/>'),
+        lien: picto('<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>'),
+        clavier: picto('<rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h.01M12 12h.01M16 12h.01M7 16h10"/>')
     };
 
 
@@ -192,12 +196,27 @@
         gain = null;   // l'animation ne se rejoue pas au dessin suivant
     }
 
+    // Sans code (menu « Jouer › Rejoindre une partie ») : les trois façons d'entrer dans une
+    // partie, puis le champ du code, et un lien vers le compteur pour qui marque les points.
     function dessinerCode() {
-        zone.innerHTML = '<form class="pt-carte pt-code" novalidate>'
+        var facon = function (picto, titre, aide) {
+            return '<li>' + picto + '<span><strong>' + echapper(t(titre)) + '</strong>'
+                + '<span class="pt-mention">' + echapper(t(aide)) + '</span></span></li>';
+        };
+        zone.innerHTML = '<div class="pt-carte pt-facons">'
+            + '<p class="pt-question">' + echapper(t('partie_facons_titre')) + '</p>'
+            + '<p class="pt-mention">' + echapper(libelle('partie_facons_intro', { bouton: t('compteur_partager') })) + '</p>'
+            + '<ol class="pt-facons-liste">'
+            + facon(PICTOS.qr, 'partie_facon_qr', 'partie_facon_qr_aide')
+            + facon(PICTOS.lien, 'partie_facon_lien', 'partie_facon_lien_aide')
+            + facon(PICTOS.clavier, 'partie_facon_code', 'partie_facon_code_aide')
+            + '</ol></div>'
+            + '<form class="pt-carte pt-code" novalidate>'
             + '<label class="pt-etiquette" for="pt-champ-code">' + echapper(t('partie_code_label')) + '</label>'
             + '<div class="pt-ligne-code"><input type="text" id="pt-champ-code" class="pt-champ" maxlength="4" autocomplete="off" autocapitalize="characters" spellcheck="false" inputmode="text" placeholder="K7P2">'
-            + '<button type="submit" class="pt-btn vert">' + echapper(t('partie_code_ok')) + '</button></div>'
-            + '<p class="pt-mention">' + echapper(t('partie_code_aide')) + '</p></form>';
+            + '<button type="submit" class="pt-btn vert">' + echapper(t('partie_code_ok')) + '</button></div></form>'
+            + '<p class="pt-mention pt-creer">' + echapper(t('partie_creer_question'))
+            + ' <a class="pt-lien" href="' + prefixe + 'compteur.html">' + echapper(t('partie_creer')) + '</a></p>';
     }
 
     function blocMarqueur() {

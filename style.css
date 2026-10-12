@@ -408,12 +408,12 @@ body.fullscreen-lock {
 
 /* Menu « Explorer » de la nav desktop (construireNavBureau dans script.js) : régions,
    provinces, communes, dans une liste blanche qui s'ouvre sous le bouton. */
-.nav-explorer {
+.nav-deroulant {
     position: relative;
     display: inline-flex;
 }
 
-.nav-explorer-bouton {
+.nav-deroulant-bouton {
     border: none;
     background: none;
     font-family: inherit;
@@ -422,7 +422,7 @@ body.fullscreen-lock {
 
 /* Spécificité d'identifiant : les icônes des liens de la nav sont masquées sur les bannières et
    l'en-tête sobre (.entete-sobre .game-nav-link svg…), pas ce chevron. */
-#game-nav-inline .nav-explorer-chevron svg {
+#game-nav-inline .nav-deroulant-chevron svg {
     display: block;
     width: 9px;
     height: 6px;
@@ -430,11 +430,11 @@ body.fullscreen-lock {
     transition: transform 0.15s ease;
 }
 
-#game-nav-inline .nav-explorer.ouvert .nav-explorer-chevron svg {
+#game-nav-inline .nav-deroulant.ouvert .nav-deroulant-chevron svg {
     transform: rotate(180deg);
 }
 
-.nav-explorer-menu {
+.nav-deroulant-menu {
     position: absolute;
     top: calc(100% + 6px);
     left: 0;
@@ -449,11 +449,11 @@ body.fullscreen-lock {
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
 }
 
-.nav-explorer-menu[hidden] {
+.nav-deroulant-menu[hidden] {
     display: none;
 }
 
-#game-nav-inline .nav-explorer-lien {
+#game-nav-inline .nav-deroulant-lien {
     padding: 9px 12px;
     border-radius: 8px;
     color: #1D2619;
@@ -464,14 +464,14 @@ body.fullscreen-lock {
     white-space: nowrap;
 }
 
-#game-nav-inline .nav-explorer-lien:hover,
-#game-nav-inline .nav-explorer-lien[aria-current="page"] {
+#game-nav-inline .nav-deroulant-lien:hover,
+#game-nav-inline .nav-deroulant-lien[aria-current="page"] {
     color: #3d7a2a;
     background: rgba(116, 193, 90, 0.1);
 }
 
 /* Bannières photo (overflow: hidden) : le menu ouvert déborde dessous */
-.hero-banner:has(.nav-explorer.ouvert) {
+.hero-banner:has(.nav-deroulant.ouvert) {
     overflow: visible;
 }
 
@@ -2061,15 +2061,15 @@ html.menu-ouvert body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
+    gap: 10px;
     width: 100%;
-    height: 54px;
+    height: 46px;
     padding: 0 20px;
     border: none;
-    border-radius: 27px;
+    border-radius: 23px;
     background: #1d2619;
     font: inherit;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 700;
     color: #fff;
     cursor: pointer;
@@ -2080,8 +2080,8 @@ html.menu-ouvert body {
 }
 
 .menu-installer-bouton svg {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     flex-shrink: 0;
     color: #74C15A;
 }
@@ -2288,8 +2288,9 @@ html.menu-ouvert body {
 .pied-haut {
     position: relative;
     display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr 1.3fr;
-    gap: 40px;
+    /* Marque (et partage), puis Explorer, Jouer, Le site */
+    grid-template-columns: 1.6fr 1fr 1fr 1fr;
+    gap: 32px;
     /* 1180 - 2 x 40 de marge intérieure = 1100px de contenu, la largeur des sections de
        l'accueil et des pages province (.provinces-container, .province-bande-interieur) */
     max-width: 1180px;
@@ -2423,7 +2424,11 @@ html.menu-ouvert body {
     line-height: 1.45;
 }
 
-/* Partage */
+/* Partage, sous la marque */
+.pied-col-partage {
+    margin-top: 26px;
+}
+
 .pied-partage-texte {
     margin: 0 0 14px;
     color: var(--pied-discret);
@@ -2560,15 +2565,14 @@ html.menu-ouvert body {
     height: 14px;
 }
 
-/* Tablette : marque et partage sur toute la largeur, les deux colonnes de liens côte à côte */
+/* Tablette : marque (et partage) sur toute la largeur, les colonnes de liens deux par deux */
 @media (max-width: 900px) {
     .pied-haut {
         grid-template-columns: 1fr 1fr;
         gap: 34px 28px;
     }
 
-    .pied-marque,
-    .pied-col-partage {
+    .pied-marque {
         grid-column: 1 / -1;
     }
 }
