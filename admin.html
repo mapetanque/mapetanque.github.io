@@ -2976,9 +2976,9 @@ function modererAvis(a, decision) {
 
 // Terrains notés ou commentés, en bas de l'onglet : moyenne et nombre de notes (paquet public
 // des notes, piste par piste, sans le cumul des pistes voisines que fait le site), puis les avis
-// reçus, publiés ou en attente. Du plus récent au plus ancien, d'après la date du dernier avis
-// reçu (le paquet des notes ne porte pas de date) ; les terrains seulement notés viennent
-// ensuite, du plus noté au moins noté.
+// reçus, publiés ou en attente. Du plus récent au plus ancien, d'après la dernière note ou le
+// dernier avis reçu (date de la dernière note : champ « derniere » de /admin/stats/notes). Un
+// terrain sans date connue vient ensuite, du plus noté au moins noté.
 let NOTES_PUBLIQUES = null;   // osm_id -> [somme, nombre]
 
 function dessinerTerrainsActifs() {
@@ -2996,10 +2996,15 @@ function dessinerTerrainsActifs() {
         AVIS.en_attente.map(a => Object.assign({ en_attente: true }, a)).concat(AVIS.publies)
             .forEach(a => terrainDe(a.osm_id).avis.push(a));
     }
-    const dateAvis = a => String(a.cree || a.maj || "");
+    // Dates ramenées à « AAAA-MM-JJ HH:MM:SS » pour se comparer comme du texte.
+    const dateTexte = d => String(d || "").replace("T", " ").slice(0, 19);
+    const derniereNote = {};
+    ((STATS_NOTES && STATS_NOTES.par_terrain) || []).forEach(n => { derniereNote[n.osm_id] = dateTexte(n.derniere); });
+    const dateAvis = a => dateTexte(a.cree || a.maj);
     Object.values(parTerrain).forEach(t => {
         t.avis.sort((a, b) => dateAvis(b).localeCompare(dateAvis(a)));
-        t.dernier = t.avis.length ? dateAvis(t.avis[0]) : "";
+        const note = derniereNote[t.osm_id] || "", avis = t.avis.length ? dateAvis(t.avis[0]) : "";
+        t.dernier = note > avis ? note : avis;
     });
     const terrains = Object.values(parTerrain).sort((a, b) =>
         b.dernier.localeCompare(a.dernier)
@@ -3051,6 +3056,7 @@ async function chargerNotes() {
         document.getElementById("kpiNotesValeur").textContent = "—";
         return;
     }
+    dessinerTerrainsActifs();   // dates des dernières notes, pour le tri
     const r = STATS_NOTES.resume;
     document.getElementById("kpiNotesValeur").textContent = nombre(r.j30);
     document.getElementById("kpiNotesDetail").textContent =
