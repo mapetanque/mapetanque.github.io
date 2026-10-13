@@ -36,7 +36,7 @@ Et, sur l'accueil (index.html des quatre langues), la section « Les communes le
 équipées » : les NB_COMMUNES_EQUIPEES communes de chaque région qui ont le plus de terrains,
 écrite entre les balises <!-- DEBUT communes-equipees --> et <!-- FIN communes-equipees -->.
 
-Relancé par le workflow hebdomadaire (update-osm.yml), après les critères d'environnement.
+Relancé par le workflow quotidien (update-osm.yml), après les critères d'environnement.
 
 Usage :
     python scripts/generer_communes.py

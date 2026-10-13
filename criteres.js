@@ -4,7 +4,7 @@
 // donc être chargé AVANT script.js sur les pages à carte (index.html dans les quatre langues,
 // gabarits province et région) et dans admin.html.
 //
-// Les critères OSM sont calculés chaque semaine par scripts/enrichir_environnement.py et rangés
+// Les critères OSM sont calculés chaque jour par scripts/enrichir_environnement.py et rangés
 // dans la propriété `env` de chaque terrain (distances en mètres ; clé absente = rien trouvé dans
 // le rayon interrogé), plus deux tags du terrain lui-même (éclairage, toit). Les seuils sont
 // appliqués ici, pas dans la collecte : on peut les ajuster sans rien recalculer.

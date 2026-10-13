@@ -13,7 +13,7 @@ proche en proche (une rangée de dix pistes forme un seul groupe, même longue d
 même parc (mesuré en octobre 2026 : 597 terrains en 241 groupes, le plus étendu fait 74 m).
 
 Sortie : liste de groupes, chacun une liste d'osm_id triée ; les terrains isolés n'y figurent pas.
-Relancé par le workflow hebdomadaire (update-osm.yml), juste après update_terrains.py.
+Relancé par le workflow quotidien (update-osm.yml), juste après update_terrains.py.
 """
 
 import json

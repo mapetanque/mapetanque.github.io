@@ -2625,7 +2625,7 @@ addPhotoOverlay.addEventListener('click', fermerModaleAjoutPhoto);
 //     osm_id, puisque les clubs ne viennent pas d'OSM).
 // Les signalements partent vers le Worker mapetanque-admin, qui les range dans D1 et prévient
 // par une issue GitHub (même circuit que les photos). Rien n'est modifié sur le site : la
-// correction se fait dans OSM, et la carte suit à la mise à jour hebdomadaire suivante.
+// correction se fait dans OSM, et la carte suit à la mise à jour quotidienne suivante.
 //
 // La modale est construite ici en JS, à la première ouverture, plutôt qu'écrite en dur dans
 // les pages : le lien d'erreur existe dans toutes les pages à carte (accueils et pages province
@@ -3507,7 +3507,7 @@ function formaterDistanceKm(km) {
 
 // ===================== Critères des terrains =====================
 // Deux sources, affichées dans la fiche en deux groupes de pastilles :
-//   - les critères OSM, calculés chaque semaine par scripts/enrichir_environnement.py et rangés
+//   - les critères OSM, calculés chaque jour par scripts/enrichir_environnement.py et rangés
 //     dans la propriété `env` de chaque terrain (distances en mètres ; clé absente = rien trouvé
 //     dans le rayon interrogé), plus deux tags du terrain lui-même (éclairage, toit) ;
 //   - les critères confirmés par les joueurs, lus sur le Worker mapetanque-notes (GET /criteres).

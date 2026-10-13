@@ -1,5 +1,6 @@
 import requests
 import json
+import math
 import time
 import sys
 import os
@@ -51,6 +52,18 @@ CHEMIN_STATS_GEO = "data/stats_geo.json"
 # Date à laquelle chaque terrain a été vu pour la première fois, pour signaler les nouveaux
 # terrains dans la page admin. Voir mettre_a_jour_apparitions() plus bas.
 CHEMIN_APPARITION = "data/terrains_apparition.json"
+
+# Adresses déjà trouvées par Nominatim, par osm_id, avec les coordonnées et la date de la
+# demande. Nominatim demande de garder ses réponses plutôt que de reposer les mêmes questions :
+# un terrain qui n'a pas bougé reprend son adresse au lieu d'être regéocodé à chaque passage.
+CHEMIN_ADRESSES = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "adresses_nominatim.json")
+# Adresses redemandées à chaque passage, les plus anciennes d'abord : une rue renommée dans
+# OSM finit par être corrigée sur le site. Avec un passage par jour, ~1 800 terrains sont
+# revus en un mois environ.
+LOT_RAFRAICHISSEMENT = 60
+# Au-delà de ce déplacement (en mètres), un terrain est regéocodé. Une petite retouche du
+# contour dans OSM déplace son centre de quelques mètres sans changer la rue la plus proche.
+DEPLACEMENT_MAX_M = 25
 
 
 # Régions et provinces belges : on identifie chaque terrain par une clé canonique STABLE
@@ -128,7 +141,8 @@ def recuperer_infos_adresse(lat, lon):
     - province : clé canonique de la province (ex. "hainaut"), ou None (cas de Bruxelles,
       qui n'a pas de province)
     - region : clé canonique de la région (ex. "wallonie")
-    Chaque champ vaut None en cas d'échec ou d'absence de donnée exploitable.
+    Chaque champ vaut None en l'absence de donnée exploitable. Retourne None si la requête
+    échoue, pour ne pas confondre une erreur avec un point réellement sans adresse.
     """
     resultat = {"rue": None, "commune": None, "province": None, "region": None}
 
@@ -184,6 +198,7 @@ def recuperer_infos_adresse(lat, lon):
 
     except Exception as e:
         print(f"    ⚠ Erreur géocodage ({lat:.5f}, {lon:.5f}) : {e}")
+        return None
 
     return resultat
 
@@ -365,7 +380,7 @@ PROPRIETES_PRECEDENTES = charger_proprietes_precedentes(CHEMIN_GEOJSON)
 
 # Critères d'environnement (bancs, jeux, eau…) calculés à part par enrichir_environnement.py,
 # indexés par osm_id : recopiés dans chaque terrain (propriété « env ») pour que le site n'ait
-# qu'un fichier à charger. Fichier séparé, sinon cette régénération hebdomadaire les effacerait.
+# qu'un fichier à charger. Fichier séparé, sinon cette régénération quotidienne les effacerait.
 CHEMIN_ENVIRONNEMENT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "environnement.json")
 try:
     with open(CHEMIN_ENVIRONNEMENT, encoding="utf-8") as f:
@@ -374,8 +389,71 @@ except (OSError, ValueError):
     ENVIRONNEMENT = {}
 PHOTOS_REPRISES = []
 
+
+def charger_adresses(chemin, chemin_geojson):
+    """
+    {osm_id: {lat, lon, rue, commune, province, region, date}}. Au premier passage (fichier
+    absent), reprise des adresses du terrains.geojson actuel avec une date inconnue (None) :
+    elles seront redemandées en premier, par lots, au fil des passages suivants.
+    """
+    if os.path.exists(chemin):
+        try:
+            with open(chemin, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"⚠ {chemin} illisible ({e}) : toutes les adresses seront redemandées.")
+            return {}
+    adresses = {}
+    try:
+        with open(chemin_geojson, "r", encoding="utf-8") as f:
+            for feat in json.load(f).get("features", []):
+                p = feat.get("properties", {})
+                if not p.get("osm_id"):
+                    continue
+                lon, lat = feat["geometry"]["coordinates"]
+                adresses[p["osm_id"]] = {
+                    "lat": lat, "lon": lon,
+                    "rue": p.get("nearest_street"), "commune": p.get("commune"),
+                    "province": p.get("province"), "region": p.get("region"),
+                    "date": None,
+                }
+        print(f"Suivi des adresses démarré : {len(adresses)} adresse(s) reprise(s) de {chemin_geojson}.")
+    except Exception:
+        pass
+    return adresses
+
+
+def ecrire_adresses(adresses, chemin):
+    # Une ligne par terrain : fichier compact, et différences lisibles d'un passage à l'autre
+    lignes = [json.dumps(k) + ":" + json.dumps(v, ensure_ascii=False, separators=(",", ":"))
+              for k, v in sorted(adresses.items())]
+    with open(chemin, "w", encoding="utf-8") as f:
+        f.write("{\n" + ",\n".join(lignes) + "\n}\n")
+
+
+def distance_m(adresse, lat, lon):
+    """Distance approximative (en mètres) entre l'adresse gardée et la position actuelle."""
+    dlat = (lat - adresse["lat"]) * 111_320
+    dlon = (lon - adresse["lon"]) * 111_320 * math.cos(math.radians(lat))
+    return math.hypot(dlat, dlon)
+
+
+ADRESSES = charger_adresses(CHEMIN_ADRESSES, CHEMIN_GEOJSON)
+
+# Lot du jour à rafraîchir : les adresses les plus anciennes parmi les terrains actuels
+# (date inconnue d'abord).
+A_RAFRAICHIR = set(sorted(
+    (osm_id for osm_id in (f"{e['type']}/{e['id']}" for e in osm_data["elements"])
+     if osm_id in ADRESSES),
+    key=lambda osm_id: ADRESSES[osm_id]["date"] or ""
+)[:LOT_RAFRAICHISSEMENT])
+
+ADRESSE_VIDE = {"rue": None, "commune": None, "province": None, "region": None}
+adresses_reprises = adresses_demandees = adresses_en_echec = 0
+
 features = []
 total = len(osm_data["elements"])
+aujourd_hui = date.today().isoformat()
 
 for index, element in enumerate(osm_data["elements"], start=1):
 
@@ -392,19 +470,36 @@ for index, element in enumerate(osm_data["elements"], start=1):
     else:
         continue
 
-    print(f"[{index}/{total}] Recherche des informations d'adresse...")
+    osm_id = f"{element['type']}/{element['id']}"
+    connue = ADRESSES.get(osm_id)
 
-    infos_adresse = recuperer_infos_adresse(lat, lon)
+    if (connue and osm_id not in A_RAFRAICHIR
+            and distance_m(connue, lat, lon) <= DEPLACEMENT_MAX_M):
+        infos_adresse = connue
+        adresses_reprises += 1
+    else:
+        print(f"[{index}/{total}] Recherche des informations d'adresse ({osm_id})...")
+        trouvee = recuperer_infos_adresse(lat, lon)
 
-    # Respect de la limite Nominatim : max. 1 requête par seconde
-    time.sleep(1)
+        # Respect de la limite Nominatim : max. 1 requête par seconde
+        time.sleep(1)
+
+        if trouvee is not None:
+            infos_adresse = trouvee
+            ADRESSES[osm_id] = {"lat": lat, "lon": lon, **trouvee, "date": aujourd_hui}
+            adresses_demandees += 1
+        else:
+            # Échec : l'adresse gardée (s'il y en a une) sert encore. Sa date et ses coordonnées
+            # ne changent pas, elle sera donc redemandée au prochain passage.
+            infos_adresse = connue or ADRESSE_VIDE
+            adresses_en_echec += 1
 
     proprietes = dict(element.get("tags", {}))
     # Identifiant stable du terrain (ex. "node/123456789"), qui ne change jamais même si ses
     # coordonnées sont corrigées par la suite sur OSM — contrairement aux coordonnées, utilisées
     # ailleurs dans le site comme clé de correspondance mais qui peuvent légèrement bouger d'une
     # semaine à l'autre. Sert de clé stable pour data/photos_mapillary.json (voir ce fichier).
-    proprietes["osm_id"] = f"{element['type']}/{element['id']}"
+    proprietes["osm_id"] = osm_id
     proprietes["nearest_street"] = infos_adresse["rue"]
     proprietes["commune"] = infos_adresse["commune"]
     proprietes["province"] = infos_adresse["province"]
@@ -471,7 +566,7 @@ def calculer_statistiques_geo(features):
 def mettre_a_jour_apparitions(features, chemin):
     """
     Tient à jour {osm_id: date de première apparition}. Ce fichier-ci est reconstruit de zéro
-    chaque semaine et ne garde aucune mémoire : c'est ce petit fichier séparé qui s'en charge.
+    à chaque passage et ne garde aucune mémoire : c'est ce petit fichier séparé qui s'en charge.
 
     - Premier passage (fichier absent) : tous les terrains existants reçoivent null, « déjà là
       avant le suivi ». Sans quoi les ~1700 terrains actuels passeraient tous pour nouveaux.
@@ -544,6 +639,9 @@ def date_mise_a_jour(chemin, nouvelles_features):
     return aujourd_hui
 
 
+print(f"Adresses Nominatim : {adresses_demandees} demandée(s), {adresses_reprises} reprise(s), "
+      f"{adresses_en_echec} en échec.")
+
 if PHOTOS_REPRISES:
     print(f"⚠ {len(PHOTOS_REPRISES)} photo(s) Mapillary reprise(s) de la semaine précédente, "
           "l'API n'ayant pas répondu. Si c'est un grand nombre, vérifier le secret MAPILLARY_TOKEN.")
@@ -599,6 +697,8 @@ with open(CHEMIN_STATS_GEO, "w", encoding="utf-8") as f:
     )
 
 mettre_a_jour_apparitions(features, CHEMIN_APPARITION)
+
+ecrire_adresses(ADRESSES, CHEMIN_ADRESSES)
 
 # Diagnostic : signale si une proportion anormale de terrains n'a pas pu être rattachée à une
 # région (repli name-matching manquant, ou réponse Nominatim incomplète pour ce point). Ne bloque

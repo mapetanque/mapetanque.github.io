@@ -1,7 +1,7 @@
 """
 Promotion automatique des terrains bien notés vers le carrousel « Les plus beaux terrains ».
 
-Lancé chaque semaine par le workflow GitHub Actions, juste après update_terrains.py (qui vient de
+Lancé chaque jour par le workflow GitHub Actions, juste après update_terrains.py (qui vient de
 rafraîchir data/terrains.geojson).
 
 Usage :

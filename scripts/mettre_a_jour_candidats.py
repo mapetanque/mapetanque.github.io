@@ -1,6 +1,6 @@
 """
 Met à jour data/candidats_photos.json, la liste des terrains et de leurs photos
-que lit la page admin. Lancé chaque semaine par update-osm.yml, juste après
+que lit la page admin. Lancé chaque jour par update-osm.yml, juste après
 scripts/update_terrains.py.
 
 Ce fichier avait été extrait une seule fois de l'ancien revue_photos.html : un
@@ -95,7 +95,7 @@ DELAI_ENTRE_REQUETES = 0.3   # secondes, pour rester raisonnable vis-à-vis de l
 MAX_ECHECS_CONSECUTIFS = 5
 
 # Une vignette est renouvelée si son lien expire dans moins de ce délai. Le
-# script tournant chaque semaine, huit jours laissent une marge d'un jour.
+# script tournant chaque jour, huit jours laissent de la marge si plusieurs passages échouent.
 MARGE_EXPIRATION = timedelta(days=8)
 
 # Format des dates de D1 (colonne maj de revue_terrains), en UTC. Les dates
