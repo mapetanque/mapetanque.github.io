@@ -37,7 +37,7 @@
     <!-- En-tête sans bannière photo des pages de contenu -->
     <link rel="stylesheet" href="/style-entete-sobre.css">
     <!-- Styles du widget compteur : palette et typographie propres à cet outil -->
-    <link rel="stylesheet" href="/style-compteur.css?v=6">
+    <link rel="stylesheet" href="/style-compteur.css?v=7">
     <!-- Données structurées schema.org (Google, IA) : écrites par scripts/generer_referencement.py, ne pas modifier à la main. -->
     <script type="application/ld+json">
     {
@@ -213,6 +213,16 @@
 <!-- Partie partagée par un autre joueur : le code affiché sous son QR code (partie.html) -->
 <p class="compteur-lien-code">Teilt ein Freund seine Partie? <a href="/de/partie.html">Mit seinem Code beitreten</a></p>
 
+<!-- Présentation du compteur : texte écrit dans la page (et non par compteur.js) pour que Google
+     et les IA le lisent. Le guide détaillé reste derrière le « ? » du compteur. -->
+<section class="compteur-presentation">
+    <h2>Ein Punktezähler für Ihre Pétanque-Partien</h2>
+    <p>Kostenlos, im Browser, ohne Installation: Zählen Sie die Punkte Runde für Runde, im Tête-à-Tête, in der Doublette oder Triplette.</p>
+    <p><b>Der Spielstand live für alle.</b> Die anderen Spieler scannen einen QR-Code und verfolgen die Partie auf ihrem Handy. Einer von ihnen kann sogar an Ihrer Stelle zählen.</p>
+    <p><b>Ihre Partien, gespeichert.</b> Mit einem kostenlosen Konto landet jede beendete Partie in „Meine Partien“, mit Ihren Statistiken und, wenn Sie ihn angeben, dem Platz, auf dem Sie gespielt haben.</p>
+    <p class="compteur-presentation-liens">Die Anleitung <button type="button" data-ouvrir-aide>Wie funktioniert es?</button> erklärt jeden Knopf. Unsicher bei den Regeln? Lesen Sie, <a href="/de/comment-jouer.html">wie man Pétanque spielt</a>. Lust, woanders zu spielen? <a href="/de/carte.html">Finden Sie einen Platz in Ihrer Nähe</a>.</p>
+</section>
+
 </div><!-- /.rules-content -->
 
 </div><!-- /#top -->
@@ -237,7 +247,7 @@
 <script src="/compte.js"></script>
 <!-- Widget compteur : logique, textes (translations.js) et construction du HTML.
      ?v= : même raison que pour translations.js, avec style-compteur.css. -->
-<script src="/compteur.js?v=6"></script>
+<script src="/compteur.js?v=7"></script>
 
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
 </body>

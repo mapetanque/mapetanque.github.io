@@ -37,7 +37,7 @@
     <!-- En-tête sans bannière photo des pages de contenu -->
     <link rel="stylesheet" href="/style-entete-sobre.css">
     <!-- Styles du widget compteur : palette et typographie propres à cet outil -->
-    <link rel="stylesheet" href="/style-compteur.css?v=6">
+    <link rel="stylesheet" href="/style-compteur.css?v=7">
     <!-- Données structurées schema.org (Google, IA) : écrites par scripts/generer_referencement.py, ne pas modifier à la main. -->
     <script type="application/ld+json">
     {
@@ -213,6 +213,16 @@
 <!-- Partie partagée par un autre joueur : le code affiché sous son QR code (partie.html) -->
 <p class="compteur-lien-code">A friend is sharing their game? <a href="/en/partie.html">Join with their code</a></p>
 
+<!-- Présentation du compteur : texte écrit dans la page (et non par compteur.js) pour que Google
+     et les IA le lisent. Le guide détaillé reste derrière le « ? » du compteur. -->
+<section class="compteur-presentation">
+    <h2>A score counter for your pétanque games</h2>
+    <p>Free, in your browser, nothing to install: count the points end by end, in singles, doubles or triples.</p>
+    <p><b>The live score for everyone.</b> The other players scan a QR code and follow the game on their phone. One of them can even keep score for you.</p>
+    <p><b>Your games, saved.</b> With a free account, every finished game goes to “My games”, with your statistics and, if you add it, the court where you played.</p>
+    <p class="compteur-presentation-liens">The <button type="button" data-ouvrir-aide>How does it work?</button> guide explains every button. Not sure about the rules? See <a href="/en/comment-jouer.html">how to play pétanque</a>. Fancy playing somewhere else? <a href="/en/carte.html">Find a court near you</a>.</p>
+</section>
+
 </div><!-- /.rules-content -->
 
 </div><!-- /#top -->
@@ -237,7 +247,7 @@
 <script src="/compte.js"></script>
 <!-- Widget compteur : logique, textes (translations.js) et construction du HTML.
      ?v= : même raison que pour translations.js, avec style-compteur.css. -->
-<script src="/compteur.js?v=6"></script>
+<script src="/compteur.js?v=7"></script>
 
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
 </body>

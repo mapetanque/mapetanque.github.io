@@ -1530,6 +1530,14 @@
   aideModal.addEventListener('click', (ev) => {
     if (ev.target.closest('[data-action="connexion"]')) location.href = prefixeLangue() + 'connexion.html?retour=' + encodeURIComponent(location.pathname);
   });
+  // Lien « Comment ça marche ? » du texte sous le compteur : la feuille vit dans le compteur,
+  // on remonte d'abord jusqu'à lui.
+  document.querySelectorAll('[data-ouvrir-aide]').forEach((bouton) => {
+    bouton.addEventListener('click', () => {
+      widget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      $('aideBtn').click();
+    });
+  });
 
   // ---------- Démarrage ----------
 
