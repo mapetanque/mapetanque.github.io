@@ -333,7 +333,7 @@ const translations = {
         filtres_sur_total: "sur %t",
 
         // Pied de page (construit par construirePied() dans script.js)
-        pied_accroche: "La carte collaborative des terrains de pétanque en Belgique.",
+        pied_accroche: "La carte collaborative des terrains de pétanque en Belgique, et un compteur pour vos parties.",
         pied_terrains: "terrains recensés",
         pied_photos: "avec photo",
         pied_maj: (date) => `Données mises à jour le ${date}`,
@@ -1072,7 +1072,7 @@ const translations = {
         filtres_sur_total: "van %t",
 
         // Pied de page (construit par construirePied() dans script.js)
-        pied_accroche: "De collaboratieve kaart van de petanqueterreinen in België.",
+        pied_accroche: "De collaboratieve kaart van de petanqueterreinen in België, en een teller voor uw partijen.",
         pied_terrains: "terreinen geregistreerd",
         pied_photos: "met foto",
         pied_maj: (date) => `Gegevens bijgewerkt op ${date}`,
@@ -1811,7 +1811,7 @@ const translations = {
         filtres_sur_total: "von %t",
 
         // Pied de page (construit par construirePied() dans script.js)
-        pied_accroche: "Die gemeinsame Karte der Pétanque-Plätze in Belgien.",
+        pied_accroche: "Die gemeinsame Karte der Pétanque-Plätze in Belgien und ein Zähler für Ihre Partien.",
         pied_terrains: "Plätze erfasst",
         pied_photos: "mit Foto",
         pied_maj: (date) => `Daten aktualisiert am ${date}`,
@@ -2550,7 +2550,7 @@ const translations = {
         filtres_sur_total: "of %t",
 
         // Pied de page (construit par construirePied() dans script.js)
-        pied_accroche: "The collaborative map of pétanque courts in Belgium.",
+        pied_accroche: "The collaborative map of pétanque courts in Belgium, and a score counter for your games.",
         pied_terrains: "courts listed",
         pied_photos: "with a photo",
         pied_maj: (date) => `Data updated on ${date}`,
