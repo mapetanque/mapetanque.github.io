@@ -3,8 +3,8 @@ const translations = {
     fr: {
         html_lang: "fr",
 
-        meta_title: "Carte des terrains de pétanque en Belgique — Mapetanque.be",
-        meta_description: "Carte interactive des terrains de pétanque accessibles au public en Belgique : recherche par ville, géolocalisation et liste par région sur Mapetanque.be.",
+        meta_title: "Terrains de pétanque en Belgique et compteur de parties — Mapetanque.be",
+        meta_description: "Plus de 1 700 terrains de pétanque publics en Belgique et un compteur de points gratuit : score en direct partagé par QR code, historique de vos parties.",
 
         locate_btn: "Me localiser",
         search_placeholder: "Adresse, ville, région...",
@@ -745,8 +745,8 @@ const translations = {
     nl: {
         html_lang: "nl",
 
-        meta_title: "Kaart van de petanqueterreinen in België — Mapetanque.be",
-        meta_description: "Mapetanque.be toont op een interactieve kaart alle openbare petanquebanen in België, met geolocatie en zoeken op stad of regio.",
+        meta_title: "Petanqueterreinen in België en scoreteller — Mapetanque.be",
+        meta_description: "Meer dan 1 700 openbare petanqueterreinen in België en een gratis scoreteller: de stand live gedeeld via QR-code, een overzicht van uw partijen.",
 
         locate_btn: "Localiseer mij",
         search_placeholder: "Adres, stad, regio...",
@@ -1484,8 +1484,8 @@ const translations = {
     de: {
         html_lang: "de",
 
-        meta_title: "Karte der Pétanque-Plätze in Belgien — Mapetanque.be",
-        meta_description: "Mapetanque.be zeigt auf einer interaktiven Karte alle öffentlich zugänglichen Pétanque-Plätze in Belgien, mit Standortsuche nach Stadt oder Region.",
+        meta_title: "Pétanque-Plätze in Belgien und Punktezähler — Mapetanque.be",
+        meta_description: "Über 1 700 öffentliche Pétanque-Plätze in Belgien und ein kostenloser Punktezähler: Spielstand live per QR-Code teilen, Ihre Partien im Überblick.",
 
         locate_btn: "Mein Standort",
         search_placeholder: "Adresse, Stadt, Region...",
@@ -2223,8 +2223,8 @@ const translations = {
     en: {
         html_lang: "en",
 
-        meta_title: "Map of pétanque courts in Belgium — Mapetanque.be",
-        meta_description: "Interactive map of publicly accessible pétanque courts in Belgium: search by town, geolocation and lists by region on Mapetanque.be.",
+        meta_title: "Pétanque courts in Belgium and score counter — Mapetanque.be",
+        meta_description: "Over 1,700 public pétanque courts in Belgium and a free score counter: share the live score with a QR code and keep a history of your games.",
 
         locate_btn: "Locate me",
         search_placeholder: "Address, town, region...",

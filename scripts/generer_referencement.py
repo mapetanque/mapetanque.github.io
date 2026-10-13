@@ -73,6 +73,22 @@ JEU_DE_DONNEES = {
 }
 NOM_BELGIQUE = {"fr": "Belgique", "nl": "België", "de": "Belgien", "en": "Belgium"}
 
+# Fonctions du compteur de points (featureList de WebApplication), dans les quatre langues.
+FONCTIONS_COMPTEUR = {
+    "fr": ["Score mène par mène", "Score en direct partagé par QR code, lien ou code",
+           "Un autre joueur peut marquer depuis son téléphone",
+           "Historique des parties et statistiques avec un compte gratuit"],
+    "nl": ["Stand ronde per ronde", "Stand live gedeeld via QR-code, link of code",
+           "Een andere speler kan de punten bijhouden op zijn telefoon",
+           "Overzicht van partijen en statistieken met een gratis account"],
+    "de": ["Spielstand Runde für Runde", "Spielstand live per QR-Code, Link oder Code teilen",
+           "Ein anderer Spieler kann auf seinem Handy weiterzählen",
+           "Partienverlauf und Statistiken mit einem kostenlosen Konto"],
+    "en": ["Score end by end", "Live score shared by QR code, link or code",
+           "Another player can keep score from their phone",
+           "Game history and statistics with a free account"],
+}
+
 
 # --- Lecture des pages ------------------------------------------------------------------------
 
@@ -273,6 +289,7 @@ def donnees_structurees(page):
             "inLanguage": langue,
             "applicationCategory": "SportsApplication",
             "operatingSystem": "Web",
+            "featureList": FONCTIONS_COMPTEUR[langue],
             "isAccessibleForFree": True,
             "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"},
             "publisher": {"@id": ID_AUTEUR},
@@ -388,19 +405,33 @@ def ecrire_llms(pages):
     lignes = [
         "# Mapetanque.be",
         "",
-        f"> Carte interactive et gratuite des terrains de pétanque accessibles au public en "
-        f"Belgique : {nombre(total)} terrains dans {nombre(nb_communes)} communes, en Wallonie, "
-        f"en Flandre et à Bruxelles. Site en français, néerlandais, allemand et anglais.",
+        f"> Site gratuit pour trouver un terrain de pétanque public en Belgique et compter les "
+        f"points de ses parties : une carte de {nombre(total)} terrains dans "
+        f"{nombre(nb_communes)} communes, en Wallonie, en Flandre et à Bruxelles, et un "
+        f"compteur de points avec score en direct. Site en français, néerlandais, allemand et "
+        f"anglais.",
         "",
         "Les terrains viennent d'OpenStreetMap et sont mis à jour quotidiennement ; les photos "
         "viennent de Mapillary. Sur la carte, chaque terrain a une fiche : emplacement, "
         "photos, itinéraire, notes et avis de visiteurs. Les clubs de pétanque peuvent aussi "
-        "être affichés. Le site est gratuit, sans compte ni publicité, et son code est "
+        "être affichés.",
+        "",
+        "Le compteur de points s'utilise dans le navigateur, sur téléphone ou tablette, sans "
+        "installation : on compte mène par mène, et les autres joueurs suivent le score en "
+        "direct en scannant un QR code (ou avec un lien ou un code), sans application. L'un "
+        "d'eux peut marquer à son tour depuis son téléphone. Avec un compte gratuit, on "
+        "retrouve ses parties et ses statistiques, et les joueurs qui ont suivi une partie la "
+        "gardent aussi.",
+        "",
+        "Le site est gratuit et sans publicité, le compte est facultatif, et le code est "
         "ouvert. Contact : mapetanque@outlook.be.",
         "",
-        "## Terrains par région et par province",
+        "## Jouer à la pétanque",
         "",
     ]
+    lignes += [l for l in (lien("compteur.html"), lien("comment-jouer.html"),
+                           lien("la-petanque.html")) if l]
+    lignes += ["", "## Terrains par région et par province", ""]
 
     def ligne_lieu(fichier, total_lieu, communes, retrait=""):
         page = fr.get(fichier)
@@ -446,10 +477,6 @@ def ecrire_llms(pages):
             liens = ", ".join(f"[{p['fil'][-1][0]}]({p['url']})"
                               for p in sorted(par_province[province], key=lambda p: p["fil"][-1][0]))
             lignes.append(f"- {province} : {liens}")
-
-    lignes += ["", "## Jouer à la pétanque", ""]
-    lignes += [l for l in (lien("comment-jouer.html"), lien("compteur.html"),
-                           lien("la-petanque.html")) if l]
 
     lignes += [
         "",

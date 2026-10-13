@@ -1,8 +1,18 @@
 # Mapetanque.be
 
-> Carte interactive et gratuite des terrains de pétanque accessibles au public en Belgique : 1 763 terrains dans 510 communes, en Wallonie, en Flandre et à Bruxelles. Site en français, néerlandais, allemand et anglais.
+> Site gratuit pour trouver un terrain de pétanque public en Belgique et compter les points de ses parties : une carte de 1 763 terrains dans 510 communes, en Wallonie, en Flandre et à Bruxelles, et un compteur de points avec score en direct. Site en français, néerlandais, allemand et anglais.
 
-Les terrains viennent d'OpenStreetMap et sont mis à jour quotidiennement ; les photos viennent de Mapillary. Sur la carte, chaque terrain a une fiche : emplacement, photos, itinéraire, notes et avis de visiteurs. Les clubs de pétanque peuvent aussi être affichés. Le site est gratuit, sans compte ni publicité, et son code est ouvert. Contact : mapetanque@outlook.be.
+Les terrains viennent d'OpenStreetMap et sont mis à jour quotidiennement ; les photos viennent de Mapillary. Sur la carte, chaque terrain a une fiche : emplacement, photos, itinéraire, notes et avis de visiteurs. Les clubs de pétanque peuvent aussi être affichés.
+
+Le compteur de points s'utilise dans le navigateur, sur téléphone ou tablette, sans installation : on compte mène par mène, et les autres joueurs suivent le score en direct en scannant un QR code (ou avec un lien ou un code), sans application. L'un d'eux peut marquer à son tour depuis son téléphone. Avec un compte gratuit, on retrouve ses parties et ses statistiques, et les joueurs qui ont suivi une partie la gardent aussi.
+
+Le site est gratuit et sans publicité, le compte est facultatif, et le code est ouvert. Contact : mapetanque@outlook.be.
+
+## Jouer à la pétanque
+
+- [Compteur de points de pétanque gratuit, score en direct](https://mapetanque.be/compteur.html): Comptez les points de votre partie de pétanque mène par mène, sur téléphone ou tablette, partagez le score en direct par QR code et retrouvez vos parties.
+- [Comment jouer à la pétanque](https://mapetanque.be/comment-jouer.html): Les règles essentielles de la pétanque expliquées simplement : équipes, matériel, terrain, déroulement d'une partie. Et un compteur de points interactif.
+- [La pétanque, d'hier à aujourd'hui](https://mapetanque.be/la-petanque.html): L'histoire de la pétanque, de son invention à La Ciotat en 1907 aux titres mondiaux belges, et pourquoi c'est aujourd'hui un sport si accessible et si convivial.
 
 ## Terrains par région et par province
 
@@ -35,12 +45,6 @@ Une page pour chacune des 257 communes ayant des terrains à au moins deux endro
 - Liège : [Aywaille](https://mapetanque.be/commune/aywaille.html), [Beyne-Heusay](https://mapetanque.be/commune/beyne-heusay.html), [Blegny](https://mapetanque.be/commune/blegny.html), [Braives](https://mapetanque.be/commune/braives.html), [Clavier](https://mapetanque.be/commune/clavier.html), [Eupen](https://mapetanque.be/commune/eupen.html), [Ferrières](https://mapetanque.be/commune/ferrieres.html), [Flémalle](https://mapetanque.be/commune/flemalle.html), [Fléron](https://mapetanque.be/commune/fleron.html), [Hannut](https://mapetanque.be/commune/hannut.html), [Herve](https://mapetanque.be/commune/herve.html), [Huy](https://mapetanque.be/commune/huy.html), [Juprelle](https://mapetanque.be/commune/juprelle.html), [Lincent](https://mapetanque.be/commune/lincent.html), [Liège](https://mapetanque.be/commune/liege.html), [Malmedy](https://mapetanque.be/commune/malmedy.html), [Nandrin](https://mapetanque.be/commune/nandrin.html), [Oupeye](https://mapetanque.be/commune/oupeye.html), [Plombières](https://mapetanque.be/commune/plombieres.html), [Seraing](https://mapetanque.be/commune/seraing.html), [Soumagne](https://mapetanque.be/commune/soumagne.html), [Stavelot](https://mapetanque.be/commune/stavelot.html), [Theux](https://mapetanque.be/commune/theux.html), [Verviers](https://mapetanque.be/commune/verviers.html), [Waimes](https://mapetanque.be/commune/waimes.html), [Wanze](https://mapetanque.be/commune/wanze.html), [Waremme](https://mapetanque.be/commune/waremme.html)
 - Luxembourg : [Arlon](https://mapetanque.be/commune/arlon.html), [Bastogne](https://mapetanque.be/commune/bastogne.html), [Durbuy](https://mapetanque.be/commune/durbuy.html), [Habay](https://mapetanque.be/commune/habay.html), [La Roche-en-Ardenne](https://mapetanque.be/commune/la-roche-en-ardenne.html), [Léglise](https://mapetanque.be/commune/leglise.html), [Messancy](https://mapetanque.be/commune/messancy.html), [Saint-Hubert](https://mapetanque.be/commune/saint-hubert.html), [Tenneville](https://mapetanque.be/commune/tenneville.html), [Vielsalm](https://mapetanque.be/commune/vielsalm.html)
 - Namur : [Andenne](https://mapetanque.be/commune/andenne.html), [Anhée](https://mapetanque.be/commune/anhee.html), [Beauraing](https://mapetanque.be/commune/beauraing.html), [Bièvre](https://mapetanque.be/commune/bievre.html), [Ciney](https://mapetanque.be/commune/ciney.html), [Dinant](https://mapetanque.be/commune/dinant.html), [Eghezée](https://mapetanque.be/commune/eghezee.html), [Fernelmont](https://mapetanque.be/commune/fernelmont.html), [Gedinne](https://mapetanque.be/commune/gedinne.html), [Gembloux](https://mapetanque.be/commune/gembloux.html), [Hastière](https://mapetanque.be/commune/hastiere.html), [Houyet](https://mapetanque.be/commune/houyet.html), [Namur](https://mapetanque.be/commune/namur.html), [Ohey](https://mapetanque.be/commune/ohey.html), [Rochefort](https://mapetanque.be/commune/rochefort.html), [Sambreville](https://mapetanque.be/commune/sambreville.html), [Sombreffe](https://mapetanque.be/commune/sombreffe.html), [Somme-Leuze](https://mapetanque.be/commune/somme-leuze.html), [Viroinval](https://mapetanque.be/commune/viroinval.html), [Yvoir](https://mapetanque.be/commune/yvoir.html)
-
-## Jouer à la pétanque
-
-- [Comment jouer à la pétanque](https://mapetanque.be/comment-jouer.html): Les règles essentielles de la pétanque expliquées simplement : équipes, matériel, terrain, déroulement d'une partie. Et un compteur de points interactif.
-- [Compteur de points](https://mapetanque.be/compteur.html): Un compteur de points interactif pour suivre le score de vos parties de pétanque, sur mobile ou tablette.
-- [La pétanque, d'hier à aujourd'hui](https://mapetanque.be/la-petanque.html): L'histoire de la pétanque, de son invention à La Ciotat en 1907 aux titres mondiaux belges, et pourquoi c'est aujourd'hui un sport si accessible et si convivial.
 
 ## Données
 
