@@ -2276,7 +2276,17 @@
         "nearest_street": "Entrée du Parc des Animaux",
         "commune": "Liège",
         "province": "liege",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-13",
+          "banc": 4,
+          "jeux": 7,
+          "parking": 115,
+          "arret": 202,
+          "nature": {
+            "parc": 0.9
+          }
+        }
       }
     },
     {
@@ -2295,7 +2305,17 @@
         "nearest_street": "Entrée du Parc des Animaux",
         "commune": "Liège",
         "province": "liege",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-13",
+          "banc": 5,
+          "jeux": 8,
+          "parking": 97,
+          "arret": 217,
+          "nature": {
+            "parc": 0.9
+          }
+        }
       }
     },
     {
@@ -57265,7 +57285,19 @@
         "nearest_street": "Grijze-Bosplein",
         "commune": "Lokeren",
         "province": "flandre_orientale",
-        "region": "flandre"
+        "region": "flandre",
+        "env": {
+          "calcule_le": "2026-10-13",
+          "banc": 1,
+          "jeux": 0,
+          "parking": 146,
+          "arret": 344,
+          "voie_verte": 249,
+          "routes": {
+            "primary": 139,
+            "residential": 7
+          }
+        }
       }
     },
     {
@@ -57284,7 +57316,19 @@
         "nearest_street": "Grijze-Bosplein",
         "commune": "Lokeren",
         "province": "flandre_orientale",
-        "region": "flandre"
+        "region": "flandre",
+        "env": {
+          "calcule_le": "2026-10-13",
+          "banc": 1,
+          "jeux": 0,
+          "parking": 144,
+          "arret": 338,
+          "voie_verte": 255,
+          "routes": {
+            "primary": 139,
+            "residential": 6
+          }
+        }
       }
     },
     {
@@ -57303,7 +57347,21 @@
         "nearest_street": "Unescolaan",
         "commune": "Antwerpen",
         "province": "anvers",
-        "region": "flandre"
+        "region": "flandre",
+        "env": {
+          "calcule_le": "2026-10-13",
+          "jeux": 101,
+          "eau_potable": 378,
+          "parking": 89,
+          "arret": 155,
+          "routes": {
+            "tertiary": 95
+          },
+          "eau": {
+            "plan_eau_petit": 109,
+            "ruisseau": 115
+          }
+        }
       }
     },
     {
@@ -57322,7 +57380,21 @@
         "nearest_street": "Maboge",
         "commune": "La Roche-en-Ardenne",
         "province": "luxembourg",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-13",
+          "eau_potable": 80,
+          "parking": 5,
+          "arret": 140,
+          "routes": {
+            "secondary": 29,
+            "residential": 5
+          },
+          "eau": {
+            "riviere": 49,
+            "ruisseau": 82
+          }
+        }
       }
     },
     {
@@ -57341,7 +57413,21 @@
         "nearest_street": "Maboge",
         "commune": "La Roche-en-Ardenne",
         "province": "luxembourg",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-13",
+          "eau_potable": 82,
+          "parking": 5,
+          "arret": 142,
+          "routes": {
+            "secondary": 30,
+            "residential": 5
+          },
+          "eau": {
+            "riviere": 50,
+            "ruisseau": 84
+          }
+        }
       }
     },
     {
@@ -57360,7 +57446,21 @@
         "nearest_street": "Maboge",
         "commune": "La Roche-en-Ardenne",
         "province": "luxembourg",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-13",
+          "eau_potable": 84,
+          "parking": 5,
+          "arret": 144,
+          "routes": {
+            "secondary": 31,
+            "residential": 5
+          },
+          "eau": {
+            "riviere": 50,
+            "ruisseau": 86
+          }
+        }
       }
     },
     {
@@ -57379,7 +57479,21 @@
         "nearest_street": "Maboge",
         "commune": "La Roche-en-Ardenne",
         "province": "luxembourg",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-13",
+          "eau_potable": 86,
+          "parking": 5,
+          "arret": 146,
+          "routes": {
+            "secondary": 32,
+            "residential": 5
+          },
+          "eau": {
+            "riviere": 50,
+            "ruisseau": 88
+          }
+        }
       }
     },
     {
@@ -57398,7 +57512,21 @@
         "nearest_street": "Maboge",
         "commune": "La Roche-en-Ardenne",
         "province": "luxembourg",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-13",
+          "eau_potable": 88,
+          "parking": 5,
+          "arret": 148,
+          "routes": {
+            "secondary": 33,
+            "residential": 5
+          },
+          "eau": {
+            "riviere": 50,
+            "ruisseau": 90
+          }
+        }
       }
     },
     {
@@ -57417,7 +57545,21 @@
         "nearest_street": "Maboge",
         "commune": "La Roche-en-Ardenne",
         "province": "luxembourg",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-13",
+          "eau_potable": 90,
+          "parking": 5,
+          "arret": 151,
+          "routes": {
+            "secondary": 34,
+            "residential": 5
+          },
+          "eau": {
+            "riviere": 51,
+            "ruisseau": 92
+          }
+        }
       }
     },
     {
@@ -57436,7 +57578,21 @@
         "nearest_street": "Maboge",
         "commune": "La Roche-en-Ardenne",
         "province": "luxembourg",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-13",
+          "eau_potable": 93,
+          "parking": 5,
+          "arret": 153,
+          "routes": {
+            "secondary": 36,
+            "residential": 5
+          },
+          "eau": {
+            "riviere": 51,
+            "ruisseau": 94
+          }
+        }
       }
     },
     {
@@ -57455,7 +57611,21 @@
         "nearest_street": "Maboge",
         "commune": "La Roche-en-Ardenne",
         "province": "luxembourg",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-13",
+          "eau_potable": 95,
+          "parking": 5,
+          "arret": 155,
+          "routes": {
+            "secondary": 37,
+            "residential": 5
+          },
+          "eau": {
+            "riviere": 51,
+            "ruisseau": 96
+          }
+        }
       }
     },
     {
@@ -57474,7 +57644,21 @@
         "nearest_street": "Maboge",
         "commune": "La Roche-en-Ardenne",
         "province": "luxembourg",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-13",
+          "eau_potable": 97,
+          "parking": 5,
+          "arret": 157,
+          "routes": {
+            "secondary": 38,
+            "residential": 5
+          },
+          "eau": {
+            "riviere": 51,
+            "ruisseau": 99
+          }
+        }
       }
     },
     {
@@ -57493,7 +57677,21 @@
         "nearest_street": "Maboge",
         "commune": "La Roche-en-Ardenne",
         "province": "luxembourg",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-13",
+          "eau_potable": 99,
+          "parking": 5,
+          "arret": 159,
+          "routes": {
+            "secondary": 39,
+            "residential": 5
+          },
+          "eau": {
+            "riviere": 52,
+            "ruisseau": 101
+          }
+        }
       }
     }
   ]
