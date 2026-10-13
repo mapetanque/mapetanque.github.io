@@ -34,7 +34,7 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 
 - Titre dynamique : `Terrain [nom de rue]` si une rue proche a été trouvée, sinon `Terrain de pétanque`
 - Fil d'Ariane région › province › commune, avec province cliquable vers sa page dédiée
-- Statut d'accès : `public` ou `probablement public` (selon le tag OSM `access`)
+- Statut d'accès selon le tag OSM `access` : « Accès public » (`yes`/`public`), « Accès toléré » (`permissive`), rien sinon (pas d'affirmation sans donnée ; voir la section « Fiabilité des informations » de l'À propos)
 - Distance jusqu'au terrain (si géolocalisation ou recherche active), sinon message incitant à se localiser
 - Lien "🚗 Afficher l'itinéraire" → ouvre Google Maps en mode itinéraire
 - Lien "📤 Partager ce terrain" → ouvre le panneau de partage avec un lien direct vers ce terrain précis

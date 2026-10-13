@@ -3314,7 +3314,6 @@ function construirePied() {
                 </div>
                 <div class="pied-col-partage">
                     <h2 class="pied-titre">${t('pied_partager')}</h2>
-                    <p class="pied-partage-texte">${t('pied_partage_texte')}</p>
                     <div class="pied-partage">
                         <a class="pied-bouton" href="https://wa.me/?text=${texteEncode}%20${urlEncodee}" target="_blank" rel="noopener" title="${t('share_whatsapp')}" aria-label="${t('share_whatsapp')}">${ICONES_PIED.whatsapp}</a>
                         <a class="pied-bouton" href="https://www.facebook.com/sharer/sharer.php?u=${urlEncodee}" target="_blank" rel="noopener" title="${t('share_facebook')}" aria-label="${t('share_facebook')}">${ICONES_PIED.facebook}</a>
@@ -3360,6 +3359,7 @@ function construirePied() {
                 <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener"><img src="/images/logo-openstreetmap.webp" alt="">OpenStreetMap</a>
                 · ${t('pied_credits_photos')}
                 <a href="https://www.mapillary.com" target="_blank" rel="noopener"><img src="/images/logo-mapillary.webp" alt="">Mapillary</a>
+                · <a href="${prefixe}a-propos.html#fiabilite">${t('pied_indicatif')}</a>
             </div>
             <div class="pied-droite">
                 <span>© ${new Date().getFullYear()} mapetanque.be</span>
@@ -3756,9 +3756,12 @@ function construireContenuPopupTerrain(feature, layer) {
 
     let tags = feature.properties;
 
-    let acces = (tags.access === "public" || tags.access === "yes")
-        ? t('fiche_acces_public')
-        : t('fiche_acces_probable');
+    // Statut d'accès, seulement quand OSM le précise : la grande majorité des terrains n'a pas de
+    // tag access, et on n'affirme rien dans ce cas (voir la section « Fiabilité des informations »
+    // de l'À propos). Les terrains access=private/customers/no sont déjà écartés par la requête.
+    let acces = (tags.access === "public" || tags.access === "yes") ? t('fiche_acces_public')
+        : tags.access === "permissive" ? t('fiche_acces_tolere')
+        : "";
 
     let titre = tags.nearest_street
         ? t('popup_terrain_prefix') + " " + tags.nearest_street
@@ -4031,7 +4034,7 @@ function construireContenuPopupTerrain(feature, layer) {
         ? `<p class="popup-description">${texteDescription}</p>`
         : "";
 
-    // Ligne de résumé sous le titre : « ★ 4,2 (9) · 2 avis · 1,2 km · Accès public probable ».
+    // Ligne de résumé sous le titre : « ★ 4,2 (9) · 2 avis · 1,2 km · Accès public ».
     // Un <span> par morceau, sans aucun blanc à l'intérieur : un morceau vide (pas de note, pas
     // d'avis, position inconnue) disparaît avec son séparateur, posé en CSS (voir .fiche-resume).
     // La note et le lien « N avis » sont remplis ici avec les données déjà chargées, puis tenus à

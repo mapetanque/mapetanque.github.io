@@ -1137,7 +1137,7 @@ joueur à la fois**, mais la main peut passer. Maquette : artefact « Passer la 
   change pas.
 - Textes : `compteur_marqueur` remplacé par `compteur_a_la_main` ; aide du compteur, explication
   de la feuille Partager, aide d'un code introuvable et Confidentialité revues dans les quatre
-  langues. `translations.js?v=8`, `compteur.js` et `style-compteur.css` en `?v=6`.
+  langues. `translations.js?v=9`, `compteur.js` et `style-compteur.css` en `?v=6`.
 - Page de la partie en sombre (demandé par Rémy le même jour : batterie, cohérence avec le
   compteur) : palette du compteur, logo en version principale négative, `theme-color` foncé,
   classe `page-sombre` sur le `<body>`, posés par `scripts/generer_partie.py` ;

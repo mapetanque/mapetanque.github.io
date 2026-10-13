@@ -105,6 +105,25 @@ CONTENU = {
             ],
         },
         {
+            # Mention de non-responsabilité : le pied de page y renvoie (a-propos.html#fiabilite).
+            "titre": "Fiabilité des informations",
+            "id": "fiabilite",
+            "paragraphes": [
+                "Les terrains proviennent d'OpenStreetMap et les photos de Mapillary, deux bases "
+                "de données ouvertes et collaboratives. Ces informations sont données à titre "
+                "indicatif : un terrain peut avoir disparu, être mal situé ou ne pas être ouvert "
+                "au public (terrain de club, de café, propriété privée…). Sur place, fiez-vous à "
+                "la signalisation et au règlement des lieux.",
+                "Mapetanque.be ne peut être tenu responsable d'informations inexactes ni de "
+                "l'usage qui en est fait. Les avis publiés n'engagent que leurs auteurs.",
+            ],
+            "page_lien": "a-propos.html#contact",
+            "paragraphes_lien": [
+                "Une erreur ? [Signalez-la-moi] : je la corrigerai dans OpenStreetMap, au "
+                "bénéfice de tous.",
+            ],
+        },
+        {
             "titre": "Vos données",
             # Résumé : le détail est dans confidentialite.html. Les crochets marquent le lien.
             "paragraphes_lien": [
@@ -160,6 +179,25 @@ CONTENU = {
                 "terrein dat mij gemeld wordt, voeg ik toe aan OpenStreetMap, en elke foto die "
                 "ik ontvang wordt op Mapillary gepubliceerd voordat ze hier verschijnt. Wat voor "
                 "deze site verzameld wordt, komt dus iedereen ten goede.",
+            ],
+        },
+        {
+            "titre": "Betrouwbaarheid van de informatie",
+            "id": "fiabilite",
+            "paragraphes": [
+                "De terreinen komen uit OpenStreetMap en de foto's uit Mapillary, twee open "
+                "databanken waaraan iedereen kan bijdragen. Deze informatie is louter indicatief: "
+                "een terrein kan verdwenen zijn, verkeerd gesitueerd zijn of niet openbaar "
+                "toegankelijk zijn (terrein van een club of een café, privéterrein…). Volg ter "
+                "plaatse de bewegwijzering en het reglement van de plek.",
+                "Mapetanque.be kan niet aansprakelijk worden gesteld voor onjuiste informatie of "
+                "voor het gebruik dat ervan wordt gemaakt. Gepubliceerde recensies vallen onder "
+                "de verantwoordelijkheid van hun auteurs.",
+            ],
+            "page_lien": "a-propos.html#contact",
+            "paragraphes_lien": [
+                "Een fout gezien? [Laat het me weten], dan verbeter ik die in OpenStreetMap, zodat "
+                "iedereen er baat bij heeft.",
             ],
         },
         {
@@ -220,6 +258,25 @@ CONTENU = {
             ],
         },
         {
+            "titre": "Zuverlässigkeit der Angaben",
+            "id": "fiabilite",
+            "paragraphes": [
+                "Die Plätze stammen aus OpenStreetMap und die Fotos aus Mapillary, zwei offenen, "
+                "gemeinschaftlich gepflegten Datenbanken. Diese Angaben sind unverbindlich: Ein "
+                "Platz kann verschwunden, falsch eingetragen oder nicht öffentlich zugänglich "
+                "sein (Platz eines Vereins oder eines Cafés, Privatgelände…). Beachten Sie vor "
+                "Ort die Beschilderung und die dort geltenden Regeln.",
+                "Mapetanque.be übernimmt keine Haftung für ungenaue Angaben oder deren "
+                "Verwendung. Veröffentlichte Rezensionen geben allein die Meinung ihrer "
+                "Verfasser wieder.",
+            ],
+            "page_lien": "a-propos.html#contact",
+            "paragraphes_lien": [
+                "Sie haben einen Fehler entdeckt? [Melden Sie ihn mir]: Ich korrigiere ihn in "
+                "OpenStreetMap, zum Nutzen aller.",
+            ],
+        },
+        {
             "titre": "Ihre Daten",
             "paragraphes_lien": [
                 "Keine Werbung und kein Tracking, keine Cookies, und ein Konto ist freiwillig. "
@@ -272,6 +329,24 @@ CONTENU = {
                 "them. Every court reported to me is added to OpenStreetMap, and every photo I "
                 "receive is published on Mapillary before appearing here. What is collected for "
                 "this site therefore benefits everyone.",
+            ],
+        },
+        {
+            "titre": "How reliable is the information?",
+            "id": "fiabilite",
+            "paragraphes": [
+                "The courts come from OpenStreetMap and the photos from Mapillary, two open, "
+                "collaborative databases. This information is provided for guidance only: a "
+                "court may have disappeared, be shown in the wrong place or not be open to the "
+                "public (a club's or a café's court, private property…). On site, follow the "
+                "signs and the rules of the place.",
+                "Mapetanque.be cannot be held responsible for inaccurate information or for any "
+                "use made of it. Published reviews are the sole responsibility of their authors.",
+            ],
+            "page_lien": "a-propos.html#contact",
+            "paragraphes_lien": [
+                "Spotted an error? [Let me know]: I'll correct it in OpenStreetMap, for "
+                "everyone's benefit.",
             ],
         },
         {
@@ -330,7 +405,8 @@ ICONE_MAIL = (
 def bloc_contenu(langue):
     morceaux = []
     for section in CONTENU[langue]:
-        morceaux.append('            <section class="apropos-section">')
+        ident = f' id="{section["id"]}"' if section.get("id") else ""
+        morceaux.append(f'            <section class="apropos-section"{ident}>')
         morceaux.append(f'                <h2>{echap(section["titre"])}</h2>')
 
         for para in section.get("paragraphes", []):

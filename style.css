@@ -2429,11 +2429,6 @@ html.menu-ouvert body {
     margin-top: 26px;
 }
 
-.pied-partage-texte {
-    margin: 0 0 14px;
-    color: var(--pied-discret);
-}
-
 .pied-partage {
     display: flex;
     flex-wrap: wrap;
