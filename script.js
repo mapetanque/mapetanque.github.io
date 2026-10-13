@@ -228,7 +228,7 @@ function liensExplorer(prefixe) {
         [prefixe + 'region-wallonie.html', t('geo_region_wallonie')],
         [prefixe + 'region-flandre.html', t('geo_region_flandre')],
         [prefixe + 'province-bruxelles.html', t('geo_region_bruxelles')],
-        [prefixe + '#provinces-section', t('pied_toutes_provinces')],
+        [prefixe + 'provinces.html', t('pied_toutes_provinces')],
         [prefixe + 'communes.html', t('pied_toutes_communes')]
     ];
 }

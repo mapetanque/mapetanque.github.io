@@ -22,6 +22,7 @@ Lit :
   - de/province-<slug>.html            (allemand, si traduction dispo)
   - en/province-<slug>.html            (anglais, si traduction dispo)
   - les pages région, de la même façon (region-<slug>.html)
+  - provinces.html (+ nl/, de/, en/) : toutes les provinces, groupées par région
 
 Puis lance generer_referencement.py (données structurées, sitemap.xml, llms.txt).
 
@@ -40,6 +41,7 @@ import re
 from pathlib import Path
 
 import generer_referencement
+from _squelette import construire_page
 from communes_officielles import MIN_LIEUX, Communes, distance_m, regrouper_lieux
 
 BASE_DIR = Path(__file__).resolve().parent.parent  # racine du repo (le script vit dans scripts/)
@@ -602,6 +604,101 @@ def generer_page_region(cle, config, langue, langues_disponibles, template, stat
           f"({total_terrains} terrains, {nb_provinces} provinces, {nb_communes} communes)")
 
 
+# Picto du bouton « Voir les N terrains sur la carte », le même que sur les pages région
+PICTO_CARTE = (
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+    '<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894'
+    'l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618'
+    'a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg>'
+)
+
+
+def generer_page_provinces(provinces, regions, stats_geo, officielles, traductions):
+    """provinces.html dans les quatre langues : toutes les provinces, groupées par région
+    (Flandre, Wallonie, puis Bruxelles et sa tuile), sur le modèle de « Toutes les communes »
+    (même squelette, même en-tête sobre). Cible du lien « Toutes les provinces » des menus."""
+    _, par_page = officielles
+    slugs_regions = {cfg["region_key"]: cfg["slug"] for cle, cfg in regions.items()
+                     if not cle.startswith("_")}
+
+    chiffres = {}  # région : (terrains, provinces, communes)
+    for region_key in ("flandre", "wallonie"):
+        chiffres[region_key] = recuperer_stats_region(stats_geo, region_key, officielles)
+    chiffres["bruxelles"] = (stats_geo["bruxelles"]["total"], 0,
+                             len(comptages_communes(par_page.get("bruxelles", []))))
+    total = sum(t for t, _, _ in chiffres.values())
+    nb_communes = sum(c for _, _, c in chiffres.values())
+
+    for langue in LANGUES:
+        tr = traductions[langue]
+        prefixe = "" if langue == "fr" else f"{langue}/"
+        blocs = []
+        for region_key, (nb_terrains, nb_provinces, nb_communes_region) in chiffres.items():
+            nom_region = html.escape(tr[f"geo_region_{region_key}"], quote=False)
+            if region_key == "bruxelles":
+                # Pas de page région : le titre reste du texte, la tuile mène à la page Bruxelles
+                titre = nom_region
+                detail = tr["provinces_page_chiffres_bruxelles"]
+                cfg = provinces["bruxelles"]
+                tuiles = [html_tuile(url_page(cfg["slug"], langue), f"tuile-{cfg['slug']}.webp",
+                                     nom_traduit_province("bruxelles", langue, traductions),
+                                     nb_terrains, tr)]
+            else:
+                titre = f'<a href="{url_page_region(slugs_regions[region_key], langue)}">{nom_region}</a>'
+                detail = tr["provinces_page_chiffres"]
+                tuiles = construire_tuiles_provinces_region(region_key, provinces, stats_geo,
+                                                            langue, traductions)
+            detail = (detail.replace("{n}", str(nb_terrains)).replace("{p}", str(nb_provinces))
+                      .replace("{c}", str(nb_communes_region)))
+            blocs.append(
+                '    <section class="provinces-index-region">\n'
+                '        <div class="provinces-index-entete">\n'
+                f'            <h2>{titre}</h2>\n'
+                f'            <p>{detail}</p>\n'
+                '        </div>\n'
+                '        <div class="tuiles-provinces">\n' + "\n".join(tuiles) + "\n"
+                '        </div>\n'
+                '    </section>\n'
+            )
+
+        intro = tr["provinces_page_intro"]
+        for jeton, valeur in (("{n}", total), ("{c}", nb_communes),
+                              ("{flandre}", chiffres["flandre"][0]),
+                              ("{wallonie}", chiffres["wallonie"][0]),
+                              ("{bruxelles}", chiffres["bruxelles"][0])):
+            intro = intro.replace(jeton, str(valeur))
+
+        contenu = (
+            '<div class="provinces-index">\n\n'
+            f'    <p class="province-intro">{intro}</p>\n\n'
+            '    <p class="province-voir-carte">\n'
+            f'        <a href="{url_racine_langue(langue)}carte.html" class="bouton-voir-carte">{PICTO_CARTE}'
+            f'<span>{tr["province_voir_carte"].replace("{n}", str(total))}</span></a>\n'
+            '    </p>\n\n'
+            + "\n".join(blocs)
+            + f'\n    <p class="provinces-index-communes"><a href="{url_racine_langue(langue)}communes.html">'
+            f'{html.escape(tr["pied_toutes_communes"], quote=False)} →</a></p>\n\n'
+            '</div>\n'
+        )
+        construire_page(
+            BASE_DIR / prefixe / "comment-jouer.html",
+            BASE_DIR / prefixe / "provinces.html",
+            page="provinces.html",
+            prefixe=prefixe,
+            titre=f'{tr["provinces_page_titre"]} — Mapetanque.be',
+            description=tr["provinces_page_description"].replace("{n}", str(total)),
+            h1=html.escape(tr["pied_toutes_provinces"], quote=False),
+            fil=(tr["province_accueil_breadcrumb"], html.escape(tr["pied_toutes_provinces"], quote=False)),
+            contenu=contenu,
+            # Insérées chacune juste après style-comment-jouer.css, donc dans l'ordre inverse :
+            # style-province.css (tuiles), style-commune.css (largeur du contenu, comme « Toutes
+            # les communes »), puis style-toutes-provinces.css, propre à cette page.
+            feuilles_sup=("/style-toutes-provinces.css", "/style-commune.css", "/style-province.css"),
+        )
+    print(f"Page « Toutes les provinces » : {total} terrains, {nb_communes} communes")
+
+
 def main():
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     region_template = REGION_TEMPLATE_PATH.read_text(encoding="utf-8")
@@ -683,6 +780,9 @@ def main():
     for chemin, contenu in FICHIERS_A_ECRIRE:
         chemin.parent.mkdir(parents=True, exist_ok=True)
         chemin.write_text(contenu, encoding="utf-8")
+
+    print()
+    generer_page_provinces(provinces, regions, stats_geo, officielles, traductions)
 
     # Données structurées, sitemap.xml et llms.txt, qui suivent les pages qu'on vient d'écrire
     print()

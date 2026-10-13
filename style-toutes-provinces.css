@@ -1,0 +1,58 @@
+/* Page « Toutes les provinces » (provinces.html, écrite par scripts/generate_provinces.py).
+   Chargée après style-province.css (tuiles, bouton carte) et style-commune.css (largeur du
+   contenu) : n'est chargée que sur cette page. Feuille à part plutôt que dans
+   style-province.css : le service worker sert d'abord la version en cache d'une feuille,
+   des règles nouvelles dans une feuille déjà connue n'arriveraient qu'à la visite suivante. */
+
+.provinces-index-region + .provinces-index-region {
+    margin-top: 44px;
+}
+
+/* Nom de la région (lien vers sa page) et ses chiffres sur une ligne */
+.provinces-index-entete {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    margin: 0 0 18px;
+}
+
+.provinces-index-entete h2 {
+    font-size: 26px;
+    color: #1D2619;
+    margin: 0;
+}
+
+.provinces-index-entete h2 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.provinces-index-entete h2 a::after {
+    content: " ›";
+    color: #3D7A2A;
+}
+
+.provinces-index-entete h2 a:hover {
+    color: #3D7A2A;
+}
+
+.provinces-index-entete p {
+    margin: 0;
+    font-size: 14.5px;
+    color: #56604F;
+}
+
+.provinces-index-communes {
+    margin: 48px 0 0;
+    font-weight: 700;
+}
+
+.provinces-index-communes a {
+    color: #3D7A2A;
+    text-decoration: none;
+}
+
+.provinces-index-communes a:hover {
+    text-decoration: underline;
+}
