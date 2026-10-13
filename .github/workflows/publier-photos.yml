@@ -8,7 +8,7 @@
 # scripts/publier_photos.py (avec scripts/miniature_360.py pour les 360° et
 # scripts/miniature_plate.py pour les photos plates).
 #
-# Lancé chaque jour à 5 h UTC, loin du workflow hebdomadaire (lundi 3 h 17),
+# Lancé chaque jour à 5 h UTC, après la mise à jour OSM quotidienne (3 h 17),
 # et à la demande par le bouton « Publier maintenant » de la page admin.
 #
 # Secrets du dépôt nécessaires :
@@ -41,7 +41,7 @@ jobs:
       - name: Récupération du projet
         uses: actions/checkout@v4
 
-      # 3.12 plutôt que la 3.14 du workflow hebdomadaire : mapillary_tools et
+      # 3.12 plutôt que la 3.14 du workflow OSM : mapillary_tools et
       # ses dépendances y sont éprouvés.
       - name: Installation de Python
         uses: actions/setup-python@v5

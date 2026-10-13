@@ -1875,8 +1875,8 @@ document.getElementById("publierMaintenant").addEventListener("click", async (e)
     }
 });
 
-// Lance tout de suite le workflow GitHub de mise à jour OSM (sinon, il passe le
-// lundi à 3 h 17 UTC) : utile après avoir corrigé un terrain dans OpenStreetMap
+// Lance tout de suite le workflow GitHub de mise à jour OSM (sinon, il passe chaque
+// jour à 3 h 17 UTC) : utile après avoir corrigé un terrain dans OpenStreetMap
 // (accès privé, tags building ou lit…). Laisser quelques minutes à Overpass pour
 // recevoir la modification avant de cliquer.
 document.getElementById("majOsm").addEventListener("click", async (e) => {
@@ -3328,7 +3328,7 @@ brancherSegment("detailsSegment", p => { PERIODE_DETAILS = p; dessinerDetails();
 // Terrains manquants (lien de la bannière d'accueil) et erreurs signalées depuis les fiches
 // terrain et club.
 // Rien n'est modifié sur le site depuis ici : la correction se fait dans OSM, et la carte suit
-// à la mise à jour hebdomadaire. Cet onglet sert à ne rien oublier : ouvrir l'éditeur OSM au bon
+// à la mise à jour quotidienne. Cet onglet sert à ne rien oublier : ouvrir l'éditeur OSM au bon
 // endroit, puis marquer le signalement comme traité ou refusé.
 
 let SIGNALEMENTS = null;            // null = pas encore chargés

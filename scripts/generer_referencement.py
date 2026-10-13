@@ -21,7 +21,7 @@ après une modification de index.html, comment-jouer.html ou compteur.html :
 
 Date de modification des pages : data/sitemap_dates.json garde une empreinte du contenu de
 chaque page et la date à laquelle cette empreinte a changé pour la dernière fois. Plus fiable
-que l'historique git, que le workflow hebdomadaire ne récupère pas en entier.
+que l'historique git, que le workflow quotidien ne récupère pas en entier.
 """
 
 import hashlib
@@ -60,16 +60,16 @@ MOTIF_BLOC = re.compile(
 JEU_DE_DONNEES = {
     "fr": ("Terrains de pétanque publics en Belgique",
            "Emplacement des terrains de pétanque accessibles au public en Belgique (Wallonie, "
-           "Flandre et Bruxelles), tirés d'OpenStreetMap et mis à jour chaque semaine."),
+           "Flandre et Bruxelles), tirés d'OpenStreetMap et mis à jour quotidiennement."),
     "nl": ("Openbare petanqueterreinen in België",
            "Ligging van de openbare petanqueterreinen in België (Wallonië, Vlaanderen en "
-           "Brussel), afkomstig van OpenStreetMap en wekelijks bijgewerkt."),
+           "Brussel), afkomstig van OpenStreetMap en dagelijks bijgewerkt."),
     "de": ("Öffentliche Pétanque-Plätze in Belgien",
            "Standorte der öffentlich zugänglichen Pétanque-Plätze in Belgien (Wallonien, "
-           "Flandern und Brüssel), aus OpenStreetMap, wöchentlich aktualisiert."),
+           "Flandern und Brüssel), aus OpenStreetMap, täglich aktualisiert."),
     "en": ("Public pétanque courts in Belgium",
            "Locations of publicly accessible pétanque courts in Belgium (Wallonia, Flanders "
-           "and Brussels), taken from OpenStreetMap and updated every week."),
+           "and Brussels), taken from OpenStreetMap and updated every day."),
 }
 NOM_BELGIQUE = {"fr": "Belgique", "nl": "België", "de": "Belgien", "en": "Belgium"}
 
@@ -392,7 +392,7 @@ def ecrire_llms(pages):
         f"Belgique : {nombre(total)} terrains dans {nombre(nb_communes)} communes, en Wallonie, "
         f"en Flandre et à Bruxelles. Site en français, néerlandais, allemand et anglais.",
         "",
-        "Les terrains viennent d'OpenStreetMap et sont mis à jour chaque semaine ; les photos "
+        "Les terrains viennent d'OpenStreetMap et sont mis à jour quotidiennement ; les photos "
         "viennent de Mapillary. Sur la carte, chaque terrain a une fiche : emplacement, "
         "photos, itinéraire, notes et avis de visiteurs. Les clubs de pétanque peuvent aussi "
         "être affichés. Le site est gratuit, sans compte ni publicité, et son code est "

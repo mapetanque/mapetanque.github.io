@@ -2,7 +2,7 @@
 
 > Carte interactive et gratuite des terrains de pétanque accessibles au public en Belgique : 1 763 terrains dans 510 communes, en Wallonie, en Flandre et à Bruxelles. Site en français, néerlandais, allemand et anglais.
 
-Les terrains viennent d'OpenStreetMap et sont mis à jour chaque semaine ; les photos viennent de Mapillary. Sur la carte, chaque terrain a une fiche : emplacement, photos, itinéraire, notes et avis de visiteurs. Les clubs de pétanque peuvent aussi être affichés. Le site est gratuit, sans compte ni publicité, et son code est ouvert. Contact : mapetanque@outlook.be.
+Les terrains viennent d'OpenStreetMap et sont mis à jour quotidiennement ; les photos viennent de Mapillary. Sur la carte, chaque terrain a une fiche : emplacement, photos, itinéraire, notes et avis de visiteurs. Les clubs de pétanque peuvent aussi être affichés. Le site est gratuit, sans compte ni publicité, et son code est ouvert. Contact : mapetanque@outlook.be.
 
 ## Terrains par région et par province
 

@@ -16,8 +16,9 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 - Sur les pages province : uniquement les terrains de cette province, en marqueurs individuels sans regroupement (le jeu de données étant déjà restreint)
 - Sur les pages région : tous les terrains de la région, avec regroupement en clusters (une région comme la Flandre approche les 1 200 terrains)
 - Données des terrains issues d'OpenStreetMap (requête Overpass ciblant `leisure=pitch` + `sport=boules`/`petanque` sur la Belgique)
-- Régénération hebdomadaire automatique via le script `scripts/update_terrains.py`
+- Régénération quotidienne automatique via le script `scripts/update_terrains.py`
 - Nom de rue/lieu le plus proche calculé pour chaque terrain (géocodage inversé Nominatim), **précalculé et stocké directement dans `terrains.geojson`** pour création d'un titre dynamique
+- Adresses Nominatim gardées dans `data/adresses_nominatim.json` : un terrain qui n'a pas bougé (moins de 25 m) reprend son adresse au lieu d'être regéocodé ; seules les 60 adresses les plus anciennes sont redemandées à chaque passage (tout est revu en un mois environ), plus les terrains nouveaux ou déplacés
 - Molette de la souris et glissé tactile désactivés par défaut sur la carte (activés au premier clic/tap), pour ne pas intercepter le défilement normal de la page
 
 ## 📍 Localisation et recherche
@@ -86,7 +87,7 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 - Contenu tiré des données : intro (terrains, lieux, atouts), une carte par lieu (pistes voisines réunies comme sur la carte, `data/groupes_terrains.json`), regroupées par localité, avec photo, revêtement et pastilles calculées par `criteres.js` lui-même (via Node.js), clubs de la commune, communes voisines, tuiles province et région ; bannière de la province
 - Pas de carte sur la page : un clic sur un terrain ouvre sa fiche complète sur place (`commune.js`), avec un lien « Voir sur la carte » ; le terrain s'ajoute à l'adresse (`#way-123`) pour le bouton retour et le partage. Les notes des joueurs s'affichent sur les cartes des terrains
 - Noms : nom local, comme sur le reste du site, sauf une courte liste de noms traduits d'usage courant (Anvers, Gand, Luik, Lüttich…, voir EXONYMES dans `scripts/communes_officielles.py`)
-- Génération via `scripts/generer_communes.py` (squelette de `comment-jouer.html`, voir `scripts/_squelette.py`), chaque semaine par le workflow OSM ; une commune passée sous deux lieux perd sa page
+- Génération via `scripts/generer_communes.py` (squelette de `comment-jouer.html`, voir `scripts/_squelette.py`), chaque jour par le workflow OSM ; une commune passée sous deux lieux perd sa page
 - Liens depuis les fiches terrain et club : le fil d'Ariane se termine sur la commune officielle, en lien vers sa page, et un lien « Voir les N terrains de … » est ajouté au bas de la fiche ; `generer_communes.py` écrit pour cela `data/communes_liens.json` (commune de chaque terrain et club, noms dans les quatre langues, existence de la page)
 - Propositions de la barre de recherche de l'accueil : dès deux lettres, communes, villages et terrains, comme sur Komoot ; une commune mène à sa page, un village à son sous-titre sur la page de sa commune, un terrain à sa fiche sur la carte. Plein écran sur téléphone. Tiré de `data/recherche.json`, écrit par `generer_communes.py` et téléchargé au premier caractère tapé : Nominatim interdit l'autocomplétion, il ne sert qu'à la touche Entrée (recherche d'adresse)
 
@@ -105,7 +106,7 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 - Fichiers partagés : `style.css`, `script.js`, `translations.js`
 - Fichiers additifs (n'écrasent aucune règle de `style.css`) : `style-accueil-provinces.css` (page d'accueil), `style-province.css` (pages province et région)
 - Hébergé sur GitHub Pages, domaine personnalisé `mapetanque.be`, déploiement automatique à chaque `git push`
-- Génération des données terrains via `scripts/update_terrains.py`, à exécuter manuellement ou via tâche planifiée (~30 min d'exécution à cause de la limite Nominatim d'1 requête/seconde) — produit `data/terrains.geojson` et `data/stats_geo.json`
+- Génération des données terrains via `scripts/update_terrains.py`, à exécuter manuellement ou via tâche planifiée (quelques minutes : seuls les terrains nouveaux, déplacés ou du lot de rafraîchissement passent par Nominatim, limité à 1 requête/seconde) — produit `data/terrains.geojson` et `data/stats_geo.json`
 - Génération des pages province/région via `scripts/generate_provinces.py`, à relancer après toute modification de `data/provinces.json`, `data/regions.json`, `templates/province_template.html`, `templates/region_template.html` ou `translations.js`
 
 ## 📲 Application installable (PWA)
@@ -125,7 +126,7 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
   - dans chacune, un bloc de données structurées schema.org (JSON-LD) : fil d'Ariane, type de page (article, application, page province…), et sur l'accueil le site, son auteur et le jeu de données des terrains
   - `sitemap.xml` en entier : chaque page de chaque langue avec ses versions dans les autres langues et sa date de modification (`data/sitemap_dates.json` garde une empreinte de chaque page pour la dater)
   - `llms.txt` : résumé du site pour les IA (convention llmstxt.org), avec les chiffres du jour
-- Lancé automatiquement par `generate_provinces.py` (donc chaque semaine par le workflow OSM), `generer_la_petanque.py` et `generer_a_propos.py` ; à relancer à la main après une modification de `index.html`, `comment-jouer.html` ou `compteur.html`
+- Lancé automatiquement par `generate_provinces.py` (donc chaque jour par le workflow OSM), `generer_la_petanque.py` et `generer_a_propos.py` ; à relancer à la main après une modification de `index.html`, `comment-jouer.html` ou `compteur.html`
 - Listes des communes des pages province écrites dans le HTML : les robots qui n'exécutent pas le JavaScript (la plupart des IA) les voient
 - `robots.txt` à la racine, sitemap soumis à Google Search Console
 - Balises Open Graph (`og:title`, `og:description`, `og:image`, `og:url`) pour un aperçu soigné lors du partage du lien sur les réseaux sociaux/messageries
@@ -188,7 +189,7 @@ Carte interactive recensant les terrains de pétanque accessibles au public en B
 │   ├── banniere-accueil.webp         # Bannière photo de l'accueil
 │   └── provinces/                    # Bannières et tuiles photo (provinces + régions)
 ├── scripts/
-│   ├── update_terrains.py            # Génération hebdomadaire des données terrains
+│   ├── update_terrains.py            # Génération quotidienne des données terrains
 │   ├── generate_provinces.py         # Génération des pages province/région
 │   ├── generer_communes.py           # Génération des pages commune
 │   ├── communes_officielles.py       # Rattachement d'un point à sa commune officielle

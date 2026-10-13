@@ -21,7 +21,7 @@
 
     var CHEMIN_DONNEES = "/data/beaux_terrains.json";
 
-    // Terrains promus par les votes des visiteurs, écrits chaque semaine par
+    // Terrains promus par les votes des visiteurs, écrits chaque jour par
     // scripts/promouvoir_terrains.py. Fichier facultatif : absent ou illisible, le carrousel
     // fonctionne comme avant avec les seuls épinglés.
     var CHEMIN_PROMUS = "/data/terrains_promus.json";

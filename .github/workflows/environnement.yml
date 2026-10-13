@@ -9,7 +9,7 @@
 # - Push qui modifie le script ou ce fichier : terrains pas encore calculés seulement (sert au
 #   premier remplissage, et à vérifier une modification du script).
 #
-# La mise à jour hebdomadaire (update-osm.yml) calcule de son côté les nouveaux terrains.
+# La mise à jour quotidienne (update-osm.yml) calcule de son côté les nouveaux terrains.
 # Les serveurs Overpass limitent les requêtes : compter environ une heure pour les ~1750
 # terrains. Ce qui est calculé est commité même si le passage s'interrompt, le suivant reprend.
 
@@ -66,6 +66,6 @@ jobs:
           git config --global user.email "actions@github.com"
           git add data/environnement.json data/terrains.geojson
           git commit -m "Critères d'environnement des terrains" || exit 0
-          # La mise à jour hebdomadaire et la publication des photos commitent aussi
+          # La mise à jour quotidienne et la publication des photos commitent aussi
           git pull --rebase
           git push

@@ -5,7 +5,7 @@ Pour chaque terrain, mesure la distance aux éléments OSM proches (bancs, jeux,
 potable, parkings, arrêts, routes, eau, voies vertes) et repère s'il est dans une zone
 nature. Les résultats vont dans data/environnement.json, indexé par osm_id, puis sont
 recopiés dans data/terrains.geojson (propriété « env ») pour que le site n'ait qu'un fichier
-à charger. update_terrains.py refait cette recopie à chaque mise à jour hebdomadaire.
+à charger. update_terrains.py refait cette recopie à chaque mise à jour quotidienne.
 
 On stocke les distances réelles (en m, jusqu'au rayon interrogé) et les types trouvés, pas
 des oui/non : les seuils d'affichage et de filtre sont appliqués par le site, et peuvent
