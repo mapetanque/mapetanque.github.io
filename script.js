@@ -219,10 +219,10 @@ window.addEventListener('popstate', function () {
 // navigation est construite ici : les pages n'ont qu'un <div class="header-nav-group"> vide.
 // Un changement de menu se fait donc à un seul endroit, pour tout le site et les quatre langues.
 // Trois rubriques, les trois axes du site, chacune en menu déroulant (mêmes liens que dans le
-// menu mobile et le pied de page) : « Explorer ▾ », « Chercher ▾ », « Jouer ▾ » ; puis le compte
+// menu mobile et le pied de page) : « Parcourir ▾ », « Chercher ▾ », « Jouer ▾ » ; puis le compte
 // et le sélecteur de langue. « La pétanque » et « À propos » sont dans le pied de page.
 
-// Liens « Explorer » : régions, provinces, communes. Partagés par les trois menus.
+// Liens « Parcourir » : régions, provinces, communes. Partagés par les trois menus.
 function liensExplorer(prefixe) {
     return [
         [prefixe + 'region-wallonie.html', t('geo_region_wallonie')],

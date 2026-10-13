@@ -29,7 +29,7 @@ de la recherche » dans script.js) : les 565 communes, les localités et les lie
 
 Et communes.html (FR) et nl/, de/, en/communes.html : toutes les communes qui ont au moins un
 terrain, par région et par province, avec un champ pour filtrer ; lien vers la page de la
-commune, ou vers la carte cadrée sur elle si elle n'en a pas. Elle est dans le menu « Explorer »
+commune, ou vers la carte cadrée sur elle si elle n'en a pas. Elle est dans le menu « Parcourir »
 (script.js) et sous la section ci-dessous.
 
 Et, sur l'accueil (index.html des quatre langues), la section « Les communes les mieux

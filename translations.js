@@ -342,7 +342,7 @@ const translations = {
         molette_touche: "Ctrl",
         // Carte sur mobile : un doigt fait défiler la page, deux doigts déplacent la carte
         deux_doigts_carte: "Utilisez deux doigts pour déplacer la carte",
-        pied_explorer: "Explorer",
+        pied_explorer: "Parcourir",
         pied_le_site: "Le site",
         pied_partager: "Partager",
         pied_toutes_provinces: "Toutes les provinces",
@@ -1081,7 +1081,7 @@ const translations = {
         molette_touche: "Ctrl",
         // Carte sur mobile : un doigt fait défiler la page, deux doigts déplacent la carte
         deux_doigts_carte: "Gebruik twee vingers om de kaart te verplaatsen",
-        pied_explorer: "Verkennen",
+        pied_explorer: "Bladeren",
         pied_le_site: "De site",
         pied_partager: "Delen",
         pied_toutes_provinces: "Alle provincies",
@@ -1820,7 +1820,7 @@ const translations = {
         molette_touche: "Strg",
         // Carte sur mobile : un doigt fait défiler la page, deux doigts déplacent la carte
         deux_doigts_carte: "Karte mit zwei Fingern verschieben",
-        pied_explorer: "Entdecken",
+        pied_explorer: "Stöbern",
         pied_le_site: "Die Website",
         pied_partager: "Teilen",
         pied_toutes_provinces: "Alle Provinzen",
@@ -2559,7 +2559,7 @@ const translations = {
         molette_touche: "Ctrl",
         // Carte sur mobile : un doigt fait défiler la page, deux doigts déplacent la carte
         deux_doigts_carte: "Use two fingers to move the map",
-        pied_explorer: "Explore",
+        pied_explorer: "Browse",
         pied_le_site: "The site",
         pied_partager: "Share",
         pied_toutes_provinces: "All provinces",
