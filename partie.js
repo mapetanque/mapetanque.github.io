@@ -32,7 +32,7 @@
     var PING = 30000;         // ms : garde la connexion ouverte (réponse sans réveiller le serveur)
 
     var CLE_SUIVIE = 'mapetanque_partie_suivie';           // dernière partie suivie sur ce téléphone : { code, quand }
-    var DUREE_SUIVIE = 12 * 3600000;                       // ms : une partie laissée plus longtemps est oubliée
+    var DUREE_SUIVIE = 12 * 3600000;                       // ms : une partie laissée plus longtemps est oubliée, et « Interrompue »
 
     var parametres = new URLSearchParams(window.location.search);
     var code = codeDemande(parametres.get('code'));
@@ -176,9 +176,16 @@
         return et.score_a >= et.objectif ? 'a' : 'b';
     }
 
+    // Partie non terminée, sans rien de neuf depuis DUREE_SUIVIE : laissée en plan (le compteur du
+    // créateur en commence d'ailleurs une nouvelle au même délai). Une mène marquée la relance.
+    function interrompue() {
+        return !donnees.etat.termine && majConnue > 0 && Date.now() - majConnue > DUREE_SUIVIE;
+    }
+
     function etiquette() {
         var et = donnees.etat;
         if (et.termine) return '<span class="pt-etiq gris">' + echapper(t('partie_terminee')) + '</span>';
+        if (interrompue()) return '<span class="pt-etiq gris">' + echapper(t('partie_interrompue')) + '</span>';
         var h;
         if (direct) h = '<span class="pt-etiq direct"><i></i>' + echapper(libelle('partie_en_direct', { n: et.menes.length + 1 })) + '</span>';
         else if (!et.menes.length) h = '<span class="pt-etiq">' + echapper(t('partie_pas_commencee')) + '</span>';
@@ -393,12 +400,12 @@
                 donnees = reponse.donnees;
                 erreur = '';
                 luA = new Date();
-                // Le créateur marque dans son compteur : seuls les autres « suivent » la partie
-                if (donnees.etat.termine) oublierSuivie();
-                else if (!donnees.marqueur_moi) retenirSuivie();
                 // Dernière mise à jour de la partie dans la base (« AAAA-MM-JJ HH:MM:SS », UTC, à la seconde)
                 var maj = Date.parse(String(donnees.maj || '').replace(' ', 'T') + 'Z');
                 if (maj > majConnue) majConnue = maj;
+                // Le créateur marque dans son compteur : seuls les autres « suivent » la partie
+                if (donnees.etat.termine || interrompue()) oublierSuivie();
+                else if (!donnees.marqueur_moi) retenirSuivie();
             } else if (reponse.statut === 404) {
                 oublierSuivie();
                 erreur = 'introuvable';

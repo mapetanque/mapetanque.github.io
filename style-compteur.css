@@ -602,6 +602,9 @@ body.fullscreen-lock {
 .bandeau-main[hidden]{ display: none; }
 .bandeau-main span{ overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .bandeau-main svg{ flex: 0 0 auto; width: 14px; height: 14px; color: var(--green); }
+/* Message bref (partie arrêtée après 12 h, main reprise…) : sur deux lignes plutôt que coupé */
+.bandeau-main.bandeau-message{ width: max-content; border-radius: 14px; }
+.bandeau-main.bandeau-message span{ white-space: normal; }
 .compteur-suit .team{ cursor: default; filter: saturate(.8); }
 .compteur-suit .team:active{ filter: saturate(.8); }
 .compteur-suit .controls, .compteur-suit .hint{ visibility: hidden; }

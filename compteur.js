@@ -22,6 +22,9 @@
   const DUREE_MIN = 5 * 60;          // secondes entre le premier et le dernier point
   const RAYON_PROPOSE = 500;         // m : terrain proposé d'office à la fin de la partie
   const RAYON_LISTE = 5000;          // m : terrains proposés par « Ajouter le terrain »
+  // Partie non terminée sans aucun point pendant ce temps : elle s'arrête, une nouvelle commence
+  // (même délai que la partie suivie de partie.js)
+  const PAUSE_MAX = 12 * 3600 * 1000;
 
   // Langue de la page d'après son adresse (/nl/, /de/, /en/), comme le reste de son contenu, et
   // non la langue préférée enregistrée par script.js, qui peut être différente.
@@ -291,6 +294,7 @@
   let minuteurPing = null;
   let majDistante = 0;          // heure (ms) du dernier état reçu : un état plus ancien est ignoré
   let messageMain = '';         // « Julie marque maintenant : votre compteur suit son score »
+  let pictoMessage = '';        // picto de messageMain (le crayon par défaut)
   let minuteurMessageMain = null;
 
   function places(equipe){
@@ -423,8 +427,9 @@
     [...el.targetToggle.children].forEach(btn => { btn.disabled = enSuivi && !state.finished; });
     $('undoWinBtn').hidden = enSuivi;
     const texteBandeau = messageMain || (enSuivi ? libelle('partie_marque', { pseudo: state.main }) : '');
-    el.bandeauMain.innerHTML = texteBandeau ? PICTOS.crayon + '<span>' + echapper(texteBandeau) + '</span>' : '';
+    el.bandeauMain.innerHTML = texteBandeau ? ((messageMain && pictoMessage) || PICTOS.crayon) + '<span>' + echapper(texteBandeau) + '</span>' : '';
     el.bandeauMain.hidden = !texteBandeau;
+    el.bandeauMain.classList.toggle('bandeau-message', !!messageMain);
 
     if (el.win.classList.contains('show')) renderCarte();
     sauvegarderPartie();
@@ -932,11 +937,12 @@
   // main ». La partie reste celle du créateur : son compteur l'enregistre à la fin, comme toujours.
 
   // Message bref dans le bandeau (main reprise, réseau absent…), puis le bandeau normal
-  function annoncerMain(texte){
+  function annoncerMain(texte, picto, duree){
     messageMain = texte;
+    pictoMessage = picto || '';
     el.annonce.textContent = texte;
     clearTimeout(minuteurMessageMain);
-    minuteurMessageMain = setTimeout(() => { messageMain = ''; render(); }, 6000);
+    minuteurMessageMain = setTimeout(() => { messageMain = ''; render(); }, duree || 6000);
     render();
   }
 
@@ -1195,7 +1201,7 @@
 
   document.addEventListener('visibilitychange', ()=>{
     if(verrouSouhaite && document.visibilityState === 'visible') garderEcranAllume();
-    if(document.visibilityState === 'visible') { envoyerFile(); brancherDirect(); }
+    if(document.visibilityState === 'visible') { arreterPartieOubliee(); envoyerFile(); brancherDirect(); }
     else debrancherDirect();   // le téléphone n'a pas à garder la connexion en poche
   });
 
@@ -1248,6 +1254,19 @@
     cacherVictoire();
     render();
     annoncerScore();
+  }
+
+  // Partie oubliée : non terminée, sans aucun point depuis PAUSE_MAX. Une nouvelle commence, comme
+  // avec « Nouvelle partie » (Annuler la ramène tant que la page reste ouverte). Rien n'est
+  // enregistré : une partie non terminée ne l'est jamais. Si un autre joueur a la main, son score
+  // arrive par le direct : ce compteur, peut-être en retard, ne juge pas.
+  function arreterPartieOubliee(){
+    if (state.finished || suit() || !state.menes.length || !state.debut) return;
+    const derniere = state.debut + state.menes[state.menes.length - 1].t * 1000;
+    if (Date.now() - derniere < PAUSE_MAX) return;
+    const jour = new Date(state.debut).toLocaleDateString(langue === 'en' ? 'en-GB' : langue + '-BE', { day: '2-digit', month: '2-digit' });
+    newGame();
+    annoncerMain(libelle('compteur_partie_arretee', { jour }), PICTOS.horloge, 15000);
   }
 
   // Toucher la moitié d'une équipe = +1, sauf sur une pastille (+2 à +6, ou +1 au clavier) ou
@@ -1558,6 +1577,7 @@
   // Envoi terminé pendant que la page était fermée : la partie n'attend plus dans la file
   if (state.finished && (state.envoi === 'attente' || state.envoi === 'en_cours') && !lireFile()[state.id]) state.envoi = 'ok';
   render();
+  arreterPartieOubliee();
   if (state.finished) afficherVictoire(false);
   envoyerFile();
   envoyerEtatPartage();   // partie partagée : qui a rejoint pendant que la page était fermée
