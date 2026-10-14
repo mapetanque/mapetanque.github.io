@@ -50,7 +50,7 @@ const translations = {
         respiration_autour: "Autour de moi",
         // Zone « compte » de l'accueil, sous la zone carte (voir /accueil-compte.js). Les écrans du
         // téléphone reprennent aussi des clés de Mes parties, Mon compte et du compteur.
-        compte_accueil_accroche: "Ici, on garde le fil !",
+        compte_accueil_accroche: "Ne perdez plus le fil !",
         compte_accueil_titre: "Un compte pour ne plus rien manquer",
         compte_accueil_parties_titre: "Vos parties, sauvegardées",
         compte_accueil_parties_texte: "Le compteur enregistre chaque partie : le score, le terrain, les joueurs.",
