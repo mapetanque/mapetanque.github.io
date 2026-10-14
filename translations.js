@@ -3,7 +3,7 @@ const translations = {
     fr: {
         html_lang: "fr",
 
-        meta_title: "Terrains de pétanque en Belgique et compteur de parties — Mapetanque.be",
+        meta_title: "Terrains de pétanque publics en Belgique et compteur de parties — Mapetanque.be",
         meta_description: "Plus de 1 700 terrains de pétanque publics en Belgique et un compteur de points gratuit : score en direct partagé par QR code, historique de vos parties.",
 
         locate_btn: "Me localiser",
@@ -356,7 +356,7 @@ const translations = {
         communes_page_aucune: "Aucune commune ne correspond à votre recherche.",
         provinces_page_titre: "Terrains de pétanque par province en Belgique",
         provinces_page_description: "Les {n} terrains de pétanque publics de Belgique, par région et par province : choisissez la vôtre pour voir ses communes et ses terrains.",
-        provinces_page_intro: "La Belgique compte <strong>{n} terrains de pétanque</strong> recensés sur Mapetanque.be, dans <strong>{c} communes</strong> réparties entre ses 10 provinces et la Région de Bruxelles-Capitale : {flandre} en Flandre, {wallonie} en Wallonie et {bruxelles} à Bruxelles. Choisissez votre province pour voir ses communes et ses terrains.",
+        provinces_page_intro: "La Belgique compte <strong>{n} terrains de pétanque publics</strong> recensés sur Mapetanque.be, dans <strong>{c} communes</strong> réparties entre ses 10 provinces et la Région de Bruxelles-Capitale : {flandre} en Flandre, {wallonie} en Wallonie et {bruxelles} à Bruxelles. Choisissez votre province pour voir ses communes et ses terrains.",
         provinces_page_chiffres: "{n} terrains · {p} provinces · {c} communes",
         provinces_page_chiffres_bruxelles: "{n} terrains · {c} communes",
         pied_signaler: "Signaler un terrain",
@@ -751,7 +751,7 @@ const translations = {
     nl: {
         html_lang: "nl",
 
-        meta_title: "Petanqueterreinen in België en scoreteller — Mapetanque.be",
+        meta_title: "Openbare petanqueterreinen in België en scoreteller — Mapetanque.be",
         meta_description: "Meer dan 1 700 openbare petanqueterreinen in België en een gratis scoreteller: de stand live gedeeld via QR-code, een overzicht van uw partijen.",
 
         locate_btn: "Localiseer mij",
@@ -1101,7 +1101,7 @@ const translations = {
         communes_page_aucune: "Geen gemeente komt overeen met je zoekopdracht.",
         provinces_page_titre: "Petanqueterreinen per provincie in België",
         provinces_page_description: "De {n} openbare petanqueterreinen van België, per regio en per provincie: kies je provincie om haar gemeenten en terreinen te zien.",
-        provinces_page_intro: "België telt <strong>{n} petanqueterreinen</strong> op Mapetanque.be, in <strong>{c} gemeenten</strong> verspreid over de 10 provincies en het Brussels Hoofdstedelijk Gewest: {flandre} in Vlaanderen, {wallonie} in Wallonië en {bruxelles} in Brussel. Kies je provincie om haar gemeenten en terreinen te zien.",
+        provinces_page_intro: "België telt <strong>{n} openbare petanqueterreinen</strong> op Mapetanque.be, in <strong>{c} gemeenten</strong> verspreid over de 10 provincies en het Brussels Hoofdstedelijk Gewest: {flandre} in Vlaanderen, {wallonie} in Wallonië en {bruxelles} in Brussel. Kies je provincie om haar gemeenten en terreinen te zien.",
         provinces_page_chiffres: "{n} terreinen · {p} provincies · {c} gemeenten",
         provinces_page_chiffres_bruxelles: "{n} terreinen · {c} gemeenten",
         pied_signaler: "Een terrein melden",
@@ -1496,7 +1496,7 @@ const translations = {
     de: {
         html_lang: "de",
 
-        meta_title: "Pétanque-Plätze in Belgien und Punktezähler — Mapetanque.be",
+        meta_title: "Öffentliche Pétanque-Plätze in Belgien und Punktezähler — Mapetanque.be",
         meta_description: "Über 1 700 öffentliche Pétanque-Plätze in Belgien und ein kostenloser Punktezähler: Spielstand live per QR-Code teilen, Ihre Partien im Überblick.",
 
         locate_btn: "Mein Standort",
@@ -1846,7 +1846,7 @@ const translations = {
         communes_page_aucune: "Keine Gemeinde entspricht Ihrer Suche.",
         provinces_page_titre: "Pétanque-Plätze nach Provinz in Belgien",
         provinces_page_description: "Die {n} öffentlichen Pétanque-Plätze Belgiens, nach Region und Provinz: Wählen Sie Ihre Provinz, um ihre Gemeinden und Plätze zu sehen.",
-        provinces_page_intro: "Belgien zählt <strong>{n} Pétanque-Plätze</strong> auf Mapetanque.be, in <strong>{c} Gemeinden</strong>, verteilt auf die 10 Provinzen und die Region Brüssel-Hauptstadt: {flandre} in Flandern, {wallonie} in der Wallonie und {bruxelles} in Brüssel. Wählen Sie Ihre Provinz, um ihre Gemeinden und Plätze zu sehen.",
+        provinces_page_intro: "Belgien zählt <strong>{n} öffentliche Pétanque-Plätze</strong> auf Mapetanque.be, in <strong>{c} Gemeinden</strong>, verteilt auf die 10 Provinzen und die Region Brüssel-Hauptstadt: {flandre} in Flandern, {wallonie} in der Wallonie und {bruxelles} in Brüssel. Wählen Sie Ihre Provinz, um ihre Gemeinden und Plätze zu sehen.",
         provinces_page_chiffres: "{n} Plätze · {p} Provinzen · {c} Gemeinden",
         provinces_page_chiffres_bruxelles: "{n} Plätze · {c} Gemeinden",
         pied_signaler: "Einen Platz melden",
@@ -2241,7 +2241,7 @@ const translations = {
     en: {
         html_lang: "en",
 
-        meta_title: "Pétanque courts in Belgium and score counter — Mapetanque.be",
+        meta_title: "Public pétanque courts in Belgium and score counter — Mapetanque.be",
         meta_description: "Over 1,700 public pétanque courts in Belgium and a free score counter: share the live score with a QR code and keep a history of your games.",
 
         locate_btn: "Locate me",
@@ -2591,7 +2591,7 @@ const translations = {
         communes_page_aucune: "No municipality matches your search.",
         provinces_page_titre: "Pétanque courts by province in Belgium",
         provinces_page_description: "Belgium's {n} public pétanque courts, by region and province: pick your province to see its municipalities and courts.",
-        provinces_page_intro: "Belgium has <strong>{n} pétanque courts</strong> listed on Mapetanque.be, in <strong>{c} municipalities</strong> across its 10 provinces and the Brussels-Capital Region: {flandre} in Flanders, {wallonie} in Wallonia and {bruxelles} in Brussels. Pick your province to see its municipalities and courts.",
+        provinces_page_intro: "Belgium has <strong>{n} public pétanque courts</strong> listed on Mapetanque.be, in <strong>{c} municipalities</strong> across its 10 provinces and the Brussels-Capital Region: {flandre} in Flanders, {wallonie} in Wallonia and {bruxelles} in Brussels. Pick your province to see its municipalities and courts.",
         provinces_page_chiffres: "{n} courts · {p} provinces · {c} municipalities",
         provinces_page_chiffres_bruxelles: "{n} courts · {c} municipalities",
         pied_signaler: "Report a court",
