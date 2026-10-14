@@ -477,16 +477,18 @@
             '<div class="mc-entete"></div>' +
             '<div class="connexion-carte mc-pseudo"></div>' +
 
-            // Mes parties avant Mes contributions : un bloc court, au-dessus d'une liste longue
+            // Mes parties avant Mes contributions : un bloc court, au-dessus d'une liste longue.
+            // Toute la tuile est le lien vers mes-parties.html ; « Voir mes parties… » n'en est que
+            // le libellé visible.
             '<h2 class="mc-titre">' + echapper(t('moncompte_parties_titre')) + '</h2>' +
-            '<div class="connexion-carte">' +
+            '<a class="connexion-carte mc-parties-carte" href="' + prefixe + 'mes-parties.html">' +
             '  <div class="connexion-avantage mc-parties">' +
             '    <div class="connexion-picto">' + PICTOS.parties + '</div>' +
             '    <div><strong>' + echapper(t('moncompte_parties_nom')) + '</strong>' +
             '    <span class="mc-parties-resume">' + echapper(t('compte_avantage_parties')) + '</span></div>' +
             '  </div>' +
-            '  <a class="mc-lien mc-parties-lien" href="' + prefixe + 'mes-parties.html">' + echapper(t('moncompte_parties_voir')) + '</a>' +
-            '</div>' +
+            '  <span class="mc-lien mc-parties-lien">' + echapper(t('moncompte_parties_voir')) + '</span>' +
+            '</a>' +
 
             '<h2 class="mc-titre">' + echapper(t('moncompte_envois_titre')) + '</h2>' +
             '<div class="mc-envois-zone"></div>' +

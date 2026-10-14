@@ -275,7 +275,23 @@ a.mc-envoi:hover {
     border-color: #74C15A;
 }
 
-/* --- Mes parties : résumé et lien vers mes-parties.html ------------------------------------ */
+/* --- Mes parties : toute la tuile mène à mes-parties.html ---------------------------------- */
+.mc-parties-carte {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.15s;
+}
+
+.mc-parties-carte:hover {
+    border-color: #74C15A;
+}
+
+.mc-parties-carte:focus-visible {
+    outline: 3px solid #74C15A;
+    outline-offset: 2px;
+}
+
 .mc-parties {
     margin-bottom: 0;
 }
@@ -283,6 +299,7 @@ a.mc-envoi:hover {
 .mc-parties-lien {
     font-size: 14.5px;
     font-weight: bold;
+    text-decoration: underline;
 }
 
 /* --- Suppression --------------------------------------------------------------------------- */
