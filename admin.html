@@ -307,6 +307,28 @@
     }
     .signalement-actions button.principal { border: none; background: #74c15a; color: #10240a; }
 
+    /* --- Mail d'avertissement : choix au moment de décider, état, envoi ------ */
+    .decision-mail {
+        display: flex; flex-direction: column; gap: 10px; padding: 12px 14px; max-width: 560px;
+        border-radius: 10px; border: 2px solid var(--vert); background: var(--surface);
+    }
+    .decision-mail.refus { border-color: var(--rouge); }
+    .decision-mail [hidden] { display: none; }
+    .decision-mail-titre { font-weight: 700; font-size: 14px; }
+    .decision-mail fieldset { border: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+    .decision-mail fieldset label { display: flex; gap: 8px; align-items: center; min-height: 36px; font-size: 14px; cursor: pointer; }
+    .decision-mail textarea {
+        min-height: 70px; padding: 8px 10px; border-radius: 8px; border: 1px solid #c8cbc2;
+        font: inherit; font-size: 14px; color: var(--encre); resize: vertical;
+    }
+    .decision-mail-erreur { color: var(--rouge); font-size: 13px; font-weight: 600; }
+    .decision-mail-erreur:empty { display: none; }
+    .decision-mail-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .etat-mail { font-size: 13px; color: var(--doux); }
+    .etat-mail.attente { color: var(--orange); font-weight: 600; }
+    #avertissementsEnvoyer[hidden] { display: none; }
+    #avertissementsEnvoyer:disabled { opacity: 0.5; cursor: default; }
+
     /* --- Onglets Notes et Visites ---------------------------------------- */
     .a-venir { padding: 40px 24px; text-align: center; color: var(--doux); font-size: 15px; }
     .kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
@@ -480,6 +502,7 @@
     <div class="bandeau-haut">
         <a href="/" class="logo" title="Retour au site"><img src="/images/mapetanque-boule.svg" alt="Mapetanque.be — retour au site"></a>
         <div class="bandeau-titre">Mapetanque — administration</div>
+        <button type="button" id="avertissementsEnvoyer" class="btn-discret" hidden>Envoyer mail maintenant</button>
         <button type="button" id="publierMaintenant" class="btn-principal">Publier maintenant</button>
         <button type="button" id="majOsm" class="btn-discret" title="Relit tout de suite les terrains dans OpenStreetMap">Mettre à jour depuis OSM</button>
         <button type="button" id="deconnexion" class="btn-discret">Se déconnecter</button>
@@ -1925,6 +1948,15 @@ function nomTerrain(osmId) {
     return NOMS_TERRAINS[osmId] || osmId;
 }
 
+// Terrain complet (nom, commune, position) parmi les candidats chargés, ou null.
+function terrainDe(osmId) {
+    for (const groupe of DONNEES) {
+        const terrain = groupe.terrains.find(t => t.osm_id === osmId);
+        if (terrain) return terrain;
+    }
+    return null;
+}
+
 async function chargerModeration() {
     let file;
     try {
@@ -1997,6 +2029,7 @@ function construireCarteModeration(photo) {
     const morceaux = ["reçue le " + (photo.cree || "").slice(0, 16)];
     if (photo.date_prise) morceaux.push("prise le " + photo.date_prise.slice(0, 16));
     if (photo.credit_nom) morceaux.push("à créditer : " + photo.credit_nom);
+    if (photo.avec_compte) morceaux.push("envoyée par le compte " + (photo.pseudo ? "« " + photo.pseudo + " »" : "sans pseudo"));
     if (photo.nom_fichier) morceaux.push(photo.nom_fichier);
     if (photo.statut === "validee") morceaux.push("VALIDÉE — en attente de publication");
     if (photo.statut === "envoyee") {
@@ -2008,6 +2041,8 @@ function construireCarteModeration(photo) {
     }
     meta.textContent = morceaux.join(" — ");
     info.appendChild(meta);
+    const mail = etatMail(photo, "photo");
+    if (mail) info.appendChild(mail);
 
     // Dernier échec d'envoi noté par le workflow : la photo sera retentée au
     // prochain passage, mais une erreur qui se répète doit se voir.
@@ -2021,11 +2056,36 @@ function construireCarteModeration(photo) {
     const actions = document.createElement("div");
     actions.className = "terrain-actions";
 
+    // Photo d'un compte : valider ou refuser ouvre d'abord le choix du mail (il n'y a pas
+    // d'adresse pour une photo envoyée sans compte). Pas de second mail si un est déjà parti.
+    let panneau = null;
+    function decider(decision, libelle) {
+        const refus = decision === "refuser";
+        // Confirmation : le refus efface le fichier de R2, sans retour possible.
+        const agir = choix => {
+            if (refus && !confirm("Refuser cette photo ? Le fichier sera définitivement supprimé.")) return;
+            moderer(photo, decision, div, choix);
+        };
+        if (!photo.avec_compte || photo.mail_envoye) {
+            agir(null);
+            return;
+        }
+        if (panneau) panneau.remove();
+        panneau = panneauDecisionMail({
+            refus,
+            type: "photo",
+            libelleConfirmer: libelle,
+            surConfirmer: agir,
+            surAnnuler: () => { panneau.remove(); panneau = null; }
+        });
+        info.appendChild(panneau);
+    }
+
     if (photo.statut === "en_attente") {
         const valider = document.createElement("button");
         valider.className = "btn btn-valider";
         valider.textContent = "Valider";
-        valider.addEventListener("click", () => moderer(photo, "valider", div));
+        valider.addEventListener("click", () => decider("valider", "Valider"));
         actions.appendChild(valider);
     }
 
@@ -2035,12 +2095,7 @@ function construireCarteModeration(photo) {
         const refuser = document.createElement("button");
         refuser.className = "btn btn-refuser";
         refuser.textContent = "Refuser et supprimer";
-        refuser.addEventListener("click", () => {
-            // Confirmation : le refus efface le fichier de R2, sans retour possible.
-            if (confirm("Refuser cette photo ? Le fichier sera définitivement supprimé.")) {
-                moderer(photo, "refuser", div);
-            }
-        });
+        refuser.addEventListener("click", () => decider("refuser", "Refuser et supprimer"));
         actions.appendChild(refuser);
     }
 
@@ -2057,9 +2112,25 @@ function construireCarteModeration(photo) {
     return div;
 }
 
-async function moderer(photo, decision, carte) {
-    const reponse = await ecrire("/admin/moderation", { id: photo.id, decision: decision });
+// choix : décision sur le mail (photo d'un compte), avec le nom et la position du terrain pour
+// le mail ; null sinon.
+async function moderer(photo, decision, carte, choix) {
+    const charge = { id: photo.id, decision: decision };
+    if (choix) {
+        Object.assign(charge, choix);
+        const terrain = terrainDe(photo.osm_id);
+        if (terrain) {
+            charge.libelle = terrain.nom + " — " + terrain.commune;
+            if (isFinite(terrain.lat) && isFinite(terrain.lon)) {
+                charge.lat = Number(terrain.lat).toFixed(6);
+                charge.lon = Number(terrain.lon).toFixed(6);
+            }
+        }
+    }
+    const reponse = await ecrire("/admin/moderation", charge);
     if (!reponse) return;
+    if (choix && choix.mail === "manuel") ouvrirMessagerie(photo.email, "Votre photo sur mapetanque.be");
+    if (choix) chargerAvertissements();
 
     if (decision === "refuser") {
         carte.remove();
@@ -3356,7 +3427,206 @@ async function chargerSignalements() {
     }
     majOngletSignalements();
     if (!document.getElementById("panneau-signalements").hidden) dessinerSignalements();
+    chargerAvertissements();
 }
+
+
+/* ===================== Mails d'avertissement ===================== */
+// Quand un signalement est traité ou refusé, ou qu'une photo envoyée par un compte est validée
+// ou refusée, la personne est prévenue par mail (Worker, workers/admin-avertissements.js). Au
+// moment de décider, un panneau demande : mail automatique (avec un mot personnel en option),
+// « je réponds moi-même » ou pas de mail. Les mails automatiques partent groupés une fois par
+// jour (un seul par personne), ou tout de suite avec « Envoyer mail maintenant » (en-tête).
+
+// Motifs de refus repris dans le mail (le texte du mail, en 4 langues, est dans le Worker).
+const MOTIFS_ERREUR = [
+    ["deja_correct", "Information déjà correcte"],
+    ["deja_corrige", "Déjà corrigée"],
+    ["inverifiable", "Impossible à vérifier"],
+    ["autre", "Autre (à expliquer dans le mot)"]
+];
+const MOTIFS_REFUS = {
+    manquant: [
+        ["introuvable", "Introuvable à l'endroit indiqué"],
+        ["prive", "Terrain privé"],
+        ["club", "Terrain de club réservé aux membres"],
+        ["deja_carte", "Déjà sur la carte"],
+        ["deja_signale", "Déjà signalé"],
+        ["autre", "Autre (à expliquer dans le mot)"]
+    ],
+    erreur: MOTIFS_ERREUR,
+    club: MOTIFS_ERREUR,
+    photo: [
+        ["floue", "Floue ou trop sombre"],
+        ["hors_sujet", "Ne montre pas le terrain"],
+        ["doublon", "Doublon"],
+        ["autre", "Autre (à expliquer dans le mot)"]
+    ]
+};
+
+function libelleMotif(type, code) {
+    const motif = (MOTIFS_REFUS[type] || []).find(([c]) => c === code);
+    return motif ? motif[1] : code;
+}
+
+// Panneau ouvert sous la carte au moment de décider ; rien n'est enregistré avant « Confirmer ».
+// options : { refus, type, libelleConfirmer, surConfirmer(choix), surAnnuler() }
+// choix : { mail: "auto" | "manuel" | "aucun", motif?, mot? }
+function panneauDecisionMail(options) {
+    const panneau = document.createElement("div");
+    panneau.className = "decision-mail" + (options.refus ? " refus" : "");
+
+    const titre = document.createElement("div");
+    titre.className = "decision-mail-titre";
+    titre.textContent = options.refus ? "Refus : prévenir la personne ?" : "Accepté : prévenir la personne ?";
+    panneau.appendChild(titre);
+
+    let motif = null;
+    if (options.refus) {
+        motif = document.createElement("select");
+        motif.className = "champ";
+        motif.setAttribute("aria-label", "Motif du refus");
+        motif.innerHTML = '<option value="">Motif du refus…</option>';
+        (MOTIFS_REFUS[options.type] || []).forEach(([code, libelle]) => {
+            const option = document.createElement("option");
+            option.value = code;
+            option.textContent = libelle;
+            motif.appendChild(option);
+        });
+        panneau.appendChild(motif);
+    }
+
+    const modes = document.createElement("fieldset");
+    const nom = "mail-" + Math.random().toString(36).slice(2);
+    [
+        ["auto", "Mail automatique, au prochain envoi (un seul mail par personne et par jour)"],
+        ["manuel", "Je réponds moi-même (ouvre ma messagerie)"],
+        ["aucun", "Pas de mail (spam, charabia…)"]
+    ].forEach(([valeur, libelle], i) => {
+        const etiquette = document.createElement("label");
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = nom;
+        radio.value = valeur;
+        radio.checked = i === 0;
+        etiquette.append(radio, libelle);
+        modes.appendChild(etiquette);
+    });
+    panneau.appendChild(modes);
+    const mode = () => modes.querySelector("input:checked").value;
+
+    const zoneMot = document.createElement("label");
+    zoneMot.className = "champ-libelle";
+    const mot = document.createElement("textarea");
+    mot.maxLength = 500;
+    zoneMot.append("Mot personnel ajouté au mail (facultatif ; obligatoire avec « Autre »)", mot);
+    panneau.appendChild(zoneMot);
+    modes.addEventListener("change", () => { zoneMot.hidden = mode() !== "auto"; });
+
+    const erreur = document.createElement("div");
+    erreur.className = "decision-mail-erreur";
+    panneau.appendChild(erreur);
+
+    const actions = document.createElement("div");
+    actions.className = "decision-mail-actions";
+    const confirmer = document.createElement("button");
+    confirmer.type = "button";
+    confirmer.className = "btn " + (options.refus ? "btn-refuser" : "btn-valider");
+    confirmer.textContent = options.libelleConfirmer;
+    confirmer.addEventListener("click", () => {
+        const choix = { mail: mode() };
+        if (motif && motif.value) choix.motif = motif.value;
+        if (choix.mail === "auto" && mot.value.trim()) choix.mot = mot.value.trim();
+        if (choix.mail === "auto" && options.refus && !choix.motif) {
+            erreur.textContent = "Choisis un motif : il est repris dans le mail.";
+            return;
+        }
+        if (choix.mail === "auto" && choix.motif === "autre" && !choix.mot) {
+            erreur.textContent = "Avec « Autre », écris un mot : c'est lui qui explique le refus.";
+            return;
+        }
+        options.surConfirmer(choix);
+    });
+    const annuler = document.createElement("button");
+    annuler.type = "button";
+    annuler.className = "btn";
+    annuler.textContent = "Annuler";
+    annuler.addEventListener("click", () => options.surAnnuler());
+    actions.append(confirmer, annuler);
+    panneau.appendChild(actions);
+    return panneau;
+}
+
+// Où en est le mail d'une contribution (champs mail_* renvoyés par le Worker) ; null si aucun choix.
+function etatMail(o, type) {
+    if (!o.mail_mode) return null;
+    const ligne = document.createElement("div");
+    let texte;
+    if (o.mail_mode === "manuel") texte = "Mail : réponse manuelle";
+    else if (o.mail_mode === "aucun") texte = "Mail : aucun";
+    else if (o.mail_envoye) texte = "Mail envoyé le " + dateLisible(o.mail_envoye);
+    else texte = "Mail automatique en attente : part au prochain envoi";
+    if (o.mail_motif) texte += " · motif : " + libelleMotif(type, o.mail_motif);
+    if (o.mail_mot) texte += " · mot : « " + o.mail_mot + " »";
+    ligne.className = "etat-mail" + (o.mail_mode === "auto" && !o.mail_envoye ? " attente" : "");
+    ligne.textContent = texte;
+    return ligne;
+}
+
+// Dates de la base (UTC, « AAAA-MM-JJ hh:mm:ss ») en heure locale lisible.
+function dateLisible(dateBase) {
+    const date = new Date(String(dateBase).replace(" ", "T") + "Z");
+    return isNaN(date) ? String(dateBase) : date.toLocaleString("fr-BE", { dateStyle: "medium", timeStyle: "short" });
+}
+
+// Ouvre la messagerie de Rémy, pour « je réponds moi-même ».
+function ouvrirMessagerie(adresse, sujet) {
+    if (!adresse) return;
+    window.location.href = "mailto:" + encodeURIComponent(adresse) + "?subject=" + encodeURIComponent(sujet);
+}
+
+// Bouton « Envoyer mail maintenant » de l'en-tête, à côté de « Publier maintenant » : nombre de
+// personnes à prévenir (signalements et photos) dans le libellé, détail et compte du jour dans
+// l'infobulle. Lu sans passer par appeler() : tant que le Worker n'a pas la route, le bouton
+// reste caché sans bandeau d'incident.
+async function chargerAvertissements() {
+    const bouton = document.getElementById("avertissementsEnvoyer");
+    let etat;
+    try {
+        const reponse = await fetch(URL_WORKER + "/admin/avertissements", { headers: { "Authorization": "Bearer " + jeton() } });
+        if (!reponse.ok) throw new Error(reponse.status);
+        etat = await reponse.json();
+    } catch (e) {
+        bouton.hidden = true;
+        return;
+    }
+    const pluriel = (n, mot) => n + " " + mot + (n > 1 ? "s" : "");
+    const attente = etat.contributions
+        ? pluriel(etat.contributions, "contribution") + " traitée(s) pour " + pluriel(etat.destinataires, "personne")
+          + " : envoi automatique chaque matin (9 h, 8 h en hiver)."
+        : "Aucun mail d'avertissement en attente.";
+    bouton.textContent = "Envoyer mail maintenant" + (etat.destinataires ? " (" + etat.destinataires + ")" : "");
+    bouton.title = attente + " Aujourd'hui : " + pluriel(etat.connexions_du_jour, "mail") + " de connexion, "
+        + pluriel(etat.avertissements_du_jour, "avertissement") + " (plafond " + etat.plafond + ").";
+    bouton.disabled = !etat.contributions;
+    bouton.hidden = false;
+}
+
+document.getElementById("avertissementsEnvoyer").addEventListener("click", async () => {
+    if (!confirm("Envoyer maintenant les mails en attente ?")) return;
+    const bouton = document.getElementById("avertissementsEnvoyer");
+    bouton.disabled = true;
+    try {
+        const bilan = await appeler("/admin/avertissements/envoyer", { method: "POST", body: "{}" }).then(r => r.json());
+        alert(bilan.envoyes + " mail(s) envoyé(s)"
+            + (bilan.echecs ? ", " + bilan.echecs + " en échec (voir les journaux du Worker)" : "")
+            + (bilan.reportes ? ", " + bilan.reportes + " reporté(s) à demain (plafond du jour)" : "") + ".");
+    } catch (e) {
+        // le bandeau d'incident a déjà parlé
+    }
+    chargerSignalements();
+    chargerModeration();
+});
 
 // Le nombre de signalements à traiter s'affiche dans l'onglet : c'est là qu'on le voit sans
 // avoir à ouvrir la rubrique.
@@ -3446,9 +3716,11 @@ function carteSignalement(s) {
         lien.href = "mailto:" + encodeURIComponent(s.email)
             + "?subject=" + encodeURIComponent("Votre signalement sur mapetanque.be");
         lien.textContent = s.email;
-        contact.append("Contact : ", lien);
+        contact.append("Contact : ", lien, s.avec_compte ? " (compte" + (s.pseudo ? " « " + s.pseudo + " »" : "") + ")" : "");
         carte.appendChild(contact);
     }
+    const mail = etatMail(s, s.type);
+    if (mail) carte.appendChild(mail);
 
     // Liens : le site au bon endroit, l'éditeur OSM (sur l'élément lui-même pour une erreur).
     // Un club ne vient pas d'OSM : lien vers sa fiche seulement, la correction se fait dans
@@ -3470,12 +3742,29 @@ function carteSignalement(s) {
         actions.appendChild(lienExterne("Éditeur OSM", "https://www.openstreetmap.org/edit#map=19/" + lat + "/" + lon));
     }
 
+    // Traiter ou refuser ouvre le choix du mail, sauf sans adresse (anciens signalements) ou si un
+    // mail est déjà parti pour ce signalement : il n'y en aura pas de second.
+    let panneau = null;
     function bouton(libelle, statut, principal) {
         const b = document.createElement("button");
         b.type = "button";
         b.textContent = libelle;
         if (principal) b.className = "principal";
-        b.addEventListener("click", () => changerStatutSignalement(s, statut));
+        b.addEventListener("click", () => {
+            if (statut === "nouveau" || !s.email || s.mail_envoye) {
+                changerStatutSignalement(s, statut, statut === "nouveau" ? null : { mail: "aucun" });
+                return;
+            }
+            if (panneau) panneau.remove();
+            panneau = panneauDecisionMail({
+                refus: statut === "refuse",
+                type: s.type,
+                libelleConfirmer: libelle,
+                surConfirmer: choix => changerStatutSignalement(s, statut, choix),
+                surAnnuler: () => { panneau.remove(); panneau = null; }
+            });
+            carte.appendChild(panneau);
+        });
         actions.appendChild(b);
     }
     if (s.statut === "nouveau") {
@@ -3490,12 +3779,26 @@ function carteSignalement(s) {
 }
 
 // Même règle que le reste de la page : l'affichage suit tout de suite, une erreur éventuelle
-// s'affiche dans le bandeau rouge.
-function changerStatutSignalement(s, statut) {
+// s'affiche dans le bandeau rouge. choix : décision sur le mail (null pour « Remettre à
+// traiter », qui efface un mail pas encore parti).
+function changerStatutSignalement(s, statut, choix) {
+    const charge = { id: s.id, statut: statut };
+    if (choix) {
+        Object.assign(charge, choix);
+        if (s.type !== "manquant" && s.titre) charge.libelle = s.titre;
+    }
     s.statut = statut;
+    if (!s.mail_envoye) {
+        s.mail_mode = choix ? choix.mail : null;
+        s.mail_motif = choix && choix.motif || null;
+        s.mail_mot = choix && choix.mot || null;
+    }
     majOngletSignalements();
     dessinerSignalements();
-    ecrire("/admin/signalements", { id: s.id, statut: statut });
+    ecrire("/admin/signalements", charge).then(() => chargerAvertissements());
+    if (choix && choix.mail === "manuel") {
+        ouvrirMessagerie(s.email, "Votre signalement sur mapetanque.be");
+    }
 }
 
 

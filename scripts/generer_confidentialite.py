@@ -100,12 +100,14 @@ CONTENU = {
                  "noter deux fois le même terrain."),
                 ("envoyez une photo",
                  " : la photo, sans ses métadonnées hormis la date (exigée par Mapillary), et "
-                 "votre pseudo éventuel pour le crédit."),
+                 "votre pseudo éventuel pour le crédit. Si vous êtes connecté, vous êtes prévenu par "
+                 "mail de la suite donnée."),
                 ("rédigez un avis",
                  " : le texte, la note, la langue et votre pseudo éventuel. Un identifiant "
                  "aléatoire gardé par votre navigateur permet de remplacer votre avis."),
                 ("signalez un terrain ou une erreur",
-                 " : l'emplacement et votre commentaire."),
+                 " : l'emplacement, votre commentaire et votre adresse mail, qui sert à vous "
+                 "prévenir de la suite donnée."),
                 ("créez un compte",
                  " : votre adresse mail, votre pseudo éventuel, la langue des mails et les "
                  "dates de création et de dernière connexion. Ce que vous envoyez en étant "
@@ -149,7 +151,7 @@ CONTENU = {
                  "Mapillary sous licence CC BY-SA, visages et plaques floutés ; sinon, elle est "
                  "supprimée."),
                 ("Avis", " : tant qu'il est publié ; refusé ou remplacé, supprimé après 30 jours."),
-                ("Signalement", " : un an au plus."),
+                ("Signalement", " : conservé pour garder une trace des corrections. Envoyé sans compte, son adresse e-mail est effacée après un an."),
                 ("Note", " : sans limite, de façon anonyme."),
                 ("Empreinte de l'adresse IP", " : quelques jours."),
             ],
@@ -160,7 +162,7 @@ CONTENU = {
                 ("Cloudflare",
                  " : traitement des contributions et des connexions, base de données, photos en "
                  "attente, mesure d'audience, protection anti-robots."),
-                ("Resend", " : envoi des mails de connexion, depuis l'Europe."),
+                ("Resend", " : envoi des mails de connexion et des mails qui vous préviennent de la suite donnée à vos contributions, depuis l'Europe."),
                 ("Google",
                  " : connexion avec un compte Google, si vous la choisissez. Google nous "
                  "transmet votre adresse mail, jamais votre mot de passe."),
@@ -243,12 +245,14 @@ CONTENU = {
                  "voorkomt dat je hetzelfde terrein twee keer beoordeelt."),
                 ("een foto verstuurt",
                  ": de foto, zonder metagegevens behalve de datum (vereist door Mapillary), en "
-                 "je eventuele bijnaam voor de naamsvermelding."),
+                 "je eventuele bijnaam voor de naamsvermelding. Ben je aangemeld, dan laten we je "
+                 "per e-mail weten wat ermee gebeurd is."),
                 ("een recensie schrijft",
                  ": de tekst, de beoordeling, de taal en je eventuele bijnaam. Een willekeurige "
                  "code die je browser bewaart, laat je toe je recensie te vervangen."),
                 ("een terrein of een fout meldt",
-                 ": de plaats en je opmerking."),
+                 ": de plaats, je opmerking en je e-mailadres, waarmee we je laten weten wat "
+                 "ermee gebeurd is."),
                 ("een account aanmaakt",
                  ": je e-mailadres, je eventuele bijnaam, de taal van de e-mails en de datum "
                  "van aanmaak en van je laatste aanmelding. Wat je verstuurt terwijl je "
@@ -293,7 +297,7 @@ CONTENU = {
                  "nummerplaten onherkenbaar gemaakt; anders wordt ze verwijderd."),
                 ("Recensie",
                  ": zolang ze gepubliceerd is; geweigerd of vervangen, na 30 dagen verwijderd."),
-                ("Melding", ": hoogstens een jaar."),
+                ("Melding", ": bewaard als spoor van de correcties. Verstuurd zonder account, wordt het e-mailadres na een jaar gewist."),
                 ("Beoordeling", ": onbeperkt, anoniem."),
                 ("Vingerafdruk van het IP-adres", ": enkele dagen."),
             ],
@@ -304,7 +308,7 @@ CONTENU = {
                 ("Cloudflare",
                  ": verwerking van bijdragen en aanmeldingen, database, foto's in "
                  "afwachting, bezoekersstatistieken, bescherming tegen robots."),
-                ("Resend", ": verzending van de aanmeldingsmails, vanuit Europa."),
+                ("Resend", ": verzending van de aanmeldingsmails en van de e-mails over het gevolg van je bijdragen, vanuit Europa."),
                 ("Google",
                  ": aanmelden met een Google-account, als u daarvoor kiest. Google geeft ons "
                  "uw e-mailadres door, nooit uw wachtwoord."),
@@ -386,12 +390,14 @@ CONTENU = {
                  "Monat) verhindert, dass Sie denselben Platz zweimal bewerten."),
                 ("ein Foto einsenden",
                  ": das Foto, ohne Metadaten außer dem Datum (von Mapillary verlangt), und Ihr "
-                 "eventueller Spitzname für die Namensnennung."),
+                 "eventueller Spitzname für die Namensnennung. Wenn Sie angemeldet sind, teilen wir "
+                 "Ihnen per E-Mail mit, was daraus geworden ist."),
                 ("eine Rezension schreiben",
                  ": der Text, die Bewertung, die Sprache und Ihr eventueller Spitzname. Eine "
                  "zufällige Kennung in Ihrem Browser ermöglicht es, Ihre Rezension zu ersetzen."),
                 ("einen Platz oder einen Fehler melden",
-                 ": der Ort und Ihr Kommentar."),
+                 ": der Ort, Ihr Kommentar und Ihre E-Mail-Adresse, über die wir Ihnen mitteilen, "
+                 "was daraus geworden ist."),
                 ("ein Konto anlegen",
                  ": Ihre E-Mail-Adresse, Ihr eventueller Spitzname, die Sprache der E-Mails "
                  "sowie das Datum der Erstellung und der letzten Anmeldung. Was Sie im "
@@ -438,7 +444,7 @@ CONTENU = {
                 ("Rezension",
                  ": solange sie veröffentlicht ist; abgelehnt oder ersetzt, nach 30 Tagen "
                  "gelöscht."),
-                ("Meldung", ": höchstens ein Jahr."),
+                ("Meldung", ": wird als Nachweis der Korrekturen aufbewahrt. Ohne Konto gesendet, wird die E-Mail-Adresse nach einem Jahr gelöscht."),
                 ("Bewertung", ": unbegrenzt, anonym."),
                 ("Fingerabdruck der IP-Adresse", ": einige Tage."),
             ],
@@ -449,7 +455,7 @@ CONTENU = {
                 ("Cloudflare",
                  ": Verarbeitung von Beiträgen und Anmeldungen, Datenbank, Fotos in "
                  "Prüfung, Besucherstatistik, Schutz vor Bots."),
-                ("Resend", ": Versand der Anmelde-E-Mails, aus Europa."),
+                ("Resend", ": Versand der Anmelde-E-Mails und der E-Mails über das Ergebnis Ihrer Beiträge, aus Europa."),
                 ("Google",
                  ": Anmeldung mit einem Google-Konto, wenn Sie diese wählen. Google übermittelt "
                  "uns Ihre E-Mail-Adresse, niemals Ihr Passwort."),
@@ -530,12 +536,14 @@ CONTENU = {
                  "from rating the same court twice."),
                 ("send a photo",
                  ": the photo, without its metadata except the date (required by Mapillary), "
-                 "and your optional nickname for the credit."),
+                 "and your optional nickname for the credit. If you are signed in, we let you know "
+                 "by email what came of it."),
                 ("write a review",
                  ": the text, the rating, the language and your optional nickname. A random "
                  "identifier kept by your browser lets you replace your review."),
                 ("report a court or an error",
-                 ": the location and your comment."),
+                 ": the location, your comment and your email address, used to let you know what "
+                 "came of it."),
                 ("create an account",
                  ": your email address, your optional nickname, the language of your emails, "
                  "and the dates of creation and last sign-in. What you send while signed in is "
@@ -580,7 +588,7 @@ CONTENU = {
                  "it is deleted."),
                 ("Review",
                  ": as long as it is published; rejected or replaced, deleted after 30 days."),
-                ("Report", ": one year at most."),
+                ("Report", ": kept as a record of corrections. If sent without an account, its email address is deleted after one year."),
                 ("Rating", ": indefinitely, anonymously."),
                 ("IP address fingerprint", ": a few days."),
             ],
@@ -591,7 +599,7 @@ CONTENU = {
                 ("Cloudflare",
                  ": processing of contributions and sign-ins, database, photos awaiting review, "
                  "visitor statistics, bot protection."),
-                ("Resend", ": sending of sign-in emails, from Europe."),
+                ("Resend", ": sending of sign-in emails and of emails about what came of your contributions, from Europe."),
                 ("Google",
                  ": sign-in with a Google account, if you choose it. Google passes on your "
                  "email address to us, never your password."),
