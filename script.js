@@ -3757,9 +3757,9 @@ function construireContenuPopupTerrain(feature, layer) {
     let tags = feature.properties;
 
     // Statut d'accès tel qu'OSM le précise. La grande majorité des terrains n'a pas de tag access :
-    // on l'indique comme « non confirmé », sans rien affirmer (voir la section « Fiabilité des
-    // informations » de l'À propos). Les terrains access=private/customers/no sont déjà écartés
-    // par la requête.
+    // on affiche alors « Accès public non confirmé », sans rien affirmer (voir la section
+    // « Fiabilité des informations » de l'À propos). Les terrains access=private/customers/no sont
+    // déjà écartés par la requête.
     let acces = (tags.access === "public" || tags.access === "yes") ? t('fiche_acces_public')
         : tags.access === "permissive" ? t('fiche_acces_tolere')
         : t('fiche_acces_inconnu');
