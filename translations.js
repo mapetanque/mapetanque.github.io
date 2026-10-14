@@ -8,7 +8,7 @@ const translations = {
 
         locate_btn: "Me localiser",
         search_placeholder: "Adresse, ville, région...",
-        hero_headline: "Trouvez un terrain de pétanque public",
+        hero_headline: "Trouvez un terrain de pétanque",
         browse_list_btn: "Parcourir",
         add_terrain_link: "Ajouter un terrain de pétanque",
         search_no_result: "Aucun résultat trouvé pour cette recherche.",
@@ -756,7 +756,7 @@ const translations = {
 
         locate_btn: "Localiseer mij",
         search_placeholder: "Adres, stad, regio...",
-        hero_headline: "Vind een openbare petanquebaan",
+        hero_headline: "Vind een petanquebaan",
         browse_list_btn: "Bekijken",
         add_terrain_link: "Een petanquebaan toevoegen",
         search_no_result: "Geen resultaat gevonden voor deze zoekopdracht.",
@@ -1501,7 +1501,7 @@ const translations = {
 
         locate_btn: "Mein Standort",
         search_placeholder: "Adresse, Stadt, Region...",
-        hero_headline: "Finden Sie einen öffentlichen Pétanque-Platz",
+        hero_headline: "Finden Sie einen Pétanque-Platz",
         browse_list_btn: "Durchsuchen",
         add_terrain_link: "Einen Platz hinzufügen",
         search_no_result: "Keine Ergebnisse für diese Suche gefunden.",
@@ -2246,7 +2246,7 @@ const translations = {
 
         locate_btn: "Locate me",
         search_placeholder: "Address, town, region...",
-        hero_headline: "Find a public pétanque court",
+        hero_headline: "Find a pétanque court",
         browse_list_btn: "Browse",
         add_terrain_link: "Add a pétanque court",
         search_no_result: "No results found for this search.",
