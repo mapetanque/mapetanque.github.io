@@ -593,10 +593,12 @@ const plan = PAGE_CARTE && typeof L.maplibreGL === 'function'
         attribution: '&copy; OpenStreetMap contributors'
     });
 
-// Fond satellite
+// Fond satellite. maxZoom aligné sur celui de la carte (19) : sans lui, Leaflet prend 18 par
+// défaut et le fond disparaissait au dernier cran de zoom. Esri a des images au 19 en Belgique.
 const satellite = L.tileLayer(
     'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
     {
+        maxZoom: 19,
         attribution: 'Tiles &copy; Esri'
     }
 );
