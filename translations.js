@@ -8,7 +8,7 @@ const translations = {
 
         locate_btn: "Me localiser",
         search_placeholder: "Adresse, ville, région...",
-        hero_headline: "Trouvez un terrain de pétanque",
+        hero_headline: "Trouvez un terrain de pétanque public",
         browse_list_btn: "Parcourir",
         add_terrain_link: "Ajouter un terrain de pétanque",
         search_no_result: "Aucun résultat trouvé pour cette recherche.",
@@ -44,7 +44,7 @@ const translations = {
         // dépend de la région détectée (page d'accueil) ou imposée (pages région).
         // Section « respiration » de l'accueil (sous le carrousel). Le nombre de terrains est écrit devant respiration_titre.
         respiration_accroche: "Votre prochaine partie vous attend !",
-        respiration_titre: "terrains à travers toute la Belgique",
+        respiration_titre: "terrains publics à travers toute la Belgique",
         respiration_texte: "En ville, au bord de l’eau ou en pleine nature, à l’abri de la pluie ou éclairé le soir : trouvez le terrain qui vous convient.",
         respiration_explorer: "Découvrir la carte",
         respiration_autour: "Autour de moi",
@@ -334,7 +334,7 @@ const translations = {
         filtres_sur_total: "sur %t",
 
         // Pied de page (construit par construirePied() dans script.js)
-        pied_accroche: "La carte collaborative des terrains de pétanque en Belgique, et un compteur pour vos parties.",
+        pied_accroche: "La carte collaborative des terrains de pétanque publics en Belgique, et un compteur pour vos parties.",
         pied_terrains: "terrains recensés",
         pied_photos: "avec photo",
         pied_maj: (date) => `Données mises à jour le ${date}`,
@@ -756,7 +756,7 @@ const translations = {
 
         locate_btn: "Localiseer mij",
         search_placeholder: "Adres, stad, regio...",
-        hero_headline: "Vind een petanquebaan",
+        hero_headline: "Vind een openbare petanquebaan",
         browse_list_btn: "Bekijken",
         add_terrain_link: "Een petanquebaan toevoegen",
         search_no_result: "Geen resultaat gevonden voor deze zoekopdracht.",
@@ -790,7 +790,7 @@ const translations = {
         stats_search_commune_placeholder: "Gemeente zoeken…",
         // Section « respiration » de l'accueil (sous le carrousel). Le nombre de terrains est écrit devant respiration_titre.
         respiration_accroche: "Je volgende partij wacht op je!",
-        respiration_titre: "terreinen in heel België",
+        respiration_titre: "openbare terreinen in heel België",
         respiration_texte: "Aan het water, in het centrum of midden in de natuur, overdekt of 's avonds verlicht: vind het terrein dat bij je past.",
         respiration_explorer: "Ontdek de kaart",
         respiration_autour: "In mijn buurt",
@@ -1079,7 +1079,7 @@ const translations = {
         filtres_sur_total: "van %t",
 
         // Pied de page (construit par construirePied() dans script.js)
-        pied_accroche: "De collaboratieve kaart van de petanqueterreinen in België, en een teller voor uw partijen.",
+        pied_accroche: "De collaboratieve kaart van de openbare petanqueterreinen in België, en een teller voor uw partijen.",
         pied_terrains: "terreinen geregistreerd",
         pied_photos: "met foto",
         pied_maj: (date) => `Gegevens bijgewerkt op ${date}`,
@@ -1501,7 +1501,7 @@ const translations = {
 
         locate_btn: "Mein Standort",
         search_placeholder: "Adresse, Stadt, Region...",
-        hero_headline: "Finden Sie einen Pétanque-Platz",
+        hero_headline: "Finden Sie einen öffentlichen Pétanque-Platz",
         browse_list_btn: "Durchsuchen",
         add_terrain_link: "Einen Platz hinzufügen",
         search_no_result: "Keine Ergebnisse für diese Suche gefunden.",
@@ -1535,7 +1535,7 @@ const translations = {
         stats_search_commune_placeholder: "Gemeinde suchen…",
         // Section « respiration » de l'accueil (sous le carrousel). Le nombre de terrains est écrit devant respiration_titre.
         respiration_accroche: "Ihre nächste Partie wartet auf Sie!",
-        respiration_titre: "Plätze in ganz Belgien",
+        respiration_titre: "öffentliche Plätze in ganz Belgien",
         respiration_texte: "Am Wasser, im Stadtzentrum oder mitten in der Natur, überdacht oder abends beleuchtet: Finden Sie den Platz, der zu Ihnen passt.",
         respiration_explorer: "Karte entdecken",
         respiration_autour: "In meiner Nähe",
@@ -1824,7 +1824,7 @@ const translations = {
         filtres_sur_total: "von %t",
 
         // Pied de page (construit par construirePied() dans script.js)
-        pied_accroche: "Die gemeinsame Karte der Pétanque-Plätze in Belgien und ein Zähler für Ihre Partien.",
+        pied_accroche: "Die gemeinsame Karte der öffentlichen Pétanque-Plätze in Belgien und ein Zähler für Ihre Partien.",
         pied_terrains: "Plätze erfasst",
         pied_photos: "mit Foto",
         pied_maj: (date) => `Daten aktualisiert am ${date}`,
@@ -2246,7 +2246,7 @@ const translations = {
 
         locate_btn: "Locate me",
         search_placeholder: "Address, town, region...",
-        hero_headline: "Find a pétanque court",
+        hero_headline: "Find a public pétanque court",
         browse_list_btn: "Browse",
         add_terrain_link: "Add a pétanque court",
         search_no_result: "No results found for this search.",
@@ -2280,7 +2280,7 @@ const translations = {
         stats_search_commune_placeholder: "Search for a municipality…",
         // Section « respiration » de l'accueil (sous le carrousel). Le nombre de terrains est écrit devant respiration_titre.
         respiration_accroche: "Your next game is waiting!",
-        respiration_titre: "courts all across Belgium",
+        respiration_titre: "public courts all across Belgium",
         respiration_texte: "By the water, in town or out in nature, sheltered from the rain or lit in the evening: find the court that suits you.",
         respiration_explorer: "Discover the map",
         respiration_autour: "Near me",
@@ -2569,7 +2569,7 @@ const translations = {
         filtres_sur_total: "of %t",
 
         // Pied de page (construit par construirePied() dans script.js)
-        pied_accroche: "The collaborative map of pétanque courts in Belgium, and a score counter for your games.",
+        pied_accroche: "The collaborative map of public pétanque courts in Belgium, and a score counter for your games.",
         pied_terrains: "courts listed",
         pied_photos: "with a photo",
         pied_maj: (date) => `Data updated on ${date}`,
