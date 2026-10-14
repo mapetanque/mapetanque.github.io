@@ -1,9 +1,9 @@
 {
   "wallonie": {
-    "total": 456,
+    "total": 470,
     "provinces": {
       "liege": {
-        "total": 150,
+        "total": 151,
         "communes": {
           "Fléron": 3,
           "Ougrée": 1,
@@ -32,7 +32,7 @@
           "Seraing": 4,
           "Saint-Nicolas": 1,
           "Aywaille": 4,
-          "Lontzen": 1,
+          "Lontzen": 2,
           "Vivegnis": 1,
           "Hannut": 2,
           "Montzen": 3,
@@ -163,7 +163,7 @@
         }
       },
       "brabant_wallon": {
-        "total": 49,
+        "total": 62,
         "communes": {
           "Walhain-Saint-Paul": 2,
           "Genappe": 1,
@@ -172,14 +172,14 @@
           "Wauthier-Braine": 3,
           "Braine-le-Château": 3,
           "Tubize": 8,
-          "Bierghes": 1,
+          "Bierghes": 13,
           "Perwez": 4,
           "Braine-l'Alleud": 4,
           "Court-Saint-Etienne": 1,
           "Chaumont-Gistoux": 1,
           "Huppaye": 2,
           "Waterloo": 4,
-          "Mont-Saint-Guibert": 2,
+          "Mont-Saint-Guibert": 3,
           "Nivelles": 2,
           "Villers-la-Ville": 2,
           "Rebecq-Rognon": 1,
