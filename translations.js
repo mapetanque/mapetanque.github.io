@@ -114,6 +114,7 @@ const translations = {
         // Fiche terrain (voir construireContenuPopupTerrain et brancherFicheTerrain dans script.js)
         fiche_acces_public: "Accès public",
         fiche_acces_tolere: "Accès toléré",
+        fiche_acces_inconnu: "Accès public non confirmé",
         fiche_ajouter_photo: "+ Ajouter une photo",
         fiche_itineraire: "Itinéraire",
         fiche_partager: "Partager",
@@ -858,6 +859,7 @@ const translations = {
         // Fiche terrain (voir construireContenuPopupTerrain et brancherFicheTerrain dans script.js)
         fiche_acces_public: "Openbaar toegankelijk",
         fiche_acces_tolere: "Toegang gedoogd",
+        fiche_acces_inconnu: "Openbare toegang niet bevestigd",
         fiche_ajouter_photo: "+ Foto toevoegen",
         fiche_itineraire: "Route",
         fiche_partager: "Delen",
@@ -1602,6 +1604,7 @@ const translations = {
         // Fiche terrain (voir construireContenuPopupTerrain et brancherFicheTerrain dans script.js)
         fiche_acces_public: "Öffentlich zugänglich",
         fiche_acces_tolere: "Zugang geduldet",
+        fiche_acces_inconnu: "Öffentlicher Zugang nicht bestätigt",
         fiche_ajouter_photo: "+ Foto hinzufügen",
         fiche_itineraire: "Route",
         fiche_partager: "Teilen",
@@ -2346,6 +2349,7 @@ const translations = {
         // Fiche terrain (voir construireContenuPopupTerrain et brancherFicheTerrain dans script.js)
         fiche_acces_public: "Public access",
         fiche_acces_tolere: "Access tolerated",
+        fiche_acces_inconnu: "Public access not confirmed",
         fiche_ajouter_photo: "+ Add a photo",
         fiche_itineraire: "Directions",
         fiche_partager: "Share",
