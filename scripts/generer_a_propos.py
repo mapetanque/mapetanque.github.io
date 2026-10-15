@@ -11,6 +11,7 @@ _squelette.py, partagée avec generer_la_petanque.py.
 Les pages existantes sont écrasées : modifier le contenu ci-dessous, puis relancer.
 """
 
+import json
 import re
 from pathlib import Path
 
@@ -81,7 +82,7 @@ CONTENU = {
             "paragraphes": [
                 "Mapetanque.be est né d'un constat : aucun site ne permettait de trouver "
                 "simplement les terrains de pétanque librement accessibles en Belgique. Il y en "
-                "a pourtant plus de mille sept cents.",
+                "a pourtant {n}.",
                 "Désormais, vous pouvez repérer un terrain près de chez vous ou près d'une "
                 "adresse donnée en quelques secondes, voir à quoi il ressemble, afficher "
                 "l'itinéraire et le partager avec vos amis.",
@@ -158,7 +159,7 @@ CONTENU = {
             "paragraphes": [
                 "Mapetanque.be is ontstaan uit een vaststelling: geen enkele website liet toe om "
                 "op een eenvoudige manier de vrij toegankelijke petanqueterreinen in België te "
-                "vinden. Toch zijn er meer dan zeventienhonderd.",
+                "vinden. Toch zijn er {n}.",
                 "Voortaan vind je in enkele seconden een terrein in je buurt of bij een "
                 "bepaald adres, zie je hoe het eruitziet, toon je de route en deel je het met "
                 "je vrienden.",
@@ -233,7 +234,7 @@ CONTENU = {
             "paragraphes": [
                 "Mapetanque.be entstand aus einer Feststellung: Es gab keine Website, auf der "
                 "sich die frei zugänglichen Pétanque-Plätze in Belgien einfach finden ließen. "
-                "Dabei gibt es davon mehr als 1.700.",
+                "Dabei gibt es davon {n}.",
                 "Jetzt finden Sie in wenigen Sekunden einen Platz in Ihrer Nähe oder bei "
                 "einer bestimmten Adresse, sehen, wie er aussieht, lassen sich die Route "
                 "anzeigen und teilen ihn mit Ihren Freunden.",
@@ -309,8 +310,8 @@ CONTENU = {
             "titre": "Why Mapetanque.be?",
             "paragraphes": [
                 "Mapetanque.be was born of a simple observation: no website made it easy to find "
-                "the freely accessible pétanque courts in Belgium. And yet there are more than "
-                "1,700 of them.",
+                "the freely accessible pétanque courts in Belgium. And yet there are {n} of "
+                "them.",
                 "Now you can find a court near you, or near any address, in a matter of seconds, "
                 "see what it looks like, get directions and share it with your friends.",
             ],
@@ -402,6 +403,20 @@ ICONE_MAIL = (
 )
 
 
+# Nombre de terrains, à la place de {n} dans le texte. Le chiffre écrit dans la page n'est qu'un
+# repli (moteurs de recherche, attente du chargement) : script.js le remplace par le total à jour
+# dans tout élément .nb-terrains-dynamique, avec le même format que formaterNombre().
+with open(RACINE / "data" / "terrains.geojson", encoding="utf-8") as f:
+    NB_TERRAINS = len(json.load(f)["features"])
+
+SEPARATEUR_MILLIERS = {"fr": " ", "nl": ".", "de": ".", "en": ","}
+
+
+def nombre_terrains(langue):
+    chiffre = f"{NB_TERRAINS:,}".replace(",", SEPARATEUR_MILLIERS[langue])
+    return f'<span class="nb-terrains-dynamique">{chiffre}</span>'
+
+
 def bloc_contenu(langue):
     morceaux = []
     for section in CONTENU[langue]:
@@ -410,7 +425,8 @@ def bloc_contenu(langue):
         morceaux.append(f'                <h2>{echap(section["titre"])}</h2>')
 
         for para in section.get("paragraphes", []):
-            morceaux.append(f"                <p>{echap(para)}</p>")
+            texte = echap(para).replace("{n}", nombre_terrains(langue))
+            morceaux.append(f"                <p>{texte}</p>")
 
         if section.get("sources"):
             morceaux.append('                <ul class="apropos-sources">')
