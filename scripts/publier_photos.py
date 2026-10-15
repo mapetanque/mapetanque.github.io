@@ -39,7 +39,9 @@ Sept phases, dans cet ordre. Une phase qui échoue n'empêche pas les suivantes
   4. Export. Le Worker fusionne toutes les décisions (revue des candidats,
      photos manuelles, photos de visiteurs rattachées, vues 360° générées) sur
      le data/photos_mapillary.json du dépôt, puis applique l'ordre et les
-     suppressions choisis dans la page admin. Le fichier est réécrit.
+     suppressions choisis dans la page admin, et copie chaque photo « tout le
+     lieu » sur les terrains voisins (data/groupes_terrains.json), avec son
+     terrain d'origine dans « de ». Le fichier est réécrit.
   5. Miniatures plates. Sur le photos_mapillary.json tout juste réécrit (et
      pour les tags OSM mapillary= de terrains.geojson), génère la miniature de
      chaque photo plate qui n'en a pas encore (images/mapillary-plates/, par
@@ -708,11 +710,13 @@ def phase_export(simulation):
     fusion = json.loads(brut.decode("utf-8"))
 
     # Garde-fou : le Worker ajoute et réordonne, et ne retire que les photos
-    # supprimées dans la page admin (panneau « Photos du terrain »). Toute autre
-    # photo perdue trahit un problème : on n'écrit rien. Les photos publiées
-    # directement sur le site (id_local) n'entrent pas dans le contrôle : le
-    # Worker les reconstruit entièrement d'après D1, une photo refusée disparaît.
-    socle_controle = {osm_id: [e for e in liste if not e.get("id_local")]
+    # supprimées ou masquées dans la page admin (panneau « Photos du terrain »).
+    # Toute autre photo perdue trahit un problème : on n'écrit rien. N'entrent pas
+    # dans le contrôle les photos publiées directement sur le site (id_local) : le
+    # Worker les reconstruit entièrement d'après D1, une photo refusée disparaît ;
+    # ni les copies d'une photo du lieu sur les terrains voisins (« de »), refaites
+    # à chaque export.
+    socle_controle = {osm_id: [e for e in liste if not e.get("id_local") and not e.get("de")]
                       for osm_id, liste in socle.items()}
     try:
         reglages = appel_worker("GET", "/workflow/photos-ordre")
@@ -721,7 +725,8 @@ def phase_export(simulation):
             raise
         reglages = {}   # Worker sans cette route : aucun retrait admis
     for osm_id, liste in socle_controle.items():
-        retirees = {str(i) for i in (reglages.get(osm_id) or {}).get("retirees", [])}
+        reglage = reglages.get(osm_id) or {}
+        retirees = {str(i) for i in reglage.get("retirees", []) + reglage.get("masquees", [])}
         attendues = {str(e.get("mapillary_id")) for e in liste} - retirees
         restantes = {str(e.get("mapillary_id")) for e in fusion.get(osm_id, [])}
         if attendues - restantes:

@@ -4577,6 +4577,8 @@ terrainsGeojson
 // Association simple osm_id -> {mapillary_id, credit_url}, tenue à jour depuis la page admin
 // (publiée par scripts/publier_photos.py). Fichier optionnel : son absence (site tout
 // juste mis à jour, avant le premier dépôt de ce fichier) ne doit rien casser.
+// Les photos d'un lieu y sont déjà copiées sur chaque terrain du groupe (entrées avec « de »,
+// le terrain d'origine) : contrairement aux notes et aux avis, aucun cumul à faire ici.
 window.photosMapillaryParOsmId = {};
 
 // Miniatures locales des photos plates et auteurs des photos (scripts/miniature_plate.py) :

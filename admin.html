@@ -114,6 +114,7 @@
     .moderation-choix label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
     .moderation-choix .case-mapillary { margin-left: 22px; }
     .moderation-choix .case-mapillary.inactive { opacity: .55; cursor: default; }
+    .moderation-choix-titre { margin-top: 6px; font-weight: 600; }
 
     /* --- Terrains : barre d'outils --------------------------------------- */
     #terrains { display: flex; flex-direction: column; }
@@ -257,6 +258,13 @@
     .galerie-actions .fleche { min-width: 44px; justify-content: center; font-size: 17px; }
     .galerie-actions .supprimer { margin-left: auto; color: var(--rouge); border-color: #d9b3ad; }
     .galerie-note { font-size: 12.5px; color: var(--doux); font-style: italic; }
+    .galerie-choix { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 4px; color: var(--encre); font-size: 13px; }
+    .galerie-choix[hidden] { display: none; }
+    .galerie-choix select { min-height: 34px; font: inherit; max-width: 100%; }
+    .galerie-masquees { display: flex; flex-direction: column; gap: 8px; }
+    .galerie-masquees[hidden] { display: none; }
+    .galerie-masquees h3 { margin: 6px 0 0; font-size: 16px; }
+    .galerie-photo.a-remettre { border-color: var(--vert); }
     /* Photo marquée pour suppression : écrit en toutes lettres, la couleur n'est qu'un repère. */
     .galerie-photo.a-supprimer { border-color: var(--rouge); background: var(--rouge-clair); }
     .galerie-photo.a-supprimer .galerie-cadre { opacity: 0.45; }
@@ -726,7 +734,13 @@
             L'ordre et les suppressions sont appliqués à la prochaine publication (chaque nuit, ou « Publier maintenant »).
             Le cadrage d'une vue 360° est enregistré tout de suite.</div>
         <div class="galerie-avertissement" id="galerieAvertissement" hidden></div>
+        <div class="terrain-meta" id="galerieLieu" hidden></div>
         <div class="galerie-liste" id="galerieListe"></div>
+        <div class="galerie-masquees" id="galerieMasquees" hidden>
+            <h3>Masquées sur ce terrain</h3>
+            <div class="terrain-meta">Photos du lieu retirées de ce terrain seulement : elles restent sur les autres terrains.</div>
+            <div class="galerie-liste" id="galerieMasqueesListe"></div>
+        </div>
         <div class="cadrage-actions">
             <span class="galerie-bilan" id="galerieBilan"></span>
             <button type="button" class="btn" id="galerieAnnuler">Annuler</button>
@@ -824,7 +838,8 @@ const CLE_JETON = "mapetanque_admin_jeton";
 let DONNEES = [];        // candidats, groupés par commune
 let ETAT = {};           // osm_id -> { statut, candidat_id, maj, photos: [...] }
 let PHOTOS_EN_LIGNE = {};
-let REGLAGES_PHOTOS = {};  // osm_id -> { ordre, retirees } (voir reglagesPhotos)
+let REGLAGES_PHOTOS = {};  // osm_id -> { ordre, retirees, masquees, terrain_seul } (voir reglagesPhotos)
+let LIEUX = {};            // osm_id -> osm_id de tous les terrains de son lieu (absent = terrain isolé)
 let REGLAGES_PHOTOS_DISPONIBLES = false;  // false : Worker sans la route /admin/photos/ordre
 let MINIATURES_PLATES = {}; // identifiant Mapillary -> { auteur, cadrage | vue_360 } (data/miniatures_plates.json)
 let APPARITIONS = {};   // osm_id -> date de première apparition (null = déjà là avant le suivi)
@@ -942,8 +957,25 @@ function vignettePlate(terrain, id) {
 //   ordre    : clés des photos dans l'ordre voulu (identifiant Mapillary, ou « visiteur-N »
 //              pour une photo de visiteur pas encore publiée). Les autres suivent.
 //   retirees : identifiants Mapillary à ne plus publier sur ce terrain.
+// Pour un terrain qui fait partie d'un lieu (pistes voisines, data/groupes_terrains.json), ses
+// photos valent par défaut pour tout le lieu : l'export les copie sur les autres terrains, avec
+// « de » (le terrain d'origine). L'ordre est alors le même pour tout le lieu.
+//   masquees     : photos du lieu à ne pas montrer sur ce terrain (« Retirer de ce terrain
+//                  seulement ») ; elles restent sur les autres.
+//   terrain_seul : photos de ce terrain visibles sur lui seul (« Visible sur : ce terrain seulement »).
 function reglagesPhotos(osmId) {
-    return REGLAGES_PHOTOS[osmId] || { ordre: [], retirees: [] };
+    const r = REGLAGES_PHOTOS[osmId] || {};
+    return { ordre: r.ordre || [], retirees: r.retirees || [], masquees: r.masquees || [], terrain_seul: r.terrain_seul || [] };
+}
+
+// Terrains du lieu de ce terrain (lui compris) ; [osmId] pour un terrain isolé.
+function lieuDe(osmId) {
+    return LIEUX[osmId] || [osmId];
+}
+
+// Clés sous lesquelles une photo du panneau peut être citée dans les réglages.
+function clesVue(vue) {
+    return [vue.cle, vue.cleVisiteur, vue.mapillaryId].filter(Boolean).map(String);
 }
 
 // Miniature locale d'une photo plate, celle que montre le site, quand le workflow l'a faite.
@@ -962,34 +994,40 @@ function miniaturePlate(id) {
 //   liste : [{ cle, type: "plate" | "360", enLigne, image, lien, legende, origine,
 //              mapillaryId, visiteurId, cleVisiteur, ligne, candidat, recadrageEnAttente }]
 //   (mapillaryId et visiteurId servent aux flèches de la vignette, quand il n'y a pas d'image ;
-//   ligne est la photo enregistrée dans D1, s'il y en a une : cadrage et suppression.)
-function photosTerrain(osmId) {
+//   ligne est la photo enregistrée dans D1, s'il y en a une : cadrage et suppression ;
+//   de : terrain voisin d'où vient une photo du lieu ; portee : "lieu" ou "terrain".)
+// avecMasquees : garde aussi les photos masquées sur ce terrain (pour les retrouver et les supprimer).
+function photosTerrain(osmId, avecMasquees) {
     const terrain = TERRAINS_PAR_ID[osmId];
     const etat = etatDe(osmId);
     const reglages = reglagesPhotos(osmId);
     const retirees = new Set(reglages.retirees.map(String));
+    const masquees = new Set(avecMasquees ? [] : reglages.masquees.map(String));
+    const terrainSeul = new Set(reglages.terrain_seul.map(String));
     const vues = new Map();
     const lienPhoto = id => "https://www.mapillary.com/app/?pKey=" + id + "&focus=photo";
 
     (PHOTOS_EN_LIGNE[osmId] || []).forEach(e => {
+        if ([e.id_local, e.mapillary_id].some(c => c && masquees.has(String(c)))) return;
+        const voisin = e.de ? { de: e.de, origine: "Photo du lieu, envoyée sur un terrain voisin" } : {};
         // Photo de visiteur publiée directement sur le site (miniature dans le dépôt des photos) :
         // sa clé est « visiteur-N », même une fois rattachée à Mapillary.
         if (e.photo_site) {
             const cle = String(e.id_local);
             if (!vues.has(cle)) {
-                vues.set(cle, { cle: cle, type: "plate", enLigne: true, image: e.photo_site, lien: e.grande || e.photo_site,
+                vues.set(cle, Object.assign({ cle: cle, type: "plate", enLigne: true, image: e.photo_site, lien: e.grande || e.photo_site,
                                 legende: "Photo en ligne", origine: "Envoyée par un visiteur",
-                                mapillaryId: e.mapillary_id ? String(e.mapillary_id) : null, cleVisiteur: cle });
+                                mapillaryId: e.mapillary_id ? String(e.mapillary_id) : null, cleVisiteur: cle }, voisin));
             }
             return;
         }
         const id = String(e.mapillary_id);
         if (vues.has(id) || retirees.has(id)) return;
-        vues.set(id, e.miniature_locale
+        vues.set(id, Object.assign(e.miniature_locale
             ? { cle: id, type: "360", enLigne: true, image: e.miniature_locale, lien: e.credit_url || lienPhoto(id),
                 legende: "Vue 360° en ligne", origine: "Photo retenue", mapillaryId: id }
             : { cle: id, type: "plate", enLigne: true, image: miniaturePlate(id) || vignettePlate(terrain, id),
-                lien: lienPhoto(id), legende: "Photo en ligne", origine: "Photo retenue", mapillaryId: id });
+                lien: lienPhoto(id), legende: "Photo en ligne", origine: "Photo retenue", mapillaryId: id }, voisin));
     });
 
     const enAttente = (type, id, image) => {
@@ -1035,7 +1073,11 @@ function photosTerrain(osmId) {
                 vue.cleVisiteur = "visiteur-" + p.id;
             }
         }
-        if (vue && p.id) vue.ligne = p;
+        // Photo enregistrée pour ce terrain : la sienne, même si l'export l'avait copiée d'un voisin.
+        if (vue && p.id) {
+            vue.ligne = p;
+            delete vue.de;
+        }
     });
 
     // Ordre choisi dans le panneau ; les photos qu'il ne cite pas suivent, dans l'ordre ci-dessus.
@@ -1045,7 +1087,11 @@ function photosTerrain(osmId) {
             .filter(i => i >= 0);
         return positions.length ? Math.min(...positions) : Infinity;
     };
+    vues.forEach(vue => {
+        vue.portee = !vue.de && clesVue(vue).some(c => terrainSeul.has(c)) ? "terrain" : "lieu";
+    });
     const liste = Array.from(vues.values())
+        .filter(vue => !clesVue(vue).some(c => masquees.has(c)))
         .map((vue, i) => ({ vue: vue, rang: rang(vue), i: i }))
         .sort((a, b) => (a.rang - b.rang) || (a.i - b.i))
         .map(x => x.vue);
@@ -2186,6 +2232,31 @@ function choixPublication(photo) {
     bloc.addEventListener("change", majCase);
     majCase();
 
+    // Terrain d'un lieu : la photo vaut pour tout le lieu, sauf si elle ne concerne que ce terrain
+    // (lu au moment de valider, photo.ceTerrainSeulement).
+    const membres = lieuDe(photo.osm_id);
+    photo.ceTerrainSeulement = () => false;
+    if (membres.length > 1 && REGLAGES_PHOTOS_DISPONIBLES) {
+        const titre = document.createElement("span");
+        titre.className = "moderation-choix-titre";
+        titre.textContent = "Visible sur :";
+        bloc.appendChild(titre);
+        const portee = (valeur, texte, coche) => {
+            const label = document.createElement("label");
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = "portee-" + photo.id;
+            radio.value = valeur;
+            radio.checked = coche;
+            label.append(radio, texte);
+            bloc.appendChild(label);
+            return radio;
+        };
+        portee("lieu", "tout le lieu (" + membres.length + " terrains)", true);
+        const seul = portee("terrain", "ce terrain seulement", false);
+        photo.ceTerrainSeulement = () => seul.checked;
+    }
+
     photo.choixPublication = () => ({
         affichage: direct.checked ? "direct" : "mapillary",
         mapillary: caseMapillary.checked
@@ -2217,6 +2288,13 @@ async function moderer(photo, decision, carte, choix) {
     if (decision === "refuser") {
         carte.remove();
     } else {
+        // Photo d'un lieu réservée à son terrain : sa clé « visiteur-N » vaut aussi une fois
+        // rattachée à Mapillary (le Worker fait le lien).
+        if (photo.ceTerrainSeulement && photo.ceTerrainSeulement()) {
+            const r = reglagesPhotos(photo.osm_id);
+            enregistrerReglagesPhotos(photo.osm_id, r.ordre, r.retirees,
+                { terrain_seul: Array.from(new Set(r.terrain_seul.concat("visiteur-" + photo.id))) });
+        }
         photo.statut = "validee";
         carte.classList.add("validee");
         const bouton = carte.querySelector(".btn-valider");
@@ -2236,9 +2314,17 @@ document.getElementById("moderationTitre").addEventListener("click", () => {
 
 // Enregistre l'ordre et les retraits d'un terrain. Mis à jour ici tout de suite, comme les
 // autres écritures ; le Worker les applique à l'export de photos_mapillary.json.
-function enregistrerReglagesPhotos(osmId, ordre, retirees) {
-    REGLAGES_PHOTOS[osmId] = { ordre: ordre, retirees: retirees };
-    return ecrire("/admin/photos/ordre", { osm_id: osmId, ordre: ordre, retirees: retirees });
+// lieu (facultatif, dans suite) : les terrains du lieu, qui reçoivent tous ce même ordre ;
+// masquees et terrain_seul (facultatifs) : absents, ils restent tels quels.
+function enregistrerReglagesPhotos(osmId, ordre, retirees, suite) {
+    const corps = Object.assign({ osm_id: osmId, ordre: ordre, retirees: retirees }, suite || {});
+    const actuels = reglagesPhotos(osmId);
+    REGLAGES_PHOTOS[osmId] = { ordre: ordre, retirees: retirees, masquees: corps.masquees || actuels.masquees,
+                               terrain_seul: corps.terrain_seul || actuels.terrain_seul };
+    (corps.lieu || []).forEach(id => {
+        if (id !== osmId) REGLAGES_PHOTOS[id] = Object.assign(reglagesPhotos(id), { ordre: ordre });
+    });
+    return ecrire("/admin/photos/ordre", corps);
 }
 
 // Une photo de nouveau retenue (ajoutée à la main, candidat réaccepté) sort des retraits :
@@ -2253,10 +2339,43 @@ function reprendrePhoto(osmId, mapillaryId) {
 // Le panneau travaille sur une copie de la liste : rien n'est écrit avant « Enregistrer ».
 // Les cartes sont construites une fois ; un déplacement ne change que leur propriété CSS
 // order, sans les déplacer dans la page : un embed Mapillary déplacé se rechargerait.
-const GALERIE = { terrain: null, apres: null, liste: [], suppressions: new Set(), cartes: new Map(), ordreInitial: [] };
+//   membres     : terrains du lieu (le terrain seul s'il est isolé) ;
+//   suppressions: clé -> "lieu" (retirée de tout le lieu, ou du terrain isolé) ou "terrain"
+//                 (retirée de ce terrain seulement) ;
+//   portees     : clé -> visibilité choisie pour une photo de ce terrain ("lieu" ou "terrain") ;
+//   masquees    : photos du lieu masquées sur ce terrain ; remises : celles à y remettre.
+const GALERIE = { terrain: null, apres: null, liste: [], suppressions: new Map(), cartes: new Map(), ordreInitial: [],
+                  membres: [], portees: new Map(), masquees: [], remises: new Set() };
 
 function clesGalerie() {
     return GALERIE.liste.filter(v => v.cle !== "osm" && !GALERIE.suppressions.has(v.cle)).map(v => v.cle);
+}
+
+// Visibilité d'une photo du panneau, compte tenu du choix en cours.
+function porteeGalerie(vue) {
+    return GALERIE.portees.get(vue.cle) || vue.portee;
+}
+
+// Photo montrée sur plusieurs terrains du lieu : on peut la retirer de ce terrain seulement.
+function partageeGalerie(vue) {
+    return GALERIE.membres.length > 1 && vue.cle !== "osm" && (!!vue.de || porteeGalerie(vue) === "lieu");
+}
+
+// Petite liste déroulante d'une carte du panneau.
+function choixGalerie(libelle, options, valeur, surChoix) {
+    const label = document.createElement("label");
+    label.className = "galerie-choix";
+    const select = document.createElement("select");
+    options.forEach(([v, texte]) => {
+        const option = document.createElement("option");
+        option.value = v;
+        option.textContent = texte;
+        select.appendChild(option);
+    });
+    select.value = valeur;
+    select.addEventListener("change", () => surChoix(select.value));
+    label.append(libelle + " ", select);
+    return label;
 }
 
 function decrirePhoto(vue) {
@@ -2277,6 +2396,39 @@ function obstacleSuppression(vue) {
 function estVisiteurDirect(vue) {
     const ligne = vue.ligne;
     return !!(ligne && ligne.origine === "visiteur" && (ligne.affichage === "direct" || !vue.mapillaryId));
+}
+
+// Supprime une photo d'un terrain (vue tirée de photosTerrain(osmId)). retirees : les retraits de
+// ce terrain, complétés ici ; le panneau les enregistre ensuite. Vrai si une photo de visiteur a
+// été refusée (la file de modération est alors à recharger).
+function supprimerPhoto(osmId, vue, retirees) {
+    const etat = etatDe(osmId);
+    const ligne = vue.ligne;
+    let refusee = false;
+    // Retirée de l'export : seule façon d'enlever une photo publiée par Mapillary. Une photo de
+    // visiteur publiée sur le site est refusée à la place (plus bas) : le Worker ne l'exporte plus.
+    if (vue.mapillaryId && REGLAGES_PHOTOS_DISPONIBLES && !estVisiteurDirect(vue)) retirees.add(vue.mapillaryId);
+    if (ligne && (ligne.origine === "manuelle" || ligne.origine === "pano360")) {
+        etat.photos = etat.photos.filter(p => p !== ligne);
+        ecrire("/admin/photos/supprimer", { id: ligne.id });
+    } else if (estVisiteurDirect(vue)) {
+        // Pas encore rattachée, ou publiée sur le site : refusée comme dans la modération
+        // (fichiers effacés de R2, miniature retirée du dépôt des photos au passage suivant).
+        etat.photos = etat.photos.filter(p => p !== ligne);
+        ecrire("/admin/moderation", { id: ligne.id, decision: "refuser" });
+        refusee = true;
+    }
+    if (vue.candidat) {
+        const terrain = TERRAINS_PAR_ID[osmId] || {};
+        etat.statut = "rejete";
+        etat.maj = maintenantUtc();
+        ecrire("/admin/revue", {
+            osm_id: osmId,
+            statut: "rejete",
+            candidat_id: terrain.candidat ? String(terrain.candidat.id) : (etat.candidat_id || null)
+        });
+    }
+    return refusee;
 }
 
 // Aperçu d'une vue 360° sans miniature à jour (pas encore publiée, ou recadrée depuis) :
@@ -2338,10 +2490,22 @@ function construirePhotoGalerie(vue) {
         id.textContent = "Mapillary " + vue.mapillaryId;
         texte.appendChild(id);
     }
+    // Photo de ce terrain dans un lieu : visible sur tout le lieu (par défaut) ou sur lui seul.
+    // Une photo du tag OSM n'est jamais copiée : elle reste sur son terrain.
+    const nbTerrains = GALERIE.membres.length;
+    if (nbTerrains > 1 && vue.cle !== "osm" && !vue.de) {
+        texte.appendChild(choixGalerie("Visible sur",
+            [["lieu", "tout le lieu (" + nbTerrains + " terrains)"], ["terrain", "ce terrain seulement"]],
+            porteeGalerie(vue), valeur => { GALERIE.portees.set(vue.cle, valeur); majGalerie(); }));
+    }
     const marque = document.createElement("span");
     marque.className = "galerie-marque-suppression";
-    marque.textContent = "Sera supprimée à l'enregistrement";
     texte.appendChild(marque);
+    const mode = choixGalerie("Retirer",
+        [["lieu", "de tout le lieu"], ["terrain", "de ce terrain seulement"]], "lieu",
+        valeur => { GALERIE.suppressions.set(vue.cle, valeur); majGalerie(); });
+    mode.hidden = true;
+    texte.appendChild(mode);
     carte.appendChild(texte);
 
     const actions = document.createElement("div");
@@ -2360,7 +2524,7 @@ function construirePhotoGalerie(vue) {
         return b;
     };
 
-    const elements = { carte: carte, rang: rang, avant: null, apres: null, supprimer: null };
+    const elements = { carte: carte, rang: rang, avant: null, apres: null, supprimer: null, marque: marque, mode: mode };
     if (vue.cle !== "osm") {
         elements.avant = bouton("◀", "Mettre avant", "fleche", () => deplacerGalerie(vue, -1));
         elements.apres = bouton("▶", "Mettre après", "fleche", () => deplacerGalerie(vue, 1));
@@ -2387,7 +2551,7 @@ function construirePhotoGalerie(vue) {
     } else {
         elements.supprimer = bouton("Supprimer", null, "supprimer", () => {
             if (GALERIE.suppressions.has(vue.cle)) GALERIE.suppressions.delete(vue.cle);
-            else GALERIE.suppressions.add(vue.cle);
+            else GALERIE.suppressions.set(vue.cle, "lieu");
             majGalerie();
         });
         carte.appendChild(actions);
@@ -2418,28 +2582,110 @@ function majGalerie() {
             e.apres.disabled = !REGLAGES_PHOTOS_DISPONIBLES || i === GALERIE.liste.length - 1;
         }
         if (e.supprimer) e.supprimer.textContent = supprimee ? "Garder" : "Supprimer";
+        // Choix « de tout le lieu / de ce terrain seulement » pour une photo montrée sur plusieurs
+        // terrains ; pour les autres, une suppression vaut partout.
+        const partagee = partageeGalerie(vue);
+        if (supprimee && !partagee) GALERIE.suppressions.set(vue.cle, "lieu");
+        const mode = GALERIE.suppressions.get(vue.cle);
+        e.mode.hidden = !supprimee || !partagee;
+        e.mode.querySelector("select").value = mode || "lieu";
+        e.marque.textContent = mode === "terrain" ? "Sera retirée de ce terrain à l'enregistrement"
+            : partagee ? "Sera supprimée de tout le lieu à l'enregistrement" : "Sera supprimée à l'enregistrement";
     });
 
     // Ordre comparé sur les photos gardées : une suppression seule ne change pas l'ordre.
     const n = GALERIE.suppressions.size;
     const ordreChange = clesGalerie().join(",")
         !== GALERIE.ordreInitial.filter(c => !GALERIE.suppressions.has(c)).join(",");
+    const visibilites = GALERIE.liste.filter(v => GALERIE.portees.has(v.cle) && GALERIE.portees.get(v.cle) !== v.portee).length;
+    const remises = GALERIE.remises.size;
+    const deCeTerrain = Array.from(GALERIE.suppressions.values()).filter(mode => mode === "terrain").length;
+    const partout = n - deCeTerrain;
     const morceaux = [];
-    if (n) morceaux.push(n + (n > 1 ? " photos à supprimer" : " photo à supprimer"));
+    if (partout) morceaux.push(partout + (partout > 1 ? " photos à supprimer" : " photo à supprimer"));
+    if (deCeTerrain) morceaux.push(deCeTerrain + (deCeTerrain > 1 ? " photos à retirer de ce terrain" : " photo à retirer de ce terrain"));
     if (ordreChange) morceaux.push("ordre modifié");
+    if (visibilites) morceaux.push("visibilité modifiée");
+    if (remises) morceaux.push(remises + (remises > 1 ? " photos à remettre" : " photo à remettre"));
     document.getElementById("galerieBilan").textContent = morceaux.join(" · ");
-    document.getElementById("galerieEnregistrer").disabled = !n && !ordreChange;
+    document.getElementById("galerieEnregistrer").disabled = !n && !ordreChange && !visibilites && !remises;
+}
+
+// Photos du lieu masquées sur ce terrain : elles restent sur les autres terrains, et peuvent
+// être remises ici. Cherchées chez les voisins (et sur ce terrain, tant que l'export ne les a
+// pas encore rangées chez un voisin).
+function photosMasquees(osmId) {
+    const masquees = new Set(reglagesPhotos(osmId).masquees.map(String));
+    const vues = new Map();
+    if (!masquees.size) return [];
+    lieuDe(osmId).forEach(id => {
+        photosTerrain(id, id === osmId).liste.forEach(v => {
+            if (!v.de && v.portee === "lieu" && !vues.has(v.cle) && clesVue(v).some(c => masquees.has(c))) vues.set(v.cle, v);
+        });
+    });
+    return Array.from(vues.values());
+}
+
+function construirePhotoMasquee(vue) {
+    const carte = document.createElement("div");
+    carte.className = "galerie-photo";
+    const cadre = document.createElement("div");
+    cadre.className = "galerie-cadre";
+    cadre.appendChild(vignetteGalerie(vue));
+    carte.appendChild(cadre);
+    const texte = document.createElement("div");
+    texte.className = "galerie-texte";
+    const titre = document.createElement("b");
+    titre.textContent = decrirePhoto(vue);
+    const etat = document.createElement("span");
+    texte.append(titre, etat);
+    carte.appendChild(texte);
+    const actions = document.createElement("div");
+    actions.className = "galerie-actions";
+    const bouton = document.createElement("button");
+    bouton.type = "button";
+    bouton.className = "btn";
+    const maj = () => {
+        const remise = GALERIE.remises.has(vue);
+        carte.classList.toggle("a-remettre", remise);
+        etat.textContent = remise ? "Sera remise sur ce terrain à l'enregistrement" : "Masquée sur ce terrain";
+        bouton.textContent = remise ? "Laisser masquée" : "Remettre sur ce terrain";
+    };
+    bouton.addEventListener("click", () => {
+        if (GALERIE.remises.has(vue)) GALERIE.remises.delete(vue);
+        else GALERIE.remises.add(vue);
+        maj();
+        majGalerie();
+    });
+    maj();
+    actions.appendChild(bouton);
+    carte.appendChild(actions);
+    return carte;
 }
 
 function ouvrirGalerie(terrain, apres) {
     GALERIE.terrain = terrain;
     GALERIE.apres = apres;
     GALERIE.liste = photosTerrain(terrain.osm_id).liste.slice();
-    GALERIE.suppressions = new Set();
+    GALERIE.suppressions = new Map();
     GALERIE.ordreInitial = clesGalerie();
     GALERIE.cartes = new Map();
+    GALERIE.membres = lieuDe(terrain.osm_id);
+    GALERIE.portees = new Map();
+    GALERIE.masquees = photosMasquees(terrain.osm_id);
+    GALERIE.remises = new Set();
 
     document.getElementById("galerieSousTitre").textContent = terrain.nom + " — " + terrain.commune;
+    const lieu = document.getElementById("galerieLieu");
+    lieu.hidden = GALERIE.membres.length < 2;
+    lieu.textContent = "Ce terrain fait partie d'un lieu de " + GALERIE.membres.length + " terrains voisins : "
+        + "ses photos s'affichent sur chacun d'eux, sauf celles réglées sur « ce terrain seulement ». "
+        + "L'ordre choisi ici vaut pour tout le lieu.";
+    const blocMasquees = document.getElementById("galerieMasquees");
+    const listeMasquees = document.getElementById("galerieMasqueesListe");
+    listeMasquees.innerHTML = "";
+    GALERIE.masquees.forEach(vue => listeMasquees.appendChild(construirePhotoMasquee(vue)));
+    blocMasquees.hidden = !GALERIE.masquees.length;
     const avertissement = document.getElementById("galerieAvertissement");
     avertissement.hidden = REGLAGES_PHOTOS_DISPONIBLES;
     avertissement.textContent = "Le Worker ne connaît pas encore l'ordre des photos (route /admin/photos/ordre) : "
@@ -2463,9 +2709,13 @@ document.getElementById("galerieAnnuler").addEventListener("click", () => {
 document.getElementById("galerieEnregistrer").addEventListener("click", () => {
     const terrain = GALERIE.terrain;
     const osmId = terrain.osm_id;
+    const membres = GALERIE.membres;
+    const enLieu = membres.length > 1;
     const supprimees = GALERIE.liste.filter(v => GALERIE.suppressions.has(v.cle));
+    const deCeTerrain = v => GALERIE.suppressions.get(v.cle) === "terrain" && partageeGalerie(v);
     if (supprimees.length) {
-        const liste = supprimees.map(v => "– " + decrirePhoto(v) + (v.mapillaryId ? " (" + v.mapillaryId + ")" : "")).join("\n");
+        const liste = supprimees.map(v => "– " + decrirePhoto(v) + (v.mapillaryId ? " (" + v.mapillaryId + ")" : "")
+            + (deCeTerrain(v) ? " : de ce terrain seulement" : partageeGalerie(v) ? " : de tout le lieu" : "")).join("\n");
         const question = supprimees.length > 1 ? "Supprimer ces " + supprimees.length + " photos du terrain ?" : "Supprimer cette photo du terrain ?";
         // Une photo de visiteur déjà partie chez Mapillary y reste : à supprimer là-bas à la main.
         const chezMapillary = supprimees.some(v => estVisiteurDirect(v) && (v.mapillaryId || v.ligne.statut === "envoyee"));
@@ -2473,36 +2723,52 @@ document.getElementById("galerieEnregistrer").addEventListener("click", () => {
         if (!confirm(question + "\n\n" + liste + rappel)) return;
     }
 
-    const etat = etatDe(osmId);
     const reglages = reglagesPhotos(osmId);
-    const retirees = new Set(reglages.retirees.map(String));
+    const masquees = new Set(reglages.masquees.map(String));
+    const terrainSeul = new Set(reglages.terrain_seul.map(String));
+    // Retraits de chaque terrain touché (plusieurs pour une photo retirée de tout le lieu).
+    const retirees = new Map();
+    const retireesDe = id => {
+        if (!retirees.has(id)) retirees.set(id, new Set(reglagesPhotos(id).retirees.map(String)));
+        return retirees.get(id);
+    };
+    retireesDe(osmId);
     let visiteurRefuse = false;
     supprimees.forEach(vue => {
-        const ligne = vue.ligne;
-        // Retirée de l'export : seule façon d'enlever une photo publiée par Mapillary. Une photo de
-        // visiteur publiée sur le site est refusée à la place (plus bas) : le Worker ne l'exporte plus.
-        if (vue.mapillaryId && REGLAGES_PHOTOS_DISPONIBLES && !estVisiteurDirect(vue)) retirees.add(vue.mapillaryId);
-        if (ligne && (ligne.origine === "manuelle" || ligne.origine === "pano360")) {
-            etat.photos = etat.photos.filter(p => p !== ligne);
-            ecrire("/admin/photos/supprimer", { id: ligne.id });
-        } else if (estVisiteurDirect(vue)) {
-            // Pas encore rattachée, ou publiée sur le site : refusée comme dans la modération
-            // (fichiers effacés de R2, miniature retirée du dépôt des photos au passage suivant).
-            etat.photos = etat.photos.filter(p => p !== ligne);
-            ecrire("/admin/moderation", { id: ligne.id, decision: "refuser" });
-            visiteurRefuse = true;
+        if (deCeTerrain(vue)) {
+            masquees.add(vue.cle);
+            return;
         }
-        if (vue.candidat) {
-            etat.statut = "rejete";
-            etat.maj = maintenantUtc();
-            ecrire("/admin/revue", {
-                osm_id: osmId,
-                statut: "rejete",
-                candidat_id: terrain.candidat ? String(terrain.candidat.id) : (etat.candidat_id || null)
-            });
+        if (!partageeGalerie(vue)) {
+            visiteurRefuse = supprimerPhoto(osmId, vue, retireesDe(osmId)) || visiteurRefuse;
+            return;
         }
+        // Retirée de tout le lieu : supprimée sur chaque terrain qui l'a en propre (son terrain
+        // d'origine, ou plusieurs quand elle avait été ajoutée à chaque piste). Ses copies
+        // disparaissent avec elle à la publication suivante.
+        const cles = new Set(clesVue(vue));
+        membres.forEach(id => {
+            const propre = photosTerrain(id, true).liste.find(v => !v.de && clesVue(v).some(c => cles.has(c)));
+            if (propre) visiteurRefuse = supprimerPhoto(id, propre, retireesDe(id)) || visiteurRefuse;
+        });
     });
-    if (REGLAGES_PHOTOS_DISPONIBLES) enregistrerReglagesPhotos(osmId, clesGalerie(), Array.from(retirees));
+    GALERIE.portees.forEach((portee, cle) => {
+        const vue = GALERIE.liste.find(v => v.cle === cle);
+        if (!vue) return;
+        clesVue(vue).forEach(c => terrainSeul.delete(c));
+        if (portee === "terrain") terrainSeul.add(vue.cle);
+    });
+    GALERIE.remises.forEach(vue => clesVue(vue).forEach(c => masquees.delete(c)));
+
+    if (REGLAGES_PHOTOS_DISPONIBLES) {
+        const ordre = clesGalerie();
+        retirees.forEach((liste, id) => {
+            if (id !== osmId) enregistrerReglagesPhotos(id, enLieu ? ordre : reglagesPhotos(id).ordre, Array.from(liste));
+        });
+        enregistrerReglagesPhotos(osmId, ordre, Array.from(retireesDe(osmId)), enLieu
+            ? { masquees: Array.from(masquees), terrain_seul: Array.from(terrainSeul), lieu: membres }
+            : null);
+    }
 
     document.getElementById("galerie").close();
     if (GALERIE.apres) GALERIE.apres();
@@ -4281,6 +4547,8 @@ async function demarrer() {
         PHOTOS_EN_LIGNE = enLigne;
         REGLAGES_PHOTOS = reglages || {};
         REGLAGES_PHOTOS_DISPONIBLES = !!reglages;
+        LIEUX = {};
+        (Array.isArray(groupes) ? groupes : []).forEach(g => g.forEach(id => { LIEUX[id] = g; }));
         MINIATURES_PLATES = miniatures;
         APPARITIONS = apparitions;
         PROPRIETES = {};
