@@ -1,6 +1,6 @@
 {
   "type": "FeatureCollection",
-  "mis_a_jour": "2026-10-14",
+  "mis_a_jour": "2026-10-15",
   "features": [
     {
       "type": "Feature",
@@ -2570,7 +2570,7 @@
         "sport": "boules",
         "osm_id": "way/48863327",
         "nearest_street": "Hemelsbreedte",
-        "commune": "Sinaai",
+        "commune": "Sint-Niklaas",
         "province": "flandre_orientale",
         "region": "flandre",
         "env": {
@@ -8255,7 +8255,7 @@
         "commune": "Bredene",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-sjc6-1.xx.fbcdn.net/m1/v/t6/AQObaG_zKxPNxY1BHdliPXiUvSdMTkKQA6pmE-NerE_3VYcrX7RGQyNFPdqBszIfj5_TYWfl3Mfv7Ofqyw1xxm3fGmkkBGGJzTawzvxsDb240yD0xR5x-EMisXtxc__yAC_292cfY8BZCxaqyjfabkCdSYtngpkwMputRxapyFMKFQ?stp=s1024x576&edm=ALXxkZ8EAAAA&_nc_gid=JRo6lAi_WnC-hyr9O51J3Q&_nc_oc=Adp3dI1ZAhOUieMQsqv7PZ-cgtyBSPUZhQQW8Ux-SuOf7mEYKfg9pGfD-ua4THLYDYY&ccb=10-5&oh=00_AQNnbRou-cVZH51y6_dzrIlq2nDH4zpbZLoZFJ3VRUFvZA&oe=6AF69658&_nc_sid=201bca",
+        "photo_url": "https://scontent-sjc3-1.xx.fbcdn.net/m1/v/t6/AQObaG_zKxPNxY1BHdliPXiUvSdMTkKQA6pmE-NerE_3VYcrX7RGQyNFPdqBszIfj5_TYWfl3Mfv7Ofqyw1xxm3fGmkkBGGJzTawzvxsDb240yD0xR5x-EMisXtxc__yAC_292cfY8BZCxaqyjfabkCdSYtngpkwMputRxapyFMKFQ?stp=s1024x576&edm=ALXxkZ8EAAAA&_nc_gid=YsAn5Mjjdca9gwrTEgGdFQ&_nc_oc=AdonRLjyUs4vyrkOfltZbX5jPJBzSXJcxrwVDUTfpYRn7eJ83AV60tlcjyA-wvZFVsc&ccb=10-5&oh=00_AQMakAC1gEwOUtYPcHcS5ShRGNxTvJVCyqretj8jI748EQ&oe=6AF7E7D8&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=283988963431148&focus=photo",
         "env": {
@@ -11825,7 +11825,7 @@
         "commune": "Knokke-Heist",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-sjc6-1.xx.fbcdn.net/m1/v/t6/AQMf_Yb7sgn2HtrhW_6VC0c3gNeSEqWcQrStUCOJgQQS_cGjvetA2ZiQTBxMFUq625Le4tBrGfxkE5kCmz4LxQPtyjoh4DWxfgxhM8HEYMnM_IZHy_emxlqMC6g7rrsPAg3kBJYIsFnsMxUPt82Xc0wmmChwgRq1je69gRbfpQwEZa4?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=_k8O8WIdVKJPH7nakkHSOA&_nc_oc=AdoEThv_e1aDDFcWp3QyUo-53wmPvcz1xLUuI6e8O8P2HMbPaUgOTovCveL6WG6bZCM&ccb=10-5&oh=00_AQOhkCB-AV5yx3GrIZTKSWKvpgWcuJuZ65AuCUaJzSUXdQ&oe=6AF6A1D5&_nc_sid=201bca",
+        "photo_url": "https://scontent-sjc3-1.xx.fbcdn.net/m1/v/t6/AQMf_Yb7sgn2HtrhW_6VC0c3gNeSEqWcQrStUCOJgQQS_cGjvetA2ZiQTBxMFUq625Le4tBrGfxkE5kCmz4LxQPtyjoh4DWxfgxhM8HEYMnM_IZHy_emxlqMC6g7rrsPAg3kBJYIsFnsMxUPt82Xc0wmmChwgRq1je69gRbfpQwEZa4?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=Hg2CvjU2ab7mdu5d8j1Aug&_nc_oc=AdqfGgsaeN6FV661aaFWYlljPZht__bD1wNqTwVr6K5DnfViC8CCuWZ8QQZmK3QUncM&ccb=10-5&oh=00_AQOfRI-9zzaEodXVpOOAluPQ1RrSUPJFjIPzfdak7-sbkg&oe=6AF7F355&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=2585664148528878&focus=photo",
         "env": {
@@ -54573,7 +54573,7 @@
         "commune": "Antwerpen",
         "province": "anvers",
         "region": "flandre",
-        "photo_url": "https://scontent-sjc6-1.xx.fbcdn.net/m1/v/t6/AQPfI6agvNEEMVKpP3RM558SjkEFr8qPLAFX83Byiw3SePq3c058M97fBB8BBpiRuiQGYx9aPGAwlDCLMH-kNrdWnpxsYkdF7Lv22yJ0fVVMowwxoTS0c1izmxwC_qQvATZVEsQK-Sf_oMR1OI24ZA-52JzH2VaGT8A-gvgPzUlcOis?stp=s1024x771&edm=ALXxkZ8EAAAA&_nc_gid=w9pv8EwErLx2gsn50iGGAQ&_nc_oc=Ado1hh5mhC5U0Dd2uvCYGsshMCpFdJ_WcLz1HZoUDQfSig1gCOG19bxylITGnfjyp9w&ccb=10-5&oh=00_AQOcI-CSVXnYurC6tWGklWiFNHXoKyH4c3fpKgf86Xce4w&oe=6AF6B520&_nc_sid=201bca",
+        "photo_url": "https://scontent-sjc3-1.xx.fbcdn.net/m1/v/t6/AQPfI6agvNEEMVKpP3RM558SjkEFr8qPLAFX83Byiw3SePq3c058M97fBB8BBpiRuiQGYx9aPGAwlDCLMH-kNrdWnpxsYkdF7Lv22yJ0fVVMowwxoTS0c1izmxwC_qQvATZVEsQK-Sf_oMR1OI24ZA-52JzH2VaGT8A-gvgPzUlcOis?stp=s1024x771&edm=ALXxkZ8EAAAA&_nc_gid=wZsulRzIb9YK3-phs0jzcA&_nc_oc=AdqVwbYBNUTSNjWExtni1yzp5za9Q11ZauhEKr_42bzUpiayLzcUS6Ru2cYuOiYbKd4&ccb=10-5&oh=00_AQNYWgfIp9tQrY2OJ33fWTs5XP7gzIvDy5jOBD4iPM2gVg&oe=6AF806A0&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1257601666575631&focus=photo",
         "env": {
@@ -56632,7 +56632,7 @@
         "commune": "Nieuwpoort",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-sjc6-1.xx.fbcdn.net/m1/v/t6/AQMOt-M_fs3kMGJ_cV0h0_kKwpcgrAm0Yu0v3qEl6fnjae5RZ4Y3EdlkIwQJBnVjoIzSVVB-ttm9P4a9WVmTY8Ss8YtnJdt8RO3u2NHAyxpk3Ysqsqm9z1NU3bl9_UAyme7RmjTao85pmNXfE7Rgxnfo18XkakJ7GYbqHitmw7V5FA?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=Ii2CyjfAPqfe8UKoxD5yHA&_nc_oc=AdoXX4u1HlsGSU1hQSzA7kXstmLvVSgcm1vfYhMG3yGMGmWuhB-VeBlppCd4UxvbuLs&ccb=10-5&oh=00_AQMJTZpxuOgclL6k4Z1DLGiIqiHI8BFp2nZWfbzopZwtLg&oe=6AF6B061&_nc_sid=201bca",
+        "photo_url": "https://scontent-sjc3-1.xx.fbcdn.net/m1/v/t6/AQMOt-M_fs3kMGJ_cV0h0_kKwpcgrAm0Yu0v3qEl6fnjae5RZ4Y3EdlkIwQJBnVjoIzSVVB-ttm9P4a9WVmTY8Ss8YtnJdt8RO3u2NHAyxpk3Ysqsqm9z1NU3bl9_UAyme7RmjTao85pmNXfE7Rgxnfo18XkakJ7GYbqHitmw7V5FA?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=CPPG7voqU4M1xYLuN8Jq0w&_nc_oc=Adr95unPLnyEfRzYzfLP2fLfJj2zZvknJN8oADba2dTwt7hiabqK5DWPTIECxaBLqfc&ccb=10-5&oh=00_AQPRLvbrfa05OOqCae_d20-7Lxr_77AASvBOtrffDDlGBQ&oe=6AF801E1&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1545369280832050&focus=photo",
         "env": {
@@ -56784,7 +56784,7 @@
         "commune": "Nieuwpoort",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-sjc6-1.xx.fbcdn.net/m1/v/t6/AQPfOMAvtcfdVkelBlQG8MmhkCTBsFsDU8vyOJNR5iy2fAjiZRiqLE3RJgJ1IyQmXPsdgj6sU9hDNMYwUtg7zuJ5t5acOGHbCdXZ2gOTsuvJldom2B7Q_WddocWOD0xj_igU-iVI1uDHQeuUk55oluPKEkPr1_q3-XDBUUGKvwCTcmk?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=HTCutVaBHniXsz0BBRhnBg&_nc_oc=Adr9tgFxbvDs3SE5g6I2LihVimMGyZLnfg2czdtCTjE7Kv45C9qW87mcdBW3a0iQFuQ&ccb=10-5&oh=00_AQMWgVEeuhGRU2iaKcKNwn4S4cyDr-vipBZE-Rf268SYPg&oe=6AF6B265&_nc_sid=201bca",
+        "photo_url": "https://scontent-sjc3-1.xx.fbcdn.net/m1/v/t6/AQPfOMAvtcfdVkelBlQG8MmhkCTBsFsDU8vyOJNR5iy2fAjiZRiqLE3RJgJ1IyQmXPsdgj6sU9hDNMYwUtg7zuJ5t5acOGHbCdXZ2gOTsuvJldom2B7Q_WddocWOD0xj_igU-iVI1uDHQeuUk55oluPKEkPr1_q3-XDBUUGKvwCTcmk?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=f28Zx0ORgrnax_55XoGXFw&_nc_oc=Adqz6zV6Eo2tpDIT3zScSvYhYzShUTLtTeg-wOcFZ8VmQueES-dkPy1VLttlhtQ8RsI&ccb=10-5&oh=00_AQMcyrt9DWgtjjemwi3Utl--jgn9oc_44YueDcNQDy-S9g&oe=6AF803E5&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1845376466819094&focus=photo",
         "env": {
@@ -56826,7 +56826,7 @@
         "commune": "Knokke-Heist",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-sjc6-1.xx.fbcdn.net/m1/v/t6/AQOMIrOhJmwR3NQ111tyTgDNNwT-xcI3tMvwRysfwbnkRVigPysgVDgzRm5f1CyVI__7XMnNN_DK4ycpGRvDKuUJKRWPFayH7v41n5OA4EmSOMFz8jPHqzw9BKZtbJkI9Zj8Ma3RX6gJDEH5HsV0LRjhUgEAutkZbhcxECFHFGpal40?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=AKBBWaT3wtoW6BNcMO1B8A&_nc_oc=AdrleJqDFflt-bj3Ge0GsRtqFcJfJJuVVJuOAoLGInjBO85D_dWUdxmQhYUIJuvGvGo&ccb=10-5&oh=00_AQOoqVqssGD152hlOAjOFbBvx5eD3tom1-uau4j9ex5eug&oe=6AF6A909&_nc_sid=201bca",
+        "photo_url": "https://scontent-sjc3-1.xx.fbcdn.net/m1/v/t6/AQOMIrOhJmwR3NQ111tyTgDNNwT-xcI3tMvwRysfwbnkRVigPysgVDgzRm5f1CyVI__7XMnNN_DK4ycpGRvDKuUJKRWPFayH7v41n5OA4EmSOMFz8jPHqzw9BKZtbJkI9Zj8Ma3RX6gJDEH5HsV0LRjhUgEAutkZbhcxECFHFGpal40?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=D3jIVHledeQuW7PXC9Xakg&_nc_oc=Adpqlo9QU8ADcH7irmSZ1PPSqfUukT7cJygKsht03flU8o0XFFBrewV1hrsSzEKm15I&ccb=10-5&oh=00_AQPHVZ5LXzKMTby8fzRnWKfClJcKT8QrbvqVBJbomIn30Q&oe=6AF7FA89&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1967944690557231&focus=photo",
         "env": {
@@ -58079,6 +58079,552 @@
             "residential": 7
           }
         }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.5500647,
+          50.0755738
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331452",
+        "nearest_street": "Parc Communal",
+        "commune": "Nismes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.5501009,
+          50.0756001
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331453",
+        "nearest_street": "Parc Communal",
+        "commune": "Nismes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.550138,
+          50.0756258
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331454",
+        "nearest_street": "Parc Communal",
+        "commune": "Nismes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.5500242,
+          50.075548
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331455",
+        "nearest_street": "Parc Communal",
+        "commune": "Nismes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.5501736,
+          50.0756515
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331456",
+        "nearest_street": "Parc Communal",
+        "commune": "Nismes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.550287,
+          50.0757301
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331457",
+        "nearest_street": "Parc Communal",
+        "commune": "Nismes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.5502505,
+          50.0757047
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331458",
+        "nearest_street": "Parc Communal",
+        "commune": "Nismes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.5502142,
+          50.0756781
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331459",
+        "nearest_street": "Parc Communal",
+        "commune": "Nismes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.5503227,
+          50.0757558
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331460",
+        "nearest_street": "Parc Communal",
+        "commune": "Nismes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.5503573,
+          50.0757809
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331461",
+        "nearest_street": "Parc Communal",
+        "commune": "Nismes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.5503924,
+          50.0758064
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331462",
+        "nearest_street": "Parc Communal",
+        "commune": "Nismes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.5499146,
+          50.0756273
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331463",
+        "nearest_street": "Parc Communal",
+        "commune": "Nismes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.5499521,
+          50.0756524
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331464",
+        "nearest_street": "Parc Communal",
+        "commune": "Nismes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.5499893,
+          50.0756772
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331465",
+        "nearest_street": "Parc Communal",
+        "commune": "Nismes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.550027,
+          50.0757028
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331466",
+        "nearest_street": "Parc Communal",
+        "commune": "Nismes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.5500651,
+          50.0757292
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331467",
+        "nearest_street": "Parc Communal",
+        "commune": "Nismes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.5501029,
+          50.0757566
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331468",
+        "nearest_street": "Parc Communal",
+        "commune": "Nismes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.5501385,
+          50.075782
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331469",
+        "nearest_street": "Parc Communal",
+        "commune": "Nismes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.5501752,
+          50.0758078
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331470",
+        "nearest_street": "Parc Communal",
+        "commune": "Nismes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.5502113,
+          50.0758324
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331471",
+        "nearest_street": "Parc Communal",
+        "commune": "Nismes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.5502474,
+          50.0758572
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331472",
+        "nearest_street": "Parc Communal",
+        "commune": "Nismes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.5502847,
+          50.0758828
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331473",
+        "nearest_street": "Parc Communal",
+        "commune": "Nismes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6676306,
+          50.5923666
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331867",
+        "nearest_street": "Rue Camille Cals",
+        "commune": "Gembloux",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6675925,
+          50.5923509
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331868",
+        "nearest_street": "Rue Camille Cals",
+        "commune": "Gembloux",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6675543,
+          50.5923358
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331869",
+        "nearest_street": null,
+        "commune": "Gembloux",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6675174,
+          50.5923199
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568331870",
+        "nearest_street": null,
+        "commune": "Gembloux",
+        "province": "namur",
+        "region": "wallonie"
       }
     }
   ]

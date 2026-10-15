@@ -1,6 +1,6 @@
 {
   "wallonie": {
-    "total": 470,
+    "total": 496,
     "provinces": {
       "liege": {
         "total": 151,
@@ -77,7 +77,7 @@
         }
       },
       "namur": {
-        "total": 89,
+        "total": 115,
         "communes": {
           "Hamois": 1,
           "Vencimont": 1,
@@ -99,7 +99,7 @@
           "Malvoisin": 2,
           "Sombreffe": 1,
           "Sambreville": 5,
-          "Gembloux": 2,
+          "Gembloux": 6,
           "Bioul": 1,
           "Eghezée": 6,
           "Floreffe": 1,
@@ -126,7 +126,8 @@
           "Hastière-Lavaux": 1,
           "Blaimont": 1,
           "Houyet": 2,
-          "Anhée": 1
+          "Anhée": 1,
+          "Nismes": 22
         }
       },
       "luxembourg": {
@@ -376,7 +377,7 @@
           "Hamme": 4,
           "Sint-Martens-Latem": 5,
           "Aalst": 13,
-          "Sinaai": 4,
+          "Sint-Niklaas": 12,
           "Mere": 2,
           "Etikhove": 1,
           "De Pinte": 8,
@@ -392,6 +393,7 @@
           "Deinze": 8,
           "Gijzenzele": 1,
           "Zingem": 2,
+          "Sinaai": 3,
           "Assenede": 1,
           "Lede": 4,
           "Merelbeke": 9,
@@ -411,7 +413,6 @@
           "Lovendegem": 1,
           "Steendorp": 2,
           "Landskouter": 1,
-          "Sint-Niklaas": 11,
           "Lochristi": 1,
           "Munkzwalm": 2,
           "Sint-Lievens-Houtem": 2,

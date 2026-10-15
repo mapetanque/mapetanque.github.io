@@ -1,6 +1,6 @@
 # Mapetanque.be
 
-> Site gratuit pour trouver un terrain de pétanque public en Belgique et compter les points de ses parties : une carte de 1 777 terrains dans 510 communes, en Wallonie, en Flandre et à Bruxelles, et un compteur de points avec score en direct. Site en français, néerlandais, allemand et anglais.
+> Site gratuit pour trouver un terrain de pétanque public en Belgique et compter les points de ses parties : une carte de 1 803 terrains dans 511 communes, en Wallonie, en Flandre et à Bruxelles, et un compteur de points avec score en direct. Site en français, néerlandais, allemand et anglais.
 
 Les terrains viennent d'OpenStreetMap et sont mis à jour quotidiennement ; les photos viennent de Mapillary. Sur la carte, chaque terrain a une fiche : emplacement, photos, itinéraire, notes et avis de visiteurs. Les clubs de pétanque peuvent aussi être affichés.
 
@@ -16,10 +16,10 @@ Le site est gratuit et sans publicité, le compte est facultatif, et le code est
 
 ## Terrains par région et par province
 
-- [Wallonie](https://mapetanque.be/region-wallonie.html): 470 terrains dans 207 communes
+- [Wallonie](https://mapetanque.be/region-wallonie.html): 496 terrains dans 208 communes
   - [Liège](https://mapetanque.be/province-liege.html): 151 terrains dans 69 communes
+  - [Namur](https://mapetanque.be/province-namur.html): 115 terrains dans 49 communes
   - [Hainaut](https://mapetanque.be/province-hainaut.html): 106 terrains dans 41 communes
-  - [Namur](https://mapetanque.be/province-namur.html): 89 terrains dans 48 communes
   - [Luxembourg](https://mapetanque.be/province-luxembourg.html): 62 terrains dans 28 communes
   - [Brabant wallon](https://mapetanque.be/province-brabant-wallon.html): 62 terrains dans 21 communes
 - [Flandre](https://mapetanque.be/region-flandre.html): 1 186 terrains dans 287 communes
