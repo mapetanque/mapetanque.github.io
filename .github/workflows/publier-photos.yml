@@ -1,12 +1,14 @@
 # Publication des photos de visiteurs validées dans la page admin.
 #
-# Envoie à Mapillary les photos validées, rattache l'identifiant de celles
-# envoyées lors d'un passage précédent (Mapillary met en général un à deux
-# jours à les traiter), génère les miniatures des vues 360° en attente,
-# reconstruit data/photos_mapillary.json, génère les miniatures des photos plates
-# qui en manquent, puis commite le tout. Le travail est fait par
-# scripts/publier_photos.py (avec scripts/miniature_360.py pour les 360° et
-# scripts/miniature_plate.py pour les photos plates).
+# Publie directement sur le site les photos validées « Publier tout de suite »
+# (miniature poussée dans le dépôt mapetanque/mapetanque-photos, grande version
+# rangée dans R2 par le Worker), envoie à Mapillary les photos qui doivent y aller,
+# rattache l'identifiant de celles envoyées lors d'un passage précédent
+# (Mapillary met en général un à deux jours à les traiter), génère les miniatures
+# des vues 360° en attente, reconstruit data/photos_mapillary.json, génère les
+# miniatures des photos plates qui en manquent, puis commite le tout. Le travail
+# est fait par scripts/publier_photos.py (avec scripts/miniature_360.py pour les
+# 360° et scripts/miniature_plate.py pour les photos plates et celles des visiteurs).
 #
 # Lancé chaque jour à 5 h UTC, après la mise à jour OSM quotidienne (3 h 17),
 # et à la demande par le bouton « Publier maintenant » de la page admin.
@@ -15,6 +17,10 @@
 #   MAPILLARY_USER_TOKEN  clé d'envoi de mapillary_tools (compte mapetanque)
 #   MAPILLARY_TOKEN       jeton client MLY|..., déjà utilisé par update-osm.yml
 #   JETON_WORKFLOW        clé partagée avec le Worker mapetanque-admin
+#   JETON_PHOTOS          jeton à accès fin limité à mapetanque/mapetanque-photos
+#                         (Contents en écriture) : le GITHUB_TOKEN ne couvre que ce
+#                         dépôt-ci. À régénérer avant son expiration ; s'il expire,
+#                         une issue le signale.
 
 name: Publication des photos
 
@@ -26,6 +32,8 @@ on:
 
 permissions:
   contents: write
+  # Issues d'alerte : taille du dépôt des photos, jeton JETON_PHOTOS refusé.
+  issues: write
 
 # Deux lancements rapprochés (horaire + bouton) passent l'un après l'autre :
 # jamais deux envois simultanés de la même photo.
@@ -41,6 +49,18 @@ jobs:
       - name: Récupération du projet
         uses: actions/checkout@v4
 
+      # Un jeton expiré ne doit pas bloquer le reste (envois Mapillary,
+      # rattachements, export) : l'étape peut échouer, le script le voit
+      # (dossier absent) et ouvre une issue.
+      - name: Récupération du dépôt des photos
+        id: depot_photos
+        continue-on-error: true
+        uses: actions/checkout@v4
+        with:
+          repository: mapetanque/mapetanque-photos
+          token: ${{ secrets.JETON_PHOTOS }}
+          path: _depot-photos
+
       # 3.12 plutôt que la 3.14 du workflow OSM : mapillary_tools et
       # ses dépendances y sont éprouvés.
       - name: Installation de Python
@@ -50,7 +70,7 @@ jobs:
 
       - name: Installation des dépendances
         run: |
-          pip install mapillary_tools piexif pillow numpy
+          pip install mapillary_tools piexif pillow numpy requests
 
       - name: Connexion à Mapillary
         env:
@@ -58,21 +78,29 @@ jobs:
         run: |
           mapillary_tools authenticate --user_name mapetanque --jwt "$MAPILLARY_USER_TOKEN"
 
-      - name: Rattachement, envoi et export
-        env:
-          JETON_WORKFLOW: ${{ secrets.JETON_WORKFLOW }}
-          MAPILLARY_TOKEN: ${{ secrets.MAPILLARY_TOKEN }}
-        run: |
-          python scripts/publier_photos.py
-
-      # Exécutée même si une phase a échoué : ce qui a été rattaché doit être
-      # publié. Pas de commit si le fichier n'a pas changé.
-      - name: Sauvegarde des changements
-        if: ${{ !cancelled() }}
+      # Le script commite et pousse lui-même le dépôt des photos (avant de
+      # déclarer une photo publiée) : l'identité Git doit être prête avant.
+      - name: Identité Git
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
 
+      - name: Rattachement, publication, envoi et export
+        env:
+          JETON_WORKFLOW: ${{ secrets.JETON_WORKFLOW }}
+          MAPILLARY_TOKEN: ${{ secrets.MAPILLARY_TOKEN }}
+          DOSSIER_PHOTOS: ${{ steps.depot_photos.outcome == 'success' && format('{0}/_depot-photos', github.workspace) || '' }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python scripts/publier_photos.py
+
+      # Exécutée même si une phase a échoué : ce qui a été rattaché doit être
+      # publié. Pas de commit si le fichier n'a pas changé. Le dépôt des photos
+      # est déjà poussé par le script : ses miniatures sont en ligne avant que
+      # photos_mapillary.json ne les cite.
+      - name: Sauvegarde des changements
+        if: ${{ !cancelled() }}
+        run: |
           git add data/photos_mapillary.json images/mapillary-360 data/miniatures_plates.json images/mapillary-plates
           git commit -m "Publication des photos" || exit 0
 

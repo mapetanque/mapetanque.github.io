@@ -100,8 +100,8 @@ CONTENU = {
             ],
             "paragraphes_apres": [
                 "Mais Mapetanque.be ne se contente pas de puiser dans ces bases : il les "
-                "alimente. Chaque terrain qui m'est signalé est ajouté à OpenStreetMap, et "
-                "chaque photo reçue est publiée sur Mapillary avant d'être affichée ici. Ce qui "
+                "alimente. Chaque terrain qui m'est signalé est ajouté à OpenStreetMap, et les "
+                "photos reçues sont, la plupart du temps, aussi publiées sur Mapillary. Ce qui "
                 "est collecté pour ce site profite donc à tout le monde.",
             ],
         },
@@ -110,8 +110,9 @@ CONTENU = {
             "titre": "Fiabilité des informations",
             "id": "fiabilite",
             "paragraphes": [
-                "Les terrains proviennent d'OpenStreetMap et les photos de Mapillary, deux bases "
-                "de données ouvertes et collaboratives. Ces informations sont données à titre "
+                "Les terrains proviennent d'OpenStreetMap et la plupart des photos de Mapillary, "
+                "deux bases de données ouvertes et collaboratives ; les autres photos sont "
+                "envoyées par les visiteurs du site. Ces informations sont données à titre "
                 "indicatif : un terrain peut avoir disparu, être mal situé ou ne pas être ouvert "
                 "au public (terrain de club, de café, propriété privée…). Sur place, fiez-vous à "
                 "la signalisation et au règlement des lieux.",
@@ -177,8 +178,8 @@ CONTENU = {
             ],
             "paragraphes_apres": [
                 "Maar Mapetanque.be put niet alleen uit die bronnen: de site voedt ze ook. Elk "
-                "terrein dat mij gemeld wordt, voeg ik toe aan OpenStreetMap, en elke foto die "
-                "ik ontvang wordt op Mapillary gepubliceerd voordat ze hier verschijnt. Wat voor "
+                "terrein dat mij gemeld wordt, voeg ik toe aan OpenStreetMap, en de foto's die ik "
+                "ontvang, worden meestal ook op Mapillary gepubliceerd. Wat voor "
                 "deze site verzameld wordt, komt dus iedereen ten goede.",
             ],
         },
@@ -186,8 +187,9 @@ CONTENU = {
             "titre": "Betrouwbaarheid van de informatie",
             "id": "fiabilite",
             "paragraphes": [
-                "De terreinen komen uit OpenStreetMap en de foto's uit Mapillary, twee open "
-                "databanken waaraan iedereen kan bijdragen. Deze informatie is louter indicatief: "
+                "De terreinen komen uit OpenStreetMap en de meeste foto's uit Mapillary, twee open "
+                "databanken waaraan iedereen kan bijdragen; de andere foto's worden ingestuurd "
+                "door bezoekers van de site. Deze informatie is louter indicatief: "
                 "een terrein kan verdwenen zijn, verkeerd gesitueerd zijn of niet openbaar "
                 "toegankelijk zijn (terrein van een club of een café, privéterrein…). Volg ter "
                 "plaatse de bewegwijzering en het reglement van de plek.",
@@ -253,8 +255,8 @@ CONTENU = {
             "paragraphes_apres": [
                 "Mapetanque.be schöpft aber nicht nur aus diesen Quellen, sondern trägt auch "
                 "dazu bei. Jeder Platz, der mir gemeldet wird, wird zu OpenStreetMap "
-                "hinzugefügt, und jedes eingesandte Foto wird auf Mapillary veröffentlicht, "
-                "bevor es hier erscheint. Was für diese Website gesammelt wird, kommt also allen "
+                "hinzugefügt, und die eingesandten Fotos werden meist auch auf Mapillary "
+                "veröffentlicht. Was für diese Website gesammelt wird, kommt also allen "
                 "zugute.",
             ],
         },
@@ -262,8 +264,9 @@ CONTENU = {
             "titre": "Zuverlässigkeit der Angaben",
             "id": "fiabilite",
             "paragraphes": [
-                "Die Plätze stammen aus OpenStreetMap und die Fotos aus Mapillary, zwei offenen, "
-                "gemeinschaftlich gepflegten Datenbanken. Diese Angaben sind unverbindlich: Ein "
+                "Die Plätze stammen aus OpenStreetMap und die meisten Fotos aus Mapillary, zwei "
+                "offenen, gemeinschaftlich gepflegten Datenbanken; die übrigen Fotos senden "
+                "Besucher der Website ein. Diese Angaben sind unverbindlich: Ein "
                 "Platz kann verschwunden, falsch eingetragen oder nicht öffentlich zugänglich "
                 "sein (Platz eines Vereins oder eines Cafés, Privatgelände…). Beachten Sie vor "
                 "Ort die Beschilderung und die dort geltenden Regeln.",
@@ -327,8 +330,8 @@ CONTENU = {
             ],
             "paragraphes_apres": [
                 "But Mapetanque.be doesn't just draw on these databases: it also contributes to "
-                "them. Every court reported to me is added to OpenStreetMap, and every photo I "
-                "receive is published on Mapillary before appearing here. What is collected for "
+                "them. Every court reported to me is added to OpenStreetMap, and the photos I "
+                "receive are usually also published on Mapillary. What is collected for "
                 "this site therefore benefits everyone.",
             ],
         },
@@ -336,8 +339,9 @@ CONTENU = {
             "titre": "How reliable is the information?",
             "id": "fiabilite",
             "paragraphes": [
-                "The courts come from OpenStreetMap and the photos from Mapillary, two open, "
-                "collaborative databases. This information is provided for guidance only: a "
+                "The courts come from OpenStreetMap and most photos from Mapillary, two open, "
+                "collaborative databases; the other photos are sent in by visitors to the site. "
+                "This information is provided for guidance only: a "
                 "court may have disappeared, be shown in the wrong place or not be open to the "
                 "public (a club's or a café's court, private property…). On site, follow the "
                 "signs and the rules of the place.",

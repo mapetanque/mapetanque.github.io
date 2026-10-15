@@ -463,7 +463,9 @@ def main():
         for osm_id, entree in entrees.items():
             liste = photos_en_ligne.get(osm_id) or []
             premiere = liste[0] if liste else None
-            if not premiere or premiere.get("miniature_locale"):
+            # Pas d'aperçu Mapillary pour une vue 360° ni pour une photo de visiteur publiée sur
+            # le site (photo_site) : la page admin montre leur miniature.
+            if not premiere or premiere.get("miniature_locale") or premiere.get("photo_site"):
                 entree.pop("apercu", None)
                 continue
             identifiant = str(premiere.get("mapillary_id", ""))

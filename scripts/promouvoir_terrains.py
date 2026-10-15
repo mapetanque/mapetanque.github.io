@@ -79,7 +79,12 @@ def score_pondere(somme, nombre):
 
 def miniature_de(photo):
     """Chemin web de la miniature 16:9 de la photo, ou None si elle n'est pas encore dans le
-    dépôt : le terrain est alors simplement ignoré cette semaine."""
+    dépôt : le terrain est alors simplement ignoré cette semaine. Une photo de visiteur publiée
+    directement sur le site a sa miniature 16:9 dans le dépôt mapetanque-photos : son adresse
+    complète est reprise telle quelle (elle n'est citée dans photos_mapillary.json qu'une fois
+    poussée)."""
+    if photo.get("photo_site"):
+        return photo["photo_site"]
     if photo.get("miniature_locale"):
         if (RACINE / photo["miniature_locale"].lstrip("/")).exists():
             return photo["miniature_locale"]

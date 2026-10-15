@@ -174,12 +174,14 @@ def generer(mapillary_id, token, reglages=None):
 
 def ids_de_photos_mapillary(photos):
     """(plates, vues_360) : identifiants de data/photos_mapillary.json. Une entrée avec
-    miniature_locale est une vue 360° (même règle que le site)."""
+    miniature_locale est une vue 360° (même règle que le site). Une photo de visiteur publiée
+    directement sur le site (photo_site) a déjà sa miniature, même une fois rattachée à
+    Mapillary : elle n'est ni l'une ni l'autre."""
     plates, vues_360 = set(), set()
     for liste in photos.values():
         for entree in liste:
             mapillary_id = str(entree.get("mapillary_id") or "")
-            if not mapillary_id:
+            if not mapillary_id or entree.get("photo_site"):
                 continue
             (vues_360 if entree.get("miniature_locale") else plates).add(mapillary_id)
     return plates - vues_360, vues_360

@@ -148,8 +148,9 @@ CONTENU = {
                 ("Lien et code de connexion", " : valables 15 minutes, effacés après 24 heures."),
                 ("Photo",
                  " : 30 jours au plus en attente de vérification. Retenue, elle est publiée sur "
-                 "Mapillary sous licence CC BY-SA, visages et plaques floutés ; sinon, elle est "
-                 "supprimée."),
+                 "le site et, le plus souvent, sur Mapillary, sous licence CC BY-SA ; une photo "
+                 "montrant des visages ou des plaques n'est publiée qu'une fois floutée. Sinon, "
+                 "elle est supprimée."),
                 ("Avis", " : tant qu'il est publié ; refusé ou remplacé, supprimé après 30 jours."),
                 ("Signalement", " : conservé pour garder une trace des corrections. Envoyé sans compte, son adresse e-mail est effacée après un an."),
                 ("Note", " : sans limite, de façon anonyme."),
@@ -161,12 +162,13 @@ CONTENU = {
             "liste": [
                 ("Cloudflare",
                  " : traitement des contributions et des connexions, base de données, photos en "
-                 "attente, mesure d'audience, protection anti-robots."),
+                 "attente, grandes versions des photos publiées, mesure d'audience, protection "
+                 "anti-robots."),
                 ("Resend", " : envoi des mails de connexion et des mails qui vous préviennent de la suite donnée à vos contributions, depuis l'Europe."),
                 ("Google",
                  " : connexion avec un compte Google, si vous la choisissez. Google nous "
                  "transmet votre adresse mail, jamais votre mot de passe."),
-                ("GitHub Pages", " : hébergement du site."),
+                ("GitHub Pages", " : hébergement du site et des photos publiées."),
                 ("Mapillary", " : publication des photos retenues."),
                 ("Ko-fi",
                  " : dons, si vous choisissez de soutenir le site. Le paiement se fait sur "
@@ -204,7 +206,7 @@ CONTENU = {
                 "compte » ou à l'adresse mapetanque@outlook.be. Réponse sous un mois.",
                 "La suppression du compte est immédiate : adresse, pseudo, sessions, parties et "
                 "noms des joueurs sont effacés ; vos notes, avis et photos restent, mais deviennent anonymes. Les "
-                "photos publiées sur Mapillary y restent sous licence libre, sauf demande de "
+                "photos publiées restent en ligne sous licence libre, sauf demande de "
                 "retrait.",
                 "Vous pouvez aussi introduire une réclamation auprès de l'Autorité de "
                 "protection des données.",
@@ -293,8 +295,9 @@ CONTENU = {
                 ("Aanmeldlink en -code", ": 15 minuten geldig, na 24 uur gewist."),
                 ("Foto",
                  ": hoogstens 30 dagen in afwachting van controle. Een weerhouden foto wordt "
-                 "op Mapillary gepubliceerd onder de CC BY-SA-licentie, met gezichten en "
-                 "nummerplaten onherkenbaar gemaakt; anders wordt ze verwijderd."),
+                 "op de site en meestal ook op Mapillary gepubliceerd onder de CC BY-SA-licentie; "
+                 "een foto met gezichten of nummerplaten pas nadat die onherkenbaar zijn "
+                 "gemaakt. Anders wordt ze verwijderd."),
                 ("Recensie",
                  ": zolang ze gepubliceerd is; geweigerd of vervangen, na 30 dagen verwijderd."),
                 ("Melding", ": bewaard als spoor van de correcties. Verstuurd zonder account, wordt het e-mailadres na een jaar gewist."),
@@ -307,12 +310,13 @@ CONTENU = {
             "liste": [
                 ("Cloudflare",
                  ": verwerking van bijdragen en aanmeldingen, database, foto's in "
-                 "afwachting, bezoekersstatistieken, bescherming tegen robots."),
+                 "afwachting, grote versies van de gepubliceerde foto's, bezoekersstatistieken, "
+                 "bescherming tegen robots."),
                 ("Resend", ": verzending van de aanmeldingsmails en van de e-mails over het gevolg van je bijdragen, vanuit Europa."),
                 ("Google",
                  ": aanmelden met een Google-account, als u daarvoor kiest. Google geeft ons "
                  "uw e-mailadres door, nooit uw wachtwoord."),
-                ("GitHub Pages", ": hosting van de site."),
+                ("GitHub Pages", ": hosting van de site en van de gepubliceerde foto's."),
                 ("Mapillary", ": publicatie van de weerhouden foto's."),
                 ("Ko-fi",
                  ": giften, als u ervoor kiest de site te steunen. De betaling gebeurt op "
@@ -349,7 +353,7 @@ CONTENU = {
                 "of op mapetanque@outlook.be. Antwoord binnen een maand.",
                 "Je account wordt onmiddellijk verwijderd: adres, bijnaam, sessies, partijen en "
                 "namen van spelers worden gewist; je beoordelingen, recensies en foto's blijven, maar worden anoniem. "
-                "Foto's die op Mapillary gepubliceerd zijn, blijven daar onder vrije licentie, "
+                "Gepubliceerde foto's blijven online onder vrije licentie, "
                 "tenzij je vraagt ze te verwijderen.",
                 "Je kunt ook een klacht indienen bij de Gegevensbeschermingsautoriteit.",
             ],
@@ -439,8 +443,9 @@ CONTENU = {
                 ("Anmeldelink und -code", ": 15 Minuten gültig, nach 24 Stunden gelöscht."),
                 ("Foto",
                  ": höchstens 30 Tage bis zur Prüfung. Ein angenommenes Foto wird unter der "
-                 "CC-BY-SA-Lizenz auf Mapillary veröffentlicht, mit unkenntlich gemachten "
-                 "Gesichtern und Kennzeichen; andernfalls wird es gelöscht."),
+                 "CC-BY-SA-Lizenz auf der Website und meist auch auf Mapillary veröffentlicht; "
+                 "ein Foto mit Gesichtern oder Kennzeichen erst, wenn diese unkenntlich gemacht "
+                 "sind. Andernfalls wird es gelöscht."),
                 ("Rezension",
                  ": solange sie veröffentlicht ist; abgelehnt oder ersetzt, nach 30 Tagen "
                  "gelöscht."),
@@ -454,12 +459,13 @@ CONTENU = {
             "liste": [
                 ("Cloudflare",
                  ": Verarbeitung von Beiträgen und Anmeldungen, Datenbank, Fotos in "
-                 "Prüfung, Besucherstatistik, Schutz vor Bots."),
+                 "Prüfung, große Versionen der veröffentlichten Fotos, Besucherstatistik, Schutz "
+                 "vor Bots."),
                 ("Resend", ": Versand der Anmelde-E-Mails und der E-Mails über das Ergebnis Ihrer Beiträge, aus Europa."),
                 ("Google",
                  ": Anmeldung mit einem Google-Konto, wenn Sie diese wählen. Google übermittelt "
                  "uns Ihre E-Mail-Adresse, niemals Ihr Passwort."),
-                ("GitHub Pages", ": Hosting der Website."),
+                ("GitHub Pages", ": Hosting der Website und der veröffentlichten Fotos."),
                 ("Mapillary", ": Veröffentlichung der angenommenen Fotos."),
                 ("Ko-fi",
                  ": Spenden, wenn Sie die Website unterstützen möchten. Die Zahlung erfolgt "
@@ -497,8 +503,8 @@ CONTENU = {
                 "oder unter mapetanque@outlook.be. Antwort innerhalb eines Monats.",
                 "Die Löschung des Kontos erfolgt sofort: Adresse, Spitzname, Sitzungen, Partien "
                 "und Namen der Spieler werden gelöscht; Ihre Bewertungen, Rezensionen und Fotos bleiben erhalten, werden "
-                "aber anonym. Auf Mapillary veröffentlichte Fotos bleiben dort unter freier "
-                "Lizenz, sofern Sie nicht ihre Entfernung verlangen.",
+                "aber anonym. Veröffentlichte Fotos bleiben unter freier Lizenz online, "
+                "sofern Sie nicht ihre Entfernung verlangen.",
                 "Sie können außerdem Beschwerde bei der belgischen Datenschutzbehörde einreichen.",
             ],
         },
@@ -583,9 +589,10 @@ CONTENU = {
                 ("Session", ": one year, or until you sign out."),
                 ("Sign-in link and code", ": valid for 15 minutes, erased after 24 hours."),
                 ("Photo",
-                 ": 30 days at most awaiting review. If kept, it is published on Mapillary "
-                 "under a CC BY-SA licence, with faces and licence plates blurred; otherwise, "
-                 "it is deleted."),
+                 ": 30 days at most awaiting review. If kept, it is published on the site and, "
+                 "usually, on Mapillary, under a CC BY-SA licence; a photo showing faces or "
+                 "licence plates is only published once they are blurred. Otherwise, it is "
+                 "deleted."),
                 ("Review",
                  ": as long as it is published; rejected or replaced, deleted after 30 days."),
                 ("Report", ": kept as a record of corrections. If sent without an account, its email address is deleted after one year."),
@@ -598,12 +605,12 @@ CONTENU = {
             "liste": [
                 ("Cloudflare",
                  ": processing of contributions and sign-ins, database, photos awaiting review, "
-                 "visitor statistics, bot protection."),
+                 "large versions of published photos, visitor statistics, bot protection."),
                 ("Resend", ": sending of sign-in emails and of emails about what came of your contributions, from Europe."),
                 ("Google",
                  ": sign-in with a Google account, if you choose it. Google passes on your "
                  "email address to us, never your password."),
-                ("GitHub Pages", ": hosting of the site."),
+                ("GitHub Pages", ": hosting of the site and of published photos."),
                 ("Mapillary", ": publication of accepted photos."),
                 ("Ko-fi",
                  ": donations, if you choose to support the site. Payment takes place on "
@@ -640,7 +647,7 @@ CONTENU = {
                 "Reply within one month.",
                 "Deleting your account takes effect immediately: address, nickname, sessions, "
                 "games and player names are erased; your ratings, reviews and photos remain, but become "
-                "anonymous. Photos published on Mapillary stay there under an open licence, "
+                "anonymous. Published photos stay online under an open licence, "
                 "unless you ask for them to be removed.",
                 "You may also lodge a complaint with the Belgian Data Protection Authority.",
             ],

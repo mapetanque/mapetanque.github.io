@@ -109,6 +109,11 @@
     .moderation-carte.envoyee { background: var(--bleu-clair); }
     .moderation-carte.bloquee { background: #fff4e0; }
     .moderation-erreur { color: var(--rouge); font-size: 13px; margin-bottom: 6px; }
+    /* Choix de publication avant « Valider » : site tout de suite ou floutage Mapillary. */
+    .moderation-choix { display: flex; flex-direction: column; gap: 4px; font-size: 14px; margin-bottom: 8px; }
+    .moderation-choix label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+    .moderation-choix .case-mapillary { margin-left: 22px; }
+    .moderation-choix .case-mapillary.inactive { opacity: .55; cursor: default; }
 
     /* --- Terrains : barre d'outils --------------------------------------- */
     #terrains { display: flex; flex-direction: column; }
@@ -967,6 +972,17 @@ function photosTerrain(osmId) {
     const lienPhoto = id => "https://www.mapillary.com/app/?pKey=" + id + "&focus=photo";
 
     (PHOTOS_EN_LIGNE[osmId] || []).forEach(e => {
+        // Photo de visiteur publiée directement sur le site (miniature dans le dépôt des photos) :
+        // sa clé est « visiteur-N », même une fois rattachée à Mapillary.
+        if (e.photo_site) {
+            const cle = String(e.id_local);
+            if (!vues.has(cle)) {
+                vues.set(cle, { cle: cle, type: "plate", enLigne: true, image: e.photo_site, lien: e.grande || e.photo_site,
+                                legende: "Photo en ligne", origine: "Envoyée par un visiteur",
+                                mapillaryId: e.mapillary_id ? String(e.mapillary_id) : null, cleVisiteur: cle });
+            }
+            return;
+        }
         const id = String(e.mapillary_id);
         if (vues.has(id) || retirees.has(id)) return;
         vues.set(id, e.miniature_locale
@@ -1009,8 +1025,10 @@ function photosTerrain(osmId) {
         }
         // Photo de visiteur : comptée dès qu'elle est validée. En attente de modération,
         // elle n'est encore rien.
+        // Une photo publiée directement sur le site garde la clé « visiteur-N » (voir plus haut).
         if (p.origine === "visiteur" && ["validee", "envoyee", "rattachee"].includes(p.statut)) {
-            vue = enAttente("plate", p.mapillary_id ? String(p.mapillary_id) : "visiteur-" + p.id, null);
+            const direct = p.affichage === "direct";
+            vue = enAttente("plate", p.mapillary_id && !direct ? String(p.mapillary_id) : "visiteur-" + p.id, null);
             if (vue) {
                 vue.origine = "Envoyée par un visiteur" + (p.credit_nom ? " (" + p.credit_nom + ")" : "");
                 // Clé de la photo avant sa publication : l'ordre a pu être choisi avec elle.
@@ -1887,8 +1905,9 @@ document.getElementById("publierMaintenant").addEventListener("click", async (e)
     try {
         await appeler("/admin/publier", { method: "POST" });
         alert("Publication lancée. Elle prend quelques minutes (suivi dans l'onglet Actions "
-            + "du dépôt GitHub).\n\nLes photos envoyées reçoivent leur identifiant Mapillary "
-            + "à un passage suivant, en général sous un ou deux jours.");
+            + "du dépôt GitHub).\n\nLes photos « Publier tout de suite » apparaissent sur le site "
+            + "dans la foulée. Celles envoyées à Mapillary reçoivent leur identifiant à un passage "
+            + "suivant, en général sous un ou deux jours.");
     } catch (err) {
         /* le bandeau d'incident affiche déjà la cause */
     } finally {
@@ -2031,9 +2050,16 @@ function construireCarteModeration(photo) {
     if (photo.credit_nom) morceaux.push("à créditer : " + photo.credit_nom);
     if (photo.avec_compte) morceaux.push("envoyée par le compte " + (photo.pseudo ? "« " + photo.pseudo + " »" : "sans pseudo"));
     if (photo.nom_fichier) morceaux.push(photo.nom_fichier);
-    if (photo.statut === "validee") morceaux.push("VALIDÉE — en attente de publication");
+    const direct = photo.affichage === "direct";
+    if (photo.statut === "validee") {
+        morceaux.push(photo.miniature ? "EN LIGNE sur le site — envoi à Mapillary au prochain passage"
+            : direct ? "VALIDÉE — publication sur le site au prochain passage"
+                + (photo.mapillary_voulu ? ", puis envoi à Mapillary" : " (sans Mapillary)")
+            : "VALIDÉE — en attente d'envoi à Mapillary, qui la floutera avant publication");
+    }
     if (photo.statut === "envoyee") {
-        morceaux.push("ENVOYÉE à Mapillary le " + (photo.maj || "").slice(0, 10)
+        morceaux.push((photo.miniature ? "EN LIGNE sur le site — " : "")
+            + "ENVOYÉE à Mapillary le " + (photo.maj || "").slice(0, 10)
             + " — en attente de l'identifiant");
         if (bloquee) {
             morceaux.push("PLUS DE " + JOURS_AVANT_ALERTE + " JOURS — à vérifier sur Mapillary");
@@ -2061,9 +2087,17 @@ function construireCarteModeration(photo) {
     let panneau = null;
     function decider(decision, libelle) {
         const refus = decision === "refuser";
-        // Confirmation : le refus efface le fichier de R2, sans retour possible.
+        // Confirmation : le refus efface les fichiers de R2, sans retour possible. Une photo déjà
+        // envoyée à Mapillary y reste : elle ne sera plus jamais rattachée, mais il faut la
+        // supprimer là-bas à la main.
+        const question = photo.statut === "envoyee"
+            ? "Refuser cette photo ? Elle sera retirée du site et ses fichiers supprimés.\n\n"
+                + "Elle est déjà chez Mapillary : pense à la supprimer aussi là-bas."
+            : photo.miniature
+                ? "Refuser cette photo ? Elle sera retirée du site et ses fichiers supprimés."
+                : "Refuser cette photo ? Le fichier sera définitivement supprimé.";
         const agir = choix => {
-            if (refus && !confirm("Refuser cette photo ? Le fichier sera définitivement supprimé.")) return;
+            if (refus && !confirm(question)) return;
             moderer(photo, decision, div, choix);
         };
         if (!photo.avec_compte || photo.mail_envoye) {
@@ -2082,6 +2116,7 @@ function construireCarteModeration(photo) {
     }
 
     if (photo.statut === "en_attente") {
+        info.appendChild(choixPublication(photo));
         const valider = document.createElement("button");
         valider.className = "btn btn-valider";
         valider.textContent = "Valider";
@@ -2089,15 +2124,13 @@ function construireCarteModeration(photo) {
         actions.appendChild(valider);
     }
 
-    // Une photo déjà envoyée est chez Mapillary : la refuser ici ne la retirerait
-    // pas de là-bas. Le bouton disparaît, et le Worker refuse de toute façon.
-    if (photo.statut !== "envoyee") {
-        const refuser = document.createElement("button");
-        refuser.className = "btn btn-refuser";
-        refuser.textContent = "Refuser et supprimer";
-        refuser.addEventListener("click", () => decider("refuser", "Refuser et supprimer"));
-        actions.appendChild(refuser);
-    }
+    // Refus possible à toute étape, même une fois publiée sur le site ou envoyée à Mapillary
+    // (voir la confirmation dans decider).
+    const refuser = document.createElement("button");
+    refuser.className = "btn btn-refuser";
+    refuser.textContent = photo.miniature ? "Retirer du site et supprimer" : "Refuser et supprimer";
+    refuser.addEventListener("click", () => decider("refuser", refuser.textContent));
+    actions.appendChild(refuser);
 
     const lien = document.createElement("a");
     lien.href = "https://www.openstreetmap.org/" + photo.osm_id;
@@ -2112,10 +2145,59 @@ function construireCarteModeration(photo) {
     return div;
 }
 
+// Où publier la photo une fois validée :
+//  - « Publier tout de suite » : miniature sur le site au prochain passage du workflow, et en
+//    option aussi envoyée à Mapillary (case cochée par défaut) ;
+//  - « Attendre le floutage de Mapillary » : pour une photo avec des personnes ou des plaques,
+//    l'ancien circuit (Mapillary floute, la photo apparaît une fois rattachée).
+// Le choix est lu au moment de valider (photo.choixPublication).
+function choixPublication(photo) {
+    const bloc = document.createElement("div");
+    bloc.className = "moderation-choix";
+    const nom = "publication-" + photo.id;
+    const option = (valeur, texte, coche) => {
+        const label = document.createElement("label");
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = nom;
+        radio.value = valeur;
+        radio.checked = coche;
+        label.append(radio, texte);
+        bloc.appendChild(label);
+        return radio;
+    };
+    const direct = option("direct", "Publier tout de suite sur le site", true);
+    option("mapillary", "Attendre le floutage de Mapillary (personnes, plaques)", false);
+
+    const labelCase = document.createElement("label");
+    labelCase.className = "case-mapillary";
+    const caseMapillary = document.createElement("input");
+    caseMapillary.type = "checkbox";
+    caseMapillary.checked = true;
+    labelCase.append(caseMapillary, "Aussi envoyer sur Mapillary");
+    bloc.appendChild(labelCase);
+
+    // En attendant Mapillary, l'envoi est forcément fait : la case est cochée et figée.
+    const majCase = () => {
+        caseMapillary.disabled = !direct.checked;
+        if (!direct.checked) caseMapillary.checked = true;
+        labelCase.classList.toggle("inactive", !direct.checked);
+    };
+    bloc.addEventListener("change", majCase);
+    majCase();
+
+    photo.choixPublication = () => ({
+        affichage: direct.checked ? "direct" : "mapillary",
+        mapillary: caseMapillary.checked
+    });
+    return bloc;
+}
+
 // choix : décision sur le mail (photo d'un compte), avec le nom et la position du terrain pour
 // le mail ; null sinon.
 async function moderer(photo, decision, carte, choix) {
     const charge = { id: photo.id, decision: decision };
+    if (decision === "valider" && photo.choixPublication) Object.assign(charge, photo.choixPublication());
     if (choix) {
         Object.assign(charge, choix);
         const terrain = terrainDe(photo.osm_id);
@@ -2184,11 +2266,17 @@ function decrirePhoto(vue) {
 // Ce qui empêche de supprimer une photo d'ici, ou null.
 function obstacleSuppression(vue) {
     if (vue.cle === "osm") return "Photo du tag OSM : elle se change ou se retire dans OpenStreetMap.";
-    if (vue.ligne && vue.ligne.origine === "visiteur" && !vue.mapillaryId && vue.ligne.statut === "envoyee") {
-        return "Déjà envoyée à Mapillary : supprimable une fois publiée.";
+    if (vue.enLigne && !REGLAGES_PHOTOS_DISPONIBLES && !estVisiteurDirect(vue)) {
+        return "Photo en ligne : suppression possible une fois le Worker mis à jour.";
     }
-    if (vue.enLigne && !REGLAGES_PHOTOS_DISPONIBLES) return "Photo en ligne : suppression possible une fois le Worker mis à jour.";
     return null;
+}
+
+// Photo de visiteur que sa suppression REFUSE (fichiers effacés, plus jamais publiée) plutôt que
+// de la retirer de l'export : pas encore rattachée à Mapillary, ou publiée directement sur le site.
+function estVisiteurDirect(vue) {
+    const ligne = vue.ligne;
+    return !!(ligne && ligne.origine === "visiteur" && (ligne.affichage === "direct" || !vue.mapillaryId));
 }
 
 // Aperçu d'une vue 360° sans miniature à jour (pas encore publiée, ou recadrée depuis) :
@@ -2379,7 +2467,10 @@ document.getElementById("galerieEnregistrer").addEventListener("click", () => {
     if (supprimees.length) {
         const liste = supprimees.map(v => "– " + decrirePhoto(v) + (v.mapillaryId ? " (" + v.mapillaryId + ")" : "")).join("\n");
         const question = supprimees.length > 1 ? "Supprimer ces " + supprimees.length + " photos du terrain ?" : "Supprimer cette photo du terrain ?";
-        if (!confirm(question + "\n\n" + liste)) return;
+        // Une photo de visiteur déjà partie chez Mapillary y reste : à supprimer là-bas à la main.
+        const chezMapillary = supprimees.some(v => estVisiteurDirect(v) && (v.mapillaryId || v.ligne.statut === "envoyee"));
+        const rappel = chezMapillary ? "\n\nUne copie est déjà chez Mapillary : pense à la supprimer aussi là-bas." : "";
+        if (!confirm(question + "\n\n" + liste + rappel)) return;
     }
 
     const etat = etatDe(osmId);
@@ -2387,14 +2478,16 @@ document.getElementById("galerieEnregistrer").addEventListener("click", () => {
     const retirees = new Set(reglages.retirees.map(String));
     let visiteurRefuse = false;
     supprimees.forEach(vue => {
-        // Retirée de l'export : seule façon d'enlever une photo déjà publiée.
-        if (vue.mapillaryId && REGLAGES_PHOTOS_DISPONIBLES) retirees.add(vue.mapillaryId);
         const ligne = vue.ligne;
+        // Retirée de l'export : seule façon d'enlever une photo publiée par Mapillary. Une photo de
+        // visiteur publiée sur le site est refusée à la place (plus bas) : le Worker ne l'exporte plus.
+        if (vue.mapillaryId && REGLAGES_PHOTOS_DISPONIBLES && !estVisiteurDirect(vue)) retirees.add(vue.mapillaryId);
         if (ligne && (ligne.origine === "manuelle" || ligne.origine === "pano360")) {
             etat.photos = etat.photos.filter(p => p !== ligne);
             ecrire("/admin/photos/supprimer", { id: ligne.id });
-        } else if (ligne && ligne.origine === "visiteur" && !vue.mapillaryId) {
-            // Validée mais pas encore envoyée : refusée comme dans la modération (fichier effacé).
+        } else if (estVisiteurDirect(vue)) {
+            // Pas encore rattachée, ou publiée sur le site : refusée comme dans la modération
+            // (fichiers effacés de R2, miniature retirée du dépôt des photos au passage suivant).
             etat.photos = etat.photos.filter(p => p !== ligne);
             ecrire("/admin/moderation", { id: ligne.id, decision: "refuser" });
             visiteurRefuse = true;

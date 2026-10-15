@@ -134,6 +134,9 @@ def distance_critere(metres):
 def photo_terrain(p, photos, plates):
     """(chemin, auteur, source) de la première photo du terrain, comme dans sa fiche."""
     for entree in photos.get(p["osm_id"], []):
+        # Photo de visiteur publiée directement sur le site (dépôt mapetanque-photos).
+        if entree.get("photo_site"):
+            return entree["photo_site"], entree.get("credit_nom", ""), "CC BY-SA"
         ident = str(entree["mapillary_id"])
         info = plates.get(ident, {})
         auteur = entree.get("credit_nom") or info.get("auteur", "")

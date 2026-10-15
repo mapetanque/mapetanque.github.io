@@ -3849,6 +3849,21 @@ function construireContenuPopupTerrain(feature, layer) {
         // (entree.credit_url, mapillary.com/map/im/ID, ouvre la carte avec la photo en vignette).
         const lienPhoto = `https://www.mapillary.com/app/?pKey=${entree.mapillary_id}&lat=${terrainLat}&lng=${terrainLon}&z=17&focus=photo`;
 
+        if (entree.photo_site) {
+            // Photo de visiteur publiée directement sur le site (scripts/publier_photos.py) :
+            // miniature dans le dépôt mapetanque-photos, grande version servie par le Worker,
+            // ouverte en plein écran d'un clic. Même si elle a aussi été envoyée à Mapillary,
+            // c'est notre version qui s'affiche, créditée à son auteur.
+            diapositives.push({
+                type: 'img',
+                ajoutPhoto: true,
+                html: imgPhoto(entree.photo_site),
+                creditUrl: entree.grande || entree.photo_site,
+                licenceVisiteur: true,
+                auteur: entree.credit_nom || "",
+            });
+            return;
+        }
         if (entree.miniature_locale) {
             // Vue 360° reprojetée en image plate, déjà recadrée dans le bon angle (voir
             // scripts/miniature_360.py) : une <img> classique suffit.
@@ -3946,6 +3961,11 @@ function construireContenuPopupTerrain(feature, layer) {
     const LICENCE_MAPILLARY = `<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>`;
 
     function sousLaPhoto(d) {
+        if (d.licenceVisiteur) {
+            // Repli : le service worker peut servir un translations.js d'avant cette clé.
+            const credit = t('popup_photo_credit_visiteur') || (a => a ? `Photo : ${a}` : "Photo");
+            return `<span class="popup-photo-credit popup-photo-licence">${credit(d.auteur ? echapperHtml(d.auteur) : "")} · ${LICENCE_MAPILLARY}</span>`;
+        }
         if (d.licenceMapillary) {
             return `<span class="popup-photo-credit popup-photo-licence">${t('popup_photo_credit_auteur')(d.auteur ? echapperHtml(d.auteur) : "")} · ${LICENCE_MAPILLARY}</span>`;
         }

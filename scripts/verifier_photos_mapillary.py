@@ -109,6 +109,9 @@ def main():
 
     for osm_id, entrees in photos.items():
         for entree in entrees:
+            # Photo de visiteur publiée sur le site sans (ou pas encore) d'identifiant Mapillary.
+            if entree.get("photo_site") and not entree.get("mapillary_id"):
+                continue
             identifiant = str(entree.get("mapillary_id", ""))
             libelle = noms.get(osm_id, "terrain inconnu")
             local = bool(entree.get("miniature_locale"))

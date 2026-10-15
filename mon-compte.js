@@ -194,7 +194,10 @@
         });
         (donnees.photos || []).forEach(function (p) {
             var e = envoiTerrain('photo', p);
-            e.statut = STATUTS_PHOTO[p.statut] || STATUTS_PHOTO.en_attente;
+            // Photo publiée directement sur le site (miniature) : en ligne, même si son envoi à
+            // Mapillary n'est pas encore terminé.
+            e.statut = p.miniature && p.statut !== 'refusee' ? STATUTS_PHOTO.publiee
+                : STATUTS_PHOTO[p.statut] || STATUTS_PHOTO.en_attente;
             liste.push(e);
         });
         (donnees.signalements || []).forEach(function (s) {

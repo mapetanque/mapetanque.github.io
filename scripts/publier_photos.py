@@ -1,13 +1,13 @@
 """
-Publication des photos de visiteurs validées dans la page admin : envoi à
-Mapillary, rattachement de leur identifiant, reconstruction de
-data/photos_mapillary.json.
+Publication des photos de visiteurs validées dans la page admin : publication
+directe sur le site, envoi à Mapillary, rattachement de leur identifiant,
+reconstruction de data/photos_mapillary.json.
 
 Lancé par .github/workflows/publier-photos.yml, chaque jour et à la demande
 (bouton « Publier maintenant » de la page admin). Remplace
 scripts/tester_envoi_mapillary.py, dont il reprend la préparation des EXIF.
 
-Six phases, dans cet ordre. Une phase qui échoue n'empêche pas les suivantes
+Sept phases, dans cet ordre. Une phase qui échoue n'empêche pas les suivantes
 (sauf le ménage, qui n'a lieu qu'après un export réussi) :
 
   1. Rattachement. Pour les photos envoyées lors d'un passage précédent, cherche
@@ -17,6 +17,15 @@ Six phases, dans cet ordre. Une phase qui échoue n'empêche pas les suivantes
      jours, parfois plus) : une photo pas encore trouvée sera recherchée au
      passage suivant, sans limite de temps. Une fois rattachée, son fichier est
      effacé de R2 par le Worker.
+  1 bis. Publication sur le site. Chaque photo validée « Publier tout de suite »
+     dans la page admin reçoit sa miniature 800 × 450 (même cadrage que
+     scripts/miniature_plate.py), poussée dans le dépôt public
+     mapetanque/mapetanque-photos (servi à https://mapetanque.be/mapetanque-photos/),
+     et sa grande version (GRANDE_COTE px), rangée dans R2 par le Worker. La photo
+     n'est déclarée publiée qu'une fois la miniature poussée. Avant d'ajouter quoi
+     que ce soit, la taille du dépôt des photos est mesurée : alerte (issue GitHub)
+     à SEUIL_ALERTE_MO, plus aucun ajout à SEUIL_BLOCAGE_MO. Le dépôt du site, lui,
+     ne reçoit jamais d'image de visiteur.
   2. Envoi. Chaque photo validée est préparée (coordonnées du terrain, date,
      orientation, rien d'autre) puis envoyée SEULE par mapillary_tools : deux
      photos d'un même terrain portent les mêmes coordonnées, et envoyées
@@ -41,13 +50,18 @@ Six phases, dans cet ordre. Une phase qui échoue n'empêche pas les suivantes
      les fichiers que plus rien ne cite : ni photos_mapillary.json (tout juste
      réécrit), ni beaux_terrains.json, ni terrains_promus.json, ni (pour les
      photos plates) un tag OSM mapillary=. Retire aussi de
-     miniatures_plates.json les photos disparues. N'a lieu que si l'export a
-     réussi : sur un fichier pas à jour, les miniatures du passage seraient
-     prises pour des orphelines.
+     miniatures_plates.json les photos disparues, et du dépôt des photos les
+     miniatures de visiteurs que plus rien ne cite (photo refusée depuis). N'a
+     lieu que si l'export a réussi : sur un fichier pas à jour, les miniatures du
+     passage seraient prises pour des orphelines.
 
 Variables d'environnement :
     JETON_WORKFLOW     clé partagée avec le Worker mapetanque-admin
     MAPILLARY_TOKEN    jeton client MLY|... (recherche dans l'API Graph)
+    DOSSIER_PHOTOS     clone du dépôt mapetanque-photos, avec le droit de pousser
+                       (sans lui, la phase 1 bis échoue et le signale)
+    GITHUB_TOKEN, GITHUB_REPOSITORY
+                       pour ouvrir les issues d'alerte (fournis par le workflow)
     mapillary_tools doit être authentifié sous le profil PROFIL_MAPILLARY.
 
 En local (depuis la racine du dépôt) :
@@ -103,19 +117,34 @@ MARGE_DATE = timedelta(hours=26)
 # Au-delà, une photo envoyée sans identifiant est signalée dans le journal.
 ALERTE_BLOCAGE = timedelta(days=5)
 
+# Publication directe (phase 1 bis). Les miniatures vont dans le dépôt des photos, sous
+# SOUS_DOSSIER_SITE ; le site les lit à PREFIXE_SITE (DOIT rester identique à URL_PHOTOS_SITE du
+# Worker, qui écrit ces adresses dans photos_mapillary.json).
+SOUS_DOSSIER_SITE = "visiteurs"
+PREFIXE_SITE = "https://mapetanque.be/mapetanque-photos/" + SOUS_DOSSIER_SITE + "/"
+GRANDE_COTE = 1600
+GRANDE_QUALITE = 75
+# Taille des fichiers suivis du dépôt des photos (GitHub Pages refuse un site de plus de 1 Go).
+SEUIL_ALERTE_MO = 700
+SEUIL_BLOCAGE_MO = 850
+
 JETON_WORKFLOW = None
 
 
 # ---------------------------------------------------------------- Worker
 
-def appel_worker(methode, chemin, corps=None, brut=False):
-    """Appelle une route /workflow/ du Worker. Lève HTTPError si refusée."""
+def appel_worker(methode, chemin, corps=None, brut=False, binaire=None, type_contenu=None):
+    """Appelle une route /workflow/ du Worker. Lève HTTPError si refusée. binaire : contenu
+    envoyé tel quel (type_contenu en précise le type), à la place d'un corps JSON."""
     donnees = None
     entetes = {
         "Authorization": "Bearer " + JETON_WORKFLOW,
         "User-Agent": "Mapetanque-publication/1.0",
     }
-    if corps is not None:
+    if binaire is not None:
+        donnees = binaire
+        entetes["Content-Type"] = type_contenu or "application/octet-stream"
+    elif corps is not None:
         donnees = json.dumps(corps, ensure_ascii=False).encode("utf-8")
         entetes["Content-Type"] = "application/json; charset=utf-8"
 
@@ -305,6 +334,86 @@ def noter_erreur(photo_id, message):
         print(f"  (erreur non enregistrée : {detail_erreur(e)})")
 
 
+# ---------------------------------------------------------------- Alertes et dépôt des photos
+
+def signaler(titre, texte):
+    """
+    Ouvre une issue dans le dépôt du site (c'est le bot GitHub Actions qui écrit : GitHub envoie
+    donc un mail). Si une issue ouverte porte déjà ce titre, rien de plus : pas un mail par
+    passage. Sans GITHUB_TOKEN (passage en local), le message est seulement affiché.
+    """
+    print(f"ALERTE — {titre} : {texte}")
+    jeton, depot = os.environ.get("GITHUB_TOKEN"), os.environ.get("GITHUB_REPOSITORY")
+    if not jeton or not depot:
+        return
+    entetes = {
+        "Authorization": "Bearer " + jeton,
+        "Accept": "application/vnd.github+json",
+        "User-Agent": "Mapetanque-publication/1.0",
+    }
+    try:
+        requete = urllib.request.Request(
+            f"https://api.github.com/repos/{depot}/issues?state=open&per_page=100", headers=entetes)
+        with urllib.request.urlopen(requete, timeout=30) as reponse:
+            ouvertes = json.loads(reponse.read().decode("utf-8"))
+        if any(i.get("title") == titre and "pull_request" not in i for i in ouvertes):
+            print("  (issue déjà ouverte)")
+            return
+        corps = json.dumps({"title": titre, "body": texte}).encode("utf-8")
+        requete = urllib.request.Request(
+            f"https://api.github.com/repos/{depot}/issues", data=corps, method="POST",
+            headers=dict(entetes, **{"Content-Type": "application/json"}))
+        urllib.request.urlopen(requete, timeout=30).close()
+        print("  (issue ouverte)")
+    except Exception as e:
+        print(f"  (issue non ouverte : {detail_erreur(e)})")
+
+
+def dossier_photos():
+    """Clone du dépôt des photos (DOSSIER_PHOTOS), ou None s'il manque."""
+    chemin = os.environ.get("DOSSIER_PHOTOS")
+    if chemin and (Path(chemin) / ".git").exists():
+        return Path(chemin)
+    return None
+
+
+def git_photos(dossier, *arguments):
+    """Commande git dans le dépôt des photos. Lève RuntimeError en cas d'échec."""
+    resultat = subprocess.run(["git", "-C", str(dossier), *arguments], capture_output=True, text=True)
+    if resultat.returncode != 0:
+        raise RuntimeError(f"git {arguments[0]} : {(resultat.stderr or resultat.stdout).strip()[-400:]}")
+    return resultat.stdout
+
+
+def taille_depot_mo(dossier):
+    """Taille des fichiers suivis par Git (ce que publie GitHub Pages), en Mo."""
+    total = 0
+    for nom in git_photos(dossier, "ls-files", "-z").split("\0"):
+        if nom and (dossier / nom).is_file():
+            total += (dossier / nom).stat().st_size
+    return total / 1024 / 1024
+
+
+def pousser_photos(dossier, message):
+    """Commite et pousse le dépôt des photos s'il a changé. Un refus (jeton JETON_PHOTOS expiré,
+    droits retirés…) est signalé par une issue, puis lève RuntimeError."""
+    if not git_photos(dossier, "status", "--porcelain").strip():
+        return False
+    git_photos(dossier, "add", "-A")
+    git_photos(dossier, "commit", "-q", "-m", message)
+    try:
+        git_photos(dossier, "push", "-q")
+    except RuntimeError as e:
+        signaler("Publication des photos : envoi vers mapetanque-photos refusé",
+                 "Le workflow « Publication des photos » n'a pas pu pousser dans le dépôt "
+                 "mapetanque/mapetanque-photos. Cause la plus probable : le jeton JETON_PHOTOS a "
+                 "expiré. Le régénérer sur GitHub (Settings → Developer settings → Fine-grained "
+                 "tokens), puis remplacer la valeur du secret JETON_PHOTOS du dépôt du site. "
+                 f"Les photos concernées seront publiées au passage suivant.\n\nDétail : {e}")
+        raise
+    return True
+
+
 # ---------------------------------------------------------------- Phases
 
 def nom_miniature_360(pano):
@@ -439,6 +548,103 @@ def phase_rattachement(terrains, token, simulation):
                 print(f"{osm_id} (photo {photo['id']}) : rattachement refusé ({detail_erreur(e)}).")
 
 
+def preparer_images(contenu):
+    """(miniature, grande) en WebP, depuis le fichier reçu (déjà réduit à 2048 px et sans
+    métadonnées par le formulaire). Miniature : même format et même cadrage que les miniatures
+    des photos Mapillary plates."""
+    import miniature_plate   # Pillow n'est chargé que si cette phase tourne
+    from PIL import Image, ImageOps
+
+    image = ImageOps.exif_transpose(Image.open(io.BytesIO(contenu))).convert("RGB")
+    miniature, _ = miniature_plate.composer(image)
+    sortie_miniature = io.BytesIO()
+    miniature.save(sortie_miniature, "WEBP", quality=miniature_plate.QUALITE_WEBP)
+
+    grande = image.copy()
+    grande.thumbnail((GRANDE_COTE, GRANDE_COTE), Image.LANCZOS)
+    sortie_grande = io.BytesIO()
+    grande.save(sortie_grande, "WEBP", quality=GRANDE_QUALITE)
+    return sortie_miniature.getvalue(), sortie_grande.getvalue()
+
+
+def phase_publication(simulation):
+    photos = appel_worker("GET", "/workflow/a-publier")
+    if not photos:
+        print("Aucune photo à publier sur le site.")
+        return
+
+    dossier = dossier_photos()
+    if dossier is None and not simulation:
+        signaler("Publication des photos : dépôt des photos inaccessible",
+                 "Le workflow « Publication des photos » n'a pas trouvé le clone du dépôt "
+                 "mapetanque/mapetanque-photos (étape « Récupération du dépôt des photos » en "
+                 "échec ?). Cause la plus probable : le jeton JETON_PHOTOS a expiré ou n'a plus "
+                 f"accès au dépôt. {len(photos)} photo(s) attendent d'être publiées.")
+        raise RuntimeError("dépôt des photos absent (DOSSIER_PHOTOS)")
+
+    if dossier is not None:
+        taille = taille_depot_mo(dossier)
+        print(f"Dépôt des photos : {taille:.0f} Mo (alerte à {SEUIL_ALERTE_MO}, blocage à {SEUIL_BLOCAGE_MO}).")
+        message_taille = (f"Le dépôt mapetanque/mapetanque-photos pèse {taille:.0f} Mo. GitHub Pages "
+                          "refuse un site de plus de 1 Go. Pistes : alléger les miniatures (qualité "
+                          "WebP), ou ouvrir un second dépôt de photos.")
+        if taille >= SEUIL_BLOCAGE_MO:
+            signaler("Taille du dépôt des photos : publication bloquée",
+                     message_taille + f" Au-delà de {SEUIL_BLOCAGE_MO} Mo, plus aucune photo n'est "
+                     f"publiée : {len(photos)} photo(s) restent validées, en attente.")
+            print("Publication bloquée : plus aucun ajout au dépôt des photos.")
+            return
+        if taille >= SEUIL_ALERTE_MO:
+            signaler("Taille du dépôt des photos : seuil d'alerte atteint",
+                     message_taille + f" Les publications continuent jusqu'à {SEUIL_BLOCAGE_MO} Mo.")
+
+    preparees = []
+    for photo in photos:
+        etiquette = f"{photo['osm_id']} (photo {photo['id']})"
+        try:
+            contenu = appel_worker("GET", f"/workflow/fichier?id={photo['id']}", brut=True)
+            miniature, grande = preparer_images(contenu)
+        except Exception as e:
+            print(f"{etiquette} : préparation impossible ({detail_erreur(e)}).")
+            if not simulation:
+                noter_erreur(photo["id"], f"publication : {detail_erreur(e)}")
+            continue
+
+        nom = f"{SOUS_DOSSIER_SITE}/{photo['id']}.webp"
+        if simulation:
+            print(f"{etiquette} : prête ({len(miniature) // 1024} Ko + {len(grande) // 1024} Ko), "
+                  "non publiée.")
+            continue
+        try:
+            appel_worker("PUT", f"/workflow/grande?id={photo['id']}", binaire=grande,
+                         type_contenu="image/webp")
+        except Exception as e:
+            print(f"{etiquette} : grande version refusée ({detail_erreur(e)}).")
+            noter_erreur(photo["id"], f"grande version : {detail_erreur(e)}")
+            continue
+        (dossier / SOUS_DOSSIER_SITE).mkdir(exist_ok=True)
+        (dossier / nom).write_bytes(miniature)
+        preparees.append((photo, nom))
+        print(f"{etiquette} : miniature et grande version prêtes ({len(miniature) // 1024} Ko + "
+              f"{len(grande) // 1024} Ko).")
+
+    if not preparees:
+        return
+
+    # La photo n'est déclarée publiée qu'une fois sa miniature en ligne dans le dépôt : sans quoi
+    # photos_mapillary.json citerait une image absente.
+    pousser_photos(dossier, f"Photos de visiteurs : {len(preparees)} nouvelle(s)")
+    for photo, nom in preparees:
+        etiquette = f"{photo['osm_id']} (photo {photo['id']})"
+        try:
+            reponse = appel_worker("POST", "/workflow/publiee", {"id": photo["id"], "miniature": nom})
+            suite = "envoi à Mapillary ensuite" if reponse.get("statut") == "validee" else "sans Mapillary"
+            print(f"{etiquette} : publiée sur le site ({suite}).")
+        except Exception as e:
+            # La miniature est poussée : le passage suivant la refera à l'identique.
+            print(f"{etiquette} : miniature poussée, publication non enregistrée ({detail_erreur(e)}).")
+
+
 def phase_envoi(terrains, simulation):
     photos = appel_worker("GET", "/workflow/a-envoyer")
     if not photos:
@@ -503,14 +709,18 @@ def phase_export(simulation):
 
     # Garde-fou : le Worker ajoute et réordonne, et ne retire que les photos
     # supprimées dans la page admin (panneau « Photos du terrain »). Toute autre
-    # photo perdue trahit un problème : on n'écrit rien.
+    # photo perdue trahit un problème : on n'écrit rien. Les photos publiées
+    # directement sur le site (id_local) n'entrent pas dans le contrôle : le
+    # Worker les reconstruit entièrement d'après D1, une photo refusée disparaît.
+    socle_controle = {osm_id: [e for e in liste if not e.get("id_local")]
+                      for osm_id, liste in socle.items()}
     try:
         reglages = appel_worker("GET", "/workflow/photos-ordre")
     except urllib.error.HTTPError as e:
         if e.code != 404:
             raise
         reglages = {}   # Worker sans cette route : aucun retrait admis
-    for osm_id, liste in socle.items():
+    for osm_id, liste in socle_controle.items():
         retirees = {str(i) for i in (reglages.get(osm_id) or {}).get("retirees", [])}
         attendues = {str(e.get("mapillary_id")) for e in liste} - retirees
         restantes = {str(e.get("mapillary_id")) for e in fusion.get(osm_id, [])}
@@ -597,6 +807,31 @@ def phase_menage_plates(simulation):
     miniature_plate.menage(cites, simulation)
 
 
+def phase_menage_site(simulation):
+    """Miniatures de visiteurs du dépôt des photos que plus rien ne cite (photo refusée depuis sa
+    publication) : supprimées, puis le dépôt est poussé."""
+    dossier = dossier_photos()
+    if dossier is None:
+        print("Dépôt des photos absent : rien à faire.")
+        return
+    fichiers = sorted((dossier / SOUS_DOSSIER_SITE).glob("*.webp"))
+    citees = miniatures_citees(PREFIXE_SITE)
+    # Garde-fou : un fichier illisible ou vidé ne doit jamais faire tout effacer.
+    if fichiers and not citees:
+        print("Aucune miniature de visiteur citée nulle part : ménage annulé par prudence.")
+        return
+    orphelines = [f for f in fichiers if f.name not in citees]
+    if not orphelines:
+        print("Aucune miniature de visiteur orpheline.")
+        return
+    for fichier in orphelines:
+        print(f"  {'serait supprimée' if simulation else 'supprimée'} : {fichier.name}")
+        if not simulation:
+            fichier.unlink()
+    if not simulation:
+        pousser_photos(dossier, f"Photos de visiteurs : {len(orphelines)} retirée(s)")
+
+
 # ---------------------------------------------------------------- Principal
 
 def main():
@@ -617,6 +852,7 @@ def main():
 
     phases = [
         ("Rattachement", lambda: phase_rattachement(terrains, token, args.simulation)),
+        ("Publication sur le site", lambda: phase_publication(args.simulation)),
         ("Envoi", lambda: phase_envoi(terrains, args.simulation)),
         ("Miniatures 360°", lambda: phase_panos(token, args.simulation)),
         ("Export", lambda: phase_export(args.simulation)),
@@ -633,7 +869,8 @@ def main():
             echecs.append(nom)
 
     # Ménage seulement sur un photos_mapillary.json à jour (voir la phase 6).
-    for nom, menage in (("Ménage 360°", phase_menage_360), ("Ménage plates", phase_menage_plates)):
+    for nom, menage in (("Ménage 360°", phase_menage_360), ("Ménage plates", phase_menage_plates),
+                        ("Ménage du dépôt des photos", phase_menage_site)):
         print(f"\n=== {nom} ===")
         if "Export" in echecs:
             print("Export en échec : ménage reporté au prochain passage.")
