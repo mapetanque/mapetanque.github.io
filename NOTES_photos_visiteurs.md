@@ -1,6 +1,7 @@
 # Mapetanque — Photos des visiteurs : publication directe sur le site (réflexion, rien codé)
 
-Note du 7/10/2026, revue le 15/10/2026 (périmètre, taille du dépôt, seuils d'alerte).
+Note du 7/10/2026, revue le 15/10/2026 (périmètre, taille du dépôt, seuils d'alerte, dépôt
+séparé pour les miniatures, découpage en lots).
 
 ## Contexte
 Circuit actuel (étape 3 de la page admin) : photo visiteur (réduite à 2048 px, redressée et sans
@@ -38,9 +39,11 @@ Depuis le 7/10 : les envois sont rattachés au compte (pseudo et adresse imposé
   quelques minutes de déploiement GitHub Pages, car `photos_mapillary.json` est dans le dépôt.
 - Générer deux WebP depuis le fichier R2 (déjà flouté, voir plus bas) :
   - miniature 800×450, même format et même règle de cadrage que `scripts/miniature_plate.py`
-    (paysage recadré 16:9 ; portrait entier sur fond flou), rangée DANS LE DÉPÔT
-    (`images/visiteurs/<id>.webp` ou équivalent). Qualité 80 (~70 Ko) comme les miniatures
-    actuelles, ou 72 (~50 Ko) pour économiser de la place : à trancher en comparant à l'œil ;
+    (paysage recadré 16:9 ; portrait entier sur fond flou), rangée dans le dépôt PUBLIC SÉPARÉ
+    `mapetanque/mapetanque-photos` (voir plus bas), servie à
+    `https://mapetanque.be/mapetanque-photos/visiteurs/<id>.webp`. Qualité 80 (~70 Ko) comme les
+    miniatures actuelles, ou 72 (~50 Ko) pour économiser de la place : à trancher en comparant à
+    l'œil ;
   - version d'affichage pour la visionneuse (~1280–1600 px, qualité ~75, ~125–200 Ko),
     rangée dans R2.
 - Pourquoi ce partage (retenu le 15/10, après avoir envisagé de tout mettre dans le dépôt) :
@@ -56,20 +59,31 @@ Depuis le 7/10 : les envois sont rattachés au compte (pseudo et adresse imposé
     n'est appelé qu'à l'ouverture de la visionneuse, pas à l'affichage de la fiche.
   - Une photo retirée reste dans l'historique Git : le dépôt ne fait que grossir. La limite de
     1 Go vise le site publié, mais un gros historique ralentit clonage et manipulations.
+- Dépôt séparé pour les miniatures (retenu et mis en place le 15/10) : `mapetanque/mapetanque-photos`,
+  public, GitHub Pages activé sur `main` (racine), `.nojekyll`, licence CC BY-SA 4.0 (`LICENSE` et
+  `README.md` : chaque photo appartient à son auteur). Comme le site principal a le domaine
+  `mapetanque.be`, GitHub le sert à `https://mapetanque.be/mapetanque-photos/` (testé : 200 en
+  HTTPS, même origine que le site). Pourquoi :
+  - la limite de 1 Go de GitHub Pages compte par dépôt : les photos ne peuvent jamais bloquer
+    le site, et le dépôt du site ne reçoit plus aucune image de visiteur ;
+  - l'historique du site reste léger ; si celui du dépôt des photos devient trop lourd, on peut
+    le repartir de zéro (une seule version des fichiers actuels) sans toucher au site.
+  Le dépôt privé `mapetanque/mapetanque-workers` ne convient pas : un site public ne peut pas
+  charger d'images depuis un dépôt privé.
 - Service des grandes versions par le Worker `mapetanque-admin`. Le DNS est chez OVH, donc pas de
   domaine perso pour R2 ; `r2.dev` n'est pas prévu pour la production.
   ⚠️ Le cache de Cloudflare (Cache API) est sans effet sur `*.workers.dev` : seul le cache du
   navigateur jouera (`Cache-Control: public, max-age=31536000, immutable`, avec un nom de fichier
   qui change si l'image change). Chaque première vue = 1 requête Worker + 1 lecture R2, sur le
   quota gratuit de 100 000 requêtes/jour COMMUN à tout le compte (admin, envois, notes).
-- Taille du site : alerte et blocage (retenu le 15/10). Après la génération des miniatures,
-  `publier-photos.yml` mesure la taille du site publié (fichiers suivis par Git) :
-  - à 700 Mo : alerte. Une issue « Taille du site » est ouverte ou complétée, comme le fait
-    `alerte-photo.yml` ; c'est le bot qui écrit, donc GitHub envoie un mail. Les publications
-    continuent ;
-  - à 850 Mo : blocage. Le script n'ajoute plus de miniatures au dépôt ; les photos restent au
-    statut `validee`, non publiées, et l'issue le dit. Rien ne casse, la décision se prend à
-    froid (alléger les miniatures, en déplacer une partie dans R2…).
+- Taille du dépôt des photos : alerte et blocage (retenu le 15/10). Avant d'ajouter des
+  miniatures, `publier-photos.yml` mesure la taille des fichiers suivis de `mapetanque-photos` :
+  - à 700 Mo : alerte. Une issue « Taille du dépôt des photos » est ouverte ou complétée dans le
+    dépôt du site, comme le fait `alerte-photo.yml` ; c'est le bot qui écrit, donc GitHub envoie
+    un mail. Les publications continuent ;
+  - à 850 Mo : blocage. Le script n'ajoute plus de miniatures ; les photos restent au statut
+    `validee`, non publiées, et l'issue le dit. Le site n'est jamais touché ; la décision se prend
+    à froid (alléger les miniatures, ouvrir un second dépôt de photos…).
   - Pas d'alerte prévue pour R2 (≈ 1,1 Go sur 10 Go dans l'hypothèse prudente).
 - Le dépôt garde le JSON de correspondance photo ↔ terrain : `photos_mapillary.json` (nom
   inchangé), avec un champ source `mapillary` / `locale`. La fiche gère les deux cas (photo locale →
@@ -89,22 +103,28 @@ Depuis le 7/10 : les envois sont rattachés au compte (pseudo et adresse imposé
   part plus tard (envoi sans réduction, métadonnées conservées, envoi Mapillary systématique pour
   garder leur visionneuse), ou à laisser de côté.
 
-## Découpage proposé (pas encore tranché)
+## Découpage (validé le 15/10)
 Le floutage est le plus gros morceau, et sans lui une photo publiée directement s'afficherait non
 floutée (aujourd'hui, c'est Mapillary qui floute visages et plaques).
 - Lot 1 : à la validation, choix « Publier tout de suite » ou « Attendre le floutage de Mapillary »
   (circuit actuel, pour les photos avec des personnes ou des plaques) ; case « Aussi envoyer sur
-  Mapillary » ; statut `publiee` ; « Retirer du site » ; miniature dans le dépôt, grande version
-  dans R2 ; alerte et blocage de taille ; fiche ; textes 4 langues.
+  Mapillary » ; statut `publiee` ; « Retirer du site » ; miniature dans `mapetanque-photos`,
+  grande version dans R2 ; alerte et blocage de taille ; fiche ; textes 4 langues.
 - Lot 2 : outil de floutage multi-zones dans l'admin. Le choix « Attendre Mapillary » disparaît.
 - Plus tard, peut-être : retrait de sa propre photo par l'auteur depuis Mon compte, comme les avis.
 
 ## À adapter
 - `scripts/publier_photos.py` + `publier-photos.yml` :
-  - nouvelle phase : flou, génération des deux WebP, miniature dans le dépôt, grande version
-    dans R2 ; ajouter le dossier des miniatures au `git add` du workflow ;
-  - mesure de la taille du site avant d'ajouter des miniatures : alerte (issue) à 700 Mo,
-    blocage à 850 Mo (les photos restent `validee`) ;
+  - nouvelle phase : flou, génération des deux WebP, miniature dans `mapetanque-photos`
+    (`visiteurs/<id>.webp`), grande version dans R2 ;
+  - le workflow récupère aussi `mapetanque-photos` (second `actions/checkout`) et y pousse. Le
+    `GITHUB_TOKEN` ne couvre que le dépôt du site : il faut un jeton à accès fin limité à
+    `mapetanque-photos` (Contents en écriture), créé par Rémy et rangé dans un secret du dépôt du
+    site (ex. `JETON_PHOTOS`) ;
+  - ordre des poussées : les miniatures d'abord, puis `photos_mapillary.json` (le dépôt des photos
+    met ~1 min à se publier ; une image pas encore en ligne est masquée par la fiche) ;
+  - mesure de la taille de `mapetanque-photos` avant d'ajouter des miniatures : alerte (issue) à
+    700 Mo, blocage à 850 Mo (les photos restent `validee`) ;
   - envoi Mapillary seulement si la case est cochée ;
   - garde-fou de l'export : il compare par `mapillary_id` (une photo locale donnerait `"None"`) ;
     il doit utiliser l'identifiant stable ;
@@ -126,8 +146,11 @@ floutée (aujourd'hui, c'est Mapillary qui floute visages et plaques).
     nouveau traité sort de Nouveaux » à préserver ;
   - bouton « Retirer du site » pour une photo déjà publiée (« Refuser » ne vaut que pour les
     photos pas encore publiées).
-- `script.js` (fiche terrain) : affichage de la miniature locale + visionneuse (grande version
-  servie par le Worker) ; dédoublonnage par identifiant stable, plus seulement par `mapillary_id`.
+- `script.js` (fiche terrain) : affichage de la miniature (`/mapetanque-photos/visiteurs/...`) +
+  visionneuse (grande version servie par le Worker) ; dédoublonnage par identifiant stable, plus
+  seulement par `mapillary_id`.
+- Service worker du site : sa portée couvre aussi `/mapetanque-photos/` (même origine) ; vérifier
+  que sa stratégie de cache convient à ces images.
 - `scripts/promouvoir_terrains.py` : prendre la miniature 16:9 locale de la photo du visiteur
   quand elle existe (pas de miniature carrée : les tuiles 4:3 coupent la 16:9 en CSS). Il
   n'écrit toujours aucune image.
@@ -146,5 +169,6 @@ floutée (aujourd'hui, c'est Mapillary qui floute visages et plaques).
 
 ## Méthode
 Partir des versions ACTUELLES de `publier_photos.py`, `miniature_plate.py`, `admin.html`,
-`script.js` et du code du Worker (à copier depuis le tableau de bord Cloudflare au début de la
-session, puisqu'il n'est pas dans le dépôt).
+`script.js` et du code du Worker. Depuis le 15/10/2026, le code des Workers est dans le dossier
+local `..\Mapetanque-workers` (dépôt privé `mapetanque/mapetanque-workers`), géré avec Wrangler ;
+voir son `CLAUDE.md`. Déploiement seulement à la demande de Rémy.
