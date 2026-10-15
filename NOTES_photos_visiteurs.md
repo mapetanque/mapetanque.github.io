@@ -1,5 +1,7 @@
 # Mapetanque — Photos des visiteurs : publication directe sur le site (réflexion, rien codé)
 
+Note du 7/10/2026, revue le 15/10/2026 (périmètre, taille du dépôt, seuils d'alerte).
+
 ## Contexte
 Circuit actuel (étape 3 de la page admin) : photo visiteur (réduite à 2048 px, redressée et sans
 métadonnées par le formulaire, `script.js`) → Worker `mapetanque-admin` → R2 (`mapetanque-photos`)
@@ -8,32 +10,67 @@ les EXIF et envoie via `mapillary_tools` → traitement Mapillary (24–48 h, pa
 rattachement de l'ID Mapillary (le Worker efface alors le fichier de R2) → la phase « Miniatures
 plates » génère la miniature 800×450 dans `images/mapillary-plates/` → affichage sur le site.
 
-Déjà réglé : le site affiche des miniatures locales (`images/mapillary-plates/`, 432 fichiers,
-31 Mo ; `images/mapillary-360/`, 373 fichiers, 65 Mo). L'embed Mapillary ne sert plus qu'en
-secours. Les URLs qui expirent et la dépendance à l'API ne concernent plus que ce secours.
-Problèmes restants : le délai avant affichage et le rattachement fragile.
+Déjà réglé : le site affiche des miniatures locales. L'embed Mapillary ne sert plus qu'en secours
+(5 terrains au 15/10). Les URLs qui expirent et la dépendance à l'API ne concernent plus que ce
+secours. Problèmes restants : le délai avant affichage, le rattachement fragile, et l'impossibilité
+de retirer depuis l'admin une photo déjà envoyée à Mapillary (cas de la photo 873 le 11/10 : il a
+fallu passer par la console D1).
+
+État au 15/10/2026 (`data/photos_mapillary.json`) : 936 terrains avec photo, 940 entrées,
+742 photos différentes, dont 437 plates (`images/mapillary-plates/`, 437 fichiers, 30 Mo, 70 Ko en
+moyenne) et 310 vues 360° (`images/mapillary-360/`, 377 fichiers car un cadrage par terrain,
+65 Mo). 137 photos sont partagées par des terrains voisins. Site publié (fichiers suivis par Git) :
+136 Mo ; historique Git : 203 Mo. 1 803 terrains en tout.
+
+Depuis le 7/10 : les envois sont rattachés au compte (pseudo et adresse imposés) et limités à
+3 photos par terrain et par personne.
+
+## Périmètre
+- Seules les NOUVELLES photos de visiteurs passent par le nouveau circuit. Ce qui est en place ne
+  change pas : photos Mapillary trouvées par proximité, photos de visiteurs déjà rattachées et
+  leurs miniatures dans `images/mapillary-plates/` et `images/mapillary-360/`.
+- Le jour de la bascule : les photos au statut `envoyee` finissent par l'ancien circuit ; celles
+  encore `en_attente` ou `validee` passent par le nouveau.
 
 ## Orientation retenue
 - Publier la photo directement sur le site dès la validation, sans attendre Mapillary. « Dès la
   validation » = au passage suivant du workflow (5 h UTC ou bouton « Publier maintenant »), plus
   quelques minutes de déploiement GitHub Pages, car `photos_mapillary.json` est dans le dépôt.
 - Générer deux WebP depuis le fichier R2 (déjà flouté, voir plus bas) :
-  - miniature 800×450, qualité 80, même format et même règle de cadrage que
-    `scripts/miniature_plate.py` (paysage recadré 16:9 ; portrait entier sur fond flou),
-    ~70 Ko, rangée DANS LE DÉPÔT (`images/visiteurs/<id>.webp` ou équivalent) ;
-  - version d'affichage pour la visionneuse (~1280–1600 px, qualité ~75, ~120–200 Ko),
+  - miniature 800×450, même format et même règle de cadrage que `scripts/miniature_plate.py`
+    (paysage recadré 16:9 ; portrait entier sur fond flou), rangée DANS LE DÉPÔT
+    (`images/visiteurs/<id>.webp` ou équivalent). Qualité 80 (~70 Ko) comme les miniatures
+    actuelles, ou 72 (~50 Ko) pour économiser de la place : à trancher en comparant à l'œil ;
+  - version d'affichage pour la visionneuse (~1280–1600 px, qualité ~75, ~125–200 Ko),
     rangée dans R2.
-- Pourquoi ce partage : la fiche, le carrousel, `promouvoir_terrains.py` et le ménage marchent déjà
-  avec des chemins locaux `/images/...`. 2 000 miniatures ≈ 140 Mo, acceptable (le dépôt porte déjà
-  96 Mo de miniatures). Les photos restent visibles sur les fiches même si le Worker est en panne
-  ou si le quota est atteint. Seules les grandes versions, plus lourdes, vont dans R2 (gratuit
-  jusqu'à 10 Go-mois, sortie gratuite).
+- Pourquoi ce partage (retenu le 15/10, après avoir envisagé de tout mettre dans le dépôt) :
+  - la fiche, le carrousel, `promouvoir_terrains.py` et le ménage marchent déjà avec des chemins
+    locaux `/images/...` ; les photos restent visibles sur les fiches même si le Worker est en
+    panne ou si le quota est atteint ;
+  - hypothèse prudente de 3 nouvelles photos par terrain (5 409 photos ; on est aujourd'hui à
+    environ une photo sur un terrain sur deux) : miniatures ≈ 370 Mo (≈ 270 Mo en qualité 72),
+    grandes versions ≈ 1,1 Go en 1600 px (≈ 680 Mo en 1280 px). Avec les 136 Mo actuels, les
+    grandes versions dans le dépôt dépasseraient la limite de 1 Go d'un site GitHub Pages ;
+    les miniatures seules donnent ≈ 510 Mo, ce qui passe ;
+  - grandes versions dans R2 : ≈ 1,1 Go sur les 10 Go-mois gratuits, sortie gratuite. Le Worker
+    n'est appelé qu'à l'ouverture de la visionneuse, pas à l'affichage de la fiche.
+  - Une photo retirée reste dans l'historique Git : le dépôt ne fait que grossir. La limite de
+    1 Go vise le site publié, mais un gros historique ralentit clonage et manipulations.
 - Service des grandes versions par le Worker `mapetanque-admin`. Le DNS est chez OVH, donc pas de
   domaine perso pour R2 ; `r2.dev` n'est pas prévu pour la production.
   ⚠️ Le cache de Cloudflare (Cache API) est sans effet sur `*.workers.dev` : seul le cache du
   navigateur jouera (`Cache-Control: public, max-age=31536000, immutable`, avec un nom de fichier
   qui change si l'image change). Chaque première vue = 1 requête Worker + 1 lecture R2, sur le
   quota gratuit de 100 000 requêtes/jour COMMUN à tout le compte (admin, envois, notes).
+- Taille du site : alerte et blocage (retenu le 15/10). Après la génération des miniatures,
+  `publier-photos.yml` mesure la taille du site publié (fichiers suivis par Git) :
+  - à 700 Mo : alerte. Une issue « Taille du site » est ouverte ou complétée, comme le fait
+    `alerte-photo.yml` ; c'est le bot qui écrit, donc GitHub envoie un mail. Les publications
+    continuent ;
+  - à 850 Mo : blocage. Le script n'ajoute plus de miniatures au dépôt ; les photos restent au
+    statut `validee`, non publiées, et l'issue le dit. Rien ne casse, la décision se prend à
+    froid (alléger les miniatures, en déplacer une partie dans R2…).
+  - Pas d'alerte prévue pour R2 (≈ 1,1 Go sur 10 Go dans l'hypothèse prudente).
 - Le dépôt garde le JSON de correspondance photo ↔ terrain : `photos_mapillary.json` (nom
   inchangé), avec un champ source `mapillary` / `locale`. La fiche gère les deux cas (photo locale →
   visionneuse simple au lieu du lien Mapillary).
@@ -51,12 +88,23 @@ Problèmes restants : le délai avant affichage et le rattachement fragile.
   qui efface les métadonnées 360° (XMP GPano) : Mapillary recevrait une photo plate. À traiter à
   part plus tard (envoi sans réduction, métadonnées conservées, envoi Mapillary systématique pour
   garder leur visionneuse), ou à laisser de côté.
-- Les photos Mapillary trouvées par proximité (~754 terrains) ne changent pas.
+
+## Découpage proposé (pas encore tranché)
+Le floutage est le plus gros morceau, et sans lui une photo publiée directement s'afficherait non
+floutée (aujourd'hui, c'est Mapillary qui floute visages et plaques).
+- Lot 1 : à la validation, choix « Publier tout de suite » ou « Attendre le floutage de Mapillary »
+  (circuit actuel, pour les photos avec des personnes ou des plaques) ; case « Aussi envoyer sur
+  Mapillary » ; statut `publiee` ; « Retirer du site » ; miniature dans le dépôt, grande version
+  dans R2 ; alerte et blocage de taille ; fiche ; textes 4 langues.
+- Lot 2 : outil de floutage multi-zones dans l'admin. Le choix « Attendre Mapillary » disparaît.
+- Plus tard, peut-être : retrait de sa propre photo par l'auteur depuis Mon compte, comme les avis.
 
 ## À adapter
 - `scripts/publier_photos.py` + `publier-photos.yml` :
   - nouvelle phase : flou, génération des deux WebP, miniature dans le dépôt, grande version
     dans R2 ; ajouter le dossier des miniatures au `git add` du workflow ;
+  - mesure de la taille du site avant d'ajouter des miniatures : alerte (issue) à 700 Mo,
+    blocage à 850 Mo (les photos restent `validee`) ;
   - envoi Mapillary seulement si la case est cochée ;
   - garde-fou de l'export : il compare par `mapillary_id` (une photo locale donnerait `"None"`) ;
     il doit utiliser l'identifiant stable ;
@@ -88,10 +136,13 @@ Problèmes restants : le délai avant affichage et le rattachement fragile.
     publiée sur le site, et éventuellement sur Mapillary ; floutage fait par moi ; la phrase
     « seule la date est gardée, car Mapillary l'exige » est à revoir) et paragraphe d'intro
     (« chaque photo reçue est publiée sur Mapillary avant d'être affichée ici » devient faux) ;
+  - `scripts/generer_confidentialite.py` : vérifier ce qui y est dit des photos (publication,
+    conservation dans R2) ;
   - `translations.js` : `add_photo_checkbox_label` (publication sur le site sous CC BY-SA, et
     éventuellement sur Mapillary) et `add_photo_success` (n'annonce plus « quelques jours de
     traitement chez Mapillary ») ;
-  - puis relancer `scripts/generate_provinces.py` et `scripts/generer_a_propos.py`.
+  - puis relancer `scripts/generate_provinces.py`, `scripts/generer_a_propos.py` et
+    `scripts/generer_confidentialite.py`.
 
 ## Méthode
 Partir des versions ACTUELLES de `publier_photos.py`, `miniature_plate.py`, `admin.html`,
