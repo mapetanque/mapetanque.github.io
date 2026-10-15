@@ -6005,5 +6005,12 @@
       "mapillary_id": "1274527980440782",
       "credit_url": "https://www.mapillary.com/map/im/1274527980440782"
     }
+  ],
+  "way/1567862788": [
+    {
+      "mapillary_id": "430821046021937",
+      "credit_url": "https://www.mapillary.com/app/?pKey=430821046021937&focus=photo&x=0.7452693354758799&y=0.46743272761697824&zoom=0.1",
+      "miniature_locale": "/images/mapillary-360/430821046021937-20261014213113.webp"
+    }
   ]
 }
