@@ -4035,12 +4035,6 @@
     {
       "mapillary_id": "1571108411172733",
       "credit_url": "https://www.mapillary.com/map/im/1571108411172733"
-    },
-    {
-      "id_local": "visiteur-889",
-      "photo_site": "https://mapetanque.be/mapetanque-photos/visiteurs/889.webp",
-      "grande": "https://mapetanque-admin.mapetanque.workers.dev/photo/889.webp",
-      "credit_nom": "Rémy"
     }
   ],
   "way/1546240055": [
