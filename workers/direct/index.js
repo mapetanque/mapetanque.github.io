@@ -25,6 +25,13 @@ const ORIGINES_AUTORISEES = [
   "http://127.0.0.1:5500",
   "http://localhost:5500", "http://127.0.0.1:5501", "http://localhost:5501",
 ];
+// Aperçus des branches claude/* publiés par Cloudflare Pages (projet mapetanque), pour tester un
+// changement sur téléphone avant de le fusionner dans main
+const ORIGINE_APERCU = /^https:\/\/[a-z0-9-]+\.mapetanque\.pages\.dev$/;
+
+function origineAutorisee(origine) {
+  return ORIGINES_AUTORISEES.includes(origine) || ORIGINE_APERCU.test(origine);
+}
 
 const CODE_PARTIE = /^[A-Z0-9]{4,8}$/;
 const MAX_CONNEXIONS = 40;             // par partie : bien au-delà de 6 joueurs et leurs proches
@@ -83,7 +90,7 @@ export default class extends WorkerEntrypoint {
     const m = new URL(request.url).pathname.match(/^\/partie\/([A-Za-z0-9]{4,8})$/);
     if (!m) return new Response("introuvable", { status: 404 });
     if (request.headers.get("Upgrade") !== "websocket") return new Response("websocket attendu", { status: 426 });
-    if (!ORIGINES_AUTORISEES.includes(request.headers.get("Origin") || "")) return new Response("origine refusée", { status: 403 });
+    if (!origineAutorisee(request.headers.get("Origin") || "")) return new Response("origine refusée", { status: 403 });
     return this.env.PARTIES.get(this.env.PARTIES.idFromName(m[1].toUpperCase())).fetch(request);
   }
 
