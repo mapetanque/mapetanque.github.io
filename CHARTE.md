@@ -57,8 +57,9 @@ Trois polices sous licence SIL OFL, hébergées sur le site (`polices/`, `police
   boutons. Pas pour les textes longs.
 - **Figtree** (400, 400 italique, 600, 700) : tout le texte courant. Secours : Arial.
 - **Caveat** (700) : écriture manuscrite, avec parcimonie. Une fois par écran au plus (exception :
-  les noms des badges, qui peuvent être plusieurs sur un écran), 22 px au minimum, vert feuillage sur fond clair, blanc sur fond foncé. Usages : accroche et annotation
-  de l'accueil, annonce du vainqueur au compteur (« {équipe} gagne »), nom des badges.
+  les noms des badges, qui peuvent être plusieurs sur un écran), 22 px au minimum, vert
+  feuillage sur fond clair, blanc sur fond foncé. Usages : accroche et annotation de l'accueil,
+  annonce du vainqueur au compteur (« {équipe} gagne »), nom des badges.
 
 | Niveau | Police | Ordinateur | Téléphone |
 |---|---|---|---|
