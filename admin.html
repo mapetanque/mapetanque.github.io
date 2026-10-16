@@ -4100,6 +4100,11 @@ function carteSignalement(s) {
     } else if (aCoordonnees) {
         actions.appendChild(lienExterne("Éditeur OSM", "https://www.openstreetmap.org/edit#map=19/" + lat + "/" + lon));
     }
+    // WalOnMap au même endroit, pour ses photos aériennes de toutes les années (à choisir dans
+    // ses fonds de plan). Sans intérêt hors de Wallonie, mais le lien ne gêne pas.
+    if (aCoordonnees && s.type !== "club") {
+        actions.appendChild(lienExterne("WalOnMap", lienWalOnMap(Number(s.lat), Number(s.lon))));
+    }
 
     // Traiter ou refuser ouvre le choix du mail, sauf sans adresse (anciens signalements) ou si un
     // mail est déjà parti pour ce signalement : il n'y en aura pas de second.
@@ -4135,6 +4140,31 @@ function carteSignalement(s) {
     carte.appendChild(actions);
 
     return carte;
+}
+
+// WalOnMap s'ouvre sur un cadre donné en Lambert belge 2008 (EPSG:3812, son système à lui) :
+// #BBOX=xmin,xmax,ymin,ymax,3812, ici un carré de 200 m autour du point.
+function lienWalOnMap(lat, lon) {
+    const p = versLambert2008(lat, lon);
+    const cadre = [p.x - 100, p.x + 100, p.y - 100, p.y + 100].map(v => v.toFixed(1));
+    return "https://geoportail.wallonie.be/walonmap#BBOX=" + cadre.join(",") + ",3812";
+}
+
+// GPS vers Lambert belge 2008 : projection conique conforme de Lambert à deux parallèles
+// (49°50' et 51°10') sur l'ellipsoïde GRS 80. Pas de changement de datum : ETRS89 et WGS 84
+// ne diffèrent que de quelques centimètres en Belgique. Vérifié au millimètre près contre le
+// service de projection du SPW.
+function versLambert2008(lat, lon) {
+    const rad = Math.PI / 180;
+    const a = 6378137, f = 1 / 298.257222101, e2 = f * (2 - f), e = Math.sqrt(e2);
+    const m = x => Math.cos(x) / Math.sqrt(1 - e2 * Math.sin(x) ** 2);
+    const t = x => Math.tan(Math.PI / 4 - x / 2) / Math.pow((1 - e * Math.sin(x)) / (1 + e * Math.sin(x)), e / 2);
+    const p1 = 49.83333333333334 * rad, p2 = 51.16666666666666 * rad, p0 = 50.797815 * rad;
+    const n = (Math.log(m(p1)) - Math.log(m(p2))) / (Math.log(t(p1)) - Math.log(t(p2)));
+    const F = m(p1) / (n * Math.pow(t(p1), n));
+    const r = a * F * Math.pow(t(lat * rad), n), r0 = a * F * Math.pow(t(p0), n);
+    const theta = n * (lon - 4.359215833333333) * rad;
+    return { x: 649328 + r * Math.sin(theta), y: 665262 + r0 - r * Math.cos(theta) };
 }
 
 // Même règle que le reste de la page : l'affichage suit tout de suite, une erreur éventuelle

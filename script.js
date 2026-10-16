@@ -2637,16 +2637,34 @@ addPhotoOverlay.addEventListener('click', fermerModaleAjoutPhoto);
 const URL_ENVOI_SIGNALEMENT = "https://mapetanque-admin.mapetanque.workers.dev/signalements/envoi";
 
 // Zoom minimum auquel l'épingle doit avoir été posée. En dessous, un clic sur la carte tombe
-// facilement à plusieurs centaines de mètres du terrain réel ; à 16, l'écart reste de l'ordre de
-// quelques mètres, ce qui suffit pour le retrouver sur la photo aérienne.
-const ZOOM_MIN_SIGNALEMENT = 16;
+// facilement à plusieurs centaines de mètres du terrain réel ; à 17 (deux crans sous le maximum),
+// l'écart reste de l'ordre du mètre, ce qui suffit pour le retrouver sur la photo aérienne.
+const ZOOM_MIN_SIGNALEMENT = 17;
+
+// Les terrains déjà recensés n'apparaissent sur la petite carte qu'à partir de ce zoom : plus loin,
+// les 1 800 points couvrent la Belgique sans rien apprendre au visiteur.
+const ZOOM_POINTS_SIGNALEMENT = 14;
+
+// Photos aériennes des Régions, plus récentes et plus nettes qu'Esri, et prises feuilles tombées
+// (printemps en Wallonie, hiver en Flandre) : les terrains sous les arbres s'y voient mieux.
+// Chaque service renvoie une image transparente hors de sa Région : superposés à Esri, ils
+// prennent le relais tout seuls, sans calcul de frontière (Esri reste visible hors de Belgique).
+// Chargées seulement en vue rapprochée : plus loin, Esri suffit et ces images sont lourdes.
+// Wallonie : année fixée exprès (la date est affichée) ; à changer quand une campagne de
+// printemps plus récente paraît (liste : geoservices.wallonie.be/arcgis/rest/services/IMAGERIE).
+const ZOOM_PHOTOS_REGIONALES = 14;
+const PHOTOS_REGIONALES = [
+    ['https://geoservices.wallonie.be/arcgis/services/IMAGERIE/ORTHO_2026_PRINTEMPS/MapServer/WMSServer', '0'],
+    ['https://geo.api.vlaanderen.be/OMWRGBMRVL/wms', 'Ortho'],
+    ['https://geoservices-urbis.irisnet.be/geoserver/urbisgrid/ows', 'Ortho']
+];
 
 const CSS_SIGNALEMENT = `
 #signalement-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 1500; }
 #signalement-overlay.visible { display: block; }
 #signalement-modal {
     display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    z-index: 1550; box-sizing: border-box; width: 420px; max-width: calc(100vw - 24px);
+    z-index: 1550; box-sizing: border-box; width: 460px; max-width: calc(100vw - 24px);
     max-height: 88vh; overflow-y: auto; padding: 25px; background: white;
     border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
 }
@@ -2655,7 +2673,6 @@ const CSS_SIGNALEMENT = `
 #signalement-modal .signalement-zone { border-top: 1px solid #eee; padding-top: 16px; }
 #signalement-modal .signalement-bloc { display: flex; flex-direction: column; gap: 10px; }
 #signalement-modal .signalement-bloc[hidden] { display: none; }
-#signalement-modal .signalement-intro { font-size: 12.5px; line-height: 1.45; color: #56604F; margin: 0; }
 #signalement-modal .signalement-recherche { display: flex; gap: 6px; }
 #signalement-modal .signalement-recherche input { flex: 1; min-width: 0; }
 #signalement-modal .signalement-recherche button {
@@ -2665,37 +2682,77 @@ const CSS_SIGNALEMENT = `
 #signalement-modal .signalement-recherche button:hover { color: #56A03D; border-color: #74C15A; }
 #signalement-modal .signalement-recherche button svg { width: 17px; height: 17px; }
 #signalement-modal .signalement-carte {
-    position: relative; z-index: 0; height: 220px; border: 1px solid #ddd; border-radius: 8px;
+    position: relative; z-index: 0; height: 320px; border: 1px solid #ddd; border-radius: 8px;
 }
-#signalement-modal .signalement-legende { font-size: 11px; color: #888; margin: -4px 0 0; }
+/* Épingle fixe au centre de la carte, pointe sur le centre : on déplace la carte dessous. */
+#signalement-modal .signalement-viseur {
+    position: absolute; left: 50%; top: 50%; z-index: 650; margin: -43px 0 0 -14px;
+    pointer-events: none; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.45));
+}
+#signalement-modal .signalement-viseur svg { display: block; }
+#signalement-modal .signalement-viseur[hidden] { display: none; }
+#signalement-modal .signalement-conseil {
+    position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 1000;
+    padding: 5px 12px; border-radius: 999px; background: rgba(29, 38, 25, 0.82); color: #fff;
+    font-size: 12.5px; font-weight: bold; white-space: nowrap; pointer-events: none;
+}
+#signalement-modal .signalement-conseil[hidden] { display: none; }
+#signalement-modal .signalement-fonds { display: flex; gap: 6px; }
+#signalement-modal .signalement-fonds button {
+    height: 30px; padding: 0 12px; border: 1px solid #d6dccf; border-radius: 999px;
+    background: #fff; color: #1d2619; font: inherit; font-size: 13px; font-weight: bold;
+    white-space: nowrap; cursor: pointer; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+#signalement-modal .signalement-fonds button:hover { border-color: #74C15A; }
+#signalement-modal .signalement-fonds button[aria-pressed="true"] {
+    background: #1d2619; border-color: #1d2619; color: #fff;
+}
+/* Sources des photos aériennes : un « i » au-dessus de l'attribution, comme les crédits des
+   bannières ; la bulle s'ouvre au clic, au-dessus du « i » pour ne pas couvrir les pastilles. */
+#signalement-modal .signalement-sources { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+#signalement-modal .signalement-sources[hidden] { display: none; }
+#signalement-modal .signalement-sources .credit-texte {
+    display: none; max-width: 230px; padding: 5px 8px; border-radius: 6px;
+    background: rgba(0, 0, 0, 0.7); color: #fff; font-size: 11px; line-height: 1.35;
+}
+#signalement-modal .signalement-sources.ouvert .credit-texte { display: block; }
+#signalement-modal .signalement-sources .credit-info-btn {
+    display: flex; align-items: center; justify-content: center; flex: none;
+    width: 28px; height: 28px; padding: 0; border: none; border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9); color: #1d2619; cursor: pointer;
+}
+#signalement-modal .signalement-sources .credit-info-btn svg { width: 18px; height: 18px; }
+#signalement-modal .signalement-point-popup { font-size: 13px; line-height: 1.4; }
+#signalement-modal .signalement-point-popup a { color: #56A03D; font-weight: bold; text-decoration: none; }
+/* Téléphone : fenêtre presque pleine largeur et carte sur la moitié de l'écran environ, pour
+   placer l'épingle au doigt. Pas plus : glisser sur la carte la déplace au lieu de faire défiler
+   la fenêtre, une carte trop haute rendrait le formulaire dessous difficile à atteindre. */
+@media (max-width: 600px) {
+    #signalement-modal { max-width: calc(100vw - 16px); padding: 20px 16px; }
+    #signalement-modal .signalement-carte { height: clamp(280px, 50vh, 420px); }
+}
 #signalement-modal textarea.add-photo-text-input { min-height: 84px; resize: vertical; font-family: inherit; }
 #signalement-modal .signalement-osm { font-size: 12px; color: #56604F; text-align: center; margin: 2px 0 0; }
 #signalement-modal .signalement-osm a { color: #56A03D; font-weight: bold; text-decoration: none; white-space: nowrap; }
 #signalement-modal .signalement-osm a:hover { text-decoration: underline; }
-.signalement-epingle { filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.45)); }
 `;
 
 // Épingle du terrain signalé : même silhouette que les terrains de la carte, mais une croix
 // blanche à la place du rond, et un vert plus soutenu (#56A03D) — la forme suffit à la distinguer
 // des terrains déjà recensés, affichés sur la petite carte sous forme de simples points.
-const iconeEpingleSignalement = L.divIcon({
-    className: 'signalement-epingle',
-    html: '<svg width="29" height="45" viewBox="0 0 29 45" xmlns="http://www.w3.org/2000/svg">' +
-          '<g transform="translate(2,2)">' +
-          '<path d="M12.5 0C5.6 0 0 5.6 0 12.5c0 9.4 12.5 28.5 12.5 28.5s12.5-19.1 12.5-28.5C25 5.6 19.4 0 12.5 0z" fill="#56A03D" stroke="white" stroke-width="2"/>' +
-          '<path d="M12.5 7.5v10M7.5 12.5h10" stroke="white" stroke-width="2.6" stroke-linecap="round"/>' +
-          '</g>' +
-          '</svg>',
-    iconSize: [29, 45],
-    iconAnchor: [14, 43]
-});
+// Fixe au centre de la carte (voir .signalement-viseur) : sa pointe désigne le centre.
+const SVG_EPINGLE_SIGNALEMENT =
+    '<svg width="29" height="45" viewBox="0 0 29 45" xmlns="http://www.w3.org/2000/svg">' +
+    '<g transform="translate(2,2)">' +
+    '<path d="M12.5 0C5.6 0 0 5.6 0 12.5c0 9.4 12.5 28.5 12.5 28.5s12.5-19.1 12.5-28.5C25 5.6 19.4 0 12.5 0z" fill="#56A03D" stroke="white" stroke-width="2"/>' +
+    '<path d="M12.5 7.5v10M7.5 12.5h10" stroke="white" stroke-width="2.6" stroke-linecap="round"/>' +
+    '</g>' +
+    '</svg>';
 
 let modaleSignalement = null;          // construite à la première ouverture
 let overlaySignalement = null;
 let miniCarteSignalement = null;
-let epingleSignalement = null;
 let pointsTerrainsSignalement = null;  // terrains déjà recensés, en points sur la petite carte
-let zoomPlacementSignalement = 0;      // zoom au moment où l'épingle a été posée pour la dernière fois
 let contexteSignalement = null;        // { type: 'manquant' | 'erreur', osmId, titre, lat, lon }
 
 function elementSignalement(selecteur) {
@@ -2734,15 +2791,25 @@ function construireModaleSignalement() {
         <div class="signalement-zone">
             <form id="signalement-form" class="add-photo-form">
                 <div class="signalement-bloc" data-bloc="manquant">
-                    <p class="signalement-intro" data-cle="signalement_intro"></p>
                     <div class="signalement-recherche">
                         <input type="text" class="add-photo-text-input" autocomplete="off" enterkeyhint="search">
                         <button type="button">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                         </button>
                     </div>
-                    <div class="signalement-carte"></div>
-                    <p class="signalement-legende" data-cle="signalement_map_legend"></p>
+                    <div class="signalement-carte">
+                        <div class="signalement-viseur">${SVG_EPINGLE_SIGNALEMENT}</div>
+                        <p class="signalement-conseil" data-cle="signalement_zoom_hint" hidden></p>
+                    </div>
+                    <!-- Déplacés sur la carte (contrôles Leaflet) par preparerMiniCarteSignalement() -->
+                    <div class="signalement-fonds" role="group">
+                        <button type="button" data-fond="plan" data-cle="signalement_fond_plan"></button>
+                        <button type="button" data-fond="photo" data-cle="signalement_fond_photo"></button>
+                    </div>
+                    <div class="signalement-sources" hidden>
+                        <span class="credit-texte" id="signalement-sources-texte" data-cle="signalement_photo_sources"></span>
+                        <button type="button" class="credit-info-btn" aria-expanded="false" aria-controls="signalement-sources-texte">${ICON_INFO}</button>
+                    </div>
                     <label class="add-photo-checkbox-row">
                         <input type="checkbox" name="acces_libre" value="1">
                         <span data-cle="signalement_checkbox_access"></span>
@@ -2754,7 +2821,6 @@ function construireModaleSignalement() {
 
                 <label class="add-photo-field-label" for="signalement-email" data-cle="signalement_field_email"></label>
                 <input type="email" id="signalement-email" name="email" required maxlength="254" autocomplete="email" class="add-photo-text-input">
-                <p class="add-photo-signature" id="signalement-email-compte" style="display:none"></p>
 
                 <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none !important">
 
@@ -2782,6 +2848,9 @@ function construireModaleSignalement() {
     boutonRecherche.dataset.i18nAria = 'signalement_search_btn';
     boutonRecherche.setAttribute('aria-label', t('signalement_search_btn'));
     elementSignalement('#signalement-close').setAttribute('aria-label', t('close_panel'));
+    const boutonSources = elementSignalement('.signalement-sources .credit-info-btn');
+    boutonSources.dataset.i18nAria = 'photo_credit_btn';
+    boutonSources.setAttribute('aria-label', t('photo_credit_btn'));
 
     // Fermeture : croix, clic à côté, touche Échap.
     elementSignalement('#signalement-close').addEventListener('click', fermerModaleSignalement);
@@ -2808,52 +2877,107 @@ function preparerMiniCarteSignalement() {
     const conteneur = elementSignalement('.signalement-carte');
 
     if (!miniCarteSignalement) {
-        miniCarteSignalement = L.map(conteneur, { preferCanvas: true });
+        // Marge de clic élargie : les points des terrains, petits, doivent rester faciles à
+        // toucher du doigt.
+        miniCarteSignalement = L.map(conteneur, { renderer: L.canvas({ tolerance: 8 }) });
 
         // Couches propres à la petite carte : une couche Leaflet ne peut pas vivre sur deux
         // cartes à la fois. Même fond que la carte principale au moment de l'ouverture — la vue
-        // satellite aide beaucoup à repérer un terrain.
+        // aérienne aide beaucoup à repérer un terrain, une fois zoomé au bon endroit.
         const plan = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
-            attribution: '&copy; OpenStreetMap contributors'
+            attribution: '&copy; OpenStreetMap'
         });
-        const vueSatellite = L.tileLayer(
+        const vuePhoto = L.layerGroup([L.tileLayer(
             'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
             { maxZoom: 19, attribution: 'Tiles &copy; Esri' }
-        );
-        ((typeof satellite !== 'undefined' && map.hasLayer(satellite)) ? vueSatellite : plan)
-            .addTo(miniCarteSignalement);
-        L.control.layers({ "🗺️ Plan": plan, "🛰️ Satellite": vueSatellite }).addTo(miniCarteSignalement);
-
-        epingleSignalement = L.marker([50.5, 4.5], {
-            icon: iconeEpingleSignalement,
-            draggable: true,
-            autoPan: true,
-            zIndexOffset: 1000
-        }).addTo(miniCarteSignalement);
-
-        epingleSignalement.on('dragend', function () {
-            noterPlacementSignalement();
-        });
-        miniCarteSignalement.on('click', function (evt) {
-            epingleSignalement.setLatLng(evt.latlng);
-            noterPlacementSignalement();
-        });
-    }
-
-    // Terrains déjà recensés, pour éviter de signaler un terrain qui figure déjà sur la carte.
-    // Construits une seule fois, dès que la liste est chargée (voir le fetch de terrains.geojson).
-    if (!pointsTerrainsSignalement && listeTousLesTerrains.length) {
-        pointsTerrainsSignalement = L.layerGroup(listeTousLesTerrains.map(function (terrain) {
-            return L.circleMarker([terrain.lat, terrain.lon], {
-                radius: 5,
-                color: '#ffffff',
-                weight: 1.5,
-                fillColor: '#74C15A',
-                fillOpacity: 1,
-                interactive: false
+        )].concat(PHOTOS_REGIONALES.map(function (service) {
+            return L.tileLayer.wms(service[0], {
+                layers: service[1],
+                format: 'image/png',
+                transparent: true,
+                minZoom: ZOOM_PHOTOS_REGIONALES,
+                maxZoom: 19
             });
-        })).addTo(miniCarteSignalement);
+        })));
+
+        // Pastilles Plan / Photo aérienne en bas à gauche de la carte, et « i » des sources des
+        // photos en bas à droite, au-dessus de l'attribution. En contrôles Leaflet : un clic dessus
+        // ne déplace pas la carte.
+        const enControle = function (element, position) {
+            const Controle = L.Control.extend({
+                onAdd: function () {
+                    L.DomEvent.disableClickPropagation(element);
+                    return element;
+                }
+            });
+            new Controle({ position: position }).addTo(miniCarteSignalement);
+        };
+        const fonds = elementSignalement('.signalement-fonds');
+        const sources = elementSignalement('.signalement-sources');
+        enControle(fonds, 'bottomleft');
+        enControle(sources, 'bottomright');
+
+        const boutonSources = sources.querySelector('.credit-info-btn');
+        const ouvrirSources = function (ouvrir) {
+            sources.classList.toggle('ouvert', ouvrir);
+            boutonSources.setAttribute('aria-expanded', ouvrir ? 'true' : 'false');
+        };
+        boutonSources.addEventListener('click', function () {
+            ouvrirSources(!sources.classList.contains('ouvert'));
+        });
+        miniCarteSignalement.on('click movestart', function () { ouvrirSources(false); });
+
+        const boutonsFond = fonds.querySelectorAll('button');
+        const choisirFond = function (nom) {
+            const photo = nom === 'photo';
+            miniCarteSignalement.removeLayer(photo ? plan : vuePhoto);
+            miniCarteSignalement.addLayer(photo ? vuePhoto : plan);
+            boutonsFond.forEach(function (bouton) {
+                bouton.setAttribute('aria-pressed', bouton.dataset.fond === nom ? 'true' : 'false');
+            });
+            sources.hidden = !photo;
+            ouvrirSources(false);
+        };
+        boutonsFond.forEach(function (bouton) {
+            bouton.addEventListener('click', function () { choisirFond(bouton.dataset.fond); });
+        });
+        choisirFond((typeof satellite !== 'undefined' && map.hasLayer(satellite)) ? 'photo' : 'plan');
+
+        // L'épingle reste au centre (.signalement-viseur) : on déplace la carte dessous, au doigt
+        // ou d'un clic sur l'endroit voulu, qui vient alors se placer sous l'épingle.
+        miniCarteSignalement.on('click', function (evt) {
+            miniCarteSignalement.panTo(evt.latlng);
+        });
+        miniCarteSignalement.on('moveend', placementSignalementChange);
+        // L'épingle, posée sur la carte, passerait par-dessus la bulle d'un terrain.
+        const viseur = elementSignalement('.signalement-viseur');
+        miniCarteSignalement.on('popupopen', function () { viseur.hidden = true; });
+        miniCarteSignalement.on('popupclose', function () { viseur.hidden = false; });
+
+        // Terrains déjà recensés, pour éviter de signaler un terrain qui figure déjà sur la carte.
+        // Lus dans terrains.geojson, téléchargé sur toutes les pages (chiffres du pied de page) :
+        // listeTousLesTerrains, elle, n'est remplie que sur les pages qui affichent les terrains,
+        // d'où les points absents de l'accueil. Visibles seulement en vue rapprochée. Un clic
+        // sur un point donne le nom du terrain et un lien vers sa fiche.
+        terrainsGeojson.then(function (data) {
+            pointsTerrainsSignalement = L.layerGroup(data.features.map(function (feature) {
+                const lat = feature.geometry.coordinates[1];
+                const lon = feature.geometry.coordinates[0];
+                return L.circleMarker([lat, lon], {
+                    radius: 5,
+                    color: '#ffffff',
+                    weight: 1.5,
+                    fillColor: '#74C15A',
+                    fillOpacity: 1,
+                    bubblingMouseEvents: false   // sinon la carte reçoit aussi le clic et se recentre
+                }).bindPopup(function () {
+                    return popupPointSignalement(feature.properties || {}, lat, lon);
+                });
+            }));
+            afficherPointsTerrainsSignalement();
+        }).catch(function () { /* pas de points : le signalement reste possible */ });
+        miniCarteSignalement.on('zoomend', afficherPointsTerrainsSignalement);
     }
 
     // Démarre sur la vue de la carte principale : si le visiteur a déjà cherché une commune ou
@@ -2866,17 +2990,36 @@ function preparerMiniCarteSignalement() {
     } else {
         miniCarteSignalement.fitBounds(BELGIQUE_BOUNDS, { animate: false });
     }
-    const centre = miniCarteSignalement.getCenter();
-    const zoom = miniCarteSignalement.getZoom();
-    epingleSignalement.setLatLng(centre);
-    zoomPlacementSignalement = zoom;
-    mettreAJourLienOsmSignalement();
+    placementSignalementChange();
 }
 
-function noterPlacementSignalement() {
-    zoomPlacementSignalement = miniCarteSignalement.getZoom();
+// Nom du terrain et lien vers sa fiche, sur un point de la petite carte.
+function popupPointSignalement(proprietes, lat, lon) {
+    const nom = proprietes.nearest_street
+        ? t('popup_terrain_prefix') + ' ' + proprietes.nearest_street
+        : t('popup_terrain_default');
+    const commune = communeOfficielle(proprietes);
+    return '<div class="signalement-point-popup"><strong>' + echapperAvis(nom) + '</strong>'
+        + (commune ? '<br>' + echapperAvis(commune.nom) : '')
+        + '<br><a href="' + urlPageCarte('?lat=' + lat + '&lon=' + lon + '&voir=1') + '">'
+        + echapperAvis(t('commune_voir_carte')) + ' →</a></div>';
+}
+
+// La carte a bougé : l'épingle désigne un nouvel endroit.
+function placementSignalementChange() {
+    elementSignalement('.signalement-conseil').hidden =
+        miniCarteSignalement.getZoom() >= ZOOM_MIN_SIGNALEMENT;
     mettreAJourLienOsmSignalement();
     afficherStatutSignalement(null, '', '');
+}
+
+function afficherPointsTerrainsSignalement() {
+    if (!pointsTerrainsSignalement) return;
+    if (miniCarteSignalement.getZoom() >= ZOOM_POINTS_SIGNALEMENT) {
+        miniCarteSignalement.addLayer(pointsTerrainsSignalement);
+    } else {
+        miniCarteSignalement.removeLayer(pointsTerrainsSignalement);
+    }
 }
 
 // Même recherche que la barre de la bannière (Nominatim, orientée vers la Belgique).
@@ -2907,15 +3050,14 @@ function rechercherAdresseSignalement() {
             const resultat = resultats[0];
             const point = L.latLng(parseFloat(resultat.lat), parseFloat(resultat.lon));
 
+            // Le point trouvé vient sous l'épingle, au zoom qui montre tout le résultat (une
+            // rue, une commune…), sans dépasser 18.
+            let zoom = ZOOM_MIN_SIGNALEMENT;
             if (resultat.boundingbox) {
                 const bbox = resultat.boundingbox.map(parseFloat);
-                miniCarteSignalement.fitBounds([[bbox[0], bbox[2]], [bbox[1], bbox[3]]],
-                    { maxZoom: 18, animate: false });
-            } else {
-                miniCarteSignalement.setView(point, 17, { animate: false });
+                zoom = Math.min(18, miniCarteSignalement.getBoundsZoom([[bbox[0], bbox[2]], [bbox[1], bbox[3]]]));
             }
-            epingleSignalement.setLatLng(point);
-            noterPlacementSignalement();
+            miniCarteSignalement.setView(point, zoom, { animate: false });
         })
         .catch(function () {
             afficherStatutSignalement('search_failed', 'error');
@@ -2933,8 +3075,8 @@ function mettreAJourLienOsmSignalement() {
         const morceaux = c.osmId.split('/');
         adresse += '?' + morceaux[0] + '=' + morceaux[1];
     } else {
-        const position = c.type === 'manquant' && epingleSignalement
-            ? epingleSignalement.getLatLng()
+        const position = c.type === 'manquant' && miniCarteSignalement
+            ? miniCarteSignalement.getCenter()
             : L.latLng(c.lat, c.lon);
         if (position && isFinite(position.lat)) {
             adresse += '#map=19/' + position.lat.toFixed(6) + '/' + position.lng.toFixed(6);
@@ -3004,20 +3146,15 @@ function ouvrirModaleSignalement(options) {
     commentaire.placeholder = t(commentaire.dataset.i18nPlaceholder);
 
     // E-mail obligatoire, pour pouvoir recontacter l'auteur d'un signalement incomplet.
-    // Visiteur connecté : c'est l'adresse de son compte, affichée sans champ à remplir (le Worker
-    // prend de toute façon celle du compte), comme le pseudo des avis et des photos.
+    // Visiteur connecté : c'est l'adresse de son compte, sans champ ni mention (le Worker prend de
+    // toute façon celle du compte).
     const session = sessionCompte();
     const emailCompte = session && typeof session.email === 'string' ? session.email : '';
     const champEmail = elementSignalement('#signalement-email');
     const libelleEmail = elementSignalement('label[for="signalement-email"]');
-    const infoEmail = elementSignalement('#signalement-email-compte');
     champEmail.value = emailCompte;
     champEmail.style.display = emailCompte ? 'none' : '';
     libelleEmail.style.display = emailCompte ? 'none' : '';
-    infoEmail.style.display = emailCompte ? '' : 'none';
-    infoEmail.innerHTML = emailCompte
-        ? t('signalement_email_compte').replace('{email}', '<strong>' + echapperAvis(emailCompte) + '</strong>')
-        : '';
 
     // Un club ne se corrige pas dans OpenStreetMap : pas d'invitation à le faire.
     elementSignalement('.signalement-osm').hidden = contexteSignalement.type === 'club';
@@ -3059,11 +3196,11 @@ function envoyerSignalement(evt) {
     donnees.set('langue', currentLang);
 
     if (c.type === 'manquant') {
-        if (zoomPlacementSignalement < ZOOM_MIN_SIGNALEMENT) {
+        if (miniCarteSignalement.getZoom() < ZOOM_MIN_SIGNALEMENT) {
             afficherStatutSignalement('signalement_error_zoom', 'error');
             return;
         }
-        const position = epingleSignalement.getLatLng();
+        const position = miniCarteSignalement.getCenter();   // sous la pointe de l'épingle
         donnees.set('lat', position.lat.toFixed(6));
         donnees.set('lon', position.lng.toFixed(6));
         donnees.set('acces_libre', '1');
