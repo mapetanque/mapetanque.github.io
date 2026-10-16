@@ -19,6 +19,10 @@ Le site est publié depuis `main` : tout changement poussé sur `main` est en li
   branche `claude/*` poussée, à l'adresse `https://<branche>.mapetanque.pages.dev` (nom de branche
   en minuscules, `/` remplacé par `-`, coupé à 28 caractères ; l'adresse exacte figure dans le
   statut « Cloudflare Pages » du commit sur GitHub). Après chaque push, donner ce lien à Rémy.
+  Réglage Cloudflare (Settings → Builds → Branch control) : déploiements automatiques de `main`
+  désactivés (GitHub Pages publie le site), aperçus limités aux branches `claude/*`. Un push
+  fait alors que la branche n'était pas incluse est « sauté » et ne se relance pas : il faut un
+  nouveau push.
   L'aperçu utilise les vraies données (Workers, D1) : ce qu'on y enregistre arrive sur le site.
   Les Workers n'acceptent l'aperçu que si `*.mapetanque.pages.dev` est dans leurs origines
   autorisées ; connexion par code à 6 chiffres seulement (pas Google).
