@@ -2731,7 +2731,7 @@ const CSS_SIGNALEMENT = `
     #signalement-modal { max-width: calc(100vw - 16px); padding: 20px 16px; }
     #signalement-modal .signalement-carte { height: clamp(280px, 50vh, 420px); }
 }
-#signalement-modal textarea.add-photo-text-input { min-height: 84px; resize: vertical; font-family: inherit; }
+#signalement-modal textarea.add-photo-text-input { resize: vertical; font-family: inherit; }
 #signalement-modal .signalement-osm { font-size: 12px; color: #56604F; text-align: center; margin: 2px 0 0; }
 #signalement-modal .signalement-osm a { color: #56A03D; font-weight: bold; text-decoration: none; white-space: nowrap; }
 #signalement-modal .signalement-osm a:hover { text-decoration: underline; }
@@ -3128,8 +3128,10 @@ function ouvrirModaleSignalement(options) {
 
     // Commentaire : facultatif pour un terrain manquant (l'épingle dit l'essentiel),
     // obligatoire pour une erreur (c'est tout le contenu du signalement).
+    // Deux lignes suffisent au commentaire facultatif ; quatre pour décrire une erreur.
     const commentaire = elementSignalement('#signalement-commentaire');
     commentaire.required = !estManquant;
+    commentaire.rows = estManquant ? 2 : 4;
     const libelleCommentaire = elementSignalement('#signalement-commentaire-label');
     libelleCommentaire.hidden = !estManquant;
     if (estManquant) {
