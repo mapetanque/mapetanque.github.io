@@ -1,9 +1,9 @@
 {
   "wallonie": {
-    "total": 496,
+    "total": 518,
     "provinces": {
       "liege": {
-        "total": 151,
+        "total": 173,
         "communes": {
           "Fléron": 3,
           "Ougrée": 1,
@@ -16,7 +16,7 @@
           "Visé": 2,
           "Blegny": 4,
           "Wanze": 2,
-          "Remicourt": 1,
+          "Pousset": 1,
           "Braives": 2,
           "Malmedy": 3,
           "Fexhe-le-Haut-Clocher": 1,
@@ -34,7 +34,7 @@
           "Aywaille": 4,
           "Lontzen": 2,
           "Vivegnis": 1,
-          "Hannut": 2,
+          "Hannut": 22,
           "Montzen": 3,
           "Soumagne": 7,
           "Houssonloge": 1,
@@ -73,7 +73,8 @@
           "Omal": 1,
           "Limont": 1,
           "La Gleize": 1,
-          "Beyne-Heusay": 2
+          "Beyne-Heusay": 2,
+          "Esneux": 2
         }
       },
       "namur": {
@@ -239,7 +240,7 @@
     "communes": {}
   },
   "flandre": {
-    "total": 1186,
+    "total": 1187,
     "provinces": {
       "brabant_flamand": {
         "total": 185,
@@ -440,7 +441,7 @@
         }
       },
       "flandre_occidentale": {
-        "total": 222,
+        "total": 223,
         "communes": {
           "Zedelgem": 2,
           "Gullegem": 9,
@@ -458,7 +459,7 @@
           "De Panne": 2,
           "Beernem": 5,
           "Menen": 8,
-          "Lauwe": 6,
+          "Lauwe": 7,
           "Damme": 1,
           "Zwevezele": 1,
           "Bredene": 6,
@@ -558,7 +559,7 @@
     "communes": {}
   },
   "bruxelles": {
-    "total": 121,
+    "total": 120,
     "provinces": {
       "brabant_flamand": {
         "total": 1,
@@ -572,8 +573,8 @@
       "Bruxelles - Brussel": 28,
       "Woluwe-Saint-Lambert - Sint-Lambrechts-Woluwe": 12,
       "Forest - Vorst": 7,
-      "Uccle - Ukkel": 7,
       "Ixelles - Elsene": 4,
+      "Uccle - Ukkel": 6,
       "Schaerbeek - Schaarbeek": 5,
       "Evere": 2,
       "Jette": 6,

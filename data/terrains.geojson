@@ -1,6 +1,6 @@
 {
   "type": "FeatureCollection",
-  "mis_a_jour": "2026-10-15",
+  "mis_a_jour": "2026-10-16",
   "features": [
     {
       "type": "Feature",
@@ -4664,42 +4664,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          4.3392233,
-          50.8006798
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "lit": "yes",
-        "sport": "boules",
-        "surface": "concrete",
-        "wheelchair": "yes",
-        "osm_id": "way/251880509",
-        "nearest_street": "Rue Robert Scott - Robert Scottstraat",
-        "commune": "Uccle - Ukkel",
-        "province": null,
-        "region": "bruxelles",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "wc": 277,
-          "parking": 3,
-          "arret": 103,
-          "routes": {
-            "primary": 51
-          },
-          "eau": {
-            "plan_eau_petit": 105,
-            "ruisseau": 13
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           3.6447448,
           50.9907298
         ]
@@ -4975,7 +4939,7 @@
         "sport": "boules",
         "osm_id": "way/268152713",
         "nearest_street": "Place du Roi Albert",
-        "commune": "Remicourt",
+        "commune": "Pousset",
         "province": "liege",
         "region": "wallonie",
         "env": {
@@ -8255,7 +8219,7 @@
         "commune": "Bredene",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-sjc3-1.xx.fbcdn.net/m1/v/t6/AQObaG_zKxPNxY1BHdliPXiUvSdMTkKQA6pmE-NerE_3VYcrX7RGQyNFPdqBszIfj5_TYWfl3Mfv7Ofqyw1xxm3fGmkkBGGJzTawzvxsDb240yD0xR5x-EMisXtxc__yAC_292cfY8BZCxaqyjfabkCdSYtngpkwMputRxapyFMKFQ?stp=s1024x576&edm=ALXxkZ8EAAAA&_nc_gid=YsAn5Mjjdca9gwrTEgGdFQ&_nc_oc=AdonRLjyUs4vyrkOfltZbX5jPJBzSXJcxrwVDUTfpYRn7eJ83AV60tlcjyA-wvZFVsc&ccb=10-5&oh=00_AQMakAC1gEwOUtYPcHcS5ShRGNxTvJVCyqretj8jI748EQ&oe=6AF7E7D8&_nc_sid=201bca",
+        "photo_url": "https://scontent-iad3-1.xx.fbcdn.net/m1/v/t6/AQObaG_zKxPNxY1BHdliPXiUvSdMTkKQA6pmE-NerE_3VYcrX7RGQyNFPdqBszIfj5_TYWfl3Mfv7Ofqyw1xxm3fGmkkBGGJzTawzvxsDb240yD0xR5x-EMisXtxc__yAC_292cfY8BZCxaqyjfabkCdSYtngpkwMputRxapyFMKFQ?stp=s1024x576&edm=ALXxkZ8EAAAA&_nc_gid=-amyigLArTM-7mz_hFI2lQ&_nc_oc=AdoECKF8uC6wMm97up09HW5z0C_HBSrKjpNYJsd2ljCC09eh_awllLBejyob0vXQUgs&ccb=10-5&oh=00_AQPJ6Y5HFL8FWH8Hm2PuL5_JeUtZUnLpMD33BDYVJURfpw&oe=6AF93958&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=283988963431148&focus=photo",
         "env": {
@@ -11825,7 +11789,7 @@
         "commune": "Knokke-Heist",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-sjc3-1.xx.fbcdn.net/m1/v/t6/AQMf_Yb7sgn2HtrhW_6VC0c3gNeSEqWcQrStUCOJgQQS_cGjvetA2ZiQTBxMFUq625Le4tBrGfxkE5kCmz4LxQPtyjoh4DWxfgxhM8HEYMnM_IZHy_emxlqMC6g7rrsPAg3kBJYIsFnsMxUPt82Xc0wmmChwgRq1je69gRbfpQwEZa4?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=Hg2CvjU2ab7mdu5d8j1Aug&_nc_oc=AdqfGgsaeN6FV661aaFWYlljPZht__bD1wNqTwVr6K5DnfViC8CCuWZ8QQZmK3QUncM&ccb=10-5&oh=00_AQOfRI-9zzaEodXVpOOAluPQ1RrSUPJFjIPzfdak7-sbkg&oe=6AF7F355&_nc_sid=201bca",
+        "photo_url": "https://scontent-iad3-1.xx.fbcdn.net/m1/v/t6/AQMf_Yb7sgn2HtrhW_6VC0c3gNeSEqWcQrStUCOJgQQS_cGjvetA2ZiQTBxMFUq625Le4tBrGfxkE5kCmz4LxQPtyjoh4DWxfgxhM8HEYMnM_IZHy_emxlqMC6g7rrsPAg3kBJYIsFnsMxUPt82Xc0wmmChwgRq1je69gRbfpQwEZa4?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=d-MR9PB-_8ChJQg4o7RE2w&_nc_oc=AdrfXQ2vow1P4Qm_xW962fDMAgl73zbuqyEl6Tc4jnBc1LZV3HINyFoDlQxcyhIza5c&ccb=10-5&oh=00_AQNpxooceidRP8ICPXLiXqUPba-NSOXF2-NRMez2IaU6Aw&oe=6AF944D5&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=2585664148528878&focus=photo",
         "env": {
@@ -53430,13 +53394,13 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          5.0823715,
-          50.6674153
+          5.0822411,
+          50.6674862
         ]
       },
       "properties": {
+        "area": "yes",
         "leisure": "pitch",
-        "name": "Carreau Hannutois",
         "sport": "boules",
         "osm_id": "way/1459878209",
         "nearest_street": "Rue Lambert Mottart",
@@ -54573,7 +54537,7 @@
         "commune": "Antwerpen",
         "province": "anvers",
         "region": "flandre",
-        "photo_url": "https://scontent-sjc3-1.xx.fbcdn.net/m1/v/t6/AQPfI6agvNEEMVKpP3RM558SjkEFr8qPLAFX83Byiw3SePq3c058M97fBB8BBpiRuiQGYx9aPGAwlDCLMH-kNrdWnpxsYkdF7Lv22yJ0fVVMowwxoTS0c1izmxwC_qQvATZVEsQK-Sf_oMR1OI24ZA-52JzH2VaGT8A-gvgPzUlcOis?stp=s1024x771&edm=ALXxkZ8EAAAA&_nc_gid=wZsulRzIb9YK3-phs0jzcA&_nc_oc=AdqVwbYBNUTSNjWExtni1yzp5za9Q11ZauhEKr_42bzUpiayLzcUS6Ru2cYuOiYbKd4&ccb=10-5&oh=00_AQNYWgfIp9tQrY2OJ33fWTs5XP7gzIvDy5jOBD4iPM2gVg&oe=6AF806A0&_nc_sid=201bca",
+        "photo_url": "https://scontent-iad3-1.xx.fbcdn.net/m1/v/t6/AQPfI6agvNEEMVKpP3RM558SjkEFr8qPLAFX83Byiw3SePq3c058M97fBB8BBpiRuiQGYx9aPGAwlDCLMH-kNrdWnpxsYkdF7Lv22yJ0fVVMowwxoTS0c1izmxwC_qQvATZVEsQK-Sf_oMR1OI24ZA-52JzH2VaGT8A-gvgPzUlcOis?stp=s1024x771&edm=ALXxkZ8EAAAA&_nc_gid=EWuaeTlU3pwXLQpxHaMCyw&_nc_oc=Adqp7FaHnYofAHYm2hZneeA4foHlL7V6zFmhIvZunI57bdbxf6OYVtRT5Fy7uhWIrsE&ccb=10-5&oh=00_AQNfSB9MW47aTiwVB2LieEaLFkVaoeGynkshoSuOW_7ZrA&oe=6AF95820&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1257601666575631&focus=photo",
         "env": {
@@ -56632,7 +56596,7 @@
         "commune": "Nieuwpoort",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-sjc3-1.xx.fbcdn.net/m1/v/t6/AQMOt-M_fs3kMGJ_cV0h0_kKwpcgrAm0Yu0v3qEl6fnjae5RZ4Y3EdlkIwQJBnVjoIzSVVB-ttm9P4a9WVmTY8Ss8YtnJdt8RO3u2NHAyxpk3Ysqsqm9z1NU3bl9_UAyme7RmjTao85pmNXfE7Rgxnfo18XkakJ7GYbqHitmw7V5FA?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=CPPG7voqU4M1xYLuN8Jq0w&_nc_oc=Adr95unPLnyEfRzYzfLP2fLfJj2zZvknJN8oADba2dTwt7hiabqK5DWPTIECxaBLqfc&ccb=10-5&oh=00_AQPRLvbrfa05OOqCae_d20-7Lxr_77AASvBOtrffDDlGBQ&oe=6AF801E1&_nc_sid=201bca",
+        "photo_url": "https://scontent-iad3-1.xx.fbcdn.net/m1/v/t6/AQMOt-M_fs3kMGJ_cV0h0_kKwpcgrAm0Yu0v3qEl6fnjae5RZ4Y3EdlkIwQJBnVjoIzSVVB-ttm9P4a9WVmTY8Ss8YtnJdt8RO3u2NHAyxpk3Ysqsqm9z1NU3bl9_UAyme7RmjTao85pmNXfE7Rgxnfo18XkakJ7GYbqHitmw7V5FA?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=128YPiY78oPrUP6C3VhOnQ&_nc_oc=AdrquxunnZyx9NzXxGX5KEPj-WaXxKwgh92rbXD7VU9yKUPhuoCNeEFrFScUg8VlW0E&ccb=10-5&oh=00_AQMkaCDzBwUuFfKkPOwbVGkSvgtbkNq7kHrAPW6jr7Zpuw&oe=6AF95361&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1545369280832050&focus=photo",
         "env": {
@@ -56784,7 +56748,7 @@
         "commune": "Nieuwpoort",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-sjc3-1.xx.fbcdn.net/m1/v/t6/AQPfOMAvtcfdVkelBlQG8MmhkCTBsFsDU8vyOJNR5iy2fAjiZRiqLE3RJgJ1IyQmXPsdgj6sU9hDNMYwUtg7zuJ5t5acOGHbCdXZ2gOTsuvJldom2B7Q_WddocWOD0xj_igU-iVI1uDHQeuUk55oluPKEkPr1_q3-XDBUUGKvwCTcmk?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=f28Zx0ORgrnax_55XoGXFw&_nc_oc=Adqz6zV6Eo2tpDIT3zScSvYhYzShUTLtTeg-wOcFZ8VmQueES-dkPy1VLttlhtQ8RsI&ccb=10-5&oh=00_AQMcyrt9DWgtjjemwi3Utl--jgn9oc_44YueDcNQDy-S9g&oe=6AF803E5&_nc_sid=201bca",
+        "photo_url": "https://scontent-iad3-1.xx.fbcdn.net/m1/v/t6/AQPfOMAvtcfdVkelBlQG8MmhkCTBsFsDU8vyOJNR5iy2fAjiZRiqLE3RJgJ1IyQmXPsdgj6sU9hDNMYwUtg7zuJ5t5acOGHbCdXZ2gOTsuvJldom2B7Q_WddocWOD0xj_igU-iVI1uDHQeuUk55oluPKEkPr1_q3-XDBUUGKvwCTcmk?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=SsYmwRjpEledeH0jfjpiaA&_nc_oc=Adp0KRCxlDXz55YM3nByNtGT7cd4iGkk9wONNuUNhBh8DEMK0aD5zJSAeneNZhEhkac&ccb=10-5&oh=00_AQNYOKeIbK6oUoRhT7BrSe39GfShtQWkzp2lcwAmSTqB1Q&oe=6AF95565&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1845376466819094&focus=photo",
         "env": {
@@ -56826,7 +56790,7 @@
         "commune": "Knokke-Heist",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-sjc3-1.xx.fbcdn.net/m1/v/t6/AQOMIrOhJmwR3NQ111tyTgDNNwT-xcI3tMvwRysfwbnkRVigPysgVDgzRm5f1CyVI__7XMnNN_DK4ycpGRvDKuUJKRWPFayH7v41n5OA4EmSOMFz8jPHqzw9BKZtbJkI9Zj8Ma3RX6gJDEH5HsV0LRjhUgEAutkZbhcxECFHFGpal40?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=D3jIVHledeQuW7PXC9Xakg&_nc_oc=Adpqlo9QU8ADcH7irmSZ1PPSqfUukT7cJygKsht03flU8o0XFFBrewV1hrsSzEKm15I&ccb=10-5&oh=00_AQPHVZ5LXzKMTby8fzRnWKfClJcKT8QrbvqVBJbomIn30Q&oe=6AF7FA89&_nc_sid=201bca",
+        "photo_url": "https://scontent-iad3-1.xx.fbcdn.net/m1/v/t6/AQOMIrOhJmwR3NQ111tyTgDNNwT-xcI3tMvwRysfwbnkRVigPysgVDgzRm5f1CyVI__7XMnNN_DK4ycpGRvDKuUJKRWPFayH7v41n5OA4EmSOMFz8jPHqzw9BKZtbJkI9Zj8Ma3RX6gJDEH5HsV0LRjhUgEAutkZbhcxECFHFGpal40?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=dMuzIEgWKAbkmbe2W1nhFw&_nc_oc=AdqU88W1phkbv7DvNto26U-uc4JDdqfZNhQOwlsoezoO431zLybITcJ5tJNirQqkiWU&ccb=10-5&oh=00_AQN07E9YrAlBqnWRE46dJRXFIm_MZYQohFAhYnX2XYIDyA&oe=6AF94C09&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1967944690557231&focus=photo",
         "env": {
@@ -58099,7 +58063,27 @@
         "nearest_street": "Parc Communal",
         "commune": "Nismes",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "jeux": 87,
+          "wc": 66,
+          "parking": 30,
+          "arret": 155,
+          "routes": {
+            "secondary": 132
+          },
+          "eau": {
+            "plan_eau": 150,
+            "plan_eau_petit": 7,
+            "riviere": 50,
+            "ruisseau": 190
+          },
+          "nature": {
+            "bois": 1.1,
+            "parc": 9.7
+          }
+        }
       }
     },
     {
@@ -58120,7 +58104,27 @@
         "nearest_street": "Parc Communal",
         "commune": "Nismes",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "jeux": 84,
+          "wc": 70,
+          "parking": 33,
+          "arret": 159,
+          "routes": {
+            "secondary": 137
+          },
+          "eau": {
+            "plan_eau": 147,
+            "plan_eau_petit": 7,
+            "riviere": 52,
+            "ruisseau": 187
+          },
+          "nature": {
+            "bois": 1.1,
+            "parc": 9.7
+          }
+        }
       }
     },
     {
@@ -58141,7 +58145,27 @@
         "nearest_street": "Parc Communal",
         "commune": "Nismes",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "jeux": 81,
+          "wc": 73,
+          "parking": 36,
+          "arret": 163,
+          "routes": {
+            "secondary": 140
+          },
+          "eau": {
+            "plan_eau": 143,
+            "plan_eau_petit": 7,
+            "riviere": 55,
+            "ruisseau": 184
+          },
+          "nature": {
+            "bois": 1.1,
+            "parc": 9.7
+          }
+        }
       }
     },
     {
@@ -58162,7 +58186,27 @@
         "nearest_street": "Parc Communal",
         "commune": "Nismes",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "jeux": 90,
+          "wc": 63,
+          "parking": 27,
+          "arret": 151,
+          "routes": {
+            "secondary": 129
+          },
+          "eau": {
+            "plan_eau": 154,
+            "plan_eau_petit": 7,
+            "riviere": 47,
+            "ruisseau": 194
+          },
+          "nature": {
+            "bois": 1.1,
+            "parc": 9.7
+          }
+        }
       }
     },
     {
@@ -58183,7 +58227,27 @@
         "nearest_street": "Parc Communal",
         "commune": "Nismes",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "jeux": 77,
+          "wc": 77,
+          "parking": 39,
+          "arret": 166,
+          "routes": {
+            "secondary": 144
+          },
+          "eau": {
+            "plan_eau": 139,
+            "plan_eau_petit": 7,
+            "riviere": 57,
+            "ruisseau": 181
+          },
+          "nature": {
+            "bois": 1.1,
+            "parc": 9.7
+          }
+        }
       }
     },
     {
@@ -58204,7 +58268,25 @@
         "nearest_street": "Parc Communal",
         "commune": "Nismes",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "jeux": 68,
+          "wc": 88,
+          "eau_potable": 395,
+          "parking": 49,
+          "arret": 177,
+          "eau": {
+            "plan_eau": 129,
+            "plan_eau_petit": 7,
+            "riviere": 65,
+            "ruisseau": 171
+          },
+          "nature": {
+            "bois": 1.1,
+            "parc": 9.7
+          }
+        }
       }
     },
     {
@@ -58225,7 +58307,25 @@
         "nearest_street": "Parc Communal",
         "commune": "Nismes",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "jeux": 71,
+          "wc": 84,
+          "eau_potable": 399,
+          "parking": 46,
+          "arret": 174,
+          "eau": {
+            "plan_eau": 132,
+            "plan_eau_petit": 7,
+            "riviere": 63,
+            "ruisseau": 174
+          },
+          "nature": {
+            "bois": 1.1,
+            "parc": 9.7
+          }
+        }
       }
     },
     {
@@ -58246,7 +58346,27 @@
         "nearest_street": "Parc Communal",
         "commune": "Nismes",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "jeux": 74,
+          "wc": 80,
+          "parking": 42,
+          "arret": 170,
+          "routes": {
+            "secondary": 148
+          },
+          "eau": {
+            "plan_eau": 136,
+            "plan_eau_petit": 7,
+            "riviere": 60,
+            "ruisseau": 177
+          },
+          "nature": {
+            "bois": 1.1,
+            "parc": 9.7
+          }
+        }
       }
     },
     {
@@ -58267,7 +58387,25 @@
         "nearest_street": "Parc Communal",
         "commune": "Nismes",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "jeux": 65,
+          "wc": 91,
+          "eau_potable": 392,
+          "parking": 52,
+          "arret": 181,
+          "eau": {
+            "plan_eau": 125,
+            "plan_eau_petit": 7,
+            "riviere": 67,
+            "ruisseau": 168
+          },
+          "nature": {
+            "bois": 1.1,
+            "parc": 9.7
+          }
+        }
       }
     },
     {
@@ -58288,7 +58426,25 @@
         "nearest_street": "Parc Communal",
         "commune": "Nismes",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "jeux": 62,
+          "wc": 95,
+          "eau_potable": 388,
+          "parking": 56,
+          "arret": 185,
+          "eau": {
+            "plan_eau": 122,
+            "plan_eau_petit": 7,
+            "riviere": 70,
+            "ruisseau": 165
+          },
+          "nature": {
+            "bois": 1.1,
+            "parc": 9.7
+          }
+        }
       }
     },
     {
@@ -58309,7 +58465,25 @@
         "nearest_street": "Parc Communal",
         "commune": "Nismes",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "jeux": 59,
+          "wc": 98,
+          "eau_potable": 385,
+          "parking": 59,
+          "arret": 188,
+          "eau": {
+            "plan_eau": 118,
+            "plan_eau_petit": 7,
+            "riviere": 72,
+            "ruisseau": 162
+          },
+          "nature": {
+            "bois": 1.1,
+            "parc": 9.7
+          }
+        }
       }
     },
     {
@@ -58330,7 +58504,27 @@
         "nearest_street": "Parc Communal",
         "commune": "Nismes",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "jeux": 83,
+          "wc": 71,
+          "parking": 38,
+          "arret": 157,
+          "routes": {
+            "secondary": 132
+          },
+          "eau": {
+            "plan_eau": 150,
+            "plan_eau_petit": 0,
+            "riviere": 39,
+            "ruisseau": 199
+          },
+          "nature": {
+            "bois": 1.1,
+            "parc": 9.7
+          }
+        }
       }
     },
     {
@@ -58351,7 +58545,27 @@
         "nearest_street": "Parc Communal",
         "commune": "Nismes",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "jeux": 80,
+          "wc": 74,
+          "parking": 40,
+          "arret": 160,
+          "routes": {
+            "secondary": 135
+          },
+          "eau": {
+            "plan_eau": 146,
+            "plan_eau_petit": 0,
+            "riviere": 42,
+            "ruisseau": 196
+          },
+          "nature": {
+            "bois": 1.1,
+            "parc": 9.7
+          }
+        }
       }
     },
     {
@@ -58372,7 +58586,27 @@
         "nearest_street": "Parc Communal",
         "commune": "Nismes",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "jeux": 77,
+          "wc": 77,
+          "parking": 42,
+          "arret": 164,
+          "routes": {
+            "secondary": 139
+          },
+          "eau": {
+            "plan_eau": 142,
+            "plan_eau_petit": 0,
+            "riviere": 44,
+            "ruisseau": 193
+          },
+          "nature": {
+            "bois": 1.1,
+            "parc": 9.7
+          }
+        }
       }
     },
     {
@@ -58393,7 +58627,27 @@
         "nearest_street": "Parc Communal",
         "commune": "Nismes",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "jeux": 73,
+          "wc": 80,
+          "parking": 44,
+          "arret": 167,
+          "routes": {
+            "secondary": 143
+          },
+          "eau": {
+            "plan_eau": 138,
+            "plan_eau_petit": 0,
+            "riviere": 47,
+            "ruisseau": 189
+          },
+          "nature": {
+            "bois": 1.1,
+            "parc": 9.7
+          }
+        }
       }
     },
     {
@@ -58414,7 +58668,27 @@
         "nearest_street": "Parc Communal",
         "commune": "Nismes",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "jeux": 70,
+          "wc": 83,
+          "parking": 47,
+          "arret": 171,
+          "routes": {
+            "secondary": 147
+          },
+          "eau": {
+            "plan_eau": 135,
+            "plan_eau_petit": 0,
+            "riviere": 49,
+            "ruisseau": 186
+          },
+          "nature": {
+            "bois": 1.1,
+            "parc": 9.7
+          }
+        }
       }
     },
     {
@@ -58435,7 +58709,24 @@
         "nearest_street": "Parc Communal",
         "commune": "Nismes",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "jeux": 67,
+          "wc": 87,
+          "parking": 50,
+          "arret": 175,
+          "eau": {
+            "plan_eau": 131,
+            "plan_eau_petit": 0,
+            "riviere": 52,
+            "ruisseau": 183
+          },
+          "nature": {
+            "bois": 1.1,
+            "parc": 9.7
+          }
+        }
       }
     },
     {
@@ -58456,7 +58747,24 @@
         "nearest_street": "Parc Communal",
         "commune": "Nismes",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "jeux": 64,
+          "wc": 90,
+          "parking": 53,
+          "arret": 178,
+          "eau": {
+            "plan_eau": 127,
+            "plan_eau_petit": 0,
+            "riviere": 54,
+            "ruisseau": 180
+          },
+          "nature": {
+            "bois": 1.1,
+            "parc": 9.7
+          }
+        }
       }
     },
     {
@@ -58477,7 +58785,25 @@
         "nearest_street": "Parc Communal",
         "commune": "Nismes",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "jeux": 60,
+          "wc": 93,
+          "eau_potable": 398,
+          "parking": 56,
+          "arret": 182,
+          "eau": {
+            "plan_eau": 123,
+            "plan_eau_petit": 0,
+            "riviere": 56,
+            "ruisseau": 177
+          },
+          "nature": {
+            "bois": 1.1,
+            "parc": 9.7
+          }
+        }
       }
     },
     {
@@ -58498,7 +58824,25 @@
         "nearest_street": "Parc Communal",
         "commune": "Nismes",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "jeux": 57,
+          "wc": 97,
+          "eau_potable": 395,
+          "parking": 59,
+          "arret": 185,
+          "eau": {
+            "plan_eau": 120,
+            "plan_eau_petit": 0,
+            "riviere": 59,
+            "ruisseau": 174
+          },
+          "nature": {
+            "bois": 1.1,
+            "parc": 9.7
+          }
+        }
       }
     },
     {
@@ -58519,7 +58863,25 @@
         "nearest_street": "Parc Communal",
         "commune": "Nismes",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "jeux": 54,
+          "wc": 100,
+          "eau_potable": 391,
+          "parking": 62,
+          "arret": 189,
+          "eau": {
+            "plan_eau": 116,
+            "plan_eau_petit": 0,
+            "riviere": 61,
+            "ruisseau": 171
+          },
+          "nature": {
+            "bois": 1.1,
+            "parc": 9.7
+          }
+        }
       }
     },
     {
@@ -58540,7 +58902,25 @@
         "nearest_street": "Parc Communal",
         "commune": "Nismes",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "jeux": 51,
+          "wc": 103,
+          "eau_potable": 387,
+          "parking": 65,
+          "arret": 192,
+          "eau": {
+            "plan_eau": 113,
+            "plan_eau_petit": 0,
+            "riviere": 63,
+            "ruisseau": 168
+          },
+          "nature": {
+            "bois": 1.1,
+            "parc": 9.7
+          }
+        }
       }
     },
     {
@@ -58561,7 +58941,18 @@
         "nearest_street": "Rue Camille Cals",
         "commune": "Gembloux",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "parking": 411,
+          "arret": 69,
+          "routes": {
+            "residential": 7
+          },
+          "eau": {
+            "ruisseau": 17
+          }
+        }
       }
     },
     {
@@ -58582,7 +58973,18 @@
         "nearest_street": "Rue Camille Cals",
         "commune": "Gembloux",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "parking": 414,
+          "arret": 72,
+          "routes": {
+            "residential": 10
+          },
+          "eau": {
+            "ruisseau": 18
+          }
+        }
       }
     },
     {
@@ -58603,7 +59005,18 @@
         "nearest_street": null,
         "commune": "Gembloux",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "parking": 418,
+          "arret": 76,
+          "routes": {
+            "residential": 13
+          },
+          "eau": {
+            "ruisseau": 19
+          }
+        }
       }
     },
     {
@@ -58624,7 +59037,635 @@
         "nearest_street": null,
         "commune": "Gembloux",
         "province": "namur",
-        "region": "wallonie"
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "parking": 421,
+          "arret": 79,
+          "routes": {
+            "residential": 16
+          },
+          "eau": {
+            "ruisseau": 20
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.0823073,
+          50.6674157
+        ]
+      },
+      "properties": {
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568457651",
+        "nearest_street": "Rue Lambert Mottart",
+        "commune": "Hannut",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "parking": 219,
+          "arret": 210,
+          "voie_verte": 153
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.0823455,
+          50.6674285
+        ]
+      },
+      "properties": {
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568457652",
+        "nearest_street": "Rue Lambert Mottart",
+        "commune": "Hannut",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "parking": 218,
+          "arret": 208,
+          "voie_verte": 152
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.0823849,
+          50.6674404
+        ]
+      },
+      "properties": {
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568457653",
+        "nearest_street": "Rue Lambert Mottart",
+        "commune": "Hannut",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "parking": 218,
+          "arret": 207,
+          "voie_verte": 150
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.08242,
+          50.6674526
+        ]
+      },
+      "properties": {
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568457654",
+        "nearest_street": "Rue Lambert Mottart",
+        "commune": "Hannut",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "parking": 218,
+          "arret": 205,
+          "voie_verte": 149
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.082457,
+          50.6674642
+        ]
+      },
+      "properties": {
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568457655",
+        "nearest_street": "Drève du Monastère",
+        "commune": "Hannut",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "parking": 218,
+          "arret": 203,
+          "voie_verte": 148
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.0824957,
+          50.6674761
+        ]
+      },
+      "properties": {
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568457656",
+        "nearest_street": "Drève du Monastère",
+        "commune": "Hannut",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "parking": 218,
+          "arret": 202,
+          "voie_verte": 146
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.0825354,
+          50.6674876
+        ]
+      },
+      "properties": {
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568457657",
+        "nearest_street": "Drève du Monastère",
+        "commune": "Hannut",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "parking": 218,
+          "arret": 200,
+          "voie_verte": 145
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.0822804,
+          50.6674991
+        ]
+      },
+      "properties": {
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568457658",
+        "nearest_street": "Rue Lambert Mottart",
+        "commune": "Hannut",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "parking": 209,
+          "arret": 202,
+          "voie_verte": 160
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.0823149,
+          50.6675131
+        ]
+      },
+      "properties": {
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568457659",
+        "nearest_street": "Rue Lambert Mottart",
+        "commune": "Hannut",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "parking": 209,
+          "arret": 200,
+          "voie_verte": 159
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.0823531,
+          50.6675249
+        ]
+      },
+      "properties": {
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568457660",
+        "nearest_street": "Rue Lambert Mottart",
+        "commune": "Hannut",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "parking": 209,
+          "arret": 198,
+          "voie_verte": 158
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.0823865,
+          50.667537
+        ]
+      },
+      "properties": {
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568457661",
+        "nearest_street": "Rue Lambert Mottart",
+        "commune": "Hannut",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "parking": 208,
+          "arret": 196,
+          "voie_verte": 156
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.0824225,
+          50.6675489
+        ]
+      },
+      "properties": {
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568457662",
+        "nearest_street": "Rue Lambert Mottart",
+        "commune": "Hannut",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "parking": 208,
+          "arret": 195,
+          "voie_verte": 155
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.082458,
+          50.6675621
+        ]
+      },
+      "properties": {
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568457663",
+        "nearest_street": "Rue Lambert Mottart",
+        "commune": "Hannut",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "parking": 208,
+          "arret": 193,
+          "voie_verte": 154
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.0823787,
+          50.6673404
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568457664",
+        "nearest_street": "Rue Lambert Mottart",
+        "commune": "Hannut",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "parking": 227,
+          "arret": 217,
+          "voie_verte": 144
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.0824167,
+          50.6673517
+        ]
+      },
+      "properties": {
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568457665",
+        "nearest_street": "Rue Lambert Mottart",
+        "commune": "Hannut",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "parking": 227,
+          "arret": 216,
+          "voie_verte": 142
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.0824548,
+          50.6673634
+        ]
+      },
+      "properties": {
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568457666",
+        "nearest_street": "Drève du Monastère",
+        "commune": "Hannut",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "parking": 227,
+          "arret": 214,
+          "voie_verte": 141
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.082492,
+          50.6673748
+        ]
+      },
+      "properties": {
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568457667",
+        "nearest_street": "Drève du Monastère",
+        "commune": "Hannut",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "parking": 227,
+          "arret": 212,
+          "voie_verte": 139
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.0825284,
+          50.6673861
+        ]
+      },
+      "properties": {
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568457668",
+        "nearest_street": "Drève du Monastère",
+        "commune": "Hannut",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "parking": 227,
+          "arret": 210,
+          "voie_verte": 138
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.0825673,
+          50.6673979
+        ]
+      },
+      "properties": {
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568457669",
+        "nearest_street": "Drève du Monastère",
+        "commune": "Hannut",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "parking": 227,
+          "arret": 207,
+          "voie_verte": 136
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.0826092,
+          50.6674108
+        ]
+      },
+      "properties": {
+        "area": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568457670",
+        "nearest_street": "Drève du Monastère",
+        "commune": "Hannut",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "parking": 227,
+          "arret": 204,
+          "voie_verte": 135
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.1859004,
+          50.7920052
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568587731",
+        "nearest_street": null,
+        "commune": "Lauwe",
+        "province": "flandre_occidentale",
+        "region": "flandre",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "banc": 0,
+          "jeux": 17,
+          "wc": 29,
+          "parking": 2,
+          "arret": 131,
+          "routes": {
+            "tertiary": 84
+          },
+          "eau": {
+            "plan_eau_petit": 76
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5880321,
+          50.5659751
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568621478",
+        "nearest_street": "Avenue de Beaufays",
+        "commune": "Esneux",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "jeux": 289,
+          "parking": 66,
+          "arret": 59,
+          "routes": {
+            "motorway": 333,
+            "secondary": 7,
+            "residential": 28
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5880612,
+          50.5659944
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1568621479",
+        "nearest_street": "Avenue de Beaufays",
+        "commune": "Esneux",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-16",
+          "jeux": 288,
+          "parking": 65,
+          "arret": 60,
+          "routes": {
+            "motorway": 331,
+            "secondary": 10,
+            "residential": 25
+          }
+        }
       }
     }
   ]
