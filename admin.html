@@ -308,6 +308,9 @@
     .signalement-etat.nouveau { background: var(--orange-clair); color: var(--orange); }
     .signalement-etat.traite { background: var(--vert-clair); color: var(--vert); }
     .signalement-etat.refuse { background: var(--rouge-clair); color: var(--rouge); }
+    .signalement-etat.precisions { background: var(--bleu-clair); color: var(--bleu); }
+    /* Photo jointe par l'auteur (terrain manquant) : cliquer l'ouvre en grand. */
+    .signalement-photo { width: 160px; height: 120px; object-fit: cover; border-radius: 8px; border: 1px solid var(--bord); cursor: zoom-in; }
     .signalement-date { font-size: 13px; color: var(--doux); margin-left: auto; }
     .signalement-lieu { font-size: 14px; color: var(--doux); }
     .signalement-commentaire { font-size: 15px; white-space: pre-wrap; background: var(--fond); border-radius: 8px; padding: 10px 12px; }
@@ -3764,8 +3767,11 @@ brancherSegment("detailsSegment", p => { PERIODE_DETAILS = p; dessinerDetails();
 let SIGNALEMENTS = null;            // null = pas encore chargés
 let FILTRE_SIGNALEMENTS = "nouveau";
 
+// « Précisions demandées » : un mail a demandé à l'auteur une photo, une adresse ou un repère ; il
+// répond par mail, puis le signalement est traité ou refusé comme les autres.
 const ETATS_SIGNALEMENT = {
     nouveau: "À traiter",
+    precisions: "Précisions demandées",
     traite: "Traité",
     refuse: "Refusé"
 };
@@ -3829,7 +3835,7 @@ function libelleMotif(type, code) {
 }
 
 // Panneau ouvert sous la carte au moment de décider ; rien n'est enregistré avant « Confirmer ».
-// options : { refus, type, libelleConfirmer, surConfirmer(choix), surAnnuler() }
+// options : { refus, precisions, type, libelleConfirmer, surConfirmer(choix), surAnnuler() }
 // choix : { mail: "auto" | "manuel" | "aucun", motif?, mot? }
 function panneauDecisionMail(options) {
     const panneau = document.createElement("div");
@@ -3837,7 +3843,9 @@ function panneauDecisionMail(options) {
 
     const titre = document.createElement("div");
     titre.className = "decision-mail-titre";
-    titre.textContent = options.refus ? "Refus : prévenir la personne ?" : "Accepté : prévenir la personne ?";
+    titre.textContent = options.refus ? "Refus : prévenir la personne ?"
+        : options.precisions ? "Précisions : le mail automatique demande une photo, l'adresse ou un repère proche"
+        : "Accepté : prévenir la personne ?";
     panneau.appendChild(titre);
 
     let motif = null;
@@ -3925,6 +3933,7 @@ function etatMail(o, type) {
     else if (o.mail_mode === "aucun") texte = "Mail : aucun";
     else if (o.mail_envoye) texte = "Mail envoyé le " + dateLisible(o.mail_envoye);
     else texte = "Mail automatique en attente : part au prochain envoi";
+    if (o.mail_decision === "precisions") texte = "Demande de précisions · " + texte;
     if (o.mail_motif) texte += " · motif : " + libelleMotif(type, o.mail_motif);
     if (o.mail_mot) texte += " · mot : « " + o.mail_mot + " »";
     ligne.className = "etat-mail" + (o.mail_mode === "auto" && !o.mail_envoye ? " attente" : "");
@@ -4003,7 +4012,7 @@ function dessinerSignalements() {
     const compte = statut => SIGNALEMENTS.filter(s => statut === "tous" || s.statut === statut).length;
     const puces = document.getElementById("signalementsPuces");
     puces.innerHTML = "";
-    [["nouveau", "À traiter"], ["traite", "Traités"], ["refuse", "Refusés"], ["tous", "Tous"]]
+    [["nouveau", "À traiter"], ["precisions", "Précisions demandées"], ["traite", "Traités"], ["refuse", "Refusés"], ["tous", "Tous"]]
         .forEach(([valeur, libelle]) => {
             const bouton = document.createElement("button");
             bouton.type = "button";
@@ -4067,6 +4076,23 @@ function carteSignalement(s) {
     commentaire.textContent = s.commentaire || "Pas de commentaire.";
     carte.appendChild(commentaire);
 
+    // Photo jointe : protégée par le jeton comme celles de la modération, d'où le passage par
+    // appeler() et une adresse en mémoire. Effacée par le Worker 30 jours après la décision.
+    if (s.avec_photo) {
+        const image = document.createElement("img");
+        image.className = "signalement-photo";
+        image.alt = "Photo jointe au signalement";
+        carte.appendChild(image);
+        appeler("/admin/signalements/photo?id=" + s.id)
+            .then(r => r.blob())
+            .then(blob => {
+                const url = URL.createObjectURL(blob);
+                image.src = url;
+                image.addEventListener("click", () => window.open(url, "_blank"));
+            })
+            .catch(() => { image.alt = "photo indisponible"; });
+    }
+
     // Adresse de l'auteur (obligatoire depuis le 9 octobre 2026 ; absente des plus anciens).
     if (s.email) {
         const contact = document.createElement("div");
@@ -4106,8 +4132,10 @@ function carteSignalement(s) {
         actions.appendChild(lienExterne("WalOnMap", lienWalOnMap(Number(s.lat), Number(s.lon))));
     }
 
-    // Traiter ou refuser ouvre le choix du mail, sauf sans adresse (anciens signalements) ou si un
-    // mail est déjà parti pour ce signalement : il n'y en aura pas de second.
+    // Traiter, refuser ou demander des précisions ouvre le choix du mail, sauf sans adresse (anciens
+    // signalements) ou si un mail est déjà parti pour ce signalement : il n'y en aura pas de second,
+    // sauf après une demande de précisions (la décision finale a son propre mail).
+    const mailDejaParti = s.mail_envoye && s.mail_decision !== "precisions";
     let panneau = null;
     function bouton(libelle, statut, principal) {
         const b = document.createElement("button");
@@ -4115,13 +4143,14 @@ function carteSignalement(s) {
         b.textContent = libelle;
         if (principal) b.className = "principal";
         b.addEventListener("click", () => {
-            if (statut === "nouveau" || !s.email || s.mail_envoye) {
+            if (statut === "nouveau" || !s.email || mailDejaParti) {
                 changerStatutSignalement(s, statut, statut === "nouveau" ? null : { mail: "aucun" });
                 return;
             }
             if (panneau) panneau.remove();
             panneau = panneauDecisionMail({
                 refus: statut === "refuse",
+                precisions: statut === "precisions",
                 type: s.type,
                 libelleConfirmer: libelle,
                 surConfirmer: choix => changerStatutSignalement(s, statut, choix),
@@ -4131,10 +4160,13 @@ function carteSignalement(s) {
         });
         actions.appendChild(b);
     }
-    if (s.statut === "nouveau") {
+    // Pas de demande de précisions sans adresse où l'envoyer.
+    if (s.statut === "nouveau" || s.statut === "precisions") {
         bouton(s.type === "manquant" ? "Ajouté dans OSM" : s.type === "club" ? "Corrigé" : "Corrigé dans OSM", "traite", true);
+        if (s.statut === "nouveau" && s.email) bouton("Demander des précisions", "precisions");
         bouton("Refuser", "refuse");
-    } else {
+    }
+    if (s.statut !== "nouveau") {
         bouton("Remettre à traiter", "nouveau");
     }
     carte.appendChild(actions);
@@ -4177,10 +4209,14 @@ function changerStatutSignalement(s, statut, choix) {
         if (s.type !== "manquant" && s.titre) charge.libelle = s.titre;
     }
     s.statut = statut;
-    if (!s.mail_envoye) {
+    // Même règle que le Worker : un mail parti reste, sauf une demande de précisions suivie d'une
+    // nouvelle décision.
+    if (!s.mail_envoye || (choix && s.mail_decision === "precisions")) {
         s.mail_mode = choix ? choix.mail : null;
         s.mail_motif = choix && choix.motif || null;
         s.mail_mot = choix && choix.mot || null;
+        s.mail_decision = choix ? ({ traite: "accepte", refuse: "refuse", precisions: "precisions" })[statut] : null;
+        s.mail_envoye = null;
     }
     majOngletSignalements();
     dessinerSignalements();
@@ -4214,7 +4250,7 @@ const ETATS_PHOTO_COMPTE = {
 const ETATS_AVIS_COMPTE = {
     en_attente: ["En attente", "attente"], publie: ["Publié", "ok"], refuse: ["Refusé", "non"], retire: ["Retiré", "non"]
 };
-const CLASSES_SIGNALEMENT = { nouveau: "attente", traite: "ok", refuse: "non" };
+const CLASSES_SIGNALEMENT = { nouveau: "attente", precisions: "attente", traite: "ok", refuse: "non" };
 
 function chargerComptes() {
     if (!COMPTES_CHARGEMENT) {

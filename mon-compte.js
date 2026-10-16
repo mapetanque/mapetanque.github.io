@@ -221,7 +221,8 @@
             e.detail = t(s.type === 'erreur' ? 'moncompte_signal_erreur' : s.type === 'club' ? 'moncompte_signal_club' : 'moncompte_type_signalement');
             // Reçu, puis Ajouté (terrain manquant) ou Corrigé, ou Non retenu
             e.statut = s.statut === 'traite' ? [s.type === 'manquant' ? 'ajoute' : 'corrige', 'ok']
-                : s.statut === 'refuse' ? ['non_retenu', 'non'] : ['recu', 'attente'];
+                : s.statut === 'refuse' ? ['non_retenu', 'non']
+                : s.statut === 'precisions' ? ['precisions', 'attente'] : ['recu', 'attente'];
             liste.push(e);
         });
         liste.sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); });

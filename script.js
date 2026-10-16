@@ -2681,6 +2681,33 @@ const CSS_SIGNALEMENT = `
 }
 #signalement-modal .signalement-recherche button:hover { color: #56A03D; border-color: #74C15A; }
 #signalement-modal .signalement-recherche button svg { width: 17px; height: 17px; }
+/* « Je suis sur place » : même vert et même picto que « Me localiser » de l'en-tête. */
+#signalement-modal .signalement-recherche .signalement-sur-place {
+    background: #74C15A; border-color: #74C15A; color: #fff; border-radius: 50%;
+}
+#signalement-modal .signalement-recherche .signalement-sur-place:hover { background: #56A03D; color: #fff; }
+/* Photo facultative : libellé + cadre, comme le commentaire et l'e-mail. Le cadre a la taille d'un
+   champ de saisie, avant comme après le choix (miniature + « Retirer la photo »). */
+#signalement-modal .signalement-photo-bouton,
+#signalement-modal .signalement-photo-choisie {
+    display: flex; align-items: center; gap: 8px; box-sizing: border-box; width: 100%;
+    min-height: 40px; padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px;
+    background: #fff; font-size: 13px; color: #56604F;
+}
+#signalement-modal .signalement-photo-bouton { cursor: pointer; }
+#signalement-modal .signalement-photo-bouton:hover { border-color: #74C15A; color: #3D7A2A; }
+#signalement-modal .signalement-photo-bouton svg { width: 18px; height: 18px; flex: none; }
+#signalement-modal .signalement-photo-bouton[hidden],
+#signalement-modal .signalement-photo-choisie[hidden],
+#signalement-modal [data-bloc][hidden] { display: none; }
+#signalement-modal .signalement-photo-choisie img {
+    width: 40px; height: 40px; object-fit: cover; border-radius: 4px;
+}
+#signalement-modal .signalement-photo-choisie button {
+    margin-left: auto; border: none; background: none; padding: 0;
+    color: #3D7A2A; font: inherit; font-weight: bold; cursor: pointer;
+}
+#signalement-modal .add-photo-checkbox-row { font-size: 12.5px; color: #1D2619; }
 #signalement-modal .signalement-carte {
     position: relative; z-index: 0; height: 320px; border: 1px solid #ddd; border-radius: 8px;
 }
@@ -2793,8 +2820,11 @@ function construireModaleSignalement() {
                 <div class="signalement-bloc" data-bloc="manquant">
                     <div class="signalement-recherche">
                         <input type="text" class="add-photo-text-input" autocomplete="off" enterkeyhint="search">
-                        <button type="button">
+                        <button type="button" class="signalement-chercher">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        </button>
+                        <button type="button" class="signalement-sur-place">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                         </button>
                     </div>
                     <div class="signalement-carte">
@@ -2810,10 +2840,16 @@ function construireModaleSignalement() {
                         <span class="credit-texte" id="signalement-sources-texte" data-cle="signalement_photo_sources"></span>
                         <button type="button" class="credit-info-btn" aria-expanded="false" aria-controls="signalement-sources-texte">${ICON_INFO}</button>
                     </div>
-                    <label class="add-photo-checkbox-row">
-                        <input type="checkbox" name="acces_libre" value="1">
-                        <span data-cle="signalement_checkbox_access"></span>
+                    <span class="add-photo-field-label" data-cle="signalement_photo_label"></span>
+                    <label class="signalement-photo-bouton">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                        <span data-cle="signalement_photo_ajouter"></span>
+                        <input type="file" name="photo" accept="image/*" hidden>
                     </label>
+                    <div class="signalement-photo-choisie" hidden>
+                        <img alt="">
+                        <button type="button" data-cle="signalement_photo_retirer"></button>
+                    </div>
                 </div>
 
                 <label class="add-photo-field-label" for="signalement-commentaire" id="signalement-commentaire-label"></label>
@@ -2821,6 +2857,12 @@ function construireModaleSignalement() {
 
                 <label class="add-photo-field-label" for="signalement-email" data-cle="signalement_field_email"></label>
                 <input type="email" id="signalement-email" name="email" required maxlength="254" autocomplete="email" class="add-photo-text-input">
+
+                <!-- Confirmation juste avant l'envoi (terrain manquant seulement) -->
+                <label class="add-photo-checkbox-row" data-bloc="manquant">
+                    <input type="checkbox" name="acces_libre" value="1">
+                    <span data-cle="signalement_checkbox_access"></span>
+                </label>
 
                 <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none !important">
 
@@ -2844,9 +2886,22 @@ function construireModaleSignalement() {
     const champRecherche = elementSignalement('.signalement-recherche input');
     champRecherche.dataset.i18nPlaceholder = 'signalement_search_placeholder';
     champRecherche.placeholder = t('signalement_search_placeholder');
-    const boutonRecherche = elementSignalement('.signalement-recherche button');
+    const boutonRecherche = elementSignalement('.signalement-chercher');
     boutonRecherche.dataset.i18nAria = 'signalement_search_btn';
     boutonRecherche.setAttribute('aria-label', t('signalement_search_btn'));
+    const boutonSurPlace = elementSignalement('.signalement-sur-place');
+    boutonSurPlace.dataset.i18nAria = 'signalement_sur_place';
+    boutonSurPlace.setAttribute('aria-label', t('signalement_sur_place'));
+    boutonSurPlace.addEventListener('click', localiserSignalement);
+
+    // Photo facultative : aperçu une fois choisie, avec « Retirer ».
+    const champPhoto = elementSignalement('[name="photo"]');
+    champPhoto.addEventListener('change', function () {
+        choisirPhotoSignalement(champPhoto.files && champPhoto.files[0]);
+    });
+    elementSignalement('.signalement-photo-choisie button').addEventListener('click', function () {
+        choisirPhotoSignalement(null);
+    });
     elementSignalement('#signalement-close').setAttribute('aria-label', t('close_panel'));
     const boutonSources = elementSignalement('.signalement-sources .credit-info-btn');
     boutonSources.dataset.i18nAria = 'photo_credit_btn';
@@ -3005,6 +3060,36 @@ function popupPointSignalement(proprietes, lat, lon) {
         + echapperAvis(t('commune_voir_carte')) + ' →</a></div>';
 }
 
+// « Je suis sur place » : la position du visiteur vient sous l'épingle, en vue rapprochée. Il
+// peut ensuite l'ajuster en déplaçant la carte (le GPS d'un téléphone se trompe de quelques mètres).
+function localiserSignalement() {
+    if (!navigator.geolocation) {
+        afficherStatutSignalement('geoloc_unsupported', 'error');
+        return;
+    }
+    navigator.geolocation.getCurrentPosition(function (position) {
+        miniCarteSignalement.setView([position.coords.latitude, position.coords.longitude], 18);
+    }, function () {
+        afficherStatutSignalement('geoloc_error', 'error');
+    }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 30000 });
+}
+
+// Photo choisie (File) ou retirée (null). Gardée ici plutôt que relue dans le champ : « Retirer »
+// doit pouvoir la retirer, et un champ fichier ne se vide pas de façon fiable partout.
+let photoSignalement = null;
+let urlApercuSignalement = null;
+function choisirPhotoSignalement(fichier) {
+    photoSignalement = fichier && /^image\//.test(fichier.type) ? fichier : null;
+    if (urlApercuSignalement) URL.revokeObjectURL(urlApercuSignalement);
+    urlApercuSignalement = photoSignalement ? URL.createObjectURL(photoSignalement) : null;
+
+    const choisie = elementSignalement('.signalement-photo-choisie');
+    choisie.querySelector('img').src = urlApercuSignalement || '';
+    choisie.hidden = !photoSignalement;
+    elementSignalement('.signalement-photo-bouton').hidden = !!photoSignalement;
+    elementSignalement('[name="photo"]').value = '';
+}
+
 // La carte a bougé : l'épingle désigne un nouvel endroit.
 function placementSignalementChange() {
     elementSignalement('.signalement-conseil').hidden =
@@ -3108,6 +3193,7 @@ function ouvrirModaleSignalement(options) {
 
     const formulaire = elementSignalement('#signalement-form');
     formulaire.reset();
+    choisirPhotoSignalement(null);
     formulaire.style.display = '';
     formulaire.querySelector('.add-photo-submit-btn').disabled = false;
     afficherStatutSignalement(null, '', '');
@@ -3121,10 +3207,12 @@ function ouvrirModaleSignalement(options) {
 
     // Le bloc carte + accès n'existe que pour un terrain manquant. Ses champs sont
     // désactivés quand il est masqué : sinon la case obligatoire bloquerait l'envoi d'une erreur.
-    const bloc = elementSignalement('[data-bloc="manquant"]');
-    bloc.hidden = !estManquant;
-    bloc.querySelectorAll('input, button').forEach(function (champ) { champ.disabled = !estManquant; });
-    bloc.querySelector('[name="acces_libre"]').required = estManquant;
+    // (Le bloc carte + photo, et la case d'accès libre placée juste avant l'envoi.)
+    modaleSignalement.querySelectorAll('[data-bloc="manquant"]').forEach(function (bloc) {
+        bloc.hidden = !estManquant;
+        bloc.querySelectorAll('input, button').forEach(function (champ) { champ.disabled = !estManquant; });
+    });
+    elementSignalement('[name="acces_libre"]').required = estManquant;
 
     // Commentaire : facultatif pour un terrain manquant (l'épingle dit l'essentiel),
     // obligatoire pour une erreur (c'est tout le contenu du signalement).
@@ -3220,10 +3308,26 @@ function envoyerSignalement(evt) {
     bouton.disabled = true;
     afficherStatutSignalement('add_photo_sending', 'sending');
 
-    fetch(URL_ENVOI_SIGNALEMENT, { method: 'POST', headers: entetesCompte(), body: donnees })
+    // Photo facultative (terrain manquant) : réduite avant l'envoi, comme celles des fiches.
+    const preparation = c.type === 'manquant' && photoSignalement
+        ? redimensionnerPhoto(photoSignalement).then(function (image) {
+            donnees.set('photo', image, 'photo.jpg');
+        })
+        : Promise.resolve();
+
+    preparation
+        .then(function () {
+            return fetch(URL_ENVOI_SIGNALEMENT, { method: 'POST', headers: entetesCompte(), body: donnees });
+        })
         .then(function (reponse) {
             if (reponse.status === 429) {
                 afficherStatutSignalement('signalement_error_limit', 'error');
+                bouton.disabled = false;
+                return;
+            }
+            // Photo refusée par le Worker (trop lourde, pas une image) : le reste peut partir sans elle.
+            if (reponse.status === 413 || reponse.status === 415) {
+                afficherStatutSignalement('signalement_error_photo', 'error');
                 bouton.disabled = false;
                 return;
             }
