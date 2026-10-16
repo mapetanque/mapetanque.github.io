@@ -66,8 +66,17 @@ Ordre de grandeur : 1 terrain ajouté = niveau 2 ; 3 avis + 5 photos = niveau 3.
 
 - Dans Mon compte : niveau, points (ou parties), et barre de progression vers le niveau suivant
   (« encore 12 points pour le niveau 3 »), comme Google.
-- Charte (`CHARTE.md`) : nom du badge en Caveat 700, accent terre battue `#B5502E`, numéro du
-  niveau en Manrope.
+- Visuel retenu (« médaillon ») : un rond vert tendre `#E7F4E1` avec un picto au trait vert
+  feuillage `#3D7A2A` (carte Lucide `map` pour Cartographe, boule striée et cochonnet pour
+  Bouliste), entouré de cinq segments, un par niveau : terre battue `#B5502E` une fois atteints,
+  ligne `#E2E6DE` sinon. Pas de chiffre sur le badge : le niveau s'écrit dessous
+  (« Niveau 3 · 202 points »). Nom du badge en Caveat 700 (`CHARTE.md`).
+- Piste écartée : marqueur de carte et boule pleins, avec cinq petites boules sous le badge.
+  Pourrait servir pour annoncer un nouveau niveau.
+- Si le niveau est public : une pastille vert tendre à côté du pseudo, avec le petit picto et
+  le chiffre (« Cartographe 3 »).
+- Caveat une seule fois par écran (charte) : Mon compte affiche deux noms de badge. Accepter
+  cette exception pour les badges, ou écrire les noms en Manrope : à trancher.
 
 ## Correspondance avec les données (D1)
 
