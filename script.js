@@ -2937,8 +2937,8 @@ function preparerMiniCarteSignalement() {
         miniCarteSignalement = L.map(conteneur, { renderer: L.canvas({ tolerance: 8 }) });
 
         // Couches propres à la petite carte : une couche Leaflet ne peut pas vivre sur deux
-        // cartes à la fois. Même fond que la carte principale au moment de l'ouverture — la vue
-        // aérienne aide beaucoup à repérer un terrain, une fois zoomé au bon endroit.
+        // cartes à la fois. La vue aérienne aide beaucoup à repérer un terrain, une fois zoomé au
+        // bon endroit.
         const plan = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; OpenStreetMap'
@@ -2997,7 +2997,9 @@ function preparerMiniCarteSignalement() {
         boutonsFond.forEach(function (bouton) {
             bouton.addEventListener('click', function () { choisirFond(bouton.dataset.fond); });
         });
-        choisirFond((typeof satellite !== 'undefined' && map.hasLayer(satellite)) ? 'photo' : 'plan');
+        // Toujours le plan à l'ouverture, quel que soit le fond de la carte principale (mémorisé
+        // d'une visite à l'autre) : il aide à trouver la rue ; la photo sert ensuite, une fois zoomé.
+        choisirFond('plan');
 
         // L'épingle reste au centre (.signalement-viseur) : on déplace la carte dessous, au doigt
         // ou d'un clic sur l'endroit voulu, qui vient alors se placer sous l'épingle.
