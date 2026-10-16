@@ -75,8 +75,9 @@ Ordre de grandeur : 1 terrain ajouté = niveau 2 ; 3 avis + 5 photos = niveau 3.
   Pourrait servir pour annoncer un nouveau niveau.
 - Si le niveau est public : une pastille vert tendre à côté du pseudo, avec le petit picto et
   le chiffre (« Cartographe 3 »).
-- Caveat une seule fois par écran (charte) : Mon compte affiche deux noms de badge. Accepter
-  cette exception pour les badges, ou écrire les noms en Manrope : à trancher.
+- Caveat une seule fois par écran (charte) : exception acceptée pour les noms des badges (inscrite
+  dans `CHARTE.md`). Nom en vert feuillage, comme tout texte en Caveat ; le terre battue reste
+  réservé à ce qui progresse (segments, barre de progression).
 
 ## Correspondance avec les données (D1)
 
