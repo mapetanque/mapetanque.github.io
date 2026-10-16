@@ -24,15 +24,15 @@ Comme Local Guides, deux compteurs seulement, chacun avec des **niveaux numérot
 | Badge | FR | NL | DE | EN | Ce qui compte |
 |---|---|---|---|---|---|
 | Joueur | Bouliste | Boulespeler | Boulespieler | Boules player | Parties jouées |
-| Contributeur | Guide | Gids | Guide | Guide | Points des contributions |
+| Contributeur | Cartographe | Cartograaf | Kartograf | Mapmaker | Points des contributions |
 
 Les deux noms sont épicènes (identiques au masculin et au féminin) : rien à gérer selon le compte.
-« Guide » reprend l'esprit de « Local Guide ». Autres noms envisagés : Contributeur (pas épicène),
-Cartographe.
+Ils font la paire : un badge pour jouer, un badge pour la carte (toute contribution l'améliore).
+Autres noms envisagés : Guide (comme « Local Guide »), Contributeur (pas épicène).
 
 Traductions NL et DE à faire relire avant mise en ligne.
 
-### Guide : points par contribution
+### Cartographe : points par contribution
 
 Seules comptent les contributions **faites connecté et validées** dans l'admin, jamais l'envoi
 seul (sinon, photos floues en série). Barème inspiré de Google, adapté :
@@ -46,7 +46,7 @@ seul (sinon, photos floues en série). Barème inspiré de Google, adapté :
 | Terrain manquant ajouté | 15 | Oui (ajout d'un lieu) |
 | Note (étoiles) | 1 | Oui ; les notes ne passent pas par la modération, d'où le point unique |
 
-### Guide : niveaux
+### Cartographe : niveaux
 
 Les cinq premiers seuils de Google, prolongeables plus tard avec les suivants (1 500, 5 000…) :
 
@@ -105,7 +105,7 @@ réflexion) :
 |---|---|---|---|---|
 | Photographe | Fotograaf | Fotograf | Photographer | Photos acceptées |
 | Scoop | Scoop | Scoop | Scoop | Premières photos de terrains sans photo |
-| Cartographe | Cartograaf | Kartograf | Mapmaker | Terrains manquants ajoutés |
+| Défricheur | Pionier | Pionier | Pioneer | Terrains manquants ajoutés (nom à revoir : pas épicène) |
 | Vigie | Uitkijk | Ausguck | Lookout | Signalements d'erreur corrigés |
 | Critique | Recensent | Kritiker | Critic | Avis publiés et terrains notés |
 
