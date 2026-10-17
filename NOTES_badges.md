@@ -82,8 +82,10 @@ les atteignent.
   (« Niveau 3 · 60 points »). Nom du badge en Caveat 700 (`CHARTE.md`).
 - Piste écartée : marqueur de carte et boule pleins, avec cinq petites boules sous le badge.
   Pourrait servir pour annoncer un nouveau niveau.
-- Si le niveau est public : une pastille vert tendre à côté du pseudo, avec le petit picto et
-  le chiffre (« Cartographe 3 »).
+- Niveau public (décidé) : à côté du pseudo dans le crédit des photos, une pastille vert tendre
+  avec le petit picto carte et « Niveau 3 » en toutes lettres (comme Google ; pas d'abréviation
+  « Nv » ou « niv. »). Traductions : Niveau 3 / Niveau 3 / Stufe 3 / Level 3. Le nom complet
+  (« Cartographe, niveau 3 ») en `title` et `aria-label`.
 - Caveat une seule fois par écran (charte) : exception acceptée pour les noms des badges (inscrite
   dans `CHARTE.md`). Nom en vert feuillage, comme tout texte en Caveat ; le terre battue reste
   réservé à ce qui progresse (segments, barre de progression).
@@ -144,8 +146,6 @@ lynx ; Chroniqueur, Arbitre, Critique (avis et notes, disparus) ; Habitué.
 
 ## À trancher
 
-- Niveau visible publiquement (à côté du pseudo dans le crédit des photos, comme Google) ou
-  seulement dans Mon compte ?
 - Bonus scoop : ajouter la colonne `scoop` remplie à la validation (recommandé) ?
 - Points retirés si une contribution est retirée ensuite (photo retirée) ? Logique avec un
   calcul à la volée : oui, automatiquement.
