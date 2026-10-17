@@ -22,7 +22,7 @@ RACINE = Path(__file__).resolve().parent.parent
 
 # Adresse versionnée de translations.js, comme sur le compteur : le service worker sert d'abord sa
 # copie en cache, qui peut dater d'avant les clés partie_*.
-TRADUCTIONS = "/translations.js?v=12"
+TRADUCTIONS = "/translations.js?v=13"
 
 META = {
     "fr": {

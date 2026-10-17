@@ -393,6 +393,9 @@ const translations = {
         // Compteur de points (compteur.js)
         compteur_mene: "Mène {n}",
         compteur_nouvelle_partie: "Nouvelle partie",
+        compteur_revanche: "Revanche",
+        compteur_nouvelles_equipes: "Nouvelles équipes",
+        compteur_memes_equipes: "Mêmes équipes",
         compteur_cible: "Points pour gagner",
         compteur_equipe_a: "Équipe A",
         compteur_equipe_b: "Équipe B",
@@ -1162,6 +1165,9 @@ const translations = {
         // Compteur de points (compteur.js)
         compteur_mene: "Ronde {n}",
         compteur_nouvelle_partie: "Nieuw spel",
+        compteur_revanche: "Revanche",
+        compteur_nouvelles_equipes: "Nieuwe teams",
+        compteur_memes_equipes: "Zelfde teams",
         compteur_cible: "Punten om te winnen",
         compteur_equipe_a: "Team A",
         compteur_equipe_b: "Team B",
@@ -1931,6 +1937,9 @@ const translations = {
         // Compteur de points (compteur.js)
         compteur_mene: "Runde {n}",
         compteur_nouvelle_partie: "Neues Spiel",
+        compteur_revanche: "Revanche",
+        compteur_nouvelles_equipes: "Neue Teams",
+        compteur_memes_equipes: "Gleiche Teams",
         compteur_cible: "Punkte zum Sieg",
         compteur_equipe_a: "Team A",
         compteur_equipe_b: "Team B",
@@ -2700,6 +2709,9 @@ const translations = {
         // Compteur de points (compteur.js)
         compteur_mene: "End {n}",
         compteur_nouvelle_partie: "New game",
+        compteur_revanche: "Rematch",
+        compteur_nouvelles_equipes: "New teams",
+        compteur_memes_equipes: "Same teams",
         compteur_cible: "Points to win",
         compteur_equipe_a: "Team A",
         compteur_equipe_b: "Team B",

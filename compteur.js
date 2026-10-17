@@ -154,7 +154,10 @@
     <div class="winner-name" id="winnerName"></div>
     <div class="final-score" id="finalScore"></div>
     <div class="carte-partie" id="cartePartie" hidden></div>
-    <button type="button" id="playAgainBtn">${libelle('compteur_nouvelle_partie')}</button>
+    <div class="boutons-fin">
+      <button type="button" id="playAgainBtn">${libelle('compteur_revanche')}</button>
+      <button type="button" id="nouvellesEquipesBtn" class="secondary">${libelle('compteur_nouvelles_equipes')}</button>
+    </div>
     <button type="button" id="undoWinBtn" class="secondary"><span aria-hidden="true">↺</span> ${libelle('compteur_annuler_point')}</button>
   </div>
 
@@ -295,6 +298,7 @@
   let majDistante = 0;          // heure (ms) du dernier état reçu : un état plus ancien est ignoré
   let messageMain = '';         // « Julie marque maintenant : votre compteur suit son score »
   let pictoMessage = '';        // picto de messageMain (le crayon par défaut)
+  let actionMessage = '';       // bouton à côté de messageMain : '' ou 'equipes' (« Nouvelles équipes »)
   let minuteurMessageMain = null;
 
   function places(equipe){
@@ -427,9 +431,11 @@
     [...el.targetToggle.children].forEach(btn => { btn.disabled = enSuivi && !state.finished; });
     $('undoWinBtn').hidden = enSuivi;
     const texteBandeau = messageMain || (enSuivi ? libelle('partie_marque', { pseudo: state.main }) : '');
-    el.bandeauMain.innerHTML = texteBandeau ? ((messageMain && pictoMessage) || PICTOS.crayon) + '<span>' + echapper(texteBandeau) + '</span>' : '';
+    el.bandeauMain.innerHTML = texteBandeau ? ((messageMain && pictoMessage) || PICTOS.crayon) + '<span>' + echapper(texteBandeau) + '</span>' +
+      (messageMain && actionMessage === 'equipes' ? '<button type="button" data-action="nouvellesEquipes">' + echapper(libelle('compteur_nouvelles_equipes')) + '</button>' : '') : '';
     el.bandeauMain.hidden = !texteBandeau;
     el.bandeauMain.classList.toggle('bandeau-message', !!messageMain);
+    el.bandeauMain.classList.toggle('bandeau-equipes', !!messageMain && actionMessage === 'equipes');
 
     if (el.win.classList.contains('show')) renderCarte();
     sauvegarderPartie();
@@ -494,6 +500,7 @@
       : ['#b5502e', '#f2ece0', '#c9c2b4', '#d97c53'];
     if(avecConfettis) launchConfetti(palette);
     else $('confettiField').innerHTML = '';
+    $('nouvellesEquipesBtn').hidden = equipesVides();
     el.win.classList.add('show');
     renderCarte();
     // Au clavier, le focus passe sur l'écran de victoire (au toucher, rien ne change)
@@ -936,13 +943,22 @@
   // Worker mapetanque-direct, comme partie.js), sans pouvoir marquer, jusqu'à « Reprendre la
   // main ». La partie reste celle du créateur : son compteur l'enregistre à la fin, comme toujours.
 
-  // Message bref dans le bandeau (main reprise, réseau absent…), puis le bandeau normal
-  function annoncerMain(texte, picto, duree){
+  // Message bref dans le bandeau (main reprise, réseau absent…), puis le bandeau normal. action :
+  // bouton à côté du message (voir actionMessage).
+  function annoncerMain(texte, picto, duree, action){
     messageMain = texte;
     pictoMessage = picto || '';
+    actionMessage = action || '';
     el.annonce.textContent = texte;
     clearTimeout(minuteurMessageMain);
-    minuteurMessageMain = setTimeout(() => { messageMain = ''; render(); }, duree || 6000);
+    minuteurMessageMain = setTimeout(effacerMessage, duree || 6000);
+    render();
+  }
+
+  function effacerMessage(){
+    clearTimeout(minuteurMessageMain);
+    messageMain = '';
+    actionMessage = '';
     render();
   }
 
@@ -1231,6 +1247,7 @@
     // Victoire annulée : la partie n'est plus terminée, elle sort de « Mes parties »
     if (etaitFinie && envoyee && !state.finished && state.id === idAvant) annulerEnregistrement();
     el.undoBtn.disabled = history.length === 0;
+    if (actionMessage === 'equipes') effacerMessage();   // « Mêmes équipes » ne vaut plus
     cacherVictoire();
     render();
     annoncerScore();
@@ -1254,6 +1271,32 @@
     cacherVictoire();
     render();
     annoncerScore();
+  }
+
+  function equipesVides(){
+    return !state.nameA && !state.nameB && !state.joueurs.a.length && !state.joueurs.b.length;
+  }
+
+  // « Nouvelle partie » en haut (ou 11/13) garde les équipes sans rien demander : le bandeau le
+  // dit quelques secondes, avec « Nouvelles équipes » pour repartir de zéro.
+  function nouvellePartieMemesEquipes(nouvelleCible){
+    if (suit() && !state.finished) return;
+    newGame(nouvelleCible);
+    if (!equipesVides()) annoncerMain(libelle('compteur_memes_equipes'), PICTOS.equipes, 8000, 'equipes');
+  }
+
+  // « Nouvelles équipes » (écran de fin ou bandeau) : nouvelle partie, noms et joueurs vidés, puis
+  // le panneau « Équipes ». Le titulaire du compte garde sa place ; format et terrain restent.
+  // Annuler ramène les équipes d'avant.
+  function nouvellesEquipes(){
+    if (suit() && !state.finished) return;
+    if (state.scoreA || state.scoreB || state.menes.length) newGame(); else snapshot();
+    state.nameA = '';
+    state.nameB = '';
+    state.joueurs = { a: [], b: [] };
+    if (messageMain) effacerMessage(); else render();
+    annoncerScore();
+    ouvrirEquipes();
   }
 
   // Partie oubliée : non terminée, sans aucun point depuis PAUSE_MAX. Une nouvelle commence, comme
@@ -1282,13 +1325,20 @@
 
   el.undoBtn.addEventListener('click', undo);
   $('undoWinBtn').addEventListener('click', undo);
-  el.resetBtn.addEventListener('click', ()=> newGame());
+  el.resetBtn.addEventListener('click', ()=> nouvellePartieMemesEquipes());
   el.playAgainBtn.addEventListener('click', ()=> newGame());
+  $('nouvellesEquipesBtn').addEventListener('click', nouvellesEquipes);
+  // Bandeau « Mêmes équipes » : le bouton repart de zéro, le reste du bandeau le ferme (et ne
+  // laisse pas passer le toucher à l'équipe derrière)
+  el.bandeauMain.addEventListener('click', (ev)=>{
+    if (actionMessage !== 'equipes') return;
+    if (ev.target.closest('[data-action="nouvellesEquipes"]')) nouvellesEquipes(); else effacerMessage();
+  });
 
   el.targetToggle.addEventListener('click', (e)=>{
     const btn = e.target.closest('button');
     if(!btn || Number(btn.dataset.t) === state.target) return;
-    newGame(Number(btn.dataset.t));
+    nouvellePartieMemesEquipes(Number(btn.dataset.t));
   });
 
   // ---------- Panneaux ----------

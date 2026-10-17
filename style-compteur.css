@@ -378,6 +378,9 @@ body.fullscreen-lock {
   border: 1.5px solid rgba(255,255,255,.35);
   margin-top: 8px;
 }
+/* Revanche (mêmes équipes) et Nouvelles équipes, côte à côte */
+.win .boutons-fin{ display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.win .boutons-fin button[hidden]{ display: none; }
 
 .confetti-field{
   position:absolute; inset:0;
@@ -605,6 +608,19 @@ body.fullscreen-lock {
 /* Message bref (partie arrêtée après 12 h, main reprise…) : sur deux lignes plutôt que coupé */
 .bandeau-main.bandeau-message{ width: max-content; border-radius: 14px; }
 .bandeau-main.bandeau-message span{ white-space: normal; }
+/* « Mêmes équipes » + bouton « Nouvelles équipes » : tout le bandeau arrête le toucher (sinon il
+   marquerait un point à l'équipe derrière) ; hors du bouton, il ferme le bandeau */
+.bandeau-main.bandeau-equipes{ pointer-events: auto; cursor: pointer; }
+.bandeau-main button{
+  flex: 0 0 auto; cursor: pointer;
+  background: var(--bg); color: var(--sand); border: none; border-radius: 999px;
+  font-family: inherit; font-size: 12.5px; font-weight: 700; padding: 5px 11px; margin: -2px -8px -2px 2px;
+}
+/* En portrait, sur la ligne entre les deux équipes, pour ne pas cacher le nom qu'il annonce gardé
+   (en paysage, le haut du milieu tombe déjà entre les deux noms) */
+@media (orientation: portrait){
+  .bandeau-main.bandeau-equipes{ top: 50%; transform: translate(-50%, -50%); }
+}
 .compteur-suit .team{ cursor: default; filter: saturate(.8); }
 .compteur-suit .team:active{ filter: saturate(.8); }
 .compteur-suit .controls, .compteur-suit .hint{ visibility: hidden; }
