@@ -6808,6 +6808,74 @@
       "credit_url": "https://www.mapillary.com/map/im/174451058018547"
     }
   ],
+  "node/14273172910": [
+    {
+      "id_local": "visiteur-915",
+      "photo_site": "https://mapetanque.be/mapetanque-photos/visiteurs/915.webp",
+      "grande": "https://mapetanque-admin.mapetanque.workers.dev/photo/915.webp",
+      "credit_nom": "RémyL",
+      "niveau_cartographe": 2
+    },
+    {
+      "id_local": "visiteur-916",
+      "photo_site": "https://mapetanque.be/mapetanque-photos/visiteurs/916.webp",
+      "grande": "https://mapetanque-admin.mapetanque.workers.dev/photo/916.webp",
+      "credit_nom": "RémyL",
+      "niveau_cartographe": 2,
+      "de": "node/14273172127"
+    }
+  ],
+  "node/14273172127": [
+    {
+      "id_local": "visiteur-916",
+      "photo_site": "https://mapetanque.be/mapetanque-photos/visiteurs/916.webp",
+      "grande": "https://mapetanque-admin.mapetanque.workers.dev/photo/916.webp",
+      "credit_nom": "RémyL",
+      "niveau_cartographe": 2
+    },
+    {
+      "id_local": "visiteur-915",
+      "photo_site": "https://mapetanque.be/mapetanque-photos/visiteurs/915.webp",
+      "grande": "https://mapetanque-admin.mapetanque.workers.dev/photo/915.webp",
+      "credit_nom": "RémyL",
+      "niveau_cartographe": 2,
+      "de": "node/14273172910"
+    }
+  ],
+  "way/866603645": [
+    {
+      "id_local": "visiteur-917",
+      "photo_site": "https://mapetanque.be/mapetanque-photos/visiteurs/917.webp",
+      "grande": "https://mapetanque-admin.mapetanque.workers.dev/photo/917.webp",
+      "credit_nom": "RémyL",
+      "niveau_cartographe": 2
+    },
+    {
+      "id_local": "visiteur-918",
+      "photo_site": "https://mapetanque.be/mapetanque-photos/visiteurs/918.webp",
+      "grande": "https://mapetanque-admin.mapetanque.workers.dev/photo/918.webp",
+      "credit_nom": "RémyL",
+      "niveau_cartographe": 2,
+      "de": "way/866603646"
+    }
+  ],
+  "way/866603646": [
+    {
+      "id_local": "visiteur-918",
+      "photo_site": "https://mapetanque.be/mapetanque-photos/visiteurs/918.webp",
+      "grande": "https://mapetanque-admin.mapetanque.workers.dev/photo/918.webp",
+      "credit_nom": "RémyL",
+      "niveau_cartographe": 2
+    },
+    {
+      "id_local": "visiteur-917",
+      "photo_site": "https://mapetanque.be/mapetanque-photos/visiteurs/917.webp",
+      "grande": "https://mapetanque-admin.mapetanque.workers.dev/photo/917.webp",
+      "credit_nom": "RémyL",
+      "niveau_cartographe": 2,
+      "de": "way/866603645"
+    }
+  ],
   "way/1426362955": [
     {
       "mapillary_id": "1432227621956358",
