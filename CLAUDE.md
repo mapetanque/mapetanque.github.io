@@ -35,11 +35,34 @@ Le site est publié depuis `main` : tout changement poussé sur `main` est en li
   git pull
   ```
 
-  La fusion dans `main` se fait par une pull request, que Rémy valide après son test. Ensuite, sur
-  son PC : `git checkout main` puis `git pull`.
+  La fusion dans `main` se fait par une pull request, que Rémy valide après son test. Quand il le
+  demande (« fusionne »), Claude ouvre la pull request et la fusionne lui-même (squash). Ensuite,
+  sur son PC : `git checkout main` puis `git pull`.
+- Réseau de la session cloud : `mapetanque.be` et `*.pages.dev` y sont bloqués par défaut. Claude
+  ne peut pas ouvrir le site ni l'aperçu : c'est Rémy qui teste sur son téléphone.
 
 **Dans les deux cas** : une seule session à la fois sur les mêmes fichiers. Une branche du cloud
 pas encore fusionnée doit l'être (ou être abandonnée) avant de reprendre ces fichiers en local.
+
+## Workers Cloudflare (dépôt privé `mapetanque/mapetanque-workers`)
+
+- Le code des Workers (`admin`, `comptes`, `direct`, `notes`) n'est pas ici mais dans le dépôt privé
+  `mapetanque/mapetanque-workers`, avec ses propres consignes (son `CLAUDE.md`).
+- Dans le cloud, il n'est pas joint d'office : l'ajouter avec l'outil `add_repo` (propriétaire
+  `mapetanque`, dépôt `mapetanque-workers`, accès `push`), le cloner, puis `register_repo_root`. Ne
+  jamais répondre à Rémy qu'on n'a pas accès aux Workers sans avoir fait ça.
+- Même façon de travailler que pour le site : branche `claude/…`, pull request, fusion sur demande.
+- **Fusionner ne déploie rien.** Déployer seulement quand Rémy le demande, une fois la pull request
+  fusionnée : lancer la tâche GitHub « Déployer un Worker » (`.github/workflows/deployer.yml` de ce
+  dépôt-là, branche `main`, entrée `worker` = `admin`, `comptes`, `direct` ou `notes`) avec l'outil
+  GitHub qui lance un workflow, puis suivre son résultat et le donner à Rémy.
+- Les aperçus Pages appellent les Workers en ligne : une modification de Worker ne s'y voit qu'après
+  son déploiement. Si le site et un Worker changent ensemble, dire à Rémy dans quel ordre déployer
+  (en général le Worker d'abord, en restant compatible avec la version du site en ligne).
+- Impossible depuis le cloud (pas de jeton Cloudflare) : requêtes et migrations D1, secrets des
+  Workers, journaux en direct, `wrangler rollback`. Les signaler à Rémy, qui les fait sur le PC. Si
+  un déploiement pose problème : annuler le commit (revert) par une pull request, fusionner,
+  redéployer.
 
 ## Conventions du projet
 
