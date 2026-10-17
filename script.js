@@ -4097,6 +4097,9 @@ function construireContenuPopupTerrain(feature, layer) {
         // « mapetanque » qui l'a publiée sur Mapillary.
         const info = (window.miniaturesPlates || {})[entree.mapillary_id] || {};
         const auteur = entree.credit_nom || info.auteur || "";
+        // Niveau du badge Cartographe de l'auteur (export du Worker), seulement pour un visiteur
+        // crédité qui a envoyé la photo connecté.
+        const niveau = entree.credit_nom ? Number(entree.niveau_cartographe) || null : null;
         // Lien vers la photo en plein cadre : focus=photo donne directement la bonne vue
         // (entree.credit_url, mapillary.com/map/im/ID, ouvre la carte avec la photo en vignette).
         const lienPhoto = `https://www.mapillary.com/app/?pKey=${entree.mapillary_id}&lat=${terrainLat}&lng=${terrainLon}&z=17&focus=photo`;
@@ -4113,6 +4116,7 @@ function construireContenuPopupTerrain(feature, layer) {
                 creditUrl: entree.grande || entree.photo_site,
                 licenceVisiteur: true,
                 auteur: entree.credit_nom || "",
+                niveau: niveau,
             });
             return;
         }
@@ -4130,6 +4134,7 @@ function construireContenuPopupTerrain(feature, layer) {
                 logoMapillary: true,
                 licenceMapillary: true,
                 auteur: auteur,
+                niveau: niveau,
             });
             return;
         }
@@ -4143,6 +4148,7 @@ function construireContenuPopupTerrain(feature, layer) {
                 logoMapillary: true,
                 licenceMapillary: true,
                 auteur: auteur,
+                niveau: niveau,
             });
             return;
         }
@@ -4154,6 +4160,7 @@ function construireContenuPopupTerrain(feature, layer) {
             creditUrl: lienPhoto,
             // Prénom ou pseudo d'un visiteur qui a envoyé la photo (voir creditVisiteur plus bas).
             creditVisiteur: entree.credit_nom || null,
+            niveau: niveau,
         });
     });
 
@@ -4199,9 +4206,20 @@ function construireContenuPopupTerrain(feature, layer) {
             .replace(/'/g, '&#39;');
     }
 
+    // Pastille « Niveau 3 » du badge Cartographe, à côté du nom de l'auteur (NOTES_badges.md).
+    // Rien si les traductions en cache sont d'avant les badges.
+    function pastilleNiveau(d) {
+        const n = Number(d.niveau);
+        if (!(n >= 1 && n <= 5) || !t('badge_niveau')) return "";
+        const complet = t('badge_complet').replace('{badge}', t('badge_cartographe')).replace('{n}', n);
+        return ` <span class="pastille-niveau" title="${echapperHtml(complet)}">`
+            + `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg>`
+            + `${echapperHtml(t('badge_niveau').replace('{n}', n))}</span>`;
+    }
+
     function creditVisiteur(d) {
         if (!d.creditVisiteur) return "";
-        return `<span class="popup-photo-credit" style="display:block;margin-top:2px;">${t('popup_photo_envoyee_par')(echapperHtml(d.creditVisiteur))}</span>`;
+        return `<span class="popup-photo-credit" style="display:block;margin-top:2px;">${t('popup_photo_envoyee_par')(echapperHtml(d.creditVisiteur) + pastilleNiveau(d))}</span>`;
     }
 
     // Sous chaque photo, son crédit :
@@ -4216,10 +4234,10 @@ function construireContenuPopupTerrain(feature, layer) {
         if (d.licenceVisiteur) {
             // Repli : le service worker peut servir un translations.js d'avant cette clé.
             const credit = t('popup_photo_credit_visiteur') || (a => a ? `Photo : ${a}` : "Photo");
-            return `<span class="popup-photo-credit popup-photo-licence">${credit(d.auteur ? echapperHtml(d.auteur) : "")} · ${LICENCE_MAPILLARY}</span>`;
+            return `<span class="popup-photo-credit popup-photo-licence">${credit(d.auteur ? echapperHtml(d.auteur) + pastilleNiveau(d) : "")} · ${LICENCE_MAPILLARY}</span>`;
         }
         if (d.licenceMapillary) {
-            return `<span class="popup-photo-credit popup-photo-licence">${t('popup_photo_credit_auteur')(d.auteur ? echapperHtml(d.auteur) : "")} · ${LICENCE_MAPILLARY}</span>`;
+            return `<span class="popup-photo-credit popup-photo-licence">${t('popup_photo_credit_auteur')(d.auteur ? echapperHtml(d.auteur) + pastilleNiveau(d) : "")} · ${LICENCE_MAPILLARY}</span>`;
         }
         if (d.type === 'iframe') return creditVisiteur(d);
         return d.creditLabel && d.creditUrl

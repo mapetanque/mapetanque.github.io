@@ -1,7 +1,8 @@
 # Badges sur mapetanque.be — synthèse de la réflexion (16 octobre 2026)
 
-Statut : réflexion, rien n'est codé. Suite de `NOTES_comptes_utilisateurs.md` (badges et points
-prévus à l'étape 3).
+Statut : codé le 17 octobre 2026 (site : branche `claude/badges` ; Workers : `commun/badges.js`,
+migration `admin/migrations/2026-10-17-badges.sql` du dépôt `mapetanque-workers`). Suite de
+`NOTES_comptes_utilisateurs.md` (badges et points prévus à l'étape 3).
 
 ## Ce qui se fait ailleurs
 

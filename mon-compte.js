@@ -3,6 +3,8 @@
 // Mise en page validée sur maquettes/mon-compte/index.html. Dessinée dans #mon-compte :
 //   - en-tête : pastille, « Bonjour {pseudo} ! », adresse du compte ;
 //   - pseudo sur une ligne, « Modifier » (ou « Choisir ») ouvre le champ sur place ;
+//   - « Mes badges » : Cartographe et Bouliste (route /compte/contributions, champ badges),
+//     absents tant que le Worker ne les renvoie pas ;
 //   - « Mes parties » : résumé (route /compte/parties) et lien vers mes-parties.html, placé
 //     au-dessus des contributions ;
 //   - « Mes coups de cœur » : ceux du compte (route /compte/contributions) et ceux donnés depuis
@@ -30,6 +32,7 @@
 
     var envois = null;        // liste de tous les envois, du plus récent au plus ancien
     var coeurs = null;        // lieux des coups de cœur, du plus récent au plus ancien
+    var badges = null;        // { cartographe, bouliste } renvoyé par le Worker, sinon null
     var erreurEnvois = false;
     var filtre = 'tout';
     var nbMontres = PAR_PAGE;
@@ -350,10 +353,82 @@
                 } else {
                     envois = preparerEnvois(reponse.donnees);
                     coeurs = preparerCoeurs(reponse.donnees);
+                    badges = reponse.donnees.badges || null;
                 }
                 dessinerEnvois();
                 dessinerCoeurs();
+                dessinerBadges();
             });
+    }
+
+
+    // --- Mes badges ---------------------------------------------------------------------------
+    // Cartographe (points des contributions acceptées) et Bouliste (parties jouées), cinq niveaux
+    // chacun, calculés par le Worker. Décisions et visuel : NOTES_badges.md (médaillon vert
+    // tendre, picto au trait, cinq segments terre battue, un par niveau ; nom en Caveat).
+
+    var DESSINS_BADGES = {
+        cartographe: '<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/>',
+        bouliste: '<circle cx="10" cy="12" r="7.5"/><path d="M2.8 10.2C7 11.6 13 11.6 17.2 10.2"/><path d="M2.8 13.8C7 15.2 13 15.2 17.2 13.8"/><circle cx="20.5" cy="18.5" r="1.6"/>'
+    };
+    // Cercle de rayon 72 (périmètre 452,4) : cinq segments de 82,48 séparés de 8.
+    var SEGMENT = '82.48 8';
+
+    function medaillon(type, niveau) {
+        var arcs = [];
+        for (var i = 0; i < niveau; i++) arcs.push(i < niveau - 1 || niveau === 5 ? SEGMENT : '82.48 500');
+        var anneau = ' cx="80" cy="80" r="72" stroke-dashoffset="-4" transform="rotate(-90 80 80)"';
+        return '<svg class="mc-medaillon" viewBox="0 0 160 160" aria-hidden="true">'
+            + '<circle class="mc-medaillon-fond"' + anneau + ' stroke-dasharray="' + SEGMENT + '"/>'
+            + (niveau ? '<circle class="mc-medaillon-niveau"' + anneau + ' stroke-dasharray="' + arcs.join(' ') + '"/>' : '')
+            + '<circle class="mc-medaillon-centre" cx="80" cy="80" r="56"/>'
+            + '<g class="mc-medaillon-picto" transform="translate(50 50) scale(2.5)">' + DESSINS_BADGES[type] + '</g>'
+            + '</svg>';
+    }
+
+    // « 1 point » / « 12 points » : clé_1 pour un, clé sinon ; {n} est le nombre.
+    function avecNombre(cle, n) {
+        return t(cle + (n === 1 ? '_1' : '')).replace('{n}', n.toLocaleString(locale));
+    }
+
+    function badgeHtml(type, b) {
+        var unite = type === 'cartographe' ? 'badge_points' : 'badge_parties';
+        var resume = (b.niveau ? t('badge_niveau').replace('{n}', b.niveau) : t('badge_sans_niveau'))
+            + ' · ' + avecNombre(unite, b.valeur);
+        var reste, progression;
+        if (b.suivant === null) {
+            reste = t('badge_max');
+            progression = 100;
+        } else {
+            reste = avecNombre(type === 'cartographe' ? 'badge_reste_points' : 'badge_reste_parties', b.suivant - b.valeur)
+                .replace('{niveau}', b.niveau + 1);
+            progression = Math.round(100 * (b.valeur - b.seuil) / (b.suivant - b.seuil));
+        }
+        return '<div class="connexion-carte mc-badge">'
+            + medaillon(type, b.niveau)
+            + '<div class="mc-badge-corps">'
+            + '<span class="mc-badge-nom">' + echapper(t('badge_' + type)) + '</span>'
+            + '<span class="mc-badge-resume">' + echapper(resume) + '</span>'
+            + '<span class="mc-badge-barre" aria-hidden="true"><span style="width:' + progression + '%"></span></span>'
+            + '<span class="mc-badge-reste">' + echapper(reste) + '</span>'
+            + '</div></div>';
+    }
+
+    function dessinerBadges() {
+        var cadre = zone.querySelector('.mc-badges-zone');
+        if (!cadre) return;
+        // Worker pas encore à jour, erreur, ou traductions d'avant les badges : pas de section.
+        if (!badges || !badges.cartographe || !badges.bouliste || !t('badge_cartographe')) {
+            cadre.innerHTML = '';
+            return;
+        }
+        var aide = ['badge_aide_photo', 'badge_aide_premiere', 'badge_aide_terrain', 'badge_aide_correction']
+            .map(function (cle) { return '<li>' + echapper(t(cle)) + '</li>'; }).join('');
+        cadre.innerHTML = '<h2 class="mc-titre">' + echapper(t('moncompte_badges_titre')) + '</h2>'
+            + badgeHtml('cartographe', badges.cartographe)
+            + badgeHtml('bouliste', badges.bouliste)
+            + '<details class="mc-badges-aide"><summary>' + echapper(t('badge_aide_titre')) + '</summary>'
+            + '<ul>' + aide + '</ul><p>' + echapper(t('badge_aide_regle')) + '</p></details>';
     }
 
 
@@ -548,6 +623,7 @@
         zone.innerHTML =
             '<div class="mc-entete"></div>' +
             '<div class="connexion-carte mc-pseudo"></div>' +
+            '<div class="mc-badges-zone"></div>' +
 
             // Mes parties avant Mes contributions : un bloc court, au-dessus d'une liste longue.
             // Toute la tuile est le lien vers mes-parties.html ; « Voir mes parties… » n'en est que
@@ -578,6 +654,7 @@
 
         dessinerEntete();
         brancherPseudo(!compte.session().pseudo);
+        dessinerBadges();
         dessinerCoeurs();
         dessinerEnvois();
         dessinerResumeParties();
