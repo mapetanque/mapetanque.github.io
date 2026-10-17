@@ -35,26 +35,35 @@ Traductions NL et DE à faire relire avant mise en ligne.
 ### Cartographe : points par contribution
 
 Seules comptent les contributions **faites connecté et validées** dans l'admin, jamais l'envoi
-seul (sinon, photos floues en série). Barème inspiré de Google, adapté :
+seul (sinon, photos floues en série). Petits nombres, faciles à expliquer :
 
-| Contribution | Points | Comme Google ? |
-|---|---|---|
-| Avis publié | 10 | Oui |
-| Photo acceptée | 5 | Oui |
-| Bonus : première photo d'un terrain qui n'en avait aucune (« scoop ») | +10 | Non, propre à nous : c'est ce qui sert le plus la carte |
-| Erreur corrigée (signalement d'erreur traité) | 5 | Oui (modification) |
-| Terrain manquant ajouté | 15 | Oui (ajout d'un lieu) |
-| Note (étoiles) | 1 | Oui ; les notes ne passent pas par la modération, d'où le point unique |
+| Contribution | Points |
+|---|---|
+| Photo acceptée | 2 |
+| Bonus : première photo d'un terrain qui n'en avait aucune (« scoop ») | +3 (5 en tout) |
+| Erreur corrigée, ou info de club acceptée | 3 |
+| Terrain manquant ajouté | 5 |
+| Coup de cœur (et cases « Ce terrain est… ») | 0 |
+
+Les notes et les avis ont été remplacés par les coups de cœur (17 octobre 2026). Ceux-ci ne
+rapportent aucun point : un geste d'appréciation, sans modération, qu'on ne veut pas voir
+distribué en masse pour monter de niveau.
 
 ### Cartographe : niveaux
 
-Les cinq premiers seuils de Google, prolongeables plus tard avec les suivants (1 500, 5 000…) :
-
 | Niveau | 1 | 2 | 3 | 4 | 5 |
 |---|---|---|---|---|---|
-| Points | 1 | 15 | 75 | 250 | 500 |
+| Points | 1 | 10 | 30 | 75 | 150 |
 
-Ordre de grandeur : 1 terrain ajouté = niveau 2 ; 3 avis + 5 photos = niveau 3.
+Ordre de grandeur :
+- niveau 1 : une première contribution acceptée ;
+- niveau 2 : 2 terrains ajoutés, ou 5 photos ;
+- niveau 3 : un contributeur régulier (par exemple 3 terrains, 5 photos dont 2 scoops et
+  1 erreur corrigée = 34 points) ;
+- niveau 5 : un pilier (30 terrains ajoutés, ou 75 photos).
+
+Les cinq niveaux suffisent au lancement ; on pourra en ajouter au-delà de 150 si des comptes
+les atteignent.
 
 ### Bouliste : niveaux
 
@@ -70,7 +79,7 @@ Ordre de grandeur : 1 terrain ajouté = niveau 2 ; 3 avis + 5 photos = niveau 3.
   feuillage `#3D7A2A` (carte Lucide `map` pour Cartographe, boule striée et cochonnet pour
   Bouliste), entouré de cinq segments, un par niveau : terre battue `#B5502E` une fois atteints,
   ligne `#E2E6DE` sinon. Pas de chiffre sur le badge : le niveau s'écrit dessous
-  (« Niveau 3 · 202 points »). Nom du badge en Caveat 700 (`CHARTE.md`).
+  (« Niveau 3 · 60 points »). Nom du badge en Caveat 700 (`CHARTE.md`).
 - Piste écartée : marqueur de carte et boule pleins, avec cinq petites boules sous le badge.
   Pourrait servir pour annoncer un nouveau niveau.
 - Si le niveau est public : une pastille vert tendre à côté du pseudo, avec le petit picto et
@@ -90,10 +99,9 @@ Tout se calcule à la volée à partir des tables existantes, filtrées sur `com
   validation dans l'admin (une colonne `scoop` dans `photos`) plutôt que de le reconstituer
   après coup.
 - **Terrain manquant ajouté** : `signalements` de type `manquant` au statut `traite`.
-- **Erreur corrigée** : `signalements` de type `erreur` au statut `traite`. (Les signalements
-  `club` ne comptent pas au lancement.)
-- **Avis publié** : `avis` au statut `publie`.
-- **Note** : `votes` du compte.
+- **Erreur corrigée, info de club** : `signalements` de type `erreur` ou `club` au statut
+  `traite`.
+- Les anciens avis et notes (`avis`, `votes`) ne comptent pas, pas plus que les coups de cœur.
 - **Bouliste** : nombre de lignes dans `parties`.
 
 Pas de table au départ. Côté site : une route du Worker (ou un ajout à la réponse de Mon compte)
@@ -117,7 +125,6 @@ réflexion) :
 | Scoop | Scoop | Scoop | Scoop | Premières photos de terrains sans photo |
 | Défricheur | Pionier | Pionier | Pioneer | Terrains manquants ajoutés (nom à revoir : pas épicène) |
 | Vigie | Uitkijk | Ausguck | Lookout | Signalements d'erreur corrigés |
-| Critique | Recensent | Kritiker | Critic | Avis publiés et terrains notés |
 
 Badges de jeu et de lieu :
 
@@ -133,12 +140,12 @@ Badges de jeu et de lieu :
 | Maire du terrain | Burgemeester | Bürgermeister | Mayor | Titre sur la fiche du terrain : le compte qui y a le plus de contributions validées et de parties |
 
 Noms écartés en cours de route : Premier regard, Premier cliché, Carreau ; Défricheur ; Œil de
-lynx ; Chroniqueur, Arbitre ; Habitué.
+lynx ; Chroniqueur, Arbitre, Critique (avis et notes, disparus) ; Habitué.
 
 ## À trancher
 
-- Niveau visible publiquement (à côté du pseudo sur les avis et les crédits photo, comme
-  Google) ou seulement dans Mon compte ?
+- Niveau visible publiquement (à côté du pseudo dans le crédit des photos, comme Google) ou
+  seulement dans Mon compte ?
 - Bonus scoop : ajouter la colonne `scoop` remplie à la validation (recommandé) ?
-- Points retirés si une contribution est retirée ensuite (avis `retire`) ? Logique avec un
+- Points retirés si une contribution est retirée ensuite (photo retirée) ? Logique avec un
   calcul à la volée : oui, automatiquement.
