@@ -51,6 +51,11 @@ pas encore fusionnée doit l'être (ou être abandonnée) avant de reprendre ces
 - Dans le cloud, il n'est pas joint d'office : l'ajouter avec l'outil `add_repo` (propriétaire
   `mapetanque`, dépôt `mapetanque-workers`, accès `push`), le cloner, puis `register_repo_root`. Ne
   jamais répondre à Rémy qu'on n'a pas accès aux Workers sans avoir fait ça.
+- **Notes de réflexion** (`NOTES_*.md` : comptes utilisateurs, badges, photos des visiteurs,
+  terrains insolites) : elles sont dans ce dépôt privé, dossier `reflexions/`, et plus ici (ce dépôt
+  est public, et le site aussi). Les commentaires du code les citent par leur nom de fichier : les
+  lire là-bas (dans le cloud, joindre le dépôt comme ci-dessus). Toute nouvelle note privée va
+  là-bas, jamais dans ce dépôt.
 - Même façon de travailler que pour le site : branche `claude/…`, pull request, fusion sur demande.
 - **Fusionner ne déploie rien.** Déployer seulement quand Rémy le demande, une fois la pull request
   fusionnée : lancer la tâche GitHub « Déployer un Worker » (`.github/workflows/deployer.yml` de ce
