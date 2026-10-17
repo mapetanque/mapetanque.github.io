@@ -374,3 +374,103 @@ a.mc-envoi:hover {
     line-height: 1;
     color: #aab0a4;
 }
+
+/* --- Mes badges : médaillon, nom en Caveat, barre de progression ---------------------------
+   Médaillon vert tendre avec picto au trait vert feuillage, cinq segments terre battue (un par
+   niveau). Nom en Caveat : exception de la charte pour les badges (CHARTE.md). Le terre battue
+   ne sert qu'à ce qui progresse (segments, barre). Voir NOTES_badges.md. */
+/* .connexion-carte empile ses enfants : ici, médaillon à gauche, texte à droite. */
+.connexion-carte.mc-badge {
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.mc-medaillon {
+    width: 84px;
+    height: 84px;
+    flex-shrink: 0;
+}
+
+.mc-medaillon-fond,
+.mc-medaillon-niveau {
+    fill: none;
+    stroke-width: 9;
+}
+
+.mc-medaillon-fond { stroke: #E2E6DE; }
+.mc-medaillon-niveau { stroke: #B5502E; }
+.mc-medaillon-centre { fill: #E7F4E1; }
+
+.mc-medaillon-picto {
+    fill: none;
+    stroke: #3D7A2A;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.mc-badge-corps {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    min-width: 0;
+}
+
+.mc-badge-nom {
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1;
+    color: #3D7A2A;
+}
+
+.mc-badge-resume {
+    font-weight: 600;
+    font-size: 14px;
+    color: #1D2619;
+}
+
+.mc-badge-barre {
+    display: block;
+    height: 8px;
+    border-radius: 4px;
+    background: #E2E6DE;
+    overflow: hidden;
+}
+
+.mc-badge-barre span {
+    display: block;
+    height: 100%;
+    border-radius: 4px;
+    background: #B5502E;
+}
+
+.mc-badge-reste {
+    font-size: 13px;
+    color: #56604F;
+}
+
+.mc-badges-aide {
+    margin: 4px 0 8px;
+    font-size: 14px;
+}
+
+.mc-badges-aide summary {
+    cursor: pointer;
+    color: #3D7A2A;
+    font-weight: 600;
+}
+
+.mc-badges-aide ul {
+    margin: 8px 0;
+    padding-left: 20px;
+}
+
+.mc-badges-aide p {
+    margin: 0;
+    font-size: 13px;
+    color: #56604F;
+}

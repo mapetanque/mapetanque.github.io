@@ -2098,6 +2098,15 @@ async function chargerModeration() {
     file.forEach(photo => contenu.appendChild(construireCarteModeration(photo)));
 }
 
+// Bonus « première photo » du badge Cartographe (NOTES_badges.md) : le terrain n'a encore
+// aucune photo en ligne ni validée (même définition que les puces : photosTerrain). Sans le
+// fichier des photos en ligne, on ne peut pas savoir : pas de bonus. Le Worker vérifie en plus
+// qu'aucune autre photo de visiteur de ce terrain n'a été acceptée entre-temps.
+function premierePhoto(osmId) {
+    if (!Object.keys(PHOTOS_EN_LIGNE).length) return false;
+    return photosTerrain(osmId).total === 0;
+}
+
 function construireCarteModeration(photo) {
     const div = document.createElement("div");
     const bloquee = photo.statut === "envoyee" && joursDepuis(photo.maj) > JOURS_AVANT_ALERTE;
@@ -2134,6 +2143,9 @@ function construireCarteModeration(photo) {
     if (photo.credit_nom) morceaux.push("à créditer : " + photo.credit_nom);
     if (photo.avec_compte) morceaux.push("envoyée par le compte " + (photo.pseudo ? "« " + photo.pseudo + " »" : "sans pseudo"));
     if (photo.nom_fichier) morceaux.push(photo.nom_fichier);
+    if (photo.statut === "en_attente" && photo.avec_compte && premierePhoto(photo.osm_id)) {
+        morceaux.push("Première photo de ce terrain · +3 points Cartographe");
+    }
     const direct = photo.affichage === "direct";
     if (photo.statut === "validee") {
         morceaux.push(photo.miniature ? "EN LIGNE sur le site — envoi à Mapillary au prochain passage"
@@ -2307,6 +2319,7 @@ function choixPublication(photo) {
 async function moderer(photo, decision, carte, choix) {
     const charge = { id: photo.id, decision: decision };
     if (decision === "valider" && photo.choixPublication) Object.assign(charge, photo.choixPublication());
+    if (decision === "valider") charge.premiere_photo = premierePhoto(photo.osm_id);
     if (choix) {
         Object.assign(charge, choix);
         const terrain = terrainDe(photo.osm_id);

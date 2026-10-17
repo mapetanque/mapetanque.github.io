@@ -1466,6 +1466,31 @@ body.fullscreen-lock {
     margin-top: 2px;
 }
 
+/* Pastille « Niveau 3 » du badge Cartographe à côté du nom de l'auteur d'une photo
+   (pastilleNiveau dans script.js, NOTES_badges.md) : vert tendre, picto carte au trait. */
+.pastille-niveau {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 0 6px 0 4px;
+    border-radius: 999px;
+    background: #E7F4E1;
+    color: #3D7A2A;
+    font-weight: 700;
+    white-space: nowrap;
+    vertical-align: 1px;
+}
+
+.pastille-niveau svg {
+    width: 11px;
+    height: 11px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
 .popup-photo-nav {
     position: absolute;
     top: 50%;
