@@ -413,7 +413,7 @@ def ecrire_llms(pages):
         "",
         "Les terrains viennent d'OpenStreetMap et sont mis à jour quotidiennement ; les photos "
         "viennent de Mapillary. Sur la carte, chaque terrain a une fiche : emplacement, "
-        "photos, itinéraire, notes et avis de visiteurs. Les clubs de pétanque peuvent aussi "
+        "photos, itinéraire, coups de cœur des visiteurs. Les clubs de pétanque peuvent aussi "
         "être affichés.",
         "",
         "Le compteur de points s'utilise dans le navigateur, sur téléphone ou tablette, sans "

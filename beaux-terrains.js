@@ -33,6 +33,9 @@
     var MOYENNE_MIN = 4;       // au-delà de NB_VOTES_MIN votes, sous cette moyenne : exclu
     var NOTE_A_PRIORI = 4;     // moyenne pondérée : (somme + 4 × 5) / (nombre + 5)
     var POIDS_A_PRIORI = 5;
+    // Avec les coups de cœur (notes désactivées, voir MAPETANQUE_NOTES_AVIS dans script.js) : un
+    // promu doit avoir au moins NB_COEURS_MIN cœurs. Même valeur dans promouvoir_terrains.py.
+    var NB_COEURS_MIN = 2;
     var URL_GEO_IP = "https://ipapi.co/json/";
     var NB_MOTS_EXTRAIT = 8;
 
@@ -317,6 +320,12 @@
     // Les aides viennent de script.js, chargé avant ce fichier partout ; le typeof protège malgré
     // tout, comme pour window.nomCommuneAffiche plus haut.
     function ligneNoteTuile(osmId) {
+        // Coups de cœur : « ♥ 12 coups de cœur », rien du tout s'il n'y en a pas.
+        if (!window.MAPETANQUE_NOTES_AVIS) {
+            return typeof window.mapetanqueCoeursHtml === "function"
+                ? '<div class="tuile-note">' + window.mapetanqueCoeursHtml(osmId, "tuile-coeurs") + '</div>'
+                : "";
+        }
         var resume = osmId && typeof window.mapetanqueResumeNote === "function"
             ? window.mapetanqueResumeNote(osmId) : null;
         var etoiles = typeof window.mapetanqueEtoileHtml === "function"
@@ -497,6 +506,9 @@
     window.addEventListener("mapetanque:notes", function () {
         if (terrains.length) construire();
     });
+    window.addEventListener("mapetanque:coeurs", function () {
+        if (terrains.length) construire();
+    });
 
     // ---------------------------------------------------------------------------------
     // Ordre d'affichage
@@ -523,7 +535,20 @@
         return null;
     }
 
+    // Coups de cœur : score = nombre de cœurs, épinglés compris ; un promu en a au moins
+    // NB_COEURS_MIN. À égalité, le tri stable garde les épinglés devant, dans l'ordre de leur
+    // fichier. Cœurs lus en direct (window.mapetanqueCoeurs, chargé par script.js) ; pour un promu,
+    // tant qu'ils ne sont pas arrivés, l'instantané écrit par le job dans son champ "coeurs".
+    function coeursTerrain(t) {
+        if (window.mapetanqueCoeurs) return window.mapetanqueCoeurs[t.osm_id] || 0;
+        return (!t.epingle && typeof t.coeurs === "number") ? t.coeurs : 0;
+    }
+
     function scoreTerrain(t) {
+        if (!window.MAPETANQUE_NOTES_AVIS) {
+            var n = coeursTerrain(t);
+            return (!t.epingle && n < NB_COEURS_MIN) ? null : n;
+        }
         var v = votesTerrain(t);
         if (v && v[1] >= NB_VOTES_MIN) {
             if (v[0] / v[1] < MOYENNE_MIN) return null;

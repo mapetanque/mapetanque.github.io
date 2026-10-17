@@ -78,10 +78,7 @@
         var pastilles = criteres.sort(function (a, b) { return rang(a) - rang(b); })
             .map(function (c) { return pastille(c[0], c[1]); });
 
-        var resume = window.mapetanqueResumeNote(l.o);
-        var note = resume
-            ? '<span class="commune-terrain-note">' + window.mapetanqueEtoileHtml(resume.moyenne) + ' ' + resume.texte + '</span>'
-            : '';
+        var note = window.mapetanqueLigneAppreciation(l.o, 'commune-terrain-note');
 
         return '<a class="commune-terrain carte-tuile" href="' + window.location.pathname + '?lat=' + l.lat + '&amp;lon=' + l.lon
             + '" data-osm="' + l.o + '">'
@@ -213,10 +210,12 @@
 
     map.on('moveend', rafraichir);
     window.addEventListener('mapetanque:filtres', rafraichir);
-    // Notes arrivées du Worker : mêmes tuiles, avec leurs étoiles
-    window.addEventListener('mapetanque:notes', function () {
+    // Cœurs (ou notes) arrivés du Worker : mêmes tuiles, avec leur ligne
+    function surAppreciations() {
         if (index) afficher(montres || PAR_PAQUET);
-    });
+    }
+    window.addEventListener('mapetanque:coeurs', surAppreciations);
+    window.addEventListener('mapetanque:notes', surAppreciations);
 
     // ----- Fiche d'un terrain, sans bouger la carte (ouvrirFicheSurPlace, script.js) -----
 

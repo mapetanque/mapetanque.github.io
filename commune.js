@@ -11,7 +11,7 @@
 // L'adresse prend le terrain (#way-123) : le bouton retour du téléphone ferme la fiche au lieu
 // de quitter la page, et une adresse partagée rouvre la page avec la fiche.
 //
-// Les cartes reçoivent aussi la note des joueurs (★ 4,5 (12 notes)) dès qu'elle arrive du Worker.
+// Les cartes reçoivent aussi les coups de cœur (♥ 3 coups de cœur) dès qu'ils arrivent du Worker.
 
 (function () {
     var cartes = document.querySelectorAll('.commune-terrain[data-osm]');
@@ -116,25 +116,18 @@
         ouvrir(depart);
     }
 
-    // ----- Notes des joueurs sur les cartes -----
-    // Cumulées par groupe de pistes (voir cumulerNotes dans script.js), comme dans la fiche.
-    // Rien tant que personne n'a voté : une étoile grise sur chaque carte n'apprendrait rien.
+    // ----- Coups de cœur (ou notes des joueurs) sur les cartes -----
+    // Cumulés par groupe de pistes (voir cumulerCoeurs dans script.js), comme dans la fiche.
+    // Rien tant que le terrain n'en a pas : une ligne vide sur chaque carte n'apprendrait rien.
     function afficherNotes() {
         cartes.forEach(function (carte) {
-            var resume = window.mapetanqueResumeNote(carte.dataset.osm);
             var zone = carte.querySelector('.commune-terrain-note');
-            if (!resume) {
-                if (zone) zone.remove();
-                return;
-            }
-            if (!zone) {
-                zone = document.createElement('span');
-                zone.className = 'commune-terrain-note';
-                carte.querySelector('.commune-terrain-nom').after(zone);
-            }
-            zone.innerHTML = window.mapetanqueEtoileHtml(resume.moyenne) + ' ' + resume.texte;
+            if (zone) zone.remove();
+            var html = window.mapetanqueLigneAppreciation(carte.dataset.osm, 'commune-terrain-note');
+            if (html) carte.querySelector('.commune-terrain-nom').insertAdjacentHTML('afterend', html);
         });
     }
+    window.addEventListener('mapetanque:coeurs', afficherNotes);
     window.addEventListener('mapetanque:notes', afficherNotes);
     afficherNotes();
 })();

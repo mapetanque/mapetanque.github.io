@@ -203,16 +203,23 @@
         var bulle = picto('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>');
         var etoile = picto('<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>');
         var lieu = picto('<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>');
+        var coeur = picto('<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>');
         function ligne(vignette, titre, ou, statut, ok) {
             return '<li>' + vignette + '<div><b>' + echapper(titre) + '</b><small>' + echapper(ou) + '</small></div>'
                 + '<span class="ca-statut ' + (ok ? 'ok' : 'att') + '">' + echapper(t(statut)) + '</span></li>';
         }
+        // Notes et avis désactivés (MAPETANQUE_NOTES_AVIS, script.js) : un coup de cœur à leur place
+        var notesAvis = !!window.MAPETANQUE_NOTES_AVIS;
+        var filtres = notesAvis
+            ? [t('moncompte_filtre_photos'), t('moncompte_filtre_notes'), t('moncompte_filtre_avis')]
+            : [t('moncompte_coeurs_titre'), t('moncompte_filtre_photos'), t('moncompte_filtre_signalements')];
         return barre(t('moncompte_envois_titre'))
-            + '<p class="ca-titre haut">' + echapper([t('moncompte_filtre_photos'), t('moncompte_filtre_notes'), t('moncompte_filtre_avis')].join(' · ')) + '</p>'
+            + '<p class="ca-titre haut">' + echapper(filtres.join(' · ')) + '</p>'
             + '<ul class="ca-liste">'
+            + (notesAvis ? '' : '<li><span class="ca-vign ca-vign-coeur">' + coeur + '</span><div><b>' + echapper(t('compte_accueil_ec_coeur')) + '</b><small>Parc Josaphat, Schaerbeek</small></div></li>')
             + ligne('<span class="ca-vign photo"></span>', t('moncompte_type_photo'), 'Parc de Fléron', 'moncompte_statut_publiee', true)
-            + ligne('<span class="ca-vign">' + bulle + '</span>', t('compte_accueil_ec_avis'), 'Quai de la Boverie, Liège', 'moncompte_statut_attente', false)
-            + ligne('<span class="ca-vign">' + etoile + '</span>', libelle('compte_accueil_ec_note', { n: 4 }), 'Parc Josaphat, Schaerbeek', 'moncompte_statut_publie', true)
+            + (notesAvis ? ligne('<span class="ca-vign">' + bulle + '</span>', t('compte_accueil_ec_avis'), 'Quai de la Boverie, Liège', 'moncompte_statut_attente', false)
+                + ligne('<span class="ca-vign">' + etoile + '</span>', libelle('compte_accueil_ec_note', { n: 4 }), 'Parc Josaphat, Schaerbeek', 'moncompte_statut_publie', true) : '')
             + ligne('<span class="ca-vign">' + lieu + '</span>', t('moncompte_signal_manquant'), 'Soumagne', 'moncompte_statut_ajoute', true)
             + '</ul><p class="ca-aide">' + echapper(t('compte_accueil_ec_aide')) + '</p>';
     }

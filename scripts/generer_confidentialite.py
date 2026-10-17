@@ -95,16 +95,14 @@ CONTENU = {
                 "Quand vous…",
             ],
             "liste": [
-                ("notez un terrain",
-                 " : la note. Une empreinte chiffrée (adresse IP + terrain + mois) empêche de "
-                 "noter deux fois le même terrain."),
+                ("donnez un coup de cœur à un terrain",
+                 " : le cœur et les critères que vous confirmez (ombragé, abrité…). Une "
+                 "empreinte chiffrée (adresse IP + terrain + mois) empêche d'en donner deux au "
+                 "même terrain."),
                 ("envoyez une photo",
                  " : la photo, sans ses métadonnées hormis la date (exigée par Mapillary), et "
                  "votre pseudo éventuel pour le crédit. Si vous êtes connecté, vous êtes prévenu par "
                  "mail de la suite donnée."),
-                ("rédigez un avis",
-                 " : le texte, la note, la langue et votre pseudo éventuel. Un identifiant "
-                 "aléatoire gardé par votre navigateur permet de remplacer votre avis."),
                 ("signalez un terrain ou une erreur",
                  " : l'emplacement, votre commentaire et votre adresse mail, qui sert à vous "
                  "prévenir de la suite donnée."),
@@ -151,9 +149,8 @@ CONTENU = {
                  "le site et, le plus souvent, sur Mapillary, sous licence CC BY-SA ; une photo "
                  "montrant des visages ou des plaques n'est publiée qu'une fois floutée. Sinon, "
                  "elle est supprimée."),
-                ("Avis", " : tant qu'il est publié ; refusé ou remplacé, supprimé après 30 jours."),
                 ("Signalement", " : conservé pour garder une trace des corrections. Envoyé sans compte, son adresse e-mail est effacée après un an. Une photo jointe (jamais publiée) est effacée 30 jours après le traitement du signalement."),
-                ("Note", " : sans limite, de façon anonyme."),
+                ("Coup de cœur", " : sans limite, de façon anonyme (rattaché au compte si vous êtes connecté)."),
                 ("Empreinte de l'adresse IP", " : quelques jours."),
             ],
         },
@@ -189,7 +186,7 @@ CONTENU = {
             "paragraphes": [
                 "Le site ne dépose aucun cookie. Votre navigateur garde la langue, les réglages "
                 "de la carte, la partie en cours du compteur et les noms de ses joueurs, vos "
-                "notes et avis (pour éviter les doublons) et, si vous êtes connecté, votre "
+                "coups de cœur (pour les retrouver et éviter les doublons) et, si vous êtes connecté, votre "
                 "session. Ces informations, nécessaires au fonctionnement du site, s'effacent "
                 "depuis les réglages du navigateur.",
                 "Votre position n'est lue qu'à votre demande (« Me localiser » sur la carte, "
@@ -205,7 +202,7 @@ CONTENU = {
                 "opposer à leur traitement ou en demander la suppression : depuis « Mon "
                 "compte » ou à l'adresse mapetanque@outlook.be. Réponse sous un mois.",
                 "La suppression du compte est immédiate : adresse, pseudo, sessions, parties et "
-                "noms des joueurs sont effacés ; vos notes, avis et photos restent, mais deviennent anonymes. Les "
+                "noms des joueurs sont effacés ; vos coups de cœur, photos et signalements restent, mais deviennent anonymes. Les "
                 "photos publiées restent en ligne sous licence libre, sauf demande de "
                 "retrait.",
                 "Vous pouvez aussi introduire une réclamation auprès de l'Autorité de "
@@ -242,16 +239,14 @@ CONTENU = {
                 "Wanneer je…",
             ],
             "liste": [
-                ("een terrein beoordeelt",
-                 ": de beoordeling. Een versleutelde vingerafdruk (IP-adres + terrein + maand) "
-                 "voorkomt dat je hetzelfde terrein twee keer beoordeelt."),
+                ("een terrein een hartje geeft",
+                 ": het hartje en de kenmerken die je bevestigt (schaduw, beschut…). Een "
+                 "versleutelde vingerafdruk (IP-adres + terrein + maand) voorkomt dat je "
+                 "hetzelfde terrein twee hartjes geeft."),
                 ("een foto verstuurt",
                  ": de foto, zonder metagegevens behalve de datum (vereist door Mapillary), en "
                  "je eventuele bijnaam voor de naamsvermelding. Ben je aangemeld, dan laten we je "
                  "per e-mail weten wat ermee gebeurd is."),
-                ("een recensie schrijft",
-                 ": de tekst, de beoordeling, de taal en je eventuele bijnaam. Een willekeurige "
-                 "code die je browser bewaart, laat je toe je recensie te vervangen."),
                 ("een terrein of een fout meldt",
                  ": de plaats, je opmerking en je e-mailadres, waarmee we je laten weten wat "
                  "ermee gebeurd is."),
@@ -298,10 +293,8 @@ CONTENU = {
                  "op de site en meestal ook op Mapillary gepubliceerd onder de CC BY-SA-licentie; "
                  "een foto met gezichten of nummerplaten pas nadat die onherkenbaar zijn "
                  "gemaakt. Anders wordt ze verwijderd."),
-                ("Recensie",
-                 ": zolang ze gepubliceerd is; geweigerd of vervangen, na 30 dagen verwijderd."),
                 ("Melding", ": bewaard als spoor van de correcties. Verstuurd zonder account, wordt het e-mailadres na een jaar gewist. Een bijgevoegde foto (nooit gepubliceerd) wordt 30 dagen na de behandeling van de melding gewist."),
-                ("Beoordeling", ": onbeperkt, anoniem."),
+                ("Hartje", ": onbeperkt, anoniem (gekoppeld aan je account als je aangemeld bent)."),
                 ("Vingerafdruk van het IP-adres", ": enkele dagen."),
             ],
         },
@@ -336,7 +329,7 @@ CONTENU = {
             "paragraphes": [
                 "De site plaatst geen cookies. Je browser bewaart de taal, de kaartinstellingen, "
                 "de lopende partij in de scoreteller en de namen van de spelers, je "
-                "beoordelingen en recensies (om dubbels te vermijden) en, als je aangemeld bent, "
+                "favorieten (om ze terug te vinden en dubbels te vermijden) en, als je aangemeld bent, "
                 "je sessie. Die gegevens zijn nodig voor de werking van de site; je kunt ze "
                 "wissen in de instellingen van je browser.",
                 "Je locatie wordt alleen gelezen als je erom vraagt ('Localiseer mij' op de kaart, "
@@ -352,7 +345,7 @@ CONTENU = {
                 "tegen de verwerking ervan of vragen om ze te verwijderen: via 'Mijn account' "
                 "of op mapetanque@outlook.be. Antwoord binnen een maand.",
                 "Je account wordt onmiddellijk verwijderd: adres, bijnaam, sessies, partijen en "
-                "namen van spelers worden gewist; je beoordelingen, recensies en foto's blijven, maar worden anoniem. "
+                "namen van spelers worden gewist; je hartjes, foto's en meldingen blijven, maar worden anoniem. "
                 "Gepubliceerde foto's blijven online onder vrije licentie, "
                 "tenzij je vraagt ze te verwijderen.",
                 "Je kunt ook een klacht indienen bij de Gegevensbeschermingsautoriteit.",
@@ -389,16 +382,14 @@ CONTENU = {
                 "Wenn Sie …",
             ],
             "liste": [
-                ("einen Platz bewerten",
-                 ": die Bewertung. Ein verschlüsselter Fingerabdruck (IP-Adresse + Platz + "
-                 "Monat) verhindert, dass Sie denselben Platz zweimal bewerten."),
+                ("einem Platz ein Herz geben",
+                 ": das Herz und die Merkmale, die Sie bestätigen (schattig, überdacht…). Ein "
+                 "verschlüsselter Fingerabdruck (IP-Adresse + Platz + Monat) verhindert, dass "
+                 "Sie demselben Platz zwei Herzen geben."),
                 ("ein Foto einsenden",
                  ": das Foto, ohne Metadaten außer dem Datum (von Mapillary verlangt), und Ihr "
                  "eventueller Spitzname für die Namensnennung. Wenn Sie angemeldet sind, teilen wir "
                  "Ihnen per E-Mail mit, was daraus geworden ist."),
-                ("eine Rezension schreiben",
-                 ": der Text, die Bewertung, die Sprache und Ihr eventueller Spitzname. Eine "
-                 "zufällige Kennung in Ihrem Browser ermöglicht es, Ihre Rezension zu ersetzen."),
                 ("einen Platz oder einen Fehler melden",
                  ": der Ort, Ihr Kommentar und Ihre E-Mail-Adresse, über die wir Ihnen mitteilen, "
                  "was daraus geworden ist."),
@@ -446,11 +437,8 @@ CONTENU = {
                  "CC-BY-SA-Lizenz auf der Website und meist auch auf Mapillary veröffentlicht; "
                  "ein Foto mit Gesichtern oder Kennzeichen erst, wenn diese unkenntlich gemacht "
                  "sind. Andernfalls wird es gelöscht."),
-                ("Rezension",
-                 ": solange sie veröffentlicht ist; abgelehnt oder ersetzt, nach 30 Tagen "
-                 "gelöscht."),
                 ("Meldung", ": wird als Nachweis der Korrekturen aufbewahrt. Ohne Konto gesendet, wird die E-Mail-Adresse nach einem Jahr gelöscht. Ein beigefügtes Foto (nie veröffentlicht) wird 30 Tage nach der Bearbeitung der Meldung gelöscht."),
-                ("Bewertung", ": unbegrenzt, anonym."),
+                ("Herz", ": unbegrenzt, anonym (mit dem Konto verknüpft, wenn Sie angemeldet sind)."),
                 ("Fingerabdruck der IP-Adresse", ": einige Tage."),
             ],
         },
@@ -485,7 +473,7 @@ CONTENU = {
             "paragraphes": [
                 "Die Website setzt keine Cookies. Ihr Browser speichert die Sprache, die "
                 "Karteneinstellungen, die laufende Partie im Punktezähler und die Namen ihrer "
-                "Spieler, Ihre Bewertungen und Rezensionen (um Doppelungen zu vermeiden) und, "
+                "Spieler, Ihre Favoriten (um sie wiederzufinden und Doppelungen zu vermeiden) und, "
                 "wenn Sie angemeldet sind, Ihre Sitzung. Diese Angaben sind für den Betrieb der "
                 "Website erforderlich; Sie können sie in den Einstellungen Ihres Browsers "
                 "löschen.",
@@ -502,7 +490,7 @@ CONTENU = {
                 "Verarbeitung widersprechen oder ihre Löschung verlangen: unter „Mein Konto“ "
                 "oder unter mapetanque@outlook.be. Antwort innerhalb eines Monats.",
                 "Die Löschung des Kontos erfolgt sofort: Adresse, Spitzname, Sitzungen, Partien "
-                "und Namen der Spieler werden gelöscht; Ihre Bewertungen, Rezensionen und Fotos bleiben erhalten, werden "
+                "und Namen der Spieler werden gelöscht; Ihre Herzen, Fotos und Meldungen bleiben erhalten, werden "
                 "aber anonym. Veröffentlichte Fotos bleiben unter freier Lizenz online, "
                 "sofern Sie nicht ihre Entfernung verlangen.",
                 "Sie können außerdem Beschwerde bei der belgischen Datenschutzbehörde einreichen.",
@@ -537,16 +525,14 @@ CONTENU = {
                 "When you…",
             ],
             "liste": [
-                ("rate a court",
-                 ": the rating. A hashed fingerprint (IP address + court + month) prevents you "
-                 "from rating the same court twice."),
+                ("give a court a heart",
+                 ": the heart and the features you confirm (shaded, sheltered…). A hashed "
+                 "fingerprint (IP address + court + month) prevents you from giving the same "
+                 "court two hearts."),
                 ("send a photo",
                  ": the photo, without its metadata except the date (required by Mapillary), "
                  "and your optional nickname for the credit. If you are signed in, we let you know "
                  "by email what came of it."),
-                ("write a review",
-                 ": the text, the rating, the language and your optional nickname. A random "
-                 "identifier kept by your browser lets you replace your review."),
                 ("report a court or an error",
                  ": the location, your comment and your email address, used to let you know what "
                  "came of it."),
@@ -593,10 +579,8 @@ CONTENU = {
                  "usually, on Mapillary, under a CC BY-SA licence; a photo showing faces or "
                  "licence plates is only published once they are blurred. Otherwise, it is "
                  "deleted."),
-                ("Review",
-                 ": as long as it is published; rejected or replaced, deleted after 30 days."),
                 ("Report", ": kept as a record of corrections. If sent without an account, its email address is deleted after one year. An attached photo (never published) is deleted 30 days after the report has been handled."),
-                ("Rating", ": indefinitely, anonymously."),
+                ("Heart", ": indefinitely, anonymously (linked to your account if you are signed in)."),
                 ("IP address fingerprint", ": a few days."),
             ],
         },
@@ -629,8 +613,8 @@ CONTENU = {
             "titre": "Storage on your device",
             "paragraphes": [
                 "The site sets no cookies. Your browser keeps your language, map settings, the "
-                "game in progress in the score counter and its player names, your ratings and "
-                "reviews (to avoid duplicates) and, if you are signed in, your session. This "
+                "game in progress in the score counter and its player names, your favourites "
+                "(to find them again and avoid duplicates) and, if you are signed in, your session. This "
                 "information is needed for the site to work; you can clear it in your browser "
                 "settings.",
                 "Your location is only read when you ask for it ('Locate me' on the map, the "
@@ -646,7 +630,7 @@ CONTENU = {
                 "or ask for it to be deleted: from 'My account' or at mapetanque@outlook.be. "
                 "Reply within one month.",
                 "Deleting your account takes effect immediately: address, nickname, sessions, "
-                "games and player names are erased; your ratings, reviews and photos remain, but become "
+                "games and player names are erased; your hearts, photos and reports remain, but become "
                 "anonymous. Published photos stay online under an open licence, "
                 "unless you ask for them to be removed.",
                 "You may also lodge a complaint with the Belgian Data Protection Authority.",

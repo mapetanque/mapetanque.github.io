@@ -5,6 +5,8 @@
 //   - pseudo sur une ligne, « Modifier » (ou « Choisir ») ouvre le champ sur place ;
 //   - « Mes parties » : résumé (route /compte/parties) et lien vers mes-parties.html, placé
 //     au-dessus des contributions ;
+//   - « Mes coups de cœur » : ceux du compte (route /compte/contributions) et ceux donnés depuis
+//     cet appareil ; chaque ligne ouvre le terrain sur la carte (ancre #coeurs) ;
 //   - « Mes contributions » (route /compte/contributions) : filtres qui servent aussi de résumé,
 //     5 envois, puis « Afficher N de plus » et « Réduire » comme dans les propositions de la
 //     recherche ; chaque envoi mène au terrain sur la carte ;
@@ -27,6 +29,7 @@
     var PAS = 10;             // envois ajoutés par « Afficher N de plus »
 
     var envois = null;        // liste de tous les envois, du plus récent au plus ancien
+    var coeurs = null;        // lieux des coups de cœur, du plus récent au plus ancien
     var erreurEnvois = false;
     var filtre = 'tout';
     var nbMontres = PAR_PAGE;
@@ -39,6 +42,7 @@
         return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + chemins + '</svg>';
     }
     var PICTOS = {
+        coeur: picto('<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>'),
         note: picto('<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>'),
         avis: picto('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>'),
         photo: picto('<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>'),
@@ -180,6 +184,9 @@
 
     function preparerEnvois(donnees) {
         var liste = [];
+        // Notes et avis désactivés (MAPETANQUE_NOTES_AVIS, script.js) : plus montrés, leurs
+        // filtres disparaissent d'eux-mêmes (un filtre sans envoi n'est pas affiché).
+        if (!window.MAPETANQUE_NOTES_AVIS) donnees = Object.assign({}, donnees, { votes: [], avis: [] });
         (donnees.votes || []).forEach(function (v) {
             var e = envoiTerrain('note', v);
             e.note = Math.max(0, Math.min(5, Math.round(Number(v.note) || 0)));
@@ -339,11 +346,72 @@
                 }
                 if (reponse.statut !== 200) {
                     erreurEnvois = true;
+                    coeurs = preparerCoeurs({});   // ceux de cet appareil, au moins
                 } else {
                     envois = preparerEnvois(reponse.donnees);
+                    coeurs = preparerCoeurs(reponse.donnees);
                 }
                 dessinerEnvois();
+                dessinerCoeurs();
             });
+    }
+
+
+    // --- Mes coups de cœur ------------------------------------------------------------------
+    // Ceux du compte et ceux donnés depuis cet appareil sans être connecté
+    // (window.mapetanqueCoeursLocaux, script.js), un seul par lieu (pistes voisines comprises),
+    // du plus récent au plus ancien. Maquette : maquettes/coup-de-coeur/index.html, écran 4.
+
+    function preparerCoeurs(donnees) {
+        var locaux = typeof window.mapetanqueCoeursLocaux === 'function' ? window.mapetanqueCoeursLocaux() : [];
+        var vus = {};
+        var liste = [];
+        (donnees.coeurs || []).concat(locaux)
+            .sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); })
+            .forEach(function (c) {
+                var l = lieux[c.osm_id];
+                if (!l || vus[l.o]) return;
+                vus[l.o] = true;
+                liste.push(l);
+            });
+        return liste;
+    }
+
+    function coeurHtml(l) {
+        var image = l.ph
+            ? '<img src="' + echapper(l.ph[0]) + '" alt="" loading="lazy" width="64" height="48">'
+            : '<img src="/images/pas-de-photo.webp" alt="" loading="lazy" width="64" height="48">';
+        var lieu = lieuTerrain(l);
+        return '<li><a class="mc-envoi mc-coeur" href="' + echapper(lienCarte(l.lat, l.lon)) + '">'
+            + '<span class="mc-coeur-vignette">' + image + '</span>'
+            + '<span class="mc-envoi-corps">'
+            + '<span class="mc-envoi-titre">' + echapper(titreLieuRecherche(l)) + '</span>'
+            + (lieu ? '<span class="mc-envoi-lieu">' + echapper(lieu) + '</span>' : '')
+            + '</span>'
+            + '<span class="mc-coeur-picto">' + PICTOS.coeur + '</span>'
+            + '<span class="mc-coeur-chevron" aria-hidden="true">›</span>'
+            + '</a></li>';
+    }
+
+    var ancreCoeursFaite = false;
+
+    function dessinerCoeurs() {
+        var cadre = zone.querySelector('.mc-coeurs-zone');
+        if (!cadre) return;
+        if (!coeurs) {
+            cadre.innerHTML = '<p class="connexion-mention">' + echapper(t('moncompte_chargement')) + '</p>';
+            return;
+        }
+        cadre.innerHTML = coeurs.length
+            ? '<div class="mc-envois"><ul>' + coeurs.map(coeurHtml).join('') + '</ul></div>'
+            : '<div class="connexion-carte mc-vide"><p>' + echapper(t('moncompte_coeurs_vide')) + '</p></div>';
+        // Arrivée par le lien « Retrouvez-le dans Mes coups de cœur » d'une fiche (#coeurs) : la
+        // page est dessinée après le chargement, le navigateur n'a donc pas pu y descendre seul.
+        if (!ancreCoeursFaite && location.hash === '#coeurs') {
+            ancreCoeursFaite = true;
+            var titre = document.getElementById('coeurs');
+            if (titre) titre.scrollIntoView();
+        }
     }
 
 
@@ -494,6 +562,9 @@
             '  <span class="mc-lien mc-parties-lien">' + echapper(t('moncompte_parties_voir')) + '</span>' +
             '</a>' +
 
+            '<h2 class="mc-titre" id="coeurs">' + echapper(t('moncompte_coeurs_titre')) + '</h2>' +
+            '<div class="mc-coeurs-zone"></div>' +
+
             '<h2 class="mc-titre">' + echapper(t('moncompte_envois_titre')) + '</h2>' +
             '<div class="mc-envois-zone"></div>' +
 
@@ -507,6 +578,7 @@
 
         dessinerEntete();
         brancherPseudo(!compte.session().pseudo);
+        dessinerCoeurs();
         dessinerEnvois();
         dessinerResumeParties();
 

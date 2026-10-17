@@ -1,5 +1,11 @@
 """
-Promotion automatique des terrains bien notés vers le carrousel « Les plus beaux terrains ».
+Promotion automatique des terrains aimés vers le carrousel « Les plus beaux terrains ».
+
+Depuis le 17/10/2026, les coups de cœur remplacent les notes (désactivées sur le site, voir
+MAPETANQUE_NOTES_AVIS dans script.js) : MOTEUR = "coeurs" lit la route /coeurs du Worker et retient
+les terrains qui ont au moins NB_COEURS_MIN cœurs. Ce qui suit décrit le fonctionnement avec les
+notes (MOTEUR = "notes"), qui reste en place ; avec les cœurs, seuls le seuil et l'instantané
+(champ "coeurs" au lieu de "votes") changent.
 
 Lancé chaque jour par le workflow GitHub Actions, juste après update_terrains.py (qui vient de
 rafraîchir data/terrains.geojson).
@@ -49,6 +55,12 @@ CHEMIN_EPINGLES = RACINE / "data" / "beaux_terrains.json"
 CHEMIN_SORTIE = RACINE / "data" / "terrains_promus.json"
 
 URL_NOTES = "https://mapetanque-notes.mapetanque.workers.dev/notes"
+URL_COEURS = "https://mapetanque-notes.mapetanque.workers.dev/coeurs"
+
+# "coeurs" (coups de cœur) ou "notes" (étoiles, désactivées). Même choix que MAPETANQUE_NOTES_AVIS
+# dans script.js : true là-bas = "notes" ici.
+MOTEUR = "coeurs"
+NB_COEURS_MIN = 2     # même valeur que dans beaux-terrains.js
 
 # Mêmes valeurs que dans beaux-terrains.js : si l'une change, changer l'autre.
 NB_VOTES_MIN = 2
@@ -96,7 +108,7 @@ def miniature_de(photo):
 
 def main():
     try:
-        reponse = requests.get(URL_NOTES, timeout=20)
+        reponse = requests.get(URL_COEURS if MOTEUR == "coeurs" else URL_NOTES, timeout=20)
         reponse.raise_for_status()
         notes = reponse.json()
         if not isinstance(notes, dict):
@@ -109,13 +121,17 @@ def main():
     photos = charger_json(CHEMIN_PHOTOS)
     epingles = {t.get("osm_id") for t in charger_json(CHEMIN_EPINGLES)}
 
-    # Votes cumulés par groupe de pistes voisines, comme sur le site (script.js).
+    # Votes (ou cœurs) cumulés par groupe de pistes voisines, comme sur le site (script.js). Un
+    # cœur compte comme un vote de valeur 1 : somme = nombre = nombre de cœurs.
     groupe_de = charger_groupes()
     cumuls = {}     # tuple des osm_id du groupe -> [somme, nombre]
     votes_piste = {}
     for osm_id, valeurs in notes.items():
         try:
-            somme, nombre = int(valeurs[0]), int(valeurs[1])
+            if MOTEUR == "coeurs":
+                somme = nombre = int(valeurs)
+            else:
+                somme, nombre = int(valeurs[0]), int(valeurs[1])
         except (TypeError, ValueError, IndexError):
             continue
         votes_piste[osm_id] = nombre
@@ -127,7 +143,10 @@ def main():
     for groupe, (somme, nombre) in cumuls.items():
         if any(m in epingles for m in groupe):
             continue
-        if nombre < NB_VOTES_MIN or somme / nombre < MOYENNE_MIN:
+        if MOTEUR == "coeurs":
+            if nombre < NB_COEURS_MIN:
+                continue
+        elif nombre < NB_VOTES_MIN or somme / nombre < MOYENNE_MIN:
             continue
 
         presents = [m for m in groupe if m in terrains]
@@ -156,7 +175,7 @@ def main():
         # carrousel l'omet alors, au lieu d'afficher « Bruxelles › Bruxelles »).
         province = region if p.get("region") == "bruxelles" else PROVINCES.get(p.get("province"), "")
 
-        promus.append({
+        promu = {
             "osm_id": osm_id,
             # Rue seule, comme les épinglés et le titre de la fiche : le nom OSM est ignoré.
             "nom": p.get("nearest_street") or "",
@@ -166,15 +185,19 @@ def main():
             "lat": lat,
             "lon": lon,
             "miniature": miniature,
-            # Instantané des votes au moment du job : sert au carrousel tant que les notes en
-            # direct ne sont pas encore arrivées, pour éviter que les promus n'apparaissent
-            # qu'une fraction de seconde après les épinglés.
-            "votes": [somme, nombre],
-        })
+        }
+        # Instantané des votes (ou des cœurs) au moment du job : sert au carrousel tant que les
+        # données en direct ne sont pas encore arrivées, pour éviter que les promus n'apparaissent
+        # qu'une fraction de seconde après les épinglés.
+        if MOTEUR == "coeurs":
+            promu["coeurs"] = nombre
+        else:
+            promu["votes"] = [somme, nombre]
+        promus.append(promu)
 
     # Ordre du fichier sans effet sur l'affichage (le carrousel retrie en direct) : le tri par
     # score le rend simplement lisible quand on l'ouvre.
-    promus.sort(key=lambda t: score_pondere(*t["votes"]), reverse=True)
+    promus.sort(key=lambda t: t["coeurs"] if MOTEUR == "coeurs" else score_pondere(*t["votes"]), reverse=True)
 
     with open(CHEMIN_SORTIE, "w", encoding="utf-8", newline="\n") as f:
         f.write(json.dumps(promus, ensure_ascii=False, indent=2) + "\n")

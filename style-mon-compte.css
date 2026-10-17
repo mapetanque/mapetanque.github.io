@@ -338,3 +338,39 @@ a.mc-envoi:hover {
 .connexion-bouton.mc-danger:hover {
     background: #a91f1f;
 }
+
+/* --- Mes coups de cœur : vignette du terrain, cœur plein (terre battue), chevron --- */
+.mc-coeur {
+    align-items: center;
+}
+
+.mc-coeur-vignette {
+    width: 64px;
+    height: 48px;
+    flex: none;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #E7F4E1;
+}
+
+.mc-coeur-vignette img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.mc-coeur-picto svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+    fill: #B5502E;
+    stroke: #B5502E;
+}
+
+.mc-coeur-chevron {
+    margin-left: -4px;
+    font-size: 22px;
+    line-height: 1;
+    color: #aab0a4;
+}

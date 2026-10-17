@@ -363,6 +363,29 @@
 .fiche-panneau { margin-top: 10px; padding: 12px 14px; border-radius: 12px; background: #f6f8f3; }
 .fiche-panneau[hidden] { display: none; }
 
+/* ---- Coups de cœur (à la place des notes, voir brancherCoeur dans script.js) ----
+   Maquette : maquettes/coup-de-coeur/index.html. Cœur plein en terre battue, seul accent de la
+   charte ; contour vert dans le bouton tant qu'il n'est pas donné. */
+.coeurs-ligne { display: inline-flex; align-items: center; gap: 4px; }
+.coeurs-ligne svg { width: 14px; height: 14px; flex: none; fill: #B5502E; stroke: #B5502E; }
+.tuile-coeurs { font-size: 12.5px; color: #56604F; }
+.fiche .fiche-btn-coeur[aria-pressed="true"] { background: #E7F4E1; }
+.fiche .fiche-btn-coeur[aria-pressed="true"] svg { fill: #B5502E; stroke: #B5502E; }
+.fiche .fiche-btn-coeur.coeur-pop svg { animation: coeur-pop 0.3s ease-out; }
+@keyframes coeur-pop {
+    50% { transform: scale(1.35); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .fiche .fiche-btn-coeur.coeur-pop svg { animation: none; }
+}
+.coeur-merci { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; margin-bottom: 12px; }
+.coeur-merci svg { width: 18px; height: 18px; flex: none; margin-top: 1px; fill: #B5502E; stroke: #B5502E; }
+.coeur-merci strong { display: block; color: #1D2619; }
+.coeur-merci small { display: block; margin-top: 2px; font-size: 12.5px; line-height: 1.4; color: #56604F; }
+.coeur-merci a { color: #3D7A2A; font-weight: 600; }
+.fiche .coeur-erreur { margin: 0 0 8px; font-size: 12.5px; color: #C62828; }
+.fiche .coeur-erreur:last-child { margin-bottom: 0; }
+
 .noter-note { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .noter-libelle { font-size: 13px; color: #56604F; }
 .noter-libelle.ok { color: #1D2619; font-weight: 600; }
@@ -466,6 +489,9 @@
     text-transform: uppercase;
     color: #888;
 }
+/* « Compléter », à droite de « Sur place » (avec les coups de cœur) */
+.fiche .criteres-titre:has(.criteres-completer) { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.fiche .criteres-completer { font-size: 12.5px; letter-spacing: 0; text-transform: none; }
 .criteres-liste { display: flex; flex-wrap: wrap; gap: 6px; }
 .critere {
     display: inline-flex;

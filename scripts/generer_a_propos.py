@@ -117,7 +117,7 @@ CONTENU = {
                 "au public (terrain de club, de café, propriété privée…). Sur place, fiez-vous à "
                 "la signalisation et au règlement des lieux.",
                 "Mapetanque.be ne peut être tenu responsable d'informations inexactes ni de "
-                "l'usage qui en est fait. Les avis publiés n'engagent que leurs auteurs.",
+                "l'usage qui en est fait.",
             ],
             "page_lien": "a-propos.html#contact",
             "paragraphes_lien": [
@@ -194,8 +194,7 @@ CONTENU = {
                 "toegankelijk zijn (terrein van een club of een café, privéterrein…). Volg ter "
                 "plaatse de bewegwijzering en het reglement van de plek.",
                 "Mapetanque.be kan niet aansprakelijk worden gesteld voor onjuiste informatie of "
-                "voor het gebruik dat ervan wordt gemaakt. Gepubliceerde recensies vallen onder "
-                "de verantwoordelijkheid van hun auteurs.",
+                "voor het gebruik dat ervan wordt gemaakt.",
             ],
             "page_lien": "a-propos.html#contact",
             "paragraphes_lien": [
@@ -271,8 +270,7 @@ CONTENU = {
                 "sein (Platz eines Vereins oder eines Cafés, Privatgelände…). Beachten Sie vor "
                 "Ort die Beschilderung und die dort geltenden Regeln.",
                 "Mapetanque.be übernimmt keine Haftung für ungenaue Angaben oder deren "
-                "Verwendung. Veröffentlichte Rezensionen geben allein die Meinung ihrer "
-                "Verfasser wieder.",
+                "Verwendung.",
             ],
             "page_lien": "a-propos.html#contact",
             "paragraphes_lien": [
@@ -346,7 +344,7 @@ CONTENU = {
                 "public (a club's or a café's court, private property…). On site, follow the "
                 "signs and the rules of the place.",
                 "Mapetanque.be cannot be held responsible for inaccurate information or for any "
-                "use made of it. Published reviews are the sole responsibility of their authors.",
+                "use made of it.",
             ],
             "page_lien": "a-propos.html#contact",
             "paragraphes_lien": [

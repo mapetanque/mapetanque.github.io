@@ -45,6 +45,7 @@ const PICTOS = {
     plusieurs_pistes: iconeLucide('<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="M15 3v18"/>'),
     bien_entretenu: iconeLucide('<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/>'),
     // Boutons et fiche club
+    coeur: iconeLucide('<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>'),
     etoile: iconeLucide('<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/>'),
     club: iconeLucide('<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>'),
     site: iconeLucide('<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>'),
@@ -3811,16 +3812,22 @@ function criteresHtml(tags) {
         return pastilleHtml(c.cle, distanceCritere(c.distance));
     });
 
-    function groupe(cleTitre, pastilles, avecDetail) {
-        if (!pastilles.length) return '';
+    // Avec les cœurs : « Compléter », à droite du titre « Sur place », ouvre les cases des joueurs
+    // sans donner de cœur (voir brancherCoeur). Le groupe est alors toujours là, même vide.
+    const completer = (!MAPETANQUE_NOTES_AVIS && tags.osm_id)
+        ? '<button type="button" class="fiche-lien-texte criteres-completer">' + t('fiche_completer') + '</button>'
+        : '';
+
+    function groupe(cleTitre, pastilles, avecDetail, lien) {
+        if (!pastilles.length && !lien) return '';
         return '<div class="criteres-groupe">'
-            + '<div class="criteres-titre">' + t(cleTitre) + '</div>'
-            + '<div class="criteres-liste">' + pastilles.join('') + '</div>'
+            + '<div class="criteres-titre"><span>' + t(cleTitre) + '</span>' + (lien || '') + '</div>'
+            + (pastilles.length ? '<div class="criteres-liste">' + pastilles.join('') + '</div>' : '')
             + (avecDetail ? '<p class="criteres-detail" hidden></p>' : '')
             + '</div>';
     }
 
-    return groupe('fiche_sur_place', surPlace, joueurs.length > 0)
+    return groupe('fiche_sur_place', surPlace, joueurs.length > 0, completer)
         + groupe('fiche_a_proximite', proximite, false);
 }
 // (Le chargement de GET /criteres est plus bas, avec celui des notes : il a besoin de
@@ -4266,12 +4273,15 @@ function construireContenuPopupTerrain(feature, layer) {
         : "";
 
     // Trois boutons côte à côte. « Partager » garde la classe popup-share-btn, sur laquelle
-    // brancherPartagePopup s'accroche ; « Noter » ouvre le panneau du même nom (brancherFicheTerrain).
+    // brancherPartagePopup s'accroche ; « J'aime » donne ou retire un coup de cœur (brancherCoeur),
+    // « Noter » (notes et avis, désactivés) ouvre le panneau du même nom (brancherFicheTerrain).
     const boutons = `
     <div class="fiche-boutons">
         <a href="https://www.google.com/maps/dir/?api=1&destination=${terrainLat},${terrainLon}" target="_blank" rel="noopener" class="fiche-btn fiche-btn-plein">${ICON_ROUTE}<span>${t('fiche_itineraire')}</span></a>
         <button type="button" class="fiche-btn popup-share-btn">${ICON_SHARE}<span>${t('fiche_partager')}</span></button>
-        ${tags.osm_id ? `<button type="button" class="fiche-btn fiche-btn-noter" aria-expanded="false">${PICTOS.etoile}<span>${t('fiche_noter')}</span></button>` : ''}
+        ${!tags.osm_id ? '' : MAPETANQUE_NOTES_AVIS
+            ? `<button type="button" class="fiche-btn fiche-btn-noter" aria-expanded="false">${PICTOS.etoile}<span>${t('fiche_noter')}</span></button>`
+            : `<button type="button" class="fiche-btn fiche-btn-coeur" aria-pressed="${mapetanqueCoeurDonne(tags.osm_id)}">${PICTOS.coeur}<span>${t('fiche_jaime')}</span></button>`}
     </div>`;
 
     // « Signaler une erreur », en pied de fiche et en gris : ce n'est pas une action courante, il
@@ -4308,17 +4318,19 @@ function construireContenuPopupTerrain(feature, layer) {
     // La note et le lien « N avis » sont remplis ici avec les données déjà chargées, puis tenus à
     // jour par brancherFicheTerrain (données arrivées après l'ouverture, vote du visiteur).
     const resume = `<div class="fiche-resume">`
+        + `<span class="fiche-resume-coeurs">${MAPETANQUE_NOTES_AVIS ? '' : window.mapetanqueCoeursHtml(tags.osm_id)}</span>`
         + `<span class="fiche-resume-note">${resumeNoteHtml(tags.osm_id)}</span>`
         + `<span class="fiche-resume-avis">${lienAvisHtml(tags.osm_id)}</span>`
         + `<span>${distance}</span>`
         + `<span>${acces}</span>`
         + `</div>`;
 
-    // Panneaux « Noter » et « N avis » : vides et masqués, juste sous les boutons ; leur contenu
-    // est construit par brancherFicheTerrain à l'ouverture.
-    const panneaux = tags.osm_id
+    // Panneaux « Noter » et « N avis » (ou, avec les cœurs, celui des critères des joueurs) :
+    // vides et masqués, juste sous les boutons ; leur contenu est construit à l'ouverture par
+    // brancherFicheTerrain (ou brancherCoeur).
+    const panneaux = !tags.osm_id ? "" : MAPETANQUE_NOTES_AVIS
         ? `<div class="fiche-panneau fiche-panneau-noter" hidden></div><div class="fiche-panneau fiche-panneau-avis" hidden></div>`
-        : "";
+        : `<div class="fiche-panneau fiche-panneau-coeur" hidden></div>`;
 
     return `
     <div class="fiche fiche-terrain" data-osm-id="${echapperHtml(tags.osm_id || '')}">
@@ -4879,6 +4891,15 @@ if (MAPETANQUE_AFFICHER_DESCRIPTIONS) {
 }
 
 
+// ===================== Notes et avis : désactivés =====================
+// Remplacés le 17/10/2026 par les coups de cœur (voir « Coups de cœur » plus bas), plus dans
+// l'esprit d'une carte collaborative de terrains publics. Tout le code des notes et des avis reste
+// en place, éteint par ce seul réglage. Le repasser à true ramène les notes et les avis à la place
+// des cœurs (fiche, carrousel, cartes des communes, Mon compte) ; mettre aussi AFFICHER_NOTES_AVIS
+// à true dans admin.html, et MOTEUR à "notes" dans scripts/promouvoir_terrains.py.
+var MAPETANQUE_NOTES_AVIS = false;
+
+
 // ===================== Notes publiques des terrains =====================
 // Un seul GET au chargement rapatrie toutes les moyennes ; chaque fiche y puise ensuite sans
 // requête réseau. Le Worker (Cloudflare + D1) vit sur *.workers.dev parce que le DNS du domaine
@@ -4907,14 +4928,15 @@ function membresGroupe(osmId) {
     return mapetanqueGroupes[osmId] || [osmId];
 }
 
-// Piste du groupe où ce navigateur a déjà voté (ou, à défaut, envoyé un avis) : ses envois
-// suivants y vont aussi, pour qu'un même visiteur ne compte pas deux fois dans le cumul en passant
-// d'une piste à l'autre (le jeton de vote ne vaut que pour sa piste). Sinon, la piste ouverte.
+// Piste du groupe où ce navigateur a déjà voté (ou donné un cœur, ou, à défaut, envoyé un avis) :
+// ses envois suivants y vont aussi, pour qu'un même visiteur ne compte pas deux fois dans le cumul
+// en passant d'une piste à l'autre (le jeton ne vaut que pour sa piste). Sinon, la piste ouverte.
 function terrainCible(osmId) {
     var membres = membresGroupe(osmId);
-    if (mapetanqueVoteLocal(osmId)) return osmId;
+    var dejaLa = MAPETANQUE_NOTES_AVIS ? mapetanqueVoteLocal : mapetanqueCoeurLocal;
+    if (dejaLa(osmId)) return osmId;
     for (var i = 0; i < membres.length; i++) {
-        if (mapetanqueVoteLocal(membres[i])) return membres[i];
+        if (dejaLa(membres[i])) return membres[i];
     }
     for (var j = 0; j < membres.length; j++) {
         if (mapetanqueAvisDejaEnvoye(membres[j])) return membres[j];
@@ -4985,6 +5007,7 @@ fetch('/data/groupes_terrains.json')
         cumulerNotes();
         cumulerCriteres();
         cumulerAvis();
+        cumulerCoeurs();
     })
     .catch(function () { });
 
@@ -4993,7 +5016,7 @@ fetch('/data/groupes_terrains.json')
 // et const/let ne créent PAS de propriété sur window (même piège que brancherPopupTerrain).
 window.mapetanqueNotes = {};   // "node/123456789" -> [somme, nombre], cumulé par groupe de pistes
 
-fetch(MAPETANQUE_URL_NOTES + '/notes')
+if (MAPETANQUE_NOTES_AVIS) fetch(MAPETANQUE_URL_NOTES + '/notes')
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (data) {
         if (!data) return;
@@ -5091,6 +5114,106 @@ function mapetanqueMemoriserConfirmations(osmId, liste) {
 }
 
 
+// ===================== Coups de cœur =====================
+// À la place des notes et des avis (voir MAPETANQUE_NOTES_AVIS) : un appui sur « J'aime » dans la
+// fiche, sans texte ni modération, un par appareil (ou par compte) et par terrain. Maquette
+// validée : maquettes/coup-de-coeur/index.html. Worker mapetanque-notes :
+//   - GET /coeurs : { osm_id: nombre }, un seul paquet pour tout le site, cumulé ici par groupe de
+//     pistes comme les critères ;
+//   - POST /coeur { osm_id, jeton, coeur } : donne ou retire, renvoie le jeton de cet appareil et le
+//     nombre à jour ; sans « coeur », donne seulement un jeton pour confirmer des critères
+//     (« Compléter » sans cœur).
+// Les cœurs font entrer les terrains dans le carrousel « Les plus beaux terrains »
+// (beaux-terrains.js, scripts/promouvoir_terrains.py) et forment « Mes coups de cœur » (Mon compte).
+mapetanqueBrut.coeurs = {};
+// "node/123" -> nombre de cœurs, cumulé par groupe de pistes ; null tant que GET /coeurs n'est pas
+// arrivé (le carrousel se sert alors de l'instantané des promus).
+window.mapetanqueCoeurs = null;
+
+function cumulerCoeurs() {
+    var cumul = {};
+    Object.keys(mapetanqueBrut.coeurs).forEach(function (id) {
+        membresGroupe(id).forEach(function (m) {
+            cumul[m] = (cumul[m] || 0) + mapetanqueBrut.coeurs[id];
+        });
+    });
+    window.mapetanqueCoeurs = cumul;
+    window.dispatchEvent(new CustomEvent('mapetanque:coeurs'));
+}
+
+if (!MAPETANQUE_NOTES_AVIS) fetch(MAPETANQUE_URL_NOTES + '/coeurs')
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (data) {
+        if (!data) return;
+        mapetanqueBrut.coeurs = data;
+        cumulerCoeurs();
+    })
+    .catch(function () { /* fiches sans compteur ; le cœur reste possible */ });
+
+window.mapetanqueNombreCoeurs = function (osmId) {
+    return (window.mapetanqueCoeurs || {})[osmId] || 0;
+};
+
+// « ♥ 3 coups de cœur » (fiche, tuiles du carrousel, cartes des communes) ; chaîne vide tant que
+// le terrain n'en a pas : rien plutôt qu'un « Pas encore de cœur ».
+window.mapetanqueCoeursHtml = function (osmId, classe) {
+    var nombre = osmId ? window.mapetanqueNombreCoeurs(osmId) : 0;
+    if (!nombre) return '';
+    return '<span class="coeurs-ligne' + (classe ? ' ' + classe : '') + '">' + PICTOS.coeur
+        + '<span>' + t(nombre > 1 ? 'coeurs_n' : 'coeurs_un').replace('%n', nombre) + '</span></span>';
+};
+
+// Ligne des cartes de terrains (page carte, pages commune) : « ♥ 3 coups de cœur », ou
+// « ★ 4,5 (12 notes) » si les notes sont réactivées ; vide s'il n'y a rien à dire. Les pages la
+// redessinent sur les événements mapetanque:coeurs et mapetanque:notes.
+window.mapetanqueLigneAppreciation = function (osmId, classe) {
+    if (!MAPETANQUE_NOTES_AVIS) return window.mapetanqueCoeursHtml(osmId, classe);
+    var resume = window.mapetanqueResumeNote(osmId);
+    return resume
+        ? '<span class="' + classe + '">' + window.mapetanqueEtoileHtml(resume.moyenne) + ' ' + resume.texte + '</span>'
+        : '';
+};
+
+// Cœur de cet appareil sur une piste : { coeur, jeton, date }. Le jeton, créé par le Worker au
+// premier appui, permet de retirer ou redonner ce cœur plutôt que d'en ajouter un second ; il
+// n'identifie personne. coeur peut être false : cœur retiré, ou jeton obtenu pour « Compléter ».
+function mapetanqueCoeurLocal(osmId) {
+    try {
+        var coeur = JSON.parse(localStorage.getItem('mapetanque_coeur_' + osmId) || 'null');
+        return (coeur && typeof coeur.jeton === 'string') ? coeur : null;
+    } catch (e) {
+        return null;
+    }
+}
+
+function mapetanqueMemoriserCoeur(osmId, coeur, jeton) {
+    try {
+        localStorage.setItem('mapetanque_coeur_' + osmId, JSON.stringify({ coeur: !!coeur, jeton: jeton, date: new Date().toISOString() }));
+    } catch (e) { }
+}
+
+// Cœur donné sur ce terrain depuis cet appareil (sur lui ou une piste de son groupe)
+function mapetanqueCoeurDonne(osmId) {
+    var local = mapetanqueCoeurLocal(terrainCible(osmId));
+    return !!(local && local.coeur);
+}
+
+// Cœurs donnés depuis cet appareil, du plus récent au plus ancien : [{ osm_id, date }]. Pour
+// « Mes coups de cœur » (Mon compte), avec ceux du compte.
+window.mapetanqueCoeursLocaux = function () {
+    var liste = [];
+    try {
+        for (var i = 0; i < localStorage.length; i++) {
+            var cle = localStorage.key(i);
+            if (cle.indexOf('mapetanque_coeur_') !== 0) continue;
+            var c = mapetanqueCoeurLocal(cle.slice('mapetanque_coeur_'.length));
+            if (c && c.coeur) liste.push({ osm_id: cle.slice('mapetanque_coeur_'.length), date: c.date || '' });
+        }
+    } catch (e) { }
+    return liste.sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); });
+};
+
+
 // ===================== Avis des visiteurs =====================
 // Texte libre de 280 caractères au plus, écrit dans le panneau « Noter » de la fiche. Circuit :
 //   - envoi : Worker mapetanque-admin (POST /avis/envoi), qui range l'avis « en attente » et
@@ -5108,7 +5231,7 @@ var AVIS_TAILLE_MAX = 280;
 // ajouté à l'arrivée (événement mapetanque:avis).
 window.mapetanqueAvis = null;
 
-fetch(MAPETANQUE_URL_NOTES + '/avis')
+if (MAPETANQUE_NOTES_AVIS) fetch(MAPETANQUE_URL_NOTES + '/avis')
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (data) {
         mapetanqueBrut.avis = data || {};
@@ -5230,6 +5353,11 @@ function brancherFicheTerrain(e, feature) {
             detail.textContent = pastille.getAttribute('data-detail');
         }
     });
+
+    if (!MAPETANQUE_NOTES_AVIS) {
+        brancherCoeur(fiche, tags, zoneCriteres);
+        return;
+    }
 
     var panneauNoter = fiche.querySelector('.fiche-panneau-noter');
     var panneauAvis = fiche.querySelector('.fiche-panneau-avis');
@@ -5691,6 +5819,217 @@ function brancherFicheTerrain(e, feature) {
     } else {
         deplierAvisParDefaut();
     }
+}
+
+// ===================== Fiche terrain : bouton « J'aime » =====================
+// À la place de « Noter » quand les notes et les avis sont désactivés. Un appui donne le cœur (le
+// bouton se remplit, le compteur monte tout de suite) et ouvre sous les boutons le panneau
+// « Ajouté à vos coups de cœur » suivi des cases des joueurs ; un second appui le retire et
+// referme le panneau. « Compléter » (titre « Sur place ») ouvre les cases sans donner de cœur.
+// Appelée par brancherFicheTerrain, à chaque ouverture de fiche.
+function brancherCoeur(fiche, tags, zoneCriteres) {
+    var osmId = tags.osm_id;
+    var bouton = fiche.querySelector('.fiche-btn-coeur');
+    var panneau = fiche.querySelector('.fiche-panneau-coeur');
+    if (!osmId || !bouton || !panneau) return;
+    var prefixe = currentLang === 'fr' ? '/' : '/' + currentLang + '/';
+    var envoiEnCours = false;
+
+    // Connecté : cœur du compte sur ce terrain (ou une piste de son groupe), repris de
+    // /compte/contributions, même donné depuis un autre appareil.
+    var cibleCompte = null;
+
+    function cible() {
+        return cibleCompte || terrainCible(osmId);
+    }
+
+    // Ce qui est mémorisé ici l'emporte (cœur retiré à l'instant) ; sinon le compte.
+    function estDonne() {
+        var local = mapetanqueCoeurLocal(cible());
+        return local ? local.coeur : !!cibleCompte;
+    }
+
+    function majBouton() {
+        bouton.setAttribute('aria-pressed', String(estDonne()));
+    }
+
+    function majResume() {
+        var zone = fiche.querySelector('.fiche-resume-coeurs');
+        if (zone) zone.innerHTML = window.mapetanqueCoeursHtml(osmId);
+    }
+
+    // Envoi au Worker. valeur : true (donner), false (retirer) ou undefined (seulement un jeton).
+    function envoyer(valeur) {
+        var c = cible();
+        var local = mapetanqueCoeurLocal(c);
+        return fetch(MAPETANQUE_URL_NOTES + '/coeur', {
+            method: 'POST',
+            headers: Object.assign({ 'Content-Type': 'application/json' }, entetesCompte()),
+            body: JSON.stringify({ osm_id: c, jeton: local ? local.jeton : undefined, coeur: valeur })
+        })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (data) {
+                if (!data || typeof data.nombre !== 'number') throw new Error('coeur_erreur');
+                // Cette connexion a déjà un cœur sur ce terrain ce mois-ci, depuis un autre
+                // navigateur : rien n'est compté.
+                if (data.deja) throw new Error('coeur_deja');
+                mapetanqueMemoriserCoeur(c, data.coeur, data.jeton);
+                oublierContributionsCompte();
+                // Nombre à jour de la piste, sans attendre le cache de GET /coeurs
+                mapetanqueBrut.coeurs[c] = data.nombre;
+                cumulerCoeurs();
+                return data;
+            });
+    }
+
+    // --- Panneau : « Ajouté à vos coups de cœur », puis les cases des joueurs ----------------
+    function merciHtml() {
+        var suite = sessionCompte()
+            ? '<a href="' + prefixe + 'mon-compte.html#coeurs">' + t('coeur_voir_compte') + '</a>'
+            : t('coeur_garde_appareil') + ' <a href="' + prefixe + 'connexion.html">' + t('coeur_se_connecter') + '</a>';
+        return '<div class="coeur-merci">' + PICTOS.coeur
+            + '<div><strong>' + t('coeur_ajoute') + '</strong><small>' + suite + '</small></div></div>';
+    }
+
+    function ouvrirPanneau(avecMerci) {
+        var cases = CRITERES_JOUEURS.map(function (cle) {
+            return '<button type="button" class="critere-case" data-critere="' + cle + '" aria-pressed="false">'
+                + PICTOS[cle] + '<span>' + t('critere_' + cle) + '</span></button>';
+        }).join('');
+        panneau.innerHTML = (avecMerci ? merciHtml() : '')
+            + '<div class="noter-criteres">'
+            + '<div class="noter-sous-titre">' + t('coeur_vous_y_avez_joue') + ' <span class="avis-facultatif">' + t('avis_facultatif') + '</span></div>'
+            + '<div class="noter-cases">' + cases + '</div>'
+            + '<p class="noter-erreur" hidden></p>'
+            + '</div>';
+        panneau.querySelectorAll('.critere-case').forEach(function (b) {
+            b.addEventListener('click', function () { basculerCase(b); });
+        });
+        majCases();
+        panneau.hidden = false;
+    }
+
+    function afficherErreur(cle) {
+        if (panneau.hidden) {
+            panneau.innerHTML = '';
+            panneau.hidden = false;
+        }
+        var erreur = panneau.querySelector('.coeur-erreur');
+        if (!erreur) {
+            erreur = document.createElement('p');
+            erreur.className = 'coeur-erreur';
+            panneau.insertBefore(erreur, panneau.firstChild);
+        }
+        erreur.textContent = t(cle);
+    }
+
+    bouton.addEventListener('click', function () {
+        if (envoiEnCours) return;
+        envoiEnCours = true;
+        var donner = !estDonne();
+        bouton.setAttribute('aria-pressed', String(donner));
+        bouton.classList.remove('coeur-pop');
+        if (donner) {
+            void bouton.offsetWidth;   // relance l'animation
+            bouton.classList.add('coeur-pop');
+        }
+        envoyer(donner)
+            .then(function () {
+                if (donner) ouvrirPanneau(true);
+                else panneau.hidden = true;
+            })
+            .catch(function (err) {
+                majBouton();
+                afficherErreur(err.message === 'coeur_deja' ? 'coeur_deja' : 'coeur_erreur');
+            })
+            .then(function () {
+                envoiEnCours = false;
+                majBouton();
+            });
+    });
+
+    zoneCriteres.addEventListener('click', function (evt) {
+        if (!evt.target.closest('.criteres-completer')) return;
+        if (!panneau.hidden && panneau.querySelector('.noter-cases')) {
+            panneau.hidden = true;
+            return;
+        }
+        ouvrirPanneau(false);
+    });
+
+    // --- Cases des joueurs (même Worker que les notes, avec le jeton du cœur) ----------------
+    function majCases() {
+        var confirmes = mapetanqueConfirmationsLocales(cible());
+        panneau.querySelectorAll('.critere-case').forEach(function (b) {
+            b.setAttribute('aria-pressed', String(confirmes.indexOf(b.getAttribute('data-critere')) !== -1));
+        });
+    }
+
+    // Cocher confirme (ou rafraîchit la date), décocher retire. Sans jeton sur cet appareil, on en
+    // demande d'abord un au Worker, sans toucher au cœur.
+    function basculerCase(b) {
+        if (b.disabled) return;
+        var erreur = panneau.querySelector('.noter-erreur');
+        var coche = b.getAttribute('aria-pressed') !== 'true';
+        var criteres = {};
+        criteres[b.getAttribute('data-critere')] = coche;
+        b.setAttribute('aria-pressed', String(coche));
+        b.disabled = true;
+        erreur.hidden = true;
+
+        var jeton = mapetanqueCoeurLocal(cible());
+        (jeton ? Promise.resolve() : envoyer(undefined))
+            .then(function () {
+                var c = cible();
+                return fetch(MAPETANQUE_URL_NOTES + '/confirmation', {
+                    method: 'POST',
+                    headers: Object.assign({ 'Content-Type': 'application/json' }, entetesCompte()),
+                    body: JSON.stringify({ osm_id: c, jeton: mapetanqueCoeurLocal(c).jeton, criteres: criteres })
+                });
+            })
+            .then(function (r) {
+                if (!r.ok) throw new Error('Réponse HTTP ' + r.status);
+                return r.json();
+            })
+            .then(function (data) {
+                var c = cible();
+                mapetanqueMemoriserConfirmations(c, data.confirmes);
+                majCases();
+                mapetanqueBrut.criteres[c] = data.criteres || {};
+                cumulerCriteres();
+            })
+            .catch(function (err) {
+                b.setAttribute('aria-pressed', String(!coche));
+                erreur.textContent = t(err.message === 'coeur_deja' ? 'coeur_deja' : 'fiche_confirmation_erreur');
+                erreur.hidden = false;
+            })
+            .then(function () { b.disabled = false; });
+    }
+
+    // --- Données arrivées après l'ouverture -----------------------------------------------------
+    // L'écouteur se retire de lui-même une fois la fiche fermée et son contenu détaché du document.
+    var EVENEMENTS = ['mapetanque:coeurs', 'mapetanque:criteres'];
+    function surDonnees(evt) {
+        if (!fiche.isConnected) {
+            EVENEMENTS.forEach(function (nom) { window.removeEventListener(nom, surDonnees); });
+            return;
+        }
+        if (evt.type === 'mapetanque:criteres') zoneCriteres.innerHTML = criteresHtml(tags);
+        else majResume();
+    }
+    EVENEMENTS.forEach(function (nom) { window.addEventListener(nom, surDonnees); });
+
+    majResume();
+    majBouton();
+    chargerContributionsCompte().then(function (donnees) {
+        if (!donnees || !fiche.isConnected) return;
+        var membres = membresGroupe(osmId);
+        var duCompte = (donnees.coeurs || []).filter(function (c) { return membres.indexOf(c.osm_id) !== -1; })[0];
+        if (duCompte) {
+            cibleCompte = duCompte.osm_id;
+            majBouton();
+        }
+    });
 }
 
 // Lien « Modifier » d'une note ou d'un avis dans « Mon compte » (carte.html?lat=…&lon=…&noter=1)

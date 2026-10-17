@@ -200,6 +200,7 @@
         font-size: 12px; font-weight: 700; letter-spacing: 0.04em;
     }
     .badge-nouveau { background: var(--orange-clair); color: var(--orange); }
+    .badge-coeur { background: #f6e5df; color: #B5502E; }
     .terrain-meta { color: var(--doux); font-size: 13px; }
     .etat-decision { font-size: 14px; font-weight: 700; }
     .decide-accepte .etat-decision { color: var(--vert); }
@@ -549,8 +550,8 @@
             <span class="kpi-valeur" id="kpiNouveauxValeur">…</span>
             <span class="kpi-detail" id="kpiNouveauxDetail"></span>
         </button>
-        <button type="button" class="carte-kpi" data-vers-onglet="notes">
-            <span class="kpi-etiquette">Notes</span>
+        <button type="button" class="carte-kpi" data-vers-onglet="notes" id="kpiNotes">
+            <span class="kpi-etiquette" id="kpiNotesEtiquette">Notes</span>
             <span class="kpi-valeur" id="kpiNotesValeur">…</span>
             <span class="kpi-detail" id="kpiNotesDetail">reçues ces 30 derniers jours</span>
         </button>
@@ -583,6 +584,7 @@
                     <select id="tri">
                         <option value="nouveaux">Nouveaux d'abord</option>
                         <option value="commune">Par commune</option>
+                        <option value="coeurs">Coups de cœur d'abord</option>
                     </select>
                 </label>
             </div>
@@ -827,6 +829,15 @@ const URL_TERRAINS = "/data/terrains.geojson";
 const URL_CRITERES_JOUEURS = "https://mapetanque-notes.mapetanque.workers.dev/criteres";
 // Moyennes des terrains (même paquet public que le site) : osm_id -> [somme, nombre].
 const URL_NOTES_PUBLIQUES = "https://mapetanque-notes.mapetanque.workers.dev/notes";
+// Notes et avis désactivés sur le site depuis le 17/10/2026, remplacés par les coups de cœur
+// (même réglage que MAPETANQUE_NOTES_AVIS dans script.js). false : onglet Notes/Avis masqué,
+// carte « Coups de cœur » à la place de « Notes », coups de cœur dans Terrains et Utilisateurs.
+// Tout le code des notes et des avis reste en place : true le ramène.
+const AFFICHER_NOTES_AVIS = false;
+// Coups de cœur (même paquet public que le site) : osm_id -> nombre de cœurs.
+const URL_COEURS = "https://mapetanque-notes.mapetanque.workers.dev/coeurs";
+let COEURS_TERRAINS = {};   // osm_id -> nombre de cœurs, cumulé par groupe de pistes
+let COEURS_TOTAL = 0;       // cœurs donnés sur tout le site (sans le cumul par groupe)
 // Pistes voisines (scripts/grouper_terrains.py) : un critère des joueurs vaut pour tout le
 // groupe, comme sur le site.
 const URL_GROUPES = "/data/groupes_terrains.json";
@@ -1458,6 +1469,13 @@ function construireCarte(terrain) {
             badge.textContent = "NOUVEAU · apparu le " + formaterJour(APPARITIONS[cle]);
             etiquettes.appendChild(badge);
         }
+        const coeurs = COEURS_TERRAINS[cle] || 0;
+        if (coeurs) {
+            const badge = document.createElement("span");
+            badge.className = "badge badge-coeur";
+            badge.textContent = "♥ " + coeurs + (coeurs > 1 ? " coups de cœur" : " coup de cœur");
+            etiquettes.appendChild(badge);
+        }
 
         div.replaceChild(vignetteCourante(), div.firstElementChild);
 
@@ -1658,6 +1676,7 @@ const FILTRES = [
     ["rien_trouve", "Rien trouvé"],
     ["pistes", "Nouvelles pistes"],
     ["plusieurs", "Plusieurs photos"],
+    ["coeurs", "Coups de cœur"],
     ["tous", "Tous"]
 ];
 let FILTRE = "a_decider_avec";
@@ -1674,6 +1693,7 @@ function correspond(osmId, filtre) {
         case "rien_trouve": return estRienTrouve(osmId);
         case "pistes": return estRienTrouve(osmId) && pistesActives(osmId).length > 0;
         case "plusieurs": return bilan.total >= 2;
+        case "coeurs": return (COEURS_TERRAINS[osmId] || 0) >= 1;
         default: return true;
     }
 }
@@ -1798,6 +1818,10 @@ function trierListe() {
             const db = APPARITIONS[b.osm_id] || "";
             if (da !== db) return da < db ? 1 : -1;
         }
+        if (tri === "coeurs") {
+            const ecart = (COEURS_TERRAINS[b.osm_id] || 0) - (COEURS_TERRAINS[a.osm_id] || 0);
+            if (ecart) return ecart;
+        }
         return parCommune(a, b);
     });
 
@@ -1914,13 +1938,24 @@ document.getElementById("kpiPhotos").addEventListener("click", () => {
 });
 
 document.querySelectorAll("[data-vers-onglet]").forEach(element => {
-    element.addEventListener("click", () => afficherOnglet(element.dataset.versOnglet));
+    element.addEventListener("click", () => {
+        // Carte « Coups de cœur » : les terrains qui en ont, dans l'onglet Terrains
+        if (element.id === "kpiNotes" && !AFFICHER_NOTES_AVIS) {
+            FILTRE = "coeurs";
+            mettreAJourProgression();
+            appliquerFiltres(0);
+            document.getElementById("terrains").scrollIntoView({ behavior: "smooth" });
+            return;
+        }
+        afficherOnglet(element.dataset.versOnglet);
+    });
 });
 
 
 /* ===================== Onglets ===================== */
 
-const ONGLETS = ["terrains", "notes", "visites", "signalements", "utilisateurs"];
+const ONGLETS = ["terrains"].concat(AFFICHER_NOTES_AVIS ? ["notes"] : [], ["visites", "signalements", "utilisateurs"]);
+if (!AFFICHER_NOTES_AVIS) document.getElementById("onglet-notes").hidden = true;
 
 // L'onglet affiché est noté dans l'adresse (#notes, #visites) : un rechargement de la page
 // y revient directement.
@@ -4279,7 +4314,7 @@ async function afficherComptes() {
 }
 
 function envoisDe(c) {
-    return (c.votes || 0) + (c.avis || 0) + (c.photos || 0) + (c.signalements || 0);
+    return (AFFICHER_NOTES_AVIS ? (c.votes || 0) + (c.avis || 0) : (c.coeurs || 0)) + (c.photos || 0) + (c.signalements || 0);
 }
 
 function pluriel(n, singulier, plurielTexte) {
@@ -4397,7 +4432,8 @@ function ligneCompte(c) {
 
     const envois = document.createElement("span");
     envois.className = "compte-envois";
-    [[c.votes, "note"], [c.avis, "avis", "avis"], [c.photos, "photo"], [c.signalements, "signalement"], [c.parties, "partie"]]
+    (AFFICHER_NOTES_AVIS ? [[c.votes, "note"], [c.avis, "avis", "avis"]] : [[c.coeurs, "coup de cœur", "coups de cœur"]])
+        .concat([[c.photos, "photo"], [c.signalements, "signalement"], [c.parties, "partie"]])
         .forEach(([n, singulier, plurielTexte]) => { if (n) envois.appendChild(etiquette(pluriel(n, singulier, plurielTexte))); });
     if (!envois.children.length) envois.appendChild(etiquette("aucun envoi"));
 
@@ -4498,12 +4534,14 @@ async function ouvrirFiche(c) {
     ligneInfo("Appareils connectés", nombre(detail.appareils));
 
     const sections = [
-        sectionFiche("Notes", detail.votes.map(v =>
-            envoiFiche([terrainFiche(v.osm_id), etiquette("★ " + v.note)], v.date))),
-        sectionFiche("Avis", detail.avis.map(a => {
+        AFFICHER_NOTES_AVIS ? null : sectionFiche("Coups de cœur", (detail.coeurs || []).map(c =>
+            envoiFiche([terrainFiche(c.osm_id)], c.date))),
+        AFFICHER_NOTES_AVIS ? sectionFiche("Notes", detail.votes.map(v =>
+            envoiFiche([terrainFiche(v.osm_id), etiquette("★ " + v.note)], v.date))) : null,
+        AFFICHER_NOTES_AVIS ? sectionFiche("Avis", detail.avis.map(a => {
             const etat = ETATS_AVIS_COMPTE[a.statut] || [a.statut, ""];
             return envoiFiche([terrainFiche(a.osm_id), etiquette(etat[0], etat[1])], a.cree, a.texte);
-        })),
+        })) : null,
         sectionFiche("Photos", detail.photos.map(p => {
             const etat = ETATS_PHOTO_COMPTE[p.statut] || [p.statut, ""];
             return envoiFiche([terrainFiche(p.osm_id), etiquette(etat[0], etat[1])], p.cree);
@@ -4520,7 +4558,9 @@ async function ouvrirFiche(c) {
         sections.forEach(s => envois.appendChild(s));
     } else {
         envois.className = "fiche-vide";
-        envois.textContent = "Aucune note, aucun avis, aucune photo ni aucun signalement.";
+        envois.textContent = AFFICHER_NOTES_AVIS
+            ? "Aucune note, aucun avis, aucune photo ni aucun signalement."
+            : "Aucun coup de cœur, aucune photo ni aucun signalement.";
     }
 }
 
@@ -4586,11 +4626,32 @@ function cumulerCriteresJoueurs(brut, groupes) {
     return cumul;
 }
 
+// Nombre de cœurs de chaque piste recopié sur toutes les pistes de son groupe (additionnés),
+// comme script.js sur le site.
+function cumulerCoeurs(brut, groupes) {
+    const groupeDe = {};
+    (Array.isArray(groupes) ? groupes : []).forEach(g => g.forEach(id => { groupeDe[id] = g; }));
+    const cumul = {};
+    Object.keys(brut).forEach(id => {
+        (groupeDe[id] || [id]).forEach(m => { cumul[m] = (cumul[m] || 0) + (Number(brut[id]) || 0); });
+    });
+    return cumul;
+}
+
+// Carte du tableau de bord, à la place de « Notes » : cœurs donnés, et sur combien de lieux.
+function afficherKpiCoeurs() {
+    const lieux = TERRAINS.filter(t => correspond(t.osm_id, "coeurs")).length;
+    document.getElementById("kpiNotesEtiquette").textContent = "Coups de cœur";
+    document.getElementById("kpiNotesValeur").textContent = nombre(COEURS_TOTAL);
+    document.getElementById("kpiNotesDetail").textContent =
+        COEURS_TOTAL ? "sur " + lieux + (lieux > 1 ? " terrains" : " terrain") : "pas encore de cœur";
+}
+
 async function demarrer() {
     document.getElementById("chargement").style.display = "";
 
     try {
-        const [candidats, etat, enLigne, apparitions, geo, criteresJoueurs, groupes, reglages, miniatures] = await Promise.all([
+        const [candidats, etat, enLigne, apparitions, geo, criteresJoueurs, groupes, reglages, miniatures, coeurs] = await Promise.all([
             fetch(URL_CANDIDATS, { cache: "no-store" }).then(r => r.json()),
             appeler("/admin/revue").then(r => r.json()),
             // Le fichier publié sert seulement à afficher « déjà en ligne » ;
@@ -4607,7 +4668,9 @@ async function demarrer() {
             fetch(URL_WORKER + "/admin/photos/ordre", { headers: { "Authorization": "Bearer " + jeton() } })
                 .then(r => r.ok ? r.json() : null).catch(() => null),
             // Miniatures des photos plates : le panneau des photos montre celles du site.
-            fetch(URL_MINIATURES_PLATES, { cache: "no-store" }).then(r => r.json()).catch(() => ({}))
+            fetch(URL_MINIATURES_PLATES, { cache: "no-store" }).then(r => r.json()).catch(() => ({})),
+            // Coups de cœur : sans eux (Worker pas encore à jour), la puce reste à zéro.
+            AFFICHER_NOTES_AVIS ? {} : fetch(URL_COEURS).then(r => r.ok ? r.json() : {}).catch(() => ({}))
         ]);
 
         DONNEES = candidats;
@@ -4624,6 +4687,8 @@ async function demarrer() {
             if (f.properties && f.properties.osm_id) PROPRIETES[f.properties.osm_id] = f.properties;
         });
         CRITERES_JOUEURS_TERRAINS = cumulerCriteresJoueurs(criteresJoueurs || {}, groupes);
+        COEURS_TERRAINS = cumulerCoeurs(coeurs || {}, groupes);
+        COEURS_TOTAL = Object.values(coeurs || {}).reduce((s, n) => s + (Number(n) || 0), 0);
 
         document.getElementById("chargement").style.display = "none";
         document.getElementById("bandeau").style.display = "";
@@ -4631,8 +4696,12 @@ async function demarrer() {
         construirePage();
         afficherOnglet(location.hash.slice(1));
         chargerModeration();
-        chargerNotes();
-        chargerAvis();
+        if (AFFICHER_NOTES_AVIS) {
+            chargerNotes();
+            chargerAvis();
+        } else {
+            afficherKpiCoeurs();
+        }
         chargerVisites();
         chargerSignalements();
     } catch (e) {

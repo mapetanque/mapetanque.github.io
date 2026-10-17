@@ -81,7 +81,7 @@ for langue, meta in META.items():
     # d'abord sa copie en cache, qui peut dater d'avant les clés de la page
     cible = RACINE / meta["prefixe"] / "mes-parties.html"
     html = cible.read_text(encoding="utf-8")
-    cible.write_text(html.replace('<script src="/translations.js"></script>', '<script src="/translations.js?v=11"></script>'), encoding="utf-8")
+    cible.write_text(html.replace('<script src="/translations.js"></script>', '<script src="/translations.js?v=12"></script>'), encoding="utf-8")
     print(f"{meta['prefixe']}mes-parties.html : {taille} octets")
 
 # Données structurées des autres pages, sitemap.xml et llms.txt (mes-parties.html en est écartée)
