@@ -3640,10 +3640,10 @@ function afficherVisites() {
     dessinerDetails();
 
     document.getElementById("visitesHotes").innerHTML = barresHorizontales(
-        STATS_VISITES.hotes.map(h => ({
-            // Les aperçus Cloudflare Pages restent listés ici, mais le Worker les écarte des totaux.
-            libelle: h.hote === "mapetanque-be.translate.goog" ? "via Google Traduction"
-                : /(^|\.)pages\.dev$/.test(h.hote) ? h.hote + " (aperçus, non comptés)" : h.hote,
+        // Les aperçus Cloudflare Pages (tests des branches) ne sont pas des visites : écartés ici
+        // comme dans le reste de l'onglet (le Worker les retire des totaux et des détails).
+        STATS_VISITES.hotes.filter(h => !/(^|\.)pages\.dev$/.test(h.hote)).map(h => ({
+            libelle: h.hote === "mapetanque-be.translate.goog" ? "via Google Traduction" : h.hote,
             valeur: Number(h.visites)
         })));
 
