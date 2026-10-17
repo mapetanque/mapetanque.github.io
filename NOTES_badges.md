@@ -81,6 +81,13 @@ les atteignent.
   Bouliste), entouré de cinq segments, un par niveau : terre battue `#B5502E` une fois atteints,
   ligne `#E2E6DE` sinon. Pas de chiffre sur le badge : le niveau s'écrit dessous
   (« Niveau 3 · 60 points »). Nom du badge en Caveat 700 (`CHARTE.md`).
+- Sans points, les médaillons s'affichent vides (« Pas encore de niveau »), y compris si le Worker
+  ne renvoie pas de badges (17/10/2026).
+- Sur l'accueil (17/10/2026) : bande « Aidez-nous à compléter la carte ! » (`#contribuer`,
+  `accueil-contribuer.js`), en alternance avec la bande « respiration » une visite sur deux.
+  Nombre de terrains sans photo, barème du Cartographe, terrains sans photo les plus proches
+  (lien vers la carte filtrée, `?filtre=sans_photo`), et médaillon Cartographe : vide avec
+  « Créer mon compte » pour un visiteur, niveau et points du compte une fois connecté.
 - Piste écartée : marqueur de carte et boule pleins, avec cinq petites boules sous le badge.
   Pourrait servir pour annoncer un nouveau niveau.
 - Niveau public (décidé) : à côté du pseudo dans le crédit des photos, une pastille vert tendre

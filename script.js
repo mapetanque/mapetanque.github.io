@@ -883,13 +883,22 @@ function definirPositionUtilisateur(lat, lon) {
 // marqueur doit porter sa feature (layer.feature, que L.geoJSON pose de lui-même).
 //
 // Rien n'est mémorisé : les filtres repartent à zéro à chaque page.
+//
+// Filtre à part, « Sans photo » (clé sans_photo) : il ne vient que de l'adresse
+// (?filtre=sans_photo, lien de la bande « Aidez-nous à compléter la carte ! » de l'accueil) et a
+// sa propre pastille, montrée seulement quand il est actif, avec une croix pour le retirer.
 
+const FILTRE_SANS_PHOTO = 'sans_photo';
 const filtresActifs = new Set();
 const groupesFiltrables = [];            // [{ groupe, couches: [marqueurs portant .feature] }]
 function passeLesFiltres(props, filtres) {
     const criteres = criteresFiltrables(props);
     for (const cle of (filtres || filtresActifs)) {
-        if (!criteres.has(cle)) return false;
+        if (cle === FILTRE_SANS_PHOTO) {
+            if (terrainAUnePhoto(props)) return false;
+        } else if (!criteres.has(cle)) {
+            return false;
+        }
     }
     return true;
 }
@@ -976,7 +985,7 @@ const GROUPES_FILTRES = typeof FILTRES_SUR_PLACE === 'undefined' ? {} : {
 if (PAGE_CARTE) {
     const clesFiltres = Object.keys(GROUPES_FILTRES).reduce(function (liste, groupe) {
         return liste.concat(GROUPES_FILTRES[groupe].cles);
-    }, []);
+    }, [FILTRE_SANS_PHOTO]);
     (new URLSearchParams(window.location.search).get('filtre') || '').split(',').forEach(function (cle) {
         if (clesFiltres.indexOf(cle) !== -1) filtresActifs.add(cle);
     });
@@ -987,11 +996,14 @@ let pastilleOuverte = null; // sa pastille
 
 function construirePastilles() {
     if (!barrePastilles) return;
-    barrePastilles.innerHTML = Object.keys(GROUPES_FILTRES).map(function (groupe) {
-        return '<button type="button" class="carte-pastille" data-groupe="' + groupe + '" aria-haspopup="true" '
-            + 'aria-expanded="false" aria-controls="filtres-panneau"><span class="carte-pastille-libelle"></span>'
-            + PICTO_CHEVRON + '</button>';
-    }).join('')
+    // « Sans photo » en tête : venue de l'accueil, elle doit se voir même si la barre défile.
+    barrePastilles.innerHTML = '<button type="button" class="carte-pastille carte-pastille-sans-photo actif" hidden aria-label="' + t('filtre_sans_photo_retirer') + '">'
+        + '<span>' + t('filtre_sans_photo') + '</span><span class="carte-pastille-croix" aria-hidden="true">✕</span></button>'
+        + Object.keys(GROUPES_FILTRES).map(function (groupe) {
+            return '<button type="button" class="carte-pastille" data-groupe="' + groupe + '" aria-haspopup="true" '
+                + 'aria-expanded="false" aria-controls="filtres-panneau"><span class="carte-pastille-libelle"></span>'
+                + PICTO_CHEVRON + '</button>';
+        }).join('')
         + '<button type="button" class="carte-pastille carte-pastille-clubs" aria-pressed="false">'
         + '<span class="carte-pastille-point" aria-hidden="true"></span><span>' + t('carte_pastille_clubs') + '</span></button>'
         + '<button type="button" class="carte-pastilles-effacer" hidden>' + t('filtres_effacer') + '</button>';
@@ -1008,6 +1020,10 @@ function construirePastilles() {
     barrePastilles.querySelector('.carte-pastille-clubs').addEventListener('click', function () {
         fermerPanneauFiltres();
         afficherClubs(!map.hasLayer(clubsLayer));
+    });
+    barrePastilles.querySelector('.carte-pastille-sans-photo').addEventListener('click', function () {
+        fermerPanneauFiltres();
+        basculerFiltre(FILTRE_SANS_PHOTO);
     });
     barrePastilles.querySelector('.carte-pastilles-effacer').addEventListener('click', effacerFiltres);
     majPastilles();
@@ -1030,8 +1046,11 @@ function majPastilles() {
         clubs.classList.toggle('actif', visibles);
         clubs.setAttribute('aria-pressed', String(visibles));
     }
+    const sansPhoto = barrePastilles.querySelector('.carte-pastille-sans-photo');
+    if (sansPhoto) sansPhoto.hidden = !filtresActifs.has(FILTRE_SANS_PHOTO);
+    // « Effacer » seulement pour les critères des panneaux : « Sans photo » a déjà sa croix.
     const effacer = barrePastilles.querySelector('.carte-pastilles-effacer');
-    if (effacer) effacer.hidden = !filtresActifs.size;
+    if (effacer) effacer.hidden = filtresActifs.size === (filtresActifs.has(FILTRE_SANS_PHOTO) ? 1 : 0);
 }
 
 // --- Panneau ---------------------------------------------------------------------------------
@@ -1932,6 +1951,37 @@ shareCopyBtn.addEventListener('click', function () {
         window.prompt('Ctrl+C / Cmd+C :', url);
     });
 });
+
+
+// ===================== Badges Cartographe et Bouliste =====================
+// Médaillon partagé par Mon compte (mon-compte.js, classes mc-medaillon-*) et la bande
+// « contribuer » de l'accueil (accueil-contribuer.js, classes contribuer-medaillon-*) : rond vert
+// tendre, picto au trait, cinq segments terre battue (un par niveau). Voir NOTES_badges.md.
+const DESSINS_BADGES = {
+    cartographe: '<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/>',
+    bouliste: '<circle cx="10" cy="12" r="7.5"/><path d="M2.8 10.2C7 11.6 13 11.6 17.2 10.2"/><path d="M2.8 13.8C7 15.2 13 15.2 17.2 13.8"/><circle cx="20.5" cy="18.5" r="1.6"/>'
+};
+
+// Réponse du Worker sans badges (calcul en erreur) : médaillons vides plutôt que rien. Le premier
+// seuil des deux badges est 1 (commun/badges.js du dépôt des Workers).
+const BADGES_VIDES = {
+    cartographe: { niveau: 0, valeur: 0, seuil: 0, suivant: 1 },
+    bouliste: { niveau: 0, valeur: 0, seuil: 0, suivant: 1 }
+};
+
+// Cercle de rayon 72 (périmètre 452,4) : cinq segments de 82,48 séparés de 8.
+function medaillonBadge(type, niveau, prefixe) {
+    const segment = '82.48 8';
+    const arcs = [];
+    for (let i = 0; i < niveau; i++) arcs.push(i < niveau - 1 || niveau === 5 ? segment : '82.48 500');
+    const anneau = ' cx="80" cy="80" r="72" stroke-dashoffset="-4" transform="rotate(-90 80 80)"';
+    return '<svg class="' + prefixe + '-medaillon" viewBox="0 0 160 160" aria-hidden="true">'
+        + '<circle class="' + prefixe + '-medaillon-fond"' + anneau + ' stroke-dasharray="' + segment + '"/>'
+        + (niveau ? '<circle class="' + prefixe + '-medaillon-niveau"' + anneau + ' stroke-dasharray="' + arcs.join(' ') + '"/>' : '')
+        + '<circle class="' + prefixe + '-medaillon-centre" cx="80" cy="80" r="56"/>'
+        + '<g class="' + prefixe + '-medaillon-picto" transform="translate(50 50) scale(2.5)">' + DESSINS_BADGES[type] + '</g>'
+        + '</svg>';
+}
 
 
 // ===================== Compte du visiteur dans les envois =====================
@@ -3369,6 +3419,11 @@ document.addEventListener('click', function (evt) {
 // long dans certaines langues), le lien déborderait sur la mention de licence de la photo ou
 // serait coupé. Il est alors masqué plutôt que de chevaucher quoi que ce soit.
 const lienSignalerTerrain = document.getElementById('signaler-terrain-link');
+// Même formulaire, ouvert par la carte « Signaler un terrain manquant » de la bande « contribuer »
+// de l'accueil (accueil-contribuer.js).
+window.mapetanqueSignalerTerrain = function () {
+    ouvrirModaleSignalement({ type: 'manquant' });
+};
 if (lienSignalerTerrain) {
     lienSignalerTerrain.addEventListener('click', function (evt) {
         evt.preventDefault();
@@ -4865,12 +4920,16 @@ fetch('/data/miniatures_plates.json')
     .then(data => { window.miniaturesPlates = data || {}; })
     .catch(() => { });
 
-fetch('/data/photos_mapillary.json')
+// Promesse tenue quand les photos sont connues (chargées ou non) : la bande « contribuer » de
+// l'accueil l'attend pour trier les terrains sans photo.
+window.photosMapillaryPret = fetch('/data/photos_mapillary.json')
     .then(response => response.json())
     .then(data => {
         window.photosMapillaryParOsmId = data;
         photosMapillaryChargees = true;
         calculerTerrainsAvecPhoto();
+        // Filtre « Sans photo » posé avant l'arrivée des photos : il comptait tous les terrains.
+        if (filtresActifs.has(FILTRE_SANS_PHOTO)) appliquerFiltres();
     })
     .catch(() => {
         // Fichier absent ou invalide : les popups fonctionnent normalement, juste sans photo
@@ -6374,15 +6433,18 @@ let terrainsAvecPhotoCount = null;
 let terrainsFeaturesPourPhotos = null;
 let photosMapillaryChargees = false;
 
+// Même critère "a une photo" que dans construireContenuPopupTerrain (deux sources
+// combinées) : tag OSM déjà résolu en photo_url, ou entrée dans photos_mapillary.json.
+// Sert aussi au filtre « Sans photo » et à la bande « contribuer » de l'accueil.
+function terrainAUnePhoto(tags) {
+    const photosValidees = tags.osm_id ? (window.photosMapillaryParOsmId[tags.osm_id] || []) : [];
+    return !!tags.photo_url || photosValidees.length > 0;
+}
+
 function calculerTerrainsAvecPhoto() {
     if (!terrainsFeaturesPourPhotos || !photosMapillaryChargees) return;
-
-    // Même critère "a une photo" que dans construireContenuPopupTerrain (deux sources
-    // combinées) : tag OSM déjà résolu en photo_url, ou entrée dans photos_mapillary.json.
     terrainsAvecPhotoCount = terrainsFeaturesPourPhotos.filter(function (feature) {
-        const tags = feature.properties;
-        const photosValidees = tags.osm_id ? (window.photosMapillaryParOsmId[tags.osm_id] || []) : [];
-        return !!tags.photo_url || photosValidees.length > 0;
+        return terrainAUnePhoto(feature.properties);
     }).length;
 
     mettreAJourStats();
@@ -6407,6 +6469,20 @@ function mettreAJourStats() {
     }
     if (terrainsAvecPhotoCount !== null) {
         document.getElementById('pied-nb-photos').textContent = formaterNombre(terrainsAvecPhotoCount);
+    }
+    // Bande « Aidez-nous à compléter la carte ! » de l'accueil : terrains sans photo et jauge.
+    if (terrainsCount !== null && terrainsAvecPhotoCount !== null) {
+        document.querySelectorAll('.nb-sans-photo-dynamique').forEach(function (el) {
+            el.textContent = formaterNombre(terrainsCount - terrainsAvecPhotoCount);
+        });
+        const jauge = document.getElementById('contribuer-jauge');
+        if (jauge && terrainsCount) {
+            jauge.querySelector('.contribuer-jauge-barre span').style.width =
+                Math.round(100 * terrainsAvecPhotoCount / terrainsCount) + '%';
+            jauge.querySelector('.contribuer-jauge-legende').textContent = t('contribuer_jauge')
+                .replace('{avec}', formaterNombre(terrainsAvecPhotoCount))
+                .replace('{total}', formaterNombre(terrainsCount));
+        }
     }
 
     if (lastUpdateRaw !== null) {
