@@ -56,6 +56,11 @@ pas encore fusionnée doit l'être (ou être abandonnée) avant de reprendre ces
   est public, et le site aussi). Les commentaires du code les citent par leur nom de fichier : les
   lire là-bas (dans le cloud, joindre le dépôt comme ci-dessus). Toute nouvelle note privée va
   là-bas, jamais dans ce dépôt.
+- **Maquettes** : archivées dans ce même dépôt privé, dossier `maquettes/` (les commentaires du code
+  citent `maquettes/<nom>/`). Une nouvelle maquette se fait en artefact claude.ai (privé, visible
+  sur le téléphone de Rémy) ; une fois validée, sa copie HTML est rangée dans `maquettes/` du dépôt
+  privé, polices chargées depuis `https://mapetanque.be/polices.css`. Jamais de maquette dans ce
+  dépôt-ci.
 - Même façon de travailler que pour le site : branche `claude/…`, pull request, fusion sur demande.
 - **Fusionner ne déploie rien.** Déployer seulement quand Rémy le demande, une fois la pull request
   fusionnée : lancer la tâche GitHub « Déployer un Worker » (`.github/workflows/deployer.yml` de ce
