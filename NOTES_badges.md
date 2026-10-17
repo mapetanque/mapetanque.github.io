@@ -42,7 +42,7 @@ seul (sinon, photos floues en série). Petits nombres, faciles à expliquer :
 |---|---|
 | Photo acceptée | 2 |
 | Bonus : première photo d'un terrain qui n'en avait aucune (« scoop ») | +3 (5 en tout) |
-| Erreur corrigée, ou info de club acceptée | 3 |
+| Erreur corrigée sur un terrain ou un club | 3 |
 | Terrain manquant ajouté | 5 |
 | Coup de cœur (et cases « Ce terrain est… ») | 0 |
 

@@ -422,13 +422,17 @@
             cadre.innerHTML = '';
             return;
         }
-        var aide = ['badge_aide_photo', 'badge_aide_premiere', 'badge_aide_terrain', 'badge_aide_correction']
+        // « Comment progresser ? » : le barème du Cartographe, puis le Bouliste.
+        var aide = ['badge_aide_photo', 'badge_aide_terrain', 'badge_aide_correction']
             .map(function (cle) { return '<li>' + echapper(t(cle)) + '</li>'; }).join('');
         cadre.innerHTML = '<h2 class="mc-titre">' + echapper(t('moncompte_badges_titre')) + '</h2>'
             + badgeHtml('cartographe', badges.cartographe)
             + badgeHtml('bouliste', badges.bouliste)
             + '<details class="mc-badges-aide"><summary>' + echapper(t('badge_aide_titre')) + '</summary>'
-            + '<ul>' + aide + '</ul><p>' + echapper(t('badge_aide_regle')) + '</p></details>';
+            + '<h3>' + echapper(t('badge_cartographe')) + '</h3>'
+            + '<ul>' + aide + '</ul><p>' + echapper(t('badge_aide_regle')) + '</p>'
+            + '<h3>' + echapper(t('badge_bouliste')) + '</h3>'
+            + '<p>' + echapper(t('badge_aide_bouliste')) + '</p></details>';
     }
 
 
