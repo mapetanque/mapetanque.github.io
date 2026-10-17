@@ -469,8 +469,16 @@ a.mc-envoi:hover {
     padding-left: 20px;
 }
 
+.mc-badges-aide h3 {
+    margin: 12px 0 0;
+    font-family: 'Manrope', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1D2619;
+}
+
 .mc-badges-aide p {
-    margin: 0;
+    margin: 4px 0 0;
     font-size: 13px;
     color: #56604F;
 }
