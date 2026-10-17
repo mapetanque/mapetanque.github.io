@@ -96,10 +96,18 @@ Tout se calcule à la volée à partir des tables existantes, filtrées sur `com
 
 - **Photo acceptée** : `photos` au statut `a_generer`, `validee`, `envoyee`, `rattachee` ou
   `publiee` (ou avec miniature et non `refusee`), comme l'affiche Mon compte.
-- **Bonus scoop** : « terrain sans photo » dépend du moment (photos Mapillary dans
-  `data/photos_mapillary.json`, photos d'autres visiteurs). Le plus simple : le noter à la
-  validation dans l'admin (une colonne `scoop` dans `photos`) plutôt que de le reconstituer
-  après coup.
+- **Bonus scoop** (décidé : automatique) : à la validation d'une photo dans l'admin, la page
+  regarde si le terrain avait déjà une photo en ligne (tag OSM, `photos_mapillary.json`, photos
+  de visiteurs déjà validées), ce qu'elle charge déjà pour la carte de modération. Si aucune, elle
+  envoie « première photo » avec la validation ; le Worker l'enregistre dans une nouvelle colonne
+  `scoop` de `photos`. Rien à faire pour Rémy : une mention « Première photo de ce terrain · +3 »
+  sur la carte de modération montre que le bonus part. Deux photos d'un même terrain en attente :
+  seule la première validée a le bonus. À coder dans `admin.html` et dans la route de validation
+  du Worker admin (dépôt `mapetanque-workers`), plus la colonne dans D1.
+- **Rattrapage des photos déjà validées** (décidé) : une fois, au lancement. On ne sait plus si
+  le terrain avait une photo à ce moment-là, d'où une règle approximative : la plus ancienne photo
+  de visiteur acceptée de chaque terrain reçoit `scoop = 1` si ce terrain n'a aucune photo d'une
+  autre source (ni tag OSM, ni Mapillary hors photos de visiteurs).
 - **Terrain manquant ajouté** : `signalements` de type `manquant` au statut `traite`.
 - **Erreur corrigée, info de club** : `signalements` de type `erreur` ou `club` au statut
   `traite`.
@@ -146,6 +154,5 @@ lynx ; Chroniqueur, Arbitre, Critique (avis et notes, disparus) ; Habitué.
 
 ## À trancher
 
-- Bonus scoop : ajouter la colonne `scoop` remplie à la validation (recommandé) ?
-- Points retirés si une contribution est retirée ensuite (photo retirée) ? Logique avec un
-  calcul à la volée : oui, automatiquement.
+Rien pour l'instant. Retenu par défaut : une contribution retirée après coup (photo retirée)
+perd ses points d'elle-même, puisque tout est recalculé à chaque affichage.
