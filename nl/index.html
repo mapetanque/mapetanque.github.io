@@ -56,6 +56,7 @@
     <link rel="stylesheet" href="/style-ombres.css">
     <!-- Section « respiration » sous le carrousel : additif, et la police manuscrite Caveat -->
     <link rel="stylesheet" href="/style-accueil-respiration.css">
+    <link rel="stylesheet" href="/style-accueil-contribuer.css">
 <link rel="stylesheet" href="/style-accueil-compte.css">
     <link rel="stylesheet" href="/polices.css">
     <!-- Données structurées schema.org (Google, IA) : écrites par scripts/generer_referencement.py, ne pas modifier à la main. -->
@@ -345,6 +346,94 @@
     </div>
 </section>
 
+<!-- Section « contribuer » : à la place de « respiration », une visite de l'accueil sur deux
+     (script juste après). Styles : /style-accueil-contribuer.css ; script : /accueil-contribuer.js.
+     Maquette validée le 17/10/2026 : maquettes/contribuer-accueil/. Le nombre de terrains sans
+     photo et la jauge sont réécrits par mettreAJourStats() dans script.js ; les chiffres écrits
+     ici servent de repli. -->
+<section id="contribuer" class="contribuer" aria-labelledby="contribuer-titre" hidden>
+    <div class="contribuer-contenu">
+        <div class="contribuer-texte">
+            <div class="contribuer-entete">
+                <p class="contribuer-accroche" data-i18n="contribuer_accroche">Help ons de kaart aan te vullen!</p>
+                <h2 class="contribuer-titre" id="contribuer-titre"><span class="chiffre nb-sans-photo-dynamique">859</span> <span data-i18n="contribuer_titre">terreinen wachten op hun eerste foto</span></h2>
+                <p class="contribuer-intro" data-i18n="contribuer_texte">Komt u langs een terrein? Een foto, een vergeten terrein, een verbeterde fout: elke bijdrage helpt alle spelers een plek te vinden om te spelen.</p>
+                <div class="contribuer-jauge" id="contribuer-jauge">
+                    <div class="contribuer-jauge-barre"><span style="width: 53%"></span></div>
+                    <span class="contribuer-jauge-legende">966 van de 1.825 terreinen hebben al een foto</span>
+                </div>
+            </div>
+            <div class="contribuer-proche">
+                <button type="button" class="contribuer-bouton principal contribuer-chercher"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg><span data-i18n="contribuer_proches">Terreinen zonder foto in mijn buurt</span></button>
+                <div class="contribuer-proches" aria-live="polite" hidden>
+                    <p class="contribuer-proches-info"></p>
+                    <ul class="contribuer-proches-liste"></ul>
+                    <a class="contribuer-lien-carte" href="/nl/carte.html?filtre=sans_photo"><span data-i18n="contribuer_voir_carte">Alle terreinen zonder foto op de kaart bekijken</span> →</a>
+                </div>
+            </div>
+        </div>
+        <div class="contribuer-cote">
+            <div class="contribuer-actions">
+                <button type="button" class="contribuer-action" data-action="photo">
+                    <span class="contribuer-rond"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg></span>
+                    <span><strong data-i18n="contribuer_photo_titre">Een foto toevoegen</strong><span class="contribuer-action-texte" data-i18n="contribuer_photo_texte">De eerste foto van een terrein is 5 punten waard.</span></span>
+                    <span class="contribuer-action-points"><b>2</b><span data-i18n="contribuer_points">punten</span></span>
+                </button>
+                <button type="button" class="contribuer-action" data-action="terrain">
+                    <span class="contribuer-rond"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><path d="M12 7v6"/><path d="M9 10h6"/></svg></span>
+                    <span><strong data-i18n="signalement_link">Ontbrekend terrein melden</strong><span class="contribuer-action-texte" data-i18n="contribuer_terrain_texte">Een terrein dat nog niet op de kaart staat.</span></span>
+                    <span class="contribuer-action-points"><b>5</b><span data-i18n="contribuer_points">punten</span></span>
+                </button>
+                <a class="contribuer-action" href="/nl/carte.html">
+                    <span class="contribuer-rond"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></svg></span>
+                    <span><strong data-i18n="contribuer_erreur_titre">Een fout verbeteren</strong><span class="contribuer-action-texte" data-i18n="contribuer_erreur_texte">Op de fiche van een terrein of een club.</span></span>
+                    <span class="contribuer-action-points"><b>3</b><span data-i18n="contribuer_points">punten</span></span>
+                </a>
+            </div>
+            <div class="contribuer-badge visiteur">
+                <span class="contribuer-badge-medaillon"></span>
+                <div class="contribuer-badge-corps">
+                    <span class="contribuer-badge-nom" data-i18n="badge_cartographe">Cartograaf</span>
+                    <p class="contribuer-badge-texte" data-i18n="contribuer_badge_texte">Met een account laten uw aanvaarde bijdragen u in niveau stijgen.</p>
+                    <a href="/nl/connexion.html" class="contribuer-bouton principal petit" data-i18n="compte_accueil_creer">Mijn account aanmaken</a>
+                </div>
+            </div>
+            <div class="contribuer-badge connecte" hidden>
+                <span class="contribuer-badge-medaillon"></span>
+                <div class="contribuer-badge-corps">
+                    <span class="contribuer-badge-nom" data-i18n="badge_cartographe">Cartograaf</span>
+                    <span class="contribuer-badge-resume"></span>
+                    <span class="contribuer-badge-barre" aria-hidden="true"><span></span></span>
+                    <span class="contribuer-badge-reste"></span>
+                    <span class="contribuer-badge-astuce"></span>
+                </div>
+            </div>
+            <p class="contribuer-regle" data-i18n="badge_aide_regle">Alleen bijdragen die u vanuit uw account instuurt en die daarna aanvaard worden, leveren punten op.</p>
+        </div>
+    </div>
+</section>
+<script>
+// Bandes « respiration » et « contribuer » en alternance : une visite de l'accueil sur deux, en
+// commençant par « respiration ». Sans stockage possible (navigation privée…), au hasard.
+// Pour tester : ?bande=contribuer ou ?bande=respiration.
+(function () {
+    var cle = 'mapetanque_bande_accueil';
+    var bande = new URLSearchParams(window.location.search).get('bande');
+    if (bande !== 'contribuer' && bande !== 'respiration') {
+        try {
+            bande = localStorage.getItem(cle) === 'respiration' ? 'contribuer' : 'respiration';
+            localStorage.setItem(cle, bande);
+        } catch (e) {
+            bande = Math.random() < 0.5 ? 'respiration' : 'contribuer';
+        }
+    }
+    if (bande === 'contribuer') {
+        document.getElementById('respiration').hidden = true;
+        document.getElementById('contribuer').hidden = false;
+    }
+})();
+</script>
+
 <!-- Section « compte » : sous la zone carte, elle montre ce qu'apporte un compte (styles :
      /style-accueil-compte.css, script : /accueil-compte.js, maquette validée le 11/10/2026 dans
      maquettes/accueil-compte/). Connecté, le bloc « connecte » remplace le bloc « visiteur » et
@@ -376,7 +465,7 @@
                 </button>
                 <button type="button" class="compte-accueil-onglet" role="tab" aria-selected="false">
                     <span class="compte-accueil-rond"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg></span>
-                    <strong data-i18n="compte_accueil_envois_titre">Uw favorieten en foto's, gevolgd</strong>
+                    <strong data-i18n="compte_accueil_envois_titre">Uw favorieten en foto's</strong>
                     <span class="compte-accueil-onglet-texte" data-i18n="compte_accueil_envois_texte">Vind uw favoriete terreinen, uw foto's en uw meldingen terug.</span>
                     <span class="compte-accueil-fil"></span>
                 </button>
@@ -532,6 +621,7 @@
      pour ouvrir la fiche du bon terrain au clic sur une tuile. -->
 <script src="/beaux-terrains.js"></script>
 <script src="/accueil-compte.js"></script>
+<script src="/accueil-contribuer.js"></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
 
 

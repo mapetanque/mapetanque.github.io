@@ -307,6 +307,17 @@ body.page-carte {
     box-shadow: 0 0 0 2px #fff;
 }
 
+/* « Sans photo » (lien de la bande « contribuer » de l'accueil) : affichée seulement quand le
+   filtre est actif, la croix le retire. */
+.carte-pastille-croix {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.carte-pastille[hidden] {
+    display: none;
+}
+
 .carte-pastilles-effacer {
     height: 36px;
     padding: 0 4px;
