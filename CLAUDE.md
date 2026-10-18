@@ -65,7 +65,8 @@ pas encore fusionnée doit l'être (ou être abandonnée) avant de reprendre ces
     `maquettes/` est exclu de git sur son PC (`.git/info/exclude`) : rien ne part dans ce dépôt.
 
   Une fois validée, sa copie HTML est rangée dans `maquettes/<nom>/index.html` du dépôt privé, avec
-  les polices chargées depuis `https://mapetanque.be/polices.css`.
+  des adresses complètes (`https://mapetanque.be/polices.css`, `https://mapetanque.be/images/…`)
+  pour s'afficher depuis n'importe quel dossier.
 - Même façon de travailler que pour le site : branche `claude/…`, pull request, fusion sur demande.
 - **Fusionner ne déploie rien.** Déployer seulement quand Rémy le demande, une fois la pull request
   fusionnée : lancer la tâche GitHub « Déployer un Worker » (`.github/workflows/deployer.yml` de ce
