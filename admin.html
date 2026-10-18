@@ -3849,7 +3849,7 @@ async function chargerSignalements() {
 
 /* ===================== Mails d'avertissement ===================== */
 // Quand un signalement est traité ou refusé, ou qu'une photo envoyée par un compte est validée
-// ou refusée, la personne est prévenue par mail (Worker, workers/admin-avertissements.js). Au
+// ou refusée, la personne est prévenue par mail (Worker admin, dépôt privé des Workers). Au
 // moment de décider, un panneau demande : mail automatique (avec un mot personnel en option),
 // « je réponds moi-même » ou pas de mail. Les mails automatiques partent groupés une fois par
 // jour (un seul par personne), ou tout de suite avec « Envoyer mail maintenant » (en-tête).
@@ -4280,7 +4280,7 @@ function changerStatutSignalement(s, statut, choix) {
 
 /* ===================== Utilisateurs ===================== */
 // Comptes des visiteurs (table comptes du Worker des comptes, même base D1 ; routes /admin/comptes
-// du Worker admin, référence dans workers/admin-comptes.js). Lus à la première ouverture de
+// du Worker admin, dans le dépôt privé des Workers). Lus à la première ouverture de
 // l'onglet seulement : la liste compte les envois de chaque compte, inutile de la relire à chaque
 // ouverture de l'admin. Adresses masquées dans la liste, en entier dans la fiche.
 // Une seule action : supprimer un compte, avec la même anonymisation que « Supprimer mon compte ».
