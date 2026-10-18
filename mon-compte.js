@@ -5,7 +5,7 @@
 //   - pseudo sur une ligne, « Modifier » (ou « Choisir ») ouvre le champ sur place ;
 //   - « Mes badges » : Cartographe et Bouliste (route /compte/contributions, champ badges),
 //     absents tant que le Worker ne les renvoie pas ;
-//   - « Mes parties » : résumé (route /compte/parties) et lien vers mes-parties.html, placé
+//   - « Mes parties » : résumé (route /parties/mes-parties) et lien vers mes-parties.html, placé
 //     au-dessus des contributions ;
 //   - « Mes coups de cœur » : ceux du compte (route /compte/contributions) et ceux donnés depuis
 //     cet appareil ; chaque ligne ouvre le terrain sur la carte (ancre #coeurs) ;
@@ -490,13 +490,18 @@
     }
 
     function chargerResumeParties() {
-        compte.appel('GET', '/compte/parties').then(function (reponse) {
+        compte.appel('GET', '/parties/mes-parties').then(function (reponse) {
             if (reponse.statut !== 200) return;
             var liste = reponse.donnees.parties || [];
+            // Gagnée : l'équipe de ma place a atteint l'objectif (comme dans mes-parties.js)
+            var gagnee = function (p) {
+                var b = p.moi && p.moi.equipe === 'b';
+                return (b ? p.score_b : p.score_a) >= p.objectif;
+            };
             if (!liste.length) {
                 resumeParties = t('moncompte_parties_aucune');
             } else {
-                var victoires = liste.filter(function (p) { return Number(p.victoire) === 1; }).length;
+                var victoires = liste.filter(gagnee).length;
                 var derniere = liste.reduce(function (d, p) { return String(p.fin) > d ? String(p.fin) : d; }, '');
                 var un = currentLang === 'fr' ? liste.length < 2 : liste.length === 1;
                 resumeParties = t('moncompte_parties_resume')

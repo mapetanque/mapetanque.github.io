@@ -110,16 +110,14 @@ CONTENU = {
                  " : votre adresse mail, votre pseudo éventuel, la langue des mails et les "
                  "dates de création et de dernière connexion. Ce que vous envoyez en étant "
                  "connecté est rattaché au compte. Votre adresse n'est jamais affichée."),
-                ("jouez avec le compteur en étant connecté",
-                 " : chaque partie terminée (date, durée, format, scores, mènes, votre équipe), "
-                 "les noms des autres joueurs tels que vous les tapez et, si vous l'indiquez, le "
-                 "terrain. Ces noms ne sont visibles que par vous."),
-                ("partagez une partie",
-                 " : son code de 4 caractères et l'état de la partie. Toute personne qui a le "
-                 "code voit le score, les noms des joueurs et votre pseudo. Les joueurs qui la "
-                 "rejoignent la reçoivent dans leurs parties ; leur nom est alors relié à leur "
-                 "compte, dans leur carnet comme dans le vôtre. L'un d'eux peut marquer à votre "
-                 "place : la partie retient alors qui a la main."),
+                ("jouez une partie en ligne, connecté",
+                 " : la partie (date, durée, format, mènes et scores, noms des équipes et "
+                 "terrain si vous les indiquez), votre place (équipe ou spectateur) et qui "
+                 "marque. Chaque modification est notée : qui, quand, quoi."),
+                ("rejoignez une partie",
+                 " : avec son code de 4 caractères, en étant connecté, même pour regarder. Les "
+                 "inscrits d'une partie voient les pseudos des autres inscrits ; les joueurs "
+                 "sans compte n'y sont que des invités, sans nom."),
             ],
             "paragraphes_apres": [
                 "La connexion ne conserve que des empreintes chiffrées du lien, du code et de "
@@ -140,8 +138,8 @@ CONTENU = {
             "titre": "Durée de conservation",
             "liste": [
                 ("Compte", " : jusqu'à sa suppression."),
-                ("Parties et noms des joueurs", " : jusqu'à ce que vous les retiriez, ou jusqu'à la suppression du compte."),
-                ("Code d'une partie partagée", " : il ne sert plus 7 jours après la dernière mène."),
+                ("Parties", " : tant qu'un joueur avec un compte la garde dans ses parties ; elle est effacée quand le dernier la retire ou supprime son compte."),
+                ("Code d'une partie", " : il sert jusqu'à 7 jours après la dernière modification d'une partie en cours, et 3 jours après sa fin."),
                 ("Session", " : un an, ou jusqu'à la déconnexion."),
                 ("Lien et code de connexion", " : valables 15 minutes, effacés après 24 heures."),
                 ("Photo",
@@ -185,12 +183,13 @@ CONTENU = {
             "titre": "Stockage sur votre appareil",
             "paragraphes": [
                 "Le site ne dépose aucun cookie. Votre navigateur garde la langue, les réglages "
-                "de la carte, la partie en cours du compteur et les noms de ses joueurs, vos "
+                "de la carte, la partie en cours du compteur et les noms de ses équipes, les "
+                "mènes d'une partie en ligne pas encore envoyées, vos "
                 "coups de cœur (pour les retrouver et éviter les doublons) et, si vous êtes connecté, votre "
                 "session. Ces informations, nécessaires au fonctionnement du site, s'effacent "
                 "depuis les réglages du navigateur.",
                 "Votre position n'est lue qu'à votre demande (« Me localiser » sur la carte, "
-                "terrain d'une partie au compteur) et si vous l'autorisez. Elle sert sur place, "
+                "terrain d'une partie en ligne) et si vous l'autorisez. Elle sert sur place, "
                 "dans le navigateur, et n'est ni envoyée ni gardée : seul le terrain choisi est "
                 "enregistré avec la partie.",
             ],
@@ -201,8 +200,9 @@ CONTENU = {
                 "Vous pouvez accéder à vos données, les corriger, en obtenir une copie, vous "
                 "opposer à leur traitement ou en demander la suppression : depuis « Mon "
                 "compte » ou à l'adresse mapetanque@outlook.be. Réponse sous un mois.",
-                "La suppression du compte est immédiate : adresse, pseudo, sessions, parties et "
-                "noms des joueurs sont effacés ; vos coups de cœur, photos et signalements restent, mais deviennent anonymes. Les "
+                "La suppression du compte est immédiate : adresse, pseudo, sessions et vos "
+                "places dans les parties sont effacés (les parties restent chez les autres "
+                "joueurs, votre place y devient un invité) ; vos coups de cœur, photos et signalements restent, mais deviennent anonymes. Les "
                 "photos publiées restent en ligne sous licence libre, sauf demande de "
                 "retrait.",
                 "Vous pouvez aussi introduire une réclamation auprès de l'Autorité de "
@@ -254,16 +254,14 @@ CONTENU = {
                  ": je e-mailadres, je eventuele bijnaam, de taal van de e-mails en de datum "
                  "van aanmaak en van je laatste aanmelding. Wat je verstuurt terwijl je "
                  "aangemeld bent, wordt aan je account gekoppeld. Je adres wordt nooit getoond."),
-                ("met de scoreteller speelt terwijl je aangemeld bent",
-                 ": elke afgelopen partij (datum, duur, spelvorm, scores, rondes, je team), de "
-                 "namen van de andere spelers zoals je ze intypt en, als je die opgeeft, de "
-                 "baan. Alleen jij ziet die namen."),
-                ("een partij deelt",
-                 ": de code van 4 tekens en de stand van de partij. Wie de code heeft, ziet de "
-                 "stand, de namen van de spelers en je bijnaam. Spelers die meedoen, krijgen de "
-                 "partij bij hun partijen; hun naam wordt dan aan hun account gekoppeld, in hun "
-                 "spelerslijst en in de jouwe. Een van hen kan in jouw plaats tellen: de partij "
-                 "onthoudt dan wie telt."),
+                ("een online partij speelt terwijl je aangemeld bent",
+                 ": de partij (datum, duur, spelvorm, rondes en scores, namen van de teams en "
+                 "baan als je ze opgeeft), je plaats (team of toeschouwer) en wie telt. Elke "
+                 "wijziging wordt bijgehouden: wie, wanneer, wat."),
+                ("meedoet aan een partij",
+                 ": met de code van 4 tekens, aangemeld, ook om te kijken. Wie in een partij "
+                 "ingeschreven is, ziet de bijnamen van de andere ingeschrevenen; spelers zonder "
+                 "account zijn er alleen gasten, zonder naam."),
             ],
             "paragraphes_apres": [
                 "Voor het aanmelden worden alleen versleutelde vingerafdrukken van de link, de "
@@ -284,8 +282,8 @@ CONTENU = {
             "titre": "Bewaartermijn",
             "liste": [
                 ("Account", ": tot het verwijderd wordt."),
-                ("Partijen en namen van spelers", ": tot je ze verwijdert, of tot je account verwijderd wordt."),
-                ("Code van een gedeelde partij", ": werkt niet meer 7 dagen na de laatste ronde."),
+                ("Partijen", ": zolang een speler met een account ze bij zijn partijen houdt; gewist wanneer de laatste ze verwijdert of zijn account verwijdert."),
+                ("Code van een partij", ": werkt tot 7 dagen na de laatste wijziging van een lopende partij, en 3 dagen na het einde."),
                 ("Sessie", ": een jaar, of tot je je afmeldt."),
                 ("Aanmeldlink en -code", ": 15 minuten geldig, na 24 uur gewist."),
                 ("Foto",
@@ -328,12 +326,13 @@ CONTENU = {
             "titre": "Opslag op je toestel",
             "paragraphes": [
                 "De site plaatst geen cookies. Je browser bewaart de taal, de kaartinstellingen, "
-                "de lopende partij in de scoreteller en de namen van de spelers, je "
+                "de lopende partij in de scoreteller en de namen van de teams, de rondes van "
+                "een online partij die nog niet verstuurd zijn, je "
                 "favorieten (om ze terug te vinden en dubbels te vermijden) en, als je aangemeld bent, "
                 "je sessie. Die gegevens zijn nodig voor de werking van de site; je kunt ze "
                 "wissen in de instellingen van je browser.",
                 "Je locatie wordt alleen gelezen als je erom vraagt ('Localiseer mij' op de kaart, "
-                "baan van een partij in de scoreteller) en als je het toestaat. Ze wordt ter "
+                "baan van een online partij) en als je het toestaat. Ze wordt ter "
                 "plaatse in de browser gebruikt en niet verstuurd of bewaard: alleen de gekozen "
                 "baan wordt met de partij bewaard.",
             ],
@@ -344,8 +343,9 @@ CONTENU = {
                 "Je kunt je gegevens inzien, verbeteren, er een kopie van krijgen, je verzetten "
                 "tegen de verwerking ervan of vragen om ze te verwijderen: via 'Mijn account' "
                 "of op mapetanque@outlook.be. Antwoord binnen een maand.",
-                "Je account wordt onmiddellijk verwijderd: adres, bijnaam, sessies, partijen en "
-                "namen van spelers worden gewist; je hartjes, foto's en meldingen blijven, maar worden anoniem. "
+                "Je account wordt onmiddellijk verwijderd: adres, bijnaam, sessies en je "
+                "plaatsen in de partijen worden gewist (de partijen blijven bij de andere "
+                "spelers, je plaats wordt er een gast); je hartjes, foto's en meldingen blijven, maar worden anoniem. "
                 "Gepubliceerde foto's blijven online onder vrije licentie, "
                 "tenzij je vraagt ze te verwijderen.",
                 "Je kunt ook een klacht indienen bij de Gegevensbeschermingsautoriteit.",
@@ -398,16 +398,14 @@ CONTENU = {
                  "sowie das Datum der Erstellung und der letzten Anmeldung. Was Sie im "
                  "angemeldeten Zustand einsenden, wird Ihrem Konto zugeordnet. Ihre Adresse wird "
                  "nie angezeigt."),
-                ("angemeldet mit dem Punktezähler spielen",
-                 ": jede beendete Partie (Datum, Dauer, Spielform, Punktestand, Runden, Ihr "
-                 "Team), die Namen der anderen Spieler so, wie Sie sie eingeben, und, falls Sie "
-                 "ihn angeben, der Platz. Nur Sie sehen diese Namen."),
-                ("eine Partie teilen",
-                 ": ihr Code aus 4 Zeichen und der Stand der Partie. Wer den Code hat, sieht den "
-                 "Stand, die Namen der Spieler und Ihren Spitznamen. Spieler, die beitreten, "
-                 "erhalten die Partie in ihren Partien; ihr Name wird dann mit ihrem Konto "
-                 "verknüpft, in ihrer Spielerliste wie in Ihrer. Einer von ihnen kann an Ihrer "
-                 "Stelle zählen: Die Partie speichert dann, wer zählt."),
+                ("angemeldet eine Online-Partie spielen",
+                 ": die Partie (Datum, Dauer, Spielform, Runden und Punktestand, Teamnamen und "
+                 "Platz, falls Sie sie angeben), Ihr Platz (Team oder Zuschauer) und wer zählt. "
+                 "Jede Änderung wird festgehalten: wer, wann, was."),
+                ("einer Partie beitreten",
+                 ": mit ihrem Code aus 4 Zeichen, angemeldet, auch zum Zuschauen. Wer in einer "
+                 "Partie eingetragen ist, sieht die Spitznamen der anderen Eingetragenen; "
+                 "Spieler ohne Konto sind dort nur Gäste, ohne Namen."),
             ],
             "paragraphes_apres": [
                 "Für die Anmeldung werden nur verschlüsselte Fingerabdrücke des Links, des Codes "
@@ -428,8 +426,8 @@ CONTENU = {
             "titre": "Speicherdauer",
             "liste": [
                 ("Konto", ": bis zu seiner Löschung."),
-                ("Partien und Namen der Spieler", ": bis Sie sie entfernen oder Ihr Konto gelöscht wird."),
-                ("Code einer geteilten Partie", ": gilt bis 7 Tage nach der letzten Runde."),
+                ("Partien", ": solange ein Spieler mit Konto sie in seinen Partien behält; gelöscht, wenn der letzte sie entfernt oder sein Konto löscht."),
+                ("Code einer Partie", ": gilt bis 7 Tage nach der letzten Änderung einer laufenden Partie und 3 Tage nach ihrem Ende."),
                 ("Sitzung", ": ein Jahr oder bis zur Abmeldung."),
                 ("Anmeldelink und -code", ": 15 Minuten gültig, nach 24 Stunden gelöscht."),
                 ("Foto",
@@ -473,12 +471,12 @@ CONTENU = {
             "paragraphes": [
                 "Die Website setzt keine Cookies. Ihr Browser speichert die Sprache, die "
                 "Karteneinstellungen, die laufende Partie im Punktezähler und die Namen ihrer "
-                "Spieler, Ihre Favoriten (um sie wiederzufinden und Doppelungen zu vermeiden) und, "
+                "Teams, noch nicht gesendete Runden einer Online-Partie, Ihre Favoriten (um sie wiederzufinden und Doppelungen zu vermeiden) und, "
                 "wenn Sie angemeldet sind, Ihre Sitzung. Diese Angaben sind für den Betrieb der "
                 "Website erforderlich; Sie können sie in den Einstellungen Ihres Browsers "
                 "löschen.",
                 "Ihr Standort wird nur auf Ihre Anfrage gelesen („Mein Standort“ auf der Karte, "
-                "Platz einer Partie im Punktezähler) und nur, wenn Sie es erlauben. Er wird vor "
+                "Platz einer Online-Partie) und nur, wenn Sie es erlauben. Er wird vor "
                 "Ort im Browser verwendet, weder gesendet noch gespeichert: Nur der gewählte "
                 "Platz wird mit der Partie gespeichert.",
             ],
@@ -489,8 +487,9 @@ CONTENU = {
                 "Sie können Ihre Daten einsehen, berichtigen, eine Kopie erhalten, der "
                 "Verarbeitung widersprechen oder ihre Löschung verlangen: unter „Mein Konto“ "
                 "oder unter mapetanque@outlook.be. Antwort innerhalb eines Monats.",
-                "Die Löschung des Kontos erfolgt sofort: Adresse, Spitzname, Sitzungen, Partien "
-                "und Namen der Spieler werden gelöscht; Ihre Herzen, Fotos und Meldungen bleiben erhalten, werden "
+                "Die Löschung des Kontos erfolgt sofort: Adresse, Spitzname, Sitzungen und Ihre "
+                "Plätze in den Partien werden gelöscht (die Partien bleiben bei den anderen "
+                "Spielern, Ihr Platz wird dort ein Gast); Ihre Herzen, Fotos und Meldungen bleiben erhalten, werden "
                 "aber anonym. Veröffentlichte Fotos bleiben unter freier Lizenz online, "
                 "sofern Sie nicht ihre Entfernung verlangen.",
                 "Sie können außerdem Beschwerde bei der belgischen Datenschutzbehörde einreichen.",
@@ -540,16 +539,14 @@ CONTENU = {
                  ": your email address, your optional nickname, the language of your emails, "
                  "and the dates of creation and last sign-in. What you send while signed in is "
                  "linked to your account. Your address is never displayed."),
-                ("play with the score counter while signed in",
-                 ": each finished game (date, length, format, scores, ends, your team), the "
-                 "names of the other players as you type them and, if you add it, the court. "
-                 "Only you can see these names."),
-                ("share a game",
-                 ": its 4-character code and the state of the game. Anyone with the code sees "
-                 "the score, the players' names and your nickname. Players who join get the game "
-                 "in their games; their name is then linked to their account, in their player "
-                 "list and in yours. One of them can score for you: the game then records who "
-                 "is scoring."),
+                ("play an online game while signed in",
+                 ": the game (date, length, format, ends and scores, team names and court if "
+                 "you add them), your place (team or spectator) and who is scoring. Every change "
+                 "is recorded: who, when, what."),
+                ("join a game",
+                 ": with its 4-character code, signed in, even to watch. Everyone in a game sees "
+                 "the nicknames of the others in it; players without an account are only "
+                 "guests, with no name."),
             ],
             "paragraphes_apres": [
                 "Signing in only stores hashed fingerprints of the link, the code and the "
@@ -570,8 +567,8 @@ CONTENU = {
             "titre": "Retention period",
             "liste": [
                 ("Account", ": until it is deleted."),
-                ("Games and player names", ": until you remove them, or until your account is deleted."),
-                ("Code of a shared game", ": stops working 7 days after the last end."),
+                ("Games", ": as long as a player with an account keeps them in their games; deleted when the last one removes them or deletes their account."),
+                ("Code of a game", ": works until 7 days after the last change to a game in progress, and 3 days after it ends."),
                 ("Session", ": one year, or until you sign out."),
                 ("Sign-in link and code", ": valid for 15 minutes, erased after 24 hours."),
                 ("Photo",
@@ -613,12 +610,13 @@ CONTENU = {
             "titre": "Storage on your device",
             "paragraphes": [
                 "The site sets no cookies. Your browser keeps your language, map settings, the "
-                "game in progress in the score counter and its player names, your favourites "
+                "game in progress in the score counter and its team names, the ends of an online "
+                "game not yet sent, your favourites "
                 "(to find them again and avoid duplicates) and, if you are signed in, your session. This "
                 "information is needed for the site to work; you can clear it in your browser "
                 "settings.",
                 "Your location is only read when you ask for it ('Locate me' on the map, the "
-                "court of a game in the score counter) and if you allow it. It is used on the "
+                "court of an online game) and if you allow it. It is used on the "
                 "spot, in your browser, and is neither sent nor kept: only the chosen court is "
                 "saved with the game.",
             ],
@@ -629,8 +627,9 @@ CONTENU = {
                 "You can access your data, correct it, obtain a copy, object to its processing "
                 "or ask for it to be deleted: from 'My account' or at mapetanque@outlook.be. "
                 "Reply within one month.",
-                "Deleting your account takes effect immediately: address, nickname, sessions, "
-                "games and player names are erased; your hearts, photos and reports remain, but become "
+                "Deleting your account takes effect immediately: address, nickname, sessions "
+                "and your places in games are erased (the games stay with the other players, "
+                "your place becomes a guest); your hearts, photos and reports remain, but become "
                 "anonymous. Published photos stay online under an open licence, "
                 "unless you ask for them to be removed.",
                 "You may also lodge a complaint with the Belgian Data Protection Authority.",

@@ -52,7 +52,8 @@
     var vue = null;                   // la partie, telle que la renvoie le Worker
     var erreur = '';                  // 'introuvable' ou 'reseau'
     var avis = null;                  // { texte, alerte, partir } : en haut de l'écran
-    var feuille = '';                 // '', 'partie', 'partager', 'menes', 'terrains'
+    var feuille = '';                 // '', 'partie', 'partager', 'menes', 'aide', 'terrains'
+    var pleinEcran = false;           // la carte occupe tout l'écran (classe plein-ecran de la zone)
     var lienCopie = false;            // « Lien copié » sous les boutons de la feuille « Partager »
     var depart = false;               // confirmation de « M'en aller de la partie »
     var refus = '';                   // refus dans la feuille (format, objectif…)
@@ -99,6 +100,10 @@
         ajout: picto('<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/>'),
         envoyer: picto('<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98"/>'),
         lien: picto('<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>'),
+        plus: picto('<circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/>'),
+        aide: picto('<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>'),
+        agrandir: picto('<path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>'),
+        reduire: picto('<path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/>'),
         lieu: picto('<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>')
     };
 
@@ -278,10 +283,17 @@
         else if (!vue.moi) h = ecranRejoindre();
         else if (vue.fin) h = ecranVictoire();
         else h = ecranJeu();
+        // Le plein écran ne sert qu'à l'écran de jeu, le seul qui a le bouton pour en sortir
+        if (pleinEcran && !(compte.session() && vue && vue.moi && !vue.fin)) {
+            pleinEcran = false;
+            zone.classList.remove('plein-ecran');
+            document.body.classList.remove('pc-verrou');
+        }
         if (compte.session() && feuille === 'terrains') h += feuilleTerrains();
         else if (vue && vue.moi && !vue.fin && feuille === 'partie') h += feuillePartie();
         else if (vue && vue.moi && !vue.fin && feuille === 'partager') h += feuillePartager();
         else if (vue && vue.moi && !vue.fin && feuille === 'menes') h += feuilleMenes();
+        else if (vue && vue.moi && !vue.fin && feuille === 'aide') h += feuilleAide();
         zone.innerHTML = h;
         gain = null;   // l'animation ne se rejoue pas au dessin suivant
 
@@ -451,7 +463,11 @@
             ? '<button type="button" data-action="annuler"' + (!menes.length || occupe || (envoiMenes && enAttente) ? ' disabled' : '') + '>' + PICTOS.annuler + echapper(libelle('pc_annuler')) + '</button>'
             : '<button type="button" class="fort" data-action="prendre"' + (horsLigne || occupe ? ' disabled' : '') + '>' + PICTOS.main + echapper(libelle('pc_prendre_main')) + '</button>';
         return '<div class="pc-jeu' + (marque ? '' : ' suit') + '">'
-            + '<div class="pc-haut"><span>' + echapper(nomFormat(vue.format) + ' · ' + vue.objectif) + '</span><span class="pc-code">' + echapper(vue.code || '') + '</span>' + reseau + '</div>'
+            + '<div class="pc-haut"><span>' + echapper(nomFormat(vue.format) + ' · ' + vue.objectif) + '</span><span class="pc-code">' + echapper(vue.code || '') + '</span>'
+            + '<span class="pc-droite">' + reseau
+            + '<button type="button" class="pc-icone" data-action="aide" aria-label="' + echapper(libelle('compteur_aide')) + '" title="' + echapper(libelle('compteur_aide')) + '">' + PICTOS.aide + '</button>'
+            + '<button type="button" class="pc-icone" data-action="plein-ecran" aria-label="' + echapper(libelle(pleinEcran ? 'fullscreen_exit' : 'fullscreen_enter')) + '" title="' + echapper(libelle(pleinEcran ? 'fullscreen_exit' : 'fullscreen_enter')) + '">' + (pleinEcran ? PICTOS.reduire : PICTOS.agrandir) + '</button>'
+            + '</span></div>'
             + '<div class="pc-statut">' + statut + '</div>' + message
             + '<div class="pc-moities">' + moitie('a', s, tactile) + moitie('b', s, tactile) + '</div>'
             + '<div class="pc-bas">' + premier
@@ -518,6 +534,38 @@
             + '<button type="button" class="pc-btn ' + (envoi ? 'ligne' : 'plein') + '" data-action="copier-lien">' + PICTOS.lien + echapper(libelle('share_copy')) + '</button></div>'
             + (lienCopie ? '<p class="pc-copie" role="status">' + echapper(libelle('compteur_lien_copie')) + '</p>' : '')
             + '</div></div>';
+    }
+
+    // Feuille « Comment ça marche ? » : les gestes de la partie en ligne. Les noms des boutons sont
+    // repris de leurs propres libellés.
+    function feuilleAide() {
+        var noms = {
+            annuler: libelle('pc_annuler'), menes: libelle('pc_menes'), prendre: libelle('pc_prendre_main'),
+            partager: libelle('pc_partager'), partie: libelle('pc_partie'), mesparties: libelle('moncompte_parties_titre')
+        };
+        var lignes = [
+            [PICTOS.plus, 'pc_aide_marquer'],
+            [PICTOS.main, 'pc_aide_main'],
+            [PICTOS.qr, 'pc_aide_partager'],
+            [PICTOS.equipes, 'pc_aide_partie'],
+            [PICTOS.horsligne, 'pc_aide_reseau'],
+            [PICTOS.ok, 'pc_aide_fin'],
+            [PICTOS.agrandir, 'compteur_aide_plein_ecran']
+        ].map(function (x) {
+            return '<li>' + x[0] + '<span><b>' + echapper(libelle(x[1])) + '</b>' + echapper(libelle(x[1] + '_texte', noms)) + '</span></li>';
+        }).join('');
+        return '<div class="pc-voile" data-action="fermer-fond"><div class="pc-feuille" role="dialog" aria-modal="true" aria-label="' + echapper(libelle('compteur_aide')) + '">'
+            + '<div class="pc-f-tete"><h3>' + echapper(libelle('compteur_aide')) + '</h3><button type="button" class="pc-fermer" data-action="fermer" aria-label="' + echapper(libelle('pc_fermer')) + '">' + PICTOS.croix + '</button></div>'
+            + '<ul class="pc-aide-liste">' + lignes + '</ul>'
+            + '<button type="button" class="pc-btn plein" data-action="fermer">' + echapper(libelle('pc_ok')) + '</button></div></div>';
+    }
+
+    // Plein écran : une classe sur la zone (gardée d'un dessin à l'autre) et la page bloquée derrière
+    function definirPleinEcran(actif) {
+        pleinEcran = actif;
+        zone.classList.toggle('plein-ecran', actif);
+        document.body.classList.toggle('pc-verrou', actif);
+        dessiner();
     }
 
     // Mène par mène, score après chacune ; celles qui attendent le réseau en dernier
@@ -1125,6 +1173,8 @@
             case 'annuler': annuler(); break;
             case 'prendre': prendreMain(); break;
             case 'menes': feuille = 'menes'; dessiner(); break;
+            case 'aide': feuille = 'aide'; dessiner(); break;
+            case 'plein-ecran': definirPleinEcran(!pleinEcran); break;
             case 'feuille': feuille = 'partie'; refus = ''; depart = false; dessiner(); break;
             case 'partager': feuille = 'partager'; lienCopie = false; dessiner(); break;
             case 'envoyer-lien': envoyerLien(); break;
@@ -1160,6 +1210,7 @@
     zone.addEventListener('keydown', function (ev) {
         if (ev.key === 'Enter' && ev.target.dataset && ev.target.dataset.champ) ev.target.blur();
         if (ev.key === 'Escape' && feuille) { feuille = ''; depart = false; dessiner(); }
+        else if (ev.key === 'Escape' && pleinEcran) definirPleinEcran(false);
     });
 
     zone.addEventListener('submit', function (ev) {

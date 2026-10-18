@@ -32,7 +32,7 @@ body.page-sombre {
     color: #f2ece0;
 }
 
-/* --- Le cadre : une carte sombre de la taille d'un téléphone ------------------------------ */
+/* --- Le cadre : une carte sombre, de la largeur de la page et de la hauteur du compteur ---- */
 .partie-commune {
     --c-bg: #1c1b17;
     --c-bg-soft: #26241e;
@@ -44,9 +44,8 @@ body.page-sombre {
     --c-ok: #9fd585;
     --c-alerte: #f0b37e;
     position: relative;
-    max-width: 520px;
-    height: min(680px, 82vh);
-    height: min(680px, 82dvh);
+    height: min(640px, 80vh);
+    height: min(640px, 80dvh);
     border-radius: 18px;
     overflow: hidden;
     border: 1px solid var(--c-line);
@@ -58,6 +57,22 @@ body.page-sombre {
     display: flex;
     flex-direction: column;
     touch-action: manipulation;
+}
+
+/* Plein écran (bouton de la barre du haut) : même mécanisme que le compteur, une classe plutôt
+   que l'API du navigateur, peu fiable sur Safari iOS */
+.partie-commune.plein-ecran {
+    position: fixed;
+    inset: 0;
+    height: 100vh;
+    height: 100dvh;
+    border-radius: 0;
+    border: 0;
+    z-index: 1060;
+}
+
+body.pc-verrou {
+    overflow: hidden;
 }
 
 .partie-commune *,
@@ -103,6 +118,37 @@ body.page-sombre {
     text-transform: uppercase;
     color: var(--c-sand-dim);
     white-space: nowrap;
+}
+
+.pc-haut > span:first-child,
+.pc-droite {
+    flex: 1 1 0;
+}
+
+.pc-droite {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 2px;
+}
+
+.pc-icone {
+    background: none;
+    border: 0;
+    color: var(--c-sand-dim);
+    padding: 4px;
+    margin-left: 6px;
+    display: flex;
+    cursor: pointer;
+}
+
+.pc-icone:hover {
+    color: var(--c-sand);
+}
+
+.pc-icone svg {
+    width: 18px;
+    height: 18px;
 }
 
 .pc-haut .pc-code {
@@ -244,6 +290,18 @@ body.page-sombre {
     border-top: 1px solid rgba(0, 0, 0, .35);
 }
 
+/* Écran en largeur : les deux équipes côte à côte, comme au compteur */
+@media (orientation: landscape) {
+    .pc-moities {
+        flex-direction: row;
+    }
+
+    .pc-moitie.b {
+        border-top: 0;
+        border-left: 1px solid rgba(0, 0, 0, .35);
+    }
+}
+
 button.pc-moitie {
     cursor: pointer;
 }
@@ -297,7 +355,8 @@ button.pc-moitie:disabled {
 }
 
 .pc-sc {
-    font: 700 96px/1 'Manrope', Arial, sans-serif;
+    font: 700 min(26vh, 30vw)/1 'Manrope', Arial, sans-serif;
+    margin: 2px 0 6px;
     font-variant-numeric: tabular-nums;
 }
 
@@ -309,11 +368,11 @@ button.pc-moitie:disabled {
 }
 
 .pc-plus span {
-    font: 700 13px 'Manrope', Arial, sans-serif;
+    font: 700 15px 'Manrope', Arial, sans-serif;
     border: 1.5px solid rgba(255, 255, 255, .4);
     background: rgba(0, 0, 0, .12);
     border-radius: 999px;
-    padding: 6px 11px;
+    padding: 8px 12px;
 }
 
 .pc-gain {
@@ -374,10 +433,12 @@ button.pc-moitie:disabled {
 }
 
 /* --- Pages : créer, rejoindre, connexion, code ------------------------------------------- */
+/* Écrans de texte (création, rejoindre, victoire) : une colonne de 520 px au plus, centrée dans
+   la carte large */
 .pc-page {
     flex: 1;
     overflow-y: auto;
-    padding: 22px 18px 18px;
+    padding: 22px max(18px, calc((100% - 520px) / 2)) 18px;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -730,11 +791,13 @@ button.pc-moitie:disabled {
     background: rgba(0, 0, 0, .55);
     display: flex;
     align-items: flex-end;
+    justify-content: center;
     z-index: 5;
 }
 
 .pc-feuille {
     width: 100%;
+    max-width: 600px;
     max-height: 94%;
     overflow-y: auto;
     background: var(--c-bg);
@@ -807,6 +870,45 @@ button.pc-moitie:disabled {
     letter-spacing: 0;
     color: var(--c-sand-dim);
     margin-top: 2px;
+}
+
+/* Feuille « Comment ça marche ? » : un geste par ligne, comme au compteur */
+.pc-aide-liste {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+}
+
+.pc-aide-liste li {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 12px;
+    align-items: start;
+}
+
+.pc-aide-liste svg {
+    box-sizing: content-box;
+    width: 18px;
+    height: 18px;
+    padding: 8px;
+    border-radius: 50%;
+    background: var(--c-bg-soft);
+    color: var(--c-sand);
+}
+
+.pc-aide-liste span {
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: var(--c-sand-dim);
+}
+
+.pc-aide-liste b {
+    display: block;
+    margin-bottom: 1px;
+    font: 700 15px 'Manrope', Arial, sans-serif;
+    color: var(--c-sand);
 }
 
 /* Feuille « Partager » : grand QR code centré, le code dessous */
@@ -997,7 +1099,7 @@ button.pc-moitie:disabled {
     align-items: center;
     justify-content: center;
     gap: 12px;
-    padding: 20px 16px;
+    padding: 20px max(16px, calc((100% - 520px) / 2));
     text-align: center;
 }
 
@@ -1049,8 +1151,9 @@ button.pc-moitie:disabled {
 }
 
 @media (max-width: 420px) {
-    .pc-sc {
-        font-size: 80px;
+    .pc-plus span {
+        font-size: 13px;
+        padding: 6px 10px;
     }
 
     .pc-bas button {

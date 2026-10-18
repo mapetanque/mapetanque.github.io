@@ -73,7 +73,7 @@ for langue, meta in META.items():
         feuilles_sup=("/style-connexion.css", "/style-mon-compte.css"),
         # Page personnelle, sans intérêt dans un moteur de recherche
         tete_sup='<meta name="robots" content="noindex">',
-        scripts_sup=("/compte.js", "/mon-compte.js"),
+        scripts_sup=("/compte.js", "/mon-compte.js?v=2"),
     )
 
     # translations.js à une adresse versionnée, comme sur le compteur : le service worker sert

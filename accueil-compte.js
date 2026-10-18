@@ -5,7 +5,7 @@
 //     contributions). Le téléphone dessiné montre l'écran de l'onglet choisi ; les écrans
 //     défilent seuls toutes les 6 s tant que la section est visible, jusqu'au premier clic.
 //   - Connecté : « Bon retour, {pseudo} ! », les chiffres du compte (une requête GET
-//     /compte/parties) et les boutons Nouvelle partie / Mes parties. Le téléphone montre alors
+//     /parties/mes-parties) et les boutons Nouvelle partie / Mes parties. Le téléphone montre alors
 //     ses vraies statistiques.
 // Les écrans sont écrits ici avec t() pour suivre la langue ; les données d'exemple (Julie, Marc…)
 // ne servent qu'à l'illustration.
@@ -58,8 +58,11 @@
         return noms.slice(0, -1).join(', ') + ' ' + t('compteur_et') + ' ' + noms[noms.length - 1];
     }
 
-    // « Avec Julie, contre Marc et Paul », comme la page Mes parties
-    function texteJoueurs(avec, contre) {
+    // « Avec Julie, contre Marc et un invité », comme la page Mes parties
+    function texteJoueurs(p) {
+        var invites = function (n) { return n === 1 ? libelle('pc_un_invite') : libelle('pc_n_invites', { n: n }); };
+        var avec = p.avec.concat(p.invitesNous ? [invites(p.invitesNous)] : []);
+        var contre = p.contre.concat(p.invitesEux ? [invites(p.invitesEux)] : []);
         if (!avec.length) return libelle('compteur_contre_seul', { noms: listeEt(contre) });
         return libelle('compteur_avec', { noms: listeEt(avec) }) + (contre.length ? ', ' + libelle('compteur_contre', { noms: listeEt(contre) }) : '');
     }
@@ -142,7 +145,7 @@
             }
             var gagnee = p.nous > p.eux;
             h += '<li><span class="ca-res ' + (gagnee ? 'v' : 'd') + '">' + echapper(t(gagnee ? 'mesparties_lettre_v' : 'mesparties_lettre_d')) + '</span>'
-                + '<div><b>' + echapper(texteJoueurs(p.avec, p.contre)) + '</b><small>'
+                + '<div><b>' + echapper(texteJoueurs(p)) + '</b><small>'
                 + echapper(dateCourte(p.debut) + ' · ' + p.minutes + ' ' + t('mesparties_min')) + '</small></div>'
                 + '<span class="ca-sc">' + p.nous + ' – ' + p.eux + '</span></li>';
         });
@@ -288,21 +291,28 @@
         return isNaN(date) ? null : date;
     }
 
-    // Une partie du Worker, vue du côté du titulaire (comme preparer() dans mes-parties.js)
+    // Une partie commune, vue du côté de ma place (comme preparer() dans mes-parties.js) : avec et
+    // contre = pseudos des autres joueurs qui ont un compte
     function preparer(brut) {
-        var moi = brut.mon_equipe === 'b' ? 'b' : 'a';
+        var moi = brut.moi && brut.moi.equipe === 'b' ? 'b' : 'a';
         var autre = moi === 'a' ? 'b' : 'a';
         var debut = lireDate(brut.debut) || new Date(0);
         var fin = lireDate(brut.fin) || debut;
         var joueurs = brut.joueurs || {};
+        var pseudos = function (liste) {
+            return (liste || []).filter(function (x) { return !x.moi && x.pseudo; }).map(function (x) { return x.pseudo; });
+        };
+        var nous = moi === 'a' ? brut.score_a : brut.score_b;
         return {
             debut: debut,
             minutes: Math.max(1, Math.round((fin - debut) / 60000)),
-            nous: moi === 'a' ? brut.score_a : brut.score_b,
+            nous: nous,
             eux: moi === 'a' ? brut.score_b : brut.score_a,
-            gagnee: Number(brut.victoire) === 1,
-            avec: (joueurs[moi] || []).slice(),
-            contre: (joueurs[autre] || []).slice(),
+            gagnee: nous >= brut.objectif,
+            avec: pseudos(joueurs[moi]),
+            contre: pseudos(joueurs[autre]),
+            invitesNous: (brut.invites || {})[moi] || 0,
+            invitesEux: (brut.invites || {})[autre] || 0,
             terrain: brut.terrain || null
         };
     }
@@ -380,7 +390,7 @@
         blocConnecte.hidden = false;
         dessinerConnecte(session);
         montrer(1);                                   // les statistiques
-        fetch(MAPETANQUE_URL_COMPTES + '/compte/parties', { headers: entetesCompte() })
+        fetch(MAPETANQUE_URL_COMPTES + '/parties/mes-parties', { headers: entetesCompte() })
             .then(function (r) { return r.ok ? r.json() : null; })
             .catch(function () { return null; })
             .then(function (donnees) {
