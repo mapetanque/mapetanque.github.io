@@ -1,15 +1,15 @@
 {
   "wallonie": {
-    "total": 518,
+    "total": 514,
     "provinces": {
       "liege": {
-        "total": 173,
+        "total": 169,
         "communes": {
           "Fléron": 3,
           "Ougrée": 1,
           "Filot": 1,
           "Bütgenbach": 1,
-          "Liège": 23,
+          "Liège": 24,
           "Bra": 1,
           "Ouffet": 1,
           "Verviers": 2,
@@ -23,7 +23,7 @@
           "Ovifat": 1,
           "Remonval": 1,
           "Stavelot": 2,
-          "Vaux-sous-Chèvremont": 1,
+          "Vaux-sous-Chèvremont": 13,
           "Hermée": 1,
           "Eupen": 8,
           "Warsage": 1,
@@ -34,7 +34,7 @@
           "Aywaille": 4,
           "Lontzen": 2,
           "Vivegnis": 1,
-          "Hannut": 22,
+          "Hannut": 1,
           "Montzen": 3,
           "Soumagne": 7,
           "Houssonloge": 1,
@@ -47,7 +47,7 @@
           "Aubel": 1,
           "Juprelle": 3,
           "Faymonville": 1,
-          "Theux": 5,
+          "Theux": 6,
           "Clavier": 1,
           "Verlaine": 1,
           "Crisnée": 5,
@@ -74,7 +74,8 @@
           "Limont": 1,
           "La Gleize": 1,
           "Beyne-Heusay": 2,
-          "Esneux": 2
+          "Esneux": 3,
+          "Beaufays": 2
         }
       },
       "namur": {

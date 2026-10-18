@@ -1,6 +1,6 @@
 {
   "type": "FeatureCollection",
-  "mis_a_jour": "2026-10-17",
+  "mis_a_jour": "2026-10-18",
   "features": [
     {
       "type": "Feature",
@@ -8219,7 +8219,7 @@
         "commune": "Bredene",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-dfw6-2.xx.fbcdn.net/m1/v/t6/AQObaG_zKxPNxY1BHdliPXiUvSdMTkKQA6pmE-NerE_3VYcrX7RGQyNFPdqBszIfj5_TYWfl3Mfv7Ofqyw1xxm3fGmkkBGGJzTawzvxsDb240yD0xR5x-EMisXtxc__yAC_292cfY8BZCxaqyjfabkCdSYtngpkwMputRxapyFMKFQ?stp=s1024x576&edm=ALXxkZ8EAAAA&_nc_gid=Na0mjCUO-eUP7pq0LtWByQ&_nc_oc=AdojGMgXASC99MeIbX8Zuh1FxEOBcF52SDtuO8m6_xOrtp8tRWMOBfLifbvXMNnsH6k&ccb=10-5&oh=00_AQOgPexnFH1OU7ljlbeNgH87HppTDH-YynX26_UHlnAqKg&oe=6AFA8AD8&_nc_sid=201bca",
+        "photo_url": "https://scontent-sjc6-1.xx.fbcdn.net/m1/v/t6/AQObaG_zKxPNxY1BHdliPXiUvSdMTkKQA6pmE-NerE_3VYcrX7RGQyNFPdqBszIfj5_TYWfl3Mfv7Ofqyw1xxm3fGmkkBGGJzTawzvxsDb240yD0xR5x-EMisXtxc__yAC_292cfY8BZCxaqyjfabkCdSYtngpkwMputRxapyFMKFQ?stp=s1024x576&edm=ALXxkZ8EAAAA&_nc_gid=OD7yhyE_bQagw4sdsge14g&_nc_oc=AdpnhThHoF4TXBP0b6_0FdEfkQ8IPuV9FZFm9le5QT78WkdETqkkg1bmpFsBdcjgHBU&ccb=10-5&oh=00_AQO1gDiOBVCB7WEBfco4i2xkVhhieN6I2S5t556i3bUO4w&oe=6AFBDC58&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=283988963431148&focus=photo",
         "env": {
@@ -9714,7 +9714,7 @@
         "name": "Petanque terreinen",
         "sport": "boules",
         "osm_id": "way/469206609",
-        "nearest_street": "Finse piste",
+        "nearest_street": "Vleeshouwersstraat",
         "commune": "Sinaai",
         "province": "flandre_orientale",
         "region": "flandre",
@@ -11789,7 +11789,7 @@
         "commune": "Knokke-Heist",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-dfw6-2.xx.fbcdn.net/m1/v/t6/AQMf_Yb7sgn2HtrhW_6VC0c3gNeSEqWcQrStUCOJgQQS_cGjvetA2ZiQTBxMFUq625Le4tBrGfxkE5kCmz4LxQPtyjoh4DWxfgxhM8HEYMnM_IZHy_emxlqMC6g7rrsPAg3kBJYIsFnsMxUPt82Xc0wmmChwgRq1je69gRbfpQwEZa4?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=UlKwsTLqn0wxjWFKlMSb3A&_nc_oc=AdqurXDudZMpp2i2AMEBfDytkOY6j34Ns6uIsy7IWNnUU766IZGPWljYkMVWYrUD10g&ccb=10-5&oh=00_AQOxfP4TmegL5UByZgfSRUa6z-yNWBQmB9OfoViP2q95Ag&oe=6AFA9655&_nc_sid=201bca",
+        "photo_url": "https://scontent-sjc6-1.xx.fbcdn.net/m1/v/t6/AQMf_Yb7sgn2HtrhW_6VC0c3gNeSEqWcQrStUCOJgQQS_cGjvetA2ZiQTBxMFUq625Le4tBrGfxkE5kCmz4LxQPtyjoh4DWxfgxhM8HEYMnM_IZHy_emxlqMC6g7rrsPAg3kBJYIsFnsMxUPt82Xc0wmmChwgRq1je69gRbfpQwEZa4?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=Wesl3V_CtYk0bIcIeBkJCQ&_nc_oc=AdqPOrszuMaQWdXigJEFf45sGGLLm35bv6_tcqkH5pMB3u3pw8v3HvJHIRJ3kYO9vfs&ccb=10-5&oh=00_AQPo1_j11yQ8xUc6hDOZ627nzNfFeeKTefnI62rzspqSzw&oe=6AFBE7D5&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=2585664148528878&focus=photo",
         "env": {
@@ -53396,32 +53396,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          5.0822411,
-          50.6674862
-        ]
-      },
-      "properties": {
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1459878209",
-        "nearest_street": "Rue Lambert Mottart",
-        "commune": "Hannut",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "parking": 208,
-          "arret": 192,
-          "voie_verte": 131
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           3.2136824,
           51.1856169
         ]
@@ -54539,7 +54513,7 @@
         "commune": "Antwerpen",
         "province": "anvers",
         "region": "flandre",
-        "photo_url": "https://scontent-dfw6-2.xx.fbcdn.net/m1/v/t6/AQPfI6agvNEEMVKpP3RM558SjkEFr8qPLAFX83Byiw3SePq3c058M97fBB8BBpiRuiQGYx9aPGAwlDCLMH-kNrdWnpxsYkdF7Lv22yJ0fVVMowwxoTS0c1izmxwC_qQvATZVEsQK-Sf_oMR1OI24ZA-52JzH2VaGT8A-gvgPzUlcOis?stp=s1024x771&edm=ALXxkZ8EAAAA&_nc_gid=t1N_ncs83NHECH8dNuXrrw&_nc_oc=AdpyG7AfN4WoJYR9AJVktIcMOdc8ZA6U-wcethnzIfNW6XRp2-A68Qx_S5rAQfxsebM&ccb=10-5&oh=00_AQNK5gv0rej4YfTDfUzI6UtsxfkpcioYWeOLygWfikVJLw&oe=6AFAA9A0&_nc_sid=201bca",
+        "photo_url": "https://scontent-sjc6-1.xx.fbcdn.net/m1/v/t6/AQPfI6agvNEEMVKpP3RM558SjkEFr8qPLAFX83Byiw3SePq3c058M97fBB8BBpiRuiQGYx9aPGAwlDCLMH-kNrdWnpxsYkdF7Lv22yJ0fVVMowwxoTS0c1izmxwC_qQvATZVEsQK-Sf_oMR1OI24ZA-52JzH2VaGT8A-gvgPzUlcOis?stp=s1024x771&edm=ALXxkZ8EAAAA&_nc_gid=0MKOq_kwcmY4s-7xk5-Pjg&_nc_oc=AdowL-RohZaooiO6UhJdwbTNFo0l8S7moWDXOq4gQwuxXBP1tsVz0bdBpP_WTkNB8hw&ccb=10-5&oh=00_AQMFvKfCB2EKquIfwtHNR9j1IUjmIF1qkvjd-Ds8ddBFEg&oe=6AFBFB20&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1257601666575631&focus=photo",
         "env": {
@@ -56598,7 +56572,7 @@
         "commune": "Nieuwpoort",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-dfw6-2.xx.fbcdn.net/m1/v/t6/AQMOt-M_fs3kMGJ_cV0h0_kKwpcgrAm0Yu0v3qEl6fnjae5RZ4Y3EdlkIwQJBnVjoIzSVVB-ttm9P4a9WVmTY8Ss8YtnJdt8RO3u2NHAyxpk3Ysqsqm9z1NU3bl9_UAyme7RmjTao85pmNXfE7Rgxnfo18XkakJ7GYbqHitmw7V5FA?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=Fdr1naycJHVnvFxzacA57Q&_nc_oc=AdoyRnNAtUUSoTHN3-JhvuEgDpGDvbY7BfC_lVkM6bP0dWSeFeNP38MEkmiBB8K95-E&ccb=10-5&oh=00_AQOPjc9nJSYBkgQ_3HEs8pNmCjAoTU1w0kIv_EsamIbeXw&oe=6AFAA4E1&_nc_sid=201bca",
+        "photo_url": "https://scontent-sjc6-1.xx.fbcdn.net/m1/v/t6/AQMOt-M_fs3kMGJ_cV0h0_kKwpcgrAm0Yu0v3qEl6fnjae5RZ4Y3EdlkIwQJBnVjoIzSVVB-ttm9P4a9WVmTY8Ss8YtnJdt8RO3u2NHAyxpk3Ysqsqm9z1NU3bl9_UAyme7RmjTao85pmNXfE7Rgxnfo18XkakJ7GYbqHitmw7V5FA?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=A1hMUlxwy0OuTqajYYjYQQ&_nc_oc=AdqxlvuaN5F4qc3uhLsSIf-zrDSnbQlCnTUlAZEtp5GJy665xxct4-7rKQ4y3atL324&ccb=10-5&oh=00_AQObcbq2lfsb0_nORpnm9SGT6CT0SjMQSHUSdaATlosuqw&oe=6AFBF661&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1545369280832050&focus=photo",
         "env": {
@@ -56750,7 +56724,7 @@
         "commune": "Nieuwpoort",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-dfw6-2.xx.fbcdn.net/m1/v/t6/AQPfOMAvtcfdVkelBlQG8MmhkCTBsFsDU8vyOJNR5iy2fAjiZRiqLE3RJgJ1IyQmXPsdgj6sU9hDNMYwUtg7zuJ5t5acOGHbCdXZ2gOTsuvJldom2B7Q_WddocWOD0xj_igU-iVI1uDHQeuUk55oluPKEkPr1_q3-XDBUUGKvwCTcmk?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=PhiW0tcyPefPk4FSFmbEIw&_nc_oc=Adp_G6jIyXXvu4f8sg2YosvnIiujS-TDXzl-Z53FISq63hWXWLo_n-R9Qc3rJ1MJFlI&ccb=10-5&oh=00_AQP28iFW450MSjekkrQoQ50vulteaDvyi4J-OXG82RqYLA&oe=6AFAA6E5&_nc_sid=201bca",
+        "photo_url": "https://scontent-sjc6-1.xx.fbcdn.net/m1/v/t6/AQPfOMAvtcfdVkelBlQG8MmhkCTBsFsDU8vyOJNR5iy2fAjiZRiqLE3RJgJ1IyQmXPsdgj6sU9hDNMYwUtg7zuJ5t5acOGHbCdXZ2gOTsuvJldom2B7Q_WddocWOD0xj_igU-iVI1uDHQeuUk55oluPKEkPr1_q3-XDBUUGKvwCTcmk?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=m1UsGgYlUYy9OZzX-xNIag&_nc_oc=Ado2PBrqovUljh8kj9N_Xit9oaVpX3ASmCPZI_7mvuKOFb6LYHd2kuux93K4Y15AhdM&ccb=10-5&oh=00_AQMeGKQQY5L8jZ38B0lETV4m6Nyd1garQ95dxBswh-YwDA&oe=6AFBF865&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1845376466819094&focus=photo",
         "env": {
@@ -56792,7 +56766,7 @@
         "commune": "Knokke-Heist",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-dfw6-2.xx.fbcdn.net/m1/v/t6/AQOMIrOhJmwR3NQ111tyTgDNNwT-xcI3tMvwRysfwbnkRVigPysgVDgzRm5f1CyVI__7XMnNN_DK4ycpGRvDKuUJKRWPFayH7v41n5OA4EmSOMFz8jPHqzw9BKZtbJkI9Zj8Ma3RX6gJDEH5HsV0LRjhUgEAutkZbhcxECFHFGpal40?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=NSYGvy9G6eSCX7lZ3yS7Xw&_nc_oc=AdrLaRYuMCR9t-Zi52J_t5ErEQTQsTheD2GoRsIgb3jw_a3v_j-GshBQWGgIAUGiUMM&ccb=10-5&oh=00_AQNgSaeR2HVkQ2_drfbrY8BU_5epjq5ZFmM8nalSdaTr9w&oe=6AFA9D89&_nc_sid=201bca",
+        "photo_url": "https://scontent-sjc6-1.xx.fbcdn.net/m1/v/t6/AQOMIrOhJmwR3NQ111tyTgDNNwT-xcI3tMvwRysfwbnkRVigPysgVDgzRm5f1CyVI__7XMnNN_DK4ycpGRvDKuUJKRWPFayH7v41n5OA4EmSOMFz8jPHqzw9BKZtbJkI9Zj8Ma3RX6gJDEH5HsV0LRjhUgEAutkZbhcxECFHFGpal40?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=_dtXa3LRCIfvT8sJX4uf0A&_nc_oc=AdowOQ42HGcO4pHyko7RS1bTiDpDXECHXziAwZF4hC2E13Seq6-N92lIQHZ4_w59pls&ccb=10-5&oh=00_AQPo4d_T3OQXzzEZ4PuN1DOaguY8lQRZLe57QAxs2EPd6Q&oe=6AFBEF09&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1967944690557231&focus=photo",
         "env": {
@@ -59058,525 +59032,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          5.0823073,
-          50.6674157
-        ]
-      },
-      "properties": {
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568457651",
-        "nearest_street": "Rue Lambert Mottart",
-        "commune": "Hannut",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "parking": 219,
-          "arret": 210,
-          "voie_verte": 153
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.0823455,
-          50.6674285
-        ]
-      },
-      "properties": {
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568457652",
-        "nearest_street": "Rue Lambert Mottart",
-        "commune": "Hannut",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "parking": 218,
-          "arret": 208,
-          "voie_verte": 152
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.0823849,
-          50.6674404
-        ]
-      },
-      "properties": {
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568457653",
-        "nearest_street": "Rue Lambert Mottart",
-        "commune": "Hannut",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "parking": 218,
-          "arret": 207,
-          "voie_verte": 150
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.08242,
-          50.6674526
-        ]
-      },
-      "properties": {
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568457654",
-        "nearest_street": "Rue Lambert Mottart",
-        "commune": "Hannut",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "parking": 218,
-          "arret": 205,
-          "voie_verte": 149
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.082457,
-          50.6674642
-        ]
-      },
-      "properties": {
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568457655",
-        "nearest_street": "Drève du Monastère",
-        "commune": "Hannut",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "parking": 218,
-          "arret": 203,
-          "voie_verte": 148
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.0824957,
-          50.6674761
-        ]
-      },
-      "properties": {
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568457656",
-        "nearest_street": "Drève du Monastère",
-        "commune": "Hannut",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "parking": 218,
-          "arret": 202,
-          "voie_verte": 146
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.0825354,
-          50.6674876
-        ]
-      },
-      "properties": {
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568457657",
-        "nearest_street": "Drève du Monastère",
-        "commune": "Hannut",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "parking": 218,
-          "arret": 200,
-          "voie_verte": 145
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.0822804,
-          50.6674991
-        ]
-      },
-      "properties": {
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568457658",
-        "nearest_street": "Rue Lambert Mottart",
-        "commune": "Hannut",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "parking": 209,
-          "arret": 202,
-          "voie_verte": 160
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.0823149,
-          50.6675131
-        ]
-      },
-      "properties": {
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568457659",
-        "nearest_street": "Rue Lambert Mottart",
-        "commune": "Hannut",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "parking": 209,
-          "arret": 200,
-          "voie_verte": 159
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.0823531,
-          50.6675249
-        ]
-      },
-      "properties": {
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568457660",
-        "nearest_street": "Rue Lambert Mottart",
-        "commune": "Hannut",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "parking": 209,
-          "arret": 198,
-          "voie_verte": 158
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.0823865,
-          50.667537
-        ]
-      },
-      "properties": {
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568457661",
-        "nearest_street": "Rue Lambert Mottart",
-        "commune": "Hannut",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "parking": 208,
-          "arret": 196,
-          "voie_verte": 156
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.0824225,
-          50.6675489
-        ]
-      },
-      "properties": {
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568457662",
-        "nearest_street": "Rue Lambert Mottart",
-        "commune": "Hannut",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "parking": 208,
-          "arret": 195,
-          "voie_verte": 155
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.082458,
-          50.6675621
-        ]
-      },
-      "properties": {
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568457663",
-        "nearest_street": "Rue Lambert Mottart",
-        "commune": "Hannut",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "parking": 208,
-          "arret": 193,
-          "voie_verte": 154
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.0823787,
-          50.6673404
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568457664",
-        "nearest_street": "Rue Lambert Mottart",
-        "commune": "Hannut",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "parking": 227,
-          "arret": 217,
-          "voie_verte": 144
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.0824167,
-          50.6673517
-        ]
-      },
-      "properties": {
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568457665",
-        "nearest_street": "Rue Lambert Mottart",
-        "commune": "Hannut",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "parking": 227,
-          "arret": 216,
-          "voie_verte": 142
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.0824548,
-          50.6673634
-        ]
-      },
-      "properties": {
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568457666",
-        "nearest_street": "Drève du Monastère",
-        "commune": "Hannut",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "parking": 227,
-          "arret": 214,
-          "voie_verte": 141
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.082492,
-          50.6673748
-        ]
-      },
-      "properties": {
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568457667",
-        "nearest_street": "Drève du Monastère",
-        "commune": "Hannut",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "parking": 227,
-          "arret": 212,
-          "voie_verte": 139
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.0825284,
-          50.6673861
-        ]
-      },
-      "properties": {
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568457668",
-        "nearest_street": "Drève du Monastère",
-        "commune": "Hannut",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "parking": 227,
-          "arret": 210,
-          "voie_verte": 138
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.0825673,
-          50.6673979
-        ]
-      },
-      "properties": {
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568457669",
-        "nearest_street": "Drève du Monastère",
-        "commune": "Hannut",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "parking": 227,
-          "arret": 207,
-          "voie_verte": 136
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.0826092,
-          50.6674108
-        ]
-      },
-      "properties": {
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568457670",
-        "nearest_street": "Drève du Monastère",
-        "commune": "Hannut",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "parking": 227,
-          "arret": 204,
-          "voie_verte": 135
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           3.1859004,
           50.7920052
         ]
@@ -59666,6 +59121,427 @@
             "motorway": 331,
             "secondary": 10,
             "residential": 25
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.8253205,
+          50.5220078
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "surface": "fine_gravel",
+        "osm_id": "way/1569086785",
+        "nearest_street": "Parc le Staneux",
+        "commune": "Theux",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-18",
+          "parking": 17
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5866888,
+          50.5697502
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1569110965",
+        "nearest_street": "Place du Saucy",
+        "commune": "Esneux",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-18",
+          "parking": 105,
+          "eau": {
+            "plan_eau_petit": 87,
+            "riviere": 23,
+            "ruisseau": 107
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6383538,
+          50.5617991
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1569112014",
+        "nearest_street": "Clos Perly",
+        "commune": "Beaufays",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-18",
+          "parking": 0
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6383863,
+          50.5617613
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1569112314",
+        "nearest_street": "Clos Perly",
+        "commune": "Beaufays",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-18",
+          "parking": 0
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6205235,
+          50.6004141
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1569115183",
+        "nearest_street": "Rue Basse Mehagne",
+        "commune": "Vaux-sous-Chèvremont",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-18",
+          "parking": 61
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6205198,
+          50.6004019
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1569115184",
+        "nearest_street": "Rue Basse Mehagne",
+        "commune": "Vaux-sous-Chèvremont",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-18",
+          "parking": 60
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6205174,
+          50.6003885
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1569115185",
+        "nearest_street": "Rue Basse Mehagne",
+        "commune": "Vaux-sous-Chèvremont",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-18",
+          "parking": 58
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.620514,
+          50.600376
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1569115186",
+        "nearest_street": "Rue Basse Mehagne",
+        "commune": "Vaux-sous-Chèvremont",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-18",
+          "parking": 57
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6205114,
+          50.6003633
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1569115187",
+        "nearest_street": "Rue Basse Mehagne",
+        "commune": "Vaux-sous-Chèvremont",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-18",
+          "parking": 55
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6205083,
+          50.6003515
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1569115188",
+        "nearest_street": "Rue Basse Mehagne",
+        "commune": "Vaux-sous-Chèvremont",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-18",
+          "parking": 54
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6205063,
+          50.6003384
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1569115189",
+        "nearest_street": "Rue Basse Mehagne",
+        "commune": "Vaux-sous-Chèvremont",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-18",
+          "parking": 52
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6205028,
+          50.6003263
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1569115190",
+        "nearest_street": "Rue Basse Mehagne",
+        "commune": "Vaux-sous-Chèvremont",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-18",
+          "parking": 51
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6205,
+          50.6003135
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1569115191",
+        "nearest_street": "Rue Basse Mehagne",
+        "commune": "Vaux-sous-Chèvremont",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-18",
+          "parking": 50
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6204966,
+          50.6003015
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1569115192",
+        "nearest_street": "Rue Basse Mehagne",
+        "commune": "Vaux-sous-Chèvremont",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-18",
+          "parking": 48
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.620494,
+          50.6002881
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1569115193",
+        "nearest_street": "Rue Basse Mehagne",
+        "commune": "Vaux-sous-Chèvremont",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-18",
+          "parking": 47
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6204909,
+          50.6002756
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1569115194",
+        "nearest_street": "Rue Basse Mehagne",
+        "commune": "Vaux-sous-Chèvremont",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-18",
+          "parking": 45
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6175007,
+          50.6250376
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1569167411",
+        "nearest_street": "Rue des Déportés",
+        "commune": "Liège",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-18",
+          "parking": 82,
+          "nature": {
+            "parc": 0.5
           }
         }
       }
