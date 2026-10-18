@@ -37,7 +37,7 @@
     <!-- En-tête sans bannière photo des pages de contenu -->
     <link rel="stylesheet" href="/style-entete-sobre.css">
     <!-- Styles du widget compteur : palette et typographie propres à cet outil -->
-    <link rel="stylesheet" href="/style-compteur.css?v=11">
+    <link rel="stylesheet" href="/style-compteur.css?v=12">
     <!-- Données structurées schema.org (Google, IA) : écrites par scripts/generer_referencement.py, ne pas modifier à la main. -->
     <script type="application/ld+json">
     {
@@ -211,15 +211,15 @@
 <div class="compteur-widget" id="compteurWidget"></div>
 
 <!-- Partie partagée par un autre joueur : le code affiché sous son QR code (partie.html) -->
-<p class="compteur-lien-code">Deelt een vriend zijn partij? <a href="/nl/partie.html">Meedoen met zijn code</a></p>
+<p class="compteur-lien-code">Deelt een vriend zijn partij? <a href="/nl/partie.html?rejoindre=1">Meedoen met zijn code</a></p>
 
 <!-- Présentation du compteur : texte écrit dans la page (et non par compteur.js) pour que Google
      et les IA le lisent. Le guide détaillé reste derrière le « ? » du compteur. -->
 <section class="compteur-presentation">
     <h2>Een scoreteller voor uw petanquepartijen</h2>
     <p>Gratis, in de browser, zonder iets te installeren: tel de punten ronde per ronde, in tête-à-tête, doublet of triplet.</p>
-    <p><b>De stand live voor iedereen.</b> De andere spelers scannen een QR-code en volgen de partij op hun telefoon. Een van hen kan zelfs in uw plaats de punten bijhouden.</p>
-    <p><b>Uw partijen opgeslagen.</b> Met een gratis account komt elke afgelopen partij in „Mijn partijen”, met uw statistieken en, als u het toevoegt, het terrein waar u speelde.</p>
+    <p><b>Met meerdere, met een gratis account.</b> De partij wordt online gespeeld: de andere spelers scannen een QR-code en volgen de stand live op hun telefoon. Iedereen kan overnemen en de punten bijhouden.</p>
+    <p><b>Uw partijen opgeslagen.</b> Elke afgelopen partij komt in „Mijn partijen” van al haar spelers, met uw statistieken en, als u het toevoegt, het terrein waar u speelde. Zonder account blijft de stand gewoon op uw telefoon.</p>
     <p class="compteur-presentation-liens">De gids <button type="button" data-ouvrir-aide>Hoe werkt het?</button> legt elke knop uit. Twijfelt u over de regels? Lees <a href="/nl/comment-jouer.html">hoe petanque gespeeld wordt</a>. Zin om elders te spelen? <a href="/nl/carte.html">Zoek een terrein in uw buurt</a>.</p>
 </section>
 
@@ -238,16 +238,16 @@
 
 <!-- ?v= : adresse neuve, pour que le service worker ne serve pas une ancienne copie sans les
      textes compteur_* (cache d'autres pages du site). À augmenter quand on en ajoute. -->
-<script src="/translations.js?v=15"></script>
+<script src="/translations.js?v=16"></script>
 <script>window.MAPETANQUE_SKIP_DEFAULT_MARKERS = true;</script>
 <script src="/chargeur-photo.js"></script>
     <script src="/script.js"></script>
 
-<!-- Session du compte (compte.js) : connecté, la partie terminée est enregistrée dans « Mes parties » -->
+<!-- Session du compte (compte.js) : connecté, la page renvoie vers la partie en ligne (partie.html) -->
 <script src="/compte.js"></script>
 <!-- Widget compteur : logique, textes (translations.js) et construction du HTML.
      ?v= : même raison que pour translations.js, avec style-compteur.css. -->
-<script src="/compteur.js?v=10"></script>
+<script src="/compteur.js?v=11"></script>
 
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
 </body>

@@ -995,3 +995,80 @@ body.mp-fiche-ouverte {
     border-radius: 12px;
     overflow: hidden;
 }
+
+/* --- Fiche commune (parties communes, maquettes/parties-communes/) ----------------------- */
+
+/* Bouton « Modifier » avec son picto */
+.mp-btn svg {
+    width: 14px;
+    height: 14px;
+    vertical-align: -2px;
+    margin-right: 6px;
+}
+
+/* « Joueur invité » parmi les noms d'une équipe */
+.mp-n em {
+    font-style: normal;
+    font-weight: 400;
+    color: #56604F;
+}
+
+/* « Dernière modification : terrain changé par Julie, ce matin. » */
+.mp-modif {
+    display: flex;
+    gap: 7px;
+    align-items: flex-start;
+    margin: 0;
+    font-size: 13px;
+    color: #56604F;
+}
+
+.mp-modif svg {
+    width: 15px;
+    height: 15px;
+    flex: 0 0 auto;
+    margin-top: 2px;
+}
+
+/* « Modifications enregistrées… », « Partie retirée de vos parties… » */
+.mp-statut-page {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin: 0 0 12px;
+    padding: 9px 12px;
+    border-radius: 10px;
+    background: #E7F4E1;
+    font-size: 13.5px;
+}
+
+.mp-fiche .mp-statut-page {
+    margin: 0;
+}
+
+.mp-statut-page svg {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 auto;
+    color: #3D7A2A;
+}
+
+/* Terrain dans « Modifier » : nom, puis Changer / Retirer */
+.mp-terrain-ligne {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    font-size: 14px;
+}
+
+.mp-terrain-ligne svg {
+    width: 16px;
+    height: 16px;
+    color: #56604F;
+    flex: 0 0 auto;
+}
+
+.mp-edition .mp-note {
+    padding: 0;
+}

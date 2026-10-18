@@ -246,7 +246,7 @@ function liensChercher(prefixe) {
 function liensJouer(prefixe) {
     return [
         [prefixe + 'compteur.html', t('menu_nouvelle_partie')],
-        [prefixe + 'partie.html', t('menu_rejoindre')],
+        [prefixe + 'partie.html?rejoindre=1', t('menu_rejoindre')],
         [prefixe + 'mes-parties.html', t('menu_mes_parties')],
         [prefixe + 'comment-jouer.html', t('menu_regles')]
     ];

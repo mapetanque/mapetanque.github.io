@@ -1,11 +1,12 @@
 """
-Génère partie.html, nl/partie.html, de/partie.html et en/partie.html : la page qu'ouvre le QR code
-« Rejoindre cette partie » du compteur (?code=K7P2), ou où l'on tape le code.
+Génère partie.html, nl/partie.html, de/partie.html et en/partie.html : la partie en ligne des
+connectés (parties communes), où l'on crée, rejoint (QR code, lien ?code=K7P2 ou code tapé), marque
+et suit une partie, tous sur le même écran.
 
-Comme Mon compte, la page ne contient qu'un emplacement vide : le score, « Qui êtes-vous ? » et la
-fin de partie sont dessinés par partie.js, dans la langue de la page, à partir des clés partie_*
-de translations.js. Voir NOTES_comptes_utilisateurs.md, « Étapes B et C fusionnées : la partie
-partagée ».
+Comme Mon compte, la page ne contient qu'un emplacement vide : création, choix d'une équipe, score
+et victoire sont dessinés par partie.js, dans la langue de la page, à partir des clés pc_* de
+translations.js. Voir NOTES_parties_communes.md du dépôt privé des Workers et la maquette
+maquettes/parties-communes/.
 
 Page en noindex : generer_referencement.py l'écarte du sitemap et de llms.txt.
 
@@ -22,49 +23,48 @@ RACINE = Path(__file__).resolve().parent.parent
 
 # Adresse versionnée de translations.js, comme sur le compteur : le service worker sert d'abord sa
 # copie en cache, qui peut dater d'avant les clés partie_*.
-TRADUCTIONS = "/translations.js?v=15"
+TRADUCTIONS = "/translations.js?v=16"
 
 META = {
     "fr": {
         "prefixe": "",
-        "titre_page": "Partie partagée — Mapetanque.be",
-        "h1": "Partie partagée",
-        "fil": ("Accueil", "Compteur de points", "Partie partagée"),
-        "description": "Suivez le score d'une partie de pétanque partagée depuis le compteur de Mapetanque.be.",
+        "titre_page": "Partie en ligne — Mapetanque.be",
+        "h1": "Partie en ligne",
+        "fil": ("Accueil", "Partie en ligne"),
+        "description": "Créez, rejoignez et suivez une partie de pétanque avec vos amis : un seul score pour tous, en direct, sur Mapetanque.be.",
         "noscript": "Cette page a besoin de JavaScript pour afficher la partie.",
     },
     "nl": {
         "prefixe": "nl/",
-        "titre_page": "Gedeelde partij — Mapetanque.be",
-        "h1": "Gedeelde partij",
-        "fil": ("Home", "Scoreteller", "Gedeelde partij"),
-        "description": "Volg de stand van een petanquepartij die gedeeld werd vanuit de scoreteller van Mapetanque.be.",
+        "titre_page": "Online partij — Mapetanque.be",
+        "h1": "Online partij",
+        "fil": ("Home", "Online partij"),
+        "description": "Maak, speel en volg een petanquepartij met uw vrienden: één stand voor iedereen, live, op Mapetanque.be.",
         "noscript": "Deze pagina heeft JavaScript nodig om de partij te tonen.",
     },
     "de": {
         "prefixe": "de/",
-        "titre_page": "Geteilte Partie — Mapetanque.be",
-        "h1": "Geteilte Partie",
-        "fil": ("Startseite", "Punktezähler", "Geteilte Partie"),
-        "description": "Verfolgen Sie den Stand einer Pétanque-Partie, die im Punktezähler von Mapetanque.be geteilt wurde.",
+        "titre_page": "Online-Partie — Mapetanque.be",
+        "h1": "Online-Partie",
+        "fil": ("Startseite", "Online-Partie"),
+        "description": "Eine Pétanque-Partie mit Freunden anlegen, beitreten und verfolgen: ein Stand für alle, live, auf Mapetanque.be.",
         "noscript": "Diese Seite benötigt JavaScript, um die Partie anzuzeigen.",
     },
     "en": {
         "prefixe": "en/",
-        "titre_page": "Shared game — Mapetanque.be",
-        "h1": "Shared game",
-        "fil": ("Home", "Score counter", "Shared game"),
-        "description": "Follow the score of a pétanque game shared from the Mapetanque.be score counter.",
+        "titre_page": "Online game — Mapetanque.be",
+        "h1": "Online game",
+        "fil": ("Home", "Online game"),
+        "description": "Create, join and follow a pétanque game with your friends: one score for everyone, live, on Mapetanque.be.",
         "noscript": "This page needs JavaScript to show the game.",
     },
 }
 
 for langue, meta in META.items():
     contenu = (
-        '            <div id="partie" class="partie-partagee"></div>\n'
+        '            <div id="partie" class="partie-commune"></div>\n'
         f'            <noscript><p>{echap(meta["noscript"])}</p></noscript>\n'
     )
-    accueil, compteur, courant = meta["fil"]
     cible = RACINE / meta["prefixe"] / "partie.html"
     construire_page(
         RACINE / meta["prefixe"] / "comment-jouer.html",
@@ -74,12 +74,14 @@ for langue, meta in META.items():
         titre=meta["titre_page"],
         description=meta["description"],
         h1=meta["h1"],
-        fil=(accueil, [(compteur, f"/{meta['prefixe']}compteur.html")], courant),
+        # Fil sans le compteur : un joueur connecté ne voit que cette page, le compteur simple est
+        # pour les autres
+        fil=meta["fil"],
         contenu=contenu,
-        feuilles_sup=("/style-partie.css?v=2",),
+        feuilles_sup=("/style-partie.css?v=4",),
         # Page de passage, propre à chaque partie : sans intérêt dans un moteur de recherche
         tete_sup='<meta name="robots" content="noindex">',
-        scripts_sup=("/compte.js", "/partie.js?v=3"),
+        scripts_sup=("/compte.js", "/partie.js?v=5"),
     )
     html = cible.read_text(encoding="utf-8")
     assert '<script src="/translations.js"></script>' in html

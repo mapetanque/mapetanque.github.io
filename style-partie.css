@@ -1,12 +1,12 @@
 /* =============================================================================================
-   Page « Partie partagée » (partie.html, générée par scripts/generer_partie.py).
-   Fichier additif, comme style-mes-parties.css : la page charge style-comment-jouer.css pour
-   l'en-tête et le conteneur .rules-content, puis cette feuille. Tout est dessiné par partie.js.
-   Maquette : artefact « Partie partagée Mapetanque » (maquettes/partie-partagee/).
-   Page sombre (12/10/2026, demandé par Rémy) : la palette du compteur (style-compteur.css), qu'on
-   suit ici sur un autre téléphone ; moins de batterie sur les écrans OLED. Logo en version
-   principale négative (images/mapetanque-logo.svg), posé par le générateur avec la classe
-   .page-sombre du <body>. Vert et terre cuite des deux équipes, comme dans le compteur.
+   Page « Partie en ligne » (partie.html, générée par scripts/generer_partie.py) : la partie commune
+   des connectés, créée, rejointe, marquée et suivie sur le même écran par tous ses inscrits.
+   Fichier additif : la page charge style-comment-jouer.css pour l'en-tête et le conteneur
+   .rules-content, puis cette feuille. Tout est dessiné par partie.js.
+   Maquette validée le 18/10/2026 : maquettes/parties-communes/ (onglet « Partie en ligne »).
+   Page sombre, palette du compteur (style-compteur.css) ; moins de batterie sur les écrans OLED.
+   Logo en version principale négative, posé par le générateur avec la classe .page-sombre du
+   <body>. Vert et terre cuite des deux équipes, comme dans le compteur. Classes préfixées pc-.
 ============================================================================================= */
 
 /* --- Page et en-tête sombres ------------------------------------------------------------- */
@@ -32,552 +32,1040 @@ body.page-sombre {
     color: #f2ece0;
 }
 
-.partie-partagee,
-.partie-partagee * {
+/* --- Le cadre : une carte sombre de la taille d'un téléphone ------------------------------ */
+.partie-commune {
+    --c-bg: #1c1b17;
+    --c-bg-soft: #26241e;
+    --c-line: #3a372f;
+    --c-sand: #f2ece0;
+    --c-sand-dim: #a89e8c;
+    --c-green: #4c7a3d;
+    --c-terre: #b5502e;
+    --c-ok: #9fd585;
+    --c-alerte: #f0b37e;
+    position: relative;
+    max-width: 520px;
+    height: min(680px, 82vh);
+    height: min(680px, 82dvh);
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid var(--c-line);
+    background: var(--c-bg);
+    color: var(--c-sand);
+    font-family: 'Figtree', Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.4;
+    display: flex;
+    flex-direction: column;
+    touch-action: manipulation;
+}
+
+.partie-commune *,
+.partie-commune *::before,
+.partie-commune *::after {
     box-sizing: border-box;
 }
 
-.partie-partagee {
-    max-width: 520px;
-    display: grid;
-    gap: 14px;
+.partie-commune button,
+.partie-commune input,
+.partie-commune select {
+    font: inherit;
 }
 
-.pt-tete {
-    display: grid;
-    gap: 6px;
-    justify-items: start;
+.partie-commune button:focus-visible,
+.partie-commune a:focus-visible,
+.partie-commune input:focus-visible {
+    outline: 2px solid var(--c-sand);
+    outline-offset: 2px;
 }
 
-.pt-tete h2 {
-    margin: 0;
-    font-family: 'Manrope', Arial, sans-serif;
-    font-size: 22px;
-    font-weight: 800;
-    line-height: 1.2;
-    color: #f2ece0;
-}
-
-.pt-etiq {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: 'Manrope', Arial, sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    color: #9fd585;
-    background: rgba(159, 213, 133, 0.14);
-    border-radius: 999px;
-    padding: 4px 10px;
-}
-
-.pt-etiq i {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #9fd585;
-}
-
-/* En direct : le point pulse */
-.pt-etiq.direct i {
-    animation: pt-pouls 1.6s ease-in-out infinite;
-}
-
-@keyframes pt-pouls {
-    50% { opacity: 0.25; }
-}
-
-.pt-etiq.gris {
-    color: #a89e8c;
-    background: #26241e;
-}
-
-/* --- Score : une ligne par équipe ------------------------------------------------------- */
-.pt-score {
-    display: grid;
-    border-radius: 16px;
-    overflow: hidden;
-}
-
-.pt-eq {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 12px 16px;
-    color: #f2ece0;
-}
-
-.pt-eq.a {
-    background: #4c7a3d;
-}
-
-.pt-eq.b {
-    background: #b5502e;
-}
-
-.pt-n {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    min-width: 0;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-}
-
-.pt-noms {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.pt-vous {
+.partie-commune svg {
     flex: 0 0 auto;
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
-    background: #f2ece0;
-    color: #1c1b17;
-    border-radius: 999px;
-    padding: 3px 8px 3px 6px;
-    font-family: 'Manrope', Arial, sans-serif;
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 0;
 }
 
-.pt-vous svg {
-    width: 11px;
-    height: 11px;
-    stroke-width: 2.6;
-}
-
-/* « +3 » de la mène reçue en direct, qui s'envole puis disparaît */
-.pt-eq {
+/* --- Écran de jeu ------------------------------------------------------------------------ */
+.pc-jeu {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
     position: relative;
 }
 
-.pt-gain {
-    position: absolute;
-    right: 76px;
-    top: 50%;
-    font-family: 'Manrope', Arial, sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    color: #f2ece0;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 999px;
-    padding: 3px 10px;
-    pointer-events: none;
-    animation: pt-envol 1.2s ease-out forwards;
+.pc-haut {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 14px 16px 6px;
+    font-size: 12px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--c-sand-dim);
+    white-space: nowrap;
 }
 
-@keyframes pt-envol {
-    0% { transform: translateY(-30%); opacity: 0; }
-    20% { transform: translateY(-50%); opacity: 1; }
-    100% { transform: translateY(-140%); opacity: 0; }
+.pc-haut .pc-code {
+    font: 800 13px 'Manrope', Arial, sans-serif;
+    letter-spacing: .16em;
+    color: var(--c-sand);
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .pt-etiq.direct i { animation: none; }
-    .pt-gain { animation: pt-fondu 1.6s forwards; }
-    @keyframes pt-fondu { 0%, 60% { opacity: 1; transform: translateY(-50%); } 100% { opacity: 0; transform: translateY(-50%); } }
-}
-
-.pt-s {
-    font-family: 'Manrope', Arial, sans-serif;
-    font-size: 44px;
-    font-weight: 700;
-    line-height: 1;
-    font-variant-numeric: tabular-nums;
-}
-
-.pt-mention {
-    margin: 0;
-    font-size: 13px;
-    color: #a89e8c;
-}
-
-/* --- Cartes ------------------------------------------------------------------------------ */
-.pt-carte {
-    background: #26241e;
-    border: 1px solid #3a372f;
-    border-radius: 16px;
-    padding: 16px;
-    display: grid;
-    gap: 12px;
-    justify-items: start;
-}
-
-.pt-carte p {
-    margin: 0;
-}
-
-.pt-question {
-    font-family: 'Manrope', Arial, sans-serif;
-    font-size: 16px;
-    font-weight: 800;
-}
-
-.pt-equipe {
-    display: grid;
+.pc-direct,
+.pc-hors {
+    display: inline-flex;
+    align-items: center;
     gap: 6px;
+    font-weight: 700;
+}
+
+.pc-direct {
+    color: var(--c-ok);
+}
+
+.pc-direct::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--c-ok);
+    animation: pc-pouls 1.6s ease-in-out infinite;
+}
+
+.pc-hors {
+    color: var(--c-alerte);
+}
+
+.pc-hors svg {
+    width: 13px;
+    height: 13px;
+}
+
+@keyframes pc-pouls {
+    50% { opacity: .3; }
+}
+
+.pc-statut {
+    display: flex;
+    justify-content: center;
+    padding: 2px 10px 8px;
+}
+
+.pc-pastille {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--c-bg-soft);
+    color: var(--c-sand-dim);
+    white-space: nowrap;
+}
+
+.pc-pastille.fort {
+    background: var(--c-sand);
+    color: var(--c-bg);
+    font-weight: 700;
+}
+
+.pc-pastille svg {
+    width: 13px;
+    height: 13px;
+}
+
+/* Avis : réseau, main prise, revanche… */
+.pc-avis {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    margin: 0 12px 8px;
+    padding: 9px 11px;
+    border-radius: 10px;
+    background: var(--c-bg-soft);
+    border: 1px solid var(--c-line);
+    font-size: 13.5px;
+    color: var(--c-sand);
+    text-align: left;
+}
+
+.pc-avis svg {
+    width: 16px;
+    height: 16px;
+    margin-top: 1px;
+    color: var(--c-ok);
+}
+
+.pc-avis.alerte svg {
+    color: var(--c-alerte);
+}
+
+.pc-avis .pc-lien {
+    margin-left: auto;
+    flex: 0 0 auto;
+}
+
+.pc-avis.clair {
+    margin: 0;
     width: 100%;
 }
 
-.pt-etiquette {
+/* Les deux moitiés : toucher = +1, pastilles +2 à +6 */
+.pc-moities {
+    flex: 1;
     display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.pc-moitie {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 7px;
-    font-size: 13px;
-    font-weight: 600;
-    color: #a89e8c;
-}
-
-.pt-etiquette i {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: #4c7a3d;
-}
-
-.pt-equipe.b .pt-etiquette i {
-    background: #b5502e;
-}
-
-.pt-choix-liste {
-    display: flex;
-    flex-wrap: wrap;
+    justify-content: center;
     gap: 6px;
+    border: 0;
+    color: var(--c-sand);
+    padding: 8px 12px;
+    width: 100%;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
-.pt-choix {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-family: inherit;
-    font-size: 15px;
-    font-weight: 600;
-    color: #f2ece0;
-    background: #26241e;
-    border: 1px solid #3a372f;
-    border-radius: 999px;
-    padding: 8px 15px;
+.pc-moitie.a {
+    background: var(--c-green);
+}
+
+.pc-moitie.b {
+    background: var(--c-terre);
+    border-top: 1px solid rgba(0, 0, 0, .35);
+}
+
+button.pc-moitie {
     cursor: pointer;
 }
 
-.pt-choix:hover:not(:disabled) {
-    border-color: #a89e8c;
+button.pc-moitie:active {
+    filter: brightness(1.1);
 }
 
-.pt-choix.pris {
-    color: #6f675a;
-    background: #1c1b17;
-    border-color: #3a372f;
+button.pc-moitie:disabled {
     cursor: default;
 }
 
-.pt-choix.libre {
-    border-style: dashed;
+.pc-jeu.suit .pc-moitie {
+    filter: saturate(.7);
 }
 
-.pt-choix svg {
+.pc-nom-eq {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .9);
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.pc-nom-eq .pc-noms {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pc-vous {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    background: var(--c-sand);
+    color: var(--c-bg);
+    border-radius: 999px;
+    padding: 2px 8px 2px 6px;
+    font: 800 10.5px/1.3 'Manrope', Arial, sans-serif;
+    letter-spacing: 0;
+}
+
+.pc-vous svg {
+    width: 11px;
+    height: 11px;
+}
+
+.pc-sc {
+    font: 700 96px/1 'Manrope', Arial, sans-serif;
+    font-variant-numeric: tabular-nums;
+}
+
+.pc-plus {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.pc-plus span {
+    font: 700 13px 'Manrope', Arial, sans-serif;
+    border: 1.5px solid rgba(255, 255, 255, .4);
+    background: rgba(0, 0, 0, .12);
+    border-radius: 999px;
+    padding: 6px 11px;
+}
+
+.pc-gain {
+    position: absolute;
+    top: 20%;
+    right: 14%;
+    font: 700 24px/1 'Manrope', Arial, sans-serif;
+    background: rgba(0, 0, 0, .35);
+    border-radius: 999px;
+    padding: 5px 12px;
+    animation: pc-envol 1.1s ease-out forwards;
+    pointer-events: none;
+}
+
+@keyframes pc-envol {
+    0% { transform: translateY(8px); opacity: 0; }
+    20% { transform: none; opacity: 1; }
+    100% { transform: translateY(-36px); opacity: 0; }
+}
+
+/* Barre du bas : Annuler ou Prendre la main, Mènes, Partie, QR code */
+.pc-bas {
+    display: flex;
+    justify-content: space-around;
+    gap: 2px;
+    padding: 8px 4px 12px;
+    background: var(--c-bg);
+}
+
+.pc-bas button {
+    background: none;
+    border: 0;
+    color: var(--c-sand-dim);
+    font-size: 13.5px;
+    padding: 9px 9px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.pc-bas button:disabled {
+    opacity: .4;
+    cursor: default;
+}
+
+.pc-bas .fort {
+    color: var(--c-bg);
+    background: var(--c-sand);
+    font-weight: 700;
+}
+
+.pc-bas svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* --- Pages : créer, rejoindre, connexion, code ------------------------------------------- */
+.pc-page {
+    flex: 1;
+    overflow-y: auto;
+    padding: 22px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.pc-page h2 {
+    margin: 0;
+    font: 800 24px/1.15 'Manrope', Arial, sans-serif;
+    color: var(--c-sand);
+}
+
+.pc-tl {
+    font-size: 12px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--c-sand-dim);
+}
+
+.pc-discret {
+    margin: 0;
+    font-size: 14px;
+    color: var(--c-sand-dim);
+}
+
+.pc-connecte {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--c-sand-dim);
+}
+
+.pc-avatar {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font: 800 11px 'Manrope', Arial, sans-serif;
+    font-style: normal;
+    color: #fff;
+    background: var(--c-green);
+    flex: 0 0 auto;
+}
+
+.pc-lbl {
+    font: 700 12px 'Manrope', Arial, sans-serif;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--c-sand-dim);
+    margin-top: 3px;
+    display: flex;
+    gap: 6px;
+    align-items: baseline;
+}
+
+.pc-lbl small {
+    font: 400 12px 'Figtree', Arial, sans-serif;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.pc-seg {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    gap: 4px;
+    background: var(--c-bg-soft);
+    border-radius: 12px;
+    padding: 4px;
+}
+
+.pc-seg button {
+    border: 0;
+    background: none;
+    color: var(--c-sand-dim);
+    border-radius: 9px;
+    padding: 9px 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.pc-seg button[aria-pressed="true"] {
+    background: var(--c-sand);
+    color: var(--c-bg);
+    font-weight: 700;
+}
+
+.pc-seg button:disabled:not([aria-pressed="true"]) {
+    opacity: .45;
+    cursor: default;
+}
+
+.pc-champ {
+    width: 100%;
+    background: var(--c-bg-soft);
+    border: 1px solid var(--c-line);
+    color: var(--c-sand);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 15px;
+}
+
+.pc-champ::placeholder {
+    color: var(--c-sand-dim);
+    opacity: .8;
+}
+
+.pc-terrain {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 14px;
+}
+
+.pc-terrain svg {
+    width: 16px;
+    height: 16px;
+    color: var(--c-sand-dim);
+}
+
+.pc-terrain > span {
+    flex: 1 1 160px;
+    min-width: 0;
+}
+
+/* Cartes de choix : une équipe (un participant par ligne), ou « Je regarde seulement » */
+.pc-choix {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 2px 10px;
+    align-items: center;
+    text-align: left;
+    background: var(--c-bg-soft);
+    border: 1px solid var(--c-line);
+    color: var(--c-sand);
+    border-radius: 14px;
+    padding: 12px 13px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.pc-choix > svg {
+    grid-row: span 2;
+    width: 20px;
+    height: 20px;
+    color: var(--c-sand-dim);
+}
+
+.pc-choix b {
+    font: 700 15px 'Manrope', Arial, sans-serif;
+}
+
+.pc-choix > span {
+    font-size: 13px;
+    color: var(--c-sand-dim);
+}
+
+.pc-choix:disabled {
+    opacity: .45;
+    cursor: default;
+}
+
+.pc-choix.equipe {
+    grid-template-columns: 1fr;
+    gap: 7px;
+}
+
+.pc-eq-tete {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pc-eq-tete i,
+.pc-pt-eq {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex: 0 0 auto;
+    display: inline-block;
+}
+
+.pc-eq-tete i.a,
+.pc-pt-eq.a {
+    background: var(--c-green);
+}
+
+.pc-eq-tete i.b,
+.pc-pt-eq.b {
+    background: var(--c-terre);
+}
+
+.pc-eq-tete small {
+    margin-left: auto;
+    font: 700 12.5px 'Manrope', Arial, sans-serif;
+    color: var(--c-ok);
+}
+
+.pc-choix:disabled .pc-eq-tete small {
+    color: var(--c-sand-dim);
+}
+
+.pc-membres {
+    display: grid;
+    gap: 2px;
+    padding-left: 18px;
+}
+
+.pc-membre {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 14px;
+    color: var(--c-sand);
+    padding: 3px 0;
+}
+
+.pc-membre + .pc-membre {
+    border-top: 1px solid var(--c-line);
+}
+
+.pc-membre svg {
+    width: 14px;
+    height: 14px;
+    color: var(--c-sand-dim);
+}
+
+.pc-membre.libre {
+    color: var(--c-sand-dim);
+}
+
+/* Boutons */
+.pc-btn {
+    border: 0;
+    border-radius: 999px;
+    padding: 11px 16px;
+    font-weight: 700;
+    font-size: 14.5px;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-decoration: none;
+}
+
+.pc-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.pc-btn.plein {
+    background: var(--c-sand);
+    color: var(--c-bg);
+}
+
+.pc-btn.ligne {
+    background: transparent;
+    color: var(--c-sand);
+    border: 1px solid var(--c-line);
+}
+
+.pc-btn.large {
+    width: 100%;
+}
+
+.pc-btn.bas {
+    margin-top: auto;
+}
+
+.pc-btn:disabled {
+    opacity: .5;
+    cursor: default;
+}
+
+.pc-lien {
+    background: none;
+    border: 0;
+    padding: 0;
+    color: var(--c-sand);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.pc-lien svg {
     width: 14px;
     height: 14px;
 }
 
-.pt-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    font-family: 'Manrope', Arial, sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    text-decoration: none;
-    border: 0;
-    border-radius: 999px;
-    padding: 11px 20px;
-    cursor: pointer;
+.pc-lien.danger {
+    color: var(--c-alerte);
 }
 
-.pt-btn:disabled {
-    opacity: 0.6;
+.pc-lien:disabled {
+    opacity: .5;
     cursor: default;
 }
 
-.pt-btn.vert {
-    background: #f2ece0;
-    color: #1c1b17;
+.pc-boutons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-.pt-btn.vert:hover {
-    background: #ffffff;
+.pc-petit {
+    font-size: 12.5px;
+    color: var(--c-sand-dim);
 }
 
-.pt-btn.ligne {
-    background: transparent;
-    color: #f2ece0;
-    border: 1px solid #3a372f;
+.pc-ligne-code {
+    display: flex;
+    gap: 8px;
 }
 
-.pt-btn.ligne:hover {
-    border-color: #a89e8c;
+.pc-ligne-code .pc-champ {
+    flex: 1;
+    text-transform: uppercase;
+    letter-spacing: .16em;
+    font-weight: 700;
 }
 
-.pt-btn svg {
-    width: 16px;
-    height: 16px;
+.pc-separation {
+    border: 0;
+    border-top: 1px solid var(--c-line);
+    margin: 6px 0 2px;
+    width: 100%;
 }
 
-.pt-lien {
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 600;
-    color: #9fd585;
-    background: none;
-    border: none;
-    padding: 0;
-    text-decoration: underline;
-    text-underline-offset: 3px;
+.pc-refus {
+    margin: 0;
+    font-size: 13.5px;
+    color: var(--c-alerte);
+}
+
+/* --- Feuilles du bas : la partie, les mènes, les terrains -------------------------------- */
+.pc-voile {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, .55);
+    display: flex;
+    align-items: flex-end;
+    z-index: 5;
+}
+
+.pc-feuille {
+    width: 100%;
+    max-height: 94%;
+    overflow-y: auto;
+    background: var(--c-bg);
+    color: var(--c-sand);
+    border-radius: 20px 20px 0 0;
+    padding: 16px 16px 20px;
+    display: grid;
+    gap: 11px;
+    border-top: 1px solid var(--c-line);
+}
+
+.pc-f-tete {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pc-f-tete h3 {
+    margin: 0;
+    font: 800 19px 'Manrope', Arial, sans-serif;
+    color: var(--c-sand);
+}
+
+.pc-fermer {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 0;
+    background: var(--c-bg-soft);
+    color: var(--c-sand);
+    display: grid;
+    place-items: center;
     cursor: pointer;
 }
 
-.pt-actualiser {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 6px 12px;
-    font-size: 13px;
-    color: #a89e8c;
+.pc-fermer svg {
+    width: 15px;
+    height: 15px;
 }
 
-.pt-ok {
+.pc-qr-ligne {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-family: 'Manrope', Arial, sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    color: #9fd585;
+    gap: 14px;
 }
 
-.pt-ok svg {
-    width: 18px;
-    height: 18px;
+.pc-qr {
+    width: 104px;
+    height: 104px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 4px;
     flex: 0 0 auto;
 }
 
-/* Fin de partie : écriture manuscrite, une fois sur l'écran (charte) */
-.pt-fin {
-    font-family: 'Caveat', 'Manrope', Arial, sans-serif;
-    font-size: 30px;
-    font-weight: 700;
-    line-height: 1.1;
-    color: #f2ece0;
-}
-
-.pt-statut {
-    font-size: 13.5px;
-    color: #f28b7d;
-}
-
-.pt-statut:empty {
-    display: none;
-}
-
-.pt-statut.info {
-    color: #9fd585;
-    font-weight: 600;
-}
-
-/* --- Passer la main ----------------------------------------------------------------------
-   Étiquettes sous le titre (« En direct », « Julie marque »), et score tactile pour le joueur
-   qui a la main : toucher une ligne = +1, pastilles +2 à +6 comme dans le compteur. */
-.pt-etiqs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-}
-
-.pt-etiq svg {
-    width: 12px;
-    height: 12px;
-}
-
-.pt-etiq.fort {
-    color: #1c1b17;
-    background: #9fd585;
-}
-
-button.pt-eq {
+.pc-qr svg {
+    display: block;
     width: 100%;
-    border: 0;
+    height: 100%;
+}
+
+.pc-code-court {
+    font: 800 24px 'Manrope', Arial, sans-serif;
+    letter-spacing: .18em;
+}
+
+.pc-code-court small {
+    display: block;
+    font: 400 13px/1.35 'Figtree', Arial, sans-serif;
+    letter-spacing: 0;
+    color: var(--c-sand-dim);
+    margin-top: 2px;
+}
+
+/* Feuille « Partager » : grand QR code centré, le code dessous */
+.pc-partage {
+    display: grid;
+    justify-items: center;
+    gap: 8px;
+    text-align: center;
+}
+
+.pc-partage .pc-qr {
+    width: 196px;
+    height: 196px;
+    padding: 6px;
+}
+
+.pc-partage .pc-code-court small {
+    max-width: 32ch;
+    margin: 4px auto 0;
+}
+
+.pc-copie {
     margin: 0;
-    font: inherit;
-    text-align: left;
-    flex-wrap: wrap;
-    row-gap: 8px;
-    padding: 14px 16px;
-    cursor: pointer;
+    text-align: center;
+    font-size: 13.5px;
+    color: var(--c-sand-dim);
 }
 
-button.pt-eq:active:not(:disabled) {
-    filter: brightness(1.1);
+.pc-bloc {
+    display: grid;
+    gap: 7px;
+    justify-items: start;
 }
 
-button.pt-eq:disabled {
-    cursor: default;
+.pc-bloc > * {
+    width: 100%;
 }
 
-button.pt-eq:focus-visible {
-    outline: 3px solid #f2ece0;
-    outline-offset: -3px;
+.pc-bloc > .pc-lien {
+    width: auto;
 }
 
-.pt-eq.tactile .pt-n {
-    flex: 1 1 auto;
+.pc-places {
+    display: grid;
+    border: 1px solid var(--c-line);
+    border-radius: 12px;
+    overflow: hidden;
 }
 
-.pt-pts {
-    order: 3;
-    flex: 1 0 100%;
+.pc-place {
     display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 7px 11px;
+    font-size: 14.5px;
+    min-height: 40px;
 }
 
-.pt-pt {
-    font-family: 'Manrope', Arial, sans-serif;
-    font-size: 14px;
+.pc-place + .pc-place {
+    border-top: 1px solid var(--c-line);
+}
+
+.pc-place .pc-pt-eq {
+    width: 8px;
+    height: 8px;
+    margin-right: 8px;
+}
+
+.pc-place.invite {
+    color: var(--c-sand-dim);
+}
+
+.pc-place.invite .pc-pt-eq {
+    background: none;
+    border: 1.5px dashed var(--c-sand-dim);
+}
+
+.pc-etat {
+    font-size: 12.5px;
+    color: var(--c-ok);
     font-weight: 700;
-    line-height: 1;
-    color: #f2ece0;
-    background: rgba(0, 0, 0, 0.12);
-    border: 1.5px solid rgba(255, 255, 255, 0.45);
-    border-radius: 999px;
-    padding: 8px 11px;
 }
 
-.pt-lien-picto {
-    display: inline-flex;
+.pc-journal {
+    display: flex;
+    gap: 7px;
+    align-items: flex-start;
+    margin: 0;
+    font-size: 13.5px;
+    color: var(--c-sand-dim);
+}
+
+.pc-journal svg {
+    width: 15px;
+    height: 15px;
+    margin-top: 2px;
+}
+
+.pc-confirme {
+    display: grid;
+    gap: 9px;
+    background: var(--c-bg-soft);
+    border: 1px solid var(--c-line);
+    border-radius: 12px;
+    padding: 11px;
+}
+
+.pc-confirme p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.pc-confirme .pc-boutons {
+    justify-content: flex-start;
+}
+
+/* Mène par mène */
+.pc-liste-menes {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border: 1px solid var(--c-line);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.pc-liste-menes li {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: center;
+    padding: 7px 11px;
+    font-size: 14px;
+}
+
+.pc-liste-menes li + li {
+    border-top: 1px solid var(--c-line);
+}
+
+.pc-liste-menes small {
+    color: var(--c-sand-dim);
+}
+
+.pc-liste-menes b {
+    font: 700 14px 'Manrope', Arial, sans-serif;
+    font-variant-numeric: tabular-nums;
+}
+
+.pc-liste-menes li.attente {
+    color: var(--c-alerte);
+}
+
+/* Terrains proches */
+.pc-terrain-choix {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+    text-align: left;
+    background: var(--c-bg-soft);
+    border: 1px solid var(--c-line);
+    color: var(--c-sand);
+    border-radius: 12px;
+    padding: 10px 12px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.pc-terrain-choix svg {
+    width: 16px;
+    height: 16px;
+    color: var(--c-sand-dim);
+}
+
+.pc-terrain-choix small {
+    color: var(--c-sand-dim);
+}
+
+/* --- Écran de victoire ------------------------------------------------------------------- */
+.pc-victoire {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 20px 16px;
+    text-align: center;
+}
+
+.pc-gagne {
+    font: 700 42px/1.05 'Caveat', cursive;
+}
+
+.pc-fs {
+    font: 700 26px 'Manrope', Arial, sans-serif;
+    color: var(--c-sand-dim);
+    font-variant-numeric: tabular-nums;
+}
+
+.pc-carte-fin {
+    width: 100%;
+    background: var(--c-bg-soft);
+    border: 1px solid var(--c-line);
+    border-radius: 14px;
+    padding: 12px 13px;
+    display: grid;
+    gap: 6px;
+    text-align: left;
+    font-size: 14px;
+}
+
+.pc-carte-fin .pc-tete {
+    display: flex;
     align-items: center;
     gap: 6px;
+    color: var(--c-ok);
+    font: 700 14px 'Manrope', Arial, sans-serif;
 }
 
-.pt-lien-picto svg {
+.pc-carte-fin .pc-tete svg {
     width: 16px;
     height: 16px;
 }
 
-.pt-lien:disabled {
-    opacity: 0.6;
-    cursor: default;
+.pc-carte-fin .pc-tete.neutre {
+    color: var(--c-sand);
 }
 
-.pt-compte {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: #a89e8c;
+.pc-carte-fin .pc-gris {
+    color: var(--c-sand-dim);
 }
 
-.pt-pastille {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: #74C15A;
-    color: #fff;
-    display: grid;
-    place-items: center;
-    font-family: 'Manrope', Arial, sans-serif;
-    font-size: 12px;
-    font-weight: 800;
+.pc-carte-fin a {
+    color: var(--c-ok);
 }
 
-/* --- Les trois façons de rejoindre (écran sans code) ------------------------------------- */
-.pt-facons {
-    justify-items: stretch;
+@media (max-width: 420px) {
+    .pc-sc {
+        font-size: 80px;
+    }
+
+    .pc-bas button {
+        font-size: 12.5px;
+        padding: 9px 6px;
+    }
 }
 
-.pt-facons-liste {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: 12px;
-}
+@media (prefers-reduced-motion: reduce) {
+    .pc-gain {
+        animation: none;
+        opacity: 0;
+    }
 
-.pt-facons-liste li {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-}
-
-.pt-facons-liste svg {
-    flex-shrink: 0;
-    box-sizing: content-box;
-    width: 20px;
-    height: 20px;
-    padding: 8px;
-    border-radius: 50%;
-    background: rgba(116, 193, 90, 0.14);
-    color: #9fd585;
-}
-
-.pt-facons-liste li > span {
-    display: grid;
-    gap: 2px;
-    padding-top: 2px;
-}
-
-.pt-facons-liste strong {
-    font-size: 15px;
-}
-
-.pt-creer {
-    text-align: center;
-}
-
-/* --- Code tapé à la main ----------------------------------------------------------------- */
-.pt-code {
-    justify-items: stretch;
-}
-
-.pt-ligne-code {
-    display: flex;
-    gap: 8px;
-}
-
-.pt-champ {
-    flex: 1;
-    min-width: 0;
-    /* Sans largeur, le champ garde sa largeur naturelle (une vingtaine de caractères) et la
-       page déborde sur un téléphone ; flex: 1 lui rend la place disponible. */
-    width: 0;
-    font-family: 'Manrope', Arial, sans-serif;
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    padding: 8px 12px;
-    border: 1px solid #3a372f;
-    border-radius: 12px;
-    background: #1c1b17;
-    color: #f2ece0;
-}
-
-.pt-champ:focus {
-    outline: none;
-    border-color: #a89e8c;
-    background: #26241e;
-}
-
-.partie-partagee button:focus-visible,
-.partie-partagee a:focus-visible {
-    outline: 2px solid #9fd585;
-    outline-offset: 2px;
+    .pc-direct::before {
+        animation: none;
+    }
 }

@@ -37,7 +37,7 @@
     <!-- En-tête sans bannière photo des pages de contenu -->
     <link rel="stylesheet" href="/style-entete-sobre.css">
     <!-- Styles du widget compteur : palette et typographie propres à cet outil -->
-    <link rel="stylesheet" href="/style-compteur.css?v=11">
+    <link rel="stylesheet" href="/style-compteur.css?v=12">
     <!-- Données structurées schema.org (Google, IA) : écrites par scripts/generer_referencement.py, ne pas modifier à la main. -->
     <script type="application/ld+json">
     {
@@ -211,15 +211,15 @@
 <div class="compteur-widget" id="compteurWidget"></div>
 
 <!-- Partie partagée par un autre joueur : le code affiché sous son QR code (partie.html) -->
-<p class="compteur-lien-code">Un ami partage sa partie ? <a href="/partie.html">Rejoindre avec son code</a></p>
+<p class="compteur-lien-code">Un ami partage sa partie ? <a href="/partie.html?rejoindre=1">Rejoindre avec son code</a></p>
 
 <!-- Présentation du compteur : texte écrit dans la page (et non par compteur.js) pour que Google
      et les IA le lisent. Le guide détaillé reste derrière le « ? » du compteur. -->
 <section class="compteur-presentation">
     <h2>Un compteur de points pour vos parties de pétanque</h2>
     <p>Gratuit, dans le navigateur, sans rien installer : comptez les points mène par mène, en tête-à-tête, en doublette ou en triplette.</p>
-    <p><b>Le score en direct pour tout le monde.</b> Les autres joueurs scannent un QR code et suivent la partie sur leur téléphone. L'un d'eux peut même marquer à votre place.</p>
-    <p><b>Vos parties enregistrées.</b> Avec un compte gratuit, chaque partie terminée rejoint « Mes parties », avec vos statistiques et, si vous l'ajoutez, le terrain où vous avez joué.</p>
+    <p><b>À plusieurs, avec un compte gratuit.</b> La partie se joue en ligne : les autres joueurs scannent un QR code et suivent le score en direct sur leur téléphone. Chacun peut prendre la main et marquer à son tour.</p>
+    <p><b>Vos parties enregistrées.</b> Chaque partie terminée rejoint « Mes parties » de tous ses joueurs, avec vos statistiques et, si vous l'ajoutez, le terrain où vous avez joué. Sans compte, le score reste simplement dans votre téléphone.</p>
     <p class="compteur-presentation-liens">Le guide <button type="button" data-ouvrir-aide>Comment ça marche ?</button> détaille chaque bouton. Un doute sur les règles ? Voyez <a href="/comment-jouer.html">comment jouer à la pétanque</a>. Envie de jouer ailleurs ? <a href="/carte.html">Trouvez un terrain près de chez vous</a>.</p>
 </section>
 
@@ -238,16 +238,16 @@
 
 <!-- ?v= : adresse neuve, pour que le service worker ne serve pas une ancienne copie sans les
      textes compteur_* (cache d'autres pages du site). À augmenter quand on en ajoute. -->
-<script src="/translations.js?v=15"></script>
+<script src="/translations.js?v=16"></script>
 <script>window.MAPETANQUE_SKIP_DEFAULT_MARKERS = true;</script>
 <script src="/chargeur-photo.js"></script>
     <script src="/script.js"></script>
 
-<!-- Session du compte (compte.js) : connecté, la partie terminée est enregistrée dans « Mes parties » -->
+<!-- Session du compte (compte.js) : connecté, la page renvoie vers la partie en ligne (partie.html) -->
 <script src="/compte.js"></script>
 <!-- Widget compteur : logique, textes (translations.js) et construction du HTML.
      ?v= : même raison que pour translations.js, avec style-compteur.css. -->
-<script src="/compteur.js?v=10"></script>
+<script src="/compteur.js?v=11"></script>
 
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
 </body>

@@ -2,8 +2,8 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Partie partagée — Mapetanque.be</title>
-    <meta name="description" content="Suivez le score d&#x27;une partie de pétanque partagée depuis le compteur de Mapetanque.be.">
+    <title>Partie en ligne — Mapetanque.be</title>
+    <meta name="description" content="Créez, rejoignez et suivez une partie de pétanque avec vos amis : un seul score pour tous, en direct, sur Mapetanque.be.">
     <link rel="icon" type="image/svg+xml" href="/images/mapetanque-boule-pleine.svg">
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png?v=4">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=4">
@@ -12,8 +12,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta property="og:title" content="Partie partagée — Mapetanque.be">
-    <meta property="og:description" content="Suivez le score d&#x27;une partie de pétanque partagée depuis le compteur de Mapetanque.be.">
+    <meta property="og:title" content="Partie en ligne — Mapetanque.be">
+    <meta property="og:description" content="Créez, rejoignez et suivez une partie de pétanque avec vos amis : un seul score pour tous, en direct, sur Mapetanque.be.">
     <meta property="og:image" content="https://mapetanque.be/images/mapetanque-partage.png?v=3">
     <meta property="og:url" content="https://mapetanque.be/partie.html">
     <meta property="og:type" content="website">
@@ -38,7 +38,7 @@
          couleurs) plutôt qu'une identité graphique à part — pour le moment, en attendant une
          éventuelle bannière dédiée à cette page plus tard. -->
     <link rel="stylesheet" href="/style-comment-jouer.css">
-    <link rel="stylesheet" href="/style-partie.css?v=2">
+    <link rel="stylesheet" href="/style-partie.css?v=4">
     <link rel="stylesheet" href="/style-ombres.css">
     <!-- En-tête sans bannière photo des pages de contenu -->
     <link rel="stylesheet" href="/style-entete-sobre.css">
@@ -73,11 +73,9 @@
     <div class="province-breadcrumb">
         <a href="/">Accueil</a>
         <span class="sep">›</span>
-        <a href="/compteur.html">Compteur de points</a>
-        <span class="sep">›</span>
-        <span class="current">Partie partagée</span>
+        <span class="current">Partie en ligne</span>
     </div>
-    <h1 class="hero-headline">Partie partagée</h1>
+    <h1 class="hero-headline">Partie en ligne</h1>
 
 </div><!-- /.header -->
 
@@ -154,7 +152,7 @@
 
 <div class="rules-content">
 
-            <div id="partie" class="partie-partagee"></div>
+            <div id="partie" class="partie-commune"></div>
             <noscript><p>Cette page a besoin de JavaScript pour afficher la partie.</p></noscript>
 
 </div><!-- /.rules-content -->
@@ -172,12 +170,12 @@
 <script src="/lib/leaflet-1.9.4/leaflet.js"></script>
 <script src="/lib/leaflet.markercluster-1.5.3/leaflet.markercluster.js"></script>
 
-<script src="/translations.js?v=15"></script>
+<script src="/translations.js?v=16"></script>
 <script>window.MAPETANQUE_SKIP_DEFAULT_MARKERS = true;</script>
 <script src="/chargeur-photo.js"></script>
     <script src="/script.js"></script>
 <script src="/compte.js"></script>
-<script src="/partie.js?v=3"></script>
+<script src="/partie.js?v=5"></script>
 
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bab3b6a3e47743b29ac9f42465b94da3"}'></script><!-- End Cloudflare Web Analytics -->
 </body>

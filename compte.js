@@ -15,6 +15,14 @@
     var URL_COMPTES = "https://mapetanque-comptes.mapetanque.workers.dev";
     var CLE_SESSION = 'mapetanque_session';
 
+    // Essais en local seulement (Live Server) contre le Worker lancé par « wrangler dev » : son
+    // adresse dans localStorage.mapetanque_url_comptes (par exemple http://127.0.0.1:8799).
+    // Ignorée en ligne et pour toute autre adresse.
+    try {
+        var essai = localStorage.getItem('mapetanque_url_comptes') || '';
+        if (/^(127\.0\.0\.1|localhost)$/.test(location.hostname) && /^http:\/\/(127\.0\.0\.1|localhost):\d{2,5}$/.test(essai)) URL_COMPTES = essai;
+    } catch (e) { }
+
     // { jeton, email, pseudo, langue } ou null. L'adresse et le pseudo sont gardés ici pour
     // afficher l'en-tête sans requête ; la vérification auprès du Worker est faite par verifier().
     function lire() {

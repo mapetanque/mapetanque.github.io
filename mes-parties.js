@@ -5,11 +5,17 @@
 //   - filtres en haut, appliqués à toute la page : période, format, et « Avec ou contre {nom} »
 //     quand on touche un partenaire ou un adversaire ;
 //   - chiffres clés, « Avec qui », parties groupées par mois (5, puis « Afficher 10 de plus »,
-//     activité par mois à dérouler), records, terrains les plus joués, carnet de joueurs ;
-//   - fiche d'une partie (panneau) : équipes, format, durée, terrain, mène par mène, et
-//     « Modifier les équipes », « Ajouter / Changer le terrain », « Retirer ».
-// Toutes les parties arrivent en une requête (GET /compte/parties) ; les statistiques sont
-// calculées ici. Routes du Worker des comptes : workers/comptes-parties.js.
+//     activité par mois à dérouler), records, terrains les plus joués ;
+//   - fiche commune d'une partie (panneau, maquettes/parties-communes/, onglet « Fiche
+//     commune ») : victoire ou défaite de son côté, les équipes (« Vous », puis les comptes, puis
+//     « Joueur invité »), format, durée, terrain, mène par mène, dernière modification, et
+//     « Modifier » (format, noms des équipes, terrain), « Retirer de mes parties ».
+// Parties communes (NOTES_parties_communes.md du dépôt privé des Workers) : une seule partie pour
+// tous ses joueurs, une correction profite à tous ; plus de carnet de joueurs, « Avec qui » se
+// compte sur les comptes inscrits (les invités n'ont pas de nom). Toutes les parties arrivent en
+// une requête (GET /parties/mes-parties : parties finies et assez longues où l'on a une place de
+// joueur) ; les statistiques sont calculées ici. Modifier : POST /parties/modifier ; retirer :
+// POST /parties/quitter (sa place redevient un invité, la partie reste aux autres).
 // Sans session (ou session refusée par le Worker) : renvoi vers la page Connexion, qui ramène
 // ici une fois connecté (?retour=).
 //
@@ -32,13 +38,13 @@
     var nbMontrees = PAR_PAGE;
     var onglet = 'avec';      // « Avec qui » : partenaires ou adversaires
     var activiteOuverte = false;
-    var carnetEdition = null; // nom du carnet en cours de renommage
+    var statutPage = '';      // « Partie retirée de vos parties… », en haut de la page
     var lieux = {};           // osm_id -> lieu de data/recherche.json
     var listeLieux = [];
     var communes = {};
 
     // Fiche ouverte : identifiant de la partie et ce qu'elle montre
-    var fiche = { id: null, mode: 'vue', edition: null };
+    var fiche = { id: null, mode: 'vue', edition: null, refus: '', statut: '' };
 
     function picto(chemins) {
         return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + chemins + '</svg>';
@@ -46,6 +52,9 @@
     var PICTOS = {
         croix: picto('<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>'),
         lieu: picto('<path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>'),
+        crayon: picto('<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>'),
+        historique: picto('<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/>'),
+        ok: picto('<circle cx="12" cy="12" r="10"/><polyline points="8 12.5 11 15.5 16 9.5"/>'),
         chercher: picto('<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>')
     };
 
@@ -119,17 +128,14 @@
         return texte.charAt(0).toUpperCase() + texte.slice(1);
     }
 
-    function cleNom(nom) {
-        return String(nom).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
-    }
-
 
     // --- Données ----------------------------------------------------------------------------
-    // Une partie du Worker (score_a, score_b, mon_equipe…) est vue ici du côté du titulaire :
-    // « nous » et « eux », ses partenaires et ses adversaires.
+    // Une partie commune du Worker (score_a, score_b, joueurs par équipe, moi…) est vue ici du
+    // côté du compte : « nous » et « eux », ses partenaires et ses adversaires (comptes, par leur
+    // pseudo), et les joueurs invités de chaque équipe (un nombre : ils n'ont pas de nom).
 
     function preparer(brut) {
-        var moi = brut.mon_equipe === 'b' ? 'b' : 'a';
+        var moi = brut.moi && brut.moi.equipe === 'b' ? 'b' : 'a';
         var autre = moi === 'a' ? 'b' : 'a';
         var debut = lireDate(brut.debut) || new Date(0);
         var fin = lireDate(brut.fin) || debut;
@@ -139,7 +145,11 @@
             if (aNous) nous = Math.min(brut.objectif, nous + m.p); else eux = Math.min(brut.objectif, eux + m.p);
             return { nous: aNous, pts: m.p, a: nous, b: eux };
         });
-        var joueurs = brut.joueurs || {};
+        var joueurs = brut.joueurs || { a: [], b: [] };
+        var pseudos = function (liste) {
+            return liste.filter(function (x) { return !x.moi && x.pseudo; }).map(function (x) { return x.pseudo; });
+        };
+        var scoreNous = moi === 'a' ? brut.score_a : brut.score_b;
         return {
             id: brut.id,
             debut: debut,
@@ -147,16 +157,26 @@
             format: brut.format,
             objectif: brut.objectif,
             moi: moi,
-            nous: moi === 'a' ? brut.score_a : brut.score_b,
+            nous: scoreNous,
             eux: moi === 'a' ? brut.score_b : brut.score_a,
-            gagnee: Number(brut.victoire) === 1,
-            avec: (joueurs[moi] || []).slice(),
-            contre: (joueurs[autre] || []).slice(),
+            gagnee: scoreNous >= brut.objectif,
+            avec: pseudos(joueurs[moi] || []),
+            contre: pseudos(joueurs[autre] || []),
+            invitesNous: (brut.invites || {})[moi] || 0,
+            invitesEux: (brut.invites || {})[autre] || 0,
+            comptesNous: (joueurs[moi] || []).length,
+            comptesEux: (joueurs[autre] || []).length,
             nomNous: brut['nom_' + moi] || '',
             nomEux: brut['nom_' + autre] || '',
             menes: menes,
-            terrain: brut.terrain || null
+            terrain: brut.terrain || null,
+            modif: brut.derniere_modification || null
         };
+    }
+
+    // « un invité », « 2 invités » (clés de la partie en ligne, partie.js)
+    function invites(n) {
+        return n === 1 ? t('pc_un_invite') : libelle('pc_n_invites', { n: n });
     }
 
     function trouver(id) {
@@ -174,7 +194,7 @@
         });
     }
 
-    // Tous les noms du carnet présents dans les parties, avec leur nombre de parties
+    // Tous les comptes partenaires ou adversaires des parties, avec leur nombre de parties
     function carnet() {
         var m = {};
         parties.forEach(function (p) {
@@ -316,13 +336,14 @@
         var session = compte.session() || {};
         var nom = session.pseudo || session.email || '';
         if (!parties.length) {
-            zone.innerHTML = '<p class="mp-sous-titre">' + echapper(nom) + '</p>' + vide();
+            zone.innerHTML = '<p class="mp-sous-titre">' + echapper(nom) + '</p>' + blocStatutPage() + vide();
             return;
         }
 
         var premiere = parties[parties.length - 1].debut;
         var h = '<p class="mp-sous-titre">' + echapper(nom) + ' · '
-            + echapper(libelle('mesparties_depuis', { parties: pluriel('mesparties_parties', parties.length), date: dateSimple(premiere) })) + '</p>';
+            + echapper(libelle('mesparties_depuis', { parties: pluriel('mesparties_parties', parties.length), date: dateSimple(premiere) })) + '</p>'
+            + blocStatutPage();
         // Filtre d'un joueur renommé ou fusionné entre-temps : il n'a plus de partie
         if (F.joueur && !(F.joueur in carnet())) F.joueur = null;
         var liste = filtrees(false);
@@ -333,19 +354,18 @@
             var s = stats(liste);
             h += chiffres(s) + avecQui(liste) + listeParties(liste) + records(s) + terrains(liste);
         }
-        h += carnetHtml();
         zone.innerHTML = h;
         if (liste.length && activiteOuverte) dessinerMois(liste);
-        if (carnetEdition !== null) {
-            var champ = document.getElementById('mp-champ-carnet');
-            if (champ) { champ.focus(); champ.select(); }
-        }
+    }
+
+    function blocStatutPage() {
+        return statutPage ? '<p class="mp-statut-page" role="status">' + PICTOS.ok + '<span>' + echapper(statutPage) + '</span></p>' : '';
     }
 
     function vide() {
         return '<div class="mp-carte mp-vide"><span class="mp-main">' + echapper(t('mesparties_vide_titre')) + '</span>'
             + '<p>' + echapper(t('mesparties_vide')) + '</p>'
-            + '<a class="mp-btn vert" href="' + prefixe + 'compteur.html">' + echapper(t('mesparties_ouvrir_compteur')) + '</a></div>';
+            + '<a class="mp-btn vert" href="' + prefixe + 'partie.html?nouvelle=1">' + echapper(t('pc_nouvelle')) + '</a></div>';
     }
 
     function filtres() {
@@ -421,11 +441,12 @@
             + segment + '<div class="mp-carte mp-joueurs">' + corps + '</div></section>';
     }
 
-    // « Avec Julie, contre Marc et Paul », ou « Doublette, joueurs non précisés »
+    // « Avec Julie et un invité, contre Marc et 2 invités », ou « Contre un invité »
     function texteJoueurs(p) {
-        if (!p.avec.length && !p.contre.length) return libelle('compteur_non_precises', { format: nomFormat(p.format) });
-        if (!p.avec.length) return libelle('compteur_contre_seul', { noms: listeEt(p.contre) });
-        return libelle('compteur_avec', { noms: listeEt(p.avec) }) + (p.contre.length ? ', ' + libelle('compteur_contre', { noms: listeEt(p.contre) }) : '');
+        var avec = p.avec.concat(p.invitesNous ? [invites(p.invitesNous)] : []);
+        var contre = p.contre.concat(p.invitesEux ? [invites(p.invitesEux)] : []);
+        if (!avec.length) return libelle('compteur_contre_seul', { noms: listeEt(contre) });
+        return libelle('compteur_avec', { noms: listeEt(avec) }) + (contre.length ? ', ' + libelle('compteur_contre', { noms: listeEt(contre) }) : '');
     }
 
     function listeParties(liste) {
@@ -499,25 +520,6 @@
         var note = sans ? '<p class="mp-note">' + echapper(pluriel('mesparties_sans_terrain', sans) + ' ' + t('mesparties_sans_terrain_aide')) + '</p>' : '';
         return '<section class="mp-bloc"><h2 class="mp-titre">' + echapper(t('mesparties_terrains'))
             + ' <small>' + echapper(t('mesparties_terrains_aide')) + '</small></h2><div class="mp-carte mp-terrains">' + corps + note + '</div></section>';
-    }
-
-    function carnetHtml() {
-        var m = carnet();
-        var noms = Object.keys(m).sort(function (x, y) { return x.localeCompare(y, locale); });
-        if (!noms.length) return '';
-        return '<section class="mp-bloc"><h2 class="mp-titre">' + echapper(t('mesparties_carnet')) + '</h2><div class="mp-carte mp-carnet">'
-            + noms.map(function (n) {
-                if (carnetEdition === n) {
-                    return '<form class="mp-j" data-ancien="' + echapper(n) + '">'
-                        + '<input id="mp-champ-carnet" value="' + echapper(n) + '" maxlength="20" autocomplete="off" aria-label="' + echapper(t('mesparties_nouveau_nom')) + '">'
-                        + '<button type="submit" class="mp-lien">' + echapper(t('compteur_ok')) + '</button>'
-                        + '<button type="button" class="mp-lien" data-action="carnetAnnuler">' + echapper(t('moncompte_annuler')) + '</button></form>';
-                }
-                return '<div class="mp-j"><span>' + echapper(n) + '<small>' + echapper(pluriel('mesparties_parties', m[n])) + '</small></span>'
-                    + '<button type="button" class="mp-lien" data-carnet="' + echapper(n) + '">' + echapper(t('mesparties_renommer')) + '</button></div>';
-            }).join('')
-            + '<p class="mp-statut" id="mp-statut-carnet" role="status"></p>'
-            + '<p class="mp-note">' + echapper(t('mesparties_carnet_note')) + '</p></div></section>';
     }
 
 
@@ -640,7 +642,8 @@
     function ouvrirFiche(id) {
         if (!trouver(id)) return;
         if (!voile.classList.contains('ouvert')) focusAvant = document.activeElement;
-        fiche = { id: id, mode: 'vue', edition: null };
+        fiche = { id: id, mode: 'vue', edition: null, refus: '', statut: '' };
+        statutPage = '';
         dessinerFiche();
         voile.classList.add('ouvert');
         document.body.classList.add('mp-fiche-ouverte');
@@ -654,7 +657,7 @@
         if (!voile.classList.contains('ouvert')) return;
         voile.classList.remove('ouvert');
         document.body.classList.remove('mp-fiche-ouverte');
-        fiche = { id: null, mode: 'vue', edition: null };
+        fiche = { id: null, mode: 'vue', edition: null, refus: '', statut: '' };
         if (focusAvant && document.contains(focusAvant)) focusAvant.focus({ preventScroll: true });
     }
 
@@ -666,80 +669,132 @@
             + '<button type="button" class="mp-fermer" data-action="fermer" aria-label="' + echapper(t('mesparties_fermer')) + '">' + PICTOS.croix + '</button></div>';
     }
 
+    // « Dernière modification : terrain changé par Julie, aujourd'hui à 10:12. » (mêmes clés que
+    // la partie en ligne, partie.js)
+    function quandRelatif(texte) {
+        var date = lireDate(texte);
+        if (!date) return '';
+        var ecart = Date.now() - date.getTime();
+        if (ecart < 60000) return t('pc_instant');
+        if (ecart < 3600000) return libelle('pc_il_y_a', { n: Math.round(ecart / 60000) });
+        var heure = date.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
+        var jour = new Date(); jour.setHours(0, 0, 0, 0);
+        if (date >= jour) return libelle('pc_aujourdhui', { heure: heure });
+        if (date.getTime() >= jour.getTime() - 86400000) return libelle('pc_hier', { heure: heure });
+        return libelle('pc_le', { date: date.toLocaleDateString(locale, { day: 'numeric', month: 'long' }) });
+    }
+
+    function phraseModification(m) {
+        if (!m) return '';
+        var quoi;
+        switch (m.champ) {
+            case 'format': quoi = libelle('pc_j_format', { format: nomFormat(Number(m.apres)).toLowerCase() }); break;
+            case 'objectif': quoi = libelle('pc_j_objectif', { n: m.apres }); break;
+            case 'nom_a':
+            case 'nom_b': quoi = libelle(m.apres ? 'pc_j_nom' : 'pc_j_nom_efface', { x: m.champ.slice(-1).toUpperCase() }); break;
+            case 'terrain': quoi = t(m.apres ? 'pc_j_terrain' : 'pc_j_terrain_retire'); break;
+            case 'equipe': quoi = t('pc_j_equipe'); break;
+            case 'role': quoi = t(m.apres === 'spectateur' ? 'pc_j_spectateur' : 'pc_j_place'); break;
+            case 'depart': quoi = t('pc_j_depart'); break;
+            case 'rejoint_apres_fin': quoi = t('pc_j_apres_fin'); break;
+            case 'annulation_fin': quoi = t('pc_j_annulation'); break;
+            default: return '';
+        }
+        return libelle('pc_derniere_modif', { quoi: quoi, qui: m.moi ? t('pc_par_vous') : (m.pseudo || '?'), quand: quandRelatif(m.quand) });
+    }
+
+    // Les autres joueurs avec un compte (la partie reste chez eux, ils voient les modifications)
+    function autresComptes(p) {
+        return p.avec.concat(p.contre);
+    }
+
     function dessinerFiche() {
         var p = trouver(fiche.id);
         if (!p) { fermerFiche(); return; }
-        if (fiche.mode === 'equipes') { dessinerEquipes(p); return; }
+        if (fiche.mode === 'modifier') { dessinerModifier(p); return; }
         if (fiche.mode === 'terrain') { dessinerTerrain(p); return; }
 
-        var nous = [t('compteur_vous')].concat(p.avec);
+        // « Vous » en premier, puis les comptes, puis les joueurs invités
+        var invitesHtml = function (n) {
+            var l = [];
+            for (var i = 0; i < n; i++) l.push('<em>' + echapper(t('pc_joueur_invite')) + '</em>');
+            return l;
+        };
+        var nous = [echapper(t('compteur_vous'))].concat(p.avec.map(echapper), invitesHtml(p.invitesNous)).join(', ');
+        var eux = p.contre.map(echapper).concat(invitesHtml(p.invitesEux)).join(', ');
         var terrain = p.terrain
             ? (lienTerrain(p.terrain) ? '<a href="' + echapper(lienTerrain(p.terrain)) + '">' + echapper(nomTerrain(p.terrain)) + '</a>' : echapper(nomTerrain(p.terrain)))
             : '<button type="button" class="mp-lien" data-action="terrain">' + echapper(t('compteur_ajouter_terrain')) + '</button>';
+        var modif = phraseModification(p.modif);
+        var autres = autresComptes(p);
+        var bas;
+        if (fiche.mode === 'retirer') {
+            bas = '<div class="mp-confirmer"><span>' + echapper(autres.length ? libelle('mesparties_retirer_reste', { noms: listeEt(autres) }) : t('mesparties_retirer_efface')) + '</span>'
+                + '<div class="mp-actions"><button type="button" class="mp-btn danger" data-action="retirerOk">' + echapper(t('mesparties_retirer_de')) + '</button>'
+                + '<button type="button" class="mp-btn ligne" data-action="retirerNon">' + echapper(t('moncompte_annuler')) + '</button></div>'
+                + '<p class="mp-statut" role="status"></p></div>';
+        } else {
+            bas = '<div class="mp-actions">'
+                + '<button type="button" class="mp-btn ligne" data-action="modifier">' + PICTOS.crayon + echapper(t('mesparties_modifier')) + '</button>'
+                + '<button type="button" class="mp-btn ligne" data-action="retirer">' + echapper(t('mesparties_retirer_de')) + '</button></div>';
+        }
         cadreFiche.innerHTML = enteteFiche(p)
             + '<div class="mp-equipes-fiche">'
             + '<div class="mp-eqf"><span class="mp-t"><i></i>' + echapper(t('compteur_vous') + (p.nomNous ? ' · ' + p.nomNous : '')) + '</span>'
-            + '<span class="mp-n">' + echapper(listeEt(nous)) + '</span><span class="mp-s">' + p.nous + '</span></div>'
+            + '<span class="mp-n">' + nous + '</span><span class="mp-s">' + p.nous + '</span></div>'
             + '<span class="mp-contre">' + echapper(t('mesparties_contre')) + '</span>'
             + '<div class="mp-eqf eux"><span class="mp-t"><i></i>' + echapper(t('mesparties_eux') + (p.nomEux ? ' · ' + p.nomEux : '')) + '</span>'
-            + '<span class="mp-n">' + echapper(p.contre.length ? listeEt(p.contre) : t('mesparties_non_precises')) + '</span><span class="mp-s">' + p.eux + '</span></div></div>'
+            + '<span class="mp-n">' + eux + '</span><span class="mp-s">' + p.eux + '</span></div></div>'
             + '<dl class="mp-infos">'
             + '<div><dt>' + echapper(t('mesparties_format')) + '</dt><dd>' + echapper(libelle('mesparties_format_val', { format: nomFormat(p.format), objectif: p.objectif })) + '</dd></div>'
             + '<div><dt>' + echapper(t('mesparties_duree_fiche')) + '</dt><dd>' + echapper(libelle('mesparties_duree_val', { minutes: p.minutes, menes: p.menes.length })) + '</dd></div>'
             + '<div class="large"><dt>' + echapper(t('mesparties_terrain')) + '</dt><dd>' + terrain + '</dd></div></dl>'
             + '<section class="mp-bloc"><h3 class="mp-titre">' + echapper(t('mesparties_menes')) + ' <small>' + echapper(t('mesparties_menes_aide')) + '</small></h3>'
             + '<div class="mp-carte mp-graph" id="mp-graph-menes"></div></section>'
-            + '<div class="mp-actions">'
-            + '<button type="button" class="mp-btn ligne" data-action="equipes">' + echapper(t('compteur_modifier_equipes')) + '</button>'
-            + (p.terrain ? '<button type="button" class="mp-btn ligne" data-action="terrain">' + echapper(t('mesparties_changer_terrain')) + '</button>' : '')
-            + '<button type="button" class="mp-btn ligne" data-action="retirer">' + echapper(t('compteur_retirer_partie')) + '</button></div>'
-            + (fiche.mode === 'retirer'
-                ? '<div class="mp-confirmer"><span>' + echapper(t('mesparties_retirer_confirmer')) + '</span><div class="mp-actions">'
-                    + '<button type="button" class="mp-btn danger" data-action="retirerOk">' + echapper(t('compteur_retirer_partie')) + '</button>'
-                    + '<button type="button" class="mp-btn ligne" data-action="retirerNon">' + echapper(t('moncompte_annuler')) + '</button></div>'
-                    + '<p class="mp-statut" role="status"></p></div>'
-                : '');
+            + (modif ? '<p class="mp-modif">' + PICTOS.historique + '<span>' + echapper(modif) + '</span></p>' : '')
+            + (fiche.statut ? '<p class="mp-statut-page" role="status">' + PICTOS.ok + '<span>' + echapper(fiche.statut) + '</span></p>' : '')
+            + bas;
         dessinerMenes(p);
     }
 
-    // Modifier les équipes : format, partenaires et adversaires, « Changer d'équipe ». Le score
-    // et les mènes ne changent pas ; la victoire suit l'équipe du titulaire.
-    function dessinerEquipes(p) {
+    // « Modifier » : format, noms des équipes, terrain. Le score et les mènes ne changent plus ;
+    // la modification vaut pour tous les joueurs. Pas de changement d'équipe après la partie.
+    function dessinerModifier(p) {
         var e = fiche.edition;
-        function champs(cote, places) {
-            var noms = e[cote].slice();
-            while (noms.length < places) noms.push('');
-            return noms.map(function (n) {
-                return '<input type="text" class="mp-champ" data-cote="' + cote + '" value="' + echapper(n) + '" maxlength="20" autocomplete="off" list="mp-liste-carnet" placeholder="' + echapper(t('compteur_prenom')) + '">';
-            }).join('');
-        }
         var formats = [1, 2, 3].map(function (f) {
             var actif = e.format === f;
             return '<button type="button" data-format-fiche="' + f + '" class="' + (actif ? 'actif' : '') + '" aria-pressed="' + actif + '">' + echapper(nomFormat(f)) + '</button>';
         }).join('');
-        var liste = Object.keys(carnet()).sort(function (x, y) { return x.localeCompare(y, locale); })
-            .map(function (n) { return '<option value="' + echapper(n) + '">'; }).join('');
+        var autre = p.moi === 'a' ? 'b' : 'a';
+        var champ = function (cle, etiquette, x) {
+            var noms = (x === p.moi ? [t('compteur_vous')].concat(p.avec) : p.contre)
+                .concat((x === p.moi ? p.invitesNous : p.invitesEux) ? [invites(x === p.moi ? p.invitesNous : p.invitesEux)] : []);
+            return '<div class="mp-champ-groupe"><label class="mp-etiquette" for="mp-' + cle + '">' + echapper(t(etiquette)) + '</label>'
+                + '<input type="text" class="mp-champ" id="mp-' + cle + '" data-champ="' + cle + '" value="' + echapper(e[cle]) + '" maxlength="20" autocomplete="off" placeholder="' + echapper(noms.join(' · ')) + '"></div>';
+        };
+        var terrain = '<div class="mp-terrain-ligne">' + PICTOS.lieu + '<span>' + echapper(p.terrain ? nomTerrain(p.terrain) : t('pc_sans_terrain')) + '</span>'
+            + '<button type="button" class="mp-lien" data-action="terrain">' + echapper(t(p.terrain ? 'pc_changer' : 'compteur_ajouter_terrain')) + '</button>'
+            + (p.terrain ? '<button type="button" class="mp-lien" data-action="sansTerrain">' + echapper(t('pc_retirer')) + '</button>' : '') + '</div>';
+        var autres = autresComptes(p);
         cadreFiche.innerHTML = enteteFiche(p)
             + '<form class="mp-edition" novalidate>'
             + '<div class="mp-champ-groupe"><span class="mp-etiquette">' + echapper(t('compteur_format')) + '</span>'
-            + '<div class="mp-segment" role="group" aria-label="' + echapper(t('compteur_format')) + '">' + formats + '</div></div>'
-            + '<div class="mp-champ-groupe"><span class="mp-etiquette">' + echapper(t('mesparties_votre_equipe')) + '</span>'
-            + '<span class="mp-vous">' + echapper(t('compteur_vous')) + '</span>' + champs('avec', e.format - 1) + '</div>'
-            + '<div class="mp-champ-groupe"><span class="mp-etiquette">' + echapper(t('mesparties_adversaires')) + '</span>' + champs('contre', e.format) + '</div>'
-            + '<button type="button" class="mp-lien mp-changer" data-action="changerEquipe">' + echapper(t('compteur_changer_equipe')) + '</button>'
-            + '<datalist id="mp-liste-carnet">' + liste + '</datalist>'
+            + '<div class="mp-segment" role="group" aria-label="' + echapper(t('compteur_format')) + '">' + formats + '</div>'
+            + (fiche.refus ? '<p class="mp-statut erreur">' + echapper(fiche.refus) + '</p>' : '') + '</div>'
+            + champ('nomNous', 'mesparties_nom_votre', p.moi)
+            + champ('nomEux', 'mesparties_nom_autre', autre)
+            + '<div class="mp-champ-groupe"><span class="mp-etiquette">' + echapper(t('mesparties_terrain')) + '</span>' + terrain + '</div>'
+            + '<p class="mp-note">' + echapper(t('mesparties_modif_aide') + (autres.length ? ' ' + libelle('mesparties_modif_aussi', { noms: listeEt(autres) }) : '')) + '</p>'
             + '<p class="mp-statut" role="status"></p>'
             + '<div class="mp-actions"><button type="submit" class="mp-btn vert">' + echapper(t('mesparties_enregistrer')) + '</button>'
             + '<button type="button" class="mp-btn ligne" data-action="vue">' + echapper(t('moncompte_annuler')) + '</button></div></form>';
     }
 
-    // Reprend les noms tapés avant de redessiner le formulaire (format changé, autre équipe)
-    function lireEdition() {
-        var e = fiche.edition;
-        ['avec', 'contre'].forEach(function (cote) {
-            e[cote] = Array.prototype.map.call(cadreFiche.querySelectorAll('.mp-champ[data-cote="' + cote + '"]'), function (c) {
-                return c.value.replace(/\s+/g, ' ').trim();
-            }).filter(Boolean);
+    // Reprend les noms tapés avant de redessiner le formulaire (format changé)
+    function lireModifier() {
+        if (fiche.mode !== 'modifier' || !fiche.edition) return;
+        Array.prototype.forEach.call(cadreFiche.querySelectorAll('[data-champ]'), function (c) {
+            fiche.edition[c.dataset.champ] = c.value.replace(/\s+/g, ' ').trim();
         });
     }
 
@@ -772,42 +827,41 @@
         if (statut) { statut.textContent = texte || ''; statut.classList.toggle('erreur', !!texte); }
     }
 
-    // Envoie les équipes et le terrain de la partie (route /compte/parties/modifier), puis relit
-    // toutes les parties : la victoire, les noms du carnet et les statistiques suivent.
-    function modifier(p, changements, boutons) {
-        var e = changements;
-        var autre = e.moi === 'a' ? 'b' : 'a';
-        var joueurs = {};
-        joueurs[e.moi] = e.avec;
-        joueurs[autre] = e.contre;
+    // Envoie une modification de la partie (format, noms, terrain), pour tous ses joueurs, puis
+    // relit toutes les parties : statistiques et fiche suivent
+    function envoyerModification(p, champs, boutons) {
+        champs.id = p.id;
         boutons.forEach(function (b) { b.disabled = true; });
-        compte.appel('POST', '/compte/parties/modifier', { id: p.id, format: e.format, mon_equipe: e.moi, joueurs: joueurs, terrain: e.terrain })
-            .then(function (reponse) {
-                if (reponse.statut === 401) { compte.oublier(); versConnexion(); return; }
-                if (reponse.statut !== 200) {
-                    boutons.forEach(function (b) { b.disabled = false; });
-                    statutFiche(t(reponse.donnees.detail === 'joueurs' ? 'mesparties_err_places' : 'compte_err_generique'));
-                    return;
-                }
-                recharger().then(function () {
-                    if (fiche.id === p.id) { fiche.mode = 'vue'; dessinerFiche(); }
-                });
-            });
-    }
-
-    function changementsDe(p) {
-        return { format: p.format, moi: p.moi, avec: p.avec.slice(), contre: p.contre.slice(), terrain: p.terrain };
-    }
-
-    function retirer(p, bouton) {
-        bouton.disabled = true;
-        compte.appel('POST', '/compte/parties/retirer', { id: p.id }).then(function (reponse) {
+        compte.appel('POST', '/parties/modifier', champs).then(function (reponse) {
             if (reponse.statut === 401) { compte.oublier(); versConnexion(); return; }
             if (reponse.statut !== 200) {
-                bouton.disabled = false;
-                statutFiche(t('compte_err_generique'));
+                boutons.forEach(function (b) { b.disabled = false; });
+                if (reponse.donnees.erreur === 'format_trop_petit') {
+                    fiche.refus = libelle('mesparties_refus_format', { format: nomFormat(champs.format).toLowerCase(), n: Math.max(p.comptesNous, p.comptesEux) });
+                    dessinerFiche();
+                    return;
+                }
+                statutFiche(t(reponse.statut === 0 ? 'mesparties_err' : 'compte_err_generique'));
                 return;
             }
+            recharger().then(function () {
+                if (fiche.id === p.id) { fiche.mode = 'vue'; fiche.refus = ''; fiche.statut = t('mesparties_modifs_ok'); dessinerFiche(); }
+            });
+        });
+    }
+
+    // « Retirer de mes parties » : sa place redevient un joueur invité ; la partie reste chez les
+    // autres joueurs avec un compte, ou est effacée s'il n'y en a plus
+    function retirer(p, bouton) {
+        bouton.disabled = true;
+        compte.appel('POST', '/parties/quitter', { id: p.id }).then(function (reponse) {
+            if (reponse.statut === 401) { compte.oublier(); versConnexion(); return; }
+            if (reponse.statut !== 200 && reponse.statut !== 403 && reponse.statut !== 404) {
+                bouton.disabled = false;
+                statutFiche(t(reponse.statut === 0 ? 'mesparties_err' : 'compte_err_generique'));
+                return;
+            }
+            statutPage = t(reponse.donnees.effacee ? 'mesparties_retiree_effacee' : 'mesparties_retiree_reste');
             parties = parties.filter(function (q) { return q.id !== p.id; });
             fermerFiche();
             dessiner();
@@ -820,56 +874,53 @@
         var b = ev.target.closest('button');
         if (!b || !p) return;
         if (b.dataset.formatFiche) {
-            lireEdition();
-            fiche.edition.format = Number(b.dataset.formatFiche);
+            lireModifier();
+            var f = Number(b.dataset.formatFiche);
+            // Le format ne descend que si les comptes de chaque équipe y tiennent encore
+            if (p.comptesNous > f || p.comptesEux > f) {
+                fiche.refus = libelle('mesparties_refus_format', { format: nomFormat(f).toLowerCase(), n: Math.max(p.comptesNous, p.comptesEux) });
+            } else {
+                fiche.refus = '';
+                fiche.edition.format = f;
+            }
             dessinerFiche();
             return;
         }
-        if (b.dataset.terrain) {
-            var c = changementsDe(p);
-            c.terrain = b.dataset.terrain;
-            modifier(p, c, [b]);
-            return;
-        }
+        if (b.dataset.terrain) { envoyerModification(p, { terrain: b.dataset.terrain }, [b]); return; }
         var action = b.dataset.action;
         if (action === 'fermer') fermerFiche();
-        if (action === 'vue' || action === 'retirerNon') { fiche.mode = 'vue'; dessinerFiche(); }
+        if (action === 'vue' || action === 'retirerNon') { fiche.mode = 'vue'; fiche.refus = ''; dessinerFiche(); }
         if (action === 'retirer') {
             fiche.mode = 'retirer';
+            fiche.statut = '';
             dessinerFiche();
             cadreFiche.querySelector('[data-action="retirerOk"]').focus();
         }
         if (action === 'retirerOk') retirer(p, b);
-        if (action === 'equipes') { fiche.mode = 'equipes'; fiche.edition = changementsDe(p); dessinerFiche(); }
-        if (action === 'terrain') { fiche.mode = 'terrain'; dessinerFiche(); }
-        if (action === 'sansTerrain') {
-            var sans = changementsDe(p);
-            sans.terrain = null;
-            modifier(p, sans, [b]);
-        }
-        if (action === 'changerEquipe') {
-            // « Je jouais dans l'autre équipe » : ses joueurs deviennent mes partenaires
-            lireEdition();
-            var e = fiche.edition;
-            var avant = e.avec;
-            e.avec = e.contre;
-            e.contre = avant;
-            e.moi = e.moi === 'a' ? 'b' : 'a';
+        if (action === 'modifier') {
+            fiche.mode = 'modifier';
+            fiche.statut = '';
+            fiche.refus = '';
+            fiche.edition = { format: p.format, nomNous: p.nomNous, nomEux: p.nomEux };
             dessinerFiche();
         }
+        if (action === 'terrain') { fiche.mode = 'terrain'; fiche.statut = ''; dessinerFiche(); }
+        if (action === 'sansTerrain') envoyerModification(p, { terrain: null }, [b]);
     });
 
     voile.addEventListener('submit', function (ev) {
         ev.preventDefault();
         var p = trouver(fiche.id);
-        if (!p || fiche.mode !== 'equipes') return;
-        lireEdition();
+        if (!p || fiche.mode !== 'modifier') return;
+        lireModifier();
         var e = fiche.edition;
-        if (e.avec.length > e.format - 1 || e.contre.length > e.format) {
-            statutFiche(t('mesparties_err_places'));
-            return;
-        }
-        modifier(p, e, Array.prototype.slice.call(cadreFiche.querySelectorAll('button')));
+        var autre = p.moi === 'a' ? 'b' : 'a';
+        var champs = {};
+        if (e.format !== p.format) champs.format = e.format;
+        if (e.nomNous !== p.nomNous) champs['nom_' + p.moi] = e.nomNous || null;
+        if (e.nomEux !== p.nomEux) champs['nom_' + autre] = e.nomEux || null;
+        if (!Object.keys(champs).length) { fiche.mode = 'vue'; dessinerFiche(); return; }
+        envoyerModification(p, champs, Array.prototype.slice.call(cadreFiche.querySelectorAll('button')));
     });
 
     document.addEventListener('keydown', function (ev) {
@@ -893,7 +944,6 @@
             return;
         }
         if (b.dataset.partie) { ouvrirFiche(b.dataset.partie); return; }
-        if (b.dataset.carnet) { carnetEdition = b.dataset.carnet; dessiner(); return; }
         var action = b.dataset.action;
         if (action === 'sansJoueur') { F.joueur = null; dessiner(); }
         if (action === 'plus') {
@@ -909,52 +959,13 @@
             if (liste) liste.scrollIntoView({ block: 'nearest' });
         }
         if (action === 'activite') { activiteOuverte = !activiteOuverte; dessiner(); }
-        if (action === 'carnetAnnuler') { carnetEdition = null; dessiner(); }
     });
-
-    zone.addEventListener('keydown', function (ev) {
-        if (ev.target.id === 'mp-champ-carnet' && ev.key === 'Escape') { carnetEdition = null; dessiner(); }
-    });
-
-    // Renommer un nom du carnet ; le nom d'un autre joueur du carnet fusionne les deux
-    zone.addEventListener('submit', function (ev) {
-        ev.preventDefault();
-        var form = ev.target;
-        var ancien = form.getAttribute('data-ancien');
-        if (ancien === null) return;
-        var champ = form.querySelector('input');
-        var nouveau = champ.value.replace(/\s+/g, ' ').trim();
-        var statut = document.getElementById('mp-statut-carnet');
-        if (!nouveau || nouveau === ancien) { carnetEdition = null; dessiner(); return; }
-        form.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
-        compte.appel('POST', '/compte/joueurs/renommer', { ancien: ancien, nouveau: nouveau }).then(function (reponse) {
-            if (reponse.statut === 401) { compte.oublier(); versConnexion(); return; }
-            if (reponse.statut !== 200) {
-                form.querySelectorAll('button').forEach(function (b) { b.disabled = false; });
-                statut.textContent = t(reponse.donnees.erreur === 'nom_invalide' ? 'mesparties_err_nom' : 'compte_err_generique');
-                statut.classList.add('erreur');
-                champ.focus();
-                return;
-            }
-            // Le filtre suit le joueur renommé, ou celui dans lequel il a été fusionné
-            var filtreSuit = F.joueur === ancien;
-            carnetEdition = null;
-            recharger().then(function () {
-                if (filtreSuit) {
-                    var noms = Object.keys(carnet()).filter(function (n) { return cleNom(n) === cleNom(nouveau); });
-                    F.joueur = noms[0] || null;
-                    dessiner();
-                }
-            });
-        });
-    });
-
 
     // --- Démarrage --------------------------------------------------------------------------
 
-    // Relit toutes les parties (après une modification, un renommage) et redessine la page
+    // Relit toutes les parties (après une modification) et redessine la page
     function recharger() {
-        return compte.appel('GET', '/compte/parties').then(function (reponse) {
+        return compte.appel('GET', '/parties/mes-parties').then(function (reponse) {
             if (reponse.statut === 401) { compte.oublier(); versConnexion(); return; }
             if (reponse.statut === 200) {
                 parties = (reponse.donnees.parties || []).map(preparer)

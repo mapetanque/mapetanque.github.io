@@ -1,65 +1,76 @@
-// ===================== Page Partie partagée =====================
-// partie.html (et ses versions nl/, de/, en/), générée par scripts/generer_partie.py. Ouverte par
-// le QR code ou le lien « Rejoindre cette partie » du compteur (?code=K7P2), ou par le code tapé
-// ici. Maquette validée : artefact « Partie partagée Mapetanque » (maquettes/partie-partagee/).
-// Voir NOTES_comptes_utilisateurs.md, « Étapes B et C fusionnées : la partie partagée ».
-//   - sans code : la dernière partie suivie sur ce téléphone, si elle n'est pas finie (« Jouer ›
-//     Rejoindre une partie » y ramène directement), sinon le champ « Code de la partie » ;
-//     « Entrer un autre code » (?autre=1) y mène toujours ;
-//   - connecté, pas encore dans la partie : « Qui êtes-vous ? » parmi les noms saisis par le
-//     marqueur ou une place libre, ou « Je regarde seulement ». Scanner vaut accord : la partie
-//     arrivera dans ses parties ;
-//   - sans compte : le score suivi d'office, et se connecter pour garder la partie ;
-//   - dans la partie, ou spectateur : le score en direct (WebSocket vers le Worker
-//     mapetanque-direct, workers/direct/) ; si la connexion tombe, « Actualiser » le relit, et
-//     la page se reconnecte d'elle-même ; à la fin, « Enregistrée dans vos parties » ;
-//   - passer la main : un joueur qui a rejoint peut « Marquer à la place de Rémy », sans
-//     confirmation (Rémy reprend la main quand il veut). Son score devient tactile : +1 en
-//     touchant une équipe, pastilles +2 à +6, « Annuler la dernière mène », « Rendre la main ».
-// Routes du Worker des comptes : GET /partage, POST /partage/rejoindre, /partage/mene et
-// /partage/main (workers/comptes-parties.js).
+// ===================== Page Partie en ligne =====================
+// partie.html (et ses versions nl/, de/, en/), générée par scripts/generer_partie.py. La partie
+// commune des connectés : une seule partie, vue par chaque inscrit de son côté, créée, rejointe,
+// marquée et suivie sur le même écran par tous (NOTES_parties_communes.md du dépôt privé des
+// Workers ; maquette validée le 18/10/2026 : maquettes/parties-communes/, onglet « Partie en ligne »).
+//   - sans compte : aucun accès, même pas pour suivre le score ; la connexion, puis retour ici ;
+//   - sans paramètre : la partie en cours sur ce téléphone, sinon « Nouvelle partie » (format, 11
+//     ou 13, terrain facultatif) et le champ du code ; ?nouvelle=1 mène toujours à la création ;
+//     ?rejoindre=1 (menu « Rejoindre une partie », lien sous le compteur) : le champ du code d'abord ;
+//   - ?code=K7P2 (QR code, lien, code tapé) : « Rejoindre une équipe » ou « Je regarde
+//     seulement » ; déjà inscrit, la partie ;
+//   - ?id=… : une partie où l'on a une place (l'adresse passe à l'id une fois inscrit) ;
+//   - la partie : celui qui a la main touche les moitiés (+1, pastilles +2 à +6), les autres ont
+//     « Prendre la main ». Les mènes tapées sans réseau attendent dans le téléphone et partent au
+//     retour du réseau avec le nombre de mènes que l'on voyait ; si quelqu'un a pris la main
+//     entre-temps, le Worker les refuse et la page le dit ;
+//   - la victoire : la partie est déjà dans les historiques ; revanche, nouvelle partie,
+//     « Annuler le dernier point » (5 minutes au plus).
+// Routes /parties/… du Worker des comptes (section « Parties communes » de comptes/src/worker.js).
+// Direct : le Worker mapetanque-direct envoie { type: "partie", maj } à chaque modification ; la
+// page relit alors la partie (le message ne contient ni score ni pseudo).
 //
-// Chargé après script.js (t, currentLang, echapperAvis) et compte.js (window.mapetanqueCompte).
+// Chargé après script.js (t, currentLang, echapperAvis, translations) et compte.js
+// (window.mapetanqueCompte).
 (function () {
     var zone = document.getElementById('partie');
     if (!zone || !window.mapetanqueCompte) return;
     var compte = window.mapetanqueCompte;
 
-    var prefixe = currentLang === 'fr' ? '/' : '/' + currentLang + '/';
-    var locale = { fr: 'fr-BE', nl: 'nl-BE', de: 'de-BE', en: 'en-GB' }[currentLang] || 'fr-BE';
-    var CLE_SPECTATEUR = 'mapetanque_partie_spectateur';   // codes suivis sans prendre de place (cet onglet)
+    var langue = currentLang;
+    var prefixe = langue === 'fr' ? '/' : '/' + langue + '/';
+    var locale = { fr: 'fr-BE', nl: 'nl-BE', de: 'de-BE', en: 'en-GB' }[langue] || 'fr-BE';
     var URL_DIRECT = 'wss://mapetanque-direct.mapetanque.workers.dev';
-    var PING = 30000;         // ms : garde la connexion ouverte (réponse sans réveiller le serveur)
-
-    var CLE_SUIVIE = 'mapetanque_partie_suivie';           // dernière partie suivie sur ce téléphone : { code, quand }
-    var DUREE_SUIVIE = 12 * 3600000;                       // ms : une partie laissée plus longtemps est oubliée, et « Interrompue »
+    var PING = 30000;                 // ms : garde la connexion du direct ouverte
+    var RELECTURE = 15000;            // ms : sans direct, la partie est relue toutes les 15 s
+    var RELECTURE_DIRECT = 60000;     // ms : avec le direct aussi, au cas où un message se perdrait
+    var RENVOI = 8000;                // ms : mènes en attente du réseau, nouvel essai
+    var CLE_EN_COURS = 'mapetanque_partie_en_cours';   // { id, quand } : la partie à rouvrir ici
+    var CLE_ATTENTE = 'mapetanque_menes_attente';      // { id, n, menes: [{ e, p, quand }] }
+    var DUREE_EN_COURS = 12 * 3600000;                 // ms : une partie laissée plus longtemps n'est plus rouverte d'office
+    var RAYON_PROPOSE = 500;          // m : terrain proposé d'office à la création
+    var RAYON_LISTE = 5000;           // m : « Terrains proches »
+    var QR_LIB = '/lib/qrcode-generator-1.4.4/qrcode.js';
 
     var parametres = new URLSearchParams(window.location.search);
-    var code = codeDemande(parametres.get('code'));
-    // « Rejoindre une partie » sans code : la partie suivie sur ce téléphone, retrouvée telle quelle
-    // (on ne suit qu'une partie à la fois). Son code passe dans l'adresse, comme si on l'avait tapé.
-    var ramenee = false;
-    if (!code && !parametres.has('autre')) {
-        code = lireSuivie();
-        if (code) {
-            ramenee = true;
-            try { history.replaceState(null, '', window.location.pathname + '?code=' + encodeURIComponent(code)); } catch (e) { }
-        }
-    }
-    var donnees = null;       // réponse de GET /partage
-    var erreur = '';          // 'introuvable' ou 'reseau'
-    var statut = '';          // message sous les choix (place prise…)
-    var luA = null;           // heure de la dernière lecture
-    var envoiEnCours = false;
-    var spectateur = lireSpectateur();
-    var gain = null;          // dernière mène reçue en direct : « +3 » sur la ligne de l'équipe
-    var majConnue = 0;        // heure (ms) de l'état affiché : un état plus ancien reçu ensuite est ignoré
-    var marquage = false;     // mène ou main en route vers le Worker : les touches attendent
-    var statutInfo = false;   // statut qui informe (main reprise) plutôt qu'une erreur
+    var idDemande = /^[0-9a-f-]{36}$/.test(parametres.get('id') || '') ? parametres.get('id') : '';
+    var codeDemande = nettoyerCode(parametres.get('code'));
+    var arriveeRevanche = parametres.has('revanche');
+    var modeRejoindre = parametres.has('rejoindre');   // menu « Rejoindre une partie » : le code d'abord
+    var ramenee = false;              // partie en cours retrouvée sur ce téléphone (pas demandée dans l'adresse)
 
-    // Connexion du direct
+    var vue = null;                   // la partie, telle que la renvoie le Worker
+    var erreur = '';                  // 'introuvable' ou 'reseau'
+    var avis = null;                  // { texte, alerte, partir } : en haut de l'écran
+    var feuille = '';                 // '', 'partie', 'partager', 'menes', 'terrains'
+    var lienCopie = false;            // « Lien copié » sous les boutons de la feuille « Partager »
+    var depart = false;               // confirmation de « M'en aller de la partie »
+    var refus = '';                   // refus dans la feuille (format, objectif…)
+    var occupe = false;               // requête en cours : les boutons attendent
+    var gain = null;                  // dernière mène tapée ici : « +3 » sur la moitié
+    var horsLigne = navigator.onLine === false;
+    var attente = lireAttente();      // mènes pas encore envoyées
+    var envoiMenes = false;
+    var minuteurRenvoi = null;
+    var creation = { format: 2, objectif: 13, terrain: null };   // terrain : { o, nom }
+    var messageTerrain = '';
+    var proches = [];                 // liste de la feuille « Terrains proches »
+    var terrainPour = '';             // 'creation' ou 'partie'
+    var nomsTerrains = null;          // identifiant OSM -> nom affiché, une fois data/recherche.json lu
+
+    // Direct
     var ws = null;
-    var direct = false;       // connexion ouverte : le score arrive seul
+    var direct = false;
     var essaisDirect = 0;
     var minuteurDirect = null;
     var minuteurPing = null;
@@ -67,379 +78,951 @@
     function picto(chemins) {
         return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + chemins + '</svg>';
     }
+    // Pictos Lucide (licence ISC), comme le reste du site
     var PICTOS = {
-        ok: picto('<circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/>'),
-        vous: picto('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>'),
-        actualiser: picto('<polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>'),
-        plus: picto('<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>'),
+        personne: picto('<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>'),
+        qr: picto('<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM21 14v.01M14 21h.01M17 21h4v-4"/>'),
+        equipes: picto('<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>'),
+        ok: picto('<circle cx="12" cy="12" r="10"/><polyline points="8 12.5 11 15.5 16 9.5"/>'),
+        main: picto('<path d="M18 11V6a2 2 0 0 0-4 0v5"/><path d="M14 10V4a2 2 0 0 0-4 0v6"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/>'),
         crayon: picto('<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>'),
         annuler: picto('<path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/>'),
-        // Passer la main (Lucide « hand »)
-        main: picto('<path d="M18 11V6a2 2 0 0 0-4 0v5"/><path d="M14 10V4a2 2 0 0 0-4 0v6"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/>'),
-        // Les trois façons de rejoindre (écran sans code)
-        qr: picto('<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM21 14v.01M14 21h.01M17 21h4v-4"/>'),
+        info: picto('<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>'),
+        croix: picto('<path d="M18 6 6 18M6 6l12 12"/>'),
+        oeil: picto('<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>'),
+        horsligne: picto('<path d="M12 20h.01M8.5 16.43a5 5 0 0 1 7 0M2 8.82a15 15 0 0 1 4.17-2.65M10.66 5c4.01-.36 8.14.9 11.34 3.76M16.85 11.25a10 10 0 0 1 2.22 1.68M5 13a10 10 0 0 1 5.24-2.76M2 2l20 20"/>'),
+        revanche: picto('<path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/>'),
+        sortir: picto('<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>'),
+        echanger: picto('<path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/>'),
+        historique: picto('<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/>'),
+        liste: picto('<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>'),
+        ajout: picto('<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/>'),
+        envoyer: picto('<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98"/>'),
         lien: picto('<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>'),
-        clavier: picto('<rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h.01M12 12h.01M16 12h.01M7 16h10"/>')
+        lieu: picto('<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>')
     };
 
 
     // --- Outils -----------------------------------------------------------------------------
 
-    function codeDemande(texte) {
+    function nettoyerCode(texte) {
         return String(texte || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8);
     }
 
     function echapper(texte) {
-        return echapperAvis(texte);
+        return echapperAvis(texte == null ? '' : String(texte));
     }
 
     function libelle(cle, valeurs) {
-        var texte = t(cle) || translations.fr[cle] || cle;
+        var texte = t(cle);
+        if (!texte || texte === cle) texte = translations.fr[cle] || cle;
         for (var nom in valeurs) texte = texte.split('{' + nom + '}').join(valeurs[nom]);
         return texte;
     }
 
     function listeEt(noms) {
         if (noms.length < 2) return noms.join('');
-        return noms.slice(0, -1).join(', ') + ' ' + t('compteur_et') + ' ' + noms[noms.length - 1];
+        return noms.slice(0, -1).join(', ') + ' ' + libelle('compteur_et') + ' ' + noms[noms.length - 1];
     }
 
-    function cleNom(nom) {
-        return String(nom).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
+    function nomFormat(f) {
+        return libelle('compteur_format_' + f + '_nom');
     }
 
-    function lireSuivie() {
+    function autre(e) {
+        return e === 'a' ? 'b' : 'a';
+    }
+
+    function lireStockage(cle) {
+        try { return JSON.parse(localStorage.getItem(cle) || 'null'); } catch (e) { return null; }
+    }
+
+    function ecrireStockage(cle, valeur) {
         try {
-            var s = JSON.parse(localStorage.getItem(CLE_SUIVIE) || 'null');
-            return s && typeof s.code === 'string' && Date.now() - s.quand < DUREE_SUIVIE ? codeDemande(s.code) : '';
-        } catch (e) { return ''; }
-    }
-
-    function retenirSuivie() {
-        try { localStorage.setItem(CLE_SUIVIE, JSON.stringify({ code: code, quand: Date.now() })); } catch (e) { }
-    }
-
-    // Partie finie ou disparue : « Rejoindre une partie » ne la ramène plus
-    function oublierSuivie() {
-        try { if (lireSuivie() === code) localStorage.removeItem(CLE_SUIVIE); } catch (e) { }
-    }
-
-    function lireSpectateur() {
-        try { return (JSON.parse(sessionStorage.getItem(CLE_SPECTATEUR) || '[]') || []).indexOf(code) >= 0; } catch (e) { return false; }
-    }
-
-    function ecrireSpectateur(oui) {
-        spectateur = oui;
-        try {
-            var liste = (JSON.parse(sessionStorage.getItem(CLE_SPECTATEUR) || '[]') || []).filter(function (c) { return c !== code; });
-            if (oui) liste.push(code);
-            sessionStorage.setItem(CLE_SPECTATEUR, JSON.stringify(liste.slice(-20)));
+            if (valeur) localStorage.setItem(cle, JSON.stringify(valeur));
+            else localStorage.removeItem(cle);
         } catch (e) { }
+    }
+
+    function lireEnCours() {
+        var s = lireStockage(CLE_EN_COURS);
+        return s && typeof s.id === 'string' && Date.now() - s.quand < DUREE_EN_COURS ? s.id : '';
+    }
+
+    function lireAttente() {
+        var s = lireStockage(CLE_ATTENTE);
+        return s && typeof s.id === 'string' && Array.isArray(s.menes) ? s : { id: '', n: 0, menes: [] };
+    }
+
+    function ecrireAttente() {
+        ecrireStockage(CLE_ATTENTE, attente.menes.length ? attente : null);
+    }
+
+    // Adresse de la page sans recharger : ?id= une fois inscrit (le code ne sert qu'à rejoindre)
+    function adresse(recherche) {
+        try { history.replaceState(null, '', window.location.pathname + (recherche ? '?' + recherche : '')); } catch (e) { }
     }
 
     function versConnexion() {
         window.location.href = prefixe + 'connexion.html?retour=' + encodeURIComponent(window.location.pathname + window.location.search);
     }
 
+    function lienCode(code) {
+        return window.location.origin + prefixe + 'partie.html?code=' + encodeURIComponent(code);
+    }
+
+    // « AAAA-MM-JJ HH:MM:SS » (UTC, comme dans la base) -> « à l'instant », « il y a 5 min »…
+    function quandRelatif(texte) {
+        var ms = Date.parse(String(texte || '').replace(' ', 'T') + 'Z');
+        if (!ms) return '';
+        var ecart = Date.now() - ms;
+        if (ecart < 60000) return libelle('pc_instant');
+        if (ecart < 3600000) return libelle('pc_il_y_a', { n: Math.round(ecart / 60000) });
+        var date = new Date(ms);
+        var heure = date.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
+        var jour = new Date(); jour.setHours(0, 0, 0, 0);
+        if (date >= jour) return libelle('pc_aujourdhui', { heure: heure });
+        if (date >= jour.getTime() - 86400000) return libelle('pc_hier', { heure: heure });
+        return libelle('pc_le', { date: date.toLocaleDateString(locale, { day: 'numeric', month: 'long' }) });
+    }
+
 
     // --- La partie, vue d'ici ----------------------------------------------------------------
 
-    // Joueurs d'une équipe : le marqueur, les noms qu'il a saisis, les joueurs venus sur une place libre
-    function joueursEquipe(e) {
-        var et = donnees.etat;
-        var noms = [];
-        if (et.mon_equipe === e && donnees.marqueur) noms.push(donnees.marqueur);
-        (et.joueurs[e] || []).forEach(function (n) { noms.push(n); });
-        donnees.rejoints.forEach(function (r) {
-            if (r.equipe === e && !r.nom && r.pseudo && !noms.some(function (n) { return cleNom(n) === cleNom(r.pseudo); })) noms.push(r.pseudo);
-        });
+    // Les mènes affichées : celles du serveur, puis celles qui attendent le réseau
+    function menesAffichees() {
+        if (!vue) return [];
+        return attente.id === vue.id ? vue.menes.concat(attente.menes) : vue.menes;
+    }
+
+    function score(menes) {
+        var s = { a: 0, b: 0 };
+        menes.forEach(function (m) { s[m.e] = Math.min(vue.objectif, s[m.e] + m.p); });
+        return s;
+    }
+
+    function finie(s) {
+        return s.a >= vue.objectif || s.b >= vue.objectif;
+    }
+
+    function jeMarque() {
+        return !!(vue && vue.main && vue.main.moi);
+    }
+
+    function nomPersonne(x) {
+        return x.moi ? libelle('pc_vous') : (x.pseudo || '?');
+    }
+
+    // Les joueurs d'une équipe : les comptes (« Vous » pour soi), puis les invités
+    function nomsEquipe(e, sansVous) {
+        var noms = vue.joueurs[e].filter(function (x) { return !(sansVous && x.moi); }).map(nomPersonne);
+        var invites = vue.invites[e];
+        if (invites) noms.push(invites === 1 ? libelle('pc_un_invite') : libelle('pc_n_invites', { n: invites }));
         return noms;
     }
 
-    function nomEquipe(e) {
-        var saisi = donnees.etat['nom_' + e];
-        if (saisi) return saisi;
-        var noms = joueursEquipe(e);
-        return noms.length ? noms.join(' · ') : t('compteur_equipe_' + e);
+    function titreEquipe(e) {
+        return vue['nom_' + e] || libelle('pc_equipe', { x: e.toUpperCase() });
     }
 
-    function equipeMoi() {
-        return donnees.moi ? donnees.moi.equipe : null;
+    function phraseGagnante(e) {
+        if (vue['nom_' + e]) return libelle('pc_gagne', { equipe: vue['nom_' + e] });
+        var c = vue.joueurs[e].filter(function (x) { return !x.moi; });
+        return c.length ? libelle('pc_gagne_equipe_de', { pseudo: c[0].pseudo || '?' }) : libelle('pc_gagne', { equipe: libelle('pc_equipe', { x: e.toUpperCase() }) });
     }
 
-    function score(e) {
-        return e === 'a' ? donnees.etat.score_a : donnees.etat.score_b;
+    function nomTerrain(o) {
+        if (!o) return '';
+        if (nomsTerrains && nomsTerrains[o]) return nomsTerrains[o];
+        if (!nomsTerrains) chargerTerrains().then(dessiner, function () { });
+        return libelle('popup_terrain_default');
     }
 
-    function gagnante() {
-        var et = donnees.etat;
-        return et.score_a >= et.objectif ? 'a' : 'b';
-    }
-
-    // Partie non terminée, sans rien de neuf depuis DUREE_SUIVIE : laissée en plan (le compteur du
-    // créateur en commence d'ailleurs une nouvelle au même délai). Une mène marquée la relance.
-    function interrompue() {
-        return !donnees.etat.termine && majConnue > 0 && Date.now() - majConnue > DUREE_SUIVIE;
-    }
-
-    function etiquette() {
-        var et = donnees.etat;
-        if (et.termine) return '<span class="pt-etiq gris">' + echapper(t('partie_terminee')) + '</span>';
-        if (interrompue()) return '<span class="pt-etiq gris">' + echapper(t('partie_interrompue')) + '</span>';
-        var h;
-        if (direct) h = '<span class="pt-etiq direct"><i></i>' + echapper(libelle('partie_en_direct', { n: et.menes.length + 1 })) + '</span>';
-        else if (!et.menes.length) h = '<span class="pt-etiq">' + echapper(t('partie_pas_commencee')) + '</span>';
-        else h = '<span class="pt-etiq"><i></i>' + echapper(libelle('partie_en_cours', { n: et.menes.length + 1 })) + '</span>';
-        // Qui marque, dès que ce n'est plus le créateur
-        if (jeMarque()) h += '<span class="pt-etiq fort">' + PICTOS.crayon + echapper(t('partie_vous_marquez')) + '</span>';
-        else if (donnees.main) h += '<span class="pt-etiq gris">' + PICTOS.crayon + echapper(libelle('partie_marque', { pseudo: donnees.main })) + '</span>';
-        return h;
-    }
-
-    // Un joueur qui a la main marque ici (le créateur, lui, marque dans son compteur)
-    function jeMarque() {
-        return !!donnees.main_moi && !donnees.marqueur_moi;
-    }
-
-    // Nom de qui a la main : un joueur, sinon le créateur
-    function nomMarqueur() {
-        return donnees.main || donnees.marqueur || '…';
-    }
-
-    // Score, une ligne par équipe. Tactile pour le joueur qui a la main : toucher la ligne = +1,
-    // pastilles +2 à +6 (+3 au plus en tête-à-tête, comme le compteur).
-    function tableauScore() {
-        var moi = equipeMoi();
-        var et = donnees.etat;
-        var tactile = jeMarque() && !et.termine;
-        var cote = function (e) {
-            var contenu = '<span class="pt-n">' + (moi === e ? '<span class="pt-vous">' + PICTOS.vous + echapper(t('compteur_vous')) + '</span>' : '')
-                + '<span class="pt-noms">' + echapper(nomEquipe(e)) + '</span></span>'
-                + (gain && gain.e === e ? '<span class="pt-gain" aria-hidden="true">+' + gain.p + '</span>' : '')
-                + '<span class="pt-s">' + score(e) + '</span>';
-            if (!tactile) return '<div class="pt-eq ' + e + '">' + contenu + '</div>';
-            var pts = '';
-            for (var p = 2; p <= (et.format === 1 ? 3 : 6); p++) pts += '<span class="pt-pt" data-pts="' + p + '">+' + p + '</span>';
-            return '<button type="button" class="pt-eq tactile ' + e + '" data-mene="' + e + '" data-pts="1" aria-label="' + echapper(libelle('partie_point_pour', { equipe: nomEquipe(e) })) + '"'
-                + (marquage ? ' disabled' : '') + '>' + contenu + '<span class="pt-pts">' + pts + '</span></button>';
-        };
-        var der = et.menes[et.menes.length - 1];
-        return '<div class="pt-score">' + cote('a') + cote('b') + '</div>'
-            + '<p class="pt-mention">' + echapper(libelle('partie_format', { format: t('compteur_format_' + et.format + '_nom'), objectif: et.objectif }))
-            + (der && !et.termine ? ' · ' + echapper(libelle('partie_derniere', { p: der.p, equipe: nomEquipe(der.e) })) : '') + '</p>';
-    }
-
-    function boutonActualiser() {
-        if (direct) return '';
-        var heure = luA ? luA.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' }) : '';
-        return '<div class="pt-actualiser"><button type="button" class="pt-btn ligne" data-action="actualiser"' + (envoiEnCours ? ' disabled' : '') + '>'
-            + PICTOS.actualiser + echapper(t('partie_actualiser')) + '</button>'
-            + (heure ? '<span>' + echapper(libelle('partie_lu_a', { heure: heure })) + '</span>' : '') + '</div>';
+    // « Dernière modification : terrain changé par Julie, ce matin. »
+    function phraseModification(m) {
+        if (!m) return '';
+        var quoi;
+        switch (m.champ) {
+            case 'format': quoi = libelle('pc_j_format', { format: nomFormat(Number(m.apres)).toLowerCase() }); break;
+            case 'objectif': quoi = libelle('pc_j_objectif', { n: m.apres }); break;
+            case 'nom_a':
+            case 'nom_b': quoi = libelle(m.apres ? 'pc_j_nom' : 'pc_j_nom_efface', { x: m.champ.slice(-1).toUpperCase() }); break;
+            case 'terrain': quoi = libelle(m.apres ? 'pc_j_terrain' : 'pc_j_terrain_retire'); break;
+            case 'equipe': quoi = libelle('pc_j_equipe'); break;
+            case 'role': quoi = libelle(m.apres === 'spectateur' ? 'pc_j_spectateur' : 'pc_j_place'); break;
+            case 'depart': quoi = libelle('pc_j_depart'); break;
+            case 'rejoint_apres_fin': quoi = libelle('pc_j_apres_fin'); break;
+            case 'annulation_fin': quoi = libelle('pc_j_annulation'); break;
+            default: return '';
+        }
+        return libelle('pc_derniere_modif', { quoi: quoi, qui: m.moi ? libelle('pc_par_vous') : (m.pseudo || '?'), quand: quandRelatif(m.quand) });
     }
 
 
     // --- Rendu -------------------------------------------------------------------------------
 
     function dessiner() {
-        if (!code) { dessinerCode(); return; }
-        if (erreur === 'introuvable') {
-            zone.innerHTML = '<div class="pt-carte"><p><strong>' + echapper(t('partie_introuvable')) + '</strong></p>'
-                + '<p class="pt-mention">' + echapper(t('partie_introuvable_aide')) + '</p>'
-                + '<a class="pt-lien" href="' + prefixe + 'partie.html?autre=1">' + echapper(t('partie_autre_code')) + '</a></div>';
-            return;
-        }
-        if (erreur === 'reseau' && !donnees) {
-            zone.innerHTML = '<div class="pt-carte"><p>' + echapper(t('partie_err')) + '</p>'
-                + '<button type="button" class="pt-btn vert" data-action="actualiser">' + echapper(t('compteur_reessayer')) + '</button></div>';
-            return;
-        }
-        if (!donnees) {
-            zone.innerHTML = '<p class="pt-mention">' + echapper(t('partie_chargement')) + '</p>';
-            return;
-        }
+        // Un nom d'équipe en cours de saisie survit au dessin (une mène arrivée en direct, par exemple)
+        var actif = document.activeElement;
+        var saisie = actif && zone.contains(actif) && actif.dataset && actif.dataset.champ
+            ? { champ: actif.dataset.champ, valeur: actif.value, debut: actif.selectionStart, fin: actif.selectionEnd } : null;
+        var defile = zone.querySelector('.pc-feuille');
+        var hauteur = defile ? defile.scrollTop : 0;
 
-        var h = '<div class="pt-tete"><h2>' + echapper(libelle('partie_de', { pseudo: donnees.marqueur || '…' })) + '</h2><div class="pt-etiqs">' + etiquette() + '</div></div>'
-            + tableauScore();
-        if (donnees.marqueur_moi) h += blocMarqueur();
-        else if (donnees.moi || spectateur || !compte.session()) h += blocSuivi();
-        else h += blocChoix();
-        // « Rejoindre une partie » ramène ici tant que la partie n'est pas finie : de quoi en rejoindre une autre
-        if (!donnees.marqueur_moi) h += '<p class="pt-mention"><a class="pt-lien" href="' + prefixe + 'partie.html?autre=1">' + echapper(t('partie_autre_code')) + '</a></p>';
+        var h;
+        if (!compte.session()) h = ecranConnexion();
+        else if (erreur === 'introuvable') h = ecranIntrouvable();
+        else if (erreur === 'reseau' && !vue) h = ecranReseau();
+        else if (!vue && (idDemande || codeDemande)) h = '<div class="pc-page"><p class="pc-discret">' + echapper(libelle('pc_chargement')) + '</p></div>';
+        else if (!vue) h = modeRejoindre ? ecranCode() : ecranCreation();
+        else if (!vue.moi) h = ecranRejoindre();
+        else if (vue.fin) h = ecranVictoire();
+        else h = ecranJeu();
+        if (compte.session() && feuille === 'terrains') h += feuilleTerrains();
+        else if (vue && vue.moi && !vue.fin && feuille === 'partie') h += feuillePartie();
+        else if (vue && vue.moi && !vue.fin && feuille === 'partager') h += feuillePartager();
+        else if (vue && vue.moi && !vue.fin && feuille === 'menes') h += feuilleMenes();
         zone.innerHTML = h;
         gain = null;   // l'animation ne se rejoue pas au dessin suivant
-    }
 
-    // Sans code (menu « Jouer › Rejoindre une partie ») : les trois façons d'entrer dans une
-    // partie, puis le champ du code, et un lien vers le compteur pour qui marque les points.
-    function dessinerCode() {
-        var facon = function (picto, titre, aide) {
-            return '<li>' + picto + '<span><strong>' + echapper(t(titre)) + '</strong>'
-                + '<span class="pt-mention">' + echapper(t(aide)) + '</span></span></li>';
-        };
-        zone.innerHTML = '<div class="pt-carte pt-facons">'
-            + '<p class="pt-question">' + echapper(t('partie_facons_titre')) + '</p>'
-            + '<p class="pt-mention">' + echapper(libelle('partie_facons_intro', { bouton: t('compteur_partager') })) + '</p>'
-            + '<ol class="pt-facons-liste">'
-            + facon(PICTOS.qr, 'partie_facon_qr', 'partie_facon_qr_aide')
-            + facon(PICTOS.lien, 'partie_facon_lien', 'partie_facon_lien_aide')
-            + facon(PICTOS.clavier, 'partie_facon_code', 'partie_facon_code_aide')
-            + '</ol></div>'
-            + '<form class="pt-carte pt-code" novalidate>'
-            + '<label class="pt-etiquette" for="pt-champ-code">' + echapper(t('partie_code_label')) + '</label>'
-            + '<div class="pt-ligne-code"><input type="text" id="pt-champ-code" class="pt-champ" maxlength="4" autocomplete="off" autocapitalize="characters" spellcheck="false" inputmode="text" placeholder="K7P2">'
-            + '<button type="submit" class="pt-btn vert">' + echapper(t('partie_code_ok')) + '</button></div></form>'
-            + '<p class="pt-mention pt-creer">' + echapper(t('partie_creer_question'))
-            + ' <a class="pt-lien" href="' + prefixe + 'compteur.html">' + echapper(t('partie_creer')) + '</a></p>';
-    }
-
-    function blocMarqueur() {
-        return '<div class="pt-carte"><p>' + echapper(donnees.main ? libelle('partie_votre_partie_autre', { pseudo: donnees.main }) : t('partie_votre_partie')) + '</p>'
-            + '<a class="pt-btn vert" href="' + prefixe + 'compteur.html">' + echapper(t('mesparties_ouvrir_compteur')) + '</a></div>';
-    }
-
-    // Dans la partie, « Je regarde seulement », ou sans compte : le score à relire, puis la fin
-    function blocSuivi() {
-        var et = donnees.etat;
-        var moi = donnees.moi;
-        var h = '<div class="pt-carte">';
-        if (!et.termine && jeMarque()) {
-            // C'est ici qu'on marque : le score ci-dessus est tactile
-            h += '<p class="pt-mention">' + echapper(t('partie_aide_marquer')) + '</p>'
-                + boutonAnnulerMene()
-                + ligneStatut()
-                + '<button type="button" class="pt-lien" data-action="rendre">' + echapper(libelle('partie_rendre_main', { pseudo: donnees.marqueur || '…' })) + '</button>';
-        } else if (!et.termine) {
-            if (moi) h += '<p class="pt-ok">' + PICTOS.ok + echapper(libelle(moi.equipe === et.mon_equipe ? 'partie_avec' : 'partie_contre', { pseudo: donnees.marqueur || '…' })) + '</p>';
-            else h += '<p>' + echapper(t('partie_spectateur')) + '</p>';
-            h += boutonActualiser();
-            if (moi) h += '<p class="pt-mention">' + echapper(t('partie_arrivera')) + '</p>';
-            if (statut) h += ligneStatut();
-            if (moi) h += '<button type="button" class="pt-lien pt-lien-picto" data-action="prendre"' + (marquage ? ' disabled' : '') + '>' + PICTOS.main + echapper(libelle('partie_prendre_main', { pseudo: nomMarqueur() })) + '</button>';
-        } else {
-            var g = gagnante();
-            h += '<p class="pt-fin">' + echapper(moi && moi.equipe === g ? t('compteur_vous_gagnez') : libelle('compteur_gagne', { equipe: nomEquipe(g) })) + '</p>';
-            // La dernière mène marquée ici peut encore être annulée
-            if (jeMarque()) h += boutonAnnulerMene() + ligneStatut();
-            if (moi && moi.enregistree) {
-                h += '<p class="pt-ok">' + PICTOS.ok + echapper(t('partie_enregistree')) + '</p>'
-                    + '<a class="pt-btn vert" href="' + prefixe + 'mes-parties.html">' + echapper(t('partie_voir_parties')) + '</a>';
-            } else if (moi && moi.retiree) {
-                h += '<p class="pt-mention">' + echapper(t('partie_retiree')) + '</p>';
-            } else if (moi) {
-                h += '<p>' + echapper(libelle('partie_attente', { pseudo: donnees.marqueur || '…' })) + '</p>' + boutonActualiser();
-            } else if (!compte.session()) {
-                h += '<button type="button" class="pt-btn vert" data-action="connexion">' + echapper(t('partie_connexion_fin')) + '</button>'
-                    + '<p class="pt-mention">' + echapper(t('partie_gratuit')) + '</p>';
-            } else {
-                h += '<button type="button" class="pt-lien" data-action="choisir">' + echapper(t('partie_je_jouais')) + '</button>';
+        defile = zone.querySelector('.pc-feuille');
+        if (defile) defile.scrollTop = hauteur;
+        if (saisie) {
+            var champ = zone.querySelector('[data-champ="' + saisie.champ + '"]');
+            if (champ) {
+                champ.value = saisie.valeur;
+                champ.focus();
+                try { champ.setSelectionRange(saisie.debut, saisie.fin); } catch (e) { }
             }
         }
-        if (!moi && !et.termine) {
-            if (compte.session()) h += '<button type="button" class="pt-lien" data-action="choisir">' + echapper(t('partie_je_joue')) + '</button>';
-            else h += '<button type="button" class="pt-btn vert" data-action="connexion">' + echapper(t('partie_connexion')) + '</button>'
-                + '<p class="pt-mention">' + echapper(t('partie_gratuit')) + '</p>';
-        }
-        return h + '</div>';
+        if (feuille === 'partager' && vue && vue.code) dessinerQr();
     }
 
-    // Message sous les choix : erreur (place prise, réseau) ou information (main reprise)
-    function ligneStatut() {
-        return '<p class="pt-statut' + (statutInfo ? ' info' : '') + '" role="status">' + echapper(statut) + '</p>';
+    function blocAvis() {
+        if (!avis) return '';
+        return '<div class="pc-avis' + (avis.alerte ? ' alerte' : '') + '">' + (avis.alerte ? PICTOS.horsligne : PICTOS.info)
+            + '<span>' + echapper(avis.texte) + '</span>'
+            + (avis.partir ? '<button type="button" class="pc-lien" data-action="partir-ok">' + echapper(libelle('pc_partir_ok')) + '</button>' : '') + '</div>';
     }
 
-    function boutonAnnulerMene() {
-        return '<button type="button" class="pt-btn ligne" data-action="annulerMene"' + (marquage || !donnees.etat.menes.length ? ' disabled' : '') + '>'
-            + PICTOS.annuler + echapper(t('partie_annuler_mene')) + '</button>';
-    }
-
-    // « Qui êtes-vous ? » : les noms saisis par le créateur, puis les places libres de chaque équipe
-    function blocChoix() {
-        var et = donnees.etat;
-        // Un nom est pris par qui l'a choisi, ou par qui est venu sur une place libre sous ce pseudo
-        var pris = donnees.rejoints.map(function (r) { return cleNom(r.nom || r.pseudo || ''); });
-        var equipes = [et.mon_equipe, et.mon_equipe === 'a' ? 'b' : 'a'];
-        var h = '<div class="pt-carte"><p class="pt-question">' + echapper(t(et.termine ? 'partie_qui_fin' : 'partie_qui')) + '</p>';
-        equipes.forEach(function (e) {
-            var chips = '';
-            if (e === et.mon_equipe && donnees.marqueur) chips += '<button type="button" class="pt-choix pris" disabled>' + echapper(donnees.marqueur) + '</button>';
-            (et.joueurs[e] || []).forEach(function (n) {
-                var deja = pris.indexOf(cleNom(n)) >= 0;
-                chips += '<button type="button" class="pt-choix' + (deja ? ' pris' : '') + '"' + (deja ? ' disabled' : ' data-equipe="' + e + '" data-nom="' + echapper(n) + '"') + '>' + echapper(n) + '</button>';
-            });
-            var saisis = (et.joueurs[e] || []).map(cleNom);
-            var libres = donnees.rejoints.filter(function (r) { return r.equipe === e && !r.nom && saisis.indexOf(cleNom(r.pseudo || '')) < 0; });
-            libres.forEach(function (r) { chips += '<button type="button" class="pt-choix pris" disabled>' + echapper(r.pseudo || '') + '</button>'; });
-            var places = et.format - (e === et.mon_equipe ? 1 : 0) - (et.joueurs[e] || []).length - libres.length;
-            if (places > 0) chips += '<button type="button" class="pt-choix libre" data-equipe="' + e + '" data-libre="1">' + PICTOS.plus + echapper(t('partie_autre')) + '</button>';
-            h += '<div class="pt-equipe ' + e + '"><span class="pt-etiquette"><i></i>' + echapper(e === et.mon_equipe ? libelle('partie_equipe_de', { pseudo: donnees.marqueur || '…' }) : t('partie_equipe_adverse')) + '</span>'
-                + '<div class="pt-choix-liste">' + chips + '</div></div>';
-        });
-        if (!et.termine) h += '<button type="button" class="pt-lien" data-action="regarder">' + echapper(t('partie_regarder')) + '</button>';
-        else h += '<p class="pt-mention">' + echapper(t('partie_mention_fin')) + '</p>';
+    function avatar() {
         var session = compte.session();
-        h += ligneStatut()
-            + '<p class="pt-compte"><span class="pt-pastille" aria-hidden="true">' + echapper((session.pseudo || session.email || '?').charAt(0).toUpperCase()) + '</span>'
-            + echapper(libelle('partie_connecte', { pseudo: session.pseudo || session.email })) + '</p>';
-        return h + '</div>';
+        return '<i class="pc-avatar" aria-hidden="true">' + echapper((session.pseudo || session.email || '?').charAt(0).toUpperCase()) + '</i>';
+    }
+
+    function pseudoSession() {
+        var session = compte.session();
+        return session.pseudo || session.email || '';
+    }
+
+    function formulaireCode() {
+        return '<form class="pc-ligne-code" data-form="code" novalidate>'
+            + '<input type="text" class="pc-champ" id="pc-code" maxlength="4" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="K7P2" aria-label="' + echapper(libelle('pc_code_titre')) + '">'
+            + '<button type="submit" class="pc-btn ligne">' + echapper(libelle('pc_code_ok')) + '</button></form>';
+    }
+
+    // Sans compte : aucun accès ; la connexion ramène ici (même adresse, code compris)
+    function ecranConnexion() {
+        return '<div class="pc-page">'
+            + '<span class="pc-tl">' + echapper(codeDemande ? libelle('pc_partie_code', { code: codeDemande }) : libelle('pc_compter')) + '</span>'
+            + '<h2>' + echapper(libelle('pc_connexion_titre')) + '</h2>'
+            + '<p class="pc-discret">' + echapper(libelle('pc_connexion_aide')) + '</p>'
+            + '<button type="button" class="pc-btn plein large" data-action="connexion">' + echapper(libelle('pc_connexion_bouton')) + '</button>'
+            + '<hr class="pc-separation">'
+            + '<p class="pc-discret">' + echapper(libelle('pc_sans_compte')) + '</p>'
+            + '<a class="pc-btn ligne" href="' + prefixe + 'compteur.html">' + echapper(libelle('pc_compteur_simple')) + '</a></div>';
+    }
+
+    function ecranIntrouvable() {
+        return '<div class="pc-page">' + blocAvis()
+            + '<h2>' + echapper(libelle('pc_introuvable')) + '</h2>'
+            + '<p class="pc-discret">' + echapper(libelle('pc_introuvable_aide')) + '</p>'
+            + '<span class="pc-lbl">' + echapper(libelle('pc_code_titre')) + '</span>' + formulaireCode()
+            + '<hr class="pc-separation">'
+            + '<button type="button" class="pc-btn plein large" data-action="nouvelle">' + echapper(libelle('pc_nouvelle')) + '</button></div>';
+    }
+
+    function ecranReseau() {
+        return '<div class="pc-page"><p class="pc-discret">' + echapper(libelle('pc_err_reseau')) + '</p>'
+            + '<button type="button" class="pc-btn plein" data-action="relire">' + echapper(libelle('pc_reessayer')) + '</button></div>';
+    }
+
+    // « Rejoindre une partie » (menu, lien sous le compteur) : le QR code, le lien reçu ou le code
+    function ecranCode() {
+        return '<div class="pc-page">' + blocAvis()
+            + '<h2>' + echapper(libelle('pc_rejoindre_partie')) + '</h2>'
+            + '<p class="pc-discret">' + echapper(libelle('pc_rejoindre_aide')) + '</p>'
+            + '<span class="pc-connecte">' + avatar() + echapper(libelle('pc_connecte', { pseudo: pseudoSession() })) + '</span>'
+            + '<span class="pc-lbl">' + echapper(libelle('pc_code_titre')) + '</span>' + formulaireCode()
+            + '<hr class="pc-separation">'
+            + '<p class="pc-discret">' + echapper(libelle('pc_pas_de_partie')) + '</p>'
+            + '<button type="button" class="pc-btn ligne" data-action="nouvelle">' + echapper(libelle('pc_nouvelle')) + '</button></div>';
+    }
+
+    // « Nouvelle partie » : format, 11 ou 13, terrain facultatif ; « Commencer » mène au compteur
+    function ecranCreation() {
+        var seg = function (attr, valeurs, actuel, nom) {
+            return '<div class="pc-seg" role="group">' + valeurs.map(function (v) {
+                return '<button type="button" data-' + attr + '="' + v + '" aria-pressed="' + (actuel === v) + '">' + echapper(nom(v)) + '</button>';
+            }).join('') + '</div>';
+        };
+        var terrain = creation.terrain
+            ? '<div class="pc-terrain">' + PICTOS.lieu + '<span>' + echapper(creation.terrain.nom) + '</span>'
+                + '<button type="button" class="pc-lien" data-action="terrains" data-pour="creation">' + echapper(libelle('pc_changer')) + '</button>'
+                + '<button type="button" class="pc-lien" data-action="sans-terrain-creation">' + echapper(libelle('pc_retirer')) + '</button></div>'
+            : '<div class="pc-terrain"><button type="button" class="pc-btn ligne" data-action="terrains" data-pour="creation">' + PICTOS.lieu + echapper(libelle('pc_ajouter_terrain')) + '</button>'
+                + (messageTerrain ? '<span class="pc-petit">' + echapper(messageTerrain) + '</span>' : '') + '</div>';
+        return '<div class="pc-page">' + blocAvis()
+            + '<span class="pc-tl">' + echapper(libelle('pc_compter')) + '</span>'
+            + '<h2>' + echapper(libelle('pc_nouvelle')) + '</h2>'
+            + '<span class="pc-connecte">' + avatar() + echapper(libelle('pc_connecte', { pseudo: pseudoSession() })) + '</span>'
+            + '<span class="pc-lbl">' + echapper(libelle('pc_format')) + '</span>' + seg('creation-format', [1, 2, 3], creation.format, nomFormat)
+            + '<span class="pc-lbl">' + echapper(libelle('pc_en')) + '</span>' + seg('creation-objectif', [11, 13], creation.objectif, function (v) { return libelle('pc_points', { n: v }); })
+            + '<span class="pc-lbl">' + echapper(libelle('pc_terrain')) + ' <small>' + echapper(libelle('pc_facultatif')) + '</small></span>' + terrain
+            + '<p class="pc-discret">' + echapper(libelle('pc_creation_aide')) + '</p>'
+            + '<button type="button" class="pc-btn plein large" data-action="commencer"' + (occupe ? ' disabled' : '') + '>' + echapper(libelle('pc_commencer')) + '</button>'
+            + '<hr class="pc-separation">'
+            + '<span class="pc-lbl">' + echapper(libelle('pc_code_titre')) + '</span>' + formulaireCode() + '</div>';
+    }
+
+    // « Rejoindre une équipe » (une carte par équipe, un participant par ligne) ou « Je regarde
+    // seulement ». Après la fin : une place d'invité seulement.
+    function ecranRejoindre() {
+        var s = score(vue.menes);
+        var infos = [libelle('pc_format_en', { format: nomFormat(vue.format), n: vue.objectif })];
+        if (vue.terrain) infos.push(nomTerrain(vue.terrain));
+        infos.push(s.a + ' – ' + s.b);
+        var carte = function (e) {
+            var libres = vue.invites[e];
+            var membres = vue.joueurs[e].map(function (x) { return '<span class="pc-membre">' + PICTOS.personne + echapper(nomPersonne(x)) + '</span>'; }).join('');
+            for (var i = 0; i < libres; i++) membres += '<span class="pc-membre libre">' + PICTOS.ajout + echapper(libelle('pc_place_libre')) + '</span>';
+            return '<button type="button" class="pc-choix equipe" data-rejoindre="' + e + '"' + (libres && !occupe ? '' : ' disabled') + '>'
+                + '<span class="pc-eq-tete"><i class="' + e + '"></i><b>' + echapper(titreEquipe(e)) + '</b><small>' + echapper(libelle(libres ? 'pc_rejoindre' : 'pc_complete')) + '</small></span>'
+                + '<span class="pc-membres">' + membres + '</span></button>';
+        };
+        return '<div class="pc-page">' + blocAvis()
+            + '<span class="pc-tl">' + echapper(libelle('pc_partie_code', { code: vue.code || codeDemande })) + '</span>'
+            + '<h2>' + echapper(libelle(vue.revanche_de ? 'pc_rejoindre_revanche' : 'pc_rejoindre_titre')) + '</h2>'
+            + '<p class="pc-discret">' + echapper(infos.join(' · ')) + '</p>'
+            + (vue.fin ? '<p class="pc-discret">' + echapper(libelle('pc_apres_fin')) + '</p>' : '')
+            + '<span class="pc-connecte">' + avatar() + echapper(libelle('pc_votre_compte', { pseudo: pseudoSession() })) + '</span>'
+            + '<span class="pc-lbl">' + echapper(libelle('pc_rejoindre_equipe')) + '</span>' + carte('a') + carte('b')
+            + (vue.fin ? '' : '<span class="pc-lbl">' + echapper(libelle('pc_ou')) + '</span>'
+                + '<button type="button" class="pc-choix" data-rejoindre="spectateur"' + (occupe ? ' disabled' : '') + '>' + PICTOS.oeil
+                + '<b>' + echapper(libelle('pc_regarder')) + '</b><span>' + echapper(libelle('pc_regarder_aide')) + '</span></button>')
+            + '</div>';
+    }
+
+    function moitie(e, s, tactile) {
+        var moi = vue.moi.role === 'joueur' && vue.moi.equipe === e;
+        var noms = vue['nom_' + e] || nomsEquipe(e, true).join(' · ');
+        var etiquette = (moi ? '<span class="pc-vous">' + PICTOS.personne + echapper(libelle('pc_vous')) + '</span>' : '')
+            + '<span class="pc-noms">' + echapper(noms) + '</span>';
+        var pastilles = '';
+        if (tactile) {
+            for (var p = 2; p <= (vue.format === 1 ? 3 : 6); p++) pastilles += '<span data-pts="' + p + '">+' + p + '</span>';
+            pastilles = '<span class="pc-plus">' + pastilles + '</span>';
+        }
+        var contenu = '<span class="pc-nom-eq">' + etiquette + '</span><span class="pc-sc">' + s[e] + '</span>' + pastilles
+            + (gain && gain.e === e ? '<span class="pc-gain" aria-hidden="true">+' + gain.p + '</span>' : '');
+        if (!tactile) return '<div class="pc-moitie ' + e + '">' + contenu + '</div>';
+        return '<button type="button" class="pc-moitie ' + e + '" data-mene="' + e + '" aria-label="' + echapper(libelle('pc_point_pour', { equipe: noms || titreEquipe(e) })) + '">' + contenu + '</button>';
+    }
+
+    function ecranJeu() {
+        var menes = menesAffichees();
+        var s = score(menes);
+        var marque = jeMarque();
+        var tactile = marque && !finie(s);
+        var statut = marque
+            ? '<span class="pc-pastille">' + PICTOS.crayon + echapper(libelle('pc_vous_marquez')) + '</span>'
+            : '<span class="pc-pastille fort">' + PICTOS.crayon + echapper(vue.main ? libelle('pc_marque', { pseudo: vue.main.pseudo || '?' }) : libelle('pc_personne_marque')) + '</span>';
+        var enAttente = attente.id === vue.id ? attente.menes.length : 0;
+        var message = '';
+        if (horsLigne && enAttente) {
+            message = '<div class="pc-avis alerte">' + PICTOS.horsligne + '<span>' + echapper(enAttente === 1 ? libelle('pc_attente_1') : libelle('pc_attente_n', { n: enAttente })) + '</span></div>';
+        } else {
+            message = blocAvis();
+        }
+        var reseau = horsLigne ? '<span class="pc-hors">' + PICTOS.horsligne + echapper(libelle('pc_hors_ligne')) + '</span>'
+            : (direct ? '<span class="pc-direct">' + echapper(libelle('pc_direct')) + '</span>' : '<span></span>');
+        // Annuler : d'abord les mènes en attente (dans le téléphone), sinon la dernière mène du serveur
+        var premier = marque
+            ? '<button type="button" data-action="annuler"' + (!menes.length || occupe || (envoiMenes && enAttente) ? ' disabled' : '') + '>' + PICTOS.annuler + echapper(libelle('pc_annuler')) + '</button>'
+            : '<button type="button" class="fort" data-action="prendre"' + (horsLigne || occupe ? ' disabled' : '') + '>' + PICTOS.main + echapper(libelle('pc_prendre_main')) + '</button>';
+        return '<div class="pc-jeu' + (marque ? '' : ' suit') + '">'
+            + '<div class="pc-haut"><span>' + echapper(nomFormat(vue.format) + ' · ' + vue.objectif) + '</span><span class="pc-code">' + echapper(vue.code || '') + '</span>' + reseau + '</div>'
+            + '<div class="pc-statut">' + statut + '</div>' + message
+            + '<div class="pc-moities">' + moitie('a', s, tactile) + moitie('b', s, tactile) + '</div>'
+            + '<div class="pc-bas">' + premier
+            + '<button type="button" data-action="menes">' + PICTOS.liste + echapper(libelle('pc_menes')) + '</button>'
+            + '<button type="button" data-action="feuille">' + PICTOS.equipes + echapper(libelle('pc_partie')) + '</button>'
+            + '<button type="button" data-action="partager">' + PICTOS.qr + echapper(libelle('pc_partager')) + '</button></div></div>';
+    }
+
+    // Feuille « La partie » : places, spectateurs, format, objectif, noms,
+    // terrain, dernière modification, « M'en aller de la partie »
+    function feuillePartie() {
+        var moi = vue.moi;
+        var bloc = function (e) {
+            var lignes = vue.joueurs[e].map(function (x) {
+                return '<div class="pc-place"><span><i class="pc-pt-eq ' + e + '"></i>' + echapper(nomPersonne(x)) + '</span>'
+                    + (vue.main && vue.main.cle === x.cle ? '<span class="pc-etat">' + echapper(libelle('pc_a_la_main')) + '</span>' : '') + '</div>';
+            }).join('');
+            for (var i = 0; i < vue.invites[e]; i++) lignes += '<div class="pc-place invite"><span><i class="pc-pt-eq"></i>' + echapper(libelle('pc_joueur_invite')) + '</span></div>';
+            var action = '';
+            if (moi.role === 'joueur' && moi.equipe !== e && vue.invites[e]) action = '<button type="button" class="pc-lien" data-action="changer-equipe"' + (occupe ? ' disabled' : '') + '>' + PICTOS.echanger + echapper(libelle('pc_passer_equipe')) + '</button>';
+            if (moi.role === 'spectateur' && vue.invites[e]) action = '<button type="button" class="pc-lien" data-prendre-place="' + e + '"' + (occupe ? ' disabled' : '') + '>' + PICTOS.ajout + echapper(libelle('pc_prendre_place')) + '</button>';
+            return '<div class="pc-bloc"><span class="pc-lbl">' + echapper(titreEquipe(e)) + '</span><div class="pc-places">' + lignes + '</div>' + action + '</div>';
+        };
+        var formats = [1, 2, 3].map(function (f) { return '<button type="button" data-format="' + f + '" aria-pressed="' + (vue.format === f) + '"' + (occupe ? ' disabled' : '') + '>' + echapper(nomFormat(f)) + '</button>'; }).join('');
+        var objectifs = [11, 13].map(function (o) { return '<button type="button" data-objectif="' + o + '" aria-pressed="' + (vue.objectif === o) + '"' + (occupe ? ' disabled' : '') + '>' + echapper(libelle('pc_points', { n: o })) + '</button>'; }).join('');
+        var noms = ['a', 'b'].map(function (e) {
+            return '<input class="pc-champ" data-champ="nom_' + e + '" value="' + echapper(vue['nom_' + e] || '') + '" maxlength="20"'
+                + ' placeholder="' + echapper(libelle('pc_nom_placeholder', { x: e.toUpperCase(), noms: nomsEquipe(e, false).join(' · ') })) + '"'
+                + ' aria-label="' + echapper(libelle('pc_nom_aria', { x: e.toUpperCase() })) + '">';
+        }).join('');
+        var terrain = '<div class="pc-terrain">' + PICTOS.lieu + '<span>' + echapper(vue.terrain ? nomTerrain(vue.terrain) : libelle('pc_sans_terrain')) + '</span>'
+            + '<button type="button" class="pc-lien" data-action="terrains" data-pour="partie">' + echapper(libelle(vue.terrain ? 'pc_changer' : 'pc_ajouter_terrain')) + '</button>'
+            + (vue.terrain ? '<button type="button" class="pc-lien" data-action="sans-terrain"' + (occupe ? ' disabled' : '') + '>' + echapper(libelle('pc_retirer')) + '</button>' : '') + '</div>'
+            + (messageTerrain && terrainPour === 'partie' ? '<span class="pc-petit">' + echapper(messageTerrain) + '</span>' : '');
+        var modif = phraseModification(vue.derniere_modification);
+        var joueur = moi.role === 'joueur';
+        var partir = depart
+            ? '<div class="pc-confirme"><p>' + echapper(libelle(joueur ? 'pc_partir_joueur' : 'pc_partir_spectateur')) + '</p>'
+                + '<div class="pc-boutons"><button type="button" class="pc-btn plein" data-action="partir-ok"' + (occupe ? ' disabled' : '') + '>' + echapper(libelle(joueur ? 'pc_partir_ok' : 'pc_partir_ok_spectateur')) + '</button>'
+                + '<button type="button" class="pc-btn ligne" data-action="partir-non">' + echapper(libelle('pc_rester')) + '</button></div></div>'
+            : '<button type="button" class="pc-lien danger" data-action="partir">' + PICTOS.sortir + echapper(libelle(joueur ? 'pc_partir' : 'pc_ne_plus_suivre')) + '</button>';
+        return '<div class="pc-voile" data-action="fermer-fond"><div class="pc-feuille" role="dialog" aria-modal="true" aria-label="' + echapper(libelle('pc_feuille_titre')) + '">'
+            + '<div class="pc-f-tete"><h3>' + echapper(libelle('pc_feuille_titre')) + '</h3><button type="button" class="pc-fermer" data-action="fermer" aria-label="' + echapper(libelle('pc_fermer')) + '">' + PICTOS.croix + '</button></div>'
+            + bloc('a') + bloc('b')
+            + (vue.spectateurs.length ? '<div class="pc-bloc"><span class="pc-lbl">' + echapper(libelle('pc_regardent')) + '</span><p class="pc-discret">' + echapper(vue.spectateurs.map(nomPersonne).join(', ')) + '</p></div>' : '')
+            + '<div class="pc-bloc"><span class="pc-lbl">' + echapper(libelle('pc_format')) + '</span><div class="pc-seg" role="group" aria-label="' + echapper(libelle('pc_format')) + '">' + formats + '</div>'
+            + '<span class="pc-lbl">' + echapper(libelle('pc_en')) + '</span><div class="pc-seg" role="group" aria-label="' + echapper(libelle('pc_en')) + '">' + objectifs + '</div>'
+            + (refus ? '<p class="pc-refus" role="status">' + echapper(refus) + '</p>' : '') + '</div>'
+            + '<div class="pc-bloc"><span class="pc-lbl">' + echapper(libelle('pc_noms_equipes')) + ' <small>' + echapper(libelle('pc_facultatifs')) + '</small></span>' + noms + '</div>'
+            + '<div class="pc-bloc"><span class="pc-lbl">' + echapper(libelle('pc_terrain')) + '</span>' + terrain + '</div>'
+            + (modif ? '<p class="pc-journal">' + PICTOS.historique + '<span>' + echapper(modif) + '</span></p>' : '')
+            + partir
+            + '<button type="button" class="pc-btn plein" data-action="fermer">' + echapper(libelle('pc_ok')) + '</button></div></div>';
+    }
+
+    // Feuille « Partager » : QR code à scanner, le code à taper, et le lien à envoyer (comme
+    // l'ancien compteur) : partage du téléphone s'il existe, sinon copie
+    function feuillePartager() {
+        var envoi = navigator.share ? '<button type="button" class="pc-btn plein" data-action="envoyer-lien">' + PICTOS.envoyer + echapper(libelle('compteur_envoyer_lien')) + '</button>' : '';
+        return '<div class="pc-voile" data-action="fermer-fond"><div class="pc-feuille" role="dialog" aria-modal="true" aria-label="' + echapper(libelle('compteur_partager_titre')) + '">'
+            + '<div class="pc-f-tete"><h3>' + echapper(libelle('compteur_partager_titre')) + '</h3><button type="button" class="pc-fermer" data-action="fermer" aria-label="' + echapper(libelle('pc_fermer')) + '">' + PICTOS.croix + '</button></div>'
+            + (vue.code ? '<div class="pc-partage"><div class="pc-qr" id="pc-qr"></div><div class="pc-code-court">' + echapper(vue.code) + '<small>' + echapper(libelle('pc_code_aide')) + '</small></div></div>' : '')
+            + '<div class="pc-boutons">' + envoi
+            + '<button type="button" class="pc-btn ' + (envoi ? 'ligne' : 'plein') + '" data-action="copier-lien">' + PICTOS.lien + echapper(libelle('share_copy')) + '</button></div>'
+            + (lienCopie ? '<p class="pc-copie" role="status">' + echapper(libelle('compteur_lien_copie')) + '</p>' : '')
+            + '</div></div>';
+    }
+
+    // Mène par mène, score après chacune ; celles qui attendent le réseau en dernier
+    function feuilleMenes() {
+        var menes = menesAffichees();
+        var s = { a: 0, b: 0 };
+        var lignes = menes.map(function (m, i) {
+            s[m.e] = Math.min(vue.objectif, s[m.e] + m.p);
+            return '<li' + (i >= vue.menes.length ? ' class="attente"' : '') + '><small>' + echapper(libelle('pc_mene_n', { n: i + 1 })) + '</small>'
+                + '<span><i class="pc-pt-eq ' + m.e + '"></i> +' + m.p + ' ' + echapper(titreEquipe(m.e)) + '</span><b>' + s.a + ' – ' + s.b + '</b></li>';
+        }).reverse().join('');
+        return '<div class="pc-voile" data-action="fermer-fond"><div class="pc-feuille" role="dialog" aria-modal="true" aria-label="' + echapper(libelle('pc_menes')) + '">'
+            + '<div class="pc-f-tete"><h3>' + echapper(libelle('pc_menes')) + '</h3><button type="button" class="pc-fermer" data-action="fermer" aria-label="' + echapper(libelle('pc_fermer')) + '">' + PICTOS.croix + '</button></div>'
+            + (lignes ? '<ol class="pc-liste-menes">' + lignes + '</ol>' : '<p class="pc-discret">' + echapper(libelle('pc_menes_vide')) + '</p>')
+            + '<button type="button" class="pc-btn plein" data-action="fermer">' + echapper(libelle('pc_ok')) + '</button></div></div>';
+    }
+
+    function feuilleTerrains() {
+        var corps = messageTerrain
+            ? '<p class="pc-discret">' + echapper(messageTerrain) + '</p>'
+            : (proches.length
+                ? proches.slice(0, 8).map(function (x, i) {
+                    return '<button type="button" class="pc-terrain-choix" data-terrain="' + i + '">' + PICTOS.lieu + '<span>' + echapper(x.nom) + '</span><small>' + echapper(formatDistance(x.d)) + '</small></button>';
+                }).join('')
+                : '<p class="pc-discret">' + echapper(libelle('compteur_aucun_terrain')) + '</p>');
+        return '<div class="pc-voile" data-action="fermer-fond"><div class="pc-feuille" role="dialog" aria-modal="true" aria-label="' + echapper(libelle('compteur_terrains_proches')) + '">'
+            + '<div class="pc-f-tete"><h3>' + echapper(libelle('compteur_terrains_proches')) + '</h3><button type="button" class="pc-fermer" data-action="fermer" aria-label="' + echapper(libelle('pc_fermer')) + '">' + PICTOS.croix + '</button></div>'
+            + corps + '</div></div>';
+    }
+
+    // Victoire : la partie est déjà dans les historiques des joueurs
+    function ecranVictoire() {
+        var s = score(vue.menes);
+        var g = s.a >= vue.objectif ? 'a' : 'b';
+        var moi = vue.moi;
+        var joueur = moi.role === 'joueur';
+        var mien = joueur ? moi.equipe : 'a';
+        var fs = s[mien] + ' – ' + s[autre(mien)];
+        var carte;
+        if (joueur && !vue.comptee) {
+            // Moins de 3 mènes ou de 5 minutes : un essai, hors des historiques (comme avant)
+            carte = '<div class="pc-tete neutre">' + PICTOS.info + echapper(libelle('pc_trop_courte')) + '</div><div class="pc-gris">' + echapper(libelle('pc_trop_courte_aide')) + '</div>';
+        } else if (joueur) {
+            var avec = nomsEquipe(mien, true);
+            var contre = nomsEquipe(autre(mien), false);
+            var autres = vue.joueurs.a.concat(vue.joueurs.b).filter(function (x) { return !x.moi; }).map(nomPersonne);
+            var ligne = [libelle(mien === g ? 'pc_victoire' : 'pc_defaite') + ' ' + fs];
+            if (avec.length) ligne.push(libelle('pc_avec', { noms: listeEt(avec) }));
+            if (contre.length) ligne.push(libelle('pc_contre', { noms: listeEt(contre) }));
+            carte = '<div class="pc-tete">' + PICTOS.ok + echapper(libelle('pc_dans_vos_parties')) + '</div><div>' + echapper(ligne.join(' · ')) + '</div>'
+                + (autres.length ? '<div class="pc-gris">' + echapper(libelle('pc_aussi_chez', { noms: listeEt(autres) })) + '</div>' : '')
+                + '<div><a href="' + prefixe + 'mes-parties.html">' + echapper(libelle('pc_voir_parties')) + '</a></div>';
+        } else {
+            carte = '<div class="pc-tete neutre">' + PICTOS.oeil + echapper(libelle('pc_regardiez')) + '</div><div class="pc-gris">' + echapper(libelle('pc_regardiez_aide')) + '</div>';
+        }
+        var bas;
+        if (vue.revanche) {
+            var vers = joueur ? 'aller-revanche' : (vue.revanche.code ? 'rejoindre-revanche' : '');
+            bas = '<div class="pc-avis clair">' + PICTOS.revanche + '<span>' + echapper(libelle('pc_revanche_lancee')) + '</span></div>'
+                + (vers ? '<button type="button" class="pc-btn plein" data-action="' + vers + '">' + echapper(libelle(joueur ? 'pc_aller_revanche' : 'pc_rejoindre_revanche')) + '</button>' : '')
+                + '<button type="button" class="pc-btn ligne" data-action="nouvelle">' + echapper(libelle('pc_nouvelle')) + '</button>';
+        } else {
+            bas = '<div class="pc-boutons">'
+                + (joueur ? '<button type="button" class="pc-btn plein" data-action="revanche"' + (occupe ? ' disabled' : '') + '>' + PICTOS.revanche + echapper(libelle('pc_revanche')) + '</button>' : '')
+                + '<button type="button" class="pc-btn ligne" data-action="nouvelle">' + echapper(libelle('pc_nouvelle')) + '</button></div>'
+                + (vue.annulable ? '<button type="button" class="pc-lien" data-action="annuler-point"' + (occupe ? ' disabled' : '') + '>' + PICTOS.annuler + echapper(libelle('pc_annuler_point')) + '</button>' : '');
+        }
+        return '<div class="pc-victoire">' + blocAvis()
+            + '<span class="pc-tl">' + echapper(libelle('pc_terminee')) + '</span>'
+            + '<span class="pc-gagne">' + echapper(joueur && mien === g ? libelle('pc_vous_gagnez') : phraseGagnante(g)) + '</span>'
+            + '<span class="pc-fs">' + fs + '</span><div class="pc-carte-fin">' + carte + '</div>' + bas + '</div>';
     }
 
 
-    // --- Actions -----------------------------------------------------------------------------
+    // --- QR code ----------------------------------------------------------------------------
+
+    var qrCharge = null;
+
+    function chargerQr() {
+        if (!qrCharge) {
+            qrCharge = new Promise(function (ok, refusQr) {
+                var script = document.createElement('script');
+                script.src = QR_LIB;
+                script.onload = function () { if (window.qrcode) ok(window.qrcode); else refusQr(new Error('qr')); };
+                script.onerror = function () { qrCharge = null; refusQr(new Error('qr')); };
+                document.head.appendChild(script);
+            });
+        }
+        return qrCharge;
+    }
+
+    function dessinerQr() {
+        var code = vue.code;
+        chargerQr().then(function (qrcode) {
+            var cadre = document.getElementById('pc-qr');
+            if (!cadre || !vue || vue.code !== code) return;
+            var qr = qrcode(0, 'M');
+            qr.addData(lienCode(code));
+            qr.make();
+            cadre.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 1, scalable: true, alt: libelle('compteur_qr_alt') });
+        }).catch(function () {
+            var cadre = document.getElementById('pc-qr');
+            if (cadre) cadre.hidden = true;   // le code suffit
+        });
+    }
+
+
+    // --- Lien à envoyer ---------------------------------------------------------------------
+
+    async function envoyerLien() {
+        if (!vue || !vue.code) return;
+        try {
+            await navigator.share({ title: libelle('compteur_partage_message'), text: libelle('compteur_partage_message'), url: lienCode(vue.code) });
+            return;
+        } catch (e) {
+            if (e && e.name === 'AbortError') return;   // fermé sans choisir
+        }
+        copierLien();
+    }
+
+    async function copierLien() {
+        if (!vue || !vue.code) return;
+        var lien = lienCode(vue.code);
+        try {
+            await navigator.clipboard.writeText(lien);
+        } catch (e) {
+            // Sans presse-papiers (page non sécurisée, vieux navigateur) : copie à l'ancienne
+            var champ = document.createElement('textarea');
+            champ.value = lien;
+            champ.setAttribute('readonly', '');
+            champ.style.position = 'fixed';
+            champ.style.opacity = '0';
+            document.body.appendChild(champ);
+            champ.select();
+            try { document.execCommand('copy'); } catch (e2) { }
+            champ.remove();
+        }
+        lienCopie = true;
+        if (feuille === 'partager') dessiner();
+    }
+
+
+    // --- Terrains (data/recherche.json, comme le compteur) ------------------------------------
+
+    var terrains = null;
+
+    function chargerTerrains() {
+        if (!terrains) {
+            terrains = fetch('/data/recherche.json')
+                .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+                .then(function (d) {
+                    var communes = {};
+                    d.communes.forEach(function (c) { communes[c.s] = typeof c.n === 'string' ? c.n : (c.n[langue] || c.n.fr); });
+                    var liste = d.lieux.map(function (l) {
+                        return {
+                            o: l.o, lat: l.lat, lon: l.lon,
+                            nom: (l.r ? libelle('popup_terrain_prefix') + ' ' + l.r : libelle('popup_terrain_default')) + ' · ' + (l.l || communes[l.c] || '')
+                        };
+                    });
+                    nomsTerrains = {};
+                    liste.forEach(function (x) { nomsTerrains[x.o] = x.nom; });
+                    return liste;
+                })
+                .catch(function (e) { terrains = null; throw e; });
+        }
+        return terrains;
+    }
+
+    function distance(lat1, lon1, lat2, lon2) {
+        var r = Math.PI / 180;
+        var x = (lon2 - lon1) * r * Math.cos((lat1 + lat2) / 2 * r);
+        var y = (lat2 - lat1) * r;
+        return 6371000 * Math.sqrt(x * x + y * y);
+    }
+
+    function position() {
+        return new Promise(function (ok, refusPos) {
+            if (!navigator.geolocation) { refusPos(new Error('geo')); return; }
+            navigator.geolocation.getCurrentPosition(function (p) { ok(p.coords); }, refusPos, { enableHighAccuracy: true, timeout: 15000, maximumAge: 120000 });
+        });
+    }
+
+    function terrainsAutour(coords, rayon) {
+        return chargerTerrains().then(function (liste) {
+            return liste.map(function (x) { return Object.assign({}, x, { d: distance(coords.latitude, coords.longitude, x.lat, x.lon) }); })
+                .filter(function (x) { return x.d <= rayon; })
+                .sort(function (x, y) { return x.d - y.d; });
+        });
+    }
+
+    function formatDistance(d) {
+        return d < 1000 ? Math.round(d / 10) * 10 + ' m' : (Math.round(d / 100) / 10).toLocaleString(locale) + ' km';
+    }
+
+    // Création : le terrain le plus proche proposé d'office, si la position est déjà autorisée
+    function proposerTerrain() {
+        if (!navigator.permissions || !navigator.geolocation) return;
+        navigator.permissions.query({ name: 'geolocation' }).then(function (permission) {
+            if (permission.state !== 'granted') return;
+            return position().then(function (coords) { return terrainsAutour(coords, RAYON_PROPOSE); }).then(function (liste) {
+                if (liste.length && !creation.terrain && !vue) { creation.terrain = { o: liste[0].o, nom: liste[0].nom }; dessiner(); }
+            });
+        }).catch(function () { });
+    }
+
+    function ouvrirTerrains(pour) {
+        terrainPour = pour;
+        feuille = 'terrains';
+        messageTerrain = libelle('compteur_recherche_position');
+        dessiner();
+        position().then(function (coords) { return terrainsAutour(coords, RAYON_LISTE); }).then(function (liste) {
+            proches = liste;
+            messageTerrain = '';
+            dessiner();
+        }, function () {
+            messageTerrain = libelle('compteur_position_refusee');
+            dessiner();
+        });
+    }
+
+    function choisirTerrain(x) {
+        feuille = terrainPour === 'partie' ? 'partie' : '';
+        messageTerrain = '';
+        if (terrainPour === 'creation') { creation.terrain = { o: x.o, nom: x.nom }; dessiner(); return; }
+        modifier({ terrain: x.o });
+    }
+
+
+    // --- Échanges avec le Worker -------------------------------------------------------------
+
+    function messageErreur(code) {
+        return libelle({
+            place_prise: 'pc_place_prise', trop_tard: 'pc_trop_tard', finie: 'pc_finie', pas_finie: 'pc_err',
+            trop_de_parties: 'pc_trop_de_parties', revanche: 'pc_revanche_deja', introuvable: 'pc_introuvable'
+        }[code] || 'pc_err');
+    }
+
+    // Nouvelle version de la partie reçue du Worker
+    function prendreVue(nouvelle) {
+        if (!nouvelle || !nouvelle.id) return;
+        // La main nous a été prise : on le dit, sinon les moitiés cessent d'être tactiles sans raison visible
+        if (vue && vue.id === nouvelle.id && jeMarque() && !nouvelle.fin && nouvelle.main && !nouvelle.main.moi) {
+            avis = { texte: libelle('pc_main_prise', { pseudo: nouvelle.main.pseudo || '?' }) };
+        }
+        if (vue && vue.id !== nouvelle.id) debrancherDirect();
+        // Partie qui vient de se terminer : les messages de la partie en cours n'ont plus lieu d'être
+        if (vue && vue.id === nouvelle.id && !vue.fin && nouvelle.fin) avis = null;
+        vue = nouvelle;
+        erreur = '';
+        if (vue.moi) {
+            idDemande = vue.id;
+            adresse('id=' + vue.id);
+            if (vue.fin) ecrireStockage(CLE_EN_COURS, null);
+            else ecrireStockage(CLE_EN_COURS, { id: vue.id, quand: Date.now() });
+        }
+        if (vue.terrain && !nomsTerrains) chargerTerrains().then(dessiner, function () { });
+        // Mènes restées dans le téléphone (page rechargée, réseau revenu) : elles repartent
+        if (attente.id === vue.id && attente.menes.length) {
+            if (vue.fin || !jeMarque()) {
+                var n = attente.menes.length;
+                viderAttente();
+                if (!vue.fin && vue.main) avis = { texte: refusMenes('pc_refus_main', n, vue.main.pseudo), alerte: true };
+            } else {
+                envoyerMenes();
+            }
+        }
+        brancherDirect();
+    }
+
+    function refusMenes(base, n, pseudo) {
+        return libelle(base + (n === 1 ? '_1' : '_n'), { n: n, pseudo: pseudo || '?' });
+    }
+
+    function viderAttente() {
+        attente = { id: '', n: 0, menes: [] };
+        ecrireAttente();
+    }
 
     function lire() {
-        envoiEnCours = true;
-        if (donnees) dessiner();
-        return compte.appel('GET', '/partage?code=' + encodeURIComponent(code)).then(function (reponse) {
-            envoiEnCours = false;
-            if (reponse.statut === 200) {
-                // La main nous a été reprise : on le dit, sinon le score cesse d'être tactile sans raison visible
-                if (donnees && jeMarque() && !(reponse.donnees.main_moi && !reponse.donnees.marqueur_moi)) {
-                    statut = libelle('partie_marque_maintenant', { pseudo: reponse.donnees.main || reponse.donnees.marqueur || '…' });
-                    statutInfo = true;
-                }
-                donnees = reponse.donnees;
-                erreur = '';
-                luA = new Date();
-                // Dernière mise à jour de la partie dans la base (« AAAA-MM-JJ HH:MM:SS », UTC, à la seconde)
-                var maj = Date.parse(String(donnees.maj || '').replace(' ', 'T') + 'Z');
-                if (maj > majConnue) majConnue = maj;
-                // Le créateur marque dans son compteur : seuls les autres « suivent » la partie
-                if (donnees.etat.termine || interrompue()) oublierSuivie();
-                else if (!donnees.marqueur_moi) retenirSuivie();
-            } else if (reponse.statut === 404) {
-                oublierSuivie();
-                erreur = 'introuvable';
-                donnees = null;
-                // Partie retrouvée sur le téléphone mais disparue (code expiré) : l'écran du code, sans message
-                if (ramenee) {
-                    ramenee = false;
-                    code = '';
-                    erreur = '';
-                    try { history.replaceState(null, '', window.location.pathname); } catch (e) { }
-                }
-            } else {
+        derniereLecture = Date.now();
+        var requete = vue ? 'id=' + vue.id : (idDemande ? 'id=' + idDemande : 'code=' + encodeURIComponent(codeDemande));
+        return compte.appel('GET', '/parties/partie?' + requete).then(function (r) {
+            if (r.statut === 200) {
+                horsLigne = false;
+                prendreVue(r.donnees);
+                if (arriveeRevanche && vue.moi && vue.revanche_de && !vue.fin) avis = { texte: libelle('pc_revanche_gardee'), partir: true };
+                arriveeRevanche = false;
+            } else if (r.statut === 401) {
+                compte.oublier();
+            } else if (r.statut === 404) {
+                // Partie quittée, effacée ou code expiré. Retrouvée sur ce téléphone : la création, sans message.
+                ecrireStockage(CLE_EN_COURS, null);
+                debrancherDirect();
+                vue = null;
+                if (ramenee) { ramenee = false; idDemande = ''; erreur = ''; adresse(''); }
+                else erreur = 'introuvable';
+            } else if (r.statut === 0) {
+                horsLigne = true;
+                if (!vue) erreur = 'reseau';
+            } else if (!vue) {
                 erreur = 'reseau';
             }
             dessiner();
-            if (donnees && !fini()) brancherDirect(); else debrancherDirect();
+        });
+    }
+
+    // Requête d'un bouton : les boutons attendent la réponse. suite(r) traite une réponse 200 ou
+    // un refus ; par défaut, la partie renvoyée remplace l'ancienne et un refus s'affiche en avis.
+    function envoyer(chemin, corps, suite) {
+        if (occupe) return;
+        occupe = true;
+        refus = '';
+        dessiner();
+        compte.appel('POST', chemin, corps).then(function (r) {
+            occupe = false;
+            if (r.statut === 401) { compte.oublier(); dessiner(); return; }
+            if (r.statut === 0) {
+                horsLigne = true;
+                avis = { texte: libelle('pc_err_reseau_action'), alerte: true };
+                dessiner();
+                return;
+            }
+            horsLigne = false;
+            if (suite && suite(r) === true) { dessiner(); return; }
+            if (r.statut === 200) prendreVue(r.donnees);
+            else {
+                if (r.donnees.vue) prendreVue(r.donnees.vue);
+                avis = { texte: messageErreur(r.donnees.erreur), alerte: true };
+            }
+            dessiner();
+        });
+    }
+
+    function creer() {
+        avis = null;
+        envoyer('/parties/creer', { format: creation.format, objectif: creation.objectif, terrain: creation.terrain ? creation.terrain.o : null });
+    }
+
+    function rejoindre(role, equipe) {
+        avis = null;
+        var corps = vue.moi ? { id: vue.id, role: role, equipe: equipe } : { code: vue.code || codeDemande, role: role, equipe: equipe };
+        envoyer('/parties/rejoindre', corps, function (r) {
+            if (r.statut === 404) { vue = null; erreur = 'introuvable'; return true; }
+            if (r.statut !== 200 && feuille === 'partie') { refus = messageErreur(r.donnees.erreur); lire(); return true; }
+        });
+    }
+
+    function prendreMain() {
+        avis = null;
+        envoyer('/parties/main', { id: vue.id });
+    }
+
+    function modifier(champs) {
+        champs.id = vue.id;
+        envoyer('/parties/modifier', champs, function (r) {
+            var e = r.donnees.erreur;
+            if (e === 'format_trop_petit') {
+                var plein = ['a', 'b'].filter(function (x) { return vue.joueurs[x].length > champs.format; })[0] || 'a';
+                refus = libelle('pc_refus_format', { format: nomFormat(champs.format).toLowerCase(), x: plein.toUpperCase(), n: vue.joueurs[plein].length });
+                return true;
+            }
+            if (e === 'objectif_atteint') {
+                var s = score(vue.menes);
+                refus = libelle('pc_refus_objectif', { n: champs.objectif, score: Math.max(s.a, s.b) });
+                return true;
+            }
+        });
+    }
+
+    function changerEquipe() {
+        envoyer('/parties/equipe', { id: vue.id }, function (r) {
+            if (r.statut !== 200 && r.donnees.erreur === 'place_prise') { refus = messageErreur('place_prise'); lire(); return true; }
+        });
+    }
+
+    function partir() {
+        var joueur = vue.moi.role === 'joueur';
+        var id = vue.id;
+        envoyer('/parties/quitter', { id: id }, function (r) {
+            if (r.statut !== 200 && r.statut !== 403 && r.statut !== 404) return;
+            ecrireStockage(CLE_EN_COURS, null);
+            if (attente.id === id) viderAttente();
+            debrancherDirect();
+            vue = null;
+            feuille = '';
+            depart = false;
+            idDemande = '';
+            codeDemande = '';
+            erreur = '';
+            adresse('');
+            avis = { texte: libelle(joueur ? 'pc_parti_joueur' : 'pc_parti_spectateur') };
+            return true;
+        });
+    }
+
+    function revanche() {
+        avis = null;
+        envoyer('/parties/revanche', { id: vue.id }, function (r) {
+            if (r.statut === 200) {
+                debrancherDirect();
+                vue = null;
+                prendreVue(r.donnees);
+                avis = { texte: libelle('pc_revanche_avis') };
+                return true;
+            }
+        });
+    }
+
+    function annulerPoint() {
+        avis = null;
+        envoyer('/parties/annuler-point', { id: vue.id }, function (r) {
+            if (r.statut !== 200 && r.donnees.erreur === 'trop_tard') {
+                avis = { texte: libelle('pc_trop_tard'), alerte: true };
+                lire();
+                return true;
+            }
+        });
+    }
+
+    // Mène tapée : elle part tout de suite ; sans réseau, elle attend dans le téléphone et les
+    // suivantes s'ajoutent, avec le nombre de mènes que l'on voyait à la première
+    function marquer(e, p) {
+        if (!jeMarque()) return;
+        var s = score(menesAffichees());
+        if (finie(s)) return;
+        if (attente.id !== vue.id) attente = { id: vue.id, n: vue.menes.length, menes: [] };
+        attente.menes.push({ e: e, p: Math.min(p, vue.objectif - s[e]), quand: Date.now() });
+        ecrireAttente();
+        gain = { e: e, p: p };
+        avis = null;
+        try { if (navigator.vibrate) navigator.vibrate(25); } catch (x) { }
+        dessiner();
+        envoyerMenes();
+    }
+
+    function envoyerMenes() {
+        clearTimeout(minuteurRenvoi);
+        if (envoiMenes || !vue || attente.id !== vue.id || !attente.menes.length) return;
+        envoiMenes = true;
+        var lot = attente.menes.slice();
+        var etaitHorsLigne = horsLigne;
+        compte.appel('POST', '/parties/mene', { id: attente.id, n: attente.n, menes: lot }).then(function (r) {
+            envoiMenes = false;
+            if (r.statut === 0) {
+                horsLigne = true;
+                minuteurRenvoi = setTimeout(envoyerMenes, RENVOI);
+                dessiner();
+                return;
+            }
+            horsLigne = false;
+            if (r.statut === 401) { compte.oublier(); dessiner(); return; }
+            if (r.statut === 200) {
+                attente.menes = attente.menes.slice(lot.length);
+                attente.n = r.donnees.menes.length;
+                ecrireAttente();
+                prendreVue(r.donnees);
+                if (etaitHorsLigne) avis = { texte: lot.length === 1 ? libelle('pc_parties_1') : libelle('pc_parties_n', { n: lot.length }) };
+                dessiner();
+                return;
+            }
+            // Refusées : la main a changé ou d'autres mènes sont arrivées entre-temps. Jamais en silence.
+            var n = attente.menes.length;
+            viderAttente();
+            if (r.statut === 409 && r.donnees.vue) {
+                prendreVue(r.donnees.vue);
+                if (r.donnees.erreur === 'main') avis = { texte: refusMenes('pc_refus_main', n, vue.main && vue.main.pseudo), alerte: true };
+                else if (r.donnees.erreur === 'decale') avis = { texte: refusMenes('pc_refus_decale', n), alerte: true };
+            } else {
+                avis = { texte: libelle('pc_err'), alerte: true };
+                lire();
+            }
+            dessiner();
+        });
+    }
+
+    // Annuler : la dernière mène en attente (rien n'est parti), sinon la dernière mène du serveur
+    function annuler() {
+        if (!jeMarque()) return;
+        if (attente.id === vue.id && attente.menes.length) {
+            if (envoiMenes) return;
+            attente.menes.pop();
+            ecrireAttente();
+            dessiner();
+            return;
+        }
+        if (!vue.menes.length) return;
+        avis = null;
+        envoyer('/parties/mene', { id: vue.id, n: vue.menes.length, annuler: true }, function (r) {
+            if (r.statut === 409 && r.donnees.vue) {
+                prendreVue(r.donnees.vue);
+                if (r.donnees.erreur === 'main') avis = { texte: libelle('pc_main_prise', { pseudo: vue.main ? vue.main.pseudo || '?' : '?' }), alerte: true };
+                return true;
+            }
         });
     }
 
 
-    // --- Score en direct ----------------------------------------------------------------------
-    // Une connexion WebSocket par page ouverte, fermée quand la page passe en arrière-plan (le
-    // téléphone n'a pas à la garder en poche) et rouverte au retour, avec une relecture complète.
-    // Coupée : nouvel essai après 2, 4, 8… secondes (30 au plus), et « Actualiser » en attendant.
-
-    // Plus rien à attendre : partie finie, et sa propre copie enregistrée (ou simple spectateur)
-    function fini() {
-        if (!donnees.etat.termine) return false;
-        return !donnees.moi || donnees.moi.enregistree || donnees.moi.retiree;
-    }
+    // --- Direct ------------------------------------------------------------------------------
+    // Une connexion WebSocket tant que la partie a un code et que la page est visible ; coupée,
+    // nouvel essai après 2, 4, 8… secondes (30 au plus), et relecture régulière en attendant.
 
     function brancherDirect() {
-        if (ws || !code || !('WebSocket' in window) || document.visibilityState !== 'visible') return;
+        if (ws || !vue || !vue.code || !('WebSocket' in window) || document.visibilityState !== 'visible') return;
         clearTimeout(minuteurDirect);
+        var code = vue.code;
         try {
             ws = new WebSocket(URL_DIRECT + '/partie/' + encodeURIComponent(code));
         } catch (e) {
@@ -449,11 +1032,10 @@
         var cette = ws;
         ws.onopen = function () {
             if (ws !== cette) return;
-            // Reconnexion après une coupure : des mènes ont pu être jouées entre-temps, on relit tout
             var reprise = essaisDirect > 0;
             direct = true;
             essaisDirect = 0;
-            if (reprise) lire();
+            if (reprise) lire();   // des modifications ont pu arriver pendant la coupure
             minuteurPing = setInterval(function () { try { cette.send('ping'); } catch (e) { } }, PING);
             dessiner();
         };
@@ -461,7 +1043,7 @@
             if (ws !== cette || ev.data === 'pong') return;
             var m;
             try { m = JSON.parse(ev.data); } catch (e) { return; }
-            recevoir(m);
+            if (m && m.type === 'partie' && vue && (!m.maj || m.maj > vue.maj)) lire();
         };
         ws.onclose = function () {
             if (ws !== cette) return;
@@ -470,7 +1052,7 @@
             direct = false;
             clearInterval(minuteurPing);
             if (etaitDirect) dessiner();
-            if (donnees && !fini() && document.visibilityState === 'visible') {
+            if (vue && vue.code && document.visibilityState === 'visible') {
                 minuteurDirect = setTimeout(brancherDirect, Math.min(30000, 2000 * Math.pow(2, essaisDirect++)));
             }
         };
@@ -486,133 +1068,133 @@
         try { ancienne.close(); } catch (e) { }
     }
 
-    // { type: "etat", etat, rejoints } après chaque mène ou place prise ; { type: "enregistree" }
-    // quand le marqueur a enregistré la partie (les copies sont faites : on relit son statut)
-    function recevoir(m) {
-        if (!donnees) return;
-        if (m.type === 'etat' && m.etat && Array.isArray(m.etat.menes)) {
-            // Dernier état gardé par le serveur du direct, plus ancien que celui déjà affiché
-            if (m.maj && m.maj < majConnue) return;
-            if (m.maj) majConnue = m.maj;
-            var avant = donnees.etat.menes.length;
-            donnees.etat = m.etat;
-            if (Array.isArray(m.rejoints)) donnees.rejoints = m.rejoints;
-            if (m.etat.termine) oublierSuivie();
-            // Main passée : on relit la partie pour savoir si c'est nous qui marquons
-            if ('main' in m && (m.main || null) !== (donnees.main || null)) { donnees.main = m.main; lire(); }
-            var der = m.etat.menes[m.etat.menes.length - 1];
-            gain = m.etat.menes.length > avant && der ? { e: der.e, p: der.p } : null;
-            luA = new Date();
-            dessiner();
-            if (fini()) debrancherDirect();
-        } else if (m.type === 'enregistree') {
-            lire();
-        }
-    }
+    var derniereLecture = 0;
+    setInterval(function () {
+        if (!vue || document.visibilityState !== 'visible' || envoiMenes || occupe) return;
+        if (Date.now() - derniereLecture >= (direct ? RELECTURE_DIRECT : RELECTURE)) lire();
+    }, 5000);
 
     document.addEventListener('visibilitychange', function () {
-        if (!code) return;
-        if (document.visibilityState === 'visible') lire();
+        if (!vue) return;
+        if (document.visibilityState === 'visible') { lire(); brancherDirect(); }
         else debrancherDirect();
     });
 
-    function rejoindre(equipe, nom) {
-        statut = '';
-        statutInfo = false;
-        zone.querySelectorAll('.pt-choix').forEach(function (b) { b.disabled = true; });
-        compte.appel('POST', '/partage/rejoindre', { code: code, equipe: equipe, nom: nom }).then(function (reponse) {
-            if (reponse.statut === 200) { ecrireSpectateur(false); lire(); return; }
-            if (reponse.statut === 401) { compte.oublier(); dessiner(); return; }
-            if (reponse.statut === 404) { erreur = 'introuvable'; donnees = null; dessiner(); return; }
-            statut = t(reponse.donnees.erreur === 'place_prise' ? 'partie_place_prise' : 'compte_err_generique');
-            lire();
-        });
-    }
+    window.addEventListener('online', function () {
+        horsLigne = false;
+        if (vue) { envoyerMenes(); lire(); }
+    });
 
-    // Mène marquée (ou dernière mène annulée) par le joueur qui a la main. n : nombre de mènes
-    // affichées ; si le score a changé entre-temps, le Worker refuse et la page relit la partie.
-    function marquer(mene) {
-        if (marquage || !donnees || !jeMarque()) return;
-        var corps = { code: code, n: donnees.etat.menes.length };
-        if (mene.annuler) corps.annuler = true;
-        else { corps.e = mene.e; corps.p = mene.p; }
-        marquage = true;
-        statut = '';
-        statutInfo = false;
+    window.addEventListener('offline', function () {
+        horsLigne = true;
         dessiner();
-        compte.appel('POST', '/partage/mene', corps).then(function (reponse) {
-            marquage = false;
-            if (reponse.statut === 200) {
-                if (reponse.donnees.maj && reponse.donnees.maj < majConnue) { dessiner(); return; }   // le direct a déjà plus récent
-                if (reponse.donnees.maj) majConnue = reponse.donnees.maj;
-                donnees.etat = reponse.donnees.etat;
-                var der = donnees.etat.menes[donnees.etat.menes.length - 1];
-                gain = !mene.annuler && der ? { e: der.e, p: der.p } : null;
-                try { if (!mene.annuler && navigator.vibrate) navigator.vibrate(25); } catch (e) { }
-                dessiner();
-                return;
-            }
-            if (reponse.statut === 401) { compte.oublier(); lire(); return; }
-            if (reponse.statut === 409 && reponse.donnees.erreur === 'decale') statut = t('partie_score_change');
-            else if (reponse.statut !== 409) statut = t(reponse.statut === 0 ? 'partie_err' : 'compte_err_generique');
-            lire();
-        });
-    }
+    });
 
-    // Prendre la main (« moi ») ou la rendre au créateur (« createur »)
-    function changerMain(vers) {
-        if (marquage) return;
-        marquage = true;
-        statut = '';
-        statutInfo = false;
-        dessiner();
-        compte.appel('POST', '/partage/main', { code: code, vers: vers }).then(function (reponse) {
-            marquage = false;
-            if (reponse.statut === 401) { compte.oublier(); dessiner(); return; }
-            if (reponse.statut !== 200) statut = t(reponse.statut === 0 ? 'partie_err' : 'compte_err_generique');
-            lire();
-        });
-    }
+
+    // --- Clics et saisies --------------------------------------------------------------------
 
     zone.addEventListener('click', function (ev) {
-        var b = ev.target.closest('button');
+        var b = ev.target.closest('button, [data-action="fermer-fond"]');
         if (!b) return;
-        if (b.dataset.equipe) { rejoindre(b.dataset.equipe, b.dataset.libre ? null : b.dataset.nom); return; }
-        // Ligne d'une équipe : +1, ou la pastille touchée (+2 à +6)
+        var action = b.dataset.action;
+        // Toucher le voile autour d'une feuille la ferme (pas un clic dans la feuille elle-même)
+        if (action === 'fermer-fond') {
+            if (ev.target !== b) return;
+            action = 'fermer';
+        }
+        if (b.dataset.creationFormat) { creation.format = Number(b.dataset.creationFormat); dessiner(); return; }
+        if (b.dataset.creationObjectif) { creation.objectif = Number(b.dataset.creationObjectif); dessiner(); return; }
+        if (b.dataset.rejoindre) { b.dataset.rejoindre === 'spectateur' ? rejoindre('spectateur', null) : rejoindre('joueur', b.dataset.rejoindre); return; }
+        if (b.dataset.prendrePlace) { rejoindre('joueur', b.dataset.prendrePlace); return; }
         if (b.dataset.mene) {
-            var pastille = ev.target.closest('.pt-pt');
-            marquer({ e: b.dataset.mene, p: Number((pastille || b).dataset.pts) });
+            var pastille = ev.target.closest('[data-pts]');
+            marquer(b.dataset.mene, pastille ? Number(pastille.dataset.pts) : 1);
             return;
         }
-        var action = b.dataset.action;
-        if (action === 'annulerMene') marquer({ annuler: true });
-        if (action === 'prendre') changerMain('moi');
-        if (action === 'rendre') changerMain('createur');
-        if (action === 'actualiser') lire();
-        if (action === 'regarder') { ecrireSpectateur(true); dessiner(); }
-        if (action === 'choisir') {
-            if (!compte.session()) { versConnexion(); return; }
-            ecrireSpectateur(false);
-            dessiner();
+        if (b.dataset.format) { if (Number(b.dataset.format) !== vue.format) modifier({ format: Number(b.dataset.format) }); return; }
+        if (b.dataset.objectif) { if (Number(b.dataset.objectif) !== vue.objectif) modifier({ objectif: Number(b.dataset.objectif) }); return; }
+        if (b.dataset.terrain) { choisirTerrain(proches[Number(b.dataset.terrain)]); return; }
+        switch (action) {
+            case 'connexion': versConnexion(); break;
+            case 'commencer': creer(); break;
+            case 'relire': erreur = ''; lire(); break;
+            case 'nouvelle': window.location.href = prefixe + 'partie.html?nouvelle=1'; break;
+            case 'terrains': ouvrirTerrains(b.dataset.pour); break;
+            case 'sans-terrain-creation': creation.terrain = null; dessiner(); break;
+            case 'sans-terrain': modifier({ terrain: null }); break;
+            case 'annuler': annuler(); break;
+            case 'prendre': prendreMain(); break;
+            case 'menes': feuille = 'menes'; dessiner(); break;
+            case 'feuille': feuille = 'partie'; refus = ''; depart = false; dessiner(); break;
+            case 'partager': feuille = 'partager'; lienCopie = false; dessiner(); break;
+            case 'envoyer-lien': envoyerLien(); break;
+            case 'copier-lien': copierLien(); break;
+            case 'fermer':
+                feuille = feuille === 'terrains' && terrainPour === 'partie' ? 'partie' : '';
+                depart = false;
+                messageTerrain = '';
+                dessiner();
+                break;
+            case 'changer-equipe': changerEquipe(); break;
+            case 'partir': depart = true; dessiner(); break;
+            case 'partir-non': depart = false; dessiner(); break;
+            case 'partir-ok': partir(); break;
+            case 'revanche': revanche(); break;
+            case 'aller-revanche': window.location.href = prefixe + 'partie.html?id=' + encodeURIComponent(vue.revanche.id) + '&revanche=1'; break;
+            case 'rejoindre-revanche': window.location.href = prefixe + 'partie.html?code=' + encodeURIComponent(vue.revanche.code); break;
+            case 'annuler-point': annulerPoint(); break;
         }
-        if (action === 'connexion') versConnexion();
+    });
+
+    // Noms des équipes : enregistrés en quittant le champ (ou avec Entrée)
+    zone.addEventListener('change', function (ev) {
+        var champ = ev.target.dataset && ev.target.dataset.champ;
+        if (!champ || !vue) return;
+        var valeur = ev.target.value.replace(/\s+/g, ' ').trim();
+        if (valeur === (vue[champ] || '')) return;
+        var champs = {};
+        champs[champ] = valeur || null;
+        modifier(champs);
+    });
+
+    zone.addEventListener('keydown', function (ev) {
+        if (ev.key === 'Enter' && ev.target.dataset && ev.target.dataset.champ) ev.target.blur();
+        if (ev.key === 'Escape' && feuille) { feuille = ''; depart = false; dessiner(); }
     });
 
     zone.addEventListener('submit', function (ev) {
         ev.preventDefault();
-        var saisi = codeDemande(document.getElementById('pt-champ-code').value);
-        if (saisi.length < 4) { document.getElementById('pt-champ-code').focus(); return; }
-        window.location.search = '?code=' + encodeURIComponent(saisi);
+        var champ = document.getElementById('pc-code');
+        var saisi = nettoyerCode(champ && champ.value);
+        if (saisi.length < 4) { if (champ) champ.focus(); return; }
+        window.location.href = prefixe + 'partie.html?code=' + encodeURIComponent(saisi);
     });
 
-    // Connexion ou déconnexion dans un autre onglet : la page se redessine
-    window.addEventListener('mapetanque:compte', function () { if (code) lire(); });
+    // Connexion ou déconnexion dans un autre onglet
+    window.addEventListener('mapetanque:compte', function () {
+        if (compte.session() && (vue || idDemande || codeDemande)) lire(); else dessiner();
+    });
 
-    dessiner();
-    if (code) {
-        lire();   // session expirée : le Worker répond 401 au choix de la place, et la page propose la connexion
+
+    // --- Départ ------------------------------------------------------------------------------
+
+    if (!compte.session()) {
+        dessiner();
+    } else if (idDemande || codeDemande) {
+        dessiner();
+        lire();
+    } else if (!parametres.has('nouvelle') && lireEnCours()) {
+        idDemande = lireEnCours();
+        ramenee = true;
+        dessiner();
+        lire();
+    } else if (modeRejoindre) {
+        dessiner();
+        var champCode = document.getElementById('pc-code');
+        if (champCode) champCode.focus();
     } else {
-        var champ = document.getElementById('pt-champ-code');
-        if (champ) champ.focus();
+        if (parametres.has('nouvelle')) adresse('');
+        dessiner();
+        proposerTerrain();
     }
 })();

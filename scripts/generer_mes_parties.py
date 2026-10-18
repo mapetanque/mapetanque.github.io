@@ -2,10 +2,11 @@
 Génère mes-parties.html, nl/mes-parties.html, de/mes-parties.html et en/mes-parties.html.
 
 Comme Mon compte, la page ne contient qu'un emplacement vide : filtres, chiffres clés, liste des
-parties, records, terrains, carnet de joueurs et fiche d'une partie sont dessinés par
-mes-parties.js, dans la langue de la page, à partir des clés mesparties_* de translations.js.
-Sans session, mes-parties.js renvoie vers la page Connexion. Voir NOTES_comptes_utilisateurs.md,
-« Étape 2, phase 2 — page Mes parties ».
+parties, records, terrains et fiche commune d'une partie sont dessinés par mes-parties.js, dans
+la langue de la page, à partir des clés mesparties_* (et pc_*) de translations.js. Sans session,
+mes-parties.js renvoie vers la page Connexion. Voir NOTES_comptes_utilisateurs.md, « Étape 2,
+phase 2 — page Mes parties », et NOTES_parties_communes.md (fiche commune) du dépôt privé des
+Workers.
 
 Page en noindex : generer_referencement.py l'écarte du sitemap et de llms.txt.
 
@@ -71,17 +72,19 @@ for langue, meta in META.items():
         h1=meta["h1"],
         fil=(accueil, [(compte, f"/{meta['prefixe']}mon-compte.html")], courant),
         contenu=contenu,
-        feuilles_sup=("/style-mes-parties.css",),
+        # ?v= : adresses neuves au passage aux parties communes (le service worker sert d'abord
+        # sa copie en cache)
+        feuilles_sup=("/style-mes-parties.css?v=2",),
         # Page personnelle, sans intérêt dans un moteur de recherche
         tete_sup='<meta name="robots" content="noindex">',
-        scripts_sup=("/compte.js", "/mes-parties.js"),
+        scripts_sup=("/compte.js", "/mes-parties.js?v=2"),
     )
 
     # translations.js à une adresse versionnée, comme sur le compteur : le service worker sert
     # d'abord sa copie en cache, qui peut dater d'avant les clés de la page
     cible = RACINE / meta["prefixe"] / "mes-parties.html"
     html = cible.read_text(encoding="utf-8")
-    cible.write_text(html.replace('<script src="/translations.js"></script>', '<script src="/translations.js?v=15"></script>'), encoding="utf-8")
+    cible.write_text(html.replace('<script src="/translations.js"></script>', '<script src="/translations.js?v=16"></script>'), encoding="utf-8")
     print(f"{meta['prefixe']}mes-parties.html : {taille} octets")
 
 # Données structurées des autres pages, sitemap.xml et llms.txt (mes-parties.html en est écartée)
