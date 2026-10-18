@@ -60,12 +60,18 @@ pas encore fusionnée doit l'être (ou être abandonnée) avant de reprendre ces
   citent `maquettes/<nom>/`). Une nouvelle maquette se fait en artefact claude.ai (privé, visible
   sur le téléphone de Rémy) ; une fois validée, sa copie HTML est rangée dans `maquettes/` du dépôt
   privé, polices chargées depuis `https://mapetanque.be/polices.css`. Jamais de maquette dans ce
-  dépôt-ci.
+  dépôt-ci. En local, en plus de l'artefact : une copie dans `maquettes/<nom>/index.html` de ce
+  dossier, que Rémy ouvre avec Live Server (polices `/polices.css`, images `/images/…` du site).
+  `maquettes/` est exclu de git sur son PC (`.git/info/exclude`) : rien ne part dans ce dépôt.
 - Même façon de travailler que pour le site : branche `claude/…`, pull request, fusion sur demande.
 - **Fusionner ne déploie rien.** Déployer seulement quand Rémy le demande, une fois la pull request
   fusionnée : lancer la tâche GitHub « Déployer un Worker » (`.github/workflows/deployer.yml` de ce
   dépôt-là, branche `main`, entrée `worker` = `admin`, `comptes`, `direct` ou `notes`) avec l'outil
   GitHub qui lance un workflow, puis suivre son résultat et le donner à Rémy.
+- **Migration D1 d'abord.** Si la pull request ajoute un fichier dans `*/migrations/`, le dire à
+  Rémy en tête (« Migration à appliquer AVANT de déployer », avec la commande) et ne lancer le
+  déploiement qu'après sa confirmation qu'elle est appliquée : sinon le Worker plante (17/10/2026,
+  validations de photos en erreur 500). Détails dans le `CLAUDE.md` des Workers.
 - Les aperçus Pages appellent les Workers en ligne : une modification de Worker ne s'y voit qu'après
   son déploiement. Si le site et un Worker changent ensemble, dire à Rémy dans quel ordre déployer
   (en général le Worker d'abord, en restant compatible avec la version du site en ligne).
