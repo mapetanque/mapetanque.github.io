@@ -56,13 +56,16 @@ pas encore fusionnée doit l'être (ou être abandonnée) avant de reprendre ces
   est public, et le site aussi). Les commentaires du code les citent par leur nom de fichier : les
   lire là-bas (dans le cloud, joindre le dépôt comme ci-dessus). Toute nouvelle note privée va
   là-bas, jamais dans ce dépôt.
-- **Maquettes** : archivées dans ce même dépôt privé, dossier `maquettes/` (les commentaires du code
-  citent `maquettes/<nom>/`). Une nouvelle maquette se fait en artefact claude.ai (privé, visible
-  sur le téléphone de Rémy) ; une fois validée, sa copie HTML est rangée dans `maquettes/` du dépôt
-  privé, polices chargées depuis `https://mapetanque.be/polices.css`. Jamais de maquette dans ce
-  dépôt-ci. En local, en plus de l'artefact : une copie dans `maquettes/<nom>/index.html` de ce
-  dossier, que Rémy ouvre avec Live Server (polices `/polices.css`, images `/images/…` du site).
-  `maquettes/` est exclu de git sur son PC (`.git/info/exclude`) : rien ne part dans ce dépôt.
+- **Maquettes** : rangées dans ce même dépôt privé, dossier `maquettes/` (les commentaires du code
+  citent `maquettes/<nom>/`), polices chargées depuis `https://mapetanque.be/polices.css`. Jamais de
+  maquette dans ce dépôt-ci. Une nouvelle maquette se fait :
+  - **dans le cloud** : en artefact claude.ai (privé, visible sur le téléphone de Rémy) ;
+  - **en local** : directement en fichier, sans artefact, dans `maquettes/<nom>/index.html` de ce
+    dossier, que Rémy ouvre avec Live Server (polices `/polices.css`, images `/images/…` du site).
+    `maquettes/` est exclu de git sur son PC (`.git/info/exclude`) : rien ne part dans ce dépôt.
+
+  Une fois validée, sa copie HTML est rangée dans `maquettes/<nom>/index.html` du dépôt privé, avec
+  les polices chargées depuis `https://mapetanque.be/polices.css`.
 - Même façon de travailler que pour le site : branche `claude/…`, pull request, fusion sur demande.
 - **Fusionner ne déploie rien.** Déployer seulement quand Rémy le demande, une fois la pull request
   fusionnée : lancer la tâche GitHub « Déployer un Worker » (`.github/workflows/deployer.yml` de ce
