@@ -77,7 +77,7 @@
     pointer-events: none;
 }
 .zone-carte[data-auto="oui"] .zone-carte-onglet[aria-selected="true"] .zone-carte-fil.court {
-    animation: zone-carte-fil var(--duree, 10s) linear forwards;
+    animation: zone-carte-fil var(--duree, 8s) linear forwards;
 }
 @keyframes zone-carte-fil { to { transform: scaleX(1); } }
 

@@ -12,7 +12,7 @@
     var zone = document.getElementById('zone-carte');
     if (!zone) return;
 
-    var DUREE = 10000;
+    var DUREE = 8000;
     var onglets = Array.prototype.slice.call(zone.querySelectorAll('.zone-carte-onglet'));
     var mouvementReduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
