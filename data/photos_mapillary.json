@@ -6808,13 +6808,21 @@
       "credit_url": "https://www.mapillary.com/map/im/174451058018547"
     }
   ],
+  "way/1569086785": [
+    {
+      "mapillary_id": "318115046331384",
+      "credit_url": "https://www.mapillary.com/map/im/318115046331384"
+    }
+  ],
   "node/14273172910": [
     {
       "id_local": "visiteur-915",
       "photo_site": "https://mapetanque.be/mapetanque-photos/visiteurs/915.webp",
       "grande": "https://mapetanque-admin.mapetanque.workers.dev/photo/915.webp",
       "credit_nom": "RémyL",
-      "niveau_cartographe": 2
+      "niveau_cartographe": 2,
+      "mapillary_id": "930290136623966",
+      "credit_url": "https://www.mapillary.com/map/im/930290136623966"
     },
     {
       "id_local": "visiteur-916",
@@ -6822,6 +6830,8 @@
       "grande": "https://mapetanque-admin.mapetanque.workers.dev/photo/916.webp",
       "credit_nom": "RémyL",
       "niveau_cartographe": 2,
+      "mapillary_id": "2160105581260747",
+      "credit_url": "https://www.mapillary.com/map/im/2160105581260747",
       "de": "node/14273172127"
     }
   ],
@@ -6831,7 +6841,9 @@
       "photo_site": "https://mapetanque.be/mapetanque-photos/visiteurs/916.webp",
       "grande": "https://mapetanque-admin.mapetanque.workers.dev/photo/916.webp",
       "credit_nom": "RémyL",
-      "niveau_cartographe": 2
+      "niveau_cartographe": 2,
+      "mapillary_id": "2160105581260747",
+      "credit_url": "https://www.mapillary.com/map/im/2160105581260747"
     },
     {
       "id_local": "visiteur-915",
@@ -6839,6 +6851,8 @@
       "grande": "https://mapetanque-admin.mapetanque.workers.dev/photo/915.webp",
       "credit_nom": "RémyL",
       "niveau_cartographe": 2,
+      "mapillary_id": "930290136623966",
+      "credit_url": "https://www.mapillary.com/map/im/930290136623966",
       "de": "node/14273172910"
     }
   ],
@@ -6848,7 +6862,9 @@
       "photo_site": "https://mapetanque.be/mapetanque-photos/visiteurs/917.webp",
       "grande": "https://mapetanque-admin.mapetanque.workers.dev/photo/917.webp",
       "credit_nom": "RémyL",
-      "niveau_cartographe": 2
+      "niveau_cartographe": 2,
+      "mapillary_id": "1013138325129800",
+      "credit_url": "https://www.mapillary.com/map/im/1013138325129800"
     },
     {
       "id_local": "visiteur-918",
@@ -6873,7 +6889,18 @@
       "grande": "https://mapetanque-admin.mapetanque.workers.dev/photo/917.webp",
       "credit_nom": "RémyL",
       "niveau_cartographe": 2,
+      "mapillary_id": "1013138325129800",
+      "credit_url": "https://www.mapillary.com/map/im/1013138325129800",
       "de": "way/866603645"
+    }
+  ],
+  "way/1569167411": [
+    {
+      "id_local": "visiteur-919",
+      "photo_site": "https://mapetanque.be/mapetanque-photos/visiteurs/919.webp",
+      "grande": "https://mapetanque-admin.mapetanque.workers.dev/photo/919.webp",
+      "credit_nom": "Rémy",
+      "niveau_cartographe": 1
     }
   ],
   "way/1426362955": [
