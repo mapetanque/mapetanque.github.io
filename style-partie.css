@@ -71,6 +71,12 @@ body.page-sombre {
     z-index: 1060;
 }
 
+/* Écrans de texte (création, code, rejoindre, connexion) : le cadre s'ajuste à son contenu, pour
+   ne pas laisser un grand vide sous le dernier bouton */
+.partie-commune.ajuste {
+    height: auto;
+}
+
 body.pc-verrou {
     overflow: hidden;
 }
@@ -565,6 +571,58 @@ button.pc-moitie:disabled {
 .pc-terrain > span {
     flex: 1 1 160px;
     min-width: 0;
+}
+
+/* Encadré « Parties en cours » (création, rejoindre) : une ligne par partie, Reprendre / Abandonner */
+.pc-en-cours {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 14px;
+    border: 1px solid var(--c-line);
+    border-radius: 14px;
+    background: var(--c-bg-soft);
+}
+
+.pc-en-cours .pc-lbl {
+    margin-top: 0;
+}
+
+.pc-en-cours .pc-petit {
+    margin: 0;
+}
+
+.pc-ec {
+    display: flex;
+    align-items: center;
+    gap: 10px 14px;
+    flex-wrap: wrap;
+}
+
+.pc-ec-texte {
+    flex: 1 1 180px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.pc-ec-texte b {
+    font-weight: 700;
+}
+
+.pc-ec-texte small {
+    font-size: 13px;
+    color: var(--c-sand-dim);
+}
+
+.pc-ec-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.pc-ec-actions .pc-btn {
+    padding: 7px 14px;
 }
 
 /* Cartes de choix : une équipe (un participant par ligne), ou « Je regarde seulement » */
