@@ -177,7 +177,7 @@
                 + '<span class="ch">' + echapper(libelle('mesparties_v_sur', { v: j.v, n: j.n })) + '<b>' + q + (currentLang === 'en' ? '%' : ' %') + '</b></span>'
                 + '<span class="ca-jauge"><span style="width:' + q + '%"></span></span></li>';
         }).join('');
-        return barre(t('moncompte_parties_titre'))
+        return barre(t('compte_accueil_ecran_stats'))
             + '<div class="ca-seg"><span class="on">' + echapper(t('mesparties_periode_tout')) + '</span><span>'
             + echapper(t('mesparties_periode_annee')) + '</span><span>' + echapper(t('mesparties_periode_30')) + '</span></div>'
             + '<div class="ca-tuiles">'

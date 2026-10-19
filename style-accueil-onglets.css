@@ -1,0 +1,101 @@
+/* =====================================================================================
+   Accueil — zone « carte » à deux onglets (#zone-carte)
+   Fichier ADDITIF, comme style-accueil-respiration.css et style-accueil-contribuer.css, qui ne
+   sont pas modifiés (un fichier nouveau échappe au cache du service worker). Maquette validée le
+   19/10/2026 : maquettes/zone-carte-onglets/.
+   Deux onglets « Trouver où jouer » / « Compléter la carte » au-dessus des bandes #respiration et
+   #contribuer, dont une seule est affichée. Script : /accueil-onglets.js.
+   ===================================================================================== */
+
+.zone-carte { background: #F7F9F6; }
+
+.zone-carte-barre {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 36px 20px 0;
+}
+
+/* Les deux bandes, sous les onglets : un peu moins d'air en haut qu'en bande seule. */
+.zone-carte > .respiration,
+.zone-carte > .contribuer { padding-top: 56px; }
+
+/* Pictos en filigrane de « respiration » : le banc et l'eau, au-dessus de l'accroche, redescendus
+   pour ne pas toucher les onglets (positions de la maquette). */
+@media (min-width: 641px) {
+    .zone-carte .respiration-picto.p1 { left: 52%; top: -14%; }
+    .zone-carte .respiration-picto.p3 { top: -13%; }
+}
+
+/* ---- Onglets : mêmes couleurs que les pastilles de filtre actives de la carte ---- */
+.zone-carte-onglets {
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px;
+    background: #fff;
+    border: 1px solid #E2E6DE;
+    border-radius: 999px;
+    box-shadow: 0 2px 8px rgba(30, 50, 20, 0.06);
+}
+
+.zone-carte-onglet {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: #56604F;
+    font-family: 'Manrope', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+.zone-carte-onglet svg { width: 18px; height: 18px; flex: none; }
+.zone-carte-onglet:hover { color: #3D7A2A; background: #E7F4E1; }
+.zone-carte-onglet[aria-selected="true"] { background: #74C15A; color: #fff; }
+.zone-carte-onglet:focus-visible { outline: 2px solid #3D7A2A; outline-offset: 2px; }
+
+/* Fil qui se remplit sous l'onglet affiché pendant le changement automatique (comme
+   .compte-accueil-fil de la zone compte) ; il disparaît après un clic. La durée vient du script
+   (--duree). */
+.zone-carte-fil {
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: 6px;
+    height: 2px;
+    border-radius: 1px;
+    background: rgba(255, 255, 255, 0.85);
+    transform: scaleX(0);
+    transform-origin: left;
+    pointer-events: none;
+}
+.zone-carte[data-auto="oui"] .zone-carte-onglet[aria-selected="true"] .zone-carte-fil.court {
+    animation: zone-carte-fil var(--duree, 10s) linear forwards;
+}
+@keyframes zone-carte-fil { to { transform: scaleX(1); } }
+
+/* Apparition de la bande quand on change d'onglet. */
+.zone-carte > .apparait { animation: zone-carte-apparition 0.25s ease; }
+@keyframes zone-carte-apparition { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+    .zone-carte > .apparait { animation: none; }
+    .zone-carte-onglet { transition: none; }
+}
+
+/* ---- Téléphone : onglets sur toute la largeur, deux moitiés égales ---- */
+@media (max-width: 640px) {
+    .zone-carte-barre { padding: 24px 16px 0; }
+    .zone-carte > .respiration,
+    .zone-carte > .contribuer { padding-top: 32px; }
+    .zone-carte-onglets { display: flex; }
+    .zone-carte-onglet { flex: 1 1 0; min-width: 0; padding: 0 10px; font-size: 14px; gap: 6px; }
+    .zone-carte-onglet svg { width: 17px; height: 17px; }
+}
