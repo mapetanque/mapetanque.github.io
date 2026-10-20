@@ -23,7 +23,7 @@ RACINE = Path(__file__).resolve().parent.parent
 
 # Adresse versionnée de translations.js, comme sur le compteur : le service worker sert d'abord sa
 # copie en cache, qui peut dater d'avant les clés partie_*.
-TRADUCTIONS = "/translations.js?v=19"
+TRADUCTIONS = "/translations.js?v=21"
 
 META = {
     "fr": {
@@ -81,7 +81,7 @@ for langue, meta in META.items():
         feuilles_sup=("/style-partie.css?v=7",),
         # Page de passage, propre à chaque partie : sans intérêt dans un moteur de recherche
         tete_sup='<meta name="robots" content="noindex">',
-        scripts_sup=("/compte.js", "/partie.js?v=8"),
+        scripts_sup=("/compte.js", "/partie.js?v=9"),
     )
     html = cible.read_text(encoding="utf-8")
     assert '<script src="/translations.js"></script>' in html

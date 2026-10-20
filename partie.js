@@ -10,6 +10,9 @@
 //     ?rejoindre=1 (menu « Rejoindre une partie », lien sous le compteur) : le champ du code d'abord ;
 //   - ?code=K7P2 (QR code, lien, code tapé) : « Rejoindre une équipe » ou « Je regarde
 //     seulement » ; déjà inscrit, la partie ;
+//   - une seule partie en cours à la fois comme joueur : déjà joueur dans une partie pas finie
+//     (moins de 24 h), la création et les équipes à rejoindre cèdent la place à « Vous avez déjà
+//     une partie en cours » (Reprendre, Abandonner) ;
 //   - ?id=… : une partie où l'on a une place (l'adresse passe à l'id une fois inscrit) ;
 //   - la partie : celui qui a la main touche les moitiés (+1, pastilles +2 à +6), les autres ont
 //     « Prendre la main ». Les mènes tapées sans réseau attendent dans le téléphone et partent au
@@ -56,7 +59,7 @@
     var feuille = '';                 // '', 'partie', 'partager', 'menes', 'aide', 'terrains'
     var pleinEcran = false;           // la carte occupe tout l'écran (classe plein-ecran de la zone)
     var lienCopie = false;            // « Lien copié » sous les boutons de la feuille « Partager »
-    var depart = false;               // confirmation de « M'en aller de la partie »
+    var depart = false;               // confirmation de « Quitter la partie »
     var refus = '';                   // refus dans la feuille (format, objectif…)
     var occupe = false;               // requête en cours : les boutons attendent
     var gain = null;                  // dernière mène tapée ici : « +3 » sur la moitié
@@ -376,13 +379,16 @@
             + '<button type="button" class="pc-btn ligne" data-action="nouvelle">' + echapper(libelle('pc_nouvelle')) + '</button></div>';
     }
 
-    // Encadré « Parties en cours » (écrans « Nouvelle partie » et « Rejoindre ») : les parties pas
-    // finies où l'on est joueur, modifiées depuis moins de 24 h, à reprendre ou abandonner. Rien ne
-    // bloque : commencer ou rejoindre une autre partie quitte d'office celles sans mène (Worker).
-    function blocEnCours(sauf) {
-        if (!enCours) { chargerEnCours(); return ''; }
-        var liste = enCours.filter(function (v) { return v.id !== sauf; });
-        if (!liste.length) return '';
+    // Une seule partie en cours à la fois comme joueur (Worker : listerPartiesEnCours) : les autres
+    // parties où l'on joue, modifiées depuis moins de 24 h ; null tant qu'elles ne sont pas lues
+    function autresEnCours(sauf) {
+        if (!enCours) { chargerEnCours(); return null; }
+        return enCours.filter(function (v) { return v.id !== sauf; });
+    }
+
+    // « Vous avez déjà une partie en cours » : à la place du formulaire de création, ou au-dessus des
+    // équipes à rejoindre (désactivées). Reprendre l'ouvre ; Abandonner rend sa place.
+    function blocEnCours(liste, aide) {
         var lignes = liste.map(function (v) {
             var mien = v.moi && v.moi.equipe ? v.moi.equipe : 'a';
             var titre = (v.revanche_de ? libelle('pc_en_cours_revanche') + ' · ' : '') + nomFormat(v.format) + ' · '
@@ -396,10 +402,11 @@
             return '<div class="pc-ec"><div class="pc-ec-texte"><b>' + echapper(titre) + '</b><small>' + echapper(details.join(' · ')) + '</small></div>'
                 + '<div class="pc-ec-actions"><button type="button" class="pc-btn ligne" data-reprendre="' + echapper(v.id) + '">' + echapper(libelle('pc_reprendre')) + '</button>'
                 + '<button type="button" class="pc-lien danger" data-abandonner="' + echapper(v.id) + '"' + (occupe ? ' disabled' : '') + '>'
-                + echapper(libelle(confirme ? 'pc_abandonner_ok' : 'pc_abandonner')) + '</button></div></div>';
+                + echapper(libelle(confirme ? 'pc_abandonner_ok' : 'pc_abandonner')) + '</button></div>'
+                + (confirme && v.menes.length ? '<p class="pc-petit">' + echapper(libelle('pc_abandon_aide')) + '</p>' : '') + '</div>';
         }).join('');
         return '<div class="pc-en-cours"><span class="pc-lbl">' + echapper(libelle('pc_en_cours_titre')) + '</span>' + lignes
-            + '<p class="pc-petit">' + echapper(libelle('pc_en_cours_aide')) + '</p></div>';
+            + '<p class="pc-petit">' + echapper(libelle(aide)) + '</p></div>';
     }
 
     // « Nouvelle partie » : format, 11 ou 13, terrain facultatif ; « Commencer » mène au compteur
@@ -415,16 +422,21 @@
                 + '<button type="button" class="pc-lien" data-action="sans-terrain-creation">' + echapper(libelle('pc_retirer')) + '</button></div>'
             : '<div class="pc-terrain"><button type="button" class="pc-btn ligne" data-action="terrains" data-pour="creation">' + PICTOS.lieu + echapper(libelle('pc_ajouter_terrain')) + '</button>'
                 + (messageTerrain ? '<span class="pc-petit">' + echapper(messageTerrain) + '</span>' : '') + '</div>';
+        var ailleurs = autresEnCours('');
         return '<div class="pc-page">' + blocAvis()
             + '<span class="pc-tl">' + echapper(libelle('pc_compter')) + '</span>'
             + '<h2>' + echapper(libelle('pc_nouvelle')) + '</h2>'
             + '<span class="pc-connecte">' + avatar() + echapper(libelle('pc_connecte', { pseudo: pseudoSession() })) + '</span>'
-            + blocEnCours('')
-            + '<span class="pc-lbl">' + echapper(libelle('pc_format')) + '</span>' + seg('creation-format', [1, 2, 3], creation.format, nomFormat)
+            + (ailleurs && ailleurs.length ? blocEnCours(ailleurs, 'pc_en_cours_aide') : formulaireCreation(seg, terrain, !ailleurs)) + '</div>';
+    }
+
+    // attendre : parties en cours pas encore lues, « Commencer » attend
+    function formulaireCreation(seg, terrain, attendre) {
+        return '<span class="pc-lbl">' + echapper(libelle('pc_format')) + '</span>' + seg('creation-format', [1, 2, 3], creation.format, nomFormat)
             + '<span class="pc-lbl">' + echapper(libelle('pc_en')) + '</span>' + seg('creation-objectif', [11, 13], creation.objectif, function (v) { return libelle('pc_points', { n: v }); })
             + '<span class="pc-lbl">' + echapper(libelle('pc_terrain')) + ' <small>' + echapper(libelle('pc_facultatif')) + '</small></span>' + terrain
             + '<p class="pc-discret">' + echapper(libelle('pc_creation_aide')) + '</p>'
-            + '<button type="button" class="pc-btn plein large" data-action="commencer"' + (occupe ? ' disabled' : '') + '>' + echapper(libelle('pc_commencer')) + '</button></div>';
+            + '<button type="button" class="pc-btn plein large" data-action="commencer"' + (occupe || attendre ? ' disabled' : '') + '>' + echapper(libelle('pc_commencer')) + '</button>';
     }
 
     // « Rejoindre une équipe » (une carte par équipe, un participant par ligne) ou « Je regarde
@@ -434,11 +446,13 @@
         var infos = [libelle('pc_format_en', { format: nomFormat(vue.format), n: vue.objectif })];
         if (vue.terrain) infos.push(nomTerrain(vue.terrain));
         infos.push(s.a + ' – ' + s.b);
+        var ailleurs = vue.fin ? [] : autresEnCours(vue.id);
+        var bloque = !ailleurs || ailleurs.length > 0;
         var carte = function (e) {
             var libres = vue.invites[e];
             var membres = vue.joueurs[e].map(function (x) { return '<span class="pc-membre">' + PICTOS.personne + echapper(nomPersonne(x)) + '</span>'; }).join('');
             for (var i = 0; i < libres; i++) membres += '<span class="pc-membre libre">' + PICTOS.ajout + echapper(libelle('pc_place_libre')) + '</span>';
-            return '<button type="button" class="pc-choix equipe" data-rejoindre="' + e + '"' + (libres && !occupe ? '' : ' disabled') + '>'
+            return '<button type="button" class="pc-choix equipe" data-rejoindre="' + e + '"' + (libres && !occupe && !bloque ? '' : ' disabled') + '>'
                 + '<span class="pc-eq-tete"><i class="' + e + '"></i><b>' + echapper(titreEquipe(e)) + '</b><small>' + echapper(libelle(libres ? 'pc_rejoindre' : 'pc_complete')) + '</small></span>'
                 + '<span class="pc-membres">' + membres + '</span></button>';
         };
@@ -448,7 +462,7 @@
             + '<p class="pc-discret">' + echapper(infos.join(' · ')) + '</p>'
             + (vue.fin ? '<p class="pc-discret">' + echapper(libelle('pc_apres_fin')) + '</p>' : '')
             + '<span class="pc-connecte">' + avatar() + echapper(libelle('pc_votre_compte', { pseudo: pseudoSession() })) + '</span>'
-            + blocEnCours(vue.id)
+            + (ailleurs && ailleurs.length ? blocEnCours(ailleurs, 'pc_en_cours_aide_rejoindre') : '')
             + '<span class="pc-lbl">' + echapper(libelle('pc_rejoindre_equipe')) + '</span>' + carte('a') + carte('b')
             + (vue.fin ? '' : '<span class="pc-lbl">' + echapper(libelle('pc_ou')) + '</span>'
                 + '<button type="button" class="pc-choix" data-rejoindre="spectateur"' + (occupe ? ' disabled' : '') + '>' + PICTOS.oeil
@@ -508,7 +522,7 @@
     }
 
     // Feuille « La partie » : places, spectateurs, format, objectif, noms,
-    // terrain, dernière modification, « M'en aller de la partie »
+    // terrain, dernière modification, « Quitter la partie »
     function feuillePartie() {
         var moi = vue.moi;
         var bloc = function (e) {
@@ -830,8 +844,19 @@
     function messageErreur(code) {
         return libelle({
             place_prise: 'pc_place_prise', trop_tard: 'pc_trop_tard', finie: 'pc_finie', pas_finie: 'pc_err',
-            trop_de_parties: 'pc_trop_de_parties', revanche: 'pc_revanche_deja', introuvable: 'pc_introuvable'
+            trop_de_parties: 'pc_trop_de_parties', revanche: 'pc_revanche_deja', introuvable: 'pc_introuvable',
+            deja_en_partie: 'pc_deja_en_partie'
         }[code] || 'pc_err');
+    }
+
+    // Refus « déjà dans une partie » : les parties renvoyées par le Worker remplacent l'encadré
+    // (lu trop tôt, ou une partie commencée sur un autre téléphone entre-temps)
+    function refusEnCours(r) {
+        if (r.statut !== 409 || r.donnees.erreur !== 'deja_en_partie') return false;
+        enCours = Array.isArray(r.donnees.parties) ? r.donnees.parties : [];
+        lectureEnCours = true;
+        abandon = '';
+        return true;
     }
 
     // Nouvelle version de la partie reçue du Worker
@@ -841,7 +866,7 @@
         if (vue && vue.id === nouvelle.id && jeMarque() && !nouvelle.fin && nouvelle.main && !nouvelle.main.moi) {
             avis = { texte: libelle('pc_main_prise', { pseudo: nouvelle.main.pseudo || '?' }) };
         }
-        // Un autre joueur s'en va (« M'en aller », ou une autre partie commencée avant la revanche) :
+        // Un autre joueur s'en va (« Quitter la partie », ou une autre partie commencée avant la revanche) :
         // on le dit, sinon on se croirait encore à plusieurs
         if (vue && vue.id === nouvelle.id && !nouvelle.fin) {
             var partis = joueursComptes(vue).filter(function (x) {
@@ -948,7 +973,7 @@
 
     function creer() {
         avis = null;
-        envoyer('/parties/creer', { format: creation.format, objectif: creation.objectif, terrain: creation.terrain ? creation.terrain.o : null });
+        envoyer('/parties/creer', { format: creation.format, objectif: creation.objectif, terrain: creation.terrain ? creation.terrain.o : null }, refusEnCours);
     }
 
     function rejoindre(role, equipe) {
@@ -956,6 +981,7 @@
         var corps = vue.moi ? { id: vue.id, role: role, equipe: equipe } : { code: vue.code || codeDemande, role: role, equipe: equipe };
         envoyer('/parties/rejoindre', corps, function (r) {
             if (r.statut === 404) { vue = null; erreur = 'introuvable'; return true; }
+            if (feuille !== 'partie' && refusEnCours(r)) return true;
             if (r.statut !== 200 && feuille === 'partie') { refus = messageErreur(r.donnees.erreur); lire(); return true; }
         });
     }
@@ -1055,7 +1081,7 @@
     }
 
     // « Abandonner » : premier toucher, la confirmation ; second, la place est rendue (comme
-    // « M'en aller de la partie ») et la partie sort de l'encadré
+    // « Quitter la partie ») et la partie sort de l'encadré
     function abandonner(id) {
         if (abandon !== id) { abandon = id; dessiner(); return; }
         if (occupe) return;
