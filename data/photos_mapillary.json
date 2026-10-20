@@ -6872,6 +6872,8 @@
       "grande": "https://mapetanque-admin.mapetanque.workers.dev/photo/918.webp",
       "credit_nom": "RémyL",
       "niveau_cartographe": 2,
+      "mapillary_id": "2075097253114735",
+      "credit_url": "https://www.mapillary.com/map/im/2075097253114735",
       "de": "way/866603646"
     }
   ],
@@ -6881,7 +6883,9 @@
       "photo_site": "https://mapetanque.be/mapetanque-photos/visiteurs/918.webp",
       "grande": "https://mapetanque-admin.mapetanque.workers.dev/photo/918.webp",
       "credit_nom": "RémyL",
-      "niveau_cartographe": 2
+      "niveau_cartographe": 2,
+      "mapillary_id": "2075097253114735",
+      "credit_url": "https://www.mapillary.com/map/im/2075097253114735"
     },
     {
       "id_local": "visiteur-917",
