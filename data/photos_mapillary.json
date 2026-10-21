@@ -6904,7 +6904,9 @@
       "photo_site": "https://mapetanque.be/mapetanque-photos/visiteurs/919.webp",
       "grande": "https://mapetanque-admin.mapetanque.workers.dev/photo/919.webp",
       "credit_nom": "Rémy",
-      "niveau_cartographe": 1
+      "niveau_cartographe": 1,
+      "mapillary_id": "2947614822263895",
+      "credit_url": "https://www.mapillary.com/map/im/2947614822263895"
     }
   ],
   "way/1426362955": [
