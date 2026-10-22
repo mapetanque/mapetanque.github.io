@@ -239,12 +239,12 @@
 <div class="province-bande-texte">
 <div class="province-bande-interieur">
     <p class="province-intro">
-        Le Brabant flamand compte <strong>185 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>45 communes</strong>. Louvain arrive en tête avec 29 terrains, suivie de Hal avec 21. Le club PC Kerkom, à Boutersem, a été sacré champion du Brabant flamand en 2023, en évoluant dans la plus haute division provinciale.
+        Le Brabant flamand compte <strong>220 terrains de pétanque</strong> recensés sur Mapetanque.be, répartis dans <strong>45 communes</strong>. Louvain arrive en tête avec 29 terrains, suivie de Hal avec 21. Le club PC Kerkom, à Boutersem, a été sacré champion du Brabant flamand en 2023, en évoluant dans la plus haute division provinciale.
     </p>
 
     <!-- La carte est sur /carte.html : ce bouton l'ouvre cadrée sur la zone de la page. -->
     <p class="province-voir-carte">
-        <a href="/carte.html?province=brabant_flamand" class="bouton-voir-carte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg><span>Voir les 185 terrains sur la carte</span></a>
+        <a href="/carte.html?province=brabant_flamand" class="bouton-voir-carte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg><span>Voir les 220 terrains sur la carte</span></a>
     </p>
 
     <div class="province-communes-section">
@@ -253,6 +253,7 @@
         <!-- Liste écrite par generate_provinces.py (lisible sans JavaScript, donc par les
              moteurs de recherche et les IA) ; le script plus bas branche les clics sur la carte. -->
         <div class="commune-list repliee" id="communeList">
+            <div class="commune-item" data-commune="Dilbeek" data-terrains="38" data-recherche-clef="dilbeek"><a href="/commune/dilbeek.html"><span>Dilbeek </span><span class="commune-count">(38 terrains)</span></a></div>
             <div class="commune-item" data-commune="Leuven" data-terrains="29" data-recherche-clef="leuven | louvain | lowen"><a href="/commune/leuven.html"><span>Louvain </span><span class="commune-count">(29 terrains)</span></a></div>
             <div class="commune-item" data-commune="Halle" data-terrains="21" data-recherche-clef="halle"><a href="/commune/halle.html"><span>Halle </span><span class="commune-count">(21 terrains)</span></a></div>
             <div class="commune-item" data-commune="Grimbergen" data-terrains="18" data-recherche-clef="grimbergen"><a href="/commune/grimbergen.html"><span>Grimbergen </span><span class="commune-count">(18 terrains)</span></a></div>
@@ -262,12 +263,11 @@
             <div class="commune-item" data-commune="Ternat" data-terrains="6" data-recherche-clef="ternat"><a href="/commune/ternat.html"><span>Ternat </span><span class="commune-count">(6 terrains)</span></a></div>
             <div class="commune-item" data-commune="Landen" data-terrains="5" data-recherche-clef="landen"><a href="/commune/landen.html"><span>Landen </span><span class="commune-count">(5 terrains)</span></a></div>
             <div class="commune-item" data-commune="Pajottegem" data-terrains="5" data-recherche-clef="pajottegem"><a href="/commune/pajottegem.html"><span>Pajottegem </span><span class="commune-count">(5 terrains)</span></a></div>
-            <div class="commune-item" data-commune="Pepingen" data-terrains="5" data-recherche-clef="pepingen"><a href="/commune/pepingen.html"><span>Pepingen </span><span class="commune-count">(5 terrains)</span></a></div>
+            <div class="commune-item commune-repliee" data-commune="Pepingen" data-terrains="5" data-recherche-clef="pepingen"><a href="/commune/pepingen.html"><span>Pepingen </span><span class="commune-count">(5 terrains)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Sint-Genesius-Rode - Rhode-Saint-Genèse" data-terrains="5" data-recherche-clef="rhode-saint-genese | sint-genesius-rode | sint-genesius-rode - rhode-saint-genese"><a href="/commune/sint-genesius-rode-rhode-saint-genese.html"><span>Sint-Genesius-Rode </span><span class="commune-count">(5 terrains)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Geetbets" data-terrains="4" data-recherche-clef="geetbets"><a href="/commune/geetbets.html"><span>Geetbets </span><span class="commune-count">(4 terrains)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Herent" data-terrains="4" data-recherche-clef="herent"><a href="/commune/herent.html"><span>Herent </span><span class="commune-count">(4 terrains)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Asse" data-terrains="3" data-recherche-clef="asse"><a href="/commune/asse.html"><span>Asse </span><span class="commune-count">(3 terrains)</span></a></div>
-            <div class="commune-item commune-repliee" data-commune="Dilbeek" data-terrains="3" data-recherche-clef="dilbeek"><a href="/commune/dilbeek.html"><span>Dilbeek </span><span class="commune-count">(3 terrains)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Kortenberg" data-terrains="3" data-recherche-clef="kortenberg"><a href="/carte.html?commune=kortenberg"><span>Kortenberg </span><span class="commune-count">(3 terrains)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Oud-Heverlee" data-terrains="3" data-recherche-clef="oud-heverlee"><a href="/commune/oud-heverlee.html"><span>Oud-Heverlee </span><span class="commune-count">(3 terrains)</span></a></div>
             <div class="commune-item commune-repliee" data-commune="Roosdaal" data-terrains="3" data-recherche-clef="roosdaal"><a href="/commune/roosdaal.html"><span>Roosdaal </span><span class="commune-count">(3 terrains)</span></a></div>
@@ -327,7 +327,7 @@
         <div class="tuiles-provinces">
             <a href="/region-flandre.html" class="tuile-province" style="background-image: url('/images/provinces/tuile-flandre.webp');">
                 <span class="tuile-province-nom">Flandre</span>
-                <span class="tuile-province-nombre">1187 terrains</span>
+                <span class="tuile-province-nombre">1222 terrains</span>
             </a>
             <a href="/province-flandre-orientale.html" class="tuile-province" style="background-image: url('/images/provinces/tuile-flandre-orientale.webp');">
                 <span class="tuile-province-nom">Flandre orientale</span>

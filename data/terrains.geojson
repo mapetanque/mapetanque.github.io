@@ -1,6 +1,6 @@
 {
   "type": "FeatureCollection",
-  "mis_a_jour": "2026-10-21",
+  "mis_a_jour": "2026-10-22",
   "features": [
     {
       "type": "Feature",
@@ -7586,38 +7586,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          4.258906,
-          50.8496463
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "lit": "yes",
-        "sport": "boules",
-        "surface": "compacted",
-        "osm_id": "way/371392946",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "parking": 71,
-          "arret": 261,
-          "routes": {
-            "residential": 10
-          },
-          "eau": {
-            "ruisseau": 172
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           4.3376266,
           50.4650419
         ]
@@ -8219,7 +8187,7 @@
         "commune": "Bredene",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-sea5-1.xx.fbcdn.net/m1/v/t6/AQObaG_zKxPNxY1BHdliPXiUvSdMTkKQA6pmE-NerE_3VYcrX7RGQyNFPdqBszIfj5_TYWfl3Mfv7Ofqyw1xxm3fGmkkBGGJzTawzvxsDb240yD0xR5x-EMisXtxc__yAC_292cfY8BZCxaqyjfabkCdSYtngpkwMputRxapyFMKFQ?stp=s1024x576&edm=ALXxkZ8EAAAA&_nc_gid=4Xf4l1ehrdEDYlU7YdidCA&_nc_oc=AdrQX1Ag2S-HhudqPRHAtSHEQGSpV9hGZD-jD0d4JdC7DkIyLlFlycpU8QZJwoU0iIU&ccb=10-5&oh=00_AQO0y7qiv73bmWuWTkpoQ3J7P0mjI2osgblqeoLzMNIFaA&oe=6AFFD0D8&_nc_sid=201bca",
+        "photo_url": "https://scontent-iad3-1.xx.fbcdn.net/m1/v/t6/AQObaG_zKxPNxY1BHdliPXiUvSdMTkKQA6pmE-NerE_3VYcrX7RGQyNFPdqBszIfj5_TYWfl3Mfv7Ofqyw1xxm3fGmkkBGGJzTawzvxsDb240yD0xR5x-EMisXtxc__yAC_292cfY8BZCxaqyjfabkCdSYtngpkwMputRxapyFMKFQ?stp=s1024x576&edm=ALXxkZ8EAAAA&_nc_gid=N7G2yvmrGW_lvCckkrZnRA&_nc_oc=AdqDiMbjV44pGel8rNsyrqH2FEKEjRooLU5TY5HVlU_AvbgSMqQ3WQGJpw8pdr5ToIM&ccb=10-5&oh=00_AQO9pE2erK8SRqUnpOB_qydO_M7VE5TidQYwOiXFZFnJgQ&oe=6B012258&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=283988963431148&focus=photo",
         "env": {
@@ -11789,7 +11757,7 @@
         "commune": "Knokke-Heist",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-sea5-1.xx.fbcdn.net/m1/v/t6/AQMf_Yb7sgn2HtrhW_6VC0c3gNeSEqWcQrStUCOJgQQS_cGjvetA2ZiQTBxMFUq625Le4tBrGfxkE5kCmz4LxQPtyjoh4DWxfgxhM8HEYMnM_IZHy_emxlqMC6g7rrsPAg3kBJYIsFnsMxUPt82Xc0wmmChwgRq1je69gRbfpQwEZa4?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=FsbS_LwEnjZgBQ1r49DlIg&_nc_oc=AdrZAGY6pEli0QpO-6pW9QZTUDUvQtA_3-cPwKAMqzd5nH4bZrAEBgF8QZB7vdgmaEY&ccb=10-5&oh=00_AQOcUFuG9zoeTPG2kiR8v7PTOcVxo0yM3PvvytzYf-GL5A&oe=6AFFDC55&_nc_sid=201bca",
+        "photo_url": "https://scontent-iad3-1.xx.fbcdn.net/m1/v/t6/AQMf_Yb7sgn2HtrhW_6VC0c3gNeSEqWcQrStUCOJgQQS_cGjvetA2ZiQTBxMFUq625Le4tBrGfxkE5kCmz4LxQPtyjoh4DWxfgxhM8HEYMnM_IZHy_emxlqMC6g7rrsPAg3kBJYIsFnsMxUPt82Xc0wmmChwgRq1je69gRbfpQwEZa4?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=J0UXTU_KTgQUGoTBvUz-qg&_nc_oc=Adqzol7aKJDr3O68lRqpo7b1v4z-8VDKxqQtAfFMfelOknifyoo3TZIJYB4ZyttOnE0&ccb=10-5&oh=00_AQO_pyhtvTXVB1qYDwVkTFwRjbqlQF5pZ-w9QtlNv4OugQ&oe=6B012DD5&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=2585664148528878&focus=photo",
         "env": {
@@ -44835,105 +44803,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          4.6816433,
-          50.090728
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "lit": "yes",
-        "sport": "boules",
-        "surface": "fine_gravel",
-        "osm_id": "way/1308640835",
-        "nearest_street": "Rue de la Gare",
-        "commune": "Treignes",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 5,
-          "jeux": 48,
-          "parking": 39,
-          "arret": 93,
-          "routes": {
-            "secondary": 71,
-            "unclassified": 9
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6814773,
-          50.0906909
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "lit": "yes",
-        "sport": "boules",
-        "surface": "fine_gravel",
-        "osm_id": "way/1308640836",
-        "nearest_street": "Rue de la Gare",
-        "commune": "Treignes",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 17,
-          "jeux": 61,
-          "parking": 51,
-          "arret": 101,
-          "routes": {
-            "secondary": 71,
-            "unclassified": 19
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6814918,
-          50.0908036
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "lit": "yes",
-        "sport": "boules",
-        "surface": "fine_gravel",
-        "osm_id": "way/1308640837",
-        "nearest_street": "Rue de la Gare",
-        "commune": "Treignes",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 5,
-          "jeux": 44,
-          "parking": 37,
-          "arret": 80,
-          "routes": {
-            "secondary": 57,
-            "unclassified": 16
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           6.0104593,
           50.7244639
         ]
@@ -53401,8 +53270,10 @@
         ]
       },
       "properties": {
+        "boules": "petanque",
         "leisure": "pitch",
         "sport": "boules",
+        "surface": "fine_gravel",
         "osm_id": "way/1460570971",
         "nearest_street": "Ter Beke",
         "commune": "Brugge",
@@ -54513,7 +54384,7 @@
         "commune": "Antwerpen",
         "province": "anvers",
         "region": "flandre",
-        "photo_url": "https://scontent-sea5-1.xx.fbcdn.net/m1/v/t6/AQPfI6agvNEEMVKpP3RM558SjkEFr8qPLAFX83Byiw3SePq3c058M97fBB8BBpiRuiQGYx9aPGAwlDCLMH-kNrdWnpxsYkdF7Lv22yJ0fVVMowwxoTS0c1izmxwC_qQvATZVEsQK-Sf_oMR1OI24ZA-52JzH2VaGT8A-gvgPzUlcOis?stp=s1024x771&edm=ALXxkZ8EAAAA&_nc_gid=T2P1g_A6l7oPR5bxf9ngiw&_nc_oc=AdrZCxZwqkUS_5iQdZnL7Cde7a6LZ7M1kcgCCtQ0ePqTQRUxmq5btgy0GYiHSIZ_uVI&ccb=10-5&oh=00_AQN3-072uYats4-4GbreqNKn5UTvqbgCqPn5kiCOVE9tqQ&oe=6AFFEFA0&_nc_sid=201bca",
+        "photo_url": "https://scontent-iad3-1.xx.fbcdn.net/m1/v/t6/AQPfI6agvNEEMVKpP3RM558SjkEFr8qPLAFX83Byiw3SePq3c058M97fBB8BBpiRuiQGYx9aPGAwlDCLMH-kNrdWnpxsYkdF7Lv22yJ0fVVMowwxoTS0c1izmxwC_qQvATZVEsQK-Sf_oMR1OI24ZA-52JzH2VaGT8A-gvgPzUlcOis?stp=s1024x771&edm=ALXxkZ8EAAAA&_nc_gid=wjoE0uqeomusG_hBNanCOg&_nc_oc=AdpwCoVwY-xbieElKdiI07UzKV_EqtVvJ74w2IlYhR4kcqLqwjMJhUtobrC7yWIJHhw&ccb=10-5&oh=00_AQO-aiw4Ub-p9XTTO0J3Q0JF5SGo-BLk4Q_nzINUhB9NlA&oe=6B014120&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1257601666575631&focus=photo",
         "env": {
@@ -56572,7 +56443,7 @@
         "commune": "Nieuwpoort",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-sea5-1.xx.fbcdn.net/m1/v/t6/AQMOt-M_fs3kMGJ_cV0h0_kKwpcgrAm0Yu0v3qEl6fnjae5RZ4Y3EdlkIwQJBnVjoIzSVVB-ttm9P4a9WVmTY8Ss8YtnJdt8RO3u2NHAyxpk3Ysqsqm9z1NU3bl9_UAyme7RmjTao85pmNXfE7Rgxnfo18XkakJ7GYbqHitmw7V5FA?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=o_RSBznByBKX-OmgdpDneg&_nc_oc=Ado07Awl5D3rtrfPhQkruKfIU-GLJ_sXD2_j4mgWZVPLb3l53MXQ9XYNIwCElXHW8t4&ccb=10-5&oh=00_AQP46yA9ZgQUDdByP2u9-zoglkUAJYbaw9u_yTHv_eyHAQ&oe=6AFFEAE1&_nc_sid=201bca",
+        "photo_url": "https://scontent-iad3-1.xx.fbcdn.net/m1/v/t6/AQMOt-M_fs3kMGJ_cV0h0_kKwpcgrAm0Yu0v3qEl6fnjae5RZ4Y3EdlkIwQJBnVjoIzSVVB-ttm9P4a9WVmTY8Ss8YtnJdt8RO3u2NHAyxpk3Ysqsqm9z1NU3bl9_UAyme7RmjTao85pmNXfE7Rgxnfo18XkakJ7GYbqHitmw7V5FA?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=z0e_KULoiBvOgrNiahk0NQ&_nc_oc=AdrUqboZh9RO228EYNY9VRfyW32zzs5yUQzwBZItxq7Gp9hFVmKveQJxIWIB2m76bKI&ccb=10-5&oh=00_AQNe4TRaWHAOgmACnehtoSWl6bbu83vye9KQ9DiZLY0FTA&oe=6B013C61&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1545369280832050&focus=photo",
         "env": {
@@ -56724,7 +56595,7 @@
         "commune": "Nieuwpoort",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-sea5-1.xx.fbcdn.net/m1/v/t6/AQPfOMAvtcfdVkelBlQG8MmhkCTBsFsDU8vyOJNR5iy2fAjiZRiqLE3RJgJ1IyQmXPsdgj6sU9hDNMYwUtg7zuJ5t5acOGHbCdXZ2gOTsuvJldom2B7Q_WddocWOD0xj_igU-iVI1uDHQeuUk55oluPKEkPr1_q3-XDBUUGKvwCTcmk?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=iIgyINP_5rtQ8BNHotLA2A&_nc_oc=AdoKNWBqY3lzdJjxDausNaCl8BUl5LKpJ3j06K7SOcN9wqLphQ4fKxmND0-hri3VnAg&ccb=10-5&oh=00_AQNMf5jFAPDQE-joUECYWwv9gbkDBlpaWITOoOaKmJUOpg&oe=6AFFECE5&_nc_sid=201bca",
+        "photo_url": "https://scontent-iad3-1.xx.fbcdn.net/m1/v/t6/AQPfOMAvtcfdVkelBlQG8MmhkCTBsFsDU8vyOJNR5iy2fAjiZRiqLE3RJgJ1IyQmXPsdgj6sU9hDNMYwUtg7zuJ5t5acOGHbCdXZ2gOTsuvJldom2B7Q_WddocWOD0xj_igU-iVI1uDHQeuUk55oluPKEkPr1_q3-XDBUUGKvwCTcmk?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=BnIAm7r6FG8bdCGX5Kr5iA&_nc_oc=AdpuKh5jndCQugwUDNfP8g0nmkk8zDRtnSyevV5ZLLYMwZF4vvvM7EHEt1oZt-b1_aA&ccb=10-5&oh=00_AQNdFuYC-JbQqdBeANj-MrYNzih6ajovVFM07cLWwkO4OQ&oe=6B013E65&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1845376466819094&focus=photo",
         "env": {
@@ -56766,7 +56637,7 @@
         "commune": "Knokke-Heist",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-sea5-1.xx.fbcdn.net/m1/v/t6/AQOMIrOhJmwR3NQ111tyTgDNNwT-xcI3tMvwRysfwbnkRVigPysgVDgzRm5f1CyVI__7XMnNN_DK4ycpGRvDKuUJKRWPFayH7v41n5OA4EmSOMFz8jPHqzw9BKZtbJkI9Zj8Ma3RX6gJDEH5HsV0LRjhUgEAutkZbhcxECFHFGpal40?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=P1Gxin1QtOgLWTFpBl__1w&_nc_oc=Ado7D5C3Hl_YoM6heE8fuEs0PWqQnUqHnXUpHn7SOW-h38F-3_m_FVlzImQWEM8A4Ag&ccb=10-5&oh=00_AQN7VL0T5f_tH0wgM5cT5lHvgUGvloVgM_2VYdX_YJJ8Mg&oe=6AFFE389&_nc_sid=201bca",
+        "photo_url": "https://scontent-iad3-1.xx.fbcdn.net/m1/v/t6/AQOMIrOhJmwR3NQ111tyTgDNNwT-xcI3tMvwRysfwbnkRVigPysgVDgzRm5f1CyVI__7XMnNN_DK4ycpGRvDKuUJKRWPFayH7v41n5OA4EmSOMFz8jPHqzw9BKZtbJkI9Zj8Ma3RX6gJDEH5HsV0LRjhUgEAutkZbhcxECFHFGpal40?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=_g-CXZi63keGJXEhBYQqaA&_nc_oc=AdrGQaur-Hr1EyFzB-6_x6pK3PFn6UjdijGO8xBp8bJSGBxtccFpIK23GQ12Yuq_2HI&ccb=10-5&oh=00_AQOLc_rFyV3uw7cRkCu8B6I3kmG5UwpmsY4tS7Bw0g4eIg&oe=6B013509&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1967944690557231&focus=photo",
         "env": {
@@ -59544,6 +59415,1239 @@
             "parc": 0.5
           }
         }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2586818,
+          50.8495803
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457382",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.258696,
+          50.8496005
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457383",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2587245,
+          50.8496411
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457384",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2587103,
+          50.8496208
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457385",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2587529,
+          50.8496816
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457386",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2587387,
+          50.8496613
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457387",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2588298,
+          50.8495389
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457388",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2589009,
+          50.8496402
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457389",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.258844,
+          50.8495592
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457390",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2588582,
+          50.8495794
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457391",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2588725,
+          50.8495996
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457392",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2588867,
+          50.84962
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457393",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2589778,
+          50.8494975
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457394",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2590489,
+          50.8495988
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457395",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.258992,
+          50.8495177
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457396",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2590062,
+          50.849538
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457397",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2590204,
+          50.8495583
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457398",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2590347,
+          50.8495785
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457399",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2588382,
+          50.8498031
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457400",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.258824,
+          50.8497829
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457401",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2588098,
+          50.8497627
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457402",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2587956,
+          50.8497423
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457403",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2587813,
+          50.8497221
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457404",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2587671,
+          50.8497019
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457405",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2589151,
+          50.8496604
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457406",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2589293,
+          50.8496807
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457407",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2589435,
+          50.849701
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457408",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2589578,
+          50.8497212
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457409",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.258972,
+          50.8497415
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457410",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2589862,
+          50.8497617
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457411",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2591342,
+          50.8497203
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457412",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.25912,
+          50.8497001
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457413",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2591058,
+          50.8496799
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457414",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2590915,
+          50.8496596
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457415",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2590773,
+          50.8496393
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457416",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2590631,
+          50.8496191
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570457417",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6812833,
+          50.0907598
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570473557",
+        "nearest_street": "Rue de la Gare",
+        "commune": "Treignes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6813122,
+          50.090766
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570473558",
+        "nearest_street": "Rue de la Gare",
+        "commune": "Treignes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.681367,
+          50.0907774
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570473559",
+        "nearest_street": "Rue de la Gare",
+        "commune": "Treignes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6813392,
+          50.0907717
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570473560",
+        "nearest_street": "Rue de la Gare",
+        "commune": "Treignes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6813952,
+          50.0907834
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570473561",
+        "nearest_street": "Rue de la Gare",
+        "commune": "Treignes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6814239,
+          50.0907892
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570473562",
+        "nearest_street": "Rue de la Gare",
+        "commune": "Treignes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6814515,
+          50.0907951
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570473563",
+        "nearest_street": "Rue de la Gare",
+        "commune": "Treignes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6814791,
+          50.090801
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570473564",
+        "nearest_street": "Rue de la Gare",
+        "commune": "Treignes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6815084,
+          50.0908068
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570473565",
+        "nearest_street": "Rue de la Gare",
+        "commune": "Treignes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6815358,
+          50.090813
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570473566",
+        "nearest_street": "Rue de la Gare",
+        "commune": "Treignes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.681563,
+          50.0908185
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570473567",
+        "nearest_street": "Rue de la Gare",
+        "commune": "Treignes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6815907,
+          50.0908244
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570473568",
+        "nearest_street": "Rue de la Gare",
+        "commune": "Treignes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.681619,
+          50.0908301
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570473569",
+        "nearest_street": "Rue de la Gare",
+        "commune": "Treignes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6816465,
+          50.0908362
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570473570",
+        "nearest_street": "Rue de la Gare",
+        "commune": "Treignes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6816732,
+          50.0908419
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570473571",
+        "nearest_street": "Rue de la Gare",
+        "commune": "Treignes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6817011,
+          50.0908473
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "area": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570473572",
+        "nearest_street": "Rue de la Gare",
+        "commune": "Treignes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6814645,
+          50.0907158
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570473573",
+        "nearest_street": "Rue de la Gare",
+        "commune": "Treignes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6814763,
+          50.0906931
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570473574",
+        "nearest_street": "Rue de la Gare",
+        "commune": "Treignes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6814896,
+          50.0906682
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570473575",
+        "nearest_street": "Rue de la Gare",
+        "commune": "Treignes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6816301,
+          50.0907531
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570473576",
+        "nearest_street": "Rue de la Gare",
+        "commune": "Treignes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6816419,
+          50.0907306
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570473577",
+        "nearest_street": "Rue de la Gare",
+        "commune": "Treignes",
+        "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6816552,
+          50.0907055
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570473578",
+        "nearest_street": "Rue de la Gare",
+        "commune": "Treignes",
+        "province": "namur",
+        "region": "wallonie"
       }
     }
   ]

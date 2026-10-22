@@ -1,6 +1,6 @@
 {
   "wallonie": {
-    "total": 514,
+    "total": 533,
     "provinces": {
       "liege": {
         "total": 169,
@@ -79,7 +79,7 @@
         }
       },
       "namur": {
-        "total": 115,
+        "total": 134,
         "communes": {
           "Hamois": 1,
           "Vencimont": 1,
@@ -123,13 +123,13 @@
           "Celles": 2,
           "Graide": 1,
           "Olloy-sur-Viroin": 1,
-          "Treignes": 3,
           "Yvoir": 1,
           "Hastière-Lavaux": 1,
           "Blaimont": 1,
           "Houyet": 2,
           "Anhée": 1,
-          "Nismes": 22
+          "Nismes": 22,
+          "Treignes": 22
         }
       },
       "luxembourg": {
@@ -241,10 +241,10 @@
     "communes": {}
   },
   "flandre": {
-    "total": 1187,
+    "total": 1222,
     "provinces": {
       "brabant_flamand": {
-        "total": 185,
+        "total": 220,
         "communes": {
           "Tienen": 3,
           "Sint-Genesius-Rode - Rhode-Saint-Genèse": 5,
@@ -263,7 +263,6 @@
           "Kampenhout": 1,
           "Heikruis": 3,
           "Ottenburg": 1,
-          "Dilbeek": 2,
           "Zoutleeuw": 1,
           "Halle": 21,
           "Kraainem": 2,
@@ -299,7 +298,8 @@
           "Zaventem": 1,
           "Bekkevoort": 1,
           "Boortmeerbeek": 2,
-          "Sint-Joris-Winge": 1
+          "Sint-Joris-Winge": 1,
+          "Dilbeek": 37
         }
       },
       "anvers": {
