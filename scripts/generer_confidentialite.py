@@ -147,7 +147,7 @@ CONTENU = {
                  "le site et, le plus souvent, sur Mapillary, sous licence CC BY-SA ; une photo "
                  "montrant des visages ou des plaques n'est publiée qu'une fois floutée. Sinon, "
                  "elle est supprimée."),
-                ("Signalement", " : conservé pour garder une trace des corrections. Envoyé sans compte, son adresse e-mail est effacée après un an. Une photo jointe (jamais publiée) est effacée 30 jours après le traitement du signalement."),
+                ("Signalement", " : conservé pour garder une trace des corrections. Envoyé sans compte, son adresse e-mail est effacée après un an. Une photo jointe peut être ajoutée à la fiche du terrain ; sinon, elle est effacée 30 jours après le traitement du signalement."),
                 ("Coup de cœur", " : sans limite, de façon anonyme (rattaché au compte si vous êtes connecté)."),
                 ("Empreinte de l'adresse IP", " : quelques jours."),
             ],
@@ -291,7 +291,7 @@ CONTENU = {
                  "op de site en meestal ook op Mapillary gepubliceerd onder de CC BY-SA-licentie; "
                  "een foto met gezichten of nummerplaten pas nadat die onherkenbaar zijn "
                  "gemaakt. Anders wordt ze verwijderd."),
-                ("Melding", ": bewaard als spoor van de correcties. Verstuurd zonder account, wordt het e-mailadres na een jaar gewist. Een bijgevoegde foto (nooit gepubliceerd) wordt 30 dagen na de behandeling van de melding gewist."),
+                ("Melding", ": bewaard als spoor van de correcties. Verstuurd zonder account, wordt het e-mailadres na een jaar gewist. Een bijgevoegde foto kan aan de pagina van het terrein worden toegevoegd; anders wordt ze 30 dagen na de behandeling van de melding gewist."),
                 ("Hartje", ": onbeperkt, anoniem (gekoppeld aan je account als je aangemeld bent)."),
                 ("Vingerafdruk van het IP-adres", ": enkele dagen."),
             ],
@@ -435,7 +435,7 @@ CONTENU = {
                  "CC-BY-SA-Lizenz auf der Website und meist auch auf Mapillary veröffentlicht; "
                  "ein Foto mit Gesichtern oder Kennzeichen erst, wenn diese unkenntlich gemacht "
                  "sind. Andernfalls wird es gelöscht."),
-                ("Meldung", ": wird als Nachweis der Korrekturen aufbewahrt. Ohne Konto gesendet, wird die E-Mail-Adresse nach einem Jahr gelöscht. Ein beigefügtes Foto (nie veröffentlicht) wird 30 Tage nach der Bearbeitung der Meldung gelöscht."),
+                ("Meldung", ": wird als Nachweis der Korrekturen aufbewahrt. Ohne Konto gesendet, wird die E-Mail-Adresse nach einem Jahr gelöscht. Ein beigefügtes Foto kann zur Seite des Platzes hinzugefügt werden; sonst wird es 30 Tage nach der Bearbeitung der Meldung gelöscht."),
                 ("Herz", ": unbegrenzt, anonym (mit dem Konto verknüpft, wenn Sie angemeldet sind)."),
                 ("Fingerabdruck der IP-Adresse", ": einige Tage."),
             ],
@@ -576,7 +576,7 @@ CONTENU = {
                  "usually, on Mapillary, under a CC BY-SA licence; a photo showing faces or "
                  "licence plates is only published once they are blurred. Otherwise, it is "
                  "deleted."),
-                ("Report", ": kept as a record of corrections. If sent without an account, its email address is deleted after one year. An attached photo (never published) is deleted 30 days after the report has been handled."),
+                ("Report", ": kept as a record of corrections. If sent without an account, its email address is deleted after one year. An attached photo may be added to the court's page; otherwise it is deleted 30 days after the report has been handled."),
                 ("Heart", ": indefinitely, anonymously (linked to your account if you are signed in)."),
                 ("IP address fingerprint", ": a few days."),
             ],

@@ -328,6 +328,7 @@ const translations = {
         signalement_photo_label: "Photo (facultatif)",
         signalement_photo_ajouter: "Ajouter une photo",
         signalement_photo_retirer: "Retirer la photo",
+        signalement_photo_accord: "En l'envoyant, vous autorisez Mapetanque.be à la publier sur le site et sur Mapillary (licence CC BY-SA).",
         signalement_error_photo: "Cette photo n'a pas pu être envoyée : choisissez-en une autre, ou retirez-la.",
         signalement_success_error: "Merci ! Votre signalement a bien été reçu, il sera vérifié avant toute correction.",
 
@@ -1344,6 +1345,7 @@ const translations = {
         signalement_photo_label: "Foto (optioneel)",
         signalement_photo_ajouter: "Foto toevoegen",
         signalement_photo_retirer: "Foto verwijderen",
+        signalement_photo_accord: "Door ze te versturen, geeft u Mapetanque.be toestemming om ze op de site en op Mapillary te publiceren (CC BY-SA-licentie).",
         signalement_error_photo: "Deze foto kon niet worden verstuurd: kies een andere of verwijder ze.",
         signalement_success_error: "Bedankt! Uw melding is goed ontvangen en wordt gecontroleerd voordat er iets wordt aangepast.",
 
@@ -2360,6 +2362,7 @@ const translations = {
         signalement_photo_label: "Foto (optional)",
         signalement_photo_ajouter: "Foto hinzufügen",
         signalement_photo_retirer: "Foto entfernen",
+        signalement_photo_accord: "Mit dem Senden erlauben Sie Mapetanque.be, es auf der Website und auf Mapillary zu veröffentlichen (CC-BY-SA-Lizenz).",
         signalement_error_photo: "Dieses Foto konnte nicht gesendet werden: Wählen Sie ein anderes oder entfernen Sie es.",
         signalement_success_error: "Danke! Ihre Meldung ist eingegangen und wird vor jeder Korrektur geprüft.",
 
@@ -3376,6 +3379,7 @@ const translations = {
         signalement_photo_label: "Photo (optional)",
         signalement_photo_ajouter: "Add a photo",
         signalement_photo_retirer: "Remove the photo",
+        signalement_photo_accord: "By sending it, you allow Mapetanque.be to publish it on the site and on Mapillary (CC BY-SA licence).",
         signalement_error_photo: "This photo couldn't be sent: choose another one, or remove it.",
         signalement_success_error: "Thank you! Your report has been received and will be checked before any correction.",
 

@@ -2750,6 +2750,7 @@ const CSS_SIGNALEMENT = `
 #signalement-modal .signalement-photo-bouton svg { width: 18px; height: 18px; flex: none; }
 #signalement-modal .signalement-photo-bouton[hidden],
 #signalement-modal .signalement-photo-choisie[hidden],
+#signalement-modal .signalement-photo-accord[hidden],
 #signalement-modal [data-bloc][hidden] { display: none; }
 #signalement-modal .signalement-photo-choisie img {
     width: 40px; height: 40px; object-fit: cover; border-radius: 4px;
@@ -2758,6 +2759,7 @@ const CSS_SIGNALEMENT = `
     margin-left: auto; border: none; background: none; padding: 0;
     color: #3D7A2A; font: inherit; font-weight: bold; cursor: pointer;
 }
+#signalement-modal .signalement-photo-accord { margin: 4px 0 0; font-size: 12px; line-height: 1.35; color: #56604F; }
 #signalement-modal .add-photo-checkbox-row { font-size: 12.5px; color: #1D2619; }
 #signalement-modal .signalement-carte {
     position: relative; z-index: 0; height: 320px; border: 1px solid #ddd; border-radius: 8px;
@@ -2901,6 +2903,9 @@ function construireModaleSignalement() {
                         <img alt="">
                         <button type="button" data-cle="signalement_photo_retirer"></button>
                     </div>
+                    <!-- Accord de publication, donné par l'envoi : affiché seulement avec une photo
+                         (l'admin peut alors l'ajouter à la fiche du terrain, sans redemander). -->
+                    <p class="signalement-photo-accord" data-cle="signalement_photo_accord" hidden></p>
                 </div>
 
                 <label class="add-photo-field-label" for="signalement-commentaire" id="signalement-commentaire-label"></label>
@@ -3139,6 +3144,7 @@ function choisirPhotoSignalement(fichier) {
     const choisie = elementSignalement('.signalement-photo-choisie');
     choisie.querySelector('img').src = urlApercuSignalement || '';
     choisie.hidden = !photoSignalement;
+    elementSignalement('.signalement-photo-accord').hidden = !photoSignalement;
     elementSignalement('.signalement-photo-bouton').hidden = !!photoSignalement;
     elementSignalement('[name="photo"]').value = '';
 }

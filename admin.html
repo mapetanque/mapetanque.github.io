@@ -4355,8 +4355,11 @@ function changerStatutSignalement(s, statut, choix) {
 // osm_id. Cadrage de la miniature 800 × 450 du site : « Recadrer » envoie la partie choisie (16:9,
 // à la résolution de la photo, donc la grande version aussi), « Photo entière » envoie la photo
 // telle quelle, que la publication pose sur un fond flou (scripts/miniature_plate.py).
-// La photo d'un signalement n'a pas été envoyée sous licence : l'accord de l'auteur est demandé.
+// Accord de publication : depuis DEBUT_ACCORD_PHOTO_SIGNALEMENT (UTC, comme cree), le formulaire
+// dit sous la photo que l'envoyer autorise sa publication (signalement_photo_accord dans
+// translations.js). Avant, rien n'était dit : la case d'accord de l'auteur est alors demandée.
 
+const DEBUT_ACCORD_PHOTO_SIGNALEMENT = "2026-10-23 19:13:00";
 const VERS_TERRAIN = { s: null, image: null, blob: null, url: null, cx: 0, cy: 0, zoom: 1, saisie: null };
 const RAYON_TERRAINS_PROCHES = 1000;   // mètres autour du point signalé
 const MAX_TERRAINS_PROCHES = 6;
@@ -4386,7 +4389,9 @@ async function ouvrirVersTerrain(s) {
     VERS_TERRAIN.s = s;
     VERS_TERRAIN.zoom = 1;
     document.getElementById("versTerrainErreur").textContent = "";
-    document.getElementById("versTerrainAccord").checked = false;
+    const accordDonne = String(s.cree || "") >= DEBUT_ACCORD_PHOTO_SIGNALEMENT;
+    document.getElementById("versTerrainAccord").checked = accordDonne;
+    document.getElementById("versTerrainAccord").parentElement.style.display = accordDonne ? "none" : "";
     document.getElementById("versTerrainAutre").value = "";
     document.getElementById("versTerrainZoom").value = "1";
     document.querySelector('input[name="versTerrainMode"][value="recadree"]').checked = true;
@@ -4394,6 +4399,7 @@ async function ouvrirVersTerrain(s) {
         (s.avec_compte
             ? "Créditée au pseudo du compte de l'auteur" + (s.pseudo ? " « " + s.pseudo + " »" : "") + "."
             : "Auteur sans compte : publiée sans crédit (anonyme).")
+        + (accordDonne ? " Accord de publication donné à l'envoi." : "")
         + " Elle rejoint la modération de l'onglet Terrains, à valider comme les autres photos.";
     const liste = document.getElementById("versTerrainListe");
     liste.replaceChildren("Chargement des terrains…");
