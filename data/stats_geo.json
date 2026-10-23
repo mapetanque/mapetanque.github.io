@@ -1,6 +1,6 @@
 {
   "wallonie": {
-    "total": 533,
+    "total": 534,
     "provinces": {
       "liege": {
         "total": 169,
@@ -166,7 +166,7 @@
         }
       },
       "brabant_wallon": {
-        "total": 62,
+        "total": 63,
         "communes": {
           "Walhain-Saint-Paul": 2,
           "Genappe": 1,
@@ -188,7 +188,8 @@
           "Rebecq-Rognon": 1,
           "Ramillies": 1,
           "Roux-Miroir": 1,
-          "Beauvechain": 1
+          "Beauvechain": 1,
+          "Wavre": 1
         }
       },
       "hainaut": {

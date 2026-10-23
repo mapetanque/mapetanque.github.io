@@ -1,6 +1,6 @@
 {
   "type": "FeatureCollection",
-  "mis_a_jour": "2026-10-22",
+  "mis_a_jour": "2026-10-23",
   "features": [
     {
       "type": "Feature",
@@ -8187,7 +8187,7 @@
         "commune": "Bredene",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-iad3-1.xx.fbcdn.net/m1/v/t6/AQObaG_zKxPNxY1BHdliPXiUvSdMTkKQA6pmE-NerE_3VYcrX7RGQyNFPdqBszIfj5_TYWfl3Mfv7Ofqyw1xxm3fGmkkBGGJzTawzvxsDb240yD0xR5x-EMisXtxc__yAC_292cfY8BZCxaqyjfabkCdSYtngpkwMputRxapyFMKFQ?stp=s1024x576&edm=ALXxkZ8EAAAA&_nc_gid=N7G2yvmrGW_lvCckkrZnRA&_nc_oc=AdqDiMbjV44pGel8rNsyrqH2FEKEjRooLU5TY5HVlU_AvbgSMqQ3WQGJpw8pdr5ToIM&ccb=10-5&oh=00_AQO9pE2erK8SRqUnpOB_qydO_M7VE5TidQYwOiXFZFnJgQ&oe=6B012258&_nc_sid=201bca",
+        "photo_url": "https://scontent-atl3-1.xx.fbcdn.net/m1/v/t6/AQObaG_zKxPNxY1BHdliPXiUvSdMTkKQA6pmE-NerE_3VYcrX7RGQyNFPdqBszIfj5_TYWfl3Mfv7Ofqyw1xxm3fGmkkBGGJzTawzvxsDb240yD0xR5x-EMisXtxc__yAC_292cfY8BZCxaqyjfabkCdSYtngpkwMputRxapyFMKFQ?stp=s1024x576&edm=ALXxkZ8EAAAA&_nc_gid=Vq-Wdql_mxHyQAn_GcrUVQ&_nc_oc=AdoBT5OeeBMf-HYC95Mq_JYc82AgFlm2-l2r7wgh0Z56mSwc3o4-4he_Nl9DUdIhCq4&ccb=10-5&oh=00_AQOwDscVGBOLTSpqd-LbTGDfyXcIGOu-swkQzwU5eVyi3g&oe=6B0273D8&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=283988963431148&focus=photo",
         "env": {
@@ -11757,7 +11757,7 @@
         "commune": "Knokke-Heist",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-iad3-1.xx.fbcdn.net/m1/v/t6/AQMf_Yb7sgn2HtrhW_6VC0c3gNeSEqWcQrStUCOJgQQS_cGjvetA2ZiQTBxMFUq625Le4tBrGfxkE5kCmz4LxQPtyjoh4DWxfgxhM8HEYMnM_IZHy_emxlqMC6g7rrsPAg3kBJYIsFnsMxUPt82Xc0wmmChwgRq1je69gRbfpQwEZa4?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=J0UXTU_KTgQUGoTBvUz-qg&_nc_oc=Adqzol7aKJDr3O68lRqpo7b1v4z-8VDKxqQtAfFMfelOknifyoo3TZIJYB4ZyttOnE0&ccb=10-5&oh=00_AQO_pyhtvTXVB1qYDwVkTFwRjbqlQF5pZ-w9QtlNv4OugQ&oe=6B012DD5&_nc_sid=201bca",
+        "photo_url": "https://scontent-atl3-1.xx.fbcdn.net/m1/v/t6/AQMf_Yb7sgn2HtrhW_6VC0c3gNeSEqWcQrStUCOJgQQS_cGjvetA2ZiQTBxMFUq625Le4tBrGfxkE5kCmz4LxQPtyjoh4DWxfgxhM8HEYMnM_IZHy_emxlqMC6g7rrsPAg3kBJYIsFnsMxUPt82Xc0wmmChwgRq1je69gRbfpQwEZa4?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=2h0cRdae34Vxkwjvrb5JGA&_nc_oc=Adqb-1EYB1yX9-ilPCd0eX58evQFpS027pnabtm6g7GllVoLDNmuYyksYu4K8LXoTnE&ccb=10-5&oh=00_AQOgnu30vBK_LYQFoLzsz9nwrFSzOcLGIKIbxH5cdd113w&oe=6B027F55&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=2585664148528878&focus=photo",
         "env": {
@@ -54384,7 +54384,7 @@
         "commune": "Antwerpen",
         "province": "anvers",
         "region": "flandre",
-        "photo_url": "https://scontent-iad3-1.xx.fbcdn.net/m1/v/t6/AQPfI6agvNEEMVKpP3RM558SjkEFr8qPLAFX83Byiw3SePq3c058M97fBB8BBpiRuiQGYx9aPGAwlDCLMH-kNrdWnpxsYkdF7Lv22yJ0fVVMowwxoTS0c1izmxwC_qQvATZVEsQK-Sf_oMR1OI24ZA-52JzH2VaGT8A-gvgPzUlcOis?stp=s1024x771&edm=ALXxkZ8EAAAA&_nc_gid=wjoE0uqeomusG_hBNanCOg&_nc_oc=AdpwCoVwY-xbieElKdiI07UzKV_EqtVvJ74w2IlYhR4kcqLqwjMJhUtobrC7yWIJHhw&ccb=10-5&oh=00_AQO-aiw4Ub-p9XTTO0J3Q0JF5SGo-BLk4Q_nzINUhB9NlA&oe=6B014120&_nc_sid=201bca",
+        "photo_url": "https://scontent-atl3-1.xx.fbcdn.net/m1/v/t6/AQPfI6agvNEEMVKpP3RM558SjkEFr8qPLAFX83Byiw3SePq3c058M97fBB8BBpiRuiQGYx9aPGAwlDCLMH-kNrdWnpxsYkdF7Lv22yJ0fVVMowwxoTS0c1izmxwC_qQvATZVEsQK-Sf_oMR1OI24ZA-52JzH2VaGT8A-gvgPzUlcOis?stp=s1024x771&edm=ALXxkZ8EAAAA&_nc_gid=SYLubvk7xToYWebvzUX-mw&_nc_oc=AdpPdjo_OosUAr62ysWutv-YXYqui3F9DfgmGLueX8Zxx3deUUGA3SkwLHSdes6m6OY&ccb=10-5&oh=00_AQP8O7yo0zN-WUn_jP3_pBb83fR7AarMFTl3-X6EZyoJ4w&oe=6B0292A0&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1257601666575631&focus=photo",
         "env": {
@@ -56443,7 +56443,7 @@
         "commune": "Nieuwpoort",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-iad3-1.xx.fbcdn.net/m1/v/t6/AQMOt-M_fs3kMGJ_cV0h0_kKwpcgrAm0Yu0v3qEl6fnjae5RZ4Y3EdlkIwQJBnVjoIzSVVB-ttm9P4a9WVmTY8Ss8YtnJdt8RO3u2NHAyxpk3Ysqsqm9z1NU3bl9_UAyme7RmjTao85pmNXfE7Rgxnfo18XkakJ7GYbqHitmw7V5FA?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=z0e_KULoiBvOgrNiahk0NQ&_nc_oc=AdrUqboZh9RO228EYNY9VRfyW32zzs5yUQzwBZItxq7Gp9hFVmKveQJxIWIB2m76bKI&ccb=10-5&oh=00_AQNe4TRaWHAOgmACnehtoSWl6bbu83vye9KQ9DiZLY0FTA&oe=6B013C61&_nc_sid=201bca",
+        "photo_url": "https://scontent-atl3-1.xx.fbcdn.net/m1/v/t6/AQMOt-M_fs3kMGJ_cV0h0_kKwpcgrAm0Yu0v3qEl6fnjae5RZ4Y3EdlkIwQJBnVjoIzSVVB-ttm9P4a9WVmTY8Ss8YtnJdt8RO3u2NHAyxpk3Ysqsqm9z1NU3bl9_UAyme7RmjTao85pmNXfE7Rgxnfo18XkakJ7GYbqHitmw7V5FA?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=xJkO0cP8RGtnXEL8D7sQog&_nc_oc=Adp0CwiEX_8BjE76f2QsMHWNjTCeJd1_kSkPbOrkQ4u1Bl_m-XgsBGIlAWIq4yR7LAM&ccb=10-5&oh=00_AQNvVKyehmZ9okks8ZydmvxcLtpkGemPLZiHcLjgCLFRZQ&oe=6B028DE1&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1545369280832050&focus=photo",
         "env": {
@@ -56595,7 +56595,7 @@
         "commune": "Nieuwpoort",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-iad3-1.xx.fbcdn.net/m1/v/t6/AQPfOMAvtcfdVkelBlQG8MmhkCTBsFsDU8vyOJNR5iy2fAjiZRiqLE3RJgJ1IyQmXPsdgj6sU9hDNMYwUtg7zuJ5t5acOGHbCdXZ2gOTsuvJldom2B7Q_WddocWOD0xj_igU-iVI1uDHQeuUk55oluPKEkPr1_q3-XDBUUGKvwCTcmk?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=BnIAm7r6FG8bdCGX5Kr5iA&_nc_oc=AdpuKh5jndCQugwUDNfP8g0nmkk8zDRtnSyevV5ZLLYMwZF4vvvM7EHEt1oZt-b1_aA&ccb=10-5&oh=00_AQNdFuYC-JbQqdBeANj-MrYNzih6ajovVFM07cLWwkO4OQ&oe=6B013E65&_nc_sid=201bca",
+        "photo_url": "https://scontent-atl3-1.xx.fbcdn.net/m1/v/t6/AQPfOMAvtcfdVkelBlQG8MmhkCTBsFsDU8vyOJNR5iy2fAjiZRiqLE3RJgJ1IyQmXPsdgj6sU9hDNMYwUtg7zuJ5t5acOGHbCdXZ2gOTsuvJldom2B7Q_WddocWOD0xj_igU-iVI1uDHQeuUk55oluPKEkPr1_q3-XDBUUGKvwCTcmk?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=UgKfqA630rYs1N-vZqxs_Q&_nc_oc=Adp9vIOdvJyRrkC4aBw6f2oePnl3-QVJqh6zEUKlWpP5or9pGwGhec9SoaDHz6206k8&ccb=10-5&oh=00_AQPrrwgC6-gKUyTAJ0hJxGsCA3n8dnV53MmGuM1kfPSDYA&oe=6B028FE5&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1845376466819094&focus=photo",
         "env": {
@@ -56637,7 +56637,7 @@
         "commune": "Knokke-Heist",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-iad3-1.xx.fbcdn.net/m1/v/t6/AQOMIrOhJmwR3NQ111tyTgDNNwT-xcI3tMvwRysfwbnkRVigPysgVDgzRm5f1CyVI__7XMnNN_DK4ycpGRvDKuUJKRWPFayH7v41n5OA4EmSOMFz8jPHqzw9BKZtbJkI9Zj8Ma3RX6gJDEH5HsV0LRjhUgEAutkZbhcxECFHFGpal40?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=_g-CXZi63keGJXEhBYQqaA&_nc_oc=AdrGQaur-Hr1EyFzB-6_x6pK3PFn6UjdijGO8xBp8bJSGBxtccFpIK23GQ12Yuq_2HI&ccb=10-5&oh=00_AQOLc_rFyV3uw7cRkCu8B6I3kmG5UwpmsY4tS7Bw0g4eIg&oe=6B013509&_nc_sid=201bca",
+        "photo_url": "https://scontent-atl3-1.xx.fbcdn.net/m1/v/t6/AQOMIrOhJmwR3NQ111tyTgDNNwT-xcI3tMvwRysfwbnkRVigPysgVDgzRm5f1CyVI__7XMnNN_DK4ycpGRvDKuUJKRWPFayH7v41n5OA4EmSOMFz8jPHqzw9BKZtbJkI9Zj8Ma3RX6gJDEH5HsV0LRjhUgEAutkZbhcxECFHFGpal40?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=3hXgjnozAymUSaPdMa-9Fw&_nc_oc=Adqejl7mhIVgi7yj1w4Ekbi_ncaRvOAakP7vhg5Wg51yyd-TP0sOHPnsdg5T_L7BFck&ccb=10-5&oh=00_AQNoE2kbjzoALitOchslV0A3nalLHPgUuMWGNRYjV_MrsA&oe=6B028689&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1967944690557231&focus=photo",
         "env": {
@@ -60647,6 +60647,27 @@
         "nearest_street": "Rue de la Gare",
         "commune": "Treignes",
         "province": "namur",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6110862,
+          50.700086
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1570820845",
+        "nearest_street": "Avenue des Magnolias",
+        "commune": "Wavre",
+        "province": "brabant_wallon",
         "region": "wallonie"
       }
     }
