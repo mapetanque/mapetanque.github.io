@@ -16,8 +16,8 @@ Contenu, tiré des données du jour :
     seuils ne soient écrits qu'à un endroit ; sans Node, les cartes n'ont pas de pastilles ;
   - clubs de la commune, communes voisines ayant des terrains, tuiles province et région.
 
-La page est construite sur le squelette de comment-jouer.html (voir _squelette.py), avec la
-bannière de la province. Une page dont la commune n'a plus assez de lieux est supprimée.
+La page est construite sur le squelette de comment-jouer.html (voir _squelette.py), avec son
+en-tête sobre (sans bannière photo). Une page dont la commune n'a plus assez de lieux est supprimée.
 À la fin, generer_referencement.py met à jour sitemap.xml, llms.txt et les données structurées.
 
 Écrit aussi data/communes_liens.json : la commune officielle de chaque terrain et de chaque club,
@@ -735,8 +735,6 @@ def main():
                 # Insérées chacune juste après style-comment-jouer.css, donc dans l'ordre inverse :
                 # style-commune.css finit en dernier. style-beaux-terrains.css : styles de la fiche.
                 feuilles_sup=("/style-commune.css", "/style-province.css", "/style-beaux-terrains.css"),
-                banniere=f"/images/provinces/{cfg['banner_image']}",
-                credit=gp.credit_banniere(cfg["banner_credit_html"], langue),
             )
             ecrites.add(RACINE / prefixe / page)
             tailles.append(taille)
