@@ -680,6 +680,14 @@ body.fullscreen-lock {
     border: 1px solid #e2e6de;
     border-radius: 14px;
     box-shadow: 0 12px 32px rgba(31, 42, 28, .18);
+    /* À l'apparition : fondu et glissement de quelques pixels depuis le champ, très court (on
+       tape, rien ne doit attendre). Seulement quand la liste apparaît, pas à chaque lettre. */
+    transform-origin: top left;
+    animation: menu-apparait 0.15s ease-out;
+}
+
+@keyframes menu-apparait {
+    from { opacity: 0; transform: translateY(-4px) scale(0.98); }
 }
 
 .search-suggestion {
@@ -837,6 +845,7 @@ body.fullscreen-lock {
     }
 
     .search-form-plein-ecran .search-suggestions {
+        animation: none;   /* plein écran : la liste fait partie de la page */
         position: static;
         flex: 1 1 auto;
         width: auto;
@@ -1005,6 +1014,61 @@ body.fullscreen-lock {
 
 #share-panel.open {
     display: block;
+}
+
+/* Partage et ajout de photo (#add-photo-modal plus bas) : mêmes mouvements que la fiche d'un
+   terrain. Ouverture et fermeture : ouvrirFenetreAnimee / fermerFenetreAnimee dans script.js. */
+#share-panel.open,
+#add-photo-modal.open {
+    animation: fiche-apparait 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+#share-panel.open.fermeture,
+#add-photo-modal.open.fermeture {
+    animation: fiche-disparait 0.16s ease-in forwards;
+    pointer-events: none;
+}
+
+#share-overlay.visible,
+#add-photo-overlay.visible {
+    animation: voile-apparait 0.25s ease-out;
+}
+
+#share-overlay.visible.fermeture,
+#add-photo-overlay.visible.fermeture {
+    animation: voile-disparait 0.2s ease-in forwards;
+    pointer-events: none;
+}
+
+/* Téléphone : elles montent du bas de l'écran (leur bord haut part de 100 % de la hauteur) et y
+   redescendent. */
+@media (max-width: 1024px) {
+    #share-panel.open,
+    #add-photo-modal.open {
+        animation: fenetre-monte 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+
+    #share-panel.open.fermeture,
+    #add-photo-modal.open.fermeture {
+        animation: fenetre-descend 0.2s cubic-bezier(0.4, 0, 1, 1) forwards;
+    }
+}
+
+@keyframes fenetre-monte {
+    from { transform: translate(-50%, 50vh); }
+}
+
+@keyframes fenetre-descend {
+    to { transform: translate(-50%, 50vh); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #share-panel.open,
+    #add-photo-modal.open,
+    #share-overlay.visible,
+    #add-photo-overlay.visible {
+        animation: none;
+    }
 }
 
 #share-close {
@@ -1350,6 +1414,20 @@ body.fullscreen-lock {
 /* Animations des fiches. Le point d'arrivée (« to ») est la position normale de la fiche,
    centrée par son transform : seul le départ est donné. Téléphone : la fiche part juste sous
    le bas de l'écran (son bord haut à 100 % de la hauteur, 50vh sous sa place). */
+/* Passage d'une page à l'autre du site : fondu enchaîné au lieu d'un clignement blanc
+   (navigateurs récents : Chrome, Edge, Safari ; les autres changent de page comme avant). Les
+   deux pages doivent charger cette feuille. */
+@media (prefers-reduced-motion: no-preference) {
+    @view-transition {
+        navigation: auto;
+    }
+
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+        animation-duration: 0.2s;
+    }
+}
+
 @keyframes fiche-monte {
     from { transform: translateY(50vh); }
 }
@@ -1802,6 +1880,23 @@ body.fullscreen-lock {
 }
 #filtres-voile { position: fixed; inset: 0; z-index: 1400; background: rgba(0, 0, 0, 0.35); }
 #filtres-voile[hidden] { display: none; }
+
+/* À l'ouverture (la fermeture reste immédiate : on veut voir la carte filtrée tout de suite) :
+   le menu sort de sa pastille, la feuille du téléphone monte du bas, le voile s'assombrit. */
+#filtres-panneau.deroulant {
+    transform-origin: top left;
+    animation: menu-apparait 0.16s ease-out;
+}
+#filtres-panneau.feuille { animation: feuille-monte 0.36s cubic-bezier(0.32, 0.72, 0, 1); }
+#filtres-voile { animation: voile-apparait 0.25s ease-out; }
+@keyframes feuille-monte {
+    from { transform: translateY(100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+    #filtres-panneau.deroulant,
+    #filtres-panneau.feuille,
+    #filtres-voile { animation: none; }
+}
 
 .filtres-tete { display: flex; align-items: center; justify-content: space-between; padding: 16px 16px 6px 20px; }
 #filtres-panneau.deroulant .filtres-tete { display: none; }
