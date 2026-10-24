@@ -342,6 +342,18 @@ def interroger_overpass():
                     print(f"✗ HTTP {response.status_code} : {extraire_erreur_overpass(response.text)}")
                     continue
                 donnees = response.json()
+                # Un serveur peut répondre 200 sans avoir fini : requête interrompue (« remark »
+                # runtime error, timeout ou mémoire, avec une liste vide ou partielle), ou copie des
+                # données incomplète (zone Belgique absente : 0 objet, vu le 24/10/2026 sur
+                # private.coffee). Dans ce cas, on passe au serveur suivant.
+                remarque = str(donnees.get("remark") or "")
+                nombre = len(donnees.get("elements") or [])
+                if "error" in remarque.lower():
+                    print(f"✗ Réponse interrompue ({nombre} objets) : {remarque[:200]}")
+                    continue
+                if nombre == 0:
+                    print("✗ Réponse vide (0 objet) : serveur incomplet ou requête interrompue")
+                    continue
                 print(f"✓ Réponse reçue depuis {server}")
                 return donnees
             except Exception as e:
