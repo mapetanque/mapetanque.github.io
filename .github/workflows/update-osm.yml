@@ -97,7 +97,8 @@ jobs:
 
       # Liste des terrains et candidats photo de la page admin : ajoute les nouveaux terrains
       # (avec leur candidat Mapillary), retire ceux disparus d'OSM, cherche de nouvelles pistes
-      # pour les terrains « rien trouvé » (liste lue sur le Worker mapetanque-admin, d'où
+      # pour les terrains sans photo, un septième chaque nuit (liste des « rien trouvé » lue
+      # sur le Worker mapetanque-admin, d'où
       # JETON_WORKFLOW), renouvelle les liens des vignettes (temporaires, environ deux
       # semaines). Même règle que l'étape précédente : jamais bloquante pour la sauvegarde
       # de la mise à jour OSM.

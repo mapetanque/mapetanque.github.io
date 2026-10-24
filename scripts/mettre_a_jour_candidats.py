@@ -21,9 +21,11 @@ et un terrain supprimé y restait. Ce script le tient à jour en cinq temps :
      plate, son adresse de vignette (apercu). La page admin l'affiche à la
      place du candidat. Une vue 360° n'en a pas besoin : sa miniature est un
      fichier du dépôt.
-  4. Veille : pour chaque terrain sans photo, les images Mapillary proches et
+  4. Veille : pour les terrains sans photo, les images Mapillary proches et
      bien placées qu'on n'a pas encore vues deviennent des « pistes »,
-     proposées dans la page admin. Deux cas :
+     proposées dans la page admin. Chaque terrain n'est revu qu'une nuit sur
+     sept (un septième des terrains chaque nuit, voir tour_de_veille()), sauf
+     un terrain jamais revu, qui l'est dès sa première nuit. Deux cas :
        - terrain « rien trouvé » (liste lue sur le Worker mapetanque-admin,
          les décisions vivent dans D1) : seules les images apparues depuis la
          décision ;
@@ -50,6 +52,7 @@ import os
 import sys
 import time
 import re
+import zlib
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -87,6 +90,9 @@ VEILLE_PANO_DISTANCE_MAX = 25
 # seront proposées quand celles-ci auront été ajoutées ou écartées.
 VEILLE_MAX_PLATES = 3
 VEILLE_MAX_PANOS = 2
+# Chaque terrain n'est revu qu'une nuit sur VEILLE_TOURS : les nouvelles images
+# Mapillary autour d'un même terrain sont rares, inutile de demander tous les jours.
+VEILLE_TOURS = 7
 
 DELAI_ENTRE_REQUETES = 0.3   # secondes, pour rester raisonnable vis-à-vis de l'API
 
@@ -292,6 +298,15 @@ def images_bien_placees(entree, images):
     return retenues
 
 
+def tour_de_veille(osm_id, jour):
+    """
+    Vrai si le terrain est revu par la veille ce jour-là. Chaque terrain a son
+    jour fixe dans un cycle de VEILLE_TOURS nuits, tiré de son identifiant
+    (crc32 et non hash(), qui change à chaque lancement de Python).
+    """
+    return zlib.crc32(osm_id.encode("utf-8")) % VEILLE_TOURS == jour.toordinal() % VEILLE_TOURS
+
+
 def veiller_terrain(entree, maj, images, maintenant, a_decider=False):
     """
     Met à jour entree["veille"] = { "vues": [...], "pistes": [...] }.
@@ -439,7 +454,7 @@ def main():
         except Exception as e:
             # Un échec n'écrit RIEN : écrire candidat=None le rendrait indiscernable
             # d'un vrai « aucune photo à proximité », et le terrain ne serait plus
-            # jamais réinterrogé. Absent, il sera retenté la semaine suivante.
+            # jamais réinterrogé. Absent, il sera retenté au passage suivant.
             echecs += 1
             echecs_consecutifs += 1
             print(f"  {osm_id} : échec ({e})")
@@ -481,18 +496,26 @@ def main():
 
     # ---- 4. Veille des terrains sans photo (« rien trouvé » et à décider) ----
     # La liste du Worker est indispensable même pour les terrains à décider : c'est elle
-    # qui les distingue des « rien trouvé ». Sans elle, toute la veille attend une semaine.
+    # qui les distingue des « rien trouvé ». Sans elle, les terrains du jour attendent leur
+    # prochain tour, dans une semaine.
     rien_trouve = terrains_rien_trouve() if photos_en_ligne is not None else None
-    veilles_rien = veilles_decider = pistes_ajoutees = echecs_veille = 0
+    veilles_rien = veilles_decider = pistes_ajoutees = echecs_veille = pas_leur_tour = 0
+    aujourd_hui = datetime.now(timezone.utc).date()
     if rien_trouve is not None and not arret:
         echecs_consecutifs = 0
         for osm_id, entree in entrees.items():
             a_une_photo = entree.get("photo_osm") or photos_en_ligne.get(osm_id)
             if a_une_photo:
                 # Plus concerné : les pistes n'ont plus lieu d'être. Les vues restent,
-                # au cas où le terrain redeviendrait « rien trouvé ».
+                # au cas où le terrain redeviendrait « rien trouvé ». Fait chaque nuit,
+                # quel que soit le tour : ça ne coûte aucune requête.
                 if entree.get("veille"):
                     entree["veille"].pop("pistes", None)
+                continue
+            # Un septième des terrains chaque nuit. Un terrain jamais revu (nouveau sur
+            # OSM, ou en échec à son premier passage) n'attend pas son tour.
+            if "veille" in entree and not tour_de_veille(osm_id, aujourd_hui):
+                pas_leur_tour += 1
                 continue
             # Sans photo et absent de la liste du Worker : terrain à décider (ou, pour
             # un jour, un candidat accepté pas encore publié ; la page admin n'affiche
@@ -506,7 +529,7 @@ def main():
                 images = images_a_proximite(entree["lat"], entree["lon"],
                                             rayon=VEILLE_RAYON_M, limite=VEILLE_LIMITE)
             except Exception as e:
-                # Rien n'est modifié pour ce terrain : il sera revu la semaine prochaine.
+                # Rien n'est modifié pour ce terrain : il sera revu à son prochain tour.
                 echecs_veille += 1
                 echecs_consecutifs += 1
                 print(f"  veille {osm_id} : échec ({e})")
@@ -589,14 +612,14 @@ def main():
     print(f"{nouveaux} nouveau(x), {len(retires)} retiré(s) car disparu(s) d'OSM.")
     if rien_trouve is not None:
         print(f"Veille : {veilles_rien} terrain(s) « rien trouvé » et {veilles_decider} à décider revu(s), "
-              f"{pistes_ajoutees} nouvelle(s) piste(s).")
+              f"{pistes_ajoutees} nouvelle(s) piste(s) ; {pas_leur_tour} autre(s) attendent leur tour.")
     print(f"{renouvelees} vignette(s) renouvelée(s), {disparues} image(s) disparue(s) de Mapillary.")
     if echecs:
-        print(f"{echecs} recherche(s) en échec, retentée(s) la semaine prochaine.")
+        print(f"{echecs} recherche(s) en échec, retentée(s) au passage suivant.")
     if echecs_veille:
-        print(f"{echecs_veille} terrain(s) non revu(s) par la veille, retenté(s) la semaine prochaine.")
+        print(f"{echecs_veille} terrain(s) non revu(s) par la veille, retenté(s) à leur prochain tour.")
     if echecs_vignettes:
-        print(f"{echecs_vignettes} vignette(s) non renouvelée(s) à cause d'une erreur, retentée(s) la semaine prochaine.")
+        print(f"{echecs_vignettes} vignette(s) non renouvelée(s) à cause d'une erreur, retentée(s) au passage suivant.")
 
     # Une série d'échecs trahit un problème d'ensemble (jeton refusé, quota) : l'étape
     # s'affiche alors en échec dans l'onglet Actions au lieu de passer inaperçue. Le
