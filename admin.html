@@ -331,6 +331,12 @@
     .vers-terrain-accord input { margin-top: 3px; }
     .vers-terrain-erreur { color: var(--rouge); font-size: 14px; font-weight: 600; }
     .vers-terrain-erreur:empty { display: none; }
+    /* Zone de dépôt d'une photo depuis l'ordinateur, dans la fiche d'un terrain (onglet Terrains). */
+    .depot-photo {
+        display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 12px;
+        border: 1.5px dashed #c8cbc2; border-radius: 8px; color: var(--doux); font-size: 13px; cursor: pointer; text-align: center;
+    }
+    .depot-photo:hover, .depot-photo.survol { border-color: var(--vert); color: var(--vert); background: var(--vert-clair); }
     .signalement-date { font-size: 13px; color: var(--doux); margin-left: auto; }
     .signalement-lieu { font-size: 14px; color: var(--doux); }
     .signalement-commentaire { font-size: 15px; white-space: pre-wrap; background: var(--fond); border-radius: 8px; padding: 10px 12px; }
@@ -823,9 +829,14 @@
     <div class="cadrage-corps">
         <h2 id="versTerrainTitre">Ajouter la photo à un terrain</h2>
         <div class="terrain-meta" id="versTerrainCredit"></div>
-        <fieldset class="vers-terrain-liste" id="versTerrainListe"></fieldset>
-        <label class="vers-terrain-autre">Autre terrain (osm_id)
-            <input type="text" id="versTerrainAutre" placeholder="way/123456789" autocomplete="off" spellcheck="false">
+        <div id="versTerrainChoixBloc" class="cadrage-corps" style="padding: 0">
+            <fieldset class="vers-terrain-liste" id="versTerrainListe"></fieldset>
+            <label class="vers-terrain-autre">Autre terrain (osm_id)
+                <input type="text" id="versTerrainAutre" placeholder="way/123456789" autocomplete="off" spellcheck="false">
+            </label>
+        </div>
+        <label class="vers-terrain-autre" id="versTerrainCreditBloc">Crédit (facultatif)
+            <input type="text" id="versTerrainCreditNom" maxlength="60" placeholder="Auteur, pour une photo sous licence CC BY" autocomplete="off">
         </label>
         <div class="vers-terrain-modes" role="radiogroup" aria-label="Cadrage de la miniature">
             <label><input type="radio" name="versTerrainMode" value="recadree" checked> Recadrer</label>
@@ -1387,6 +1398,11 @@ function construireCarte(terrain) {
             <input type="text" class="champ champ-pano" autocomplete="off" enterkeyhint="done"
                    placeholder="https://www.mapillary.com/app/?pKey=…&x=…&y=…">
         </label>
+        <div class="champ-libelle">Photo depuis l'ordinateur (anonyme)
+            <label class="depot-photo">Glisse une photo ici, ou clique pour la choisir
+                <input type="file" accept="image/*" hidden>
+            </label>
+        </div>
     `;
 
     const zonePistes = zoneExtra.querySelector(".pistes");
@@ -1394,6 +1410,7 @@ function construireCarte(terrain) {
     const btnGalerie = zoneExtra.querySelector(".btn-galerie");
     const champAlternative = zoneExtra.querySelector(".champ-alternative");
     const champPano = zoneExtra.querySelector(".champ-pano");
+    const depotPhoto = zoneExtra.querySelector(".depot-photo");
 
     const btnAccepter = div.querySelector(".btn-accepter");
     const btnRejeter = div.querySelector(".btn-rejeter");
@@ -1676,6 +1693,24 @@ function construireCarte(terrain) {
         ajouterPhoto("pano360", analyse).then(photo => {
             if (photo) ouvrirCadrage(photo, terrain.nom + " — " + terrain.commune, rafraichir);
         });
+    });
+
+    // Photo reçue par mail ou trouvée sous licence libre : même fenêtre de recadrage que la photo
+    // d'un signalement (ouvrirPhotoFichier), puis la file de modération.
+    const libelleTerrain = terrain.nom + " — " + terrain.commune;
+    depotPhoto.querySelector("input").addEventListener("change", e => {
+        const fichier = e.target.files && e.target.files[0];
+        e.target.value = "";
+        if (fichier) ouvrirPhotoFichier(cle, libelleTerrain, fichier);
+    });
+    depotPhoto.addEventListener("dragover", e => { e.preventDefault(); depotPhoto.classList.add("survol"); });
+    depotPhoto.addEventListener("dragleave", () => depotPhoto.classList.remove("survol"));
+    depotPhoto.addEventListener("drop", e => {
+        e.preventDefault();
+        depotPhoto.classList.remove("survol");
+        const fichier = [...(e.dataTransfer && e.dataTransfer.files || [])].find(f => /^image\//.test(f.type));
+        if (fichier) ouvrirPhotoFichier(cle, libelleTerrain, fichier);
+        else alert("Ce fichier n'est pas une image.");
     });
 
     rafraichir();
@@ -4355,12 +4390,20 @@ function changerStatutSignalement(s, statut, choix) {
 // osm_id. Cadrage de la miniature 800 × 450 du site : « Recadrer » envoie la partie choisie (16:9,
 // à la résolution de la photo, donc la grande version aussi), « Photo entière » envoie la photo
 // telle quelle, que la publication pose sur un fond flou (scripts/miniature_plate.py).
+// Même fenêtre pour une photo envoyée depuis l'ordinateur, depuis la fiche d'un terrain
+// (ouvrirPhotoFichier, route /admin/photos/fichier) : terrain déjà choisi, anonyme ou crédit libre
+// (une photo sous licence CC BY doit citer son auteur). Dans les deux cas, la photo envoyée est
+// réduite à 2 048 px et réencodée, comme celles du formulaire des visiteurs : plus de métadonnées
+// (position GPS de l'appareil comprise).
 // Accord de publication : depuis DEBUT_ACCORD_PHOTO_SIGNALEMENT (UTC, comme cree), le formulaire
 // dit sous la photo que l'envoyer autorise sa publication (signalement_photo_accord dans
 // translations.js). Avant, rien n'était dit : la case d'accord de l'auteur est alors demandée.
 
 const DEBUT_ACCORD_PHOTO_SIGNALEMENT = "2026-10-23 19:13:00";
-const VERS_TERRAIN = { s: null, image: null, blob: null, url: null, cx: 0, cy: 0, zoom: 1, saisie: null };
+// s : le signalement, ou { fichier: true } pour une photo de l'ordinateur ; osmFixe : terrain déjà
+// choisi (photo de l'ordinateur).
+const VERS_TERRAIN = { s: null, osmFixe: null, nomFichier: null, image: null, blob: null, url: null, cx: 0, cy: 0, zoom: 1, saisie: null };
+const COTE_MAX_PHOTO_ADMIN = 2048;
 const RAYON_TERRAINS_PROCHES = 1000;   // mètres autour du point signalé
 const MAX_TERRAINS_PROCHES = 6;
 
@@ -4384,38 +4427,28 @@ function modeVersTerrain() {
     return document.querySelector('input[name="versTerrainMode"]:checked').value;
 }
 
-async function ouvrirVersTerrain(s) {
+// Remise à zéro commune aux deux usages de la fenêtre.
+function preparerVersTerrain(s, titre, accordDemande, depuisFichier) {
     fermerVersTerrain();
     VERS_TERRAIN.s = s;
     VERS_TERRAIN.zoom = 1;
+    document.getElementById("versTerrainTitre").textContent = titre;
     document.getElementById("versTerrainErreur").textContent = "";
-    const accordDonne = String(s.cree || "") >= DEBUT_ACCORD_PHOTO_SIGNALEMENT;
-    document.getElementById("versTerrainAccord").checked = accordDonne;
-    document.getElementById("versTerrainAccord").parentElement.style.display = accordDonne ? "none" : "";
+    document.getElementById("versTerrainAccord").checked = !accordDemande;
+    document.getElementById("versTerrainAccord").parentElement.style.display = accordDemande ? "" : "none";
+    document.getElementById("versTerrainChoixBloc").style.display = depuisFichier ? "none" : "";
+    document.getElementById("versTerrainCreditBloc").style.display = depuisFichier ? "" : "none";
+    document.getElementById("versTerrainCreditNom").value = "";
     document.getElementById("versTerrainAutre").value = "";
     document.getElementById("versTerrainZoom").value = "1";
     document.querySelector('input[name="versTerrainMode"][value="recadree"]').checked = true;
-    document.getElementById("versTerrainCredit").textContent =
-        (s.avec_compte
-            ? "Créditée au pseudo du compte de l'auteur" + (s.pseudo ? " « " + s.pseudo + " »" : "") + "."
-            : "Auteur sans compte : publiée sans crédit (anonyme).")
-        + (accordDonne ? " Accord de publication donné à l'envoi." : "")
-        + " Elle rejoint la modération de l'onglet Terrains, à valider comme les autres photos.";
-    const liste = document.getElementById("versTerrainListe");
-    liste.replaceChildren("Chargement des terrains…");
     dessinerVersTerrain();
     document.getElementById("versTerrain").showModal();
+}
 
-    const [geoOk, blob] = await Promise.all([
-        chargerGeoTerrains(),
-        appeler("/admin/signalements/photo?id=" + s.id).then(r => r.blob()).catch(() => null)
-    ]);
-    if (VERS_TERRAIN.s !== s) return;   // panneau fermé ou rouvert entre-temps
-    dessinerTerrainsProches(s, geoOk);
-    if (!blob) {
-        document.getElementById("versTerrainErreur").textContent = "Photo indisponible (déjà effacée ?).";
-        return;
-    }
+// Charge la photo dans la fenêtre, si elle est toujours ouverte pour le même envoi.
+async function chargerImageVersTerrain(s, blob) {
+    if (VERS_TERRAIN.s !== s) return;
     const image = new Image();
     VERS_TERRAIN.url = URL.createObjectURL(blob);
     image.src = VERS_TERRAIN.url;
@@ -4430,9 +4463,44 @@ async function ouvrirVersTerrain(s) {
     dessinerVersTerrain();
 }
 
+function ouvrirPhotoFichier(osmId, libelle, fichier) {
+    const s = { fichier: true };
+    preparerVersTerrain(s, "Ajouter une photo au terrain", false, true);
+    VERS_TERRAIN.osmFixe = osmId;
+    VERS_TERRAIN.nomFichier = String(fichier.name || "").slice(0, 120);
+    document.getElementById("versTerrainCredit").textContent = libelle
+        + ". Sans crédit, la photo est publiée en anonyme. Photo de quelqu'un d'autre : seulement avec son accord,"
+        + " ou sous licence libre. Elle rejoint la modération en haut de l'onglet, à valider comme les autres.";
+    chargerImageVersTerrain(s, fichier);
+}
+
+async function ouvrirVersTerrain(s) {
+    const accordDonne = String(s.cree || "") >= DEBUT_ACCORD_PHOTO_SIGNALEMENT;
+    preparerVersTerrain(s, "Ajouter la photo à un terrain", !accordDonne, false);
+    document.getElementById("versTerrainCredit").textContent =
+        (s.avec_compte
+            ? "Créditée au pseudo du compte de l'auteur" + (s.pseudo ? " « " + s.pseudo + " »" : "") + "."
+            : "Auteur sans compte : publiée sans crédit (anonyme).")
+        + (accordDonne ? " Accord de publication donné à l'envoi." : "")
+        + " Elle rejoint la modération de l'onglet Terrains, à valider comme les autres photos.";
+    document.getElementById("versTerrainListe").replaceChildren("Chargement des terrains…");
+
+    const [geoOk, blob] = await Promise.all([
+        chargerGeoTerrains(),
+        appeler("/admin/signalements/photo?id=" + s.id).then(r => r.blob()).catch(() => null)
+    ]);
+    if (VERS_TERRAIN.s !== s) return;   // panneau fermé ou rouvert entre-temps
+    dessinerTerrainsProches(s, geoOk);
+    if (!blob) {
+        document.getElementById("versTerrainErreur").textContent = "Photo indisponible (déjà effacée ?).";
+        return;
+    }
+    await chargerImageVersTerrain(s, blob);
+}
+
 function fermerVersTerrain() {
     if (VERS_TERRAIN.url) URL.revokeObjectURL(VERS_TERRAIN.url);
-    Object.assign(VERS_TERRAIN, { s: null, image: null, blob: null, url: null, saisie: null });
+    Object.assign(VERS_TERRAIN, { s: null, osmFixe: null, nomFichier: null, image: null, blob: null, url: null, saisie: null });
     const dialogue = document.getElementById("versTerrain");
     if (dialogue.open) dialogue.close();
 }
@@ -4513,7 +4581,7 @@ async function validerVersTerrain() {
     erreur.textContent = "";
     const autre = document.getElementById("versTerrainAutre").value.trim();
     const coche = document.querySelector('input[name="versTerrainChoix"]:checked');
-    const osmId = autre || (coche ? coche.value : "");
+    const osmId = v.osmFixe || autre || (coche ? coche.value : "");
     if (!/^(node|way|relation)\/[0-9]+$/.test(osmId)) {
         erreur.textContent = "Choisis un terrain, ou indique un osm_id comme way/123456789.";
         return;
@@ -4526,26 +4594,38 @@ async function validerVersTerrain() {
         erreur.textContent = "Coche l'accord de l'auteur : sans lui, sa photo ne peut pas être publiée.";
         return;
     }
-    let fichier = v.blob;
-    if (modeVersTerrain() === "recadree") {
-        const c = cadreVersTerrain();
-        const sortie = document.createElement("canvas");
-        sortie.width = Math.round(c.w);
-        sortie.height = Math.round(c.h);
-        sortie.getContext("2d").drawImage(v.image, c.x, c.y, c.w, c.h, 0, 0, sortie.width, sortie.height);
-        fichier = await new Promise(resoudre => sortie.toBlob(resoudre, "image/jpeg", 0.92));
-    }
+    // Partie gardée (toute la photo en mode « Photo entière »), réduite à COTE_MAX_PHOTO_ADMIN.
+    const c = modeVersTerrain() === "recadree" ? cadreVersTerrain()
+        : { x: 0, y: 0, w: v.image.naturalWidth, h: v.image.naturalHeight };
+    const echelle = Math.min(1, COTE_MAX_PHOTO_ADMIN / Math.max(c.w, c.h));
+    const sortie = document.createElement("canvas");
+    sortie.width = Math.round(c.w * echelle);
+    sortie.height = Math.round(c.h * echelle);
+    const ctx = sortie.getContext("2d");
+    ctx.fillStyle = "#fff";   // fond d'une image transparente (PNG) : le JPEG n'en a pas
+    ctx.fillRect(0, 0, sortie.width, sortie.height);
+    ctx.drawImage(v.image, c.x, c.y, c.w, c.h, 0, 0, sortie.width, sortie.height);
+    const fichier = await new Promise(resoudre => sortie.toBlob(resoudre, "image/jpeg", 0.92));
     const formulaire = new FormData();
-    formulaire.append("id", String(s.id));
     formulaire.append("osm_id", osmId);
-    formulaire.append("photo", fichier, "signalement-" + s.id + ".jpg");
+    if (s.fichier) {
+        formulaire.append("credit_nom", document.getElementById("versTerrainCreditNom").value.trim());
+        formulaire.append("nom_fichier", v.nomFichier || "");
+        formulaire.append("photo", fichier, "photo.jpg");
+    } else {
+        formulaire.append("id", String(s.id));
+        formulaire.append("photo", fichier, "signalement-" + s.id + ".jpg");
+    }
     const bouton = document.getElementById("versTerrainValider");
     bouton.disabled = true;
     try {
-        const reponse = await appeler("/admin/signalements/vers-terrain", { method: "POST", body: formulaire }).then(r => r.json());
-        s.photo_osm_id = reponse.osm_id;
+        const route = s.fichier ? "/admin/photos/fichier" : "/admin/signalements/vers-terrain";
+        const reponse = await appeler(route, { method: "POST", body: formulaire }).then(r => r.json());
         fermerVersTerrain();
-        dessinerSignalements();
+        if (!s.fichier) {
+            s.photo_osm_id = reponse.osm_id;
+            dessinerSignalements();
+        }
         chargerModeration();
     } catch (e) {
         erreur.textContent = "Ajout refusé : " + e.message;
