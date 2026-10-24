@@ -32,7 +32,7 @@
     scroll-snap-stop: always;
     margin-right: 16px;
     cursor: pointer;
-    transition: transform 0.15s ease;
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .tuile-terrain:last-child { margin-right: 0; }
 
@@ -89,9 +89,19 @@
         color: #1D2619;
     }
     .carrousel-fleche:hover span { border-color: #74C15A; color: #3D7A2A; }
+    .carrousel-fleche span { transition: transform 0.12s ease, border-color 0.15s ease, color 0.15s ease; }
+    .carrousel-fleche:active span { transform: scale(0.92); }
 }
-.tuile-terrain:hover { transform: translateY(-2px); }
-.tuile-terrain:hover .tuile-photo { box-shadow: 0 6px 18px rgba(30, 50, 20, 0.18); }
+
+/* Survol (souris seulement : sur tactile, l'état resterait collé après un toucher) : la tuile
+   se soulève, son ombre s'étoffe et la photo avance doucement dans son cadre. */
+@media (hover: hover) {
+    .tuile-terrain:hover { transform: translateY(-3px); }
+    .tuile-terrain:hover .tuile-photo { box-shadow: 0 8px 22px rgba(30, 50, 20, 0.2); }
+    .tuile-terrain:hover .tuile-photo img { transform: scale(1.04); }
+}
+/* Appui : la tuile s'enfonce un peu, tout de suite */
+.tuile-terrain:active { transform: scale(0.98); transition-duration: 0.1s; }
 .tuile-terrain:focus-visible { outline: 2px solid #74C15A; outline-offset: 3px; border-radius: 12px; }
 
 /* Format 4:3 (paysage) via padding-bottom:75% (compatible partout) plutôt que aspect-ratio. */
@@ -103,6 +113,9 @@
     overflow: hidden;
     background: #eceee9;
     position: relative;
+    /* Garde la photo agrandie au survol dans les coins arrondis (Safari) */
+    isolation: isolate;
+    transition: box-shadow 0.25s ease;
 }
 .tuile-photo img,
 .tuile-photo-placeholder {
@@ -111,7 +124,35 @@
     width: 100%;
     height: 100%;
 }
-.tuile-photo img { object-fit: cover; display: block; }
+.tuile-photo img {
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.35s ease-out;
+}
+/* Photo pas encore chargée : elle apparaîtra en fondu (suivrePhotos dans beaux-terrains.js) */
+.tuile-photo img.photo-attente { opacity: 0; }
+
+/* Apparition de la rangée (preparerApparition dans beaux-terrains.js) : cachée tant qu'elle
+   n'est pas à l'écran, puis les tuiles montent en fondu l'une après l'autre (délai posé par le
+   script). Liste remplacée ensuite : simple fondu. « backwards » : une fois l'animation finie,
+   plus rien n'est imposé, le survol retrouve son effet. */
+.beaux-terrains-scroller.en-attente .tuile-terrain { opacity: 0; }
+.tuile-entree { animation: tuile-entree 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) backwards; }
+.tuile-change { animation: tuile-change 0.3s ease-out backwards; }
+@keyframes tuile-entree {
+    from { opacity: 0; transform: translateY(16px); }
+}
+@keyframes tuile-change {
+    from { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .beaux-terrains-scroller { scroll-behavior: auto; }
+    .tuile-terrain,
+    .tuile-terrain:active { transform: none; transition: none; }
+    .tuile-photo img { transition: opacity 0.35s ease-out; }
+    .tuile-terrain:hover .tuile-photo img { transform: none; }
+}
 .tuile-photo-placeholder {
     display: flex;
     align-items: center;

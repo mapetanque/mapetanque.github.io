@@ -1175,6 +1175,12 @@ body.fullscreen-lock {
 
     #mobile-sheet-overlay.visible {
         display: block;
+        animation: voile-apparait 0.3s ease-out;
+    }
+
+    #mobile-sheet-overlay.visible.fermeture {
+        animation: voile-disparait 0.22s ease-in forwards;
+        pointer-events: none;   /* un toucher pendant la fermeture atteint déjà la carte */
     }
 
     #mobile-sheet {
@@ -1199,6 +1205,14 @@ body.fullscreen-lock {
 
     #mobile-sheet.open {
         display: block;
+        animation: fiche-monte 0.42s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+
+    /* Fermeture : elle redescend, plus vite qu'elle n'est montée (DUREE_FERMETURE_FICHE dans
+       script.js) ; « forwards » la garde en bas jusqu'à ce qu'on la cache. */
+    #mobile-sheet.open.fermeture {
+        animation: fiche-descend 0.22s cubic-bezier(0.4, 0, 1, 1) forwards;
+        pointer-events: none;
     }
 
     #mobile-sheet-close {
@@ -1253,6 +1267,12 @@ body.fullscreen-lock {
 
     #desktop-modal-overlay.visible {
         display: block;
+        animation: voile-apparait 0.25s ease-out;
+    }
+
+    #desktop-modal-overlay.visible.fermeture {
+        animation: voile-disparait 0.16s ease-in forwards;
+        pointer-events: none;
     }
 
     #desktop-modal {
@@ -1280,8 +1300,16 @@ body.fullscreen-lock {
         overflow-y: auto;
     }
 
+    /* Ouverture : la fenêtre grandit à peine en apparaissant (de 96 %, pas de rien) ;
+       fermeture plus rapide encore. */
     #desktop-modal.open {
         display: block;
+        animation: fiche-apparait 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    #desktop-modal.open.fermeture {
+        animation: fiche-disparait 0.16s ease-in forwards;
+        pointer-events: none;
     }
 
     #desktop-modal-close {
@@ -1316,6 +1344,42 @@ body.fullscreen-lock {
         padding: 0 !important;
         width: auto !important;    /* voir #mobile-sheet-content plus haut */
         height: auto !important;
+    }
+}
+
+/* Animations des fiches. Le point d'arrivée (« to ») est la position normale de la fiche,
+   centrée par son transform : seul le départ est donné. Téléphone : la fiche part juste sous
+   le bas de l'écran (son bord haut à 100 % de la hauteur, 50vh sous sa place). */
+@keyframes fiche-monte {
+    from { transform: translateY(50vh); }
+}
+
+@keyframes fiche-descend {
+    to { transform: translateY(50vh); }
+}
+
+@keyframes fiche-apparait {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0.96); }
+}
+
+@keyframes fiche-disparait {
+    to { opacity: 0; transform: translate(-50%, -50%) scale(0.98); }
+}
+
+@keyframes voile-apparait {
+    from { opacity: 0; }
+}
+
+@keyframes voile-disparait {
+    to { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #mobile-sheet.open,
+    #mobile-sheet-overlay.visible,
+    #desktop-modal.open,
+    #desktop-modal-overlay.visible {
+        animation: none;
     }
 }
 

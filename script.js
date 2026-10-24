@@ -4604,11 +4604,29 @@ function estMobile() {
     return window.innerWidth <= SEUIL_MOBILE;
 }
 
+// Fermeture animée : la fiche descend (téléphone) ou s'efface (ordinateur), puis on la vide.
+// Classe « fermeture » le temps de l'animation (style.css) ; une fiche rouverte entre-temps
+// annule la fin de la fermeture. Rien d'animé pour qui a réduit les animations.
+const DUREE_FERMETURE_FICHE = 220; // ms, la plus longue des deux animations de style.css
+const MOUVEMENT_REDUIT = window.matchMedia('(prefers-reduced-motion: reduce)');
+let minuterieFermetureFiche = null;
+
+function terminerFermetureFiche() {
+    clearTimeout(minuterieFermetureFiche);
+    minuterieFermetureFiche = null;
+    [mobileSheet, mobileSheetOverlay, desktopModal, desktopModalOverlay].forEach(function (el) {
+        if (el) el.classList.remove('open', 'visible', 'fermeture');
+    });
+    if (mobileSheetContent) mobileSheetContent.innerHTML = '';
+    if (desktopModalContent) desktopModalContent.innerHTML = '';
+}
+
 function ouvrirFicheMobileTerrain(noeudContenuPopup) {
     const panneau = estMobile() ? mobileSheet : desktopModal;
     const conteneur = estMobile() ? mobileSheetContent : desktopModalContent;
     const overlay = estMobile() ? mobileSheetOverlay : desktopModalOverlay;
     if (!panneau || !conteneur) return;
+    if (minuterieFermetureFiche) terminerFermetureFiche();
 
     // Efface TOUS les styles inline que Leaflet a posés sur ce nœud pour le petit popup ancré
     // (largeur figée, plafond de hauteur, overflow...) — plutôt que d'en neutraliser un par un au
@@ -4623,13 +4641,21 @@ function ouvrirFicheMobileTerrain(noeudContenuPopup) {
 }
 
 function fermerFicheMobileTerrain() {
-    if (mobileSheet) mobileSheet.classList.remove('open');
-    if (mobileSheetOverlay) mobileSheetOverlay.classList.remove('visible');
-    if (mobileSheetContent) mobileSheetContent.innerHTML = '';
-
-    if (desktopModal) desktopModal.classList.remove('open');
-    if (desktopModalOverlay) desktopModalOverlay.classList.remove('visible');
-    if (desktopModalContent) desktopModalContent.innerHTML = '';
+    const ouverts = [mobileSheet, desktopModal].filter(function (panneau) {
+        return panneau && panneau.classList.contains('open') && !panneau.classList.contains('fermeture');
+    });
+    // Déjà en train de se fermer : la croix ferme la fiche puis la bulle Leaflet, dont la
+    // fermeture rappelle cette fonction ; on laisse finir l'animation.
+    if (!ouverts.length && minuterieFermetureFiche) return;
+    if (!ouverts.length || MOUVEMENT_REDUIT.matches) {
+        terminerFermetureFiche();
+        return;
+    }
+    [mobileSheet, mobileSheetOverlay, desktopModal, desktopModalOverlay].forEach(function (el) {
+        if (el && (el.classList.contains('open') || el.classList.contains('visible'))) el.classList.add('fermeture');
+    });
+    clearTimeout(minuterieFermetureFiche);
+    minuterieFermetureFiche = setTimeout(terminerFermetureFiche, DUREE_FERMETURE_FICHE);
 }
 
 if (mobileSheetClose) {
