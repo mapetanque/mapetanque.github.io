@@ -46,8 +46,6 @@ def construire_page(
     feuilles_sup=(),
     tete_sup="",
     scripts_sup=(),
-    banniere=None,
-    credit=None,
     langues_publiees=LANGUES,
 ):
     """
@@ -66,9 +64,6 @@ def construire_page(
     tete_sup          balisage inséré juste avant </head>, ex. des données structurées
     scripts_sup       adresses de scripts chargés juste après script.js, dans cet ordre
                       (ils peuvent donc utiliser t() et currentLang)
-    banniere          chemin d'une photo : la page prend une bannière photo au lieu de
-                      l'en-tête sobre du squelette (pages commune)
-    credit            texte du crédit sous la bannière (seulement avec `banniere`)
     langues_publiees  langues pour lesquelles la page existe : les hreflang et le sélecteur
                       de langue ne pointent que vers celles-ci, pour ne pas annoncer d'URL
                       répondant 404
@@ -135,35 +130,6 @@ def construire_page(
             balise_script,
             balise_script + "".join(f'\n<script src="{s}"></script>' for s in scripts_sup),
             1,
-        )
-
-    # --- Bannière -----------------------------------------------------------------------
-    # Le squelette a l'en-tête sobre des pages de contenu (fond blanc, logo foncé, sans photo :
-    # style-entete-sobre.css). Une page qui demande une bannière photo (pages commune) retrouve
-    # l'en-tête des pages province : photo, logo clair, crédit sous la bannière.
-    if banniere:
-        src = src.replace(
-            '\n    <!-- En-tête sans bannière photo des pages de contenu -->'
-            '\n    <link rel="stylesheet" href="/style-entete-sobre.css">',
-            "",
-            1,
-        )
-        src = src.replace(
-            '<div class="entete-sobre">',
-            f'<div class="hero-banner" style="background-image: url(\'{banniere}\');">',
-            1,
-        )
-        src = src.replace(
-            'src="/images/mapetanque-logo-fonce.svg"', 'src="/images/mapetanque-logo.svg"', 1
-        )
-        credit_html = ""
-        if credit is not None:
-            # Typographie anglaise : pas d'espace avant le deux-points (« Photo: … »).
-            if prefixe == "en/":
-                credit = credit.replace("Photo : ", "Photo: ")
-            credit_html = f'<div class="hero-banner-credit">\n    {credit}\n</div>\n\n'
-        src = src.replace(
-            "</div><!-- /.entete-sobre -->", credit_html + "</div><!-- /.hero-banner -->", 1
         )
 
     # --- Fil d'Ariane et titre ------------------------------------------------------------
