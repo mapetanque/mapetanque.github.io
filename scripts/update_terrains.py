@@ -6,7 +6,7 @@ import sys
 import os
 import unicodedata
 import urllib.parse
-from datetime import date
+from datetime import date, datetime, timedelta, timezone
 
 OVERPASS_SERVERS = [
     "https://overpass-api.de/api/interpreter",
@@ -18,6 +18,12 @@ OVERPASS_SERVERS = [
 # Pauses (en secondes) entre deux tours sur tous les serveurs : 5, 10 puis 20 min, soit
 # quatre tours. Au pire (tous les serveurs muets jusqu'au délai de 4 min), environ 1 h 40.
 PAUSES_ENTRE_TOURS = [5 * 60, 10 * 60, 20 * 60]
+
+# Âge maximal de la copie d'OSM d'un serveur Overpass (champ osm3s.timestamp_osm_base de sa
+# réponse). Le 24/10/2026, un serveur a répondu avec une copie arrêtée fin juin : 177 terrains
+# récents ont disparu du site et 29 anciens sont revenus, sans déclencher le garde-fou de baisse
+# (9,4 % < 10 %). Une copie plus vieille que ça est refusée, et le serveur suivant est essayé.
+AGE_MAX_DONNEES_OSM = timedelta(days=2)
 
 OVERPASS_HEADERS = {
     "User-Agent": "Mapetanque/1.0 (contact: mapetanque@outlook.be)"
@@ -320,6 +326,20 @@ def extraire_erreur_overpass(texte):
     return " ".join(message.replace("</strong>", "").split())
 
 
+def date_donnees_overpass(donnees):
+    """
+    Date de la copie d'OSM d'où vient la réponse (osm3s.timestamp_osm_base, ex.
+    « 2026-10-24T08:02:15Z »), en UTC. None si la réponse ne l'indique pas ou est illisible.
+    """
+    texte = (donnees.get("osm3s") or {}).get("timestamp_osm_base")
+    if not texte:
+        return None
+    try:
+        return datetime.strptime(texte, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+    except ValueError:
+        return None
+
+
 def interroger_overpass():
     """
     Les serveurs Overpass publics sont parfois saturés pendant des heures (erreur 504 « too busy »,
@@ -354,6 +374,19 @@ def interroger_overpass():
                 if nombre == 0:
                     print("✗ Réponse vide (0 objet) : serveur incomplet ou requête interrompue")
                     continue
+                # Réponse complète mais copie d'OSM périmée (voir AGE_MAX_DONNEES_OSM). Sans date
+                # lisible, la réponse est acceptée : tous les serveurs la donnent normalement, et le
+                # garde-fou de baisse reste là.
+                date_donnees = date_donnees_overpass(donnees)
+                if date_donnees is None:
+                    print("⚠ Date des données OSM absente de la réponse : acceptée quand même")
+                else:
+                    age = datetime.now(timezone.utc) - date_donnees
+                    if age > AGE_MAX_DONNEES_OSM:
+                        print(f"✗ Copie d'OSM périmée : données du {date_donnees:%d/%m/%Y %H:%M} UTC "
+                              f"({age.days} jour(s))")
+                        continue
+                    print(f"  Données OSM du {date_donnees:%d/%m/%Y %H:%M} UTC")
                 print(f"✓ Réponse reçue depuis {server}")
                 return donnees
             except Exception as e:
