@@ -40,6 +40,10 @@
     var proprietes = {};       // osm_id -> propriétés du terrain, pour les filtres
     var visibles = [];         // lieux de la zone, triés
     var montres = 0;           // combien sont affichés
+    // Arrivée sur la page : la liste entre en scène une fois, quand ses premières tuiles sont
+    // prêtes (voir « Arrivée de la liste » plus bas). Rien pour qui a réduit les animations
+    // (MOUVEMENT_REDUIT, script.js).
+    var animerTuiles = false;  // ordinateur : les premières tuiles glissent depuis la gauche
 
     // ----- Tuiles -----
 
@@ -155,7 +159,7 @@
         var bas = tuile.offsetTop + tuile.offsetHeight - (note ? note.offsetHeight + 6 : 0) + 14;
         if (bas > hauteurApercuMesuree) {
             hauteurApercuMesuree = bas;
-            if (etat === 'apercu' && !glisse) poser(decalagePour(etat), true);
+            if (etat === 'apercu' && !glisse && !feuilleCachee) poser(decalagePour(etat), true);
         }
     }
 
@@ -192,6 +196,14 @@
             }).join('');
         }
         boutonPlus.hidden = montres >= visibles.length;
+        if (animerTuiles) {
+            animerTuiles = false;
+            tuiles.querySelectorAll('.carte-tuile').forEach(function (tuile, i) {
+                if (i >= 8) return;   // les suivantes sont sous le bas de l'écran
+                tuile.classList.add('carte-tuile-arrivee');
+                tuile.style.animationDelay = (i * 50) + 'ms';
+            });
+        }
         compacterPastilles();
         verifierHauteurApercu();
     }
@@ -337,6 +349,7 @@
     function mettreEnPlace() {
         if (ECRAN_ETROIT.matches) {
             poser(decalagePour(etat), false);
+            if (feuilleCachee) poser(hauteurCorps(), false);
         } else {
             liste.style.transform = '';
             liste.classList.remove('deplie', 'glisse');
@@ -344,6 +357,9 @@
             etat = 'apercu';
         }
     }
+    // Téléphone : la feuille attend sous le bas de l'écran que ses premières tuiles soient
+    // prêtes, puis monte jusqu'à l'aperçu (montrerListe).
+    var feuilleCachee = ECRAN_ETROIT.matches && !MOUVEMENT_REDUIT.matches;
     mettreEnPlace();
     window.addEventListener('resize', function () {
         hauteurApercuMesuree = null;
@@ -399,6 +415,22 @@
         if (etat === 'deplie' && !(history.state && history.state.carteListe)) changerEtat('apercu', true);
     });
 
+    // ----- Arrivée de la liste -----
+    // Une seule fois, au chargement des données : sur téléphone, la feuille monte du bas de
+    // l'écran ; sur ordinateur, les premières tuiles glissent depuis la gauche (afficher). Ensuite,
+    // la liste se met à jour sans animation à chaque déplacement de la carte : on la regarde
+    // changer souvent, elle ne doit jamais faire attendre.
+    function montrerListe() {
+        if (!feuilleCachee) return;
+        feuilleCachee = false;
+        if (!ECRAN_ETROIT.matches) return;
+        liste.classList.add('arrivee');
+        poser(decalagePour(etat), true);
+        setTimeout(function () { liste.classList.remove('arrivee'); }, 700);
+    }
+    // Filet de sécurité : données très lentes, la feuille monte quand même (vide, « … »)
+    setTimeout(montrerListe, 5000);
+
     // ----- Arrivée sur la page -----
 
     var parametres = new URLSearchParams(window.location.search);
@@ -453,9 +485,13 @@
         } else if (parametres.get('region')) {
             arriveeZone(parametres.get('region'), 'r');
         }
+        animerTuiles = !ECRAN_ETROIT.matches && !MOUVEMENT_REDUIT.matches;
         rafraichir();
+        // Une image plus tard : la feuille part bien de sa position cachée
+        requestAnimationFrame(function () { requestAnimationFrame(montrerListe); });
     }).catch(function () {
         compte.textContent = t('carte_erreur_chargement');
+        montrerListe();
     });
 
     if (parametres.get('q') && champ) {

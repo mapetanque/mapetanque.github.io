@@ -1901,6 +1901,35 @@ if (searchForm && champRecherche) {
 }
 
 
+// ===================== Petites fenêtres animées (partage, ajout de photo) =====================
+// Même mouvement que la fiche d'un terrain (style.css) : elles montent du bas de l'écran sur
+// téléphone, apparaissent en fondu sur ordinateur, et repartent plus vite qu'elles ne sont
+// venues. Classe « fermeture » le temps de l'animation ; rouverte entre-temps, la fenêtre reste.
+const DUREE_FERMETURE_FENETRE = 200; // ms, voir « fenetre-descend » dans style.css
+
+function ouvrirFenetreAnimee(fenetre, voile) {
+    clearTimeout(fenetre.minuterieFermeture);
+    fenetre.classList.remove('fermeture');
+    voile.classList.remove('fermeture');
+    fenetre.classList.add('open');
+    voile.classList.add('visible');
+}
+
+function fermerFenetreAnimee(fenetre, voile) {
+    function fin() {
+        fenetre.classList.remove('open', 'fermeture');
+        voile.classList.remove('visible', 'fermeture');
+    }
+    if (!fenetre.classList.contains('open') || fenetre.classList.contains('fermeture')) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        fin();
+        return;
+    }
+    fenetre.classList.add('fermeture');
+    voile.classList.add('fermeture');
+    fenetre.minuterieFermeture = setTimeout(fin, DUREE_FERMETURE_FENETRE);
+}
+
 // ===================== Partage (site ou terrain précis) =====================
 
 const sharePanel = document.getElementById('share-panel');
@@ -1929,13 +1958,11 @@ function ouvrirPartage(url, titre) {
     shareCopyLabel.textContent = t('share_copy');
     shareCopyBtn.dataset.url = url;
 
-    sharePanel.classList.add('open');
-    shareOverlay.classList.add('visible');
+    ouvrirFenetreAnimee(sharePanel, shareOverlay);
 }
 
 function fermerPartage() {
-    sharePanel.classList.remove('open');
-    shareOverlay.classList.remove('visible');
+    fermerFenetreAnimee(sharePanel, shareOverlay);
 }
 
 document.getElementById('share-close').addEventListener('click', fermerPartage);
@@ -2062,8 +2089,7 @@ const addPhotoSubmitBtn = addPhotoForm ? addPhotoForm.querySelector('.add-photo-
 window.ouvrirModaleAjoutPhoto = function (osmId, terrainTitre) {
     addPhotoTerrainName.textContent = terrainTitre || '';
     addPhotoModal.dataset.osmId = osmId || '';
-    addPhotoModal.classList.add('open');
-    addPhotoOverlay.classList.add('visible');
+    ouvrirFenetreAnimee(addPhotoModal, addPhotoOverlay);
 
     // Réinitialise le formulaire à chaque ouverture (sinon une soumission précédente, pour un
     // autre terrain, pourrait laisser la modale dans un état "envoyé" ou "erreur").
@@ -2660,8 +2686,7 @@ if (addPhotoForm) {
 }
 
 function fermerModaleAjoutPhoto() {
-    addPhotoModal.classList.remove('open');
-    addPhotoOverlay.classList.remove('visible');
+    fermerFenetreAnimee(addPhotoModal, addPhotoOverlay);
 }
 
 document.getElementById('add-photo-close').addEventListener('click', fermerModaleAjoutPhoto);
@@ -4604,11 +4629,29 @@ function estMobile() {
     return window.innerWidth <= SEUIL_MOBILE;
 }
 
+// Fermeture animée : la fiche descend (téléphone) ou s'efface (ordinateur), puis on la vide.
+// Classe « fermeture » le temps de l'animation (style.css) ; une fiche rouverte entre-temps
+// annule la fin de la fermeture. Rien d'animé pour qui a réduit les animations.
+const DUREE_FERMETURE_FICHE = 220; // ms, la plus longue des deux animations de style.css
+const MOUVEMENT_REDUIT = window.matchMedia('(prefers-reduced-motion: reduce)');
+let minuterieFermetureFiche = null;
+
+function terminerFermetureFiche() {
+    clearTimeout(minuterieFermetureFiche);
+    minuterieFermetureFiche = null;
+    [mobileSheet, mobileSheetOverlay, desktopModal, desktopModalOverlay].forEach(function (el) {
+        if (el) el.classList.remove('open', 'visible', 'fermeture');
+    });
+    if (mobileSheetContent) mobileSheetContent.innerHTML = '';
+    if (desktopModalContent) desktopModalContent.innerHTML = '';
+}
+
 function ouvrirFicheMobileTerrain(noeudContenuPopup) {
     const panneau = estMobile() ? mobileSheet : desktopModal;
     const conteneur = estMobile() ? mobileSheetContent : desktopModalContent;
     const overlay = estMobile() ? mobileSheetOverlay : desktopModalOverlay;
     if (!panneau || !conteneur) return;
+    if (minuterieFermetureFiche) terminerFermetureFiche();
 
     // Efface TOUS les styles inline que Leaflet a posés sur ce nœud pour le petit popup ancré
     // (largeur figée, plafond de hauteur, overflow...) — plutôt que d'en neutraliser un par un au
@@ -4623,13 +4666,21 @@ function ouvrirFicheMobileTerrain(noeudContenuPopup) {
 }
 
 function fermerFicheMobileTerrain() {
-    if (mobileSheet) mobileSheet.classList.remove('open');
-    if (mobileSheetOverlay) mobileSheetOverlay.classList.remove('visible');
-    if (mobileSheetContent) mobileSheetContent.innerHTML = '';
-
-    if (desktopModal) desktopModal.classList.remove('open');
-    if (desktopModalOverlay) desktopModalOverlay.classList.remove('visible');
-    if (desktopModalContent) desktopModalContent.innerHTML = '';
+    const ouverts = [mobileSheet, desktopModal].filter(function (panneau) {
+        return panneau && panneau.classList.contains('open') && !panneau.classList.contains('fermeture');
+    });
+    // Déjà en train de se fermer : la croix ferme la fiche puis la bulle Leaflet, dont la
+    // fermeture rappelle cette fonction ; on laisse finir l'animation.
+    if (!ouverts.length && minuterieFermetureFiche) return;
+    if (!ouverts.length || MOUVEMENT_REDUIT.matches) {
+        terminerFermetureFiche();
+        return;
+    }
+    [mobileSheet, mobileSheetOverlay, desktopModal, desktopModalOverlay].forEach(function (el) {
+        if (el && (el.classList.contains('open') || el.classList.contains('visible'))) el.classList.add('fermeture');
+    });
+    clearTimeout(minuterieFermetureFiche);
+    minuterieFermetureFiche = setTimeout(terminerFermetureFiche, DUREE_FERMETURE_FICHE);
 }
 
 if (mobileSheetClose) {

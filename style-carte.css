@@ -368,6 +368,19 @@ body.page-carte {
 }
 
 
+/* Arrivée sur la page, sur ordinateur : les premières tuiles glissent depuis la gauche, l'une
+   après l'autre (délai posé par carte.js). « backwards » : rien ne reste appliqué ensuite. */
+.carte-tuile-arrivee {
+    animation: carte-tuile-arrivee 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
+
+@keyframes carte-tuile-arrivee {
+    from {
+        opacity: 0;
+        transform: translateX(-24px);
+    }
+}
+
 /* Marqueur (ou amas) du terrain survolé dans la liste */
 .carte-marqueur-survol {
     z-index: 10000 !important;
@@ -406,11 +419,17 @@ body.page-carte {
         overflow: hidden;
         touch-action: none;
         transform: translateY(50%);
-        transition: transform 0.25s ease, border-radius 0.25s ease;
+        /* Départ vif, arrivée en douceur, comme les feuilles des applis de téléphone */
+        transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1), border-radius 0.32s ease;
     }
 
     .carte-liste.glisse {
         transition: none;
+    }
+
+    /* Arrivée sur la page : la feuille monte du bas de l'écran jusqu'à l'aperçu (carte.js) */
+    .carte-liste.arrivee {
+        transition: transform 0.6s cubic-bezier(0.32, 0.72, 0, 1);
     }
 
     /* Dépliée : la liste défile, place en bas pour le bouton « Carte » */
@@ -526,5 +545,11 @@ body.page-carte {
         overflow: hidden;
         text-overflow: ellipsis;
         font-size: 11px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .carte-tuile-arrivee {
+        animation: none;
     }
 }

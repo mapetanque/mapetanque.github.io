@@ -404,6 +404,86 @@
         window.addEventListener("resize", function () { ajusterLargeurTuiles(); majFleches(); });
     }
 
+    // ---------------------------------------------------------------------------------
+    // Animations : apparition des tuiles, photos, mises à jour sans saut
+    // ---------------------------------------------------------------------------------
+    // - Première fois que la rangée entre à l'écran : les tuiles montent en fondu, l'une après
+    //   l'autre (pas avant : sur téléphone, la section est souvent sous le bas de l'écran au
+    //   chargement, l'animation passerait inaperçue).
+    // - Liste remplacée ensuite (région détectée par IP, langue) : simple fondu.
+    // - Notes ou cœurs arrivés, ordre inchangé : seules les lignes de note changent ; la rangée
+    //   reste où la personne l'a fait défiler et les photos ne se rechargent pas.
+    // - Photo pas encore chargée : elle apparaît en fondu sur le fond gris de son cadre.
+    // Rien de tout cela (sauf le fondu des photos) pour qui a réduit les animations.
+    var MOUVEMENT_REDUIT = window.matchMedia
+        && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var ANIMER = !MOUVEMENT_REDUIT && "IntersectionObserver" in window;
+    var signatureAffichee = null;   // terrains affichés, dans l'ordre, et langue
+    var dejaVue = false;            // la rangée est déjà apparue à l'écran
+    var observateur = null;
+
+    function signatureListe(items) {
+        return langueCourante() + "|" + items.map(function (t) { return t.osm_id || t.nom; }).join(",");
+    }
+
+    function animerTuiles(classe, pas) {
+        var tuiles = scroller.querySelectorAll(".tuile-terrain");
+        for (var i = 0; i < tuiles.length; i++) {
+            tuiles[i].classList.add(classe);
+            // Au-delà de la sixième, les tuiles sont hors du cadre : même délai
+            tuiles[i].style.animationDelay = Math.min(i, 5) * pas + "ms";
+        }
+    }
+
+    function preparerApparition() {
+        if (!ANIMER) return;
+        if (dejaVue) {
+            animerTuiles("tuile-change", 30);
+            return;
+        }
+        scroller.classList.add("en-attente");
+        if (observateur) return;
+        observateur = new IntersectionObserver(function (entrees) {
+            if (!entrees.some(function (e) { return e.isIntersecting; })) return;
+            observateur.disconnect();
+            dejaVue = true;
+            scroller.classList.remove("en-attente");
+            animerTuiles("tuile-entree", 70);
+        }, { threshold: 0.2 });
+        observateur.observe(scroller);
+    }
+
+    function suivrePhotos() {
+        var photos = scroller.querySelectorAll(".tuile-photo img");
+        for (var i = 0; i < photos.length; i++) {
+            if (photos[i].complete) continue;   // déjà là (cache) : pas de fondu
+            (function (img) {
+                function fin() { img.classList.remove("photo-attente"); }
+                img.classList.add("photo-attente");
+                img.addEventListener("load", fin);
+                img.addEventListener("error", fin);
+            })(photos[i]);
+        }
+    }
+
+    // Même liste dans le même ordre : on ne remplace que les lignes de note.
+    function majNotes(items) {
+        var tuiles = scroller.querySelectorAll(".tuile-terrain");
+        for (var i = 0; i < tuiles.length; i++) {
+            var t = items[parseInt(tuiles[i].getAttribute("data-index"), 10)];
+            var ancienne = tuiles[i].querySelector(".tuile-note");
+            var gabarit = document.createElement("div");
+            gabarit.innerHTML = t ? ligneNoteTuile(t.osm_id) : "";
+            var nouvelle = gabarit.firstElementChild;
+            if (ancienne && nouvelle) ancienne.parentNode.replaceChild(nouvelle, ancienne);
+            else if (ancienne) ancienne.parentNode.removeChild(ancienne);
+            else if (nouvelle) {
+                var fil = tuiles[i].querySelector(".popup-breadcrumb");
+                if (fil) fil.parentNode.insertBefore(nouvelle, fil.nextSibling);
+            }
+        }
+    }
+
     function construire() {
         var items = terrainsAffiches();
 
@@ -413,6 +493,13 @@
         if (!items.length) return;
 
         if (titre) titre.textContent = titreSelonRegion(regionCourante);
+
+        var signature = signatureListe(items);
+        if (signature === signatureAffichee) {
+            majNotes(items);
+            return;
+        }
+        signatureAffichee = signature;
 
         var html = "";
         for (var i = 0; i < items.length; i++) {
@@ -448,6 +535,8 @@
         scroller.scrollLeft = 0;
         ajusterLargeurTuiles();
         majFleches();
+        suivrePhotos();
+        preparerApparition();
 
         var tuiles = scroller.querySelectorAll(".tuile-terrain");
         for (var j = 0; j < tuiles.length; j++) {
