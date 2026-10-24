@@ -2676,6 +2676,8 @@ addPhotoOverlay.addEventListener('click', fermerModaleAjoutPhoto);
 //     un simple commentaire libre, le terrain étant déjà connu ;
 //   - le même lien en bas de chaque fiche club (type « club » : nom et position du club, sans
 //     osm_id, puisque les clubs ne viennent pas d'OSM).
+// Le formulaire « terrain manquant » a sa propre adresse (?signaler, à partager) et s'affiche en
+// plein écran sur téléphone : voir « Adresse du formulaire » plus bas.
 // Les signalements partent vers le Worker mapetanque-admin, qui les range dans D1 et prévient
 // par une issue GitHub (même circuit que les photos). Rien n'est modifié sur le site : la
 // correction se fait dans OSM, et la carte suit à la mise à jour quotidienne suivante.
@@ -2810,6 +2812,14 @@ const CSS_SIGNALEMENT = `
 @media (max-width: 600px) {
     #signalement-modal { max-width: calc(100vw - 16px); padding: 20px 16px; }
     #signalement-modal .signalement-carte { height: clamp(280px, 50vh, 420px); }
+    /* Terrain manquant : plein écran, comme une page à part (il a sa propre adresse, voir
+       « Adresse du formulaire » plus bas). La page dessous ne défile plus. */
+    #signalement-modal.plein-ecran {
+        top: 0; left: 0; right: 0; bottom: 0; transform: none;
+        width: auto; max-width: none; max-height: none;
+        border-radius: 0; box-shadow: none; overscroll-behavior: contain;
+    }
+    body.signalement-plein-ecran { overflow: hidden; }
 }
 #signalement-modal textarea.add-photo-text-input { resize: vertical; font-family: inherit; }
 #signalement-modal .signalement-osm { font-size: 12px; color: #56604F; text-align: center; margin: 2px 0 0; }
@@ -3310,9 +3320,22 @@ function ouvrirModaleSignalement(options) {
     texteSignalement(elementSignalement('#signalement-lien-osm'),
         estManquant ? 'signalement_osm_link_missing' : 'signalement_osm_link_error');
 
+    modaleSignalement.classList.toggle('plein-ecran', estManquant);
+    document.body.classList.toggle('signalement-plein-ecran', estManquant);
     modaleSignalement.classList.add('open');
     overlaySignalement.classList.add('visible');
     modaleSignalement.scrollTop = 0;
+
+    // Terrain manquant : ?signaler dans l'adresse, pour la partager et pour que le bouton retour
+    // du téléphone referme le formulaire au lieu de quitter la page.
+    if (estManquant) {
+        if (!adresseDemandeSignalement()) {
+            history.pushState({ signalement: true }, '', adresseSignalement(true));
+        }
+        entreeHistoriqueSignalement = true;
+        if (!titrePageAvantSignalement) titrePageAvantSignalement = document.title;
+        document.title = t('signalement_missing_title') + ' — Mapetanque.be';
+    }
 
     // La carte ne se construit qu'une fois la modale affichée : Leaflet a besoin de connaître la
     // taille réelle de son conteneur.
@@ -3324,10 +3347,67 @@ function ouvrirModaleSignalement(options) {
 }
 window.ouvrirModaleSignalement = ouvrirModaleSignalement;
 
+// Croix, clic à côté, Échap. Si l'ouverture a ajouté ?signaler à l'adresse, on revient en
+// arrière : l'écouteur popstate ci-dessous cache alors le formulaire.
 function fermerModaleSignalement() {
     if (!modaleSignalement) return;
+    if (entreeHistoriqueSignalement && adresseDemandeSignalement()) {
+        history.back();
+        return;
+    }
+    masquerModaleSignalement();
+}
+
+function masquerModaleSignalement() {
     modaleSignalement.classList.remove('open');
     overlaySignalement.classList.remove('visible');
+    document.body.classList.remove('signalement-plein-ecran');
+    entreeHistoriqueSignalement = false;
+    if (titrePageAvantSignalement) {
+        document.title = titrePageAvantSignalement;
+        titrePageAvantSignalement = '';
+    }
+}
+
+// --- Adresse du formulaire « terrain manquant » ----------------------------------------------
+// ?signaler ajouté à l'adresse de la page en cours (https://mapetanque.be/?signaler à partager,
+// /nl/?signaler en néerlandais…) : ouverte telle quelle, la page affiche le formulaire par-dessus,
+// en plein écran sur téléphone. Même principe que les fiches des pages commune (#osm_id, voir
+// commune.js) et que la recherche plein écran : précédent / suivant ferment et rouvrent.
+let entreeHistoriqueSignalement = false;   // le formulaire ouvert correspond à l'entrée ?signaler
+let titrePageAvantSignalement = '';
+
+function adresseDemandeSignalement() {
+    return new URLSearchParams(window.location.search).has('signaler');
+}
+
+// Adresse de la page en cours, avec ou sans ?signaler (les autres paramètres et l'ancre restent).
+function adresseSignalement(avec) {
+    const morceaux = window.location.search.replace(/^\?/, '').split('&').filter(function (p) {
+        return p && p.split('=')[0] !== 'signaler';
+    });
+    if (avec) morceaux.push('signaler');
+    return window.location.pathname + (morceaux.length ? '?' + morceaux.join('&') : '') + window.location.hash;
+}
+
+window.addEventListener('popstate', function () {
+    const ouvert = modaleSignalement && modaleSignalement.classList.contains('open');
+    if (adresseDemandeSignalement()) {
+        // Bouton « suivant » vers le formulaire refermé
+        if (!ouvert) ouvrirModaleSignalement({ type: 'manquant' });
+    } else if (ouvert && entreeHistoriqueSignalement) {
+        masquerModaleSignalement();
+    }
+});
+
+// Arrivée par une adresse avec ?signaler : on glisse d'abord dessous l'entrée de la page sans
+// formulaire, pour que fermer ramène à la page et non au site d'où l'on vient (comme commune.js).
+// Ouvert une fois tout script.js lu : la petite carte a besoin de terrainsGeojson, défini plus bas.
+if (adresseDemandeSignalement()) {
+    history.replaceState(null, '', adresseSignalement(false));
+    document.addEventListener('DOMContentLoaded', function () {
+        ouvrirModaleSignalement({ type: 'manquant' });
+    });
 }
 
 // --- Envoi -----------------------------------------------------------------------------------
@@ -3637,7 +3717,7 @@ function construirePied() {
                 <h2 class="pied-titre">${t('pied_explorer')}</h2>
                 <ul class="pied-liens">
                     ${liensExplorer(prefixe).map(function (l) { return `<li><a href="${l[0]}">${l[1]}</a></li>`; }).join('')}
-                    <li><a href="${prefixe}a-propos.html#contact" class="pied-lien-accent pied-signaler">${ICONES_PIED.ajouter}${t('pied_signaler')}</a></li>
+                    <li><a href="${prefixe}?signaler" class="pied-lien-accent pied-signaler">${ICONES_PIED.ajouter}${t('pied_signaler')}</a></li>
                 </ul>
             </nav>
 
@@ -3769,8 +3849,9 @@ if (piedEl) {
             return;
         }
 
-        // « Signaler un terrain » : même formulaire que le lien de la bannière d'accueil. Le href
-        // vers le contact de l'À propos ne sert que si le script ne tourne pas.
+        // « Signaler un terrain » : même formulaire que le lien de la bannière d'accueil, ouvert
+        // par-dessus la page en cours. Le href (accueil avec ?signaler) est l'adresse à partager,
+        // obtenue en copiant le lien.
         if (e.target.closest('.pied-signaler')) {
             e.preventDefault();
             ouvrirModaleSignalement({ type: 'manquant' });
