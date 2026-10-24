@@ -1,6 +1,6 @@
 {
   "type": "FeatureCollection",
-  "mis_a_jour": "2026-10-23",
+  "mis_a_jour": "2026-10-24",
   "features": [
     {
       "type": "Feature",
@@ -173,6 +173,41 @@
           "nature": {
             "parc": 64.7,
             "reserve": 48.0
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.4283875,
+          51.1672309
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "indoor": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "node/3127499128",
+        "nearest_street": "Parklaan",
+        "commune": "Edegem",
+        "province": "anvers",
+        "region": "flandre",
+        "env": {
+          "calcule_le": "2026-10-01",
+          "jeux": 83,
+          "eau_potable": 13,
+          "parking": 46,
+          "arret": 149,
+          "voie_verte": 91,
+          "routes": {
+            "residential": 25
+          },
+          "eau": {
+            "douves": 32
           }
         }
       }
@@ -1196,6 +1231,58 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          5.5889206,
+          50.6212086
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "node/9038485039",
+        "nearest_street": "Avenue Reine Élisabeth",
+        "commune": "Liège",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-01",
+          "banc": 13,
+          "parking": 226,
+          "arret": 151,
+          "voie_verte": 218,
+          "routes": {
+            "secondary": 118,
+            "residential": 16
+          },
+          "eau": {
+            "riviere": 150
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6106787,
+          50.6182401
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "node/9038590583",
+        "nearest_street": "Place Joseph Dejardin",
+        "commune": "Liège",
+        "province": "liege",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           4.4162556,
           51.17832
         ]
@@ -1256,6 +1343,46 @@
             "loisirs": 6.6
           }
         }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.5416311,
+          51.2234059
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "surface": "gravel",
+        "osm_id": "node/9556827845",
+        "nearest_street": "Kasteellei",
+        "commune": "Wijnegem",
+        "province": "anvers",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.9178635,
+          51.2015525
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "node/9923950307",
+        "nearest_street": "Steensedijk",
+        "commune": "Oostende",
+        "province": "flandre_occidentale",
+        "region": "flandre"
       }
     },
     {
@@ -2056,264 +2183,6 @@
           },
           "eau": {
             "ruisseau": 197
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6026748,
-          50.1452998
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "fixme": "Geometry to be drawn, added by MapComplete",
-        "leisure": "pitch",
-        "sport": "boules",
-        "surface": "fine_gravel",
-        "osm_id": "node/13860527023",
-        "nearest_street": "Chemin du Wasse",
-        "commune": "La Roche-en-Ardenne",
-        "province": "luxembourg",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 3,
-          "parking": 0,
-          "arret": 26,
-          "routes": {
-            "tertiary": 19,
-            "residential": 12
-          },
-          "eau": {
-            "plan_eau_petit": 89,
-            "ruisseau": 112
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6067944,
-          50.6718405
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "node/13902316705",
-        "nearest_street": "Place de la Houssière",
-        "commune": "Ottignies-Louvain-la-Neuve",
-        "province": "brabant_wallon",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "jeux": 85,
-          "parking": 40,
-          "arret": 105,
-          "routes": {
-            "secondary": 104,
-            "residential": 17
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          3.3910281,
-          50.6112162
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "lit": "no",
-        "name": "Terrain De Pétanque",
-        "sport": "boules",
-        "osm_id": "node/14039259155",
-        "nearest_street": "Place Verte",
-        "commune": "Tournai",
-        "province": "hainaut",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 18,
-          "jeux": 69,
-          "wc": 273,
-          "eau_potable": 194,
-          "parking": 21,
-          "arret": 163,
-          "voie_verte": 247,
-          "routes": {
-            "residential": 10
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          3.3910281,
-          50.6112162
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "lit": "no",
-        "name": "Terrain De Pétanque",
-        "sport": "boules",
-        "osm_id": "node/14039259156",
-        "nearest_street": "Place Verte",
-        "commune": "Tournai",
-        "province": "hainaut",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 18,
-          "jeux": 69,
-          "wc": 273,
-          "eau_potable": 194,
-          "parking": 21,
-          "arret": 163,
-          "voie_verte": 247,
-          "routes": {
-            "residential": 10
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6343367,
-          49.7915188
-        ]
-      },
-      "properties": {
-        "fixme": "Geometry to be drawn, added by MapComplete",
-        "leisure": "pitch",
-        "sport": "boules",
-        "surface": "fine_gravel",
-        "osm_id": "node/14094067298",
-        "nearest_street": "Rue Saint-Orban",
-        "commune": "Léglise",
-        "province": "luxembourg",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "parking": 3,
-          "arret": 197,
-          "routes": {
-            "tertiary": 13,
-            "unclassified": 16
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.472164,
-          50.4467315
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "fixme": "Geometry to be drawn, added by MapComplete",
-        "leisure": "pitch",
-        "panoramax": "f5c09955-7c0f-4fa4-a7e7-341c50824daf",
-        "reservation": "no",
-        "sport": "boules",
-        "surface": "fine_gravel",
-        "osm_id": "node/14175273194",
-        "nearest_street": "Rue Brihî Tiyou",
-        "commune": "Ouffet",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 6,
-          "arret": 416,
-          "routes": {
-            "residential": 4
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6106946,
-          50.6271539
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "node/14273172127",
-        "nearest_street": "Entrée du Parc des Animaux",
-        "commune": "Liège",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-13",
-          "banc": 4,
-          "jeux": 7,
-          "parking": 115,
-          "arret": 202,
-          "nature": {
-            "parc": 0.9
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6108271,
-          50.6272933
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "node/14273172910",
-        "nearest_street": "Entrée du Parc des Animaux",
-        "commune": "Liège",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-13",
-          "banc": 5,
-          "jeux": 8,
-          "parking": 97,
-          "arret": 217,
-          "nature": {
-            "parc": 0.9
           }
         }
       }
@@ -3596,7 +3465,6 @@
       },
       "properties": {
         "leisure": "pitch",
-        "lit": "no",
         "sport": "boules",
         "osm_id": "way/164164265",
         "nearest_street": "Rue Robert Ledecq",
@@ -3926,8 +3794,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          4.1974619,
-          50.6802051
+          4.1974616,
+          50.680198
         ]
       },
       "properties": {
@@ -4439,6 +4307,34 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          4.4383078,
+          51.1250322
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/213484144",
+        "nearest_street": "Keizershoek",
+        "commune": "Kontich",
+        "province": "anvers",
+        "region": "flandre",
+        "env": {
+          "calcule_le": "2026-10-24",
+          "parking": 465,
+          "arret": 438,
+          "eau": {
+            "plan_eau_petit": 198,
+            "ruisseau": 200
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           4.7015113,
           50.9702253
         ]
@@ -4664,6 +4560,42 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          4.3392233,
+          50.8006798
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "lit": "yes",
+        "sport": "boules",
+        "surface": "concrete",
+        "wheelchair": "yes",
+        "osm_id": "way/251880509",
+        "nearest_street": "Rue Robert Scott - Robert Scottstraat",
+        "commune": "Uccle - Ukkel",
+        "province": null,
+        "region": "bruxelles",
+        "env": {
+          "calcule_le": "2026-10-01",
+          "wc": 277,
+          "parking": 3,
+          "arret": 103,
+          "routes": {
+            "primary": 51
+          },
+          "eau": {
+            "plan_eau_petit": 105,
+            "ruisseau": 13
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           3.6447448,
           50.9907298
         ]
@@ -4785,6 +4717,37 @@
           },
           "eau": {
             "ruisseau": 98
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.2999754,
+          50.8817621
+        ]
+      },
+      "properties": {
+        "addr:housenumber": "14",
+        "addr:street": "Rue au Bois - Bosstraat",
+        "building": "yes",
+        "leisure": "pitch",
+        "sport": "petanque",
+        "osm_id": "way/261665600",
+        "nearest_street": "Rue au Bois - Bosstraat",
+        "commune": "Ganshoren",
+        "province": null,
+        "region": "bruxelles",
+        "env": {
+          "calcule_le": "2026-10-24",
+          "parking": 63,
+          "arret": 468,
+          "eau": {
+            "riviere": 172,
+            "ruisseau": 99
           }
         }
       }
@@ -5111,10 +5074,6 @@
       "properties": {
         "leisure": "pitch",
         "lit": "no",
-        "smokefree": "yes",
-        "smoking": "no",
-        "smoking:cannabis": "no",
-        "smoking:outside": "no",
         "sport": "boules",
         "surface": "compacted",
         "osm_id": "way/276237592",
@@ -5714,10 +5673,6 @@
         "boules": "petanque",
         "leisure": "pitch",
         "lit": "no",
-        "smokefree": "yes",
-        "smoking": "no",
-        "smoking:cannabis": "no",
-        "smoking:outside": "no",
         "sport": "boules",
         "surface": "sand",
         "osm_id": "way/300510231",
@@ -5752,10 +5707,6 @@
       "properties": {
         "boules": "petanque",
         "leisure": "pitch",
-        "smokefree": "yes",
-        "smoking": "no",
-        "smoking:cannabis": "no",
-        "smoking:outside": "no",
         "sport": "boules",
         "surface": "sand",
         "osm_id": "way/300510232",
@@ -5791,10 +5742,6 @@
         "boules": "petanque",
         "leisure": "pitch",
         "lit": "yes",
-        "smokefree": "yes",
-        "smoking": "no",
-        "smoking:cannabis": "no",
-        "smoking:outside": "no",
         "sport": "boules",
         "surface": "fine_gravel",
         "osm_id": "way/300855890",
@@ -6091,6 +6038,31 @@
           "nature": {
             "parc": 1.8
           }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.4466628,
+          51.2156901
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "name": "Pelter PC",
+        "sport": "boules",
+        "osm_id": "way/309980544",
+        "nearest_street": "Sparrenlaan",
+        "commune": "Neerpelt",
+        "province": "limbourg",
+        "region": "flandre",
+        "env": {
+          "calcule_le": "2026-10-24",
+          "parking": 4,
+          "arret": 384
         }
       }
     },
@@ -7586,6 +7558,36 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          4.258906,
+          50.8496463
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/371392946",
+        "nearest_street": "d'Arconatistraat",
+        "commune": "Dilbeek",
+        "province": "brabant_flamand",
+        "region": "flandre",
+        "env": {
+          "calcule_le": "2026-10-01",
+          "parking": 71,
+          "arret": 261,
+          "routes": {
+            "residential": 10
+          },
+          "eau": {
+            "ruisseau": 172
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           4.3376266,
           50.4650419
         ]
@@ -8179,7 +8181,6 @@
       },
       "properties": {
         "leisure": "pitch",
-        "mapillary": "283988963431148",
         "sport": "boules",
         "surface": "sand",
         "osm_id": "way/399085043",
@@ -8187,9 +8188,6 @@
         "commune": "Bredene",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-atl3-1.xx.fbcdn.net/m1/v/t6/AQObaG_zKxPNxY1BHdliPXiUvSdMTkKQA6pmE-NerE_3VYcrX7RGQyNFPdqBszIfj5_TYWfl3Mfv7Ofqyw1xxm3fGmkkBGGJzTawzvxsDb240yD0xR5x-EMisXtxc__yAC_292cfY8BZCxaqyjfabkCdSYtngpkwMputRxapyFMKFQ?stp=s1024x576&edm=ALXxkZ8EAAAA&_nc_gid=Vq-Wdql_mxHyQAn_GcrUVQ&_nc_oc=AdoBT5OeeBMf-HYC95Mq_JYc82AgFlm2-l2r7wgh0Z56mSwc3o4-4he_Nl9DUdIhCq4&ccb=10-5&oh=00_AQOwDscVGBOLTSpqd-LbTGDfyXcIGOu-swkQzwU5eVyi3g&oe=6B0273D8&_nc_sid=201bca",
-        "photo_source": "mapillary",
-        "photo_credit_url": "https://www.mapillary.com/app/?pKey=283988963431148&focus=photo",
         "env": {
           "calcule_le": "2026-10-01",
           "banc": 9,
@@ -9102,10 +9100,8 @@
         ]
       },
       "properties": {
-        "access": "yes",
         "leisure": "pitch",
         "lit": "yes",
-        "reservation": "no",
         "sport": "boules",
         "surface": "compacted",
         "osm_id": "way/439814412",
@@ -9994,36 +9990,6 @@
           },
           "nature": {
             "parc": 0.2
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.5387982,
-          51.2234846
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/494994103",
-        "nearest_street": "Kasteellei",
-        "commune": "Wijnegem",
-        "province": "anvers",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "jeux": 148,
-          "parking": 182,
-          "arret": 595,
-          "eau": {
-            "plan_eau": 90,
-            "plan_eau_petit": 196,
-            "ruisseau": 97
           }
         }
       }
@@ -11749,7 +11715,6 @@
       "properties": {
         "building": "yes",
         "leisure": "pitch",
-        "mapillary": "2585664148528878",
         "name": "Boulodrome",
         "sport": "boules",
         "osm_id": "way/549410966",
@@ -11757,9 +11722,6 @@
         "commune": "Knokke-Heist",
         "province": "flandre_occidentale",
         "region": "flandre",
-        "photo_url": "https://scontent-atl3-1.xx.fbcdn.net/m1/v/t6/AQMf_Yb7sgn2HtrhW_6VC0c3gNeSEqWcQrStUCOJgQQS_cGjvetA2ZiQTBxMFUq625Le4tBrGfxkE5kCmz4LxQPtyjoh4DWxfgxhM8HEYMnM_IZHy_emxlqMC6g7rrsPAg3kBJYIsFnsMxUPt82Xc0wmmChwgRq1je69gRbfpQwEZa4?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=2h0cRdae34Vxkwjvrb5JGA&_nc_oc=Adqb-1EYB1yX9-ilPCd0eX58evQFpS027pnabtm6g7GllVoLDNmuYyksYu4K8LXoTnE&ccb=10-5&oh=00_AQOgnu30vBK_LYQFoLzsz9nwrFSzOcLGIKIbxH5cdd113w&oe=6B027F55&_nc_sid=201bca",
-        "photo_source": "mapillary",
-        "photo_credit_url": "https://www.mapillary.com/app/?pKey=2585664148528878&focus=photo",
         "env": {
           "calcule_le": "2026-10-01",
           "jeux": 257,
@@ -13719,7 +13681,6 @@
       },
       "properties": {
         "leisure": "pitch",
-        "lit": "yes",
         "sport": "boules",
         "osm_id": "way/620099266",
         "nearest_street": "Rue du Chêne Usé",
@@ -14679,6 +14640,27 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          4.2763128,
+          51.0748615
+        ]
+      },
+      "properties": {
+        "boules": "yes",
+        "leisure": "pitch",
+        "sport": "boules",
+        "surface": "compacted",
+        "osm_id": "way/665688543",
+        "nearest_street": "Hondsmarkt",
+        "commune": "Puurs",
+        "province": "anvers",
+        "region": "flandre"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           4.4313724,
           51.2515545
         ]
@@ -14749,7 +14731,6 @@
         ]
       },
       "properties": {
-        "access": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/672025368",
@@ -15039,9 +15020,7 @@
       },
       "properties": {
         "leisure": "pitch",
-        "lit": "no",
         "sport": "boules",
-        "surface": "compacted",
         "osm_id": "way/682073021",
         "nearest_street": "Biest",
         "commune": "Gent",
@@ -15072,9 +15051,7 @@
       },
       "properties": {
         "leisure": "pitch",
-        "lit": "no",
         "sport": "boules",
-        "surface": "compacted",
         "osm_id": "way/682073022",
         "nearest_street": "Biest",
         "commune": "Gent",
@@ -15105,9 +15082,7 @@
       },
       "properties": {
         "leisure": "pitch",
-        "lit": "no",
         "sport": "boules",
-        "surface": "compacted",
         "osm_id": "way/682073023",
         "nearest_street": "Biest",
         "commune": "Gent",
@@ -15923,7 +15898,7 @@
         "type": "Point",
         "coordinates": [
           4.7904974,
-          50.3311655
+          50.3311622
         ]
       },
       "properties": {
@@ -16852,7 +16827,6 @@
         "leisure": "pitch",
         "lit": "no",
         "sport": "boules",
-        "surface": "clay",
         "osm_id": "way/721323527",
         "nearest_street": "Blekerijstraat",
         "commune": "Brugge",
@@ -17220,15 +17194,13 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          3.8600684,
-          50.4313271
+          3.8601459,
+          50.4313284
         ]
       },
       "properties": {
         "leisure": "pitch",
-        "lit": "yes",
         "sport": "boules",
-        "surface": "fine_gravel",
         "osm_id": "way/729314695",
         "nearest_street": "Rue Liénard",
         "commune": "Quaregnon",
@@ -17254,15 +17226,13 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          3.8601211,
-          50.4314346
+          3.8601202,
+          50.4314337
         ]
       },
       "properties": {
         "leisure": "pitch",
-        "lit": "no",
         "sport": "boules",
-        "surface": "clay",
         "osm_id": "way/729314696",
         "nearest_street": "Rue Liénard",
         "commune": "Quaregnon",
@@ -17691,6 +17661,29 @@
             "residential": 14
           }
         }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.6956228,
+          50.9787783
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "boules": "petanque",
+        "leisure": "pitch",
+        "lit": "no",
+        "sport": "boules",
+        "surface": "gravel",
+        "osm_id": "way/734096623",
+        "nearest_street": "Kerkwegel",
+        "commune": "Zevergem",
+        "province": "flandre_orientale",
+        "region": "flandre"
       }
     },
     {
@@ -18643,6 +18636,48 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          3.20562,
+          50.7403654
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "surface": "sand",
+        "osm_id": "way/770672443",
+        "nearest_street": "Rue du Beau-Site - Beau-Sitestraat",
+        "commune": "Mouscron",
+        "province": "hainaut",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.2055932,
+          50.7403659
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "surface": "sand",
+        "osm_id": "way/770672444",
+        "nearest_street": "Rue du Beau-Site - Beau-Sitestraat",
+        "commune": "Mouscron",
+        "province": "hainaut",
+        "region": "wallonie"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           3.7922361,
           50.9679119
         ]
@@ -19209,6 +19244,8 @@
         "boules": "petanque",
         "covered": "yes",
         "leisure": "pitch",
+        "source:geometry:date": "2014-10-02",
+        "source:geometry:ref": "Gbg/4844657",
         "sport": "boules",
         "osm_id": "way/790192839",
         "nearest_street": "Brouwerijstraat",
@@ -20402,7 +20439,7 @@
         "sport": "boules",
         "osm_id": "way/822148571",
         "nearest_street": "Goed dreef",
-        "commune": "Sint-Niklaas",
+        "commune": "Sinaai",
         "province": "flandre_orientale",
         "region": "flandre",
         "env": {
@@ -23174,9 +23211,7 @@
       "properties": {
         "boules": "petanque",
         "leisure": "pitch",
-        "lit": "no",
         "sport": "boules",
-        "surface": "compacted",
         "osm_id": "way/883739059",
         "nearest_street": "Mechelen-Zuid",
         "commune": "Mechelen",
@@ -23276,6 +23311,7 @@
         ]
       },
       "properties": {
+        "image": "https://www.moorslede.be/files/uploads/photoGallery/img_0521.jpg",
         "leisure": "pitch",
         "lit": "no",
         "sport": "boules",
@@ -23285,6 +23321,8 @@
         "commune": "Moorslede",
         "province": "flandre_occidentale",
         "region": "flandre",
+        "photo_url": "https://www.moorslede.be/files/uploads/photoGallery/img_0521.jpg",
+        "photo_source": "image",
         "env": {
           "calcule_le": "2026-10-01",
           "banc": 1,
@@ -23309,6 +23347,7 @@
         ]
       },
       "properties": {
+        "image": "https://www.moorslede.be/files/uploads/photoGallery/img_0521.jpg",
         "leisure": "pitch",
         "lit": "no",
         "sport": "boules",
@@ -23318,6 +23357,8 @@
         "commune": "Moorslede",
         "province": "flandre_occidentale",
         "region": "flandre",
+        "photo_url": "https://www.moorslede.be/files/uploads/photoGallery/img_0521.jpg",
+        "photo_source": "image",
         "env": {
           "calcule_le": "2026-10-01",
           "banc": 1,
@@ -23345,6 +23386,7 @@
         ]
       },
       "properties": {
+        "image": "https://www.moorslede.be/files/uploads/photoGallery/img_0521.jpg",
         "leisure": "pitch",
         "lit": "no",
         "sport": "boules",
@@ -23354,6 +23396,8 @@
         "commune": "Moorslede",
         "province": "flandre_occidentale",
         "region": "flandre",
+        "photo_url": "https://www.moorslede.be/files/uploads/photoGallery/img_0521.jpg",
+        "photo_source": "image",
         "env": {
           "calcule_le": "2026-10-01",
           "banc": 1,
@@ -23381,6 +23425,7 @@
         ]
       },
       "properties": {
+        "image": "https://www.moorslede.be/files/uploads/photoGallery/img_0521.jpg",
         "leisure": "pitch",
         "lit": "no",
         "sport": "boules",
@@ -23390,6 +23435,8 @@
         "commune": "Moorslede",
         "province": "flandre_occidentale",
         "region": "flandre",
+        "photo_url": "https://www.moorslede.be/files/uploads/photoGallery/img_0521.jpg",
+        "photo_source": "image",
         "env": {
           "calcule_le": "2026-10-01",
           "banc": 1,
@@ -23971,6 +24018,135 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          4.3586681,
+          50.913179
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/890850125",
+        "nearest_street": "Ringlaan",
+        "commune": "Strombeek-Bever",
+        "province": "brabant_flamand",
+        "region": "flandre",
+        "env": {
+          "calcule_le": "2026-10-24",
+          "wc": 373,
+          "eau_potable": 102,
+          "parking": 93,
+          "arret": 105,
+          "eau": {
+            "ruisseau": 163
+          },
+          "nature": {
+            "loisirs": 4.1
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.3586133,
+          50.9132907
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/890850126",
+        "nearest_street": "Ringlaan",
+        "commune": "Strombeek-Bever",
+        "province": "brabant_flamand",
+        "region": "flandre",
+        "env": {
+          "calcule_le": "2026-10-24",
+          "wc": 385,
+          "eau_potable": 113,
+          "parking": 94,
+          "arret": 111,
+          "eau": {
+            "ruisseau": 175
+          },
+          "nature": {
+            "loisirs": 4.1
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.3584704,
+          50.9132238
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/890850127",
+        "nearest_street": "Ringlaan",
+        "commune": "Strombeek-Bever",
+        "province": "brabant_flamand",
+        "region": "flandre",
+        "env": {
+          "calcule_le": "2026-10-24",
+          "wc": 374,
+          "eau_potable": 120,
+          "parking": 83,
+          "arret": 100,
+          "eau": {
+            "ruisseau": 178
+          },
+          "nature": {
+            "loisirs": 4.1
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.3584669,
+          50.9130947
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/890850128",
+        "nearest_street": "Ringlaan",
+        "commune": "Strombeek-Bever",
+        "province": "brabant_flamand",
+        "region": "flandre",
+        "env": {
+          "calcule_le": "2026-10-24",
+          "wc": 361,
+          "eau_potable": 114,
+          "parking": 82,
+          "arret": 91,
+          "eau": {
+            "plan_eau_petit": 199,
+            "ruisseau": 169
+          },
+          "nature": {
+            "loisirs": 4.1
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           4.4433879,
           50.5383648
         ]
@@ -24258,10 +24434,6 @@
       },
       "properties": {
         "leisure": "pitch",
-        "smokefree": "yes",
-        "smoking": "no",
-        "smoking:cannabis": "no",
-        "smoking:outside": "no",
         "sport": "boules",
         "osm_id": "way/894381908",
         "nearest_street": "Boulevardstraat",
@@ -24947,6 +25119,7 @@
         ]
       },
       "properties": {
+        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/908215108",
@@ -24980,6 +25153,7 @@
         ]
       },
       "properties": {
+        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/908215109",
@@ -25400,7 +25574,6 @@
       },
       "properties": {
         "leisure": "pitch",
-        "panoramax": "9f9c3cbc-f83b-428c-ab90-ef23693fbe31",
         "sport": "boules",
         "osm_id": "way/910614646",
         "nearest_street": "Elfbunderweg",
@@ -25556,7 +25729,6 @@
       "properties": {
         "leisure": "pitch",
         "sport": "boules",
-        "surface": "compacted",
         "osm_id": "way/913952896",
         "nearest_street": "Noulaertsplein",
         "commune": "Edegem",
@@ -26082,7 +26254,6 @@
       },
       "properties": {
         "leisure": "pitch",
-        "lit": "no",
         "sport": "boules",
         "surface": "fine_gravel",
         "osm_id": "way/924532660",
@@ -26152,9 +26323,7 @@
       },
       "properties": {
         "leisure": "pitch",
-        "lit": "yes",
         "sport": "boules",
-        "surface": "compacted",
         "osm_id": "way/925069424",
         "nearest_street": "Route de l'État",
         "commune": "Wanze",
@@ -28758,6 +28927,39 @@
           },
           "nature": {
             "parc": 0.4
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.576135,
+          50.8480511
+        ]
+      },
+      "properties": {
+        "building": "yes",
+        "leisure": "pitch",
+        "name": "Petanque Club 2000",
+        "source:geometry:date": "2018-01-08",
+        "source:geometry:ref": "Gbg/6179673",
+        "sport": "boules",
+        "osm_id": "way/976669570",
+        "nearest_street": "Snijderstraat",
+        "commune": "Rosmeer",
+        "province": "limbourg",
+        "region": "flandre",
+        "env": {
+          "calcule_le": "2026-10-01",
+          "banc": 28,
+          "parking": 2,
+          "arret": 122,
+          "routes": {
+            "tertiary": 99,
+            "residential": 38
           }
         }
       }
@@ -31532,10 +31734,6 @@
         "boules": "yes",
         "leisure": "pitch",
         "lit": "no",
-        "smokefree": "yes",
-        "smoking": "no",
-        "smoking:cannabis": "no",
-        "smoking:outside": "no",
         "sport": "boules",
         "surface": "fine_gravel",
         "osm_id": "way/1038991215",
@@ -33820,8 +34018,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          5.4875346,
-          50.5804564
+          5.4875536,
+          50.5804681
         ]
       },
       "properties": {
@@ -34072,10 +34270,8 @@
         ]
       },
       "properties": {
-        "access": "yes",
         "leisure": "pitch",
         "lit": "yes",
-        "reservation": "no",
         "sport": "boules",
         "surface": "compacted",
         "osm_id": "way/1085192968",
@@ -34883,6 +35079,7 @@
         ]
       },
       "properties": {
+        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1093423326",
@@ -34911,6 +35108,7 @@
         ]
       },
       "properties": {
+        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1093423327",
@@ -34939,6 +35137,7 @@
         ]
       },
       "properties": {
+        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1093423328",
@@ -34967,6 +35166,7 @@
         ]
       },
       "properties": {
+        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1093423329",
@@ -34995,6 +35195,7 @@
         ]
       },
       "properties": {
+        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1093423330",
@@ -35098,9 +35299,7 @@
       },
       "properties": {
         "leisure": "pitch",
-        "lit": "yes",
         "sport": "boules",
-        "surface": "fine_gravel",
         "osm_id": "way/1094612143",
         "nearest_street": "Veerstraat",
         "commune": "Lokeren",
@@ -35135,9 +35334,7 @@
       },
       "properties": {
         "leisure": "pitch",
-        "lit": "yes",
         "sport": "boules",
-        "surface": "fine_gravel",
         "osm_id": "way/1094612144",
         "nearest_street": "Veerstraat",
         "commune": "Lokeren",
@@ -35172,9 +35369,7 @@
       },
       "properties": {
         "leisure": "pitch",
-        "lit": "yes",
         "sport": "boules",
-        "surface": "fine_gravel",
         "osm_id": "way/1094612145",
         "nearest_street": "Veerstraat",
         "commune": "Lokeren",
@@ -36003,6 +36198,7 @@
         ]
       },
       "properties": {
+        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1111578286",
@@ -36035,6 +36231,7 @@
         ]
       },
       "properties": {
+        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1111578287",
@@ -37145,7 +37342,6 @@
         "boules": "petanque",
         "leisure": "pitch",
         "sport": "boules",
-        "surface": "sand",
         "osm_id": "way/1126345636",
         "nearest_street": "Heirnis",
         "commune": "Gent",
@@ -38763,6 +38959,7 @@
         ]
       },
       "properties": {
+        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1160254569",
@@ -39357,7 +39554,6 @@
       "properties": {
         "leisure": "pitch",
         "sport": "boules",
-        "surface": "compacted",
         "osm_id": "way/1173148163",
         "nearest_street": "Ottersweier",
         "commune": "Westerlo",
@@ -40004,6 +40200,7 @@
       },
       "properties": {
         "boules": "petanque",
+        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1185362291",
@@ -40635,9 +40832,7 @@
       },
       "properties": {
         "leisure": "pitch",
-        "lit": "no",
         "sport": "boules",
-        "surface": "fine_gravel",
         "osm_id": "way/1201358997",
         "nearest_street": "Rue du Chêne",
         "commune": "Thuin",
@@ -41765,9 +41960,7 @@
       },
       "properties": {
         "leisure": "pitch",
-        "lit": "yes",
         "sport": "boules",
-        "surface": "grass",
         "osm_id": "way/1233480249",
         "nearest_street": "N607",
         "commune": "Liège",
@@ -44295,6 +44488,7 @@
         ]
       },
       "properties": {
+        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1306209765",
@@ -44803,6 +44997,105 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          4.6816433,
+          50.090728
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "lit": "yes",
+        "sport": "boules",
+        "surface": "fine_gravel",
+        "osm_id": "way/1308640835",
+        "nearest_street": "Rue de la Gare",
+        "commune": "Treignes",
+        "province": "namur",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-01",
+          "banc": 5,
+          "jeux": 48,
+          "parking": 39,
+          "arret": 93,
+          "routes": {
+            "secondary": 71,
+            "unclassified": 9
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6814773,
+          50.0906909
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "lit": "yes",
+        "sport": "boules",
+        "surface": "fine_gravel",
+        "osm_id": "way/1308640836",
+        "nearest_street": "Rue de la Gare",
+        "commune": "Treignes",
+        "province": "namur",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-01",
+          "banc": 17,
+          "jeux": 61,
+          "parking": 51,
+          "arret": 101,
+          "routes": {
+            "secondary": 71,
+            "unclassified": 19
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6814918,
+          50.0908036
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "lit": "yes",
+        "sport": "boules",
+        "surface": "fine_gravel",
+        "osm_id": "way/1308640837",
+        "nearest_street": "Rue de la Gare",
+        "commune": "Treignes",
+        "province": "namur",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-01",
+          "banc": 5,
+          "jeux": 44,
+          "parking": 37,
+          "arret": 80,
+          "routes": {
+            "secondary": 57,
+            "unclassified": 16
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           6.0104593,
           50.7244639
         ]
@@ -45285,6 +45578,7 @@
         ]
       },
       "properties": {
+        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1317363581",
@@ -45385,6 +45679,33 @@
             "trunk": 126,
             "tertiary": 85,
             "residential": 17
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.137139,
+          51.0649051
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1319202249",
+        "nearest_street": "Gettendonkstraat",
+        "commune": "Tessenderlo",
+        "province": "limbourg",
+        "region": "flandre",
+        "env": {
+          "calcule_le": "2026-10-01",
+          "parking": 6,
+          "arret": 314,
+          "routes": {
+            "unclassified": 12
           }
         }
       }
@@ -45522,9 +45843,7 @@
       },
       "properties": {
         "leisure": "pitch",
-        "lit": "yes",
         "sport": "boules",
-        "surface": "fine_gravel",
         "osm_id": "way/1321965307",
         "nearest_street": "Derbystraat",
         "commune": "Lokeren",
@@ -45798,6 +46117,7 @@
         ]
       },
       "properties": {
+        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1329632112",
@@ -45827,6 +46147,7 @@
         ]
       },
       "properties": {
+        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1329632113",
@@ -45941,6 +46262,7 @@
         ]
       },
       "properties": {
+        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1330215705",
@@ -45973,6 +46295,7 @@
         ]
       },
       "properties": {
+        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1330215706",
@@ -46005,6 +46328,7 @@
         ]
       },
       "properties": {
+        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1330215707",
@@ -46185,7 +46509,6 @@
       },
       "properties": {
         "leisure": "pitch",
-        "lit": "yes",
         "sport": "boules",
         "surface": "fine_gravel",
         "osm_id": "way/1331109346",
@@ -46278,6 +46601,7 @@
         ]
       },
       "properties": {
+        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1332818061",
@@ -46310,6 +46634,7 @@
         ]
       },
       "properties": {
+        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1332818062",
@@ -46356,6 +46681,61 @@
           "arret": 201,
           "eau": {
             "plan_eau_petit": 142
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5702803,
+          51.167129
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1332900198",
+        "nearest_street": "Eikenlaan",
+        "commune": "Bocholt",
+        "province": "limbourg",
+        "region": "flandre",
+        "env": {
+          "calcule_le": "2026-10-24",
+          "parking": 1,
+          "arret": 234,
+          "eau": {
+            "plan_eau_petit": 159
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5697691,
+          51.1669369
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "name": "Petanqueclub Bocholt",
+        "sport": "boules",
+        "osm_id": "way/1332900199",
+        "nearest_street": "Eikenlaan",
+        "commune": "Bocholt",
+        "province": "limbourg",
+        "region": "flandre",
+        "env": {
+          "calcule_le": "2026-10-24",
+          "parking": 1,
+          "arret": 263,
+          "eau": {
+            "plan_eau_petit": 191
           }
         }
       }
@@ -47286,6 +47666,7 @@
         ]
       },
       "properties": {
+        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1344545710",
@@ -47451,6 +47832,7 @@
         ]
       },
       "properties": {
+        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1346947045",
@@ -48260,6 +48642,7 @@
         ]
       },
       "properties": {
+        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1353914002",
@@ -49007,7 +49390,7 @@
         ]
       },
       "properties": {
-        "boules": "petanque",
+        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1366552656",
@@ -49238,8 +49621,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          5.5876356,
-          51.0466032
+          5.5875654,
+          51.0465973
         ]
       },
       "properties": {
@@ -49632,6 +50015,96 @@
           "eau": {
             "plan_eau": 24,
             "riviere": 31
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6195324,
+          50.6275261
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1386053143",
+        "nearest_street": "Impasse de la Mutualité",
+        "commune": "Liège",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-01",
+          "parking": 178,
+          "arret": 163,
+          "voie_verte": 331,
+          "routes": {
+            "primary": 171,
+            "residential": 37
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.619492,
+          50.6275399
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1386053144",
+        "nearest_street": "Impasse de la Mutualité",
+        "commune": "Liège",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-01",
+          "parking": 178,
+          "arret": 163,
+          "voie_verte": 333,
+          "routes": {
+            "primary": 170,
+            "residential": 37
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.6194537,
+          50.6275541
+        ]
+      },
+      "properties": {
+        "boules": "petanque",
+        "leisure": "pitch",
+        "sport": "boules",
+        "osm_id": "way/1386053145",
+        "nearest_street": "Impasse de la Mutualité",
+        "commune": "Liège",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-01",
+          "parking": 178,
+          "arret": 162,
+          "voie_verte": 335,
+          "routes": {
+            "primary": 169,
+            "residential": 38
           }
         }
       }
@@ -51379,10 +51852,6 @@
       },
       "properties": {
         "leisure": "pitch",
-        "smokefree": "yes",
-        "smoking": "no",
-        "smoking:cannabis": "no",
-        "smoking:outside": "no",
         "sport": "boules",
         "osm_id": "way/1423685528",
         "nearest_street": "Pastoor Bellonstraat",
@@ -51528,10 +51997,6 @@
       },
       "properties": {
         "leisure": "pitch",
-        "smokefree": "yes",
-        "smoking": "no",
-        "smoking:cannabis": "no",
-        "smoking:outside": "no",
         "sport": "boules",
         "osm_id": "way/1425657602",
         "nearest_street": "Prosper Poulletlaan",
@@ -52370,7 +52835,6 @@
         "access": "yes",
         "boules": "petanque",
         "leisure": "pitch",
-        "lit": "no",
         "panoramax": "715859f0-30ba-4cbb-9272-04693db004f7",
         "reservation": "no",
         "sport": "boules",
@@ -53265,15 +53729,39 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          5.0823715,
+          50.6674153
+        ]
+      },
+      "properties": {
+        "leisure": "pitch",
+        "name": "Carreau Hannutois",
+        "sport": "boules",
+        "osm_id": "way/1459878209",
+        "nearest_street": "Rue Lambert Mottart",
+        "commune": "Hannut",
+        "province": "liege",
+        "region": "wallonie",
+        "env": {
+          "calcule_le": "2026-10-01",
+          "parking": 208,
+          "arret": 192,
+          "voie_verte": 131
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           3.2136824,
           51.1856169
         ]
       },
       "properties": {
-        "boules": "petanque",
         "leisure": "pitch",
         "sport": "boules",
-        "surface": "fine_gravel",
         "osm_id": "way/1460570971",
         "nearest_street": "Ter Beke",
         "commune": "Brugge",
@@ -53310,6 +53798,7 @@
         ]
       },
       "properties": {
+        "building": "yes",
         "leisure": "pitch",
         "sport": "boules",
         "osm_id": "way/1461911445",
@@ -53925,9 +54414,7 @@
       },
       "properties": {
         "leisure": "pitch",
-        "lit": "yes",
         "sport": "boules",
-        "surface": "compacted",
         "osm_id": "way/1488079310",
         "nearest_street": "Peter Benoitlaan",
         "commune": "Antwerpen",
@@ -53959,9 +54446,7 @@
       },
       "properties": {
         "leisure": "pitch",
-        "lit": "yes",
         "sport": "boules",
-        "surface": "fine_gravel",
         "osm_id": "way/1488079311",
         "nearest_street": "Peter Benoitlaan",
         "commune": "Antwerpen",
@@ -54384,7 +54869,7 @@
         "commune": "Antwerpen",
         "province": "anvers",
         "region": "flandre",
-        "photo_url": "https://scontent-atl3-1.xx.fbcdn.net/m1/v/t6/AQPfI6agvNEEMVKpP3RM558SjkEFr8qPLAFX83Byiw3SePq3c058M97fBB8BBpiRuiQGYx9aPGAwlDCLMH-kNrdWnpxsYkdF7Lv22yJ0fVVMowwxoTS0c1izmxwC_qQvATZVEsQK-Sf_oMR1OI24ZA-52JzH2VaGT8A-gvgPzUlcOis?stp=s1024x771&edm=ALXxkZ8EAAAA&_nc_gid=SYLubvk7xToYWebvzUX-mw&_nc_oc=AdpPdjo_OosUAr62ysWutv-YXYqui3F9DfgmGLueX8Zxx3deUUGA3SkwLHSdes6m6OY&ccb=10-5&oh=00_AQP8O7yo0zN-WUn_jP3_pBb83fR7AarMFTl3-X6EZyoJ4w&oe=6B0292A0&_nc_sid=201bca",
+        "photo_url": "https://scontent-sjc6-1.xx.fbcdn.net/m1/v/t6/AQPfI6agvNEEMVKpP3RM558SjkEFr8qPLAFX83Byiw3SePq3c058M97fBB8BBpiRuiQGYx9aPGAwlDCLMH-kNrdWnpxsYkdF7Lv22yJ0fVVMowwxoTS0c1izmxwC_qQvATZVEsQK-Sf_oMR1OI24ZA-52JzH2VaGT8A-gvgPzUlcOis?stp=s1024x771&edm=ALXxkZ8EAAAA&_nc_gid=Gsabxfp8G3kzmAQ_U8L6kg&_nc_oc=AdpLf4MTtl32urYPtx1Sch4HriMvlZ94ueNjwQ2cKZpo8XLvzEic_n8S0OOnEYJGTdg&ccb=10-5&oh=00_AQPHvzWWcpEnbR8TxjDMHCl0jngn-9Q243wjIxVH3XJsHQ&oe=6B03E420&_nc_sid=201bca",
         "photo_source": "mapillary",
         "photo_credit_url": "https://www.mapillary.com/app/?pKey=1257601666575631&focus=photo",
         "env": {
@@ -54443,8 +54928,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          5.4892404,
-          50.8542631
+          5.4892775,
+          50.854271
         ]
       },
       "properties": {
@@ -54460,39 +54945,6 @@
           "jeux": 217,
           "parking": 47,
           "arret": 414
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.3222397,
-          50.8920284
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "lit": "no",
-        "sport": "boules",
-        "surface": "sand",
-        "osm_id": "way/1500232571",
-        "nearest_street": "Rue Maurice Van Rolleghem - Maurice Van Rolleghemstraat",
-        "commune": "Jette",
-        "province": null,
-        "region": "bruxelles",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "eau_potable": 379,
-          "parking": 20,
-          "arret": 89,
-          "routes": {
-            "tertiary": 66,
-            "residential": 15
-          }
         }
       }
     },
@@ -54612,32 +55064,6 @@
           "eau": {
             "plan_eau_petit": 43
           }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          3.7041481,
-          51.0671176
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1508373573",
-        "nearest_street": "Jozef Guislainstraat",
-        "commune": "Gent",
-        "province": "flandre_orientale",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "jeux": 173,
-          "parking": 99,
-          "arret": 157,
-          "voie_verte": 357
         }
       }
     },
@@ -55006,8 +55432,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          5.8994086,
-          50.4328982
+          5.8994592,
+          50.432847
         ]
       },
       "properties": {
@@ -55065,5610 +55491,6 @@
             "residential": 27
           }
         }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          3.7031072,
-          51.032635
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1525812299",
-        "nearest_street": "Overwale",
-        "commune": "Gent",
-        "province": "flandre_orientale",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "parking": 148,
-          "arret": 274,
-          "fietssnelweg": 199,
-          "routes": {
-            "trunk": 204
-          },
-          "eau": {
-            "etang_petit": 105,
-            "plan_eau_petit": 186,
-            "ruisseau": 193
-          },
-          "nature": {
-            "loisirs": 0.6
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.3396491,
-          50.8030126
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1526385262",
-        "nearest_street": "Graethempoort",
-        "commune": "Borgloon",
-        "province": "limbourg",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 3,
-          "wc": 250,
-          "parking": 110,
-          "arret": 52,
-          "voie_verte": 326,
-          "routes": {
-            "tertiary": 35
-          },
-          "eau": {
-            "etang_petit": 46,
-            "plan_eau_petit": 102
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          3.9808924,
-          50.8638129
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1526688351",
-        "nearest_street": "Stuypenberg",
-        "commune": "Outer",
-        "province": "flandre_orientale",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "jeux": 7,
-          "wc": 37,
-          "parking": 93,
-          "arret": 118,
-          "routes": {
-            "residential": 25
-          },
-          "eau": {
-            "ruisseau": 27
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          3.9807356,
-          50.863755
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1526688352",
-        "nearest_street": "Stuypenberg",
-        "commune": "Outer",
-        "province": "flandre_orientale",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "jeux": 1,
-          "wc": 49,
-          "parking": 95,
-          "arret": 124,
-          "routes": {
-            "residential": 18
-          },
-          "eau": {
-            "ruisseau": 22
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2017152,
-          51.081486
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "leisure": "pitch",
-        "sport": "petanque",
-        "surface": "unpaved",
-        "osm_id": "way/1529638563",
-        "nearest_street": "Luipegem",
-        "commune": "Bornem",
-        "province": "anvers",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 1,
-          "parking": 13,
-          "arret": 245,
-          "routes": {
-            "residential": 13
-          },
-          "eau": {
-            "plan_eau_petit": 58
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.8915276,
-          50.6087227
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1531720848",
-        "nearest_street": "Rue du Village",
-        "commune": "Eghezée",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "jeux": 10,
-          "parking": 7,
-          "arret": 213,
-          "routes": {
-            "primary": 111,
-            "secondary": 115,
-            "residential": 16
-          },
-          "eau": {
-            "douves": 166,
-            "etang_petit": 194,
-            "ruisseau": 156
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.833962,
-          50.1920114
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1533181831",
-        "nearest_street": "Rue du Village",
-        "commune": "Blaimont",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 1,
-          "parking": 8,
-          "arret": 180,
-          "routes": {
-            "residential": 8
-          },
-          "eau": {
-            "ruisseau": 109
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.185058,
-          51.1720385
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "petanque",
-        "osm_id": "way/1533845735",
-        "nearest_street": "Lange Rekstraat",
-        "commune": "Sint-Niklaas",
-        "province": "flandre_orientale",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "wc": 307,
-          "parking": 219,
-          "arret": 516,
-          "routes": {
-            "primary": 90
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.1851669,
-          51.1718877
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "petanque",
-        "osm_id": "way/1533845736",
-        "nearest_street": "Lange Rekstraat",
-        "commune": "Sint-Niklaas",
-        "province": "flandre_orientale",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "wc": 289,
-          "parking": 237,
-          "arret": 534,
-          "routes": {
-            "primary": 107
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.4059531,
-          51.2204799
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "leisure": "pitch",
-        "panoramax": "0c2dbc9c-cb59-4962-9eed-40fbb96998bf",
-        "sport": "boules",
-        "osm_id": "way/1534036530",
-        "nearest_street": "Sint-Nicolaasplaats",
-        "commune": "Antwerpen",
-        "province": "anvers",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 16,
-          "wc": 294,
-          "eau_potable": 149,
-          "parking": 105,
-          "arret": 104,
-          "routes": {
-            "tertiary": 42,
-            "residential": 33
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.4566355,
-          51.2567265
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1535189933",
-        "nearest_street": "Lange Bremstraat",
-        "commune": "Antwerpen",
-        "province": "anvers",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 1,
-          "jeux": 3,
-          "parking": 215,
-          "arret": 271,
-          "routes": {
-            "residential": 13
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.0030088,
-          51.101824
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1535548148",
-        "nearest_street": "Flamigantenwijk",
-        "commune": "Lokeren",
-        "province": "flandre_orientale",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "parking": 18,
-          "arret": 235,
-          "routes": {
-            "primary": 24,
-            "unclassified": 5
-          },
-          "eau": {
-            "etang_petit": 93,
-            "riviere": 76
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.3498237,
-          50.9361766
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1537439722",
-        "nearest_street": "Finse piste",
-        "commune": "Hasselt",
-        "province": "limbourg",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "jeux": 77,
-          "parking": 135,
-          "arret": 228,
-          "fietssnelweg": 31,
-          "routes": {
-            "trunk": 237
-          },
-          "eau": {
-            "riviere": 42
-          },
-          "nature": {
-            "parc": 9.4
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.4486652,
-          51.250974
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1537707376",
-        "nearest_street": "Kroonplein",
-        "commune": "Antwerpen",
-        "province": "anvers",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 1,
-          "wc": 207,
-          "eau_potable": 386,
-          "parking": 350,
-          "arret": 40,
-          "routes": {
-            "residential": 9
-          },
-          "eau": {
-            "douves_petit": 168
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.3779122,
-          50.884869
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "surface": "compacted",
-        "osm_id": "way/1540308447",
-        "nearest_street": "Chaussée de Vilvorde - Vilvoordsesteenweg",
-        "commune": "Bruxelles - Brussel",
-        "province": null,
-        "region": "bruxelles",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 3,
-          "wc": 273,
-          "parking": 437,
-          "arret": 119,
-          "voie_verte": 30,
-          "routes": {
-            "primary": 103,
-            "secondary": 24,
-            "tertiary": 51
-          },
-          "eau": {
-            "canal": 88
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.3779462,
-          50.8848459
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "surface": "compacted",
-        "osm_id": "way/1540308448",
-        "nearest_street": "Chaussée de Vilvorde - Vilvoordsesteenweg",
-        "commune": "Bruxelles - Brussel",
-        "province": null,
-        "region": "bruxelles",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 3,
-          "wc": 276,
-          "parking": 440,
-          "arret": 119,
-          "voie_verte": 28,
-          "routes": {
-            "primary": 106,
-            "secondary": 21,
-            "tertiary": 52
-          },
-          "eau": {
-            "canal": 85
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.3778735,
-          50.8848952
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "surface": "compacted",
-        "osm_id": "way/1540308449",
-        "nearest_street": "Chaussée de Vilvorde - Vilvoordsesteenweg",
-        "commune": "Bruxelles - Brussel",
-        "province": null,
-        "region": "bruxelles",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 3,
-          "wc": 271,
-          "parking": 433,
-          "arret": 119,
-          "voie_verte": 34,
-          "routes": {
-            "primary": 100,
-            "secondary": 28,
-            "tertiary": 51
-          },
-          "eau": {
-            "canal": 92
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.4068413,
-          50.9210269
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1544794185",
-        "nearest_street": "Minnemolenstraat",
-        "commune": "Vilvoorde",
-        "province": "brabant_flamand",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 12,
-          "parking": 142,
-          "arret": 38,
-          "routes": {
-            "tertiary": 5,
-            "residential": 4
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.4732467,
-          51.3827449
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1544882500",
-        "nearest_street": "Zoete Dreef",
-        "commune": "Kalmthout",
-        "province": "anvers",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 2,
-          "jeux": 161,
-          "wc": 334,
-          "parking": 50,
-          "arret": 121,
-          "routes": {
-            "secondary": 126,
-            "residential": 10
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.7319784,
-          50.6320804
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "pétanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "surface": "fine_gravel",
-        "osm_id": "way/1546238442",
-        "nearest_street": "Rue de la Siroperie",
-        "commune": "Soumagne",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 9,
-          "wc": 43,
-          "parking": 9,
-          "arret": 100,
-          "voie_verte": 6,
-          "routes": {
-            "primary": 174,
-            "residential": 7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.7320321,
-          50.6320925
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "surface": "fine_gravel",
-        "osm_id": "way/1546238443",
-        "nearest_street": "Rue de la Siroperie",
-        "commune": "Soumagne",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 6,
-          "wc": 43,
-          "parking": 9,
-          "arret": 96,
-          "voie_verte": 7,
-          "routes": {
-            "primary": 174,
-            "residential": 7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6245579,
-          50.6286227
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1546240055",
-        "nearest_street": "Rue Servais Malaise",
-        "commune": "Liège",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "jeux": 260,
-          "parking": 25,
-          "arret": 49,
-          "voie_verte": 16,
-          "routes": {
-            "primary": 16,
-            "residential": 7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.5859395,
-          50.610604
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "surface": "fine_gravel",
-        "osm_id": "way/1546242273",
-        "nearest_street": "Kinkempois",
-        "commune": "Liège",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "jeux": 27,
-          "eau_potable": 102,
-          "parking": 19,
-          "arret": 169,
-          "routes": {
-            "primary": 124,
-            "secondary": 92
-          },
-          "eau": {
-            "etang_petit": 21,
-            "plan_eau_petit": 3,
-            "ruisseau": 179
-          },
-          "nature": {
-            "parc": 1.5
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6557791,
-          50.6257478
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "surface": "fine_gravel",
-        "osm_id": "way/1546243948",
-        "nearest_street": "Rue Charles De Coster",
-        "commune": "Beyne-Heusay",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "parking": 74,
-          "arret": 380,
-          "routes": {
-            "residential": 39
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6556101,
-          50.6185466
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "surface": "fine_gravel",
-        "osm_id": "way/1546244470",
-        "nearest_street": "Ravel 5 (Ligne 38)",
-        "commune": "Beyne-Heusay",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 1,
-          "parking": 61,
-          "arret": 289,
-          "voie_verte": 1,
-          "routes": {
-            "residential": 26
-          },
-          "nature": {
-            "bois": 1.8
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.5580786,
-          50.6267232
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1546795590",
-        "nearest_street": "Rue des Abeilles",
-        "commune": "Liège",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 11,
-          "jeux": 0,
-          "parking": 361,
-          "arret": 217,
-          "voie_verte": 396,
-          "routes": {
-            "motorway": 310,
-            "residential": 7
-          },
-          "nature": {
-            "bois": 2.7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.1587981,
-          50.4551187
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "surface": "compacted",
-        "osm_id": "way/1547545637",
-        "nearest_street": "Pré-RAVeL",
-        "commune": "La Louvière",
-        "province": "hainaut",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 2,
-          "parking": 95,
-          "arret": 159,
-          "voie_verte": 4,
-          "routes": {
-            "trunk": 369,
-            "tertiary": 51
-          },
-          "eau": {
-            "canal": 4,
-            "riviere": 5
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.1876331,
-          50.663934
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "surface": "fine_gravel",
-        "osm_id": "way/1547759755",
-        "nearest_street": "Rue de Coeurcq",
-        "commune": "Tubize",
-        "province": "brabant_wallon",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 1,
-          "jeux": 48,
-          "parking": 150,
-          "eau": {
-            "etang_petit": 105,
-            "plan_eau": 11,
-            "ruisseau": 148
-          },
-          "nature": {
-            "parc": 5.5
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.5569783,
-          51.1873388
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1551510767",
-        "nearest_street": "Kievitlaan",
-        "commune": "Ranst",
-        "province": "anvers",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 1,
-          "jeux": 0,
-          "parking": 190,
-          "arret": 186,
-          "eau": {
-            "plan_eau_petit": 151,
-            "ruisseau": 106
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.5627785,
-          51.1828591
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1551510778",
-        "nearest_street": "Tarwelaan",
-        "commune": "Ranst",
-        "province": "anvers",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 1,
-          "parking": 3,
-          "arret": 560,
-          "routes": {
-            "residential": 2
-          },
-          "eau": {
-            "ruisseau": 165
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.3091617,
-          51.1701822
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1551547104",
-        "nearest_street": "Lindebloesemlaan",
-        "commune": "Kruibeke",
-        "province": "flandre_orientale",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 1,
-          "parking": 296,
-          "arret": 234,
-          "routes": {
-            "residential": 8
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.0046717,
-          50.191341
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1551660348",
-        "nearest_street": "Rue Saint-Roch",
-        "commune": "Houyet",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 2,
-          "arret": 263,
-          "voie_verte": 299,
-          "routes": {
-            "unclassified": 4
-          },
-          "eau": {
-            "riviere": 132,
-            "ruisseau": 149
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.0046118,
-          50.1914608
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1551660349",
-        "nearest_street": "Rue Saint-Roch",
-        "commune": "Houyet",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 1,
-          "arret": 277,
-          "voie_verte": 314,
-          "routes": {
-            "unclassified": 4
-          },
-          "eau": {
-            "riviere": 136,
-            "ruisseau": 157
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          2.9761469,
-          51.2351251
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "surface": "fine_gravel",
-        "osm_id": "way/1553042699",
-        "nearest_street": "Dorpsstraat",
-        "commune": "Bredene",
-        "province": "flandre_occidentale",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "parking": 196,
-          "arret": 324,
-          "routes": {
-            "residential": 11
-          },
-          "nature": {
-            "parc": 0.2
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.4021509,
-          51.3149167
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1553512607",
-        "nearest_street": "Haagdoornlaan",
-        "commune": "Stabroek",
-        "province": "anvers",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "jeux": 6,
-          "parking": 242,
-          "arret": 469,
-          "routes": {
-            "residential": 11
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          2.9698747,
-          51.2394329
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1554066499",
-        "nearest_street": "Vloedstraat",
-        "commune": "Bredene",
-        "province": "flandre_occidentale",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "jeux": 62,
-          "eau_potable": 145,
-          "parking": 11,
-          "arret": 84,
-          "routes": {
-            "tertiary": 75
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.8657575,
-          50.1949716
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1554707872",
-        "nearest_street": "Baclain",
-        "commune": "Gouvy",
-        "province": "luxembourg",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "parking": 50,
-          "arret": 57,
-          "routes": {
-            "secondary": 65,
-            "tertiary": 10,
-            "residential": 9
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.8657174,
-          50.1949791
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1554707873",
-        "nearest_street": "Baclain",
-        "commune": "Gouvy",
-        "province": "luxembourg",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "parking": 53,
-          "arret": 59,
-          "routes": {
-            "secondary": 65,
-            "tertiary": 7,
-            "residential": 9
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.8657189,
-          50.1949188
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1554707874",
-        "nearest_street": "Baclain",
-        "commune": "Gouvy",
-        "province": "luxembourg",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "parking": 50,
-          "arret": 63,
-          "routes": {
-            "secondary": 74,
-            "tertiary": 6,
-            "residential": 19
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.7436032,
-          51.1661512
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "surface": "fine_gravel",
-        "osm_id": "way/1556528973",
-        "nearest_street": "Kasteeldreef",
-        "commune": "Grobbendonk",
-        "province": "anvers",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 12,
-          "jeux": 17,
-          "parking": 12,
-          "arret": 219,
-          "routes": {
-            "residential": 23
-          },
-          "eau": {
-            "etang_petit": 138,
-            "plan_eau_petit": 29,
-            "riviere": 63,
-            "ruisseau": 66
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.1705774,
-          51.2913547
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1557363109",
-        "nearest_street": "Tuinwijkstraat",
-        "commune": "Kieldrecht",
-        "province": "flandre_orientale",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "parking": 76,
-          "arret": 216,
-          "routes": {
-            "residential": 34
-          },
-          "nature": {
-            "loisirs": 0.5
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.4765743,
-          50.3535
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1558130771",
-        "nearest_street": "Fond Sainte-Anne",
-        "commune": "Bohon",
-        "province": "luxembourg",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "jeux": 97,
-          "parking": 13,
-          "arret": 177,
-          "routes": {
-            "residential": 8
-          },
-          "nature": {
-            "bois": 15.2
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          2.7232655,
-          51.1438597
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "mapillary": "1545369280832050",
-        "sport": "boules",
-        "osm_id": "way/1558376441",
-        "nearest_street": "Georges Eekhoudlaan",
-        "commune": "Nieuwpoort",
-        "province": "flandre_occidentale",
-        "region": "flandre",
-        "photo_url": "https://scontent-atl3-1.xx.fbcdn.net/m1/v/t6/AQMOt-M_fs3kMGJ_cV0h0_kKwpcgrAm0Yu0v3qEl6fnjae5RZ4Y3EdlkIwQJBnVjoIzSVVB-ttm9P4a9WVmTY8Ss8YtnJdt8RO3u2NHAyxpk3Ysqsqm9z1NU3bl9_UAyme7RmjTao85pmNXfE7Rgxnfo18XkakJ7GYbqHitmw7V5FA?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=xJkO0cP8RGtnXEL8D7sQog&_nc_oc=Adp0CwiEX_8BjE76f2QsMHWNjTCeJd1_kSkPbOrkQ4u1Bl_m-XgsBGIlAWIq4yR7LAM&ccb=10-5&oh=00_AQNvVKyehmZ9okks8ZydmvxcLtpkGemPLZiHcLjgCLFRZQ&oe=6B028DE1&_nc_sid=201bca",
-        "photo_source": "mapillary",
-        "photo_credit_url": "https://www.mapillary.com/app/?pKey=1545369280832050&focus=photo",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "parking": 238,
-          "arret": 550,
-          "routes": {
-            "residential": 6
-          },
-          "nature": {
-            "bois": 0.6
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.5416308,
-          51.2234014
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1558495054",
-        "nearest_street": "Kasteellei",
-        "commune": "Wijnegem",
-        "province": "anvers",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 3,
-          "jeux": 0,
-          "parking": 17,
-          "arret": 549,
-          "routes": {
-            "residential": 9
-          },
-          "eau": {
-            "canal": 147,
-            "plan_eau": 165,
-            "ruisseau": 170
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.5576752,
-          50.2970691
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1558907302",
-        "nearest_street": "Avenue des Nations-Unies",
-        "commune": "Érezée",
-        "province": "luxembourg",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "jeux": 67,
-          "parking": 13,
-          "arret": 348,
-          "routes": {
-            "residential": 13
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.5576564,
-          50.296908
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1558907303",
-        "nearest_street": "Avenue des Nations-Unies",
-        "commune": "Érezée",
-        "province": "luxembourg",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "jeux": 57,
-          "parking": 5,
-          "arret": 330,
-          "routes": {
-            "residential": 7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.5575854,
-          50.2969926
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1558907304",
-        "nearest_street": "Avenue des Nations-Unies",
-        "commune": "Érezée",
-        "province": "luxembourg",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "jeux": 66,
-          "parking": 16,
-          "arret": 340,
-          "routes": {
-            "residential": 5
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          2.7251566,
-          51.1494443
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "mapillary": "1845376466819094",
-        "sport": "boules",
-        "osm_id": "way/1559166619",
-        "nearest_street": "Dienstweg Havengeul",
-        "commune": "Nieuwpoort",
-        "province": "flandre_occidentale",
-        "region": "flandre",
-        "photo_url": "https://scontent-atl3-1.xx.fbcdn.net/m1/v/t6/AQPfOMAvtcfdVkelBlQG8MmhkCTBsFsDU8vyOJNR5iy2fAjiZRiqLE3RJgJ1IyQmXPsdgj6sU9hDNMYwUtg7zuJ5t5acOGHbCdXZ2gOTsuvJldom2B7Q_WddocWOD0xj_igU-iVI1uDHQeuUk55oluPKEkPr1_q3-XDBUUGKvwCTcmk?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=UgKfqA630rYs1N-vZqxs_Q&_nc_oc=Adp9vIOdvJyRrkC4aBw6f2oePnl3-QVJqh6zEUKlWpP5or9pGwGhec9SoaDHz6206k8&ccb=10-5&oh=00_AQPrrwgC6-gKUyTAJ0hJxGsCA3n8dnV53MmGuM1kfPSDYA&oe=6B028FE5&_nc_sid=201bca",
-        "photo_source": "mapillary",
-        "photo_credit_url": "https://www.mapillary.com/app/?pKey=1845376466819094&focus=photo",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "jeux": 97,
-          "wc": 89,
-          "eau_potable": 359,
-          "parking": 47,
-          "arret": 295,
-          "voie_verte": 107,
-          "routes": {
-            "primary": 119,
-            "residential": 39
-          },
-          "eau": {
-            "riviere": 133
-          },
-          "nature": {
-            "parc": 12.4
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          3.2437734,
-          51.3331898
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "mapillary": "1967944690557231",
-        "sport": "boules",
-        "osm_id": "way/1559169072",
-        "nearest_street": "De Bocht",
-        "commune": "Knokke-Heist",
-        "province": "flandre_occidentale",
-        "region": "flandre",
-        "photo_url": "https://scontent-atl3-1.xx.fbcdn.net/m1/v/t6/AQOMIrOhJmwR3NQ111tyTgDNNwT-xcI3tMvwRysfwbnkRVigPysgVDgzRm5f1CyVI__7XMnNN_DK4ycpGRvDKuUJKRWPFayH7v41n5OA4EmSOMFz8jPHqzw9BKZtbJkI9Zj8Ma3RX6gJDEH5HsV0LRjhUgEAutkZbhcxECFHFGpal40?stp=s1024x896&edm=ALXxkZ8EAAAA&_nc_gid=3hXgjnozAymUSaPdMa-9Fw&_nc_oc=Adqejl7mhIVgi7yj1w4Ekbi_ncaRvOAakP7vhg5Wg51yyd-TP0sOHPnsdg5T_L7BFck&ccb=10-5&oh=00_AQNoE2kbjzoALitOchslV0A3nalLHPgUuMWGNRYjV_MrsA&oe=6B028689&_nc_sid=201bca",
-        "photo_source": "mapillary",
-        "photo_credit_url": "https://www.mapillary.com/app/?pKey=1967944690557231&focus=photo",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 17,
-          "parking": 163,
-          "arret": 271,
-          "routes": {
-            "residential": 20
-          },
-          "eau": {
-            "etang_petit": 84
-          },
-          "nature": {
-            "parc": 2.2
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.5272479,
-          50.3800149
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1560564789",
-        "nearest_street": "La Drève",
-        "commune": "Bomal",
-        "province": "luxembourg",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 1,
-          "parking": 260,
-          "arret": 58,
-          "voie_verte": 260,
-          "routes": {
-            "primary": 50,
-            "tertiary": 8,
-            "residential": 5
-          },
-          "eau": {
-            "riviere": 168
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          3.2024259,
-          50.7394725
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1560836244",
-        "nearest_street": "Cité Gosseries - Gosseriestuinwijk",
-        "commune": "Mouscron",
-        "province": "hainaut",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "jeux": 213,
-          "parking": 62,
-          "arret": 135,
-          "routes": {
-            "residential": 9
-          },
-          "eau": {
-            "etang_petit": 182
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2566774,
-          50.8419874
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1560984426",
-        "nearest_street": "Dennenlaan",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-01",
-          "banc": 1,
-          "jeux": 87,
-          "parking": 169,
-          "arret": 131,
-          "routes": {
-            "primary": 139,
-            "residential": 9
-          },
-          "nature": {
-            "parc": 0.0
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          3.9499068,
-          50.6098124
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "leisure": "pitch",
-        "sport": "petanque",
-        "osm_id": "way/1566297705",
-        "nearest_street": "Rue de l'Enseignement",
-        "commune": "Thoricourt",
-        "province": "hainaut",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-08",
-          "parking": 77,
-          "arret": 107,
-          "routes": {
-            "residential": 12,
-            "unclassified": 32
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          3.9499309,
-          50.6097979
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "leisure": "pitch",
-        "sport": "petanque",
-        "osm_id": "way/1566297706",
-        "nearest_street": "Rue de l'Enseignement",
-        "commune": "Thoricourt",
-        "province": "hainaut",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-08",
-          "parking": 79,
-          "arret": 108,
-          "routes": {
-            "residential": 12,
-            "unclassified": 34
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          3.949955,
-          50.6097838
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "leisure": "pitch",
-        "sport": "petanque",
-        "osm_id": "way/1566297707",
-        "nearest_street": "Rue de l'Enseignement",
-        "commune": "Thoricourt",
-        "province": "hainaut",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-08",
-          "parking": 81,
-          "arret": 110,
-          "routes": {
-            "residential": 12,
-            "unclassified": 36
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          3.9499772,
-          50.6097689
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "leisure": "pitch",
-        "sport": "petanque",
-        "osm_id": "way/1566297708",
-        "nearest_street": "Rue de l'Enseignement",
-        "commune": "Thoricourt",
-        "province": "hainaut",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-08",
-          "parking": 82,
-          "arret": 111,
-          "routes": {
-            "residential": 12,
-            "unclassified": 38
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          3.9500027,
-          50.6097553
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "leisure": "pitch",
-        "sport": "petanque",
-        "osm_id": "way/1566297709",
-        "nearest_street": "Rue de l'Enseignement",
-        "commune": "Thoricourt",
-        "province": "hainaut",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-08",
-          "parking": 84,
-          "arret": 113,
-          "routes": {
-            "residential": 11
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          3.9500228,
-          50.6097391
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "leisure": "pitch",
-        "sport": "petanque",
-        "osm_id": "way/1566297710",
-        "nearest_street": "Rue de l'Enseignement",
-        "commune": "Thoricourt",
-        "province": "hainaut",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-08",
-          "parking": 86,
-          "arret": 114,
-          "routes": {
-            "residential": 12
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          3.9500444,
-          50.6097242
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "leisure": "pitch",
-        "sport": "petanque",
-        "osm_id": "way/1566297711",
-        "nearest_street": "Rue de l'Enseignement",
-        "commune": "Thoricourt",
-        "province": "hainaut",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-08",
-          "parking": 88,
-          "arret": 116,
-          "routes": {
-            "residential": 12
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          3.9500686,
-          50.609711
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "leisure": "pitch",
-        "sport": "petanque",
-        "osm_id": "way/1566297712",
-        "nearest_street": "Rue de l'Enseignement",
-        "commune": "Thoricourt",
-        "province": "hainaut",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-08",
-          "parking": 90,
-          "arret": 117,
-          "routes": {
-            "residential": 12
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          3.9500927,
-          50.6096956
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "leisure": "pitch",
-        "sport": "petanque",
-        "osm_id": "way/1566297713",
-        "nearest_street": "Rue de l'Enseignement",
-        "commune": "Thoricourt",
-        "province": "hainaut",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-08",
-          "parking": 91,
-          "arret": 119,
-          "routes": {
-            "residential": 12
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.8784203,
-          50.3127727
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1566489465",
-        "nearest_street": null,
-        "commune": "Anhée",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-08",
-          "banc": 2,
-          "jeux": 62,
-          "wc": 40,
-          "parking": 52,
-          "arret": 177,
-          "voie_verte": 33,
-          "routes": {
-            "primary": 155,
-            "residential": 11
-          },
-          "eau": {
-            "riviere": 37
-          },
-          "nature": {
-            "parc": 2.9
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.4182813,
-          50.7140581
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "surface": "sand",
-        "osm_id": "way/1566536927",
-        "nearest_street": "Drève d'Argenteuil",
-        "commune": "Waterloo",
-        "province": "brabant_wallon",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-08",
-          "parking": 453,
-          "arret": 228,
-          "routes": {
-            "motorway": 360
-          },
-          "eau": {
-            "ruisseau": 131
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          3.9908864,
-          51.1145368
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567026852",
-        "nearest_street": "Grijze-Bosplein",
-        "commune": "Lokeren",
-        "province": "flandre_orientale",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-13",
-          "banc": 1,
-          "jeux": 0,
-          "parking": 146,
-          "arret": 344,
-          "voie_verte": 249,
-          "routes": {
-            "primary": 139,
-            "residential": 7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          3.9908019,
-          51.1145273
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567026853",
-        "nearest_street": "Grijze-Bosplein",
-        "commune": "Lokeren",
-        "province": "flandre_orientale",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-13",
-          "banc": 1,
-          "jeux": 0,
-          "parking": 144,
-          "arret": 338,
-          "voie_verte": 255,
-          "routes": {
-            "primary": 139,
-            "residential": 6
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.3934443,
-          51.1619089
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "lit": "no",
-        "sport": "boules",
-        "surface": "compacted",
-        "osm_id": "way/1567410442",
-        "nearest_street": "Unescolaan",
-        "commune": "Antwerpen",
-        "province": "anvers",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-13",
-          "jeux": 101,
-          "eau_potable": 378,
-          "parking": 89,
-          "arret": 155,
-          "routes": {
-            "tertiary": 95
-          },
-          "eau": {
-            "plan_eau_petit": 109,
-            "ruisseau": 115
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6252548,
-          50.1676134
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567660169",
-        "nearest_street": "Maboge",
-        "commune": "La Roche-en-Ardenne",
-        "province": "luxembourg",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-13",
-          "eau_potable": 80,
-          "parking": 5,
-          "arret": 140,
-          "routes": {
-            "secondary": 29,
-            "residential": 5
-          },
-          "eau": {
-            "riviere": 49,
-            "ruisseau": 82
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6252851,
-          50.1676128
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567660170",
-        "nearest_street": "Maboge",
-        "commune": "La Roche-en-Ardenne",
-        "province": "luxembourg",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-13",
-          "eau_potable": 82,
-          "parking": 5,
-          "arret": 142,
-          "routes": {
-            "secondary": 30,
-            "residential": 5
-          },
-          "eau": {
-            "riviere": 50,
-            "ruisseau": 84
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6253162,
-          50.1676122
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567660171",
-        "nearest_street": "Maboge",
-        "commune": "La Roche-en-Ardenne",
-        "province": "luxembourg",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-13",
-          "eau_potable": 84,
-          "parking": 5,
-          "arret": 144,
-          "routes": {
-            "secondary": 31,
-            "residential": 5
-          },
-          "eau": {
-            "riviere": 50,
-            "ruisseau": 86
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6253469,
-          50.1676116
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567660172",
-        "nearest_street": "Maboge",
-        "commune": "La Roche-en-Ardenne",
-        "province": "luxembourg",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-13",
-          "eau_potable": 86,
-          "parking": 5,
-          "arret": 146,
-          "routes": {
-            "secondary": 32,
-            "residential": 5
-          },
-          "eau": {
-            "riviere": 50,
-            "ruisseau": 88
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6253773,
-          50.1676109
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567660173",
-        "nearest_street": "Maboge",
-        "commune": "La Roche-en-Ardenne",
-        "province": "luxembourg",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-13",
-          "eau_potable": 88,
-          "parking": 5,
-          "arret": 148,
-          "routes": {
-            "secondary": 33,
-            "residential": 5
-          },
-          "eau": {
-            "riviere": 50,
-            "ruisseau": 90
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6254077,
-          50.1676102
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567660174",
-        "nearest_street": "Maboge",
-        "commune": "La Roche-en-Ardenne",
-        "province": "luxembourg",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-13",
-          "eau_potable": 90,
-          "parking": 5,
-          "arret": 151,
-          "routes": {
-            "secondary": 34,
-            "residential": 5
-          },
-          "eau": {
-            "riviere": 51,
-            "ruisseau": 92
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6254385,
-          50.1676094
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567660175",
-        "nearest_street": "Maboge",
-        "commune": "La Roche-en-Ardenne",
-        "province": "luxembourg",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-13",
-          "eau_potable": 93,
-          "parking": 5,
-          "arret": 153,
-          "routes": {
-            "secondary": 36,
-            "residential": 5
-          },
-          "eau": {
-            "riviere": 51,
-            "ruisseau": 94
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6254688,
-          50.1676087
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567660176",
-        "nearest_street": "Maboge",
-        "commune": "La Roche-en-Ardenne",
-        "province": "luxembourg",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-13",
-          "eau_potable": 95,
-          "parking": 5,
-          "arret": 155,
-          "routes": {
-            "secondary": 37,
-            "residential": 5
-          },
-          "eau": {
-            "riviere": 51,
-            "ruisseau": 96
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6254992,
-          50.1676077
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567660177",
-        "nearest_street": "Maboge",
-        "commune": "La Roche-en-Ardenne",
-        "province": "luxembourg",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-13",
-          "eau_potable": 97,
-          "parking": 5,
-          "arret": 157,
-          "routes": {
-            "secondary": 38,
-            "residential": 5
-          },
-          "eau": {
-            "riviere": 51,
-            "ruisseau": 99
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.62553,
-          50.1676071
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567660178",
-        "nearest_street": "Maboge",
-        "commune": "La Roche-en-Ardenne",
-        "province": "luxembourg",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-13",
-          "eau_potable": 99,
-          "parking": 5,
-          "arret": 159,
-          "routes": {
-            "secondary": 39,
-            "residential": 5
-          },
-          "eau": {
-            "riviere": 52,
-            "ruisseau": 101
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6555326,
-          50.6457876
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567862788",
-        "nearest_street": "Rue Warichet",
-        "commune": "Mont-Saint-Guibert",
-        "province": "brabant_wallon",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-14",
-          "banc": 2,
-          "jeux": 0,
-          "arret": 30,
-          "routes": {
-            "residential": 8
-          },
-          "eau": {
-            "etang_petit": 43,
-            "ruisseau": 4
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.1078653,
-          50.6916139
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567926919",
-        "nearest_street": "Chaussée Maieur Habils",
-        "commune": "Bierghes",
-        "province": "brabant_wallon",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-14",
-          "parking": 78,
-          "arret": 365,
-          "routes": {
-            "primary": 64
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.1078297,
-          50.6916087
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567926920",
-        "nearest_street": "Chaussée Maieur Habils",
-        "commune": "Bierghes",
-        "province": "brabant_wallon",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-14",
-          "parking": 78,
-          "arret": 362,
-          "routes": {
-            "primary": 63
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.1077943,
-          50.6916033
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567926921",
-        "nearest_street": "Chaussée Maieur Habils",
-        "commune": "Bierghes",
-        "province": "brabant_wallon",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-14",
-          "parking": 78,
-          "arret": 359,
-          "routes": {
-            "primary": 63
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.1077579,
-          50.6915981
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567926922",
-        "nearest_street": "Chaussée Maieur Habils",
-        "commune": "Bierghes",
-        "province": "brabant_wallon",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-14",
-          "parking": 78,
-          "arret": 357,
-          "routes": {
-            "primary": 63
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.1077202,
-          50.6915926
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567926923",
-        "nearest_street": "Chaussée Maieur Habils",
-        "commune": "Bierghes",
-        "province": "brabant_wallon",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-14",
-          "parking": 78,
-          "arret": 354,
-          "routes": {
-            "primary": 62
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.1076844,
-          50.691587
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567926924",
-        "nearest_street": "Chaussée Maieur Habils",
-        "commune": "Bierghes",
-        "province": "brabant_wallon",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-14",
-          "parking": 79,
-          "arret": 352,
-          "routes": {
-            "primary": 62
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.1076486,
-          50.6915818
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567926925",
-        "nearest_street": "Chaussée Maieur Habils",
-        "commune": "Bierghes",
-        "province": "brabant_wallon",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-14",
-          "parking": 79,
-          "arret": 349,
-          "routes": {
-            "primary": 61
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.1076111,
-          50.6915765
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567926926",
-        "nearest_street": "Chaussée Maieur Habils",
-        "commune": "Bierghes",
-        "province": "brabant_wallon",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-14",
-          "parking": 79,
-          "arret": 346,
-          "routes": {
-            "primary": 61
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.1075744,
-          50.6915708
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567926927",
-        "nearest_street": "Chaussée Maieur Habils",
-        "commune": "Bierghes",
-        "province": "brabant_wallon",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-14",
-          "parking": 80,
-          "arret": 344,
-          "routes": {
-            "primary": 60
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.107538,
-          50.6915656
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567926928",
-        "nearest_street": "Chaussée Maieur Habils",
-        "commune": "Bierghes",
-        "province": "brabant_wallon",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-14",
-          "parking": 80,
-          "arret": 341,
-          "routes": {
-            "primary": 60
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.1076469,
-          50.6915212
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567926929",
-        "nearest_street": "Chaussée Maieur Habils",
-        "commune": "Bierghes",
-        "province": "brabant_wallon",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-14",
-          "parking": 89,
-          "arret": 346,
-          "routes": {
-            "primary": 71
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.107829,
-          50.6915482
-        ]
-      },
-      "properties": {
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567926930",
-        "nearest_street": "Chaussée Maieur Habils",
-        "commune": "Bierghes",
-        "province": "brabant_wallon",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-14",
-          "parking": 89,
-          "arret": 359,
-          "routes": {
-            "primary": 73
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          6.0045627,
-          50.6777468
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1567927984",
-        "nearest_street": "Fleuschergasse",
-        "commune": "Lontzen",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-14",
-          "parking": 0,
-          "arret": 278,
-          "routes": {
-            "residential": 7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.5500647,
-          50.0755738
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331452",
-        "nearest_street": "Parc Communal",
-        "commune": "Nismes",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "jeux": 87,
-          "wc": 66,
-          "parking": 30,
-          "arret": 155,
-          "routes": {
-            "secondary": 132
-          },
-          "eau": {
-            "plan_eau": 150,
-            "plan_eau_petit": 7,
-            "riviere": 50,
-            "ruisseau": 190
-          },
-          "nature": {
-            "bois": 1.1,
-            "parc": 9.7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.5501009,
-          50.0756001
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331453",
-        "nearest_street": "Parc Communal",
-        "commune": "Nismes",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "jeux": 84,
-          "wc": 70,
-          "parking": 33,
-          "arret": 159,
-          "routes": {
-            "secondary": 137
-          },
-          "eau": {
-            "plan_eau": 147,
-            "plan_eau_petit": 7,
-            "riviere": 52,
-            "ruisseau": 187
-          },
-          "nature": {
-            "bois": 1.1,
-            "parc": 9.7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.550138,
-          50.0756258
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331454",
-        "nearest_street": "Parc Communal",
-        "commune": "Nismes",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "jeux": 81,
-          "wc": 73,
-          "parking": 36,
-          "arret": 163,
-          "routes": {
-            "secondary": 140
-          },
-          "eau": {
-            "plan_eau": 143,
-            "plan_eau_petit": 7,
-            "riviere": 55,
-            "ruisseau": 184
-          },
-          "nature": {
-            "bois": 1.1,
-            "parc": 9.7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.5500242,
-          50.075548
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331455",
-        "nearest_street": "Parc Communal",
-        "commune": "Nismes",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "jeux": 90,
-          "wc": 63,
-          "parking": 27,
-          "arret": 151,
-          "routes": {
-            "secondary": 129
-          },
-          "eau": {
-            "plan_eau": 154,
-            "plan_eau_petit": 7,
-            "riviere": 47,
-            "ruisseau": 194
-          },
-          "nature": {
-            "bois": 1.1,
-            "parc": 9.7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.5501736,
-          50.0756515
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331456",
-        "nearest_street": "Parc Communal",
-        "commune": "Nismes",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "jeux": 77,
-          "wc": 77,
-          "parking": 39,
-          "arret": 166,
-          "routes": {
-            "secondary": 144
-          },
-          "eau": {
-            "plan_eau": 139,
-            "plan_eau_petit": 7,
-            "riviere": 57,
-            "ruisseau": 181
-          },
-          "nature": {
-            "bois": 1.1,
-            "parc": 9.7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.550287,
-          50.0757301
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331457",
-        "nearest_street": "Parc Communal",
-        "commune": "Nismes",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "jeux": 68,
-          "wc": 88,
-          "eau_potable": 395,
-          "parking": 49,
-          "arret": 177,
-          "eau": {
-            "plan_eau": 129,
-            "plan_eau_petit": 7,
-            "riviere": 65,
-            "ruisseau": 171
-          },
-          "nature": {
-            "bois": 1.1,
-            "parc": 9.7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.5502505,
-          50.0757047
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331458",
-        "nearest_street": "Parc Communal",
-        "commune": "Nismes",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "jeux": 71,
-          "wc": 84,
-          "eau_potable": 399,
-          "parking": 46,
-          "arret": 174,
-          "eau": {
-            "plan_eau": 132,
-            "plan_eau_petit": 7,
-            "riviere": 63,
-            "ruisseau": 174
-          },
-          "nature": {
-            "bois": 1.1,
-            "parc": 9.7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.5502142,
-          50.0756781
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331459",
-        "nearest_street": "Parc Communal",
-        "commune": "Nismes",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "jeux": 74,
-          "wc": 80,
-          "parking": 42,
-          "arret": 170,
-          "routes": {
-            "secondary": 148
-          },
-          "eau": {
-            "plan_eau": 136,
-            "plan_eau_petit": 7,
-            "riviere": 60,
-            "ruisseau": 177
-          },
-          "nature": {
-            "bois": 1.1,
-            "parc": 9.7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.5503227,
-          50.0757558
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331460",
-        "nearest_street": "Parc Communal",
-        "commune": "Nismes",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "jeux": 65,
-          "wc": 91,
-          "eau_potable": 392,
-          "parking": 52,
-          "arret": 181,
-          "eau": {
-            "plan_eau": 125,
-            "plan_eau_petit": 7,
-            "riviere": 67,
-            "ruisseau": 168
-          },
-          "nature": {
-            "bois": 1.1,
-            "parc": 9.7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.5503573,
-          50.0757809
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331461",
-        "nearest_street": "Parc Communal",
-        "commune": "Nismes",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "jeux": 62,
-          "wc": 95,
-          "eau_potable": 388,
-          "parking": 56,
-          "arret": 185,
-          "eau": {
-            "plan_eau": 122,
-            "plan_eau_petit": 7,
-            "riviere": 70,
-            "ruisseau": 165
-          },
-          "nature": {
-            "bois": 1.1,
-            "parc": 9.7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.5503924,
-          50.0758064
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331462",
-        "nearest_street": "Parc Communal",
-        "commune": "Nismes",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "jeux": 59,
-          "wc": 98,
-          "eau_potable": 385,
-          "parking": 59,
-          "arret": 188,
-          "eau": {
-            "plan_eau": 118,
-            "plan_eau_petit": 7,
-            "riviere": 72,
-            "ruisseau": 162
-          },
-          "nature": {
-            "bois": 1.1,
-            "parc": 9.7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.5499146,
-          50.0756273
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331463",
-        "nearest_street": "Parc Communal",
-        "commune": "Nismes",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "jeux": 83,
-          "wc": 71,
-          "parking": 38,
-          "arret": 157,
-          "routes": {
-            "secondary": 132
-          },
-          "eau": {
-            "plan_eau": 150,
-            "plan_eau_petit": 0,
-            "riviere": 39,
-            "ruisseau": 199
-          },
-          "nature": {
-            "bois": 1.1,
-            "parc": 9.7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.5499521,
-          50.0756524
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331464",
-        "nearest_street": "Parc Communal",
-        "commune": "Nismes",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "jeux": 80,
-          "wc": 74,
-          "parking": 40,
-          "arret": 160,
-          "routes": {
-            "secondary": 135
-          },
-          "eau": {
-            "plan_eau": 146,
-            "plan_eau_petit": 0,
-            "riviere": 42,
-            "ruisseau": 196
-          },
-          "nature": {
-            "bois": 1.1,
-            "parc": 9.7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.5499893,
-          50.0756772
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331465",
-        "nearest_street": "Parc Communal",
-        "commune": "Nismes",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "jeux": 77,
-          "wc": 77,
-          "parking": 42,
-          "arret": 164,
-          "routes": {
-            "secondary": 139
-          },
-          "eau": {
-            "plan_eau": 142,
-            "plan_eau_petit": 0,
-            "riviere": 44,
-            "ruisseau": 193
-          },
-          "nature": {
-            "bois": 1.1,
-            "parc": 9.7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.550027,
-          50.0757028
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331466",
-        "nearest_street": "Parc Communal",
-        "commune": "Nismes",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "jeux": 73,
-          "wc": 80,
-          "parking": 44,
-          "arret": 167,
-          "routes": {
-            "secondary": 143
-          },
-          "eau": {
-            "plan_eau": 138,
-            "plan_eau_petit": 0,
-            "riviere": 47,
-            "ruisseau": 189
-          },
-          "nature": {
-            "bois": 1.1,
-            "parc": 9.7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.5500651,
-          50.0757292
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331467",
-        "nearest_street": "Parc Communal",
-        "commune": "Nismes",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "jeux": 70,
-          "wc": 83,
-          "parking": 47,
-          "arret": 171,
-          "routes": {
-            "secondary": 147
-          },
-          "eau": {
-            "plan_eau": 135,
-            "plan_eau_petit": 0,
-            "riviere": 49,
-            "ruisseau": 186
-          },
-          "nature": {
-            "bois": 1.1,
-            "parc": 9.7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.5501029,
-          50.0757566
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331468",
-        "nearest_street": "Parc Communal",
-        "commune": "Nismes",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "jeux": 67,
-          "wc": 87,
-          "parking": 50,
-          "arret": 175,
-          "eau": {
-            "plan_eau": 131,
-            "plan_eau_petit": 0,
-            "riviere": 52,
-            "ruisseau": 183
-          },
-          "nature": {
-            "bois": 1.1,
-            "parc": 9.7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.5501385,
-          50.075782
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331469",
-        "nearest_street": "Parc Communal",
-        "commune": "Nismes",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "jeux": 64,
-          "wc": 90,
-          "parking": 53,
-          "arret": 178,
-          "eau": {
-            "plan_eau": 127,
-            "plan_eau_petit": 0,
-            "riviere": 54,
-            "ruisseau": 180
-          },
-          "nature": {
-            "bois": 1.1,
-            "parc": 9.7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.5501752,
-          50.0758078
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331470",
-        "nearest_street": "Parc Communal",
-        "commune": "Nismes",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "jeux": 60,
-          "wc": 93,
-          "eau_potable": 398,
-          "parking": 56,
-          "arret": 182,
-          "eau": {
-            "plan_eau": 123,
-            "plan_eau_petit": 0,
-            "riviere": 56,
-            "ruisseau": 177
-          },
-          "nature": {
-            "bois": 1.1,
-            "parc": 9.7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.5502113,
-          50.0758324
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331471",
-        "nearest_street": "Parc Communal",
-        "commune": "Nismes",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "jeux": 57,
-          "wc": 97,
-          "eau_potable": 395,
-          "parking": 59,
-          "arret": 185,
-          "eau": {
-            "plan_eau": 120,
-            "plan_eau_petit": 0,
-            "riviere": 59,
-            "ruisseau": 174
-          },
-          "nature": {
-            "bois": 1.1,
-            "parc": 9.7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.5502474,
-          50.0758572
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331472",
-        "nearest_street": "Parc Communal",
-        "commune": "Nismes",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "jeux": 54,
-          "wc": 100,
-          "eau_potable": 391,
-          "parking": 62,
-          "arret": 189,
-          "eau": {
-            "plan_eau": 116,
-            "plan_eau_petit": 0,
-            "riviere": 61,
-            "ruisseau": 171
-          },
-          "nature": {
-            "bois": 1.1,
-            "parc": 9.7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.5502847,
-          50.0758828
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331473",
-        "nearest_street": "Parc Communal",
-        "commune": "Nismes",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "jeux": 51,
-          "wc": 103,
-          "eau_potable": 387,
-          "parking": 65,
-          "arret": 192,
-          "eau": {
-            "plan_eau": 113,
-            "plan_eau_petit": 0,
-            "riviere": 63,
-            "ruisseau": 168
-          },
-          "nature": {
-            "bois": 1.1,
-            "parc": 9.7
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6676306,
-          50.5923666
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331867",
-        "nearest_street": "Rue Camille Cals",
-        "commune": "Gembloux",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "parking": 411,
-          "arret": 69,
-          "routes": {
-            "residential": 7
-          },
-          "eau": {
-            "ruisseau": 17
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6675925,
-          50.5923509
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331868",
-        "nearest_street": "Rue Camille Cals",
-        "commune": "Gembloux",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "parking": 414,
-          "arret": 72,
-          "routes": {
-            "residential": 10
-          },
-          "eau": {
-            "ruisseau": 18
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6675543,
-          50.5923358
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331869",
-        "nearest_street": null,
-        "commune": "Gembloux",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "parking": 418,
-          "arret": 76,
-          "routes": {
-            "residential": 13
-          },
-          "eau": {
-            "ruisseau": 19
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6675174,
-          50.5923199
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568331870",
-        "nearest_street": null,
-        "commune": "Gembloux",
-        "province": "namur",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "parking": 421,
-          "arret": 79,
-          "routes": {
-            "residential": 16
-          },
-          "eau": {
-            "ruisseau": 20
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          3.1859004,
-          50.7920052
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568587731",
-        "nearest_street": null,
-        "commune": "Lauwe",
-        "province": "flandre_occidentale",
-        "region": "flandre",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "banc": 0,
-          "jeux": 17,
-          "wc": 29,
-          "parking": 2,
-          "arret": 131,
-          "routes": {
-            "tertiary": 84
-          },
-          "eau": {
-            "plan_eau_petit": 76
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.5880321,
-          50.5659751
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568621478",
-        "nearest_street": "Avenue de Beaufays",
-        "commune": "Esneux",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "jeux": 289,
-          "parking": 66,
-          "arret": 59,
-          "routes": {
-            "motorway": 333,
-            "secondary": 7,
-            "residential": 28
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.5880612,
-          50.5659944
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1568621479",
-        "nearest_street": "Avenue de Beaufays",
-        "commune": "Esneux",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-16",
-          "jeux": 288,
-          "parking": 65,
-          "arret": 60,
-          "routes": {
-            "motorway": 331,
-            "secondary": 10,
-            "residential": 25
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.8253205,
-          50.5220078
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "leisure": "pitch",
-        "sport": "boules",
-        "surface": "fine_gravel",
-        "osm_id": "way/1569086785",
-        "nearest_street": "Parc le Staneux",
-        "commune": "Theux",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-18",
-          "parking": 17
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.5866888,
-          50.5697502
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1569110965",
-        "nearest_street": "Place du Saucy",
-        "commune": "Esneux",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-18",
-          "parking": 105,
-          "eau": {
-            "plan_eau_petit": 87,
-            "riviere": 23,
-            "ruisseau": 107
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6383538,
-          50.5617991
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1569112014",
-        "nearest_street": "Clos Perly",
-        "commune": "Beaufays",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-18",
-          "parking": 0
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6383863,
-          50.5617613
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1569112314",
-        "nearest_street": "Clos Perly",
-        "commune": "Beaufays",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-18",
-          "parking": 0
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6205235,
-          50.6004141
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1569115183",
-        "nearest_street": "Rue Basse Mehagne",
-        "commune": "Vaux-sous-Chèvremont",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-18",
-          "parking": 61
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6205198,
-          50.6004019
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1569115184",
-        "nearest_street": "Rue Basse Mehagne",
-        "commune": "Vaux-sous-Chèvremont",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-18",
-          "parking": 60
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6205174,
-          50.6003885
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1569115185",
-        "nearest_street": "Rue Basse Mehagne",
-        "commune": "Vaux-sous-Chèvremont",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-18",
-          "parking": 58
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.620514,
-          50.600376
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1569115186",
-        "nearest_street": "Rue Basse Mehagne",
-        "commune": "Vaux-sous-Chèvremont",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-18",
-          "parking": 57
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6205114,
-          50.6003633
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1569115187",
-        "nearest_street": "Rue Basse Mehagne",
-        "commune": "Vaux-sous-Chèvremont",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-18",
-          "parking": 55
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6205083,
-          50.6003515
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1569115188",
-        "nearest_street": "Rue Basse Mehagne",
-        "commune": "Vaux-sous-Chèvremont",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-18",
-          "parking": 54
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6205063,
-          50.6003384
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1569115189",
-        "nearest_street": "Rue Basse Mehagne",
-        "commune": "Vaux-sous-Chèvremont",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-18",
-          "parking": 52
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6205028,
-          50.6003263
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1569115190",
-        "nearest_street": "Rue Basse Mehagne",
-        "commune": "Vaux-sous-Chèvremont",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-18",
-          "parking": 51
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6205,
-          50.6003135
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1569115191",
-        "nearest_street": "Rue Basse Mehagne",
-        "commune": "Vaux-sous-Chèvremont",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-18",
-          "parking": 50
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6204966,
-          50.6003015
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1569115192",
-        "nearest_street": "Rue Basse Mehagne",
-        "commune": "Vaux-sous-Chèvremont",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-18",
-          "parking": 48
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.620494,
-          50.6002881
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1569115193",
-        "nearest_street": "Rue Basse Mehagne",
-        "commune": "Vaux-sous-Chèvremont",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-18",
-          "parking": 47
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6204909,
-          50.6002756
-        ]
-      },
-      "properties": {
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1569115194",
-        "nearest_street": "Rue Basse Mehagne",
-        "commune": "Vaux-sous-Chèvremont",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-18",
-          "parking": 45
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          5.6175007,
-          50.6250376
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1569167411",
-        "nearest_street": "Rue des Déportés",
-        "commune": "Liège",
-        "province": "liege",
-        "region": "wallonie",
-        "env": {
-          "calcule_le": "2026-10-18",
-          "parking": 82,
-          "nature": {
-            "parc": 0.5
-          }
-        }
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2586818,
-          50.8495803
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457382",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.258696,
-          50.8496005
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457383",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2587245,
-          50.8496411
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457384",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2587103,
-          50.8496208
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457385",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2587529,
-          50.8496816
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457386",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2587387,
-          50.8496613
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457387",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2588298,
-          50.8495389
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457388",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2589009,
-          50.8496402
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457389",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.258844,
-          50.8495592
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457390",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2588582,
-          50.8495794
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457391",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2588725,
-          50.8495996
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457392",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2588867,
-          50.84962
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457393",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2589778,
-          50.8494975
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457394",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2590489,
-          50.8495988
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457395",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.258992,
-          50.8495177
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457396",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2590062,
-          50.849538
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457397",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2590204,
-          50.8495583
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457398",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2590347,
-          50.8495785
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457399",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2588382,
-          50.8498031
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457400",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.258824,
-          50.8497829
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457401",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2588098,
-          50.8497627
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457402",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2587956,
-          50.8497423
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457403",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2587813,
-          50.8497221
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457404",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2587671,
-          50.8497019
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457405",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2589151,
-          50.8496604
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457406",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2589293,
-          50.8496807
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457407",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2589435,
-          50.849701
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457408",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2589578,
-          50.8497212
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457409",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.258972,
-          50.8497415
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457410",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2589862,
-          50.8497617
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457411",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2591342,
-          50.8497203
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457412",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.25912,
-          50.8497001
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457413",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2591058,
-          50.8496799
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457414",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2590915,
-          50.8496596
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457415",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2590773,
-          50.8496393
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457416",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.2590631,
-          50.8496191
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570457417",
-        "nearest_street": "d'Arconatistraat",
-        "commune": "Dilbeek",
-        "province": "brabant_flamand",
-        "region": "flandre"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6812833,
-          50.0907598
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570473557",
-        "nearest_street": "Rue de la Gare",
-        "commune": "Treignes",
-        "province": "namur",
-        "region": "wallonie"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6813122,
-          50.090766
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570473558",
-        "nearest_street": "Rue de la Gare",
-        "commune": "Treignes",
-        "province": "namur",
-        "region": "wallonie"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.681367,
-          50.0907774
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570473559",
-        "nearest_street": "Rue de la Gare",
-        "commune": "Treignes",
-        "province": "namur",
-        "region": "wallonie"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6813392,
-          50.0907717
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570473560",
-        "nearest_street": "Rue de la Gare",
-        "commune": "Treignes",
-        "province": "namur",
-        "region": "wallonie"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6813952,
-          50.0907834
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570473561",
-        "nearest_street": "Rue de la Gare",
-        "commune": "Treignes",
-        "province": "namur",
-        "region": "wallonie"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6814239,
-          50.0907892
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570473562",
-        "nearest_street": "Rue de la Gare",
-        "commune": "Treignes",
-        "province": "namur",
-        "region": "wallonie"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6814515,
-          50.0907951
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570473563",
-        "nearest_street": "Rue de la Gare",
-        "commune": "Treignes",
-        "province": "namur",
-        "region": "wallonie"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6814791,
-          50.090801
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570473564",
-        "nearest_street": "Rue de la Gare",
-        "commune": "Treignes",
-        "province": "namur",
-        "region": "wallonie"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6815084,
-          50.0908068
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570473565",
-        "nearest_street": "Rue de la Gare",
-        "commune": "Treignes",
-        "province": "namur",
-        "region": "wallonie"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6815358,
-          50.090813
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570473566",
-        "nearest_street": "Rue de la Gare",
-        "commune": "Treignes",
-        "province": "namur",
-        "region": "wallonie"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.681563,
-          50.0908185
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570473567",
-        "nearest_street": "Rue de la Gare",
-        "commune": "Treignes",
-        "province": "namur",
-        "region": "wallonie"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6815907,
-          50.0908244
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570473568",
-        "nearest_street": "Rue de la Gare",
-        "commune": "Treignes",
-        "province": "namur",
-        "region": "wallonie"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.681619,
-          50.0908301
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570473569",
-        "nearest_street": "Rue de la Gare",
-        "commune": "Treignes",
-        "province": "namur",
-        "region": "wallonie"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6816465,
-          50.0908362
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570473570",
-        "nearest_street": "Rue de la Gare",
-        "commune": "Treignes",
-        "province": "namur",
-        "region": "wallonie"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6816732,
-          50.0908419
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570473571",
-        "nearest_street": "Rue de la Gare",
-        "commune": "Treignes",
-        "province": "namur",
-        "region": "wallonie"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6817011,
-          50.0908473
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "area": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570473572",
-        "nearest_street": "Rue de la Gare",
-        "commune": "Treignes",
-        "province": "namur",
-        "region": "wallonie"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6814645,
-          50.0907158
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570473573",
-        "nearest_street": "Rue de la Gare",
-        "commune": "Treignes",
-        "province": "namur",
-        "region": "wallonie"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6814763,
-          50.0906931
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570473574",
-        "nearest_street": "Rue de la Gare",
-        "commune": "Treignes",
-        "province": "namur",
-        "region": "wallonie"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6814896,
-          50.0906682
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570473575",
-        "nearest_street": "Rue de la Gare",
-        "commune": "Treignes",
-        "province": "namur",
-        "region": "wallonie"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6816301,
-          50.0907531
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570473576",
-        "nearest_street": "Rue de la Gare",
-        "commune": "Treignes",
-        "province": "namur",
-        "region": "wallonie"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6816419,
-          50.0907306
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570473577",
-        "nearest_street": "Rue de la Gare",
-        "commune": "Treignes",
-        "province": "namur",
-        "region": "wallonie"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6816552,
-          50.0907055
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570473578",
-        "nearest_street": "Rue de la Gare",
-        "commune": "Treignes",
-        "province": "namur",
-        "region": "wallonie"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4.6110862,
-          50.700086
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "boules": "petanque",
-        "leisure": "pitch",
-        "sport": "boules",
-        "osm_id": "way/1570820845",
-        "nearest_street": "Avenue des Magnolias",
-        "commune": "Wavre",
-        "province": "brabant_wallon",
-        "region": "wallonie"
       }
     }
   ]
