@@ -1112,7 +1112,6 @@
         ecrireAttente();
         gain = { e: e, p: p };
         avis = null;
-        try { if (navigator.vibrate) navigator.vibrate(25); } catch (x) { }
         dessiner();
         envoyerMenes();
     }

@@ -309,7 +309,7 @@
     el.annonce.textContent = nom('a') + ' ' + state.scoreA + ', ' + nom('b') + ' ' + state.scoreB;
   }
 
-  // « +3 » qui s'envole au-dessus du score, et courte vibration (Android ; ignorée ailleurs) :
+  // « +3 » qui s'envole au-dessus du score (sans vibration, pas souhaitée) :
   // avec toute une moitié d'écran sensible au toucher, un point marqué par erreur doit se voir.
   function signalerGain(team, pts){
     const gain = document.createElement('div');
@@ -318,7 +318,6 @@
     gain.setAttribute('aria-hidden', 'true');
     (team === 'a' ? el.teamA : el.teamB).appendChild(gain);
     setTimeout(()=> gain.remove(), 1000);
-    try { if (navigator.vibrate) navigator.vibrate(25); } catch (e) { /* pas bloquant */ }
   }
 
   function launchConfetti(colors){
