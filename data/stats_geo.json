@@ -242,7 +242,7 @@
     "communes": {}
   },
   "flandre": {
-    "total": 1222,
+    "total": 1223,
     "provinces": {
       "brabant_flamand": {
         "total": 220,
@@ -442,7 +442,7 @@
         }
       },
       "flandre_occidentale": {
-        "total": 223,
+        "total": 224,
         "communes": {
           "Zedelgem": 2,
           "Gullegem": 9,
@@ -474,7 +474,7 @@
           "Wervik": 1,
           "Staden": 1,
           "Lendelede": 1,
-          "Wevelgem": 3,
+          "Wevelgem": 4,
           "Oostende": 3,
           "Houtave": 1,
           "Waregem": 8,
