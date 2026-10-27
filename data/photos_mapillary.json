@@ -6821,6 +6821,19 @@
       "miniature_locale": "/images/mapillary-360/1677808167283117-20261024113003.webp"
     }
   ],
+  "way/1571657296": [
+    {
+      "mapillary_id": "881364607119671",
+      "credit_url": "https://www.mapillary.com/app/?pKey=881364607119671&focus=photo&x=0.07269105272810106&y=0.5215139058544329&zoom=0",
+      "miniature_locale": "/images/mapillary-360/881364607119671-20261026115345.webp"
+    }
+  ],
+  "way/1571392270": [
+    {
+      "mapillary_id": "4305983509446160",
+      "credit_url": "https://www.mapillary.com/map/im/4305983509446160"
+    }
+  ],
   "node/14273172910": [
     {
       "id_local": "visiteur-915",
@@ -6929,7 +6942,9 @@
     {
       "id_local": "visiteur-923",
       "photo_site": "https://mapetanque.be/mapetanque-photos/visiteurs/923.webp",
-      "grande": "https://mapetanque-admin.mapetanque.workers.dev/photo/923.webp"
+      "grande": "https://mapetanque-admin.mapetanque.workers.dev/photo/923.webp",
+      "mapillary_id": "2676454069443125",
+      "credit_url": "https://www.mapillary.com/map/im/2676454069443125"
     }
   ],
   "way/1426362955": [
