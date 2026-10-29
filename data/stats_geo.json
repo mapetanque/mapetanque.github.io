@@ -242,7 +242,7 @@
     "communes": {}
   },
   "flandre": {
-    "total": 1224,
+    "total": 1226,
     "provinces": {
       "brabant_flamand": {
         "total": 220,
@@ -304,7 +304,7 @@
         }
       },
       "anvers": {
-        "total": 287,
+        "total": 288,
         "communes": {
           "Willebroek": 1,
           "Mechelen": 7,
@@ -312,7 +312,7 @@
           "Merksplas": 4,
           "Stabroek": 4,
           "Lint": 5,
-          "Antwerpen": 43,
+          "Antwerpen": 44,
           "Putte": 1,
           "Westerlo": 10,
           "Bonheiden": 6,
@@ -371,11 +371,11 @@
         }
       },
       "flandre_orientale": {
-        "total": 301,
+        "total": 302,
         "communes": {
           "Dendermonde": 5,
           "Wetteren": 3,
-          "Gent": 101,
+          "Gent": 102,
           "Eeklo": 3,
           "Hamme": 4,
           "Sint-Martens-Latem": 5,
@@ -423,7 +423,7 @@
           "Berlare": 3,
           "Sint-Gillis-Waas": 2,
           "Evergem": 1,
-          "voormalige gemeente Ooike": 1,
+          "Ooike": 1,
           "Stekene": 1,
           "Lierde": 1,
           "Nederbrakel": 1,
