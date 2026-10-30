@@ -1,9 +1,13 @@
 // ===================== Page Connexion =====================
 // connexion.html (et ses versions nl/, de/, en/), générée par scripts/generer_connexion.py.
 // Une seule page pour l'inscription et la connexion : on donne son adresse, on reçoit un mail
-// avec un lien et un code à 6 chiffres. Ou bien on passe par son compte Google (bouton au-dessus
-// du formulaire) : même compte si l'adresse est la même. Quatre états, dessinés dans #connexion :
-//   - adresse   : bouton Google, puis formulaire « Recevoir un lien de connexion » (avec Turnstile) ;
+// avec un lien et un code à 6 chiffres. Ou bien on passe par son compte Google ou Facebook
+// (boutons au-dessus du formulaire) : même compte si l'adresse est la même. États, dessinés dans
+// #connexion :
+//   - adresse   : boutons Google et Facebook, puis formulaire « Recevoir un lien de connexion »
+//                 (avec Turnstile) ; après Facebook sans adresse mail, le même formulaire seul,
+//                 qui joint le ticket Facebook à la demande ;
+//   - attente   : retour de Facebook, le temps que le Worker réponde ;
 //   - code      : mail envoyé, saisie du code (le lien peut s'ouvrir dans un autre navigateur,
 //                 celui de l'appli mail : le code sert alors à se connecter ici) ;
 //   - arrivee   : page ouverte depuis le lien du mail (#lien=…), bouton « Me connecter ». C'est
@@ -35,6 +39,20 @@
     // avoir le même identifiant dans GOOGLE_CLIENT_ID.
     var GOOGLE_CLIENT_ID = '91669499037-s7vrh0tvulprac4f9lgrihqhpjofaqu7.apps.googleusercontent.com';
 
+    // Application Meta « mapetanque.be » (identifiant public, comme celui de Google ; le Worker a
+    // le même dans FACEBOOK_APP_ID). Vide : pas de bouton Facebook. Facebook revient toujours sur
+    // la page française (seules adresses de retour déclarées chez Meta, et vérifiées par le
+    // Worker) ; ailleurs (aperçus *.pages.dev, 127.0.0.1) : pas de bouton.
+    var FACEBOOK_APP_ID = '1144278294774305';
+    var FACEBOOK_DIALOGUE = 'https://www.facebook.com/v26.0/dialog/oauth';
+    var FACEBOOK_RETOUR = {
+        'https://mapetanque.be': 'https://mapetanque.be/connexion.html',
+        'http://localhost:5501': 'http://localhost:5501/connexion.html'   // Live Server (.vscode/settings.json)
+    }[window.location.origin] || null;
+    // { state, langue, retour } pendant l'aller-retour chez Facebook, puis { code, retour } ou
+    // { annule } le temps de passer sur la page de la bonne langue (sessionStorage : cet onglet seul)
+    var CLE_FACEBOOK = 'mapetanque_connexion_facebook';
+
     // Demande en cours, gardée le temps de la validité du code : un téléphone qui recharge la
     // page au retour de l'appli mail retrouve ainsi la saisie du code.
     var CLE_DEMANDE = 'mapetanque_connexion_demande';
@@ -53,6 +71,11 @@
         lien_invalide: 'compte_err_lien',
         google_invalide: 'compte_err_google',      // jeton Google refusé par le Worker
         google_non_verifie: 'compte_err_google',   // adresse non vérifiée chez Google
+        facebook_invalide: 'compte_err_facebook',  // code Facebook refusé (expiré, déjà servi…)
+        facebook_indisponible: 'compte_err_facebook',
+        ticket_facebook: 'compte_err_facebook_delai',   // ticket de 15 minutes expiré
+        compte_autre_facebook: 'compte_err_compte_autre_facebook',
+        facebook_autre_compte: 'compte_err_facebook_autre_compte',
         pseudo_vide: 'compte_err_pseudo_vide',
         pseudo_pris: 'compte_err_pseudo_pris',
         pseudo_invalide: 'compte_err_pseudo_invalide'
@@ -154,12 +177,25 @@
         script.src = 'https://accounts.google.com/gsi/client';
         script.async = true;
         script.onload = poserGoogle;
+        script.onerror = function () {
+            googleBloque = true;
+            poserGoogle();
+        };
         document.head.appendChild(script);
     }
 
+    // Bibliothèque bloquée : la place réservée au bouton disparaît (et tout le bloc s'il n'y a pas
+    // non plus Facebook).
+    var googleBloque = false;
+
     function poserGoogle() {
-        var bloc = zone.querySelector('.connexion-google');
+        var bloc = zone.querySelector('.connexion-tiers');
         var cadre = bloc && bloc.querySelector('.connexion-google-bouton');
+        if (cadre && googleBloque) {
+            cadre.remove();
+            if (!bloc.querySelector('.connexion-facebook')) bloc.hidden = true;
+            return;
+        }
         if (!cadre || cadre.childElementCount || !window.google || !window.google.accounts) return;
         if (!googleInitialise) {
             window.google.accounts.id.initialize({
@@ -170,7 +206,6 @@
             });
             googleInitialise = true;
         }
-        bloc.hidden = false;   // avant le dessin : le bouton prend la largeur du cadre
         window.google.accounts.id.renderButton(cadre, {
             type: 'standard',
             theme: 'outline',
@@ -195,6 +230,101 @@
     }
 
 
+    // --- Facebook ---------------------------------------------------------------------------
+    // Sans script de Meta : le bouton mène à la boîte de dialogue de Facebook (aucune requête vers
+    // Facebook avant le clic). Facebook revient sur connexion.html avec ?code=…&state=… (ou
+    // ?error=… si la personne refuse). La page vérifie state (tiré au hasard au clic, gardé dans
+    // sessionStorage), efface tout ça de l'adresse et passe le code au Worker (/compte/facebook),
+    // qui l'échange avec la clé secrète de l'application. Si Facebook ne donne pas d'adresse mail,
+    // le Worker répond adresse_requise avec un ticket : la page demande l'adresse, puis lien et
+    // code comme d'habitude, ticket joint ; Facebook est relié au compte quand le code est validé.
+    var PICTO_FACEBOOK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#0866FF" d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07"/></svg>';
+
+    function lireFacebook() {
+        try {
+            return JSON.parse(sessionStorage.getItem(CLE_FACEBOOK) || 'null');
+        } catch (e) {
+            return null;
+        }
+    }
+
+    function ecrireFacebook(valeur) {
+        try {
+            if (valeur) sessionStorage.setItem(CLE_FACEBOOK, JSON.stringify(valeur));
+            else sessionStorage.removeItem(CLE_FACEBOOK);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function allerChezFacebook() {
+        var octets = new Uint8Array(16);
+        crypto.getRandomValues(octets);
+        var state = Array.prototype.map.call(octets, function (o) { return ('0' + o.toString(16)).slice(-2); }).join('');
+        if (!ecrireFacebook({ state: state, langue: currentLang, retour: retourDemande() })) {
+            afficherStatut(t('compte_err_facebook'), true);
+            return;
+        }
+        window.location.assign(FACEBOOK_DIALOGUE + '?' + new URLSearchParams({
+            client_id: FACEBOOK_APP_ID,
+            redirect_uri: FACEBOOK_RETOUR,
+            scope: 'email',
+            response_type: 'code',
+            state: state
+        }).toString());
+    }
+
+    // Retour de Facebook. Renvoie true si la page s'en occupe (rien d'autre à afficher).
+    function retourFacebook() {
+        var params = new URLSearchParams(window.location.search);
+        if (params.has('state') && (params.has('code') || params.has('error'))) {
+            // Code et state effacés de l'adresse (et le « #_=_ » qu'ajoute Facebook)
+            history.replaceState(null, '', window.location.pathname);
+            var aller = lireFacebook();
+            ecrireFacebook(null);
+            if (!aller || !aller.state || aller.state !== params.get('state')) {
+                afficherAdresse(t('compte_err_facebook'));
+                return true;
+            }
+            var suite = params.get('code') ? { code: params.get('code'), retour: aller.retour } : { annule: true };
+            // Facebook revient sur la page française : on passe sur celle de la langue de départ
+            if (aller.langue && aller.langue !== currentLang && ecrireFacebook(suite)) {
+                window.location.replace((aller.langue === 'fr' ? '/' : '/' + aller.langue + '/') + 'connexion.html');
+                return true;
+            }
+            traiterFacebook(suite);
+            return true;
+        }
+        var enAttente = lireFacebook();
+        if (!enAttente || !(enAttente.code || enAttente.annule)) return false;
+        ecrireFacebook(null);
+        traiterFacebook(enAttente);
+        return true;
+    }
+
+    function traiterFacebook(suite) {
+        if (!suite.code) {
+            afficherAdresse(t('compte_facebook_annule'));
+            return;
+        }
+        poserEtat('attente',
+            '<div class="connexion-carte">' +
+            '  <p class="connexion-statut centre" role="status">' + echapper(t('compte_connexion_en_cours')) + '</p>' +
+            '</div>');
+        compte.appel('POST', '/compte/facebook', { code: suite.code, redirect_uri: FACEBOOK_RETOUR, langue: currentLang })
+            .then(function (reponse) {
+                if (reponse.statut === 200 && reponse.donnees.jeton) {
+                    apresConnexion(reponse.donnees, suite.retour);
+                } else if (reponse.statut === 200 && reponse.donnees.adresse_requise) {
+                    afficherAdresse(null, null, { ticket: reponse.donnees.ticket, retour: suite.retour });
+                } else {
+                    afficherAdresse(messageErreur(reponse.donnees));
+                }
+            });
+    }
+
+
     // --- États ----------------------------------------------------------------------------
     // Mise en page validée sur maquettes/connexion/index.html. L'état courant est noté dans
     // zone.dataset.etat (adresse, code, arrivee, connecte).
@@ -209,15 +339,26 @@
         zone.innerHTML = html;
     }
 
-    function afficherAdresse(message, emailPrecedent) {
+    // facebook : { ticket, retour } après une connexion Facebook sans adresse mail. Le formulaire
+    // est alors seul (ni Google ni Facebook) et la demande porte le ticket.
+    function afficherAdresse(message, emailPrecedent, facebook) {
         widgetTurnstile = null;
+        var avecGoogle = !facebook && !!GOOGLE_CLIENT_ID && !googleBloque;
+        var avecFacebook = !facebook && !!FACEBOOK_APP_ID && !!FACEBOOK_RETOUR;
+        var titre = facebook ? 'compte_titre_facebook_adresse'
+            : (GOOGLE_CLIENT_ID || avecFacebook ? 'compte_titre_choix' : 'compte_titre_adresse');
         poserEtat('adresse',
-            '<h2 class="connexion-titre">' + echapper(t(GOOGLE_CLIENT_ID ? 'compte_titre_choix' : 'compte_titre_adresse')) + '</h2>' +
+            '<h2 class="connexion-titre">' + echapper(t(titre)) + '</h2>' +
+            (facebook ? '<p class="connexion-chapo">' + echapper(t('compte_facebook_adresse')) + '</p>' : '') +
             '<form class="connexion-carte" novalidate>' +
-            '  <div class="connexion-google" hidden>' +
-            '    <div class="connexion-google-bouton"></div>' +
-            '    <p class="connexion-ou"><span>' + echapper(t('compte_ou')) + '</span></p>' +
-            '  </div>' +
+            (avecGoogle || avecFacebook
+                ? '  <div class="connexion-tiers">' +
+                  (avecGoogle ? '    <div class="connexion-google-bouton"></div>' : '') +
+                  (avecFacebook ? '    <button type="button" class="connexion-facebook">' + PICTO_FACEBOOK +
+                      '<span>' + echapper(t('compte_continuer_facebook')) + '</span></button>' : '') +
+                  '    <p class="connexion-ou"><span>' + echapper(t('compte_ou')) + '</span></p>' +
+                  '  </div>'
+                : '') +
             '  <label class="connexion-label" for="connexion-email">' + echapper(t('compte_champ_email')) + '</label>' +
             '  <div class="connexion-champ-picto">' + PICTO_ENVELOPPE +
             '    <input type="email" id="connexion-email" class="connexion-champ" autocomplete="email" required maxlength="254" value="' + echapper(emailPrecedent || '') + '">' +
@@ -229,8 +370,12 @@
             pourquoiHtml());
         if (message) afficherStatut(message, true);
         poserTurnstile();
-        chargerGoogle();
-        poserGoogle();
+        if (avecGoogle) {
+            chargerGoogle();
+            poserGoogle();
+        }
+        var boutonFacebook = zone.querySelector('.connexion-facebook');
+        if (boutonFacebook) boutonFacebook.addEventListener('click', allerChezFacebook);
 
         var formulaire = zone.querySelector('form');
         var champ = zone.querySelector('#connexion-email');
@@ -246,13 +391,21 @@
             }
             bouton.disabled = true;
             afficherStatut(t('compte_envoi_en_cours'));
-            compte.appel('POST', '/compte/lien', { email: email, langue: currentLang, turnstile: jetonTurnstile })
+            var corps = { email: email, langue: currentLang, turnstile: jetonTurnstile };
+            if (facebook) corps.ticket_facebook = facebook.ticket;
+            compte.appel('POST', '/compte/lien', corps)
                 .then(function (reponse) {
                     bouton.disabled = false;
                     if (reponse.statut === 200 && reponse.donnees.demande) {
-                        var demande = { demande: reponse.donnees.demande, email: email, retour: retourDemande(), expire: Date.now() + DUREE_DEMANDE };
+                        var demande = {
+                            demande: reponse.donnees.demande, email: email, expire: Date.now() + DUREE_DEMANDE,
+                            retour: facebook ? facebook.retour : retourDemande(), facebook: facebook || null
+                        };
                         ecrireDemande(demande);
                         afficherCode(demande);
+                    } else if (reponse.donnees.erreur === 'ticket_facebook') {
+                        // Ticket expiré : formulaire normal, avec Google et Facebook
+                        afficherAdresse(messageErreur(reponse.donnees), email);
                     } else {
                         relancerTurnstile();
                         afficherStatut(messageErreur(reponse.donnees), true);
@@ -350,11 +503,11 @@
         // l'adresse déjà remplie pour renvoyer un mail, vide pour en changer.
         zone.querySelector('[data-action="renvoyer"]').addEventListener('click', function () {
             ecrireDemande(null);
-            afficherAdresse(null, demande.email);
+            afficherAdresse(null, demande.email, demande.facebook);
         });
         zone.querySelector('[data-action="changer"]').addEventListener('click', function () {
             ecrireDemande(null);
-            afficherAdresse();
+            afficherAdresse(null, null, demande.facebook);
             zone.querySelector('#connexion-email').focus();
         });
     }
@@ -372,7 +525,9 @@
         bouton.focus();
         bouton.addEventListener('click', function () {
             bouton.disabled = true;
-            compte.appel('POST', '/compte/connexion', { lien: jetonLien })
+            // Identifiant de la demande : seulement dans le navigateur qui l'a faite. Le Worker ne
+            // relie un compte Facebook (demande avec ticket) qu'avec lui.
+            compte.appel('POST', '/compte/connexion', { lien: jetonLien, demande: demande ? demande.demande : undefined })
                 .then(function (reponse) {
                     if (reponse.statut === 200 && reponse.donnees.jeton) {
                         apresConnexion(reponse.donnees, demande ? demande.retour : null);
@@ -494,6 +649,8 @@
 
     if (lienDansAdresse()) {
         // rien d'autre : la page attend le clic sur « Me connecter »
+    } else if (retourFacebook()) {
+        // rien d'autre : retour de Facebook, traité par traiterFacebook
     } else if (compte.session()) {
         afficherConnecte(null, prefixe + 'mon-compte.html');
         // Session expirée ou effacée depuis un autre appareil : retour au formulaire.

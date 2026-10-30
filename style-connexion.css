@@ -104,9 +104,10 @@
     padding-left: 40px;
 }
 
-/* Bouton Google (dessiné par Google dans un cadre, on ne règle que sa place), puis « ou » entre
-   deux traits avant le formulaire du mail. Caché tant que le bouton n'est pas posé. */
-.connexion-google[hidden] {
+/* Boutons Google et Facebook, puis « ou » entre deux traits avant le formulaire du mail. Le
+   bouton Google est dessiné par Google dans un cadre (on ne règle que sa place) ; sa place
+   disparaît si la bibliothèque est bloquée. */
+.connexion-tiers[hidden] {
     display: none;
 }
 
@@ -114,6 +115,49 @@
     display: flex;
     justify-content: center;
     min-height: 44px;   /* place réservée : le formulaire ne saute pas quand le bouton arrive */
+}
+
+/* Lien vers Facebook (pas de script de Meta), à l'allure du bouton Google « large » qu'il suit :
+   blanc, bord gris, 40 px de haut, 400 px au plus */
+.connexion-facebook {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 400px;
+    height: 40px;
+    margin: 0 auto;
+    padding: 0 12px;
+    box-sizing: border-box;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    background: #fff;
+    color: #3c4043;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.connexion-google-bouton + .connexion-facebook {
+    margin-top: 6px;
+}
+
+.connexion-facebook:hover {
+    background: #f7f8fa;
+    border-color: #d2e3fc;
+}
+
+.connexion-facebook:focus-visible {
+    outline: 2px solid #74C15A;
+    outline-offset: 2px;
+}
+
+.connexion-facebook svg {
+    width: 18px;
+    height: 18px;
+    flex: none;
 }
 
 .connexion-ou {

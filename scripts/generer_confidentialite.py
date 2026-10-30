@@ -108,8 +108,10 @@ CONTENU = {
                  "prévenir de la suite donnée."),
                 ("créez un compte",
                  " : votre adresse mail, votre pseudo éventuel, la langue des mails et les "
-                 "dates de création et de dernière connexion. Ce que vous envoyez en étant "
-                 "connecté est rattaché au compte. Votre adresse n'est jamais affichée."),
+                 "dates de création et de dernière connexion, et, si vous vous connectez avec "
+                 "Facebook, l'identifiant que Facebook attribue au site pour vous. Ce que vous "
+                 "envoyez en étant connecté est rattaché au compte. Votre adresse n'est jamais "
+                 "affichée."),
                 ("jouez une partie en ligne, connecté",
                  " : la partie (date, durée, format, mènes et scores, noms des équipes et "
                  "terrain si vous les indiquez), votre place (équipe ou spectateur) et qui "
@@ -163,6 +165,11 @@ CONTENU = {
                 ("Google",
                  " : connexion avec un compte Google, si vous la choisissez. Google nous "
                  "transmet votre adresse mail, jamais votre mot de passe."),
+                ("Facebook",
+                 " : connexion avec un compte Facebook, si vous la choisissez. Facebook nous "
+                 "transmet un identifiant propre au site et, si vous l'acceptez, votre adresse "
+                 "mail, jamais votre mot de passe. Aucun script de Facebook n'est chargé sur le "
+                 "site : Facebook n'est contacté que si vous cliquez sur son bouton."),
                 ("GitHub Pages", " : hébergement du site et des photos publiées."),
                 ("Mapillary", " : publication des photos retenues."),
                 ("Ko-fi",
@@ -252,7 +259,8 @@ CONTENU = {
                  "ermee gebeurd is."),
                 ("een account aanmaakt",
                  ": je e-mailadres, je eventuele bijnaam, de taal van de e-mails en de datum "
-                 "van aanmaak en van je laatste aanmelding. Wat je verstuurt terwijl je "
+                 "van aanmaak en van je laatste aanmelding, en, als je je aanmeldt met "
+                 "Facebook, de ID die Facebook voor jou aan de site toekent. Wat je verstuurt terwijl je "
                  "aangemeld bent, wordt aan je account gekoppeld. Je adres wordt nooit getoond."),
                 ("een online partij speelt terwijl je aangemeld bent",
                  ": de partij (datum, duur, spelvorm, rondes en scores, namen van de teams en "
@@ -307,6 +315,11 @@ CONTENU = {
                 ("Google",
                  ": aanmelden met een Google-account, als u daarvoor kiest. Google geeft ons "
                  "uw e-mailadres door, nooit uw wachtwoord."),
+                ("Facebook",
+                 ": aanmelden met een Facebook-account, als u daarvoor kiest. Facebook geeft "
+                 "ons een ID die alleen voor deze site geldt en, als u dat toestaat, uw "
+                 "e-mailadres door, nooit uw wachtwoord. Er wordt geen script van Facebook op "
+                 "de site geladen: Facebook wordt pas gecontacteerd als u op de knop klikt."),
                 ("GitHub Pages", ": hosting van de site en van de gepubliceerde foto's."),
                 ("Mapillary", ": publicatie van de weerhouden foto's."),
                 ("Ko-fi",
@@ -395,7 +408,9 @@ CONTENU = {
                  "was daraus geworden ist."),
                 ("ein Konto anlegen",
                  ": Ihre E-Mail-Adresse, Ihr eventueller Spitzname, die Sprache der E-Mails "
-                 "sowie das Datum der Erstellung und der letzten Anmeldung. Was Sie im "
+                 "sowie das Datum der Erstellung und der letzten Anmeldung und, wenn Sie sich "
+                 "mit Facebook anmelden, die Kennung, die Facebook der Website für Sie zuweist. "
+                 "Was Sie im "
                  "angemeldeten Zustand einsenden, wird Ihrem Konto zugeordnet. Ihre Adresse wird "
                  "nie angezeigt."),
                 ("angemeldet eine Online-Partie spielen",
@@ -451,6 +466,12 @@ CONTENU = {
                 ("Google",
                  ": Anmeldung mit einem Google-Konto, wenn Sie diese wählen. Google übermittelt "
                  "uns Ihre E-Mail-Adresse, niemals Ihr Passwort."),
+                ("Facebook",
+                 ": Anmeldung mit einem Facebook-Konto, wenn Sie diese wählen. Facebook "
+                 "übermittelt uns eine nur für diese Website gültige Kennung und, wenn Sie "
+                 "zustimmen, Ihre E-Mail-Adresse, niemals Ihr Passwort. Auf der Website wird "
+                 "kein Skript von Facebook geladen: Facebook wird erst kontaktiert, wenn Sie auf "
+                 "die Schaltfläche klicken."),
                 ("GitHub Pages", ": Hosting der Website und der veröffentlichten Fotos."),
                 ("Mapillary", ": Veröffentlichung der angenommenen Fotos."),
                 ("Ko-fi",
@@ -537,7 +558,8 @@ CONTENU = {
                  "came of it."),
                 ("create an account",
                  ": your email address, your optional nickname, the language of your emails, "
-                 "and the dates of creation and last sign-in. What you send while signed in is "
+                 "and the dates of creation and last sign-in, plus, if you sign in with "
+                 "Facebook, the identifier Facebook assigns to you for this site. What you send while signed in is "
                  "linked to your account. Your address is never displayed."),
                 ("play an online game while signed in",
                  ": the game (date, length, format, ends and scores, team names and court if "
@@ -591,6 +613,11 @@ CONTENU = {
                 ("Google",
                  ": sign-in with a Google account, if you choose it. Google passes on your "
                  "email address to us, never your password."),
+                ("Facebook",
+                 ": sign-in with a Facebook account, if you choose it. Facebook passes on an "
+                 "identifier specific to this site and, if you allow it, your email address, "
+                 "never your password. No Facebook script is loaded on the site: Facebook is "
+                 "only contacted if you click its button."),
                 ("GitHub Pages", ": hosting of the site and of published photos."),
                 ("Mapillary", ": publication of accepted photos."),
                 ("Ko-fi",
