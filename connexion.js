@@ -92,10 +92,18 @@
         return texte.replace('{n}', donnees.essais_restants);
     }
 
-    // Seulement un chemin du site (« /compteur.html ») : jamais une autre adresse.
+    // Seulement un chemin du site (« /compteur.html ») : jamais une autre adresse. L'adresse est
+    // calculée par le navigateur puis comparée au site, car il lit « /\autre.site » ou « /<tab>/autre.site »
+    // comme « //autre.site » : un simple contrôle du texte laisse passer ces pièges.
     function retourDemande() {
         var retour = new URLSearchParams(window.location.search).get('retour');
-        return retour && /^\/(?!\/)/.test(retour) ? retour : null;
+        if (!retour || retour.charAt(0) !== '/') return null;
+        try {
+            var url = new URL(retour, window.location.origin);
+            return url.origin === window.location.origin ? url.pathname + url.search + url.hash : null;
+        } catch (e) {
+            return null;
+        }
     }
 
     function lireDemande() {
