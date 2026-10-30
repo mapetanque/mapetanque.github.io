@@ -49,9 +49,12 @@
         'https://mapetanque.be': 'https://mapetanque.be/connexion.html',
         'http://localhost:5501': 'http://localhost:5501/connexion.html'   // Live Server (.vscode/settings.json)
     }[window.location.origin] || null;
-    // { state, langue, retour } pendant l'aller-retour chez Facebook, puis { code, retour } ou
-    // { annule } le temps de passer sur la page de la bonne langue (sessionStorage : cet onglet seul)
+    // Aller chez Facebook : { state, langue, retour, expire } dans localStorage, car sur téléphone
+    // l'appli Facebook renvoie souvent vers un NOUVEL onglet (sessionStorage ne le suivrait pas).
+    // Effacé dès sa lecture, valable 10 minutes. Puis { code, retour } ou { annule } le temps de
+    // passer sur la page de la bonne langue : même onglet, donc sessionStorage, même clé.
     var CLE_FACEBOOK = 'mapetanque_connexion_facebook';
+    var DUREE_FACEBOOK = 10 * 60 * 1000;
 
     // Demande en cours, gardée le temps de la validité du code : un téléphone qui recharge la
     // page au retour de l'appli mail retrouve ainsi la saisie du code.
@@ -242,13 +245,40 @@
     // Sans script de Meta : le bouton mène à la boîte de dialogue de Facebook (aucune requête vers
     // Facebook avant le clic). Facebook revient sur connexion.html avec ?code=…&state=… (ou
     // ?error=… si la personne refuse). La page vérifie state (tiré au hasard au clic, gardé dans
-    // sessionStorage), efface tout ça de l'adresse et passe le code au Worker (/compte/facebook),
+    // localStorage), efface tout ça de l'adresse et passe le code au Worker (/compte/facebook),
     // qui l'échange avec la clé secrète de l'application. Si Facebook ne donne pas d'adresse mail,
     // le Worker répond adresse_requise avec un ticket : la page demande l'adresse, puis lien et
     // code comme d'habitude, ticket joint ; Facebook est relié au compte quand le code est validé.
     var PICTO_FACEBOOK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#0866FF" d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07"/></svg>';
 
-    function lireFacebook() {
+    // Aller (localStorage, partagé entre onglets) : lu une seule fois, effacé aussitôt ; null
+    // s'il manque, s'il est illisible ou s'il a plus de 10 minutes.
+    function prendreAller() {
+        var aller = null;
+        try {
+            aller = JSON.parse(localStorage.getItem(CLE_FACEBOOK) || 'null');
+        } catch (e) {
+            aller = null;
+        }
+        try {
+            localStorage.removeItem(CLE_FACEBOOK);
+        } catch (e) { /* rien */ }
+        if (!aller || typeof aller.expire !== 'number' || aller.expire < Date.now()) return null;
+        return aller;
+    }
+
+    function ecrireAller(valeur) {
+        try {
+            localStorage.setItem(CLE_FACEBOOK, JSON.stringify(valeur));
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    // Suite (sessionStorage, cet onglet) : { code, retour } ou { annule } entre la page française
+    // et celle de la langue de départ.
+    function lireSuite() {
         try {
             return JSON.parse(sessionStorage.getItem(CLE_FACEBOOK) || 'null');
         } catch (e) {
@@ -256,7 +286,7 @@
         }
     }
 
-    function ecrireFacebook(valeur) {
+    function ecrireSuite(valeur) {
         try {
             if (valeur) sessionStorage.setItem(CLE_FACEBOOK, JSON.stringify(valeur));
             else sessionStorage.removeItem(CLE_FACEBOOK);
@@ -270,7 +300,7 @@
         var octets = new Uint8Array(16);
         crypto.getRandomValues(octets);
         var state = Array.prototype.map.call(octets, function (o) { return ('0' + o.toString(16)).slice(-2); }).join('');
-        if (!ecrireFacebook({ state: state, langue: currentLang, retour: retourDemande() })) {
+        if (!ecrireAller({ state: state, langue: currentLang, retour: retourDemande(), expire: Date.now() + DUREE_FACEBOOK })) {
             afficherStatut(t('compte_err_facebook'), true);
             return;
         }
@@ -289,24 +319,23 @@
         if (params.has('state') && (params.has('code') || params.has('error'))) {
             // Code et state effacés de l'adresse (et le « #_=_ » qu'ajoute Facebook)
             history.replaceState(null, '', window.location.pathname);
-            var aller = lireFacebook();
-            ecrireFacebook(null);
+            var aller = prendreAller();
             if (!aller || !aller.state || aller.state !== params.get('state')) {
                 afficherAdresse(t('compte_err_facebook'));
                 return true;
             }
             var suite = params.get('code') ? { code: params.get('code'), retour: aller.retour } : { annule: true };
             // Facebook revient sur la page française : on passe sur celle de la langue de départ
-            if (aller.langue && aller.langue !== currentLang && ecrireFacebook(suite)) {
+            if (aller.langue && aller.langue !== currentLang && ecrireSuite(suite)) {
                 window.location.replace((aller.langue === 'fr' ? '/' : '/' + aller.langue + '/') + 'connexion.html');
                 return true;
             }
             traiterFacebook(suite);
             return true;
         }
-        var enAttente = lireFacebook();
+        var enAttente = lireSuite();
         if (!enAttente || !(enAttente.code || enAttente.annule)) return false;
-        ecrireFacebook(null);
+        ecrireSuite(null);
         traiterFacebook(enAttente);
         return true;
     }
