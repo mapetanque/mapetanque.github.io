@@ -1,6 +1,6 @@
 {
   "wallonie": {
-    "total": 536,
+    "total": 537,
     "provinces": {
       "liege": {
         "total": 170,
@@ -193,12 +193,12 @@
         }
       },
       "hainaut": {
-        "total": 107,
+        "total": 108,
         "communes": {
           "Mouscron": 3,
           "Loverval": 1,
           "Mons": 9,
-          "Tournai": 6,
+          "Tournai": 7,
           "Leuze": 1,
           "Hantes-Wihéries": 1,
           "Charleroi": 5,
@@ -242,7 +242,7 @@
     "communes": {}
   },
   "flandre": {
-    "total": 1227,
+    "total": 1228,
     "provinces": {
       "brabant_flamand": {
         "total": 220,
@@ -501,11 +501,11 @@
         }
       },
       "limbourg": {
-        "total": 192,
+        "total": 193,
         "communes": {
           "Peer": 3,
           "Koninksem": 2,
-          "Hechtel": 1,
+          "Hechtel": 2,
           "Neerpelt": 2,
           "Diepenbeek": 4,
           "Zolder": 3,

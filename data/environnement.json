@@ -1089,6 +1089,8 @@
 "way/1573186253":{"calcule_le":"2026-10-29","arret":140,"routes":{"motorway":220,"tertiary":67},"eau":{"etang":69,"etang_petit":159,"riviere":110},"nature":{"reserve":11.7}},
 "way/1573283484":{"calcule_le":"2026-10-29","banc":1,"jeux":7,"arret":179,"fietssnelweg":104,"routes":{"residential":20}},
 "way/1573400223":{"calcule_le":"2026-10-30","jeux":250,"parking":72,"routes":{"motorway":89,"tertiary":64,"residential":21}},
+"way/1573762047":{"calcule_le":"2026-10-31","routes":{"residential":4},"eau":{"plan_eau_petit":106},"nature":{"loisirs":0.1}},
+"way/1573788658":{"calcule_le":"2026-10-31","banc":5,"routes":{"residential":10},"eau":{"plan_eau":99}},
 "way/159529249":{"calcule_le":"2026-10-01","parking":149,"arret":319,"routes":{"residential":7}},
 "way/159743068":{"calcule_le":"2026-10-01","jeux":41,"parking":21,"arret":472,"routes":{"motorway":327},"eau":{"plan_eau":67,"plan_eau_petit":101},"nature":{"parc":16.2}},
 "way/160501924":{"calcule_le":"2026-10-01","jeux":181,"parking":33,"arret":204,"routes":{"residential":7}},
