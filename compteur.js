@@ -355,8 +355,8 @@
     el.win.classList.remove('win-a', 'win-b');
     el.win.classList.add(aWon ? 'win-a' : 'win-b');
     const palette = aWon
-      ? ['#74C15A', '#FFFFFF', '#E7F4E1', '#3D7A2A']
-      : ['#E7F4E1', '#FFFFFF', '#74C15A', '#3D7A2A'];
+      ? ['#4c7a3d', '#f2ece0', '#c9c2b4', '#7ea968']
+      : ['#b5502e', '#f2ece0', '#c9c2b4', '#d97c53'];
     if(avecConfettis) launchConfetti(palette);
     else $('confettiField').innerHTML = '';
     el.win.classList.add('show');
