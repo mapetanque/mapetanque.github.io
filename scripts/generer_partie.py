@@ -14,6 +14,7 @@ Page en noindex : generer_referencement.py l'écarte du sitemap et de llms.txt.
     python scripts/generer_partie.py
 """
 
+import re
 from pathlib import Path
 
 from _squelette import construire_page, echap
@@ -23,7 +24,7 @@ RACINE = Path(__file__).resolve().parent.parent
 
 # Adresse versionnée de translations.js, comme sur le compteur : le service worker sert d'abord sa
 # copie en cache, qui peut dater d'avant les clés partie_*.
-TRADUCTIONS = "/translations.js?v=22"
+TRADUCTIONS = "/translations.js?v=23"
 
 META = {
     "fr": {
@@ -78,20 +79,23 @@ for langue, meta in META.items():
         # pour les autres
         fil=meta["fil"],
         contenu=contenu,
-        feuilles_sup=("/style-partie.css?v=8",),
+        feuilles_sup=("/style-partie.css?v=9",),
         # Page de passage, propre à chaque partie : sans intérêt dans un moteur de recherche
         tete_sup='<meta name="robots" content="noindex">',
-        scripts_sup=("/compte.js", "/partie.js?v=10"),
+        scripts_sup=("/compte.js", "/partie.js?v=11"),
     )
     html = cible.read_text(encoding="utf-8")
     assert '<script src="/translations.js"></script>' in html
     html = html.replace('<script src="/translations.js"></script>', f'<script src="{TRADUCTIONS}"></script>')
-    # Page sombre, comme le compteur qu'on y suit (style-partie.css, « Page et en-tête sombres ») :
-    # fond foncé, logo en version négative, barre du téléphone assortie
+    # Page claire, dans l'esprit de l'écran des joueurs de l'espace des clubs (maquette
+    # maquettes/partie-claire/, 31/10/2026) : pas de fil d'Ariane, et le titre masqué à l'écran
+    # (gardé pour Google et les lecteurs d'écran), pour laisser la place à la partie. La classe
+    # page-partie donne le fond brume (style-partie.css).
+    html, n = re.subn(r'\s*<div class="province-breadcrumb">.*?</div>', '', html, count=1, flags=re.S)
+    assert n == 1, "fil d'Ariane"
     for avant, apres in (
-        ("<body>", '<body class="page-sombre">'),
-        ("/images/mapetanque-logo-fonce.svg", "/images/mapetanque-logo.svg"),
-        ('<meta name="robots" content="noindex">', '<meta name="robots" content="noindex">\n    <meta name="theme-color" content="#1c1b17">'),
+        ('<h1 class="hero-headline">', '<h1 class="hero-headline titre-masque">'),
+        ("<body>", '<body class="page-partie">'),
     ):
         assert html.count(avant) == 1, avant
         html = html.replace(avant, apres)

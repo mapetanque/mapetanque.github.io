@@ -71,7 +71,8 @@
     var vue = null;                   // la partie, telle que la renvoie le Worker
     var erreur = '';                  // 'introuvable' ou 'reseau'
     var avis = null;                  // { texte, alerte, partir } : en haut de l'écran
-    var feuille = '';                 // '', 'partie', 'partager', 'menes', 'aide', 'terrains'
+    var feuille = '';                 // '', 'partie', 'partager', 'aide', 'terrains'
+    var reglages = false;             // feuille « La partie » : second écran « Modifier la partie »
     var pleinEcran = false;           // la carte occupe tout l'écran (classe plein-ecran de la zone)
     var lienCopie = false;            // « Lien copié » sous les boutons de la feuille « Partager »
     var depart = false;               // confirmation de « Quitter la partie »
@@ -111,6 +112,8 @@
         annuler: picto('<path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/>'),
         info: picto('<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>'),
         croix: picto('<path d="M18 6 6 18M6 6l12 12"/>'),
+        precedent: picto('<path d="m15 18-6-6 6-6"/>'),
+        coche: picto('<polyline points="20 6 9 17 4 12"/>'),
         oeil: picto('<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>'),
         horsligne: picto('<path d="M12 20h.01M8.5 16.43a5 5 0 0 1 7 0M2 8.82a15 15 0 0 1 4.17-2.65M10.66 5c4.01-.36 8.14.9 11.34 3.76M16.85 11.25a10 10 0 0 1 2.22 1.68M5 13a10 10 0 0 1 5.24-2.76M2 2l20 20"/>'),
         revanche: picto('<path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/>'),
@@ -326,9 +329,8 @@
             document.body.classList.remove('pc-verrou');
         }
         if (compte.session() && feuille === 'terrains') h += feuilleTerrains();
-        else if (vue && vue.moi && !vue.fin && feuille === 'partie') h += feuillePartie();
+        else if (vue && vue.moi && !vue.fin && feuille === 'partie') h += reglages ? feuilleReglages() : feuillePartie();
         else if (vue && vue.moi && !vue.fin && feuille === 'partager') h += feuillePartager();
-        else if (vue && vue.moi && !vue.fin && feuille === 'menes') h += feuilleMenes();
         else if (vue && vue.moi && !vue.fin && feuille === 'aide') h += feuilleAide();
         zone.innerHTML = h;
         gain = null;   // l'animation ne se rejoue pas au dessin suivant
@@ -363,10 +365,16 @@
         return session.pseudo || session.email || '';
     }
 
+    // Champ du code en grand, bouton dessous (écran « Rejoindre une partie », partie introuvable)
     function formulaireCode() {
-        return '<form class="pc-ligne-code" data-form="code" novalidate>'
-            + '<input type="text" class="pc-champ" id="pc-code" maxlength="4" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="K7P2" aria-label="' + echapper(libelle('pc_code_titre')) + '">'
-            + '<button type="submit" class="pc-btn ligne">' + echapper(libelle('pc_code_ok')) + '</button></form>';
+        return '<form class="pc-form-code" data-form="code" novalidate>'
+            + '<input type="text" class="pc-champ pc-champ-code" id="pc-code" maxlength="4" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="K7P2" aria-label="' + echapper(libelle('pc_code_titre')) + '">'
+            + '<button type="submit" class="pc-btn plein large">' + echapper(libelle('pc_code_ok')) + '</button></form>';
+    }
+
+    // Séparation « ou », un trait de chaque côté
+    function separationOu() {
+        return '<p class="pc-ou">' + echapper(libelle('pc_ou')) + '</p>';
     }
 
     // Sans compte : aucun accès ; la connexion ramène ici (même adresse, code compris)
@@ -376,23 +384,23 @@
             + '<h2>' + echapper(libelle('pc_connexion_titre')) + '</h2>'
             + '<p class="pc-discret">' + echapper(libelle('pc_connexion_aide')) + '</p>'
             + '<button type="button" class="pc-btn plein large" data-action="connexion">' + echapper(libelle('pc_connexion_bouton')) + '</button>'
-            + '<hr class="pc-separation">'
+            + separationOu()
             + '<p class="pc-discret">' + echapper(libelle('pc_sans_compte')) + '</p>'
-            + '<a class="pc-btn ligne" href="' + prefixe + 'compteur.html">' + echapper(libelle('pc_compteur_simple')) + '</a></div>';
+            + '<a class="pc-btn ligne large" href="' + prefixe + 'compteur.html">' + echapper(libelle('pc_compteur_simple')) + '</a></div>';
     }
 
     function ecranIntrouvable() {
         return '<div class="pc-page">' + blocAvis()
             + '<h2>' + echapper(libelle('pc_introuvable')) + '</h2>'
             + '<p class="pc-discret">' + echapper(libelle('pc_introuvable_aide')) + '</p>'
-            + '<span class="pc-lbl">' + echapper(libelle('pc_code_titre')) + '</span>' + formulaireCode()
-            + '<hr class="pc-separation">'
-            + '<button type="button" class="pc-btn plein large" data-action="nouvelle">' + echapper(libelle('pc_nouvelle')) + '</button></div>';
+            + '<div class="pc-carte"><span class="pc-lbl">' + echapper(libelle('pc_code_titre')) + '</span>' + formulaireCode() + '</div>'
+            + separationOu()
+            + '<button type="button" class="pc-btn ligne large" data-action="nouvelle">' + echapper(libelle('pc_nouvelle')) + '</button></div>';
     }
 
     function ecranReseau() {
         return '<div class="pc-page"><p class="pc-discret">' + echapper(libelle('pc_err_reseau')) + '</p>'
-            + '<button type="button" class="pc-btn plein" data-action="relire">' + echapper(libelle('pc_reessayer')) + '</button></div>';
+            + '<button type="button" class="pc-btn plein large" data-action="relire">' + echapper(libelle('pc_reessayer')) + '</button></div>';
     }
 
     // « Rejoindre une partie » (menu, lien sous le compteur) : le QR code, le lien reçu ou le code
@@ -401,10 +409,9 @@
             + '<h2>' + echapper(libelle('pc_rejoindre_partie')) + '</h2>'
             + '<p class="pc-discret">' + echapper(libelle('pc_rejoindre_aide')) + '</p>'
             + '<span class="pc-connecte">' + avatar() + echapper(libelle('pc_connecte', { pseudo: pseudoSession() })) + '</span>'
-            + '<span class="pc-lbl">' + echapper(libelle('pc_code_titre')) + '</span>' + formulaireCode()
-            + '<hr class="pc-separation">'
-            + '<p class="pc-discret">' + echapper(libelle('pc_pas_de_partie')) + '</p>'
-            + '<button type="button" class="pc-btn ligne" data-action="nouvelle">' + echapper(libelle('pc_nouvelle')) + '</button></div>';
+            + '<div class="pc-carte"><span class="pc-lbl">' + echapper(libelle('pc_code_titre')) + '</span>' + formulaireCode() + '</div>'
+            + separationOu()
+            + '<button type="button" class="pc-btn ligne large" data-action="nouvelle">' + echapper(libelle('pc_nouvelle')) + '</button></div>';
     }
 
     // Une seule partie en cours à la fois comme joueur (Worker : listerPartiesEnCours) : les autres
@@ -428,7 +435,7 @@
             details.push(quandRelatif(v.maj));
             var confirme = abandon === v.id;
             return '<div class="pc-ec"><div class="pc-ec-texte"><b>' + echapper(titre) + '</b><small>' + echapper(details.join(' · ')) + '</small></div>'
-                + '<div class="pc-ec-actions"><button type="button" class="pc-btn ligne" data-reprendre="' + echapper(v.id) + '">' + echapper(libelle('pc_reprendre')) + '</button>'
+                + '<div class="pc-ec-actions"><button type="button" class="pc-btn plein" data-reprendre="' + echapper(v.id) + '">' + echapper(libelle('pc_reprendre')) + '</button>'
                 + '<button type="button" class="pc-lien danger" data-abandonner="' + echapper(v.id) + '"' + (occupe ? ' disabled' : '') + '>'
                 + echapper(libelle(confirme ? 'pc_abandonner_ok' : 'pc_abandonner')) + '</button></div>'
                 + (confirme && v.menes.length ? '<p class="pc-petit">' + echapper(libelle('pc_abandon_aide')) + '</p>' : '') + '</div>';
@@ -437,49 +444,64 @@
             + '<p class="pc-petit">' + echapper(libelle(aide)) + '</p></div>';
     }
 
+    // Choix à pastilles (format, points) : création et « Modifier la partie »
+    function choixPastilles(attr, valeurs, actuel, nom, etiquette, bloque) {
+        return '<div class="pc-seg" role="group"' + (etiquette ? ' aria-label="' + echapper(etiquette) + '"' : '') + '>' + valeurs.map(function (v) {
+            return '<button type="button" data-' + attr + '="' + v + '" aria-pressed="' + (actuel === v) + '"' + (bloque ? ' disabled' : '') + '>' + echapper(nom(v)) + '</button>';
+        }).join('') + '</div>';
+    }
+
+    // Terrain : son nom, puis Changer / Retirer dessous ; sans terrain, un bouton pour l'ajouter
+    function blocTerrain(nom, pour, retirer) {
+        if (!nom) {
+            return '<button type="button" class="pc-btn ligne large" data-action="terrains" data-pour="' + pour + '">' + PICTOS.lieu + echapper(libelle('pc_ajouter_terrain')) + '</button>';
+        }
+        return '<div class="pc-terrain">' + PICTOS.lieu + '<span>' + echapper(nom) + '</span></div>'
+            + '<div class="pc-terrain-actions"><button type="button" class="pc-lien vert" data-action="terrains" data-pour="' + pour + '">' + echapper(libelle('pc_changer')) + '</button>'
+            + '<button type="button" class="pc-lien" data-action="' + retirer + '"' + (occupe ? ' disabled' : '') + '>' + echapper(libelle('pc_retirer')) + '</button></div>';
+    }
+
     // « Nouvelle partie » : format, 11 ou 13, terrain facultatif ; « Commencer » mène au compteur
     function ecranCreation() {
-        var seg = function (attr, valeurs, actuel, nom) {
-            return '<div class="pc-seg" role="group">' + valeurs.map(function (v) {
-                return '<button type="button" data-' + attr + '="' + v + '" aria-pressed="' + (actuel === v) + '">' + echapper(nom(v)) + '</button>';
-            }).join('') + '</div>';
-        };
-        var terrain = creation.terrain
-            ? '<div class="pc-terrain">' + PICTOS.lieu + '<span>' + echapper(creation.terrain.nom) + '</span>'
-                + '<button type="button" class="pc-lien" data-action="terrains" data-pour="creation">' + echapper(libelle('pc_changer')) + '</button>'
-                + '<button type="button" class="pc-lien" data-action="sans-terrain-creation">' + echapper(libelle('pc_retirer')) + '</button></div>'
-            : '<div class="pc-terrain"><button type="button" class="pc-btn ligne" data-action="terrains" data-pour="creation">' + PICTOS.lieu + echapper(libelle('pc_ajouter_terrain')) + '</button>'
-                + (messageTerrain ? '<span class="pc-petit">' + echapper(messageTerrain) + '</span>' : '') + '</div>';
         var ailleurs = autresEnCours('');
         return '<div class="pc-page">' + blocAvis()
             + '<span class="pc-tl">' + echapper(libelle('pc_compter')) + '</span>'
             + '<h2>' + echapper(libelle('pc_nouvelle')) + '</h2>'
             + '<span class="pc-connecte">' + avatar() + echapper(libelle('pc_connecte', { pseudo: pseudoSession() })) + '</span>'
-            + (ailleurs && ailleurs.length ? blocEnCours(ailleurs, 'pc_en_cours_aide') : formulaireCreation(seg, terrain, !ailleurs)) + '</div>';
+            + (ailleurs && ailleurs.length ? blocEnCours(ailleurs, 'pc_en_cours_aide') : formulaireCreation(!ailleurs)) + '</div>';
     }
 
     // attendre : parties en cours pas encore lues, « Commencer » attend
-    function formulaireCreation(seg, terrain, attendre) {
-        return '<span class="pc-lbl">' + echapper(libelle('pc_format')) + '</span>' + seg('creation-format', [1, 2, 3], creation.format, nomFormat)
-            + '<span class="pc-lbl">' + echapper(libelle('pc_en')) + '</span>' + seg('creation-objectif', [11, 13], creation.objectif, function (v) { return libelle('pc_points', { n: v }); })
-            + '<span class="pc-lbl">' + echapper(libelle('pc_terrain')) + ' <small>' + echapper(libelle('pc_facultatif')) + '</small></span>' + terrain
+    function formulaireCreation(attendre) {
+        return '<div class="pc-carte">'
+            + '<span class="pc-lbl">' + echapper(libelle('pc_format')) + '</span>' + choixPastilles('creation-format', [1, 2, 3], creation.format, nomFormat)
+            + '<span class="pc-lbl">' + echapper(libelle('pc_en')) + '</span>' + choixPastilles('creation-objectif', [11, 13], creation.objectif, function (v) { return libelle('pc_points', { n: v }); })
+            + '<span class="pc-lbl">' + echapper(libelle('pc_terrain')) + ' <small>' + echapper(libelle('pc_facultatif')) + '</small></span>'
+            + blocTerrain(creation.terrain ? creation.terrain.nom : '', 'creation', 'sans-terrain-creation')
+            + (messageTerrain && !creation.terrain ? '<span class="pc-petit">' + echapper(messageTerrain) + '</span>' : '')
+            + '</div>'
             + '<p class="pc-discret">' + echapper(libelle('pc_creation_aide')) + '</p>'
-            + '<button type="button" class="pc-btn plein large" data-action="commencer"' + (occupe || attendre ? ' disabled' : '') + '>' + echapper(libelle('pc_commencer')) + '</button>';
+            + '<button type="button" class="pc-btn plein large grand" data-action="commencer"' + (occupe || attendre ? ' disabled' : '') + '>' + echapper(libelle('pc_commencer')) + '</button>';
+    }
+
+    // La partie en une tuile vert tendre : format et points, terrain, puis une ligne de plus
+    // (score avant de rejoindre, code dans la feuille « La partie »)
+    function tuilePartie(suite) {
+        return '<div class="pc-tuile"><b>' + echapper(libelle('pc_format_en', { format: nomFormat(vue.format), n: vue.objectif })) + '</b>'
+            + '<span>' + (vue.terrain ? PICTOS.lieu + echapper(nomTerrain(vue.terrain)) : echapper(libelle('pc_sans_terrain'))) + '</span>'
+            + suite + '</div>';
     }
 
     // « Rejoindre une équipe » (une carte par équipe, un participant par ligne) ou « Je regarde
     // seulement ». Après la fin : une place d'invité seulement.
     function ecranRejoindre() {
         var s = score(vue.menes);
-        var infos = [libelle('pc_format_en', { format: nomFormat(vue.format), n: vue.objectif })];
-        if (vue.terrain) infos.push(nomTerrain(vue.terrain));
-        infos.push(s.a + ' – ' + s.b);
         var ailleurs = vue.fin ? [] : autresEnCours(vue.id);
         var bloque = !ailleurs || ailleurs.length > 0;
         var carte = function (e) {
             var libres = vue.invites[e];
-            var membres = vue.joueurs[e].map(function (x) { return '<span class="pc-membre">' + PICTOS.personne + echapper(nomPersonne(x)) + '</span>'; }).join('');
-            for (var i = 0; i < libres; i++) membres += '<span class="pc-membre libre">' + PICTOS.ajout + echapper(libelle('pc_place_libre')) + '</span>';
+            var membres = vue.joueurs[e].map(function (x) { return '<span class="pc-membre">' + echapper(nomPersonne(x)) + '</span>'; }).join('');
+            for (var i = 0; i < libres; i++) membres += '<span class="pc-membre libre">' + echapper(libelle('pc_place_libre')) + '</span>';
             return '<button type="button" class="pc-choix equipe" data-rejoindre="' + e + '"' + (libres && !occupe && !bloque ? '' : ' disabled') + '>'
                 + '<span class="pc-eq-tete"><i class="' + e + '"></i><b>' + echapper(titreEquipe(e)) + '</b><small>' + echapper(libelle(libres ? 'pc_rejoindre' : 'pc_complete')) + '</small></span>'
                 + '<span class="pc-membres">' + membres + '</span></button>';
@@ -487,26 +509,26 @@
         return '<div class="pc-page">' + blocAvis()
             + '<span class="pc-tl">' + echapper(libelle('pc_partie_code', { code: vue.code || codeDemande })) + '</span>'
             + '<h2>' + echapper(libelle(vue.revanche_de ? 'pc_rejoindre_revanche' : 'pc_rejoindre_titre')) + '</h2>'
-            + '<p class="pc-discret">' + echapper(infos.join(' · ')) + '</p>'
+            + tuilePartie('<span class="pc-tuile-score">' + s.a + ' – ' + s.b + '</span>')
             + (vue.fin ? '<p class="pc-discret">' + echapper(libelle('pc_apres_fin')) + '</p>' : '')
-            + '<span class="pc-connecte">' + avatar() + echapper(libelle('pc_votre_compte', { pseudo: pseudoSession() })) + '</span>'
             + (ailleurs && ailleurs.length ? blocEnCours(ailleurs, 'pc_en_cours_aide_rejoindre') : '')
             + '<span class="pc-lbl">' + echapper(libelle('pc_rejoindre_equipe')) + '</span>' + carte('a') + carte('b')
-            + (vue.fin ? '' : '<span class="pc-lbl">' + echapper(libelle('pc_ou')) + '</span>'
-                + '<button type="button" class="pc-choix" data-rejoindre="spectateur"' + (occupe ? ' disabled' : '') + '>' + PICTOS.oeil
-                + '<b>' + echapper(libelle('pc_regarder')) + '</b><span>' + echapper(libelle('pc_regarder_aide')) + '</span></button>')
+            + (vue.fin ? '' : separationOu()
+                + '<button type="button" class="pc-lien vert" data-rejoindre="spectateur"' + (occupe ? ' disabled' : '') + '>' + PICTOS.oeil + echapper(libelle('pc_regarder')) + '</button>'
+                + '<p class="pc-discret pc-sous-lien">' + echapper(libelle('pc_regarder_aide')) + '</p>')
+            + '<span class="pc-connecte pc-bas-page">' + avatar() + echapper(libelle('pc_votre_compte', { pseudo: pseudoSession() })) + '</span>'
             + '</div>';
     }
 
     function moitie(e, s, tactile) {
         var moi = vue.moi.role === 'joueur' && vue.moi.equipe === e;
         var noms = vue['nom_' + e] || nomsEquipe(e, true).join(' · ');
-        var etiquette = (moi ? '<span class="pc-vous">' + PICTOS.personne + echapper(libelle('pc_vous')) + '</span>' : '')
+        var etiquette = (moi ? '<span class="pc-vous">' + echapper(libelle('pc_vous')) + '</span>' : '')
             + '<span class="pc-noms">' + echapper(noms) + '</span>';
         var pastilles = '';
         if (tactile) {
             for (var p = 2; p <= (vue.format === 1 ? 3 : 6); p++) pastilles += '<span data-pts="' + p + '">+' + p + '</span>';
-            pastilles = '<span class="pc-plus">' + pastilles + '</span>';
+            pastilles = '<span class="pc-plus">' + pastilles + '</span><span class="pc-toucher">' + echapper(libelle('compteur_toucher')) + '</span>';
         }
         var contenu = '<span class="pc-nom-eq">' + etiquette + '</span><span class="pc-sc">' + s[e] + '</span>' + pastilles
             + (gain && gain.e === e ? '<span class="pc-gain" aria-hidden="true">+' + gain.p + '</span>' : '');
@@ -514,14 +536,16 @@
         return '<button type="button" class="pc-moitie ' + e + '" data-mene="' + e + '" aria-label="' + echapper(libelle('pc_point_pour', { equipe: noms || titreEquipe(e) })) + '">' + contenu + '</button>';
     }
 
+    // Écran de jeu : en haut, le réseau, l'aide et le plein écran ; qui marque ; les deux moitiés ;
+    // en bas « Partie », le bouton rond Annuler (ou « Prendre la main ») et « Partager »
     function ecranJeu() {
         var menes = menesAffichees();
         var s = score(menes);
         var marque = jeMarque();
         var tactile = marque && !finie(s);
         var statut = marque
-            ? '<span class="pc-pastille">' + PICTOS.crayon + echapper(libelle('pc_vous_marquez')) + '</span>'
-            : '<span class="pc-pastille fort">' + PICTOS.crayon + echapper(vue.main ? libelle('pc_marque', { pseudo: vue.main.pseudo || '?' }) : libelle('pc_personne_marque')) + '</span>';
+            ? '<p class="pc-statut">' + PICTOS.crayon + echapper(libelle('pc_vous_marquez')) + '</p>'
+            : '<p class="pc-statut autre">' + PICTOS.crayon + echapper(vue.main ? libelle('pc_marque', { pseudo: vue.main.pseudo || '?' }) : libelle('pc_personne_marque')) + '</p>';
         var enAttente = attente.id === vue.id ? attente.menes.length : 0;
         var message = '';
         if (horsLigne && enAttente) {
@@ -532,88 +556,104 @@
         var reseau = horsLigne ? '<span class="pc-hors">' + PICTOS.horsligne + echapper(libelle('pc_hors_ligne')) + '</span>'
             : (direct ? '<span class="pc-direct">' + echapper(libelle('pc_direct')) + '</span>' : '<span></span>');
         // Annuler : d'abord les mènes en attente (dans le téléphone), sinon la dernière mène du serveur
-        var premier = marque
-            ? '<button type="button" data-action="annuler"' + (!menes.length || occupe || (envoiMenes && enAttente) ? ' disabled' : '') + '>' + PICTOS.annuler + echapper(libelle('pc_annuler')) + '</button>'
-            : '<button type="button" class="fort" data-action="prendre"' + (horsLigne || occupe ? ' disabled' : '') + '>' + PICTOS.main + echapper(libelle('pc_prendre_main')) + '</button>';
+        var centre = marque
+            ? '<button type="button" class="pc-annuler" data-action="annuler" aria-label="' + echapper(libelle('pc_annuler')) + '" title="' + echapper(libelle('pc_annuler')) + '"'
+                + (!menes.length || occupe || (envoiMenes && enAttente) ? ' disabled' : '') + '>' + PICTOS.annuler + '</button>'
+            : '<button type="button" class="pc-prendre" data-action="prendre"' + (horsLigne || occupe ? ' disabled' : '') + '>' + PICTOS.main + echapper(libelle('pc_prendre_main')) + '</button>';
         return '<div class="pc-jeu' + (marque ? '' : ' suit') + '">'
-            + '<div class="pc-haut"><span>' + echapper(nomFormat(vue.format) + ' · ' + vue.objectif) + '</span><span class="pc-code">' + echapper(vue.code || '') + '</span>'
-            + '<span class="pc-droite">' + reseau
+            + '<div class="pc-haut">' + reseau + '<span class="pc-droite">'
             + '<button type="button" class="pc-icone" data-action="aide" aria-label="' + echapper(libelle('compteur_aide')) + '" title="' + echapper(libelle('compteur_aide')) + '">' + PICTOS.aide + '</button>'
             + '<button type="button" class="pc-icone" data-action="plein-ecran" aria-label="' + echapper(libelle(pleinEcran ? 'fullscreen_exit' : 'fullscreen_enter')) + '" title="' + echapper(libelle(pleinEcran ? 'fullscreen_exit' : 'fullscreen_enter')) + '">' + (pleinEcran ? PICTOS.reduire : PICTOS.agrandir) + '</button>'
             + '</span></div>'
-            + '<div class="pc-statut">' + statut + '</div>' + message
+            + statut + message
             + '<div class="pc-moities">' + moitie('a', s, tactile) + moitie('b', s, tactile) + '</div>'
-            + '<div class="pc-bas">' + premier
-            + '<button type="button" data-action="menes">' + PICTOS.liste + echapper(libelle('pc_menes')) + '</button>'
-            + '<button type="button" data-action="feuille">' + PICTOS.equipes + echapper(libelle('pc_partie')) + '</button>'
-            + '<button type="button" data-action="partager">' + PICTOS.qr + echapper(libelle('pc_partager')) + '</button></div></div>';
+            + '<div class="pc-bas">'
+            + '<button type="button" class="pc-cote" data-action="feuille">' + PICTOS.equipes + '<span>' + echapper(libelle('pc_partie')) + '</span></button>'
+            + centre
+            + '<button type="button" class="pc-cote" data-action="partager">' + PICTOS.qr + '<span>' + echapper(libelle('pc_partager')) + '</span></button></div></div>';
     }
 
-    // Feuille « La partie » : places, spectateurs, format, objectif, noms,
-    // terrain, dernière modification, « Quitter la partie »
+    // Feuille du bas : poignée, titre centré, croix à droite (et retour à gauche si besoin)
+    function enveloppeFeuille(titre, corps, retour) {
+        return '<div class="pc-voile" data-action="fermer-fond"><div class="pc-feuille" role="dialog" aria-modal="true" aria-label="' + echapper(titre) + '">'
+            + '<span class="pc-poignee" aria-hidden="true"></span>'
+            + '<div class="pc-f-tete">'
+            + (retour ? '<button type="button" class="pc-precedent" data-action="' + retour + '" aria-label="' + echapper(libelle('pc_retour')) + '">' + PICTOS.precedent + '</button>' : '')
+            + '<h3>' + echapper(titre) + '</h3><button type="button" class="pc-fermer" data-action="fermer" aria-label="' + echapper(libelle('pc_fermer')) + '">' + PICTOS.croix + '</button></div>'
+            + corps + '</div></div>';
+    }
+
+    // Feuille « La partie » : la tuile (format, terrain, code), les deux équipes l'une sous l'autre,
+    // spectateurs, « Modifier la partie », « Quitter la partie », dernière modification
     function feuillePartie() {
         var moi = vue.moi;
-        var bloc = function (e) {
-            var lignes = vue.joueurs[e].map(function (x) {
-                return '<div class="pc-place"><span><i class="pc-pt-eq ' + e + '"></i>' + echapper(nomPersonne(x)) + '</span>'
-                    + (vue.main && vue.main.cle === x.cle ? '<span class="pc-etat">' + echapper(libelle('pc_a_la_main')) + '</span>' : '') + '</div>';
-            }).join('');
-            for (var i = 0; i < vue.invites[e]; i++) lignes += '<div class="pc-place invite"><span><i class="pc-pt-eq"></i>' + echapper(libelle('pc_joueur_invite')) + '</span></div>';
+        var equipe = function (e) {
+            var noms = vue.joueurs[e].map(function (x) {
+                return '<span class="pc-qui">' + echapper(nomPersonne(x))
+                    + (vue.main && vue.main.cle === x.cle ? '<span class="pc-a-la-main">' + PICTOS.crayon + echapper(libelle('pc_a_la_main')) + '</span>' : '') + '</span>';
+            });
+            for (var i = 0; i < vue.invites[e]; i++) noms.push('<span class="pc-qui invite">' + echapper(libelle('pc_joueur_invite')) + '</span>');
             var action = '';
-            if (moi.role === 'joueur' && moi.equipe !== e && vue.invites[e]) action = '<button type="button" class="pc-lien" data-action="changer-equipe"' + (occupe ? ' disabled' : '') + '>' + PICTOS.echanger + echapper(libelle('pc_passer_equipe')) + '</button>';
-            if (moi.role === 'spectateur' && vue.invites[e]) action = '<button type="button" class="pc-lien" data-prendre-place="' + e + '"' + (occupe ? ' disabled' : '') + '>' + PICTOS.ajout + echapper(libelle('pc_prendre_place')) + '</button>';
-            return '<div class="pc-bloc"><span class="pc-lbl">' + echapper(titreEquipe(e)) + '</span><div class="pc-places">' + lignes + '</div>' + action + '</div>';
+            if (moi.role === 'joueur' && moi.equipe !== e && vue.invites[e]) action = '<button type="button" class="pc-lien vert" data-action="changer-equipe"' + (occupe ? ' disabled' : '') + '>' + PICTOS.echanger + echapper(libelle('pc_passer_equipe')) + '</button>';
+            if (moi.role === 'spectateur' && vue.invites[e]) action = '<button type="button" class="pc-lien vert" data-prendre-place="' + e + '"' + (occupe ? ' disabled' : '') + '>' + PICTOS.ajout + echapper(libelle('pc_prendre_place')) + '</button>';
+            return '<p class="pc-m-lbl ' + e + '">' + echapper(titreEquipe(e)) + '</p><p class="pc-m-noms">' + noms.join('<span class="pc-point"> · </span>') + '</p>' + action;
         };
-        var formats = [1, 2, 3].map(function (f) { return '<button type="button" data-format="' + f + '" aria-pressed="' + (vue.format === f) + '"' + (occupe ? ' disabled' : '') + '>' + echapper(nomFormat(f)) + '</button>'; }).join('');
-        var objectifs = [11, 13].map(function (o) { return '<button type="button" data-objectif="' + o + '" aria-pressed="' + (vue.objectif === o) + '"' + (occupe ? ' disabled' : '') + '>' + echapper(libelle('pc_points', { n: o })) + '</button>'; }).join('');
+        var modif = phraseModification(vue.derniere_modification);
+        var joueur = moi.role === 'joueur';
+        var partir = depart
+            ? '<div class="pc-confirme"><p>' + echapper(libelle(joueur ? 'pc_partir_joueur' : 'pc_partir_spectateur')) + '</p>'
+                + '<div class="pc-boutons"><button type="button" class="pc-btn plein danger" data-action="partir-ok"' + (occupe ? ' disabled' : '') + '>' + echapper(libelle(joueur ? 'pc_partir_ok' : 'pc_partir_ok_spectateur')) + '</button>'
+                + '<button type="button" class="pc-btn ligne" data-action="partir-non">' + echapper(libelle('pc_rester')) + '</button></div></div>'
+            : '<button type="button" class="pc-lien" data-action="partir">' + PICTOS.sortir + echapper(libelle(joueur ? 'pc_partir' : 'pc_ne_plus_suivre')) + '</button>';
+        return enveloppeFeuille(libelle('pc_feuille_titre'),
+            tuilePartie(vue.code ? '<span class="pc-tuile-code">' + echapper(vue.code) + '</span>' : '')
+            + '<div class="pc-match">' + equipe('a') + '<p class="pc-ou">' + echapper(libelle('pc_contre_seul')) + '</p>' + equipe('b') + '</div>'
+            + (refus ? '<p class="pc-refus" role="status">' + echapper(refus) + '</p>' : '')
+            + (vue.spectateurs.length ? '<p class="pc-discret">' + echapper(libelle('pc_regardent_noms', { noms: listeEt(vue.spectateurs.map(nomPersonne)) })) + '</p>' : '')
+            + '<button type="button" class="pc-btn ligne large" data-action="reglages">' + PICTOS.crayon + echapper(libelle('pc_modifier_partie')) + '</button>'
+            + partir
+            + (modif ? '<p class="pc-journal">' + echapper(modif) + '</p>' : ''));
+    }
+
+    // Second écran de la feuille : format, points, noms des équipes et terrain, enregistrés à chaque
+    // changement (comme avant) ; « Terminé » ramène à « La partie »
+    function feuilleReglages() {
         var noms = ['a', 'b'].map(function (e) {
             return '<input class="pc-champ" data-champ="nom_' + e + '" value="' + echapper(vue['nom_' + e] || '') + '" maxlength="20"'
                 + ' placeholder="' + echapper(libelle('pc_nom_placeholder', { x: e.toUpperCase(), noms: nomsEquipe(e, false).join(' · ') })) + '"'
                 + ' aria-label="' + echapper(libelle('pc_nom_aria', { x: e.toUpperCase() })) + '">';
         }).join('');
-        var terrain = '<div class="pc-terrain">' + PICTOS.lieu + '<span>' + echapper(vue.terrain ? nomTerrain(vue.terrain) : libelle('pc_sans_terrain')) + '</span>'
-            + '<button type="button" class="pc-lien" data-action="terrains" data-pour="partie">' + echapper(libelle(vue.terrain ? 'pc_changer' : 'pc_ajouter_terrain')) + '</button>'
-            + (vue.terrain ? '<button type="button" class="pc-lien" data-action="sans-terrain"' + (occupe ? ' disabled' : '') + '>' + echapper(libelle('pc_retirer')) + '</button>' : '') + '</div>'
-            + (messageTerrain && terrainPour === 'partie' ? '<span class="pc-petit">' + echapper(messageTerrain) + '</span>' : '');
-        var modif = phraseModification(vue.derniere_modification);
-        var joueur = moi.role === 'joueur';
-        var partir = depart
-            ? '<div class="pc-confirme"><p>' + echapper(libelle(joueur ? 'pc_partir_joueur' : 'pc_partir_spectateur')) + '</p>'
-                + '<div class="pc-boutons"><button type="button" class="pc-btn plein" data-action="partir-ok"' + (occupe ? ' disabled' : '') + '>' + echapper(libelle(joueur ? 'pc_partir_ok' : 'pc_partir_ok_spectateur')) + '</button>'
-                + '<button type="button" class="pc-btn ligne" data-action="partir-non">' + echapper(libelle('pc_rester')) + '</button></div></div>'
-            : '<button type="button" class="pc-lien danger" data-action="partir">' + PICTOS.sortir + echapper(libelle(joueur ? 'pc_partir' : 'pc_ne_plus_suivre')) + '</button>';
-        return '<div class="pc-voile" data-action="fermer-fond"><div class="pc-feuille" role="dialog" aria-modal="true" aria-label="' + echapper(libelle('pc_feuille_titre')) + '">'
-            + '<div class="pc-f-tete"><h3>' + echapper(libelle('pc_feuille_titre')) + '</h3><button type="button" class="pc-fermer" data-action="fermer" aria-label="' + echapper(libelle('pc_fermer')) + '">' + PICTOS.croix + '</button></div>'
-            + bloc('a') + bloc('b')
-            + (vue.spectateurs.length ? '<div class="pc-bloc"><span class="pc-lbl">' + echapper(libelle('pc_regardent')) + '</span><p class="pc-discret">' + echapper(vue.spectateurs.map(nomPersonne).join(', ')) + '</p></div>' : '')
-            + '<div class="pc-bloc"><span class="pc-lbl">' + echapper(libelle('pc_format')) + '</span><div class="pc-seg" role="group" aria-label="' + echapper(libelle('pc_format')) + '">' + formats + '</div>'
-            + '<span class="pc-lbl">' + echapper(libelle('pc_en')) + '</span><div class="pc-seg" role="group" aria-label="' + echapper(libelle('pc_en')) + '">' + objectifs + '</div>'
-            + (refus ? '<p class="pc-refus" role="status">' + echapper(refus) + '</p>' : '') + '</div>'
+        return enveloppeFeuille(libelle('pc_modifier_partie'),
+            '<div class="pc-bloc"><span class="pc-lbl">' + echapper(libelle('pc_format')) + '</span>'
+            + choixPastilles('format', [1, 2, 3], vue.format, nomFormat, libelle('pc_format'), occupe) + '</div>'
+            + '<div class="pc-bloc"><span class="pc-lbl">' + echapper(libelle('pc_en')) + '</span>'
+            + choixPastilles('objectif', [11, 13], vue.objectif, function (o) { return libelle('pc_points', { n: o }); }, libelle('pc_en'), occupe) + '</div>'
+            + (refus ? '<p class="pc-refus" role="status">' + echapper(refus) + '</p>' : '')
             + '<div class="pc-bloc"><span class="pc-lbl">' + echapper(libelle('pc_noms_equipes')) + ' <small>' + echapper(libelle('pc_facultatifs')) + '</small></span>' + noms + '</div>'
-            + '<div class="pc-bloc"><span class="pc-lbl">' + echapper(libelle('pc_terrain')) + '</span>' + terrain + '</div>'
-            + (modif ? '<p class="pc-journal">' + PICTOS.historique + '<span>' + echapper(modif) + '</span></p>' : '')
-            + partir
-            + '<button type="button" class="pc-btn plein" data-action="fermer">' + echapper(libelle('pc_ok')) + '</button></div></div>';
+            + '<div class="pc-bloc"><span class="pc-lbl">' + echapper(libelle('pc_terrain')) + '</span>'
+            + blocTerrain(vue.terrain ? nomTerrain(vue.terrain) : '', 'partie', 'sans-terrain')
+            + (messageTerrain && terrainPour === 'partie' ? '<span class="pc-petit">' + echapper(messageTerrain) + '</span>' : '') + '</div>'
+            + '<p class="pc-enregistre">' + PICTOS.coche + echapper(libelle('pc_enregistre')) + '</p>'
+            + '<button type="button" class="pc-btn plein large" data-action="reglages-fin">' + echapper(libelle('pc_termine')) + '</button>',
+            'reglages-fin');
     }
 
     // Feuille « Partager » : QR code à scanner, le code à taper, et le lien à envoyer (comme
     // l'ancien compteur) : partage du téléphone s'il existe, sinon copie
     function feuillePartager() {
-        var envoi = navigator.share ? '<button type="button" class="pc-btn plein" data-action="envoyer-lien">' + PICTOS.envoyer + echapper(libelle('compteur_envoyer_lien')) + '</button>' : '';
-        return '<div class="pc-voile" data-action="fermer-fond"><div class="pc-feuille" role="dialog" aria-modal="true" aria-label="' + echapper(libelle('compteur_partager_titre')) + '">'
-            + '<div class="pc-f-tete"><h3>' + echapper(libelle('compteur_partager_titre')) + '</h3><button type="button" class="pc-fermer" data-action="fermer" aria-label="' + echapper(libelle('pc_fermer')) + '">' + PICTOS.croix + '</button></div>'
-            + (vue.code ? '<div class="pc-partage"><div class="pc-qr" id="pc-qr"></div><div class="pc-code-court">' + echapper(vue.code) + '<small>' + echapper(libelle('pc_code_aide')) + '</small></div></div>' : '')
-            + '<div class="pc-boutons">' + envoi
-            + '<button type="button" class="pc-btn ' + (envoi ? 'ligne' : 'plein') + '" data-action="copier-lien">' + PICTOS.lien + echapper(libelle('share_copy')) + '</button></div>'
-            + (lienCopie ? '<p class="pc-copie" role="status">' + echapper(libelle('compteur_lien_copie')) + '</p>' : '')
-            + '</div></div>';
+        var envoi = navigator.share ? '<button type="button" class="pc-btn plein large" data-action="envoyer-lien">' + PICTOS.envoyer + echapper(libelle('compteur_envoyer_lien')) + '</button>' : '';
+        return enveloppeFeuille(libelle('compteur_partager_titre'),
+            (vue.code ? '<div class="pc-partage"><div class="pc-qr" id="pc-qr"></div><div class="pc-code-court">' + echapper(vue.code) + '<small>' + echapper(libelle('pc_code_aide')) + '</small></div></div>' : '')
+            + envoi
+            + '<button type="button" class="pc-btn ' + (envoi ? 'ligne' : 'plein') + ' large" data-action="copier-lien">' + PICTOS.lien + echapper(libelle('share_copy')) + '</button>'
+            + (lienCopie ? '<p class="pc-copie" role="status">' + echapper(libelle('compteur_lien_copie')) + '</p>' : ''));
     }
 
     // Feuille « Comment ça marche ? » : les gestes de la partie en ligne. Les noms des boutons sont
     // repris de leurs propres libellés.
     function feuilleAide() {
         var noms = {
-            annuler: libelle('pc_annuler'), menes: libelle('pc_menes'), prendre: libelle('pc_prendre_main'),
+            annuler: libelle('pc_annuler'), prendre: libelle('pc_prendre_main'),
             partager: libelle('pc_partager'), partie: libelle('pc_partie'), mesparties: libelle('moncompte_parties_titre')
         };
         var lignes = [
@@ -627,10 +667,9 @@
         ].map(function (x) {
             return '<li>' + x[0] + '<span><b>' + echapper(libelle(x[1])) + '</b>' + echapper(libelle(x[1] + '_texte', noms)) + '</span></li>';
         }).join('');
-        return '<div class="pc-voile" data-action="fermer-fond"><div class="pc-feuille" role="dialog" aria-modal="true" aria-label="' + echapper(libelle('compteur_aide')) + '">'
-            + '<div class="pc-f-tete"><h3>' + echapper(libelle('compteur_aide')) + '</h3><button type="button" class="pc-fermer" data-action="fermer" aria-label="' + echapper(libelle('pc_fermer')) + '">' + PICTOS.croix + '</button></div>'
-            + '<ul class="pc-aide-liste">' + lignes + '</ul>'
-            + '<button type="button" class="pc-btn plein" data-action="fermer">' + echapper(libelle('pc_ok')) + '</button></div></div>';
+        return enveloppeFeuille(libelle('compteur_aide'),
+            '<ul class="pc-aide-liste">' + lignes + '</ul>'
+            + '<button type="button" class="pc-btn plein large" data-action="fermer">' + echapper(libelle('pc_ok')) + '</button>');
     }
 
     // Plein écran : une classe sur la zone (gardée d'un dessin à l'autre) et la page bloquée derrière
@@ -641,21 +680,6 @@
         dessiner();
     }
 
-    // Mène par mène, score après chacune ; celles qui attendent le réseau en dernier
-    function feuilleMenes() {
-        var menes = menesAffichees();
-        var s = { a: 0, b: 0 };
-        var lignes = menes.map(function (m, i) {
-            s[m.e] = Math.min(vue.objectif, s[m.e] + m.p);
-            return '<li' + (i >= vue.menes.length ? ' class="attente"' : '') + '><small>' + echapper(libelle('pc_mene_n', { n: i + 1 })) + '</small>'
-                + '<span><i class="pc-pt-eq ' + m.e + '"></i> +' + m.p + ' ' + echapper(titreEquipe(m.e)) + '</span><b>' + s.a + ' – ' + s.b + '</b></li>';
-        }).reverse().join('');
-        return '<div class="pc-voile" data-action="fermer-fond"><div class="pc-feuille" role="dialog" aria-modal="true" aria-label="' + echapper(libelle('pc_menes')) + '">'
-            + '<div class="pc-f-tete"><h3>' + echapper(libelle('pc_menes')) + '</h3><button type="button" class="pc-fermer" data-action="fermer" aria-label="' + echapper(libelle('pc_fermer')) + '">' + PICTOS.croix + '</button></div>'
-            + (lignes ? '<ol class="pc-liste-menes">' + lignes + '</ol>' : '<p class="pc-discret">' + echapper(libelle('pc_menes_vide')) + '</p>')
-            + '<button type="button" class="pc-btn plein" data-action="fermer">' + echapper(libelle('pc_ok')) + '</button></div></div>';
-    }
-
     function feuilleTerrains() {
         var corps = messageTerrain
             ? '<p class="pc-discret">' + echapper(messageTerrain) + '</p>'
@@ -664,12 +688,11 @@
                     return '<button type="button" class="pc-terrain-choix" data-terrain="' + i + '">' + PICTOS.lieu + '<span>' + echapper(x.nom) + '</span><small>' + echapper(formatDistance(x.d)) + '</small></button>';
                 }).join('')
                 : '<p class="pc-discret">' + echapper(libelle('compteur_aucun_terrain')) + '</p>');
-        return '<div class="pc-voile" data-action="fermer-fond"><div class="pc-feuille" role="dialog" aria-modal="true" aria-label="' + echapper(libelle('compteur_terrains_proches')) + '">'
-            + '<div class="pc-f-tete"><h3>' + echapper(libelle('compteur_terrains_proches')) + '</h3><button type="button" class="pc-fermer" data-action="fermer" aria-label="' + echapper(libelle('pc_fermer')) + '">' + PICTOS.croix + '</button></div>'
-            + corps + '</div></div>';
+        return enveloppeFeuille(libelle('compteur_terrains_proches'), corps);
     }
 
-    // Victoire : la partie est déjà dans les historiques des joueurs
+    // Victoire : la partie est déjà dans les historiques des joueurs. Le score en grand, « Nous » et
+    // « Eux » dessous pour un joueur (les noms des équipes pour un spectateur).
     function ecranVictoire() {
         var s = score(vue.menes);
         var g = s.a >= vue.objectif ? 'a' : 'b';
@@ -677,10 +700,15 @@
         var joueur = moi.role === 'joueur';
         var mien = joueur ? moi.equipe : 'a';
         var fs = s[mien] + ' – ' + s[autre(mien)];
+        var cote = function (e, libelleCote) {
+            return '<span class="' + e + '">' + s[e] + '<small>' + echapper(libelleCote) + '</small></span>';
+        };
+        var tableau = '<p class="pc-fs">' + cote(mien, joueur ? libelle('pc_nous') : titreEquipe(mien))
+            + '<span class="pc-tiret" aria-hidden="true">–</span>' + cote(autre(mien), joueur ? libelle('pc_eux') : titreEquipe(autre(mien))) + '</p>';
         var carte;
         if (joueur && !vue.comptee) {
             // Moins de 2 minutes : une démonstration ou un essai, hors des historiques
-            carte = '<div class="pc-tete neutre">' + PICTOS.info + echapper(libelle('pc_trop_courte')) + '</div><div class="pc-gris">' + echapper(libelle('pc_trop_courte_aide')) + '</div>';
+            carte = '<div class="pc-carte-fin neutre"><b>' + PICTOS.info + echapper(libelle('pc_trop_courte')) + '</b><span>' + echapper(libelle('pc_trop_courte_aide')) + '</span></div>';
         } else if (joueur) {
             var avec = nomsEquipe(mien, true);
             var contre = nomsEquipe(autre(mien), false);
@@ -688,28 +716,27 @@
             var ligne = [libelle(mien === g ? 'pc_victoire' : 'pc_defaite') + ' ' + fs];
             if (avec.length) ligne.push(libelle('pc_avec', { noms: listeEt(avec) }));
             if (contre.length) ligne.push(libelle('pc_contre', { noms: listeEt(contre) }));
-            carte = '<div class="pc-tete">' + PICTOS.ok + echapper(libelle('pc_dans_vos_parties')) + '</div><div>' + echapper(ligne.join(' · ')) + '</div>'
-                + (autres.length ? '<div class="pc-gris">' + echapper(libelle('pc_aussi_chez', { noms: listeEt(autres) })) + '</div>' : '')
-                + '<div><a href="' + (retourClubs ? echapper(retourClubs) : prefixe + 'mes-parties.html') + '">' + echapper(libelle('pc_voir_parties')) + '</a></div>';
+            carte = '<div class="pc-carte-fin"><b>' + PICTOS.ok + echapper(libelle('pc_dans_vos_parties')) + '</b><span>' + echapper(ligne.join(' · ')) + '</span>'
+                + (autres.length ? '<span class="pc-gris">' + echapper(libelle('pc_aussi_chez', { noms: listeEt(autres) })) + '</span>' : '')
+                + '<a href="' + (retourClubs ? echapper(retourClubs) : prefixe + 'mes-parties.html') + '">' + echapper(libelle('pc_voir_parties')) + '</a></div>';
         } else {
-            carte = '<div class="pc-tete neutre">' + PICTOS.oeil + echapper(libelle('pc_regardiez')) + '</div><div class="pc-gris">' + echapper(libelle('pc_regardiez_aide')) + '</div>';
+            carte = '<div class="pc-carte-fin neutre"><b>' + PICTOS.oeil + echapper(libelle('pc_regardiez')) + '</b><span>' + echapper(libelle('pc_regardiez_aide')) + '</span></div>';
         }
         var bas;
         if (vue.revanche) {
             var vers = joueur ? 'aller-revanche' : (vue.revanche.code ? 'rejoindre-revanche' : '');
-            bas = '<div class="pc-avis clair">' + PICTOS.revanche + '<span>' + echapper(libelle('pc_revanche_lancee')) + '</span></div>'
-                + (vers ? '<button type="button" class="pc-btn plein" data-action="' + vers + '">' + echapper(libelle(joueur ? 'pc_aller_revanche' : 'pc_rejoindre_revanche')) + '</button>' : '')
-                + '<button type="button" class="pc-btn ligne" data-action="nouvelle">' + echapper(libelle('pc_nouvelle')) + '</button>';
+            bas = '<div class="pc-avis">' + PICTOS.revanche + '<span>' + echapper(libelle('pc_revanche_lancee')) + '</span></div>'
+                + (vers ? '<button type="button" class="pc-btn plein large grand" data-action="' + vers + '">' + echapper(libelle(joueur ? 'pc_aller_revanche' : 'pc_rejoindre_revanche')) + '</button>' : '')
+                + '<button type="button" class="pc-btn ligne large" data-action="nouvelle">' + echapper(libelle('pc_nouvelle')) + '</button>';
         } else {
-            bas = '<div class="pc-boutons">'
-                + (joueur ? '<button type="button" class="pc-btn plein" data-action="revanche"' + (occupe ? ' disabled' : '') + '>' + PICTOS.revanche + echapper(libelle('pc_revanche')) + '</button>' : '')
-                + '<button type="button" class="pc-btn ligne" data-action="nouvelle">' + echapper(libelle('pc_nouvelle')) + '</button></div>'
+            bas = (joueur ? '<button type="button" class="pc-btn plein large grand" data-action="revanche"' + (occupe ? ' disabled' : '') + '>' + PICTOS.revanche + echapper(libelle('pc_revanche')) + '</button>' : '')
+                + '<button type="button" class="pc-btn ligne large" data-action="nouvelle">' + echapper(libelle('pc_nouvelle')) + '</button>'
                 + (vue.annulable ? '<button type="button" class="pc-lien" data-action="annuler-point"' + (occupe ? ' disabled' : '') + '>' + PICTOS.annuler + echapper(libelle('pc_annuler_point')) + '</button>' : '');
         }
         return '<div class="pc-victoire">' + blocAvis()
             + '<span class="pc-tl">' + echapper(libelle('pc_terminee')) + '</span>'
             + '<span class="pc-gagne">' + echapper(joueur && mien === g ? libelle('pc_vous_gagnez') : phraseGagnante(g)) + '</span>'
-            + '<span class="pc-fs">' + fs + '</span><div class="pc-carte-fin">' + carte + '</div>' + bas + '</div>';
+            + tableau + carte + bas + '</div>';
     }
 
 
@@ -1317,15 +1344,17 @@
             case 'sans-terrain': modifier({ terrain: null }); break;
             case 'annuler': annuler(); break;
             case 'prendre': prendreMain(); break;
-            case 'menes': feuille = 'menes'; dessiner(); break;
             case 'aide': feuille = 'aide'; dessiner(); break;
             case 'plein-ecran': definirPleinEcran(!pleinEcran); break;
-            case 'feuille': feuille = 'partie'; refus = ''; depart = false; dessiner(); break;
+            case 'feuille': feuille = 'partie'; reglages = false; refus = ''; depart = false; dessiner(); break;
+            case 'reglages': reglages = true; refus = ''; depart = false; dessiner(); break;
+            case 'reglages-fin': reglages = false; refus = ''; messageTerrain = ''; dessiner(); break;
             case 'partager': feuille = 'partager'; lienCopie = false; dessiner(); break;
             case 'envoyer-lien': envoyerLien(); break;
             case 'copier-lien': copierLien(); break;
             case 'fermer':
                 feuille = feuille === 'terrains' && terrainPour === 'partie' ? 'partie' : '';
+                if (!feuille) reglages = false;
                 depart = false;
                 messageTerrain = '';
                 dessiner();
@@ -1358,7 +1387,7 @@
 
     zone.addEventListener('keydown', function (ev) {
         if (ev.key === 'Enter' && ev.target.dataset && ev.target.dataset.champ) ev.target.blur();
-        if (ev.key === 'Escape' && feuille) { feuille = ''; depart = false; dessiner(); }
+        if (ev.key === 'Escape' && feuille) { feuille = ''; reglages = false; depart = false; dessiner(); }
         else if (ev.key === 'Escape' && pleinEcran) definirPleinEcran(false);
     });
 
