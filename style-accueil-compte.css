@@ -400,8 +400,11 @@
 }
 @keyframes ca-pouls { 50% { opacity: 0.3; } }
 .ca-moitie { position: relative; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
-.ca-moitie.a { background: #4c7a3d; }
-.ca-moitie.b { background: #b5502e; border-top: 1px solid rgba(0, 0, 0, 0.35); }
+/* Mêmes couleurs que le compteur : vert Mapetanque et vert tendre (maquettes/sans-terre-battue/) */
+.ca-moitie.a { background: #74C15A; }
+.ca-moitie.b { background: #E7F4E1; }
+.ca-moitie.b .ca-nom-eq { color: rgba(61, 122, 42, 0.9); }
+.ca-moitie.b .ca-sc-grand { color: #3D7A2A; }
 .ca-nom-eq { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.88); }
 .ca-sc-grand { font: 700 88px/1 'Manrope', Arial, sans-serif; font-variant-numeric: tabular-nums; color: #f2ece0; }
 .ca-suivi {
@@ -427,7 +430,7 @@
 .ca-vign { flex: none; width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center; background: #E7F4E1; color: #3D7A2A; }
 .ca-vign svg { width: 17px; height: 17px; }
 .ca-vign.photo { background: linear-gradient(170deg, #9cc7e2 0 38%, #6f9a4c 38% 62%, #c9a77d 62%); }
-.ca-vign-coeur svg { fill: #B5502E; stroke: #B5502E; }
+.ca-vign-coeur svg { fill: #74C15A; stroke: #74C15A; }
 .ca-statut { flex: none; padding: 3px 8px; border-radius: 999px; font-size: 10.5px; font-weight: 700; white-space: nowrap; }
 .ca-statut.ok { background: #E7F4E1; color: #3D7A2A; }
 .ca-statut.att { background: #F7F9F6; color: #56604F; border: 1px solid #E2E6DE; }

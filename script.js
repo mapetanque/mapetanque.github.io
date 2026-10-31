@@ -1983,7 +1983,7 @@ shareCopyBtn.addEventListener('click', function () {
 // ===================== Badges Cartographe et Bouliste =====================
 // Médaillon partagé par Mon compte (mon-compte.js, classes mc-medaillon-*) et la bande
 // « contribuer » de l'accueil (accueil-contribuer.js, classes contribuer-medaillon-*) : rond vert
-// tendre, picto au trait, cinq segments terre battue (un par niveau). Voir NOTES_badges.md.
+// tendre, picto au trait, cinq segments vert Mapetanque (un par niveau). Voir NOTES_badges.md.
 const DESSINS_BADGES = {
     cartographe: '<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/>',
     bouliste: '<circle cx="10" cy="12" r="7.5"/><path d="M2.8 10.2C7 11.6 13 11.6 17.2 10.2"/><path d="M2.8 13.8C7 15.2 13 15.2 17.2 13.8"/><circle cx="20.5" cy="18.5" r="1.6"/>'

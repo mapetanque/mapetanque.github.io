@@ -6,8 +6,9 @@
 
    Page claire depuis le 31/10/2026 (maquette maquettes/partie-claire/), dans l'esprit de l'écran
    des joueurs de l'espace des clubs : fond brume, cartes blanches, une colonne centrée, peu de
-   choses par écran. Couleurs de la charte (CHARTE.md) ; vert feuillage et terre battue pour les
-   deux équipes. Le générateur pose la classe .page-partie du <body>, retire le fil d'Ariane et
+   choses par écran. Couleurs de la charte (CHARTE.md) : vert Mapetanque et vert tendre pour les
+   deux équipes (maquettes/sans-terre-battue/), terre battue pour les cas négatifs seulement
+   (hors ligne, alertes, « Quitter », « Abandonner »). Le générateur pose la classe .page-partie du <body>, retire le fil d'Ariane et
    masque le titre (.titre-masque).
 ============================================================================================= */
 
@@ -62,6 +63,8 @@ body.page-partie::before {
     --tendre: #E7F4E1;
     --terre: #B5502E;
     --terre-fonce: #9A4326;
+    /* Filtre qui passe la boule du site (vert Mapetanque) en vert feuillage */
+    --boule-feuillage: brightness(.62) saturate(1.3);
     --blanc: #FFFFFF;
     --brume: #F7F9F6;
     --ligne: #E2E6DE;
@@ -232,7 +235,7 @@ body.pc-verrou {
     50% { opacity: .3; }
 }
 
-/* Qui marque : discret, sur une ligne, vert pour soi, terre battue pour un autre */
+/* Qui marque : discret, sur une ligne, vert pour soi, gris mousse pour un autre */
 .pc-statut {
     margin: -4px 0 0;
     display: flex;
@@ -246,7 +249,7 @@ body.pc-verrou {
 }
 
 .pc-statut.autre {
-    color: var(--terre);
+    color: var(--mousse);
 }
 
 .pc-statut svg {
@@ -316,11 +319,13 @@ body.pc-verrou {
 }
 
 .pc-moitie.a {
-    background: var(--feuillage);
+    background: var(--vert);
 }
 
+/* Équipe B sur vert tendre : textes et pastilles en vert feuillage */
 .pc-moitie.b {
-    background: var(--terre);
+    background: var(--tendre);
+    color: var(--feuillage);
 }
 
 /* Écran en largeur (téléphone couché) : les deux équipes côte à côte */
@@ -367,7 +372,8 @@ button.pc-moitie:active {
 }
 
 .pc-moitie.b .pc-vous {
-    color: var(--terre);
+    background: var(--feuillage);
+    color: var(--blanc);
 }
 
 .pc-sc {
@@ -396,6 +402,15 @@ button.pc-moitie:active {
     background: rgba(255, 255, 255, .32);
 }
 
+.pc-moitie.b .pc-plus span {
+    border-color: rgba(61, 122, 42, .35);
+    background: var(--blanc);
+}
+
+.pc-moitie.b .pc-plus span:active {
+    background: var(--brume);
+}
+
 .pc-toucher {
     font: 700 12px 'Manrope', Arial, sans-serif;
     letter-spacing: .08em;
@@ -413,6 +428,11 @@ button.pc-moitie:active {
     padding: 6px 13px;
     animation: pc-envol 1.1s ease-out forwards;
     pointer-events: none;
+}
+
+.pc-moitie.b .pc-gain {
+    background: var(--feuillage);
+    color: var(--blanc);
 }
 
 @keyframes pc-envol {
@@ -512,15 +532,15 @@ button.pc-moitie:active {
 }
 
 /* --- Tirage au sort du but (comme l'espace des clubs) ------------------------------------- */
-/* À 0-0, avant le tirage : la pièce à la place du bouton rond Annuler, moitié vert feuillage,
-   moitié terre battue, avec la boule du site en blanc */
+/* À 0-0, avant le tirage : la pièce à la place du bouton rond Annuler, moitié vert Mapetanque,
+   moitié vert tendre, avec la boule du site en vert feuillage (visible sur les deux moitiés) */
 .pc-piece {
     width: 60px;
     height: 60px;
     border-radius: 50%;
     padding: 0;
     border: 3px solid var(--blanc);
-    background: linear-gradient(135deg, var(--feuillage) 50%, var(--terre) 50%);
+    background: linear-gradient(135deg, var(--vert) 50%, var(--tendre) 50%);
     box-shadow: 0 0 0 2px var(--vert), 0 3px 8px rgba(29, 38, 25, .2);
     display: inline-flex;
     align-items: center;
@@ -532,7 +552,7 @@ button.pc-moitie:active {
 .pc-piece img {
     width: 28px;
     height: 28px;
-    filter: brightness(0) invert(1);
+    filter: var(--boule-feuillage);
 }
 
 .pc-piece:active:not(:disabled) {
@@ -567,9 +587,11 @@ button.pc-moitie:active {
    remplace : sinon son fondu repart de zéro), la pièce qui saute et tourne, puis le résultat.
    Couleurs reprises du cadre, dont il ne fait pas partie. */
 .pc-tirage {
+    --vert: #74C15A;
     --feuillage: #3D7A2A;
-    --terre: #B5502E;
+    --tendre: #E7F4E1;
     --nuit: #1D2619;
+    --boule-feuillage: brightness(.62) saturate(1.3);
     position: fixed;
     inset: 0;
     z-index: 1100;   /* au-dessus du plein écran */
@@ -610,12 +632,9 @@ button.pc-moitie:active {
     min-height: 32px;
 }
 
-.pc-tirage-resultat.a {
-    color: var(--feuillage);
-}
-
+.pc-tirage-resultat.a,
 .pc-tirage-resultat.b {
-    color: var(--terre);
+    color: var(--feuillage);
 }
 
 .pc-tirage-resultat:not(:empty) {
@@ -689,11 +708,12 @@ button.pc-moitie:active {
 }
 
 .pc-tirage-face.a {
-    background: var(--feuillage);
+    background: var(--vert);
 }
 
 .pc-tirage-face.b {
-    background: var(--terre);
+    background: var(--tendre);
+    color: var(--feuillage);
 }
 
 .pc-tirage-face::before {
@@ -708,6 +728,10 @@ button.pc-moitie:active {
     width: 58px;
     height: 58px;
     filter: brightness(0) invert(1);
+}
+
+.pc-tirage-face.b img {
+    filter: var(--boule-feuillage);
 }
 
 .pc-tirage-face span {
@@ -1060,11 +1084,13 @@ button.pc-moitie:active {
 }
 
 .pc-eq-tete i.a {
-    background: var(--feuillage);
+    background: var(--vert);
 }
 
+/* Vert tendre : un contour pour rester visible sur fond blanc */
 .pc-eq-tete i.b {
-    background: var(--terre);
+    background: var(--tendre);
+    box-shadow: inset 0 0 0 1.5px var(--vert);
 }
 
 .pc-eq-tete small {
@@ -1313,19 +1339,25 @@ button.pc-moitie:active {
     gap: 3px;
 }
 
+/* Nom d'équipe en pastille, aux couleurs du compteur */
 .pc-m-lbl {
+    justify-self: start;
     margin: 0;
+    padding: 2px 9px;
+    border-radius: 999px;
     font: 800 12px 'Manrope', Arial, sans-serif;
     letter-spacing: .1em;
     text-transform: uppercase;
 }
 
 .pc-m-lbl.a {
-    color: var(--feuillage);
+    background: var(--vert);
+    color: var(--blanc);
 }
 
 .pc-m-lbl.b {
-    color: var(--terre);
+    background: var(--tendre);
+    color: var(--feuillage);
 }
 
 .pc-m-noms {
@@ -1572,12 +1604,20 @@ button.pc-moitie:active {
     text-transform: uppercase;
 }
 
+.pc-fs .a small,
+.pc-fs .b small {
+    padding: 2px 8px;
+    border-radius: 999px;
+}
+
 .pc-fs .a small {
-    color: var(--feuillage);
+    background: var(--vert);
+    color: var(--blanc);
 }
 
 .pc-fs .b small {
-    color: var(--terre);
+    background: var(--tendre);
+    color: var(--feuillage);
 }
 
 .pc-fs .pc-tiret {

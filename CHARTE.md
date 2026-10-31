@@ -79,13 +79,17 @@ Trois polices sous licence SIL OFL, hébergées sur le site (`polices/`, `police
 | Vert feuillage | `#3D7A2A` | Liens, texte vert, écriture manuscrite, messages de réussite |
 | Vert nuit | `#1D2619` | Texte principal, fonds foncés, pied de page |
 | Vert tendre | `#E7F4E1` | Pastilles, encadrés |
-| Terre battue | `#B5502E` | Accent seulement (compteur, badges), jamais un bouton principal |
+| Terre battue | `#B5502E` | Cas négatifs seulement : défaites, adversaires dans les graphiques, alertes (hors ligne, réseau), « Quitter », « Abandonner ». Jamais un bouton principal ni une équipe |
 | Blanc | `#FFFFFF` | Fond de page |
 | Brume | `#F7F9F6` | Fond de bande ou de bloc |
 | Ligne | `#E2E6DE` | Bordures, séparateurs (1 px) |
 | Gris mousse | `#56604F` | Texte secondaire |
 | Rouge erreur | `#C62828` | Messages d'erreur |
 | Bleu position | `#1976D2` | Position de l'utilisateur sur la carte |
+
+Équipes du compteur (partie en ligne, compteur simple, espace des clubs) : vert Mapetanque (texte
+blanc) et vert tendre (texte vert feuillage). Badges, cœurs et points à gagner : vert Mapetanque,
+ou vert feuillage pour les chiffres. Maquette : `maquettes/sans-terre-battue/` (31/10/2026).
 
 Correspondance avec les couleurs encore présentes dans le code :
 

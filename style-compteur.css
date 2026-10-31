@@ -1,6 +1,7 @@
 /* Widget compteur de points (compteur.html et ses versions nl/de/en), construit par compteur.js.
-   Palette et typographie propres à cet outil (vert + terracotta ; Arial, et Manrope pour les scores) :
-   seule zone du site où cette identité visuelle distincte est utilisée. */
+   Palette et typographie propres à cet outil (fond sombre ; Arial, et Manrope pour les scores) :
+   seule zone du site où cette identité visuelle distincte est utilisée. Équipes en vert Mapetanque
+   et vert tendre, comme la partie en ligne (maquettes/sans-terre-battue/). */
 
 :root{
   --bg: #1c1b17;
@@ -8,10 +9,9 @@
   --line: #3a372f;
   --sand: #f2ece0;
   --sand-dim: #a89e8c;
-  --green: #4c7a3d;
-  --green-deep: #375a2c;
-  --terracotta: #b5502e;
-  --terracotta-deep: #8a3b21;
+  --green: #74C15A;      /* vert Mapetanque : équipe A */
+  --tendre: #E7F4E1;     /* vert tendre : équipe B */
+  --feuillage: #3D7A2A;  /* textes de l'équipe B */
   --boule: #c9c2b4;
 }
 
@@ -136,7 +136,6 @@ body.fullscreen-lock {
 }
 @media (orientation: landscape){
   .halves{ flex-direction: row; }
-  .divider{ width:1px; height:100%; }
 }
 
 .team{
@@ -153,13 +152,24 @@ body.fullscreen-lock {
 }
 .team:active{ filter: brightness(1.12); }
 .team.a{ background: var(--green); }
-.team.b{ background: var(--terracotta); }
+.team.b{ background: var(--tendre); }
 
-.divider{
-  height: 1px;
-  background: rgba(0,0,0,.35);
-  flex: 0 0 auto;
-}
+/* Équipe A sur vert Mapetanque : boules en blanc. Équipe B sur vert tendre : tout en vert feuillage. */
+.team.a .boule{ background: rgba(255,255,255,.3); }
+.team.a .boule.filled{ background: #fff; box-shadow: none; }
+.team.a .hint{ color: rgba(255,255,255,.75); }
+.team.b .name{ color: rgba(61,122,42,.9); }
+.team.b .score{ color: var(--feuillage); }
+.team.b .pastille-vous{ background: var(--feuillage); color: #fff; }
+.team.b .gain{ background: var(--feuillage); color: #fff; }
+.team.b .boule{ background: rgba(61,122,42,.16); }
+.team.b .boule.filled{ background: var(--feuillage); box-shadow: none; }
+.team.b .chip{ border-color: rgba(61,122,42,.35); color: var(--feuillage); background: rgba(255,255,255,.75); }
+.team.b .hint{ color: rgba(61,122,42,.55); }
+.compteur-widget .team.b button:focus-visible, .compteur-widget button.team.b:focus-visible{ outline-color: var(--feuillage); }
+
+/* Plus de trait entre les deux équipes : vert Mapetanque et vert tendre se distinguent seuls */
+.divider{ display: none; }
 
 /* Nom de l'équipe : un bouton, qui ouvre le panneau « Équipes » */
 .name{
@@ -367,7 +377,7 @@ body.fullscreen-lock {
   transition: opacity .3s ease, background .3s ease;
 }
 .win.win-a{ background: linear-gradient(180deg, #1e2e17, #14200f); }
-.win.win-b{ background: linear-gradient(180deg, #3a2015, #26140d); }
+.win.win-b{ background: linear-gradient(180deg, #24301f, #1d2619); }
 .win .trophy-line{
   font-size: 12px; letter-spacing:.14em; text-transform:uppercase; color: var(--sand-dim);
 }
@@ -458,7 +468,7 @@ body.fullscreen-lock {
 .detail-menes .equipe{ display: flex; align-items: center; gap: 8px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .detail-menes .equipe::before{ content: ''; flex: 0 0 auto; width: 10px; height: 10px; border-radius: 50%; }
 .detail-menes .a .equipe::before{ background: var(--green); }
-.detail-menes .b .equipe::before{ background: var(--terracotta); }
+.detail-menes .b .equipe::before{ background: var(--tendre); }
 .detail-menes .points{ font-family: 'Manrope', Arial, sans-serif; font-weight: 700; }
 .detail-menes .apres{ color: var(--sand-dim); }
 .detail-vide{ color: var(--sand-dim); font-size: 14px; }
@@ -515,7 +525,7 @@ body.fullscreen-lock {
 .choix-equipe{ display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 .win .choix-equipe .lien-carte{ justify-content: center; border-radius: 10px; padding: 9px 6px; color: #fff; font-size: 13px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: block; }
 .win .choix-equipe .equipe-a{ background: var(--green); }
-.win .choix-equipe .equipe-b{ background: var(--terracotta); }
+.win .choix-equipe .equipe-b{ background: var(--tendre); color: var(--feuillage); }
 .win .choix-equipe .aucune{ grid-column: 1 / -1; font-weight: 600; background: rgba(255,255,255,.1); }
 
 /* ---------- Feuilles : « Équipes », « Ajouter un joueur », terrains proches ---------- */
@@ -555,7 +565,7 @@ body.fullscreen-lock {
 .bloc-equipe{ display: grid; gap: 6px; }
 .titre-equipe{ display: flex; align-items: center; gap: 8px; font-family: 'Manrope', Arial, sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--sand-dim); }
 .titre-equipe::before{ content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--green); }
-.bloc-equipe.b .titre-equipe::before{ background: var(--terracotta); }
+.bloc-equipe.b .titre-equipe::before{ background: var(--tendre); }
 .feuille .champ{
   background: var(--bg-soft); color: var(--sand);
   border: 1.5px solid var(--line); border-radius: 10px;
@@ -599,7 +609,7 @@ body.fullscreen-lock {
 .place-partage + .place-partage{ border-top: 1px solid var(--line); }
 .place-partage .n{ display: flex; align-items: center; gap: 8px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .place-partage .n::before{ content: ''; flex: 0 0 auto; width: 9px; height: 9px; border-radius: 50%; background: var(--green); }
-.place-partage.b .n::before{ background: var(--terracotta); }
+.place-partage.b .n::before{ background: var(--tendre); }
 .place-partage.libre{ color: var(--sand-dim); font-weight: 400; }
 .etat-place{ flex: 0 0 auto; font-size: 12.5px; font-weight: 400; color: var(--sand-dim); }
 .etat-place.ok{ color: #9fd585; font-weight: 700; }

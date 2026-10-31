@@ -203,10 +203,12 @@ a.mc-envoi:hover {
     white-space: nowrap;
 }
 
-/* En attente : terre battue en accent ; accepté ou publié : vert ; refusé : gris */
+/* En attente : contour vert Mapetanque sur blanc ; accepté ou publié : vert tendre plein ;
+   refusé : gris */
 .mc-statut.attente {
-    background: #F8E8E1;
-    color: #B5502E;
+    background: #FFFFFF;
+    color: #3D7A2A;
+    box-shadow: inset 0 0 0 1px #74C15A;
 }
 
 .mc-statut.ok {
@@ -339,7 +341,7 @@ a.mc-envoi:hover {
     background: #a91f1f;
 }
 
-/* --- Mes coups de cœur : vignette du terrain, cœur plein (terre battue), chevron --- */
+/* --- Mes coups de cœur : vignette du terrain, cœur plein (vert Mapetanque), chevron --- */
 .mc-coeur {
     align-items: center;
 }
@@ -364,8 +366,8 @@ a.mc-envoi:hover {
     width: 20px;
     height: 20px;
     display: block;
-    fill: #B5502E;
-    stroke: #B5502E;
+    fill: #74C15A;
+    stroke: #74C15A;
 }
 
 .mc-coeur-chevron {
@@ -376,9 +378,9 @@ a.mc-envoi:hover {
 }
 
 /* --- Mes badges : médaillon, nom en Caveat, barre de progression ---------------------------
-   Médaillon vert tendre avec picto au trait vert feuillage, cinq segments terre battue (un par
-   niveau). Nom en Caveat : exception de la charte pour les badges (CHARTE.md). Le terre battue
-   ne sert qu'à ce qui progresse (segments, barre). Voir NOTES_badges.md. */
+   Médaillon vert tendre avec picto au trait vert feuillage, cinq segments vert Mapetanque (un par
+   niveau). Nom en Caveat : exception de la charte pour les badges (CHARTE.md). Le vert Mapetanque
+   marque ce qui progresse (segments, barre). Voir NOTES_badges.md. */
 /* .connexion-carte empile ses enfants : ici, médaillon à gauche, texte à droite. */
 .connexion-carte.mc-badge {
     flex-direction: row;
@@ -400,7 +402,7 @@ a.mc-envoi:hover {
 }
 
 .mc-medaillon-fond { stroke: #E2E6DE; }
-.mc-medaillon-niveau { stroke: #B5502E; }
+.mc-medaillon-niveau { stroke: #74C15A; }
 .mc-medaillon-centre { fill: #E7F4E1; }
 
 .mc-medaillon-picto {
@@ -445,7 +447,7 @@ a.mc-envoi:hover {
     display: block;
     height: 100%;
     border-radius: 4px;
-    background: #B5502E;
+    background: #74C15A;
 }
 
 .mc-badge-reste {

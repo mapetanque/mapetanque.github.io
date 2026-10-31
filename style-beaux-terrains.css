@@ -405,13 +405,14 @@
 .fiche-panneau[hidden] { display: none; }
 
 /* ---- Coups de cœur (à la place des notes, voir brancherCoeur dans script.js) ----
-   Maquette : maquettes/coup-de-coeur/index.html. Cœur plein en terre battue, seul accent de la
-   charte ; contour vert dans le bouton tant qu'il n'est pas donné. */
+   Maquette : maquettes/coup-de-coeur/index.html. Cœur plein en vert Mapetanque (le terre battue est
+   réservé aux cas négatifs, maquettes/sans-terre-battue/) ; contour vert dans le bouton tant qu'il
+   n'est pas donné. */
 .coeurs-ligne { display: inline-flex; align-items: center; gap: 4px; }
-.coeurs-ligne svg { width: 14px; height: 14px; flex: none; fill: #B5502E; stroke: #B5502E; }
+.coeurs-ligne svg { width: 14px; height: 14px; flex: none; fill: #74C15A; stroke: #74C15A; }
 .tuile-coeurs { font-size: 12.5px; color: #56604F; }
 .fiche .fiche-btn-coeur[aria-pressed="true"] { background: #E7F4E1; }
-.fiche .fiche-btn-coeur[aria-pressed="true"] svg { fill: #B5502E; stroke: #B5502E; }
+.fiche .fiche-btn-coeur[aria-pressed="true"] svg { fill: #74C15A; stroke: #74C15A; }
 .fiche .fiche-btn-coeur.coeur-pop svg { animation: coeur-pop 0.3s ease-out; }
 @keyframes coeur-pop {
     50% { transform: scale(1.35); }
@@ -420,7 +421,7 @@
     .fiche .fiche-btn-coeur.coeur-pop svg { animation: none; }
 }
 .coeur-merci { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; margin-bottom: 12px; }
-.coeur-merci svg { width: 18px; height: 18px; flex: none; margin-top: 1px; fill: #B5502E; stroke: #B5502E; }
+.coeur-merci svg { width: 18px; height: 18px; flex: none; margin-top: 1px; fill: #74C15A; stroke: #74C15A; }
 .coeur-merci strong { display: block; color: #1D2619; }
 .coeur-merci small { display: block; margin-top: 2px; font-size: 12.5px; line-height: 1.4; color: #56604F; }
 .coeur-merci a { color: #3D7A2A; font-weight: 600; }
