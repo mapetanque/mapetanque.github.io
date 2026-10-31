@@ -34,22 +34,6 @@ body.page-partie {
     padding: 0;
 }
 
-/* La grande boule du logo en filigrane, dans le coin bas droit, comme l'espace des clubs. Derrière
-   tout le contenu (z-index négatif, sous le fond du body reporté sur la page). */
-body.page-partie::before {
-    content: "";
-    position: fixed;
-    right: -14vh;
-    bottom: -18vh;
-    width: min(72vh, 120vw);
-    height: min(72vh, 120vw);
-    background: url(/images/mapetanque-boule-pleine.svg) center / contain no-repeat;
-    opacity: .06;
-    transform: rotate(-18deg);
-    pointer-events: none;
-    z-index: -1;
-}
-
 .page-partie .rules-content {
     margin-top: 14px;
 }
