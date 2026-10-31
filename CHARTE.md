@@ -79,12 +79,11 @@ Trois polices sous licence SIL OFL, hébergées sur le site (`polices/`, `police
 | Vert feuillage | `#3D7A2A` | Liens, texte vert, écriture manuscrite, messages de réussite |
 | Vert nuit | `#1D2619` | Texte principal, fonds foncés, pied de page |
 | Vert tendre | `#E7F4E1` | Pastilles, encadrés |
-| Terre battue | `#B5502E` | Cas négatifs seulement : défaites, adversaires dans les graphiques, alertes (hors ligne, réseau), « Quitter », « Abandonner ». Jamais un bouton principal ni une équipe |
+| Terre battue | `#B5502E` | Cas négatifs seulement : messages d'erreur, défaites, adversaires dans les graphiques, alertes (hors ligne, réseau), « Quitter », « Abandonner », « Supprimer ». Jamais un bouton principal ni une équipe. Survol d'un bouton terre battue : `#9A4326` |
 | Blanc | `#FFFFFF` | Fond de page |
 | Brume | `#F7F9F6` | Fond de bande ou de bloc |
 | Ligne | `#E2E6DE` | Bordures, séparateurs (1 px) |
 | Gris mousse | `#56604F` | Texte secondaire |
-| Rouge erreur | `#C62828` | Messages d'erreur |
 | Bleu position | `#1976D2` | Position de l'utilisateur sur la carte |
 
 Équipes du compteur (partie en ligne, compteur simple, espace des clubs) : vert Mapetanque (texte
@@ -100,7 +99,7 @@ Correspondance avec les couleurs encore présentes dans le code :
 | `#1f2a1c`, `#1b2218`, `#333`, `#444` | Vert nuit `#1D2619` |
 | `#555` | Gris mousse `#56604F` |
 | `#eef5e9`, `#f2f8ee`, `#d9e8d2` | Vert tendre `#E7F4E1` |
-| `#b04a3a` | Rouge erreur `#C62828` |
+| `#b04a3a`, `#C62828`, `#b3261e` (ancien rouge erreur) | Terre battue `#B5502E` |
 
 ## Illustrations et pictos
 

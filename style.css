@@ -884,7 +884,7 @@ body.fullscreen-lock {
 
 .search-error {
     text-align: center;
-    color: #c62828;
+    color: #b5502e;
     font-size: 14px;
     margin: 0 0 6px;
     min-height: 6px;
@@ -2875,7 +2875,7 @@ html.menu-ouvert body {
     background: none;
     border: none;
     padding: 0;
-    color: #c62828;
+    color: #b5502e;
     font-size: 12.5px;
     text-decoration: underline;
     cursor: pointer;
@@ -2937,7 +2937,7 @@ html.menu-ouvert body {
 }
 
 .add-photo-status.success { color: #3D7A2A; font-weight: bold; }
-.add-photo-status.error { color: #c62828; font-weight: bold; }
+.add-photo-status.error { color: #b5502e; font-weight: bold; }
 .add-photo-file-hint {
     font-size: 11px;
     color: #999;
