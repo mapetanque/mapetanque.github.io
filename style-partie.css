@@ -70,7 +70,6 @@ body.page-partie::before {
     --ligne: #E2E6DE;
     --champ: #C9D1C4;
     --mousse: #56604F;
-    --rouge: #C62828;
     --attention: #FBEFEA;
     position: relative;
     max-width: 520px;
@@ -1200,7 +1199,7 @@ button.pc-moitie:active {
 }
 
 .pc-lien:hover:not(:disabled) {
-    color: var(--rouge);
+    color: var(--terre);
 }
 
 .pc-lien.vert,

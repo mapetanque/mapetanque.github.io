@@ -312,7 +312,7 @@ a.mc-envoi:hover {
 .mc-lien-danger {
     font-family: inherit;
     font-size: 13.5px;
-    color: #C62828;
+    color: #B5502E;
     background: none;
     border: none;
     padding: 0;
@@ -334,11 +334,11 @@ a.mc-envoi:hover {
 }
 
 .connexion-bouton.mc-danger {
-    background: #C62828;
+    background: #B5502E;
 }
 
 .connexion-bouton.mc-danger:hover {
-    background: #a91f1f;
+    background: #9A4326;
 }
 
 /* --- Mes coups de cœur : vignette du terrain, cœur plein (vert Mapetanque), chevron --- */

@@ -42,7 +42,7 @@
 }
 
 .mp-statut.erreur {
-    color: #C62828;
+    color: #B5502E;
 }
 
 .mp-carte {
@@ -126,7 +126,7 @@
 }
 
 .mp-btn.danger {
-    background: #C62828;
+    background: #B5502E;
     color: #fff;
 }
 
