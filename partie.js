@@ -18,6 +18,9 @@
 //     « Prendre la main ». Les mènes tapées sans réseau attendent dans le téléphone et partent au
 //     retour du réseau avec le nombre de mènes que l'on voyait ; si quelqu'un a pris la main
 //     entre-temps, le Worker les refuse et la page le dit ;
+//   - le but : à 0-0, celui qui a la main touche la pièce (à la place d'Annuler) ; le Worker tire
+//     au sort l'équipe qui lance le but, tous les écrans montrent la même pièce ; ensuite un petit
+//     cochonnet suit l'équipe qui a marqué la dernière mène (comme l'espace des clubs) ;
 //   - la victoire : la partie est déjà dans les historiques ; revanche, nouvelle partie,
 //     « Annuler le dernier point » (5 minutes au plus).
 // Routes /parties/… du Worker des comptes (section « Parties communes » de comptes/src/worker.js).
@@ -90,6 +93,13 @@
     var nomsTerrains = null;          // identifiant OSM -> nom affiché, une fois data/recherche.json lu
     var enCours = null;               // parties en cours où l'on est joueur (encadré), null tant que pas lues
     var abandon = '';                 // id de la partie dont « Abandonner » attend la confirmation
+    // Tirage au sort du but : { id, but } tel que vu à l'arrivée sur la partie, pour ne jouer la
+    // pièce qu'au moment du tirage (pas en rouvrant la page) ; { id, lance, depuis } : l'équipe au
+    // petit cochonnet, et depuis quand (il se pose quand il change d'équipe)
+    var tirageVu = null;
+    var lanceVu = null;
+    var DUREE_POSE = 450;             // ms : animation du petit cochonnet (style-partie.css, pc-but-pose)
+    var IMAGE_BOULE = '/images/mapetanque-boule-pleine.svg';
 
     // Direct
     var ws = null;
@@ -128,7 +138,8 @@
         aide: picto('<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>'),
         agrandir: picto('<path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>'),
         reduire: picto('<path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/>'),
-        lieu: picto('<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>')
+        lieu: picto('<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>'),
+        piece: picto('<circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/>')
     };
 
 
@@ -520,11 +531,27 @@
             + '</div>';
     }
 
-    function moitie(e, s, tactile) {
+    // Petit cochonnet : l'équipe tirée au sort avant la 1re mène (personne sans tirage), puis celle
+    // qui a marqué la dernière mène. Il se pose quand il change d'équipe ; un dessin pendant sa pose
+    // la reprend où elle en est (délai négatif), au lieu de la couper.
+    function equipeAuBut(menes) {
+        var lance = menes.length ? menes[menes.length - 1].e : (vue.but || null);
+        if (!lanceVu || lanceVu.id !== vue.id) lanceVu = { id: vue.id, lance: lance, depuis: 0 };
+        else if (lanceVu.lance !== lance) lanceVu = { id: vue.id, lance: lance, depuis: Date.now() };
+        return lance;
+    }
+
+    function cochonnet() {
+        var ecoule = Date.now() - lanceVu.depuis;
+        return '<span class="pc-but' + (ecoule < DUREE_POSE ? ' arrive" style="animation-delay:-' + ecoule + 'ms' : '') + '"'
+            + ' role="img" aria-label="' + echapper(libelle('pc_lance_but')) + '" title="' + echapper(libelle('pc_lance_but')) + '"></span>';
+    }
+
+    function moitie(e, s, tactile, lance) {
         var moi = vue.moi.role === 'joueur' && vue.moi.equipe === e;
         var noms = vue['nom_' + e] || nomsEquipe(e, true).join(' · ');
         var etiquette = (moi ? '<span class="pc-vous">' + echapper(libelle('pc_vous')) + '</span>' : '')
-            + '<span class="pc-noms">' + echapper(noms) + '</span>';
+            + '<span class="pc-noms">' + echapper(noms) + '</span>' + (lance === e ? cochonnet() : '');
         var pastilles = '';
         if (tactile) {
             for (var p = 2; p <= (vue.format === 1 ? 3 : 6); p++) pastilles += '<span data-pts="' + p + '">+' + p + '</span>';
@@ -555,8 +582,14 @@
         }
         var reseau = horsLigne ? '<span class="pc-hors">' + PICTOS.horsligne + echapper(libelle('pc_hors_ligne')) + '</span>'
             : (direct ? '<span class="pc-direct">' + echapper(libelle('pc_direct')) + '</span>' : '<span></span>');
-        // Annuler : d'abord les mènes en attente (dans le téléphone), sinon la dernière mène du serveur
-        var centre = marque
+        var lance = equipeAuBut(menes);
+        // Annuler : d'abord les mènes en attente (dans le téléphone), sinon la dernière mène du serveur.
+        // À 0-0, avant le tirage, la pièce à sa place (Annuler est alors grisé) ; vue.but absent :
+        // Worker pas encore à jour, pas de pièce.
+        var centre = marque && !menes.length && vue.but === null
+            ? '<button type="button" class="pc-piece" data-action="tirer" aria-label="' + echapper(libelle('pc_tirer_but')) + '" title="' + echapper(libelle('pc_tirer_but')) + '"'
+                + (occupe || horsLigne ? ' disabled' : '') + '><img src="' + IMAGE_BOULE + '" alt=""></button>'
+            : marque
             ? '<button type="button" class="pc-annuler" data-action="annuler" aria-label="' + echapper(libelle('pc_annuler')) + '" title="' + echapper(libelle('pc_annuler')) + '"'
                 + (!menes.length || occupe || (envoiMenes && enAttente) ? ' disabled' : '') + '>' + PICTOS.annuler + '</button>'
             : '<button type="button" class="pc-prendre" data-action="prendre"' + (horsLigne || occupe ? ' disabled' : '') + '>' + PICTOS.main + echapper(libelle('pc_prendre_main')) + '</button>';
@@ -566,7 +599,7 @@
             + '<button type="button" class="pc-icone" data-action="plein-ecran" aria-label="' + echapper(libelle(pleinEcran ? 'fullscreen_exit' : 'fullscreen_enter')) + '" title="' + echapper(libelle(pleinEcran ? 'fullscreen_exit' : 'fullscreen_enter')) + '">' + (pleinEcran ? PICTOS.reduire : PICTOS.agrandir) + '</button>'
             + '</span></div>'
             + statut + message
-            + '<div class="pc-moities">' + moitie('a', s, tactile) + moitie('b', s, tactile) + '</div>'
+            + '<div class="pc-moities">' + moitie('a', s, tactile, lance) + moitie('b', s, tactile, lance) + '</div>'
             + '<div class="pc-bas">'
             + '<button type="button" class="pc-cote" data-action="feuille">' + PICTOS.equipes + '<span>' + echapper(libelle('pc_partie')) + '</span></button>'
             + centre
@@ -658,6 +691,7 @@
         };
         var lignes = [
             [PICTOS.plus, 'pc_aide_marquer'],
+            [PICTOS.piece, 'pc_aide_but'],
             [PICTOS.main, 'pc_aide_main'],
             [PICTOS.qr, 'pc_aide_partager'],
             [PICTOS.equipes, 'pc_aide_partie'],
@@ -670,6 +704,84 @@
         return enveloppeFeuille(libelle('compteur_aide'),
             '<ul class="pc-aide-liste">' + lignes + '</ul>'
             + '<button type="button" class="pc-btn plein large" data-action="fermer">' + echapper(libelle('pc_ok')) + '</button>');
+    }
+
+    // Tirage au sort du but (comme l'espace des clubs, maquettes/tirage-saisie/ de son dépôt, piste
+    // « la pièce », sans confettis) : un voile par-dessus le score, la pièce saute, tourne et
+    // retombe sur l'équipe tirée par le Worker (la même sur tous les téléphones), « Nous » ou « Eux »
+    // vu d'ici, puis le résultat ; il se referme seul, ou en touchant. Le voile est hors de la zone
+    // (ajouté au body) : un dessin pendant le tirage ne le touche pas, sinon son fondu repartirait
+    // de zéro et le score apparaîtrait un instant.
+    function montrerTirage() {
+        document.querySelectorAll('.pc-tirage').forEach(function (v) { v.remove(); });
+        var but = vue.but;
+        var joueur = vue.moi.role === 'joueur';
+        // Face de départ : son équipe pour un joueur, l'équipe A pour un spectateur
+        var devant = joueur ? vue.moi.equipe : 'a';
+        var nomFace = function (e) { return joueur ? libelle(e === vue.moi.equipe ? 'pc_nous' : 'pc_eux') : titreEquipe(e); };
+        var face = function (e, dos) {
+            return '<div class="pc-tirage-face ' + e + (dos ? ' dos' : '') + (joueur ? '' : ' nom') + '"><img src="' + IMAGE_BOULE + '" alt=""><span>' + echapper(nomFace(e)) + '</span></div>';
+        };
+        var resultat = !joueur ? libelle('pc_tirage_equipe', { equipe: titreEquipe(but) })
+            : but === vue.moi.equipe ? libelle('pc_tirage_nous')
+            : libelle(vue.format === 1 ? 'pc_tirage_eux_seul' : 'pc_tirage_eux');
+        var tranches = '';
+        // Épaisseur de la pièce : des disques empilés entre les deux faces
+        for (var i = 0; i < 13; i++) tranches += '<div class="pc-tirage-tranche" style="transform:translateZ(' + (i - 6) + 'px)"></div>';
+        var voile = document.createElement('div');
+        voile.className = 'pc-tirage';
+        voile.innerHTML = '<p class="pc-tirage-titre">' + echapper(libelle('pc_tirage_titre')) + '</p>'
+            + '<div class="pc-tirage-scene" aria-hidden="true"><div class="pc-tirage-ombre"></div><div class="pc-tirage-saut"><div class="pc-tirage-piece">'
+            + tranches + face(devant, false) + face(autre(devant), true) + '</div></div></div>'
+            + '<p class="pc-tirage-resultat" role="status"></p>';
+        document.body.appendChild(voile);
+
+        var sansMouvement = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var duree = sansMouvement ? 10 : 1900;
+        // Dix demi-tours retombent sur la face de départ ; un de plus, sur l'autre
+        var angle = (sansMouvement ? 0 : 1800) + (but === devant ? 0 : 180);
+        var fini = false, minuterie = null;
+        var fermer = function () {
+            if (!fini) return;   // pas avant que la pièce soit retombée
+            fini = false;
+            clearTimeout(minuterie);
+            voile.classList.add('ferme');
+            setTimeout(function () { voile.remove(); }, sansMouvement ? 0 : 300);
+            // Le petit cochonnet se pose une fois le voile parti, là où on le voit
+            if (lanceVu && vue && lanceVu.id === vue.id && lanceVu.lance) { lanceVu.depuis = Date.now(); dessiner(); }
+        };
+        var afficherResultat = function () {
+            var r = voile.querySelector('.pc-tirage-resultat');
+            r.className = 'pc-tirage-resultat ' + but;
+            r.textContent = resultat;
+            fini = true;
+            minuterie = setTimeout(fermer, 1800);
+        };
+        voile.addEventListener('click', fermer);
+        var piece = voile.querySelector('.pc-tirage-piece');
+        if (!piece.animate) {
+            // Sans Web Animations (très vieux navigateur) : la bonne face, puis le résultat
+            piece.style.transform = 'rotateX(' + angle + 'deg)';
+            afficherResultat();
+            return;
+        }
+        var tour = piece.animate([{ transform: 'rotateX(0deg)' }, { transform: 'rotateX(' + angle + 'deg)' }],
+            { duration: duree, easing: 'cubic-bezier(.15,.6,.3,1)', fill: 'forwards' });
+        voile.querySelector('.pc-tirage-saut').animate([
+            { transform: 'translateY(0) scale(1)' },
+            { transform: 'translateY(-150px) scale(1.12)', offset: .42, easing: 'ease-in' },
+            { transform: 'translateY(0) scale(1)', offset: .78, easing: 'ease-out' },
+            { transform: 'translateY(-20px) scale(1.02)', offset: .88, easing: 'ease-in' },
+            { transform: 'translateY(0) scale(1)' }
+        ], { duration: duree, fill: 'forwards' });
+        voile.querySelector('.pc-tirage-ombre').animate([
+            { transform: 'scale(1)', opacity: 1 },
+            { transform: 'scale(.45)', opacity: .4, offset: .42 },
+            { transform: 'scale(1)', opacity: 1, offset: .78 },
+            { transform: 'scale(.9)', opacity: .9, offset: .88 },
+            { transform: 'scale(1)', opacity: 1 }
+        ], { duration: duree });
+        tour.finished.then(afficherResultat, function () { voile.remove(); });
     }
 
     // Plein écran : une classe sur la zone (gardée d'un dessin à l'autre) et la page bloquée derrière
@@ -900,7 +1012,7 @@
         return libelle({
             place_prise: 'pc_place_prise', trop_tard: 'pc_trop_tard', finie: 'pc_finie', pas_finie: 'pc_err',
             trop_de_parties: 'pc_trop_de_parties', revanche: 'pc_revanche_deja', introuvable: 'pc_introuvable',
-            deja_en_partie: 'pc_deja_en_partie'
+            deja_en_partie: 'pc_deja_en_partie', tirage_fait: 'pc_tirage_fait', commencee: 'pc_tirage_commencee'
         }[code] || 'pc_err');
     }
 
@@ -932,8 +1044,17 @@
         if (vue && vue.id !== nouvelle.id) debrancherDirect();
         // Partie qui vient de se terminer : les messages de la partie en cours n'ont plus lieu d'être
         if (vue && vue.id === nouvelle.id && !vue.fin && nouvelle.fin) avis = null;
+        // Tirage au sort du but arrivé pendant qu'on regarde la partie (de ce téléphone ou d'un
+        // autre, par le direct) : la pièce, ici comme ailleurs. Déjà fait en arrivant : rien.
+        var tirageNouveau = false;
+        if (!tirageVu || tirageVu.id !== nouvelle.id) tirageVu = { id: nouvelle.id, but: nouvelle.but || null };
+        else if (!tirageVu.but && nouvelle.but) {
+            tirageVu.but = nouvelle.but;
+            tirageNouveau = !!nouvelle.moi && !nouvelle.fin;
+        }
         vue = nouvelle;
         erreur = '';
+        if (tirageNouveau) montrerTirage();
         if (vue.moi) {
             // Inscrit ici : d'autres parties ont pu être quittées d'office, l'encadré sera relu
             enCours = null;
@@ -1112,6 +1233,21 @@
         });
     }
 
+    // La pièce : le Worker tire au sort et prévient les autres téléphones par le direct ; la partie
+    // renvoyée (avec but) lance le tirage ici (prendreVue). Refus (main prise, tirage déjà fait par
+    // un autre téléphone, mène arrivée) : la partie renvoyée et un avis.
+    function tirerBut() {
+        if (!jeMarque()) return;
+        avis = null;
+        envoyer('/parties/tirer-but', { id: vue.id }, function (r) {
+            if (r.statut === 409 && r.donnees.erreur === 'main' && r.donnees.vue) {
+                prendreVue(r.donnees.vue);
+                avis = { texte: libelle('pc_main_prise', { pseudo: vue.main ? vue.main.pseudo || '?' : '?' }), alerte: true };
+                return true;
+            }
+        });
+    }
+
     function annulerPoint() {
         avis = null;
         envoyer('/parties/annuler-point', { id: vue.id }, function (r) {
@@ -1162,7 +1298,8 @@
         if (!jeMarque()) return;
         var s = score(menesAffichees());
         if (finie(s)) return;
-        if (attente.id !== vue.id) attente = { id: vue.id, n: vue.menes.length, menes: [] };
+        // Plus rien en attente : on repart du nombre de mènes du serveur (une mène annulée l'a fait baisser)
+        if (attente.id !== vue.id || !attente.menes.length) attente = { id: vue.id, n: vue.menes.length, menes: [] };
         attente.menes.push({ e: e, p: Math.min(p, vue.objectif - s[e]), quand: Date.now() });
         ecrireAttente();
         gain = { e: e, p: p };
@@ -1343,6 +1480,7 @@
             case 'sans-terrain-creation': creation.terrain = null; dessiner(); break;
             case 'sans-terrain': modifier({ terrain: null }); break;
             case 'annuler': annuler(); break;
+            case 'tirer': tirerBut(); break;
             case 'prendre': prendreMain(); break;
             case 'aide': feuille = 'aide'; dessiner(); break;
             case 'plein-ecran': definirPleinEcran(!pleinEcran); break;
