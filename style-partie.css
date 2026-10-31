@@ -81,6 +81,29 @@ body.pc-verrou {
     overflow: hidden;
 }
 
+/* Venu de l'espace des clubs (« + » de Mes parties) : « Retour à Mes parties », au-dessus du cadre */
+.pc-retour-clubs {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 10px;
+    padding: 6px 2px;
+    color: #f2ece0;
+    font-family: 'Figtree', Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.pc-retour-clubs:hover {
+    color: #9fd585;
+}
+
+.pc-retour-clubs svg {
+    width: 18px;
+    height: 18px;
+}
+
 .partie-commune *,
 .partie-commune *::before,
 .partie-commune *::after {

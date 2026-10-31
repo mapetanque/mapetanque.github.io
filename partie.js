@@ -51,6 +51,21 @@
     var codeDemande = nettoyerCode(parametres.get('code'));
     var arriveeRevanche = parametres.has('revanche');
     var modeRejoindre = parametres.has('rejoindre');   // menu « Rejoindre une partie » : le code d'abord
+
+    // Arrivée depuis l'espace des clubs (« + » de Mes parties) : ?retour=<adresse de Mes parties>.
+    // Gardée pour cet onglet (sessionStorage), car l'adresse de la page change pendant la partie
+    // (?id=, ?code=, revanche, nouvelle partie). Elle ajoute « Retour à Mes parties » au-dessus de
+    // la partie, et « Voir mes parties » de la victoire mène à l'espace du club. Seules les adresses
+    // des clubs sont acceptées (mêmes origines que vers-clubs.js).
+    var CLE_RETOUR_CLUBS = 'mapetanque_retour_clubs';
+    var ORIGINES_CLUBS = [
+        'https://clubs.mapetanque.be',
+        'https://mapetanque-clubs.pages.dev',
+        'http://127.0.0.1:5500',   // Live Server de l'espace des clubs
+        'http://localhost:5500'
+    ];
+    var APERCU_CLUBS = /^https:\/\/[a-z0-9-]+\.mapetanque-clubs\.pages\.dev$/;
+    var retourClubs = lireRetourClubs();
     var ramenee = false;              // partie en cours retrouvée sur ce téléphone (pas demandée dans l'adresse)
 
     var vue = null;                   // la partie, telle que la renvoie le Worker
@@ -153,6 +168,19 @@
             if (valeur) localStorage.setItem(cle, JSON.stringify(valeur));
             else localStorage.removeItem(cle);
         } catch (e) { }
+    }
+
+    // Adresse de Mes parties de l'espace des clubs : celle de ?retour= si elle est valable (gardée
+    // pour l'onglet), sinon celle déjà gardée ; '' si l'on n'arrive pas de là
+    function lireRetourClubs() {
+        var brut = parametres.get('retour');
+        var url = null;
+        try { url = brut ? new URL(brut) : null; } catch (e) { }
+        if (url && !url.username && !url.password && (ORIGINES_CLUBS.indexOf(url.origin) >= 0 || APERCU_CLUBS.test(url.origin))) {
+            try { sessionStorage.setItem(CLE_RETOUR_CLUBS, url.href); } catch (e) { }
+            return url.href;
+        }
+        try { return sessionStorage.getItem(CLE_RETOUR_CLUBS) || ''; } catch (e) { return ''; }
     }
 
     function lireEnCours() {
@@ -662,7 +690,7 @@
             if (contre.length) ligne.push(libelle('pc_contre', { noms: listeEt(contre) }));
             carte = '<div class="pc-tete">' + PICTOS.ok + echapper(libelle('pc_dans_vos_parties')) + '</div><div>' + echapper(ligne.join(' · ')) + '</div>'
                 + (autres.length ? '<div class="pc-gris">' + echapper(libelle('pc_aussi_chez', { noms: listeEt(autres) })) + '</div>' : '')
-                + '<div><a href="' + prefixe + 'mes-parties.html">' + echapper(libelle('pc_voir_parties')) + '</a></div>';
+                + '<div><a href="' + (retourClubs ? echapper(retourClubs) : prefixe + 'mes-parties.html') + '">' + echapper(libelle('pc_voir_parties')) + '</a></div>';
         } else {
             carte = '<div class="pc-tete neutre">' + PICTOS.oeil + echapper(libelle('pc_regardiez')) + '</div><div class="pc-gris">' + echapper(libelle('pc_regardiez_aide')) + '</div>';
         }
@@ -1349,6 +1377,13 @@
 
 
     // --- Départ ------------------------------------------------------------------------------
+
+    // Venu de l'espace des clubs : « Retour à Mes parties », au-dessus de la partie (hors du cadre
+    // redessiné ; caché par le plein écran, qui a son propre bouton pour en sortir)
+    if (retourClubs) {
+        zone.insertAdjacentHTML('beforebegin', '<a class="pc-retour-clubs" href="' + echapper(retourClubs) + '">'
+            + picto('<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>') + '<span>' + echapper(libelle('pc_retour_clubs')) + '</span></a>');
+    }
 
     if (!compte.session()) {
         dessiner();

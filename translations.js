@@ -703,6 +703,8 @@ const translations = {
         pc_contre: "contre {noms}",
         pc_aussi_chez: "Enregistrée aussi chez {noms}.",
         pc_voir_parties: "Voir mes parties",
+        // Venu de l'espace des clubs (« + » de Mes parties) : lien au-dessus de la partie
+        pc_retour_clubs: "Retour à Mes parties",
         pc_regardiez: "Vous regardiez",
         pc_regardiez_aide: "Elle n'entre pas dans vos parties : elle est chez ses joueurs.",
         pc_revanche: "Revanche",
@@ -1728,6 +1730,8 @@ const translations = {
         pc_contre: "tegen {noms}",
         pc_aussi_chez: "Ook bewaard bij {noms}.",
         pc_voir_parties: "Mijn partijen bekijken",
+        // Venu de l'espace des clubs (« + » de Mes parties) : lien au-dessus de la partie
+        pc_retour_clubs: "Terug naar Mijn partijen",
         pc_regardiez: "U keek mee",
         pc_regardiez_aide: "Ze komt niet bij uw partijen: ze staat bij haar spelers.",
         pc_revanche: "Revanche",
@@ -2753,6 +2757,8 @@ const translations = {
         pc_contre: "gegen {noms}",
         pc_aussi_chez: "Auch bei {noms} gespeichert.",
         pc_voir_parties: "Meine Partien ansehen",
+        // Venu de l'espace des clubs (« + » de Mes parties) : lien au-dessus de la partie
+        pc_retour_clubs: "Zurück zu Meine Partien",
         pc_regardiez: "Sie haben zugeschaut",
         pc_regardiez_aide: "Sie kommt nicht zu Ihren Partien: Sie gehört ihren Spielern.",
         pc_revanche: "Revanche",
@@ -3778,6 +3784,8 @@ const translations = {
         pc_contre: "against {noms}",
         pc_aussi_chez: "Also saved in {noms}'s games.",
         pc_voir_parties: "See my games",
+        // Venu de l'espace des clubs (« + » de Mes parties) : lien au-dessus de la partie
+        pc_retour_clubs: "Back to My games",
         pc_regardiez: "You were watching",
         pc_regardiez_aide: "It isn't added to your games: it belongs to its players.",
         pc_revanche: "Rematch",
