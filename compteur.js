@@ -54,7 +54,10 @@
     plus: picto('<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>'),
     crayon: picto('<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>'),
     ok: picto('<circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/>'),
-    aide: picto('<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>')
+    aide: picto('<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>'),
+    // Mêmes pictos que la partie en ligne (partie.js) pour la barre du bas
+    annuler: picto('<path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/>'),
+    liste: picto('<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>')
   };
 
   // Feuille « Comment ça marche ? » : les gestes du compteur. Les noms des boutons sont repris de
@@ -74,8 +77,9 @@
 
   // ---------- Construction du widget ----------
 
-  // Moitié d'une équipe ('a' ou 'b'). Toucher la moitié donne +1 ; le bouton +1 caché ne sert
-  // qu'au clavier (voir .chip-un dans style-compteur.css). Toucher le nom ouvre « Noms ».
+  // Moitié d'une équipe ('a' ou 'b'), comme la partie en ligne : nom, score, pastilles +2 à +6,
+  // « Touchez pour +1 ». Toucher la moitié donne +1 ; le bouton +1 caché ne sert qu'au clavier
+  // (voir .chip-un dans style-compteur.css). Toucher le nom ouvre « Noms ».
   function moitie(equipe){
     const E = equipe.toUpperCase();
     let pastilles = '';
@@ -84,7 +88,6 @@
     <div class="team ${equipe}" id="team${E}" role="group" aria-labelledby="name${E}">
       <button type="button" class="name" id="name${E}"></button>
       <div class="score" id="score${E}">0</div>
-      <div class="boules" id="boules${E}" aria-hidden="true"></div>
       <div class="controls">${pastilles}</div>
       <div class="hint" aria-hidden="true">${libelle('compteur_toucher')}</div>
     </div>`;
@@ -114,13 +117,14 @@
     <div class="bandeau-main" id="bandeauMain" role="status" hidden></div>
   </div>
 
-  <a class="invite-compte" id="inviteCompte"></a>
-
+  <!-- En bas, comme la partie en ligne : « Mènes », le bouton rond Annuler, « Noms » -->
   <div class="bottombar">
-    <button type="button" id="undoBtn" disabled><span aria-hidden="true">↺</span> ${libelle('compteur_annuler')}</button>
-    <button type="button" id="menesBtn"><span aria-hidden="true">☰</span> ${libelle('compteur_menes')}</button>
-    <button type="button" id="nomsBtn">${PICTOS.crayon} ${libelle('compteur_noms')}</button>
+    <button type="button" class="bouton-cote" id="menesBtn">${PICTOS.liste}<span>${libelle('compteur_menes')}</span></button>
+    <button type="button" class="bouton-rond" id="undoBtn" disabled aria-label="${echapper(libelle('compteur_annuler'))}" title="${echapper(libelle('compteur_annuler'))}">${PICTOS.annuler}</button>
+    <button type="button" class="bouton-cote" id="nomsBtn">${PICTOS.crayon}<span>${libelle('compteur_noms')}</span></button>
   </div>
+
+  <a class="invite-compte" id="inviteCompte"></a>
 
   <div class="win" id="winOverlay" role="dialog" aria-modal="true" aria-labelledby="winnerName">
     <div class="confetti-field" id="confettiField"></div>
@@ -167,7 +171,6 @@
   const el = {
     teamA: $('teamA'), teamB: $('teamB'),
     scoreA: $('scoreA'), scoreB: $('scoreB'),
-    boulesA: $('boulesA'), boulesB: $('boulesB'),
     nameA: $('nameA'), nameB: $('nameB'),
     undoBtn: $('undoBtn'),
     bandeauMain: $('bandeauMain'),
@@ -250,15 +253,6 @@
 
   // ---------- Affichage ----------
 
-  function renderBoules(container, score){
-    container.innerHTML = '';
-    for(let i=0;i<state.target;i++){
-      const d = document.createElement('div');
-      d.className = 'boule' + (i < score ? ' filled' : '');
-      container.appendChild(d);
-    }
-  }
-
   function renderNom(equipe, bouton){
     bouton.innerHTML = '<span class="texte-nom">' + echapper(nom(equipe)) + '</span>';
     bouton.setAttribute('aria-label', nom(equipe) + ' — ' + libelle('compteur_noms'));
@@ -279,8 +273,6 @@
   function render(){
     el.scoreA.textContent = state.scoreA;
     el.scoreB.textContent = state.scoreB;
-    renderBoules(el.boulesA, state.scoreA);
-    renderBoules(el.boulesB, state.scoreB);
     renderNom('a', el.nameA);
     renderNom('b', el.nameB);
     renderInvite();
@@ -354,9 +346,10 @@
     el.finalScore.textContent = state.scoreA + ' – ' + state.scoreB;
     el.win.classList.remove('win-a', 'win-b');
     el.win.classList.add(aWon ? 'win-a' : 'win-b');
+    // Couleurs de la charte, visibles sur le fond clair de l'écran de fin
     const palette = aWon
-      ? ['#4c7a3d', '#f2ece0', '#c9c2b4', '#7ea968']
-      : ['#b5502e', '#f2ece0', '#c9c2b4', '#d97c53'];
+      ? ['#74C15A', '#3D7A2A', '#9FD585', '#CDB98A']
+      : ['#B5502E', '#D97C53', '#CDB98A', '#3D7A2A'];
     if(avecConfettis) launchConfetti(palette);
     else $('confettiField').innerHTML = '';
     el.win.classList.add('show');
