@@ -79,7 +79,7 @@ for langue, meta in META.items():
         # pour les autres
         fil=meta["fil"],
         contenu=contenu,
-        feuilles_sup=("/style-partie.css?v=10",),
+        feuilles_sup=("/style-partie.css?v=11",),
         # Page de passage, propre à chaque partie : sans intérêt dans un moteur de recherche
         tete_sup='<meta name="robots" content="noindex">',
         scripts_sup=("/compte.js", "/partie.js?v=12"),
