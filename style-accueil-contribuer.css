@@ -106,8 +106,8 @@
     padding: 3px 9px;
     border-radius: 999px;
     background: #fff;
-    border: 1px solid #B5502E;
-    color: #B5502E;
+    border: 1px solid #3D7A2A;
+    color: #3D7A2A;
     font-family: 'Manrope', Arial, sans-serif;
     font-weight: 700;
     font-size: 13px;
@@ -168,7 +168,7 @@
     font-family: 'Manrope', Arial, sans-serif;
     font-weight: 800;
     font-size: 24px;
-    color: #B5502E;
+    color: #3D7A2A;
 }
 .contribuer-action-points span { font-size: 12px; color: #56604F; }
 
@@ -197,7 +197,7 @@
 .contribuer-badge-texte { margin: 0; font-size: 14px; color: #56604F; }
 .contribuer-badge-resume { font-weight: 600; font-size: 14px; }
 .contribuer-badge-barre { display: block; width: 100%; height: 8px; border-radius: 4px; background: #E2E6DE; overflow: hidden; }
-.contribuer-badge-barre span { display: block; height: 100%; width: 0; border-radius: 4px; background: #B5502E; }
+.contribuer-badge-barre span { display: block; height: 100%; width: 0; border-radius: 4px; background: #74C15A; }
 .contribuer-badge-reste,
 .contribuer-badge-astuce { font-size: 13px; color: #56604F; }
 .contribuer-badge-astuce:empty { display: none; }
@@ -206,7 +206,7 @@
 .contribuer-medaillon-fond,
 .contribuer-medaillon-niveau { fill: none; stroke-width: 9; }
 .contribuer-medaillon-fond { stroke: #E2E6DE; }
-.contribuer-medaillon-niveau { stroke: #B5502E; }
+.contribuer-medaillon-niveau { stroke: #74C15A; }
 .contribuer-medaillon-centre { fill: #E7F4E1; }
 .contribuer-medaillon-picto {
     fill: none;

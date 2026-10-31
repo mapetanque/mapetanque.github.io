@@ -59,7 +59,6 @@
 .respiration-picto svg { display: block; width: 100%; height: 100%; stroke-width: 1.4; }
 .respiration-picto.vert { color: #74C15A; }
 .respiration-picto.feuillage { color: #3D7A2A; }
-.respiration-picto.terre { color: #B5502E; }
 /* 11/10/2026 (Rémy) : parapluie et vélo retirés, le banc à l'ancienne place du parapluie mais
    plus bas, l'ampoule remontée : rien n'est plus coupé depuis que la section est moins haute. */
 .respiration-picto.p1 { left: 46%;   top: -19%; transform: rotate(-12deg); }

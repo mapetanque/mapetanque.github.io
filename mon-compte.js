@@ -365,7 +365,7 @@
     // --- Mes badges ---------------------------------------------------------------------------
     // Cartographe (points des contributions acceptées) et Bouliste (parties jouées), cinq niveaux
     // chacun, calculés par le Worker. Décisions et visuel : NOTES_badges.md (médaillon vert
-    // tendre, picto au trait, cinq segments terre battue, un par niveau ; nom en Caveat).
+    // tendre, picto au trait, cinq segments vert Mapetanque, un par niveau ; nom en Caveat).
     // Le médaillon (medaillonBadge) et les badges vides (BADGES_VIDES) sont dans script.js.
 
     // « 1 point » / « 12 points » : clé_1 pour un, clé sinon ; {n} est le nombre.
