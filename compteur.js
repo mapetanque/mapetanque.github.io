@@ -3,7 +3,9 @@
 // le compteur d'avant les comptes (NOTES_parties_communes.md du dépôt privé des Workers, « Deux
 // pages, un rôle chacune » ; maquette maquettes/parties-communes/, onglet « Compteur simple »).
 // Score, 11 ou 13, Annuler, détail des mènes ; « Nous » et « Eux » se renomment pour le plaisir
-// (« Noms », gardés dans le téléphone). Un bandeau invite à se créer un compte pour enregistrer ses
+// (« Noms », gardés dans le téléphone). À 0-0, la pièce (à la place d'Annuler) tire au sort
+// l'équipe qui lance le but, ici dans le téléphone ; ensuite un petit cochonnet suit l'équipe qui a
+// marqué la dernière mène (comme la partie en ligne, partie.js). Un bandeau invite à se créer un compte pour enregistrer ses
 // parties et jouer à plusieurs : c'est partie.html, la partie en ligne.
 // Connecté, « Compter les points » mène à partie.html : la page y renvoie d'office, sauf pendant
 // une partie déjà commencée ici (elle se finit ici) ou avec ?simple=1.
@@ -57,8 +59,14 @@
     aide: picto('<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>'),
     // Mêmes pictos que la partie en ligne (partie.js) pour la barre du bas
     annuler: picto('<path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/>'),
-    liste: picto('<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>')
+    liste: picto('<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>'),
+    piece: picto('<circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/>')
   };
+
+  // Tirage au sort du but : la boule du site sur la pièce ; durée de la pose du petit cochonnet
+  // (style-compteur.css, cochonnet-pose)
+  const IMAGE_BOULE = '/images/mapetanque-boule-pleine.svg';
+  const DUREE_POSE = 450;
 
   // Feuille « Comment ça marche ? » : les gestes du compteur. Les noms des boutons sont repris de
   // leurs propres libellés.
@@ -69,6 +77,7 @@
     };
     return [
       [PICTOS.plus, 'compteur_aide_marquer'],
+      [PICTOS.piece, 'compteur_aide_but'],
       [PICTOS.crayon, 'compteur_aide_noms'],
       [PICTOS.personne, 'compteur_aide_compte'],
       [ICON_MAXIMIZE, 'compteur_aide_plein_ecran']
@@ -121,6 +130,7 @@
   <div class="bottombar">
     <button type="button" class="bouton-cote" id="menesBtn">${PICTOS.liste}<span>${libelle('compteur_menes')}</span></button>
     <button type="button" class="bouton-rond" id="undoBtn" disabled aria-label="${echapper(libelle('compteur_annuler'))}" title="${echapper(libelle('compteur_annuler'))}">${PICTOS.annuler}</button>
+    <button type="button" class="bouton-piece" id="pieceBtn" hidden aria-label="${echapper(libelle('pc_tirer_but'))}" title="${echapper(libelle('pc_tirer_but'))}"><img src="${IMAGE_BOULE}" alt=""></button>
     <button type="button" class="bouton-cote" id="nomsBtn">${PICTOS.crayon}<span>${libelle('compteur_noms')}</span></button>
   </div>
 
@@ -173,6 +183,7 @@
     scoreA: $('scoreA'), scoreB: $('scoreB'),
     nameA: $('nameA'), nameB: $('nameB'),
     undoBtn: $('undoBtn'),
+    pieceBtn: $('pieceBtn'),
     bandeauMain: $('bandeauMain'),
     inviteCompte: $('inviteCompte'),
     resetBtn: $('resetBtn'),
@@ -195,7 +206,8 @@
 
   // menes : une entrée par mène, { equipe: 'a'|'b', points, a, b, t } (a et b : score après la
   // mène ; t : secondes depuis le premier point). nameA/nameB vides = « Nous » et « Eux », dans la
-  // langue de la page ; ils restent pour la partie suivante.
+  // langue de la page ; ils restent pour la partie suivante. but : l'équipe tirée au sort pour lancer
+  // le but à la 1re mène ('a', 'b', ou null sans tirage).
   const state = {
     target: 13,
     scoreA: 0,
@@ -205,8 +217,11 @@
     nameA: '',
     nameB: '',
     debut: null,         // heure du premier point (ms)
+    but: null,
   };
   const history = [];
+  // Équipe au petit cochonnet, et depuis quand (il se pose quand il change d'équipe)
+  let lanceVu = null;
   let messageBandeau = '';
   let minuteurBandeau = null;
 
@@ -237,6 +252,7 @@
     state.scoreB = der ? Math.min(state.target, der.b) : 0;
     state.finished = state.scoreA >= state.target || state.scoreB >= state.target;
     state.debut = state.menes.length ? (Number(brut.debut) || Date.now()) : null;
+    state.but = brut.but === 'a' || brut.but === 'b' ? brut.but : null;
     const nomsParDefaut = Object.keys(translations).flatMap(l =>
       [translations[l].compteur_equipe_a, translations[l].compteur_equipe_b, translations[l].compteur_nous, translations[l].compteur_eux]);
     ['nameA', 'nameB'].forEach(k => {
@@ -253,9 +269,26 @@
 
   // ---------- Affichage ----------
 
-  function renderNom(equipe, bouton){
-    bouton.innerHTML = '<span class="texte-nom">' + echapper(nom(equipe)) + '</span>';
-    bouton.setAttribute('aria-label', nom(equipe) + ' — ' + libelle('compteur_noms'));
+  // Petit cochonnet : l'équipe tirée au sort avant la 1re mène (personne sans tirage), puis celle
+  // qui a marqué la dernière mène. Il se pose quand il change d'équipe ; chaque render() redessine
+  // le nom, un render() pendant la pose la reprend où elle en est (délai négatif), sans la couper.
+  // Au chargement de la page, il est déjà posé.
+  function equipeAuBut(){
+    const der = state.menes[state.menes.length - 1];
+    const lance = der ? der.equipe : state.but;
+    if (!lanceVu) lanceVu = { lance, depuis: 0 };
+    else if (lanceVu.lance !== lance) lanceVu = { lance, depuis: Date.now() };
+    return lance;
+  }
+
+  function cochonnet(){
+    const ecoule = Date.now() - lanceVu.depuis;
+    return '<span class="cochonnet' + (ecoule < DUREE_POSE ? ' arrive" style="animation-delay:-' + ecoule + 'ms' : '') + '" aria-hidden="true"></span>';
+  }
+
+  function renderNom(equipe, bouton, lance){
+    bouton.innerHTML = '<span class="texte-nom">' + echapper(nom(equipe)) + '</span>' + (lance === equipe ? cochonnet() : '');
+    bouton.setAttribute('aria-label', nom(equipe) + (lance === equipe ? ', ' + libelle('pc_lance_but').toLowerCase() : '') + ' — ' + libelle('compteur_noms'));
   }
 
   // Bandeau sous le score : sans compte, l'invitation à s'en créer un (connexion, puis la partie
@@ -273,8 +306,14 @@
   function render(){
     el.scoreA.textContent = state.scoreA;
     el.scoreB.textContent = state.scoreB;
-    renderNom('a', el.nameA);
-    renderNom('b', el.nameB);
+    const lance = equipeAuBut();
+    renderNom('a', el.nameA, lance);
+    renderNom('b', el.nameB, lance);
+    // À 0-0, avant le tirage : la pièce à la place d'Annuler. Le tirage n'entre pas dans Annuler
+    // (comme la partie en ligne) : après lui, Annuler ramène encore une partie remise à zéro.
+    const avantTirage = !state.menes.length && !state.but;
+    el.pieceBtn.hidden = !avantTirage;
+    el.undoBtn.hidden = avantTirage;
     renderInvite();
     [...el.targetToggle.children].forEach(btn=>{
       const actif = Number(btn.dataset.t) === state.target;
@@ -431,9 +470,93 @@
     if(state.finished) afficherVictoire(false);
   }
 
+  // ---------- Tirage au sort du but ----------
+
+  // La pièce : tire au sort l'équipe qui lance le but, dans le téléphone (rien n'est envoyé)
+  function tirerBut(){
+    if (state.finished || state.menes.length || state.but) return;
+    const focusPiece = document.activeElement === el.pieceBtn;
+    state.but = Math.random() < 0.5 ? 'a' : 'b';
+    render();
+    if (focusPiece) el.undoBtn.focus({ preventScroll: true });
+    montrerTirage();
+  }
+
+  // Le tirage, comme montrerTirage() de partie.js (garder les deux pareils) : un voile par-dessus
+  // le compteur, la pièce saute, tourne et retombe sur l'équipe tirée (face « Nous » devant au
+  // départ), puis le résultat ; il se referme seul, ou en touchant. Le voile est ajouté au body,
+  // au-dessus du plein écran.
+  function montrerTirage(){
+    document.querySelectorAll('.compteur-tirage').forEach(v => v.remove());
+    const but = state.but;
+    const face = (e, dos) => '<div class="compteur-tirage-face ' + e + (dos ? ' dos' : '') + (state['name' + e.toUpperCase()] ? ' nom' : '') + '">'
+      + '<img src="' + IMAGE_BOULE + '" alt=""><span>' + echapper(nom(e)) + '</span></div>';
+    const resultat = state['name' + but.toUpperCase()] ? libelle('pc_tirage_equipe', { equipe: nom(but) })
+      : libelle(but === 'a' ? 'pc_tirage_nous' : 'pc_tirage_eux');
+    let tranches = '';
+    // Épaisseur de la pièce : des disques empilés entre les deux faces
+    for (let i = 0; i < 13; i++) tranches += '<div class="compteur-tirage-tranche" style="transform:translateZ(' + (i - 6) + 'px)"></div>';
+    const voile = document.createElement('div');
+    voile.className = 'compteur-tirage';
+    voile.innerHTML = '<p class="compteur-tirage-titre">' + echapper(libelle('pc_tirage_titre')) + '</p>'
+      + '<div class="compteur-tirage-scene" aria-hidden="true"><div class="compteur-tirage-ombre"></div><div class="compteur-tirage-saut"><div class="compteur-tirage-piece">'
+      + tranches + face('a', false) + face('b', true) + '</div></div></div>'
+      + '<p class="compteur-tirage-resultat" role="status"></p>';
+    document.body.appendChild(voile);
+
+    const sansMouvement = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const duree = sansMouvement ? 10 : 1900;
+    // Dix demi-tours retombent sur la face de départ (« Nous ») ; un de plus, sur l'autre
+    const angle = (sansMouvement ? 0 : 1800) + (but === 'a' ? 0 : 180);
+    let fini = false, minuterie = null;
+    const fermer = () => {
+      if (!fini) return;   // pas avant que la pièce soit retombée
+      fini = false;
+      clearTimeout(minuterie);
+      voile.classList.add('ferme');
+      setTimeout(() => voile.remove(), sansMouvement ? 0 : 300);
+      // Le petit cochonnet se pose une fois le voile parti, là où on le voit
+      if (lanceVu && lanceVu.lance && state.but === but && !state.menes.length) { lanceVu.depuis = Date.now(); render(); }
+    };
+    const afficherResultat = () => {
+      const r = voile.querySelector('.compteur-tirage-resultat');
+      r.className = 'compteur-tirage-resultat ' + but;
+      r.textContent = resultat;
+      fini = true;
+      minuterie = setTimeout(fermer, 1800);
+    };
+    voile.addEventListener('click', fermer);
+    const piece = voile.querySelector('.compteur-tirage-piece');
+    if (!piece.animate) {
+      // Sans Web Animations (très vieux navigateur) : la bonne face, puis le résultat
+      piece.style.transform = 'rotateX(' + angle + 'deg)';
+      afficherResultat();
+      return;
+    }
+    const tour = piece.animate([{ transform: 'rotateX(0deg)' }, { transform: 'rotateX(' + angle + 'deg)' }],
+      { duration: duree, easing: 'cubic-bezier(.15,.6,.3,1)', fill: 'forwards' });
+    voile.querySelector('.compteur-tirage-saut').animate([
+      { transform: 'translateY(0) scale(1)' },
+      { transform: 'translateY(-150px) scale(1.12)', offset: .42, easing: 'ease-in' },
+      { transform: 'translateY(0) scale(1)', offset: .78, easing: 'ease-out' },
+      { transform: 'translateY(-20px) scale(1.02)', offset: .88, easing: 'ease-in' },
+      { transform: 'translateY(0) scale(1)' }
+    ], { duration: duree, fill: 'forwards' });
+    voile.querySelector('.compteur-tirage-ombre').animate([
+      { transform: 'scale(1)', opacity: 1 },
+      { transform: 'scale(.45)', opacity: .4, offset: .42 },
+      { transform: 'scale(1)', opacity: 1, offset: .78 },
+      { transform: 'scale(.9)', opacity: .9, offset: .88 },
+      { transform: 'scale(1)', opacity: 1 }
+    ], { duration: duree });
+    tour.finished.then(afficherResultat, () => voile.remove());
+  }
+
   // Remise à zéro annulable (on ne vide pas l'historique) : un toucher malheureux sur
   // « Nouvelle partie » ou sur 11/13 ne fait pas perdre la partie en cours. Les noms restent.
+  // Passer de 13 à 11 (ou l'inverse) avant la 1re mène garde le tirage au sort du but.
   function newGame(nouvelleCible){
+    const garderTirage = nouvelleCible && !state.menes.length;
     if(state.scoreA || state.scoreB || state.menes.length) snapshot();
     if(nouvelleCible) state.target = nouvelleCible;
     state.scoreA = 0;
@@ -441,6 +564,7 @@
     state.menes = [];
     state.finished = false;
     state.debut = null;
+    if (!garderTirage) state.but = null;
     cacherVictoire();
     render();
     annoncerScore();
@@ -468,6 +592,7 @@
   });
 
   el.undoBtn.addEventListener('click', undo);
+  el.pieceBtn.addEventListener('click', tirerBut);
   $('undoWinBtn').addEventListener('click', undo);
   el.resetBtn.addEventListener('click', ()=> newGame());
   el.playAgainBtn.addEventListener('click', ()=> newGame());

@@ -520,6 +520,9 @@ const translations = {
         compteur_aide_compte_texte: "Vos parties s'enregistrent toutes seules dans {mesparties}, et les autres joueurs rejoignent la partie avec un QR code pour suivre le score en direct.",
         compteur_aide_marquer: "Marquer les points",
         compteur_aide_marquer_texte: "Touchez la moitié d'une équipe pour +1, ou les pastilles +2 à +6. « {annuler} » retire le dernier point, « {menes} » montre le détail de la partie.",
+        // Tirage au sort du but (compteur.js ; textes de la pièce : clés pc_tirage_* de la partie en ligne)
+        compteur_aide_but: "Qui lance le but",
+        compteur_aide_but_texte: "À 0-0, touchez la pièce en bas : elle tire au sort l'équipe qui lance le but. Ensuite, le petit cochonnet suit l'équipe qui a marqué la dernière mène.",
         compteur_aide_equipes: "Équipes et joueurs",
         compteur_aide_equipes_texte: "Touchez « {equipes} » ou le nom d'une équipe : tête-à-tête, doublette ou triplette, nom des équipes, joueurs. Connecté, « {changer} » vous fait passer dans l'autre équipe.",
         compteur_aide_seul: "Une seule personne crée la partie",
@@ -1567,6 +1570,9 @@ const translations = {
         compteur_aide_compte_texte: "Uw partijen worden vanzelf bewaard in {mesparties}, en de andere spelers doen mee met een QR-code om de stand live te volgen.",
         compteur_aide_marquer: "Punten tellen",
         compteur_aide_marquer_texte: "Tik op de helft van een team voor +1, of op de knoppen +2 tot +6. „{annuler}” wist het laatste punt, „{menes}” toont het verloop van de partij.",
+        // Tirage au sort du but (compteur.js ; textes de la pièce : clés pc_tirage_* de la partie en ligne)
+        compteur_aide_but: "Wie werpt het but",
+        compteur_aide_but_texte: "Bij 0-0 tikt u op het muntstuk onderaan: het loot welk team het but werpt. Daarna volgt het kleine but het team dat de laatste ronde won.",
         compteur_aide_equipes: "Teams en spelers",
         compteur_aide_equipes_texte: "Tik op „{equipes}” of op de naam van een team: spelvorm, teamnamen, spelers. Aangemeld zet „{changer}” u in het andere team.",
         compteur_aide_seul: "Eén persoon maakt de partij aan",
@@ -2614,6 +2620,9 @@ const translations = {
         compteur_aide_compte_texte: "Ihre Partien werden von selbst in {mesparties} gespeichert, und die anderen Spieler treten mit einem QR-Code bei, um den Stand live zu verfolgen.",
         compteur_aide_marquer: "Punkte zählen",
         compteur_aide_marquer_texte: "Tippen Sie auf die Hälfte eines Teams für +1 oder auf die Knöpfe +2 bis +6. „{annuler}“ nimmt den letzten Punkt zurück, „{menes}“ zeigt den Verlauf der Partie.",
+        // Tirage au sort du but (compteur.js ; textes de la pièce : clés pc_tirage_* de la partie en ligne)
+        compteur_aide_but: "Wer das Cochonnet wirft",
+        compteur_aide_but_texte: "Bei 0:0 tippen Sie auf die Münze unten: Sie lost aus, welches Team das Cochonnet wirft. Danach folgt das kleine Cochonnet dem Team, das die letzte Aufnahme gewonnen hat.",
         compteur_aide_equipes: "Teams und Spieler",
         compteur_aide_equipes_texte: "Tippen Sie auf „{equipes}“ oder auf einen Teamnamen: Tête-à-tête, Doublette oder Triplette, Teamnamen, Spieler. Angemeldet wechseln Sie mit „{changer}“ ins andere Team.",
         compteur_aide_seul: "Nur eine Person legt die Partie an",
@@ -3661,6 +3670,9 @@ const translations = {
         compteur_aide_compte_texte: "Your games are saved automatically in {mesparties}, and the other players join the game with a QR code to follow the score live.",
         compteur_aide_marquer: "Scoring",
         compteur_aide_marquer_texte: "Tap a team's half for +1, or the +2 to +6 buttons. “{annuler}” removes the last point, “{menes}” shows the game's details.",
+        // Tirage au sort du but (compteur.js ; textes de la pièce : clés pc_tirage_* de la partie en ligne)
+        compteur_aide_but: "Who throws the jack",
+        compteur_aide_but_texte: "At 0-0, tap the coin at the bottom: it draws which team throws the jack. After that, the small jack follows the team that won the last end.",
         compteur_aide_equipes: "Teams and players",
         compteur_aide_equipes_texte: "Tap “{equipes}” or a team name: game format, team names, players. When signed in, “{changer}” moves you to the other team.",
         compteur_aide_seul: "Only one person creates the game",
