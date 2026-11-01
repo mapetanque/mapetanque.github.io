@@ -6846,6 +6846,13 @@
       "credit_url": "https://www.mapillary.com/map/im/1978009276277990"
     }
   ],
+  "way/1573788658": [
+    {
+      "mapillary_id": "2908679229517658",
+      "credit_url": "https://www.mapillary.com/app/?pKey=2908679229517658&focus=photo&x=0.3213394098399416&y=0.5240716103723881&zoom=0",
+      "miniature_locale": "/images/mapillary-360/2908679229517658-20261031145951.webp"
+    }
+  ],
   "node/14273172910": [
     {
       "id_local": "visiteur-915",
