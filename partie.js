@@ -563,16 +563,16 @@
         return '<button type="button" class="pc-moitie ' + e + '" data-mene="' + e + '" aria-label="' + echapper(libelle('pc_point_pour', { equipe: noms || titreEquipe(e) })) + '">' + contenu + '</button>';
     }
 
-    // Écran de jeu : en haut, le réseau, l'aide et le plein écran ; qui marque ; les deux moitiés ;
+    // Écran de jeu : en haut, le réseau, l'aide et le plein écran ; qui marque (seulement pour ceux
+    // qui suivent : celui qui marque le sait) ; les deux moitiés ;
     // en bas « Partie », le bouton rond Annuler (ou « Prendre la main ») et « Partager »
     function ecranJeu() {
         var menes = menesAffichees();
         var s = score(menes);
         var marque = jeMarque();
         var tactile = marque && !finie(s);
-        var statut = marque
-            ? '<p class="pc-statut">' + PICTOS.crayon + echapper(libelle('pc_vous_marquez')) + '</p>'
-            : '<p class="pc-statut autre">' + PICTOS.crayon + echapper(vue.main ? libelle('pc_marque', { pseudo: vue.main.pseudo || '?' }) : libelle('pc_personne_marque')) + '</p>';
+        var statut = marque ? ''
+            : '<p class="pc-statut">' + PICTOS.crayon + echapper(vue.main ? libelle('pc_marque', { pseudo: vue.main.pseudo || '?' }) : libelle('pc_personne_marque')) + '</p>';
         var enAttente = attente.id === vue.id ? attente.menes.length : 0;
         var message = '';
         if (horsLigne && enAttente) {

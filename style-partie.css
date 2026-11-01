@@ -221,7 +221,7 @@ body.pc-verrou {
     50% { opacity: .3; }
 }
 
-/* Qui marque : discret, sur une ligne, vert pour soi, gris mousse pour un autre */
+/* Qui marque (pour ceux qui suivent la partie) : discret, sur une ligne, gris mousse */
 .pc-statut {
     margin: -4px 0 0;
     display: flex;
@@ -230,12 +230,8 @@ body.pc-verrou {
     gap: 6px;
     font-weight: 600;
     font-size: 14px;
-    color: var(--feuillage);
-    text-align: center;
-}
-
-.pc-statut.autre {
     color: var(--mousse);
+    text-align: center;
 }
 
 .pc-statut svg {
