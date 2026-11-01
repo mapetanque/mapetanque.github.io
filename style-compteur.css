@@ -22,6 +22,7 @@
   --ligne: #E2E6DE;
   --champ: #C9D1C4;
   --mousse: #56604F;
+  --boule-feuillage: brightness(.62) saturate(1.3);   /* boule du site en vert feuillage */
 
   position: relative;
   max-width: 520px;
@@ -192,6 +193,20 @@ body.fullscreen-lock{ overflow: hidden; }
 }
 .name .texte-nom{ overflow: hidden; text-overflow: ellipsis; }
 
+/* Petit cochonnet à côté du nom de l'équipe qui lance le but à cette mène (tirée au sort, puis
+   celle qui a marqué la mène d'avant), comme .pc-but de style-partie.css. Il se pose quand il
+   change d'équipe. */
+.cochonnet{
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #FFFFFF, #F1E6C8 45%, #CDB98A);
+  box-shadow: 0 1px 3px rgba(0,0,0,.35);
+}
+.cochonnet.arrive{ animation: cochonnet-pose .45s cubic-bezier(.2, 1.8, .4, 1) both; }
+@keyframes cochonnet-pose{ from{ transform: scale(0); } }
+
 .score{
   font: 800 min(15vh, 30vw)/1 'Manrope', Arial, sans-serif;
   font-variant-numeric: tabular-nums;
@@ -316,6 +331,132 @@ body.fullscreen-lock{ overflow: hidden; }
 .bouton-rond svg{ width: 28px; height: 28px; }
 .bouton-rond:active:not(:disabled){ background: var(--tendre); }
 .bouton-rond:disabled{ opacity: .35; cursor: default; }
+/* À 0-0, avant le tirage au sort du but : la pièce à la place d'Annuler, moitié vert Mapetanque,
+   moitié vert tendre, avec la boule du site en vert feuillage (comme .pc-piece de la partie en
+   ligne) */
+.bouton-piece{
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  padding: 0;
+  border: 3px solid var(--blanc);
+  background: linear-gradient(135deg, var(--vert) 50%, var(--tendre) 50%);
+  box-shadow: 0 0 0 2px var(--vert), 0 3px 8px rgba(29,38,25,.2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.bouton-piece img{ width: 28px; height: 28px; filter: var(--boule-feuillage); }
+.bouton-piece:active{ transform: scale(.94); }
+.bouton-rond[hidden], .bouton-piece[hidden]{ display: none; }
+
+/* Le tirage : un voile par-dessus le compteur, ajouté au body (au-dessus du plein écran), la pièce
+   qui saute et tourne, puis le résultat. Copie de .pc-tirage de style-partie.css (garder les deux
+   pareils) ; couleurs reprises du compteur, dont il ne fait pas partie. */
+.compteur-tirage{
+  --vert: #74C15A;
+  --feuillage: #3D7A2A;
+  --tendre: #E7F4E1;
+  --nuit: #1D2619;
+  --boule-feuillage: brightness(.62) saturate(1.3);
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 16px;
+  background: rgba(247,249,246,.9);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  color: var(--nuit);
+  animation: compteur-fondu-entree .2s ease-out both;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.compteur-tirage *{ box-sizing: border-box; }
+.compteur-tirage.ferme{ animation: compteur-fondu-sortie .3s ease-in both; }
+@keyframes compteur-fondu-entree{ from{ opacity: 0; } }
+@keyframes compteur-fondu-sortie{ to{ opacity: 0; } }
+.compteur-tirage-titre,
+.compteur-tirage-resultat{
+  margin: 0;
+  font: 800 26px/1.2 'Manrope', Arial, sans-serif;
+  text-align: center;
+}
+.compteur-tirage-resultat{ min-height: 32px; color: var(--feuillage); }
+.compteur-tirage-resultat:not(:empty){ animation: compteur-tirage-apparait .4s cubic-bezier(.2, 1.6, .4, 1) both; }
+@keyframes compteur-tirage-apparait{ from{ opacity: 0; transform: translateY(10px) scale(.9); } }
+.compteur-tirage-scene{
+  position: relative;
+  width: 170px;
+  height: 250px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.compteur-tirage-ombre{
+  position: absolute;
+  left: 50%;
+  bottom: -14px;
+  width: 130px;
+  height: 16px;
+  margin-left: -65px;
+  border-radius: 50%;
+  background: radial-gradient(rgba(29,38,25,.28), transparent 70%);
+}
+/* La pièce : deux faces, et une tranche faite de disques empilés */
+.compteur-tirage-saut{ position: relative; width: 170px; height: 170px; }
+.compteur-tirage-piece{ position: absolute; inset: 0; transform-style: preserve-3d; }
+.compteur-tirage-face,
+.compteur-tirage-tranche{ position: absolute; inset: 0; border-radius: 50%; }
+.compteur-tirage-tranche{ background: #8A9A80; }
+.compteur-tirage-face{
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0 22px;
+  color: #FFFFFF;
+  box-shadow: inset 0 0 0 7px rgba(255,255,255,.25), inset 0 0 0 11px rgba(0,0,0,.08), inset 0 -18px 30px rgba(0,0,0,.15);
+  transform: translateZ(7px);
+}
+.compteur-tirage-face.dos{ transform: rotateX(180deg) translateZ(7px); }
+.compteur-tirage-face.a{ background: var(--vert); }
+.compteur-tirage-face.b{ background: var(--tendre); color: var(--feuillage); }
+.compteur-tirage-face::before{
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255,255,255,.35), transparent 45%);
+}
+.compteur-tirage-face img{ width: 58px; height: 58px; filter: brightness(0) invert(1); }
+.compteur-tirage-face.b img{ filter: var(--boule-feuillage); }
+.compteur-tirage-face span{
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font: 800 24px 'Manrope', Arial, sans-serif;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+/* Noms saisis (« Noms ») : plus longs que « Nous » et « Eux » */
+.compteur-tirage-face.nom span{ font-size: 16px; letter-spacing: 1px; }
+@media (prefers-reduced-motion: reduce){
+  .cochonnet.arrive,
+  .compteur-tirage,
+  .compteur-tirage.ferme,
+  .compteur-tirage-resultat:not(:empty){ animation: none; }
+}
 
 /* Invitation sous le compteur : se créer un compte (ou, connecté, jouer en ligne) */
 .invite-compte{
