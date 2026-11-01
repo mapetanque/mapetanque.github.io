@@ -14,7 +14,7 @@
 //     (moins de 24 h), la création et les équipes à rejoindre cèdent la place à « Vous avez déjà
 //     une partie en cours » (Reprendre, Abandonner) ;
 //   - ?id=… : une partie où l'on a une place (l'adresse passe à l'id une fois inscrit) ;
-//   - la partie : celui qui a la main touche les moitiés (+1, pastilles +2 à +6), les autres ont
+//   - la partie : celui qui a la main touche les moitiés (+1, pastilles +1 à +6), les autres ont
 //     « Prendre la main ». Les mènes tapées sans réseau attendent dans le téléphone et partent au
 //     retour du réseau avec le nombre de mènes que l'on voyait ; si quelqu'un a pris la main
 //     entre-temps, le Worker les refuse et la page le dit ;
@@ -554,7 +554,7 @@
             + '<span class="pc-noms">' + echapper(noms) + '</span>' + (lance === e ? cochonnet() : '');
         var pastilles = '';
         if (tactile) {
-            for (var p = 2; p <= (vue.format === 1 ? 3 : 6); p++) pastilles += '<span data-pts="' + p + '">+' + p + '</span>';
+            for (var p = 1; p <= (vue.format === 1 ? 3 : 6); p++) pastilles += '<span data-pts="' + p + '">+' + p + '</span>';
             pastilles = '<span class="pc-plus">' + pastilles + '</span><span class="pc-toucher">' + echapper(libelle('compteur_toucher')) + '</span>';
         }
         var contenu = '<span class="pc-nom-eq">' + etiquette + '</span><span class="pc-sc">' + s[e] + '</span>' + pastilles
