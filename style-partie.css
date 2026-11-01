@@ -276,7 +276,7 @@ body.pc-verrou {
     flex: 0 0 auto;
 }
 
-/* Les deux moitiés : toucher = +1, pastilles +2 à +6, comme la saisie de l'espace des clubs */
+/* Les deux moitiés : toucher = +1, pastilles +1 à +6, comme la saisie de l'espace des clubs */
 .pc-moities {
     flex: 1 1 0;
     display: flex;

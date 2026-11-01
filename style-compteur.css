@@ -2,7 +2,7 @@
 
    Page claire depuis le 31/10/2026, harmonisée avec la partie en ligne (partie.html,
    style-partie.css) : fond brume, une colonne centrée de 520 px au plus, deux moitiés arrondies
-   (Nous en vert Mapetanque, Eux en vert tendre avec textes vert feuillage), pastilles +2 à +6,
+   (Nous en vert Mapetanque, Eux en vert tendre avec textes vert feuillage), pastilles +1 à +6,
    « Touchez pour +1 » sous les pastilles, et en bas « Mènes », le bouton rond Annuler, « Noms ».
    Couleurs de la charte (CHARTE.md), mêmes valeurs que style-partie.css.
 
@@ -137,7 +137,7 @@ body.fullscreen-lock{ overflow: hidden; }
 .fullscreen-toggle-btn:hover, .icone-topbar:hover{ background: var(--ligne); }
 .fullscreen-toggle-btn svg, .icone-topbar svg{ width: 19px; height: 19px; }
 
-/* --- Les deux moitiés : toucher = +1, pastilles +2 à +6 ------------------------------------ */
+/* --- Les deux moitiés : toucher = +1, pastilles +1 à +6 ------------------------------------ */
 .halves{
   position: relative;
   flex: 1 1 0;
@@ -212,7 +212,7 @@ body.fullscreen-lock{ overflow: hidden; }
   font-variant-numeric: tabular-nums;
 }
 
-/* Une pastille par nombre de points d'une mène (le +1 se fait en touchant la moitié).
+/* Une pastille par nombre de points d'une mène (+1 aussi en touchant la moitié).
    Préfixe .compteur-widget : écarte le padding/la largeur de .controls de style.css (barre
    de recherche du site). */
 .compteur-widget .controls{
@@ -236,14 +236,10 @@ body.fullscreen-lock{ overflow: hidden; }
 .chip:active{ background: rgba(255,255,255,.32); }
 .team.b .chip{ border-color: rgba(61,122,42,.35); background: var(--blanc); }
 .team.b .chip:active{ background: var(--brume); }
-/* Le +1 n'a pas de pastille (on touche la moitié) : ce bouton n'existe que pour le clavier et
-   n'apparaît que lorsqu'il a le focus. */
-.chip.chip-un:not(:focus-visible){
-  position: absolute;
-  width: 1px; height: 1px;
-  padding: 0; border: 0; min-width: 0;
-  overflow: hidden;
-  clip-path: inset(50%);
+/* Téléphone : six pastilles sur une ligne (comme .pc-plus de la partie en ligne) */
+@media (max-width: 420px){
+  .compteur-widget .controls{ gap: 6px; }
+  .chip{ min-width: 44px; padding: 8px 0; font-size: 17px; }
 }
 
 .hint{

@@ -86,13 +86,12 @@
 
   // ---------- Construction du widget ----------
 
-  // Moitié d'une équipe ('a' ou 'b'), comme la partie en ligne : nom, score, pastilles +2 à +6,
-  // « Touchez pour +1 ». Toucher la moitié donne +1 ; le bouton +1 caché ne sert qu'au clavier
-  // (voir .chip-un dans style-compteur.css). Toucher le nom ouvre « Noms ».
+  // Moitié d'une équipe ('a' ou 'b'), comme la partie en ligne : nom, score, pastilles +1 à +6,
+  // « Touchez pour +1 ». Toucher la moitié donne aussi +1. Toucher le nom ouvre « Noms ».
   function moitie(equipe){
     const E = equipe.toUpperCase();
     let pastilles = '';
-    for (let n = 1; n <= 6; n++) pastilles += '<button type="button" class="chip' + (n === 1 ? ' chip-un' : '') + '" data-pts="' + n + '">+' + n + '</button>';
+    for (let n = 1; n <= 6; n++) pastilles += '<button type="button" class="chip" data-pts="' + n + '">+' + n + '</button>';
     return `
     <div class="team ${equipe}" id="team${E}" role="group" aria-labelledby="name${E}">
       <button type="button" class="name" id="name${E}"></button>
@@ -581,8 +580,7 @@
     annoncer(libelle('compteur_partie_arretee', { jour }), 15000);
   }
 
-  // Toucher la moitié d'une équipe = +1, sauf sur une pastille (+2 à +6, ou +1 au clavier) ou
-  // sur son nom (« Noms »)
+  // Toucher la moitié d'une équipe = +1, sauf sur une pastille (+1 à +6) ou sur son nom (« Noms »)
   [['a', el.teamA], ['b', el.teamB]].forEach(([team, teamEl])=>{
     teamEl.addEventListener('click', (e)=>{
       if (e.target.closest('.name')) { ouvrirNoms(team); return; }
