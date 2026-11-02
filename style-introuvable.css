@@ -1,0 +1,313 @@
+/* =============================================================================================
+   Page introuvable (404.html, produite par scripts/generer_404.py).
+
+   Une seule page pour tout le site : GitHub Pages la sert pour toute adresse inconnue, y compris
+   sous /nl/, /de/ et /en/. La langue vient de l'adresse (script.js), les liens sont posés par
+   introuvable.js.
+
+   Mise en page : texte à gauche, terrain dessiné à droite ; sur téléphone, le terrain passe
+   au-dessus du titre. Maquette validée le 02/11/2026.
+============================================================================================= */
+
+/* Plus large que la colonne des pages de texte (720px) : deux colonnes côte à côte */
+.page-introuvable .rules-content {
+    max-width: 960px;
+}
+
+.introuvable {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 40px;
+    align-items: center;
+    margin: 36px 0 24px;
+}
+
+.introuvable-texte {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.introuvable-sur-titre {
+    margin: 0;
+    font: 700 13px 'Manrope', Arial, sans-serif;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #56604F;
+}
+
+.introuvable h1 {
+    margin: 0;
+    font-size: 44px;
+    font-weight: 800;
+    line-height: 1.1;
+    text-wrap: balance;
+}
+
+.introuvable-intro {
+    margin: 0;
+    font-size: 16px;
+    color: #56604F;
+}
+
+/* --- Recherche d'une commune --------------------------------------------------------------- */
+
+.introuvable-recherche label {
+    display: block;
+    margin-bottom: 6px;
+    font: 700 14px 'Manrope', Arial, sans-serif;
+}
+
+.introuvable-champ {
+    position: relative;
+}
+
+.introuvable-champ svg {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    color: #56604F;
+    pointer-events: none;
+}
+
+.introuvable-champ input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 12px 14px 12px 42px;
+    border: 1px solid #E2E6DE;
+    border-radius: 12px;
+    background: #FFFFFF;
+    color: #1D2619;
+    font: 16px 'Figtree', Arial, sans-serif;
+}
+
+.introuvable-champ input:focus {
+    outline: none;
+    border-color: #74C15A;
+    box-shadow: 0 0 0 3px rgba(116, 193, 90, .3);
+}
+
+.introuvable-resultats {
+    list-style: none;
+    margin: 6px 0 0;
+    padding: 0;
+}
+
+.introuvable-resultats a {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    color: #1D2619;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color .2s cubic-bezier(.2, .8, .2, 1);
+}
+
+.introuvable-resultats a:hover,
+.introuvable-resultats a:focus-visible {
+    background: #E7F4E1;
+}
+
+.introuvable-resultats a:active {
+    transform: scale(.98);
+}
+
+.introuvable-resultats .nom {
+    font: 700 17px 'Manrope', Arial, sans-serif;
+}
+
+.introuvable-resultats .nombre {
+    font-size: 13px;
+    color: #3D7A2A;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.introuvable-resultats .aucune {
+    padding: 8px 10px;
+    color: #56604F;
+}
+
+/* --- Boutons et liens ---------------------------------------------------------------------- */
+
+.introuvable-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.introuvable-bouton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 18px;
+    border-radius: 12px;
+    font: 700 15px 'Manrope', Arial, sans-serif;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform .2s cubic-bezier(.2, 1.6, .4, 1), background-color .2s;
+}
+
+.introuvable-bouton svg {
+    width: 20px;
+    height: 20px;
+    flex: none;
+}
+
+.introuvable-bouton:active {
+    transform: scale(.97);
+}
+
+.introuvable-bouton.principal {
+    background: #74C15A;
+    color: #FFFFFF;
+}
+
+.introuvable-bouton.principal:hover {
+    background: #56A03D;
+}
+
+.introuvable-bouton.second {
+    border: 1px solid #E2E6DE;
+    background: #FFFFFF;
+    color: #1D2619;
+}
+
+.introuvable-bouton.second:hover {
+    background: #F7F9F6;
+}
+
+.introuvable-liens {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 14px;
+    margin: 0;
+    font-size: 14px;
+    color: #56604F;
+}
+
+.introuvable-liens a {
+    color: #3D7A2A;
+}
+
+/* --- Le terrain dessiné -------------------------------------------------------------------- */
+
+.introuvable-dessin {
+    min-width: 0;
+}
+
+.introuvable-dessin svg {
+    display: block;
+    width: 100%;
+    max-width: 520px;
+    height: auto;
+    margin: 0 auto;
+    overflow: visible;
+}
+
+.introuvable-dessin .cadre { fill: #E7F4E1; stroke: #3D7A2A; stroke-width: 3; }
+.introuvable-dessin .cochonnet { fill: #3D7A2A; }
+.introuvable-dessin .cercle-lancer { fill: none; stroke: #56604F; stroke-width: 2; }
+.introuvable-dessin .trajet {
+    fill: none;
+    stroke: #56604F;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-dasharray: 2 7;
+}
+
+/* La boule part du cercle de lancer, passe sous le cochonnet et sort du cadre, une seule fois.
+   Sans offset-path (vieux navigateurs), elle est simplement posée à l'arrivée (transform du SVG). */
+@supports (offset-path: path("M0 0")) {
+    .introuvable-dessin .roule {
+        transform: none;
+        offset-path: path("M296 112 C 230 112, 160 116, 118 138 S 52 200, 30 232");
+        offset-rotate: 0deg;
+        offset-distance: 100%;
+        animation: introuvable-roule .9s cubic-bezier(.2, .8, .2, 1) both;
+    }
+
+    .introuvable-dessin .tourne {
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: introuvable-tourne .9s cubic-bezier(.2, .8, .2, 1) both;
+    }
+
+    .introuvable-dessin .trajet {
+        animation: introuvable-trace .9s cubic-bezier(.2, .8, .2, 1) both;
+    }
+}
+
+@keyframes introuvable-roule {
+    from { offset-distance: 0%; }
+    to { offset-distance: 100%; }
+}
+
+/* Vers la gauche : la boule tourne dans le sens inverse des aiguilles d'une montre */
+@keyframes introuvable-tourne {
+    from { transform: rotate(400deg); }
+    to { transform: rotate(0deg); }
+}
+
+@keyframes introuvable-trace {
+    from { stroke-dashoffset: 400; }
+    to { stroke-dashoffset: 0; }
+}
+
+/* Résultats de recherche : apparaissent en fondu quand la liste se remplit */
+.introuvable-resultats.vient {
+    animation: introuvable-vient .25s cubic-bezier(.2, .8, .2, 1);
+}
+
+@keyframes introuvable-vient {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .introuvable-dessin .roule,
+    .introuvable-dessin .tourne,
+    .introuvable-dessin .trajet,
+    .introuvable-resultats.vient {
+        animation: none;
+    }
+
+    .introuvable-bouton,
+    .introuvable-resultats a {
+        transition: none;
+    }
+}
+
+/* --- Téléphone : le terrain au-dessus du titre --------------------------------------------- */
+
+@media (max-width: 760px) {
+    .introuvable {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 12px;
+        margin-top: 16px;
+    }
+
+    .introuvable-dessin {
+        order: -1;
+    }
+
+    .introuvable-dessin svg {
+        max-width: 380px;
+    }
+
+    .introuvable h1 {
+        font-size: 30px;
+    }
+
+    .introuvable-bouton {
+        flex: 1 1 100%;
+        justify-content: center;
+    }
+}

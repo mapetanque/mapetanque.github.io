@@ -1050,6 +1050,22 @@ const translations = {
         mesparties_chercher_terrain: "Chercher un terrain du site",
         mesparties_chercher_aide: "Rue, localité ou commune",
         mesparties_aucun_resultat: "Aucun terrain trouvé.",
+
+        // Page introuvable (404.html, introuvable.js)
+        introuvable_onglet: "Page introuvable — Mapetanque.be",
+        introuvable_sur_titre: "Erreur 404",
+        introuvable_titre: "Cette page est sortie du terrain.",
+        introuvable_texte: "On la ramasse et on rejoue.",
+        introuvable_dessin: "Une boule de pétanque roule vers le cochonnet et sort du terrain.",
+        introuvable_chercher: "Chercher une commune",
+        introuvable_chercher_aide: "Namur, Gand, Arlon…",
+        introuvable_aucune: "Aucune commune trouvée.",
+        introuvable_un_terrain: "1 terrain",
+        introuvable_terrains: "{n} terrains",
+        introuvable_pres_de_moi: "Trouver un terrain près de moi",
+        introuvable_accueil: "Retour à l'accueil",
+        introuvable_ou: "Ou bien :",
+        introuvable_compteur: "Compteur de points",
     },
 
     nl: {
@@ -2099,6 +2115,22 @@ const translations = {
         mesparties_chercher_terrain: "Een baan van de site zoeken",
         mesparties_chercher_aide: "Straat, deelgemeente of gemeente",
         mesparties_aucun_resultat: "Geen baan gevonden.",
+
+        // Page introuvable (404.html, introuvable.js)
+        introuvable_onglet: "Pagina niet gevonden — Mapetanque.be",
+        introuvable_sur_titre: "Fout 404",
+        introuvable_titre: "Deze pagina is buiten het terrein gerold.",
+        introuvable_texte: "Oprapen en verder spelen.",
+        introuvable_dessin: "Een petanquebal rolt naar het but en gaat buiten het terrein.",
+        introuvable_chercher: "Gemeente zoeken",
+        introuvable_chercher_aide: "Namen, Gent, Aarlen…",
+        introuvable_aucune: "Geen gemeente gevonden.",
+        introuvable_un_terrain: "1 baan",
+        introuvable_terrains: "{n} banen",
+        introuvable_pres_de_moi: "Baan in de buurt vinden",
+        introuvable_accueil: "Terug naar de startpagina",
+        introuvable_ou: "Of:",
+        introuvable_compteur: "Scoreteller",
     },
 
     de: {
@@ -3148,6 +3180,22 @@ const translations = {
         mesparties_chercher_terrain: "Einen Platz der Website suchen",
         mesparties_chercher_aide: "Straße, Ortsteil oder Gemeinde",
         mesparties_aucun_resultat: "Kein Platz gefunden.",
+
+        // Page introuvable (404.html, introuvable.js)
+        introuvable_onglet: "Seite nicht gefunden — Mapetanque.be",
+        introuvable_sur_titre: "Fehler 404",
+        introuvable_titre: "Diese Seite ist aus dem Spielfeld gerollt.",
+        introuvable_texte: "Aufheben und weiterspielen.",
+        introuvable_dessin: "Eine Pétanque-Kugel rollt zum Cochonnet und verlässt das Spielfeld.",
+        introuvable_chercher: "Gemeinde suchen",
+        introuvable_chercher_aide: "Namur, Gent, Arlon…",
+        introuvable_aucune: "Keine Gemeinde gefunden.",
+        introuvable_un_terrain: "1 Platz",
+        introuvable_terrains: "{n} Plätze",
+        introuvable_pres_de_moi: "Platz in meiner Nähe finden",
+        introuvable_accueil: "Zur Startseite",
+        introuvable_ou: "Oder:",
+        introuvable_compteur: "Punktezähler",
     },
 
     en: {
@@ -4197,6 +4245,22 @@ const translations = {
         mesparties_chercher_terrain: "Search for a court on the site",
         mesparties_chercher_aide: "Street, village or municipality",
         mesparties_aucun_resultat: "No court found.",
+
+        // Page introuvable (404.html, introuvable.js)
+        introuvable_onglet: "Page not found — Mapetanque.be",
+        introuvable_sur_titre: "Error 404",
+        introuvable_titre: "This page rolled out of bounds.",
+        introuvable_texte: "Pick it up and play on.",
+        introuvable_dessin: "A pétanque boule rolls towards the jack and leaves the court.",
+        introuvable_chercher: "Search for a municipality",
+        introuvable_chercher_aide: "Namur, Ghent, Arlon…",
+        introuvable_aucune: "No municipality found.",
+        introuvable_un_terrain: "1 court",
+        introuvable_terrains: "{n} courts",
+        introuvable_pres_de_moi: "Find a court near me",
+        introuvable_accueil: "Back to the home page",
+        introuvable_ou: "Or:",
+        introuvable_compteur: "Score counter",
     }
 
 };
