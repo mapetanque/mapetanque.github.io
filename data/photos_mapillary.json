@@ -6853,6 +6853,13 @@
       "miniature_locale": "/images/mapillary-360/2908679229517658-20261031145951.webp"
     }
   ],
+  "way/1574111927": [
+    {
+      "mapillary_id": "625002995755937",
+      "credit_url": "https://www.mapillary.com/app/?pKey=625002995755937&focus=photo&x=0.8019718957521833&y=0.5090937183272661&zoom=0.6",
+      "miniature_locale": "/images/mapillary-360/625002995755937-20261101144252.webp"
+    }
+  ],
   "node/14273172910": [
     {
       "id_local": "visiteur-915",
