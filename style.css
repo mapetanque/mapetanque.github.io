@@ -980,13 +980,16 @@ body.fullscreen-lock {
     }
 }
 
-/* Panneau de partage (modal centré) */
+/* Panneau de partage (modal centré). Il s'ouvre depuis la fiche d'un terrain (1400/1450) : il
+   passe au-dessus (1500/1550) quel que soit l'ordre des blocs dans la page. Sur les pages commune,
+   la fiche vient après, et à z-index égal la fenêtre s'ouvrait derrière. Idem pour l'ajout de
+   photo plus bas. */
 #share-overlay {
     display: none;
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.35);
-    z-index: 1400;
+    z-index: 1500;
 }
 
 #share-overlay.visible {
@@ -999,7 +1002,7 @@ body.fullscreen-lock {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1450;
+    z-index: 1550;
 
     background: white;
     border-radius: 12px;
@@ -1680,13 +1683,14 @@ body.fullscreen-lock {
 }
 
 /* ===================== Modale "Ajouter une photo" ===================== */
-/* Même schéma que #share-panel/#share-overlay, juste au-dessus. */
+/* Même schéma que #share-panel/#share-overlay, au-dessus de la fiche du terrain d'où elle
+   s'ouvre (voir #share-overlay). */
 #add-photo-overlay {
     display: none;
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.35);
-    z-index: 1400;
+    z-index: 1500;
 }
 
 #add-photo-overlay.visible {
@@ -1699,7 +1703,7 @@ body.fullscreen-lock {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1450;
+    z-index: 1550;
 
     background: white;
     border-radius: 12px;
