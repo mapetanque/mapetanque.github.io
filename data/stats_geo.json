@@ -242,7 +242,7 @@
     "communes": {}
   },
   "flandre": {
-    "total": 1228,
+    "total": 1229,
     "provinces": {
       "brabant_flamand": {
         "total": 220,
@@ -304,7 +304,7 @@
         }
       },
       "anvers": {
-        "total": 289,
+        "total": 290,
         "communes": {
           "Willebroek": 1,
           "Mechelen": 7,
@@ -337,7 +337,7 @@
           "Dessel": 2,
           "Balen": 11,
           "Herselt": 10,
-          "Schoten": 6,
+          "Schoten": 7,
           "Vosselaar": 5,
           "Vorst": 5,
           "Olen": 7,
