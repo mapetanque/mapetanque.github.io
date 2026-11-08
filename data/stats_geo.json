@@ -1,6 +1,6 @@
 {
   "wallonie": {
-    "total": 537,
+    "total": 538,
     "provinces": {
       "liege": {
         "total": 170,
@@ -79,7 +79,7 @@
         }
       },
       "namur": {
-        "total": 134,
+        "total": 135,
         "communes": {
           "Hamois": 1,
           "Vencimont": 1,
@@ -101,7 +101,7 @@
           "Malvoisin": 2,
           "Sombreffe": 1,
           "Sambreville": 5,
-          "Gembloux": 6,
+          "Gembloux": 7,
           "Bioul": 1,
           "Eghezée": 6,
           "Floreffe": 1,
@@ -155,8 +155,8 @@
           "Virton": 1,
           "Torgny": 1,
           "Journal": 1,
-          "Herbeumont": 1,
-          "Fauvillers": 1,
+          "Straimont": 1,
+          "Hollange": 1,
           "Houffalize": 1,
           "Sy": 1,
           "Gouvy": 3,
