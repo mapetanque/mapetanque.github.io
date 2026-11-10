@@ -242,7 +242,7 @@
     "communes": {}
   },
   "flandre": {
-    "total": 1229,
+    "total": 1228,
     "provinces": {
       "brabant_flamand": {
         "total": 220,
@@ -304,7 +304,7 @@
         }
       },
       "anvers": {
-        "total": 290,
+        "total": 289,
         "communes": {
           "Willebroek": 1,
           "Mechelen": 7,
@@ -332,7 +332,7 @@
           "Ravels": 5,
           "Boechout": 5,
           "Hoogstraten": 1,
-          "Wijnegem": 6,
+          "Wijnegem": 5,
           "Kalmthout": 3,
           "Dessel": 2,
           "Balen": 11,
