@@ -159,7 +159,7 @@
           "Hollange": 1,
           "Houffalize": 1,
           "Sy": 1,
-          "Gouvy": 3,
+          "Montleban": 3,
           "Bohon": 1,
           "Érezée": 3,
           "Bomal": 1
@@ -242,10 +242,10 @@
     "communes": {}
   },
   "flandre": {
-    "total": 1228,
+    "total": 1229,
     "provinces": {
       "brabant_flamand": {
-        "total": 220,
+        "total": 221,
         "communes": {
           "Tienen": 3,
           "Sint-Genesius-Rode - Rhode-Saint-Genèse": 5,
@@ -293,7 +293,7 @@
           "Bever": 1,
           "Pepingen": 2,
           "Huizingen": 4,
-          "Haacht": 12,
+          "Haacht": 13,
           "Liedekerke": 2,
           "Diest": 1,
           "Zaventem": 1,
