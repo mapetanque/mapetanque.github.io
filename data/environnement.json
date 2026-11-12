@@ -1094,6 +1094,7 @@
 "way/1574111927":{"calcule_le":"2026-11-08","arret":156,"routes":{"primary":169,"residential":11},"nature":{"parc":0.2}},
 "way/1576301711":{"calcule_le":"2026-11-08","routes":{"motorway":187}},
 "way/1576323914":{"calcule_le":"2026-11-08","eau_potable":116,"arret":130,"routes":{"residential":19,"unclassified":19}},
+"way/1577467478":{"calcule_le":"2026-11-12","banc":2,"jeux":0,"parking":74,"arret":226,"eau":{"plan_eau_petit":197}},
 "way/159529249":{"calcule_le":"2026-10-01","parking":149,"arret":319,"routes":{"residential":7}},
 "way/159743068":{"calcule_le":"2026-10-01","jeux":41,"parking":21,"arret":472,"routes":{"motorway":327},"eau":{"plan_eau":67,"plan_eau_petit":101},"nature":{"parc":16.2}},
 "way/160501924":{"calcule_le":"2026-10-01","jeux":181,"parking":33,"arret":204,"routes":{"residential":7}},

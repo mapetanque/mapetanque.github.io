@@ -128,20 +128,20 @@
     "date": "2026-10-30"
   },
   "https://mapetanque.be/communes.html": {
-    "empreinte": "20f528b3f411f7ec",
-    "date": "2026-11-11"
+    "empreinte": "ac45d547fcd4a35e",
+    "date": "2026-11-12"
   },
   "https://mapetanque.be/nl/communes.html": {
-    "empreinte": "9e09db3484581f15",
-    "date": "2026-11-11"
+    "empreinte": "9505b5325739181a",
+    "date": "2026-11-12"
   },
   "https://mapetanque.be/de/communes.html": {
-    "empreinte": "a7e7390cf404610e",
-    "date": "2026-11-11"
+    "empreinte": "a65f9ded2b39e171",
+    "date": "2026-11-12"
   },
   "https://mapetanque.be/en/communes.html": {
-    "empreinte": "353201d2e2f7459d",
-    "date": "2026-11-11"
+    "empreinte": "5d0ca6b7050e846a",
+    "date": "2026-11-12"
   },
   "https://mapetanque.be/province-anvers.html": {
     "empreinte": "b7a7e306c312cfbf",
@@ -304,20 +304,20 @@
     "date": "2026-11-08"
   },
   "https://mapetanque.be/province-namur.html": {
-    "empreinte": "9fc12712f9f5d6db",
-    "date": "2026-11-08"
+    "empreinte": "552cd051a115b0d2",
+    "date": "2026-11-12"
   },
   "https://mapetanque.be/nl/province-namur.html": {
-    "empreinte": "22da2dd4f1a478b0",
-    "date": "2026-11-08"
+    "empreinte": "5f748718324e0202",
+    "date": "2026-11-12"
   },
   "https://mapetanque.be/de/province-namur.html": {
-    "empreinte": "ae921402cc1a9994",
-    "date": "2026-11-08"
+    "empreinte": "117ce3c9fb181b51",
+    "date": "2026-11-12"
   },
   "https://mapetanque.be/en/province-namur.html": {
-    "empreinte": "10726fdba0dd3e42",
-    "date": "2026-11-08"
+    "empreinte": "8f6f8edc897b7382",
+    "date": "2026-11-12"
   },
   "https://mapetanque.be/provinces.html": {
     "empreinte": "4f59f2218c05cb10",
@@ -1535,6 +1535,22 @@
     "empreinte": "c6d0c29c6099fb91",
     "date": "2026-11-08"
   },
+  "https://mapetanque.be/commune/florennes.html": {
+    "empreinte": "ff2f5fb788f40618",
+    "date": "2026-11-12"
+  },
+  "https://mapetanque.be/nl/commune/florennes.html": {
+    "empreinte": "8cb6812cc6701808",
+    "date": "2026-11-12"
+  },
+  "https://mapetanque.be/de/commune/florennes.html": {
+    "empreinte": "be1d513d9c2c402a",
+    "date": "2026-11-12"
+  },
+  "https://mapetanque.be/en/commune/florennes.html": {
+    "empreinte": "3105053ebb0af15e",
+    "date": "2026-11-12"
+  },
   "https://mapetanque.be/commune/forest.html": {
     "empreinte": "507692de165c1228",
     "date": "2026-11-01"
@@ -1696,20 +1712,20 @@
     "date": "2026-11-11"
   },
   "https://mapetanque.be/commune/gerpinnes.html": {
-    "empreinte": "2ef46a3d5d7e90d6",
-    "date": "2026-11-08"
+    "empreinte": "89d04cded46b6dc8",
+    "date": "2026-11-12"
   },
   "https://mapetanque.be/nl/commune/gerpinnes.html": {
-    "empreinte": "1000438c181c5bf2",
-    "date": "2026-11-08"
+    "empreinte": "66ca509a60e54d5e",
+    "date": "2026-11-12"
   },
   "https://mapetanque.be/de/commune/gerpinnes.html": {
-    "empreinte": "3884a0d74da81a2d",
-    "date": "2026-11-08"
+    "empreinte": "becbe4c1dfb8f1a6",
+    "date": "2026-11-12"
   },
   "https://mapetanque.be/en/commune/gerpinnes.html": {
-    "empreinte": "76d0c75cf6903f52",
-    "date": "2026-11-08"
+    "empreinte": "500997e8620a68a1",
+    "date": "2026-11-12"
   },
   "https://mapetanque.be/commune/gingelom.html": {
     "empreinte": "15961a1311fb3822",
@@ -1760,20 +1776,20 @@
     "date": "2026-11-11"
   },
   "https://mapetanque.be/commune/haacht.html": {
-    "empreinte": "4c31af31109a5435",
-    "date": "2026-11-11"
+    "empreinte": "9ea84feeea775e44",
+    "date": "2026-11-12"
   },
   "https://mapetanque.be/nl/commune/haacht.html": {
-    "empreinte": "5a3a6c7484285368",
-    "date": "2026-11-11"
+    "empreinte": "9efe1e18894d6e3a",
+    "date": "2026-11-12"
   },
   "https://mapetanque.be/de/commune/haacht.html": {
-    "empreinte": "924a5e69d99a338e",
-    "date": "2026-11-11"
+    "empreinte": "c083b66f08c2729e",
+    "date": "2026-11-12"
   },
   "https://mapetanque.be/en/commune/haacht.html": {
-    "empreinte": "9b62925543f80456",
-    "date": "2026-11-11"
+    "empreinte": "f917ec109c049580",
+    "date": "2026-11-12"
   },
   "https://mapetanque.be/commune/haaltert.html": {
     "empreinte": "802bcec09e8413aa",
@@ -1888,20 +1904,20 @@
     "date": "2026-11-11"
   },
   "https://mapetanque.be/commune/hastiere.html": {
-    "empreinte": "0e6c82978630c796",
-    "date": "2026-11-08"
+    "empreinte": "2d643c7874e0a186",
+    "date": "2026-11-12"
   },
   "https://mapetanque.be/nl/commune/hastiere.html": {
-    "empreinte": "cd8602306fdf807b",
-    "date": "2026-11-08"
+    "empreinte": "8a13e5c9204390b4",
+    "date": "2026-11-12"
   },
   "https://mapetanque.be/de/commune/hastiere.html": {
-    "empreinte": "8fb74a1877d04599",
-    "date": "2026-11-08"
+    "empreinte": "f645664997ae19ba",
+    "date": "2026-11-12"
   },
   "https://mapetanque.be/en/commune/hastiere.html": {
-    "empreinte": "81b13370cfe6da5c",
-    "date": "2026-11-08"
+    "empreinte": "0dac501014b1fbc8",
+    "date": "2026-11-12"
   },
   "https://mapetanque.be/commune/hechtel-eksel.html": {
     "empreinte": "be1fee4847c59f20",
@@ -4128,20 +4144,20 @@
     "date": "2026-11-11"
   },
   "https://mapetanque.be/commune/viroinval.html": {
-    "empreinte": "e2422c2488492062",
-    "date": "2026-11-08"
+    "empreinte": "b1913b3cdd876eb7",
+    "date": "2026-11-12"
   },
   "https://mapetanque.be/nl/commune/viroinval.html": {
-    "empreinte": "af3e49edd7672dcd",
-    "date": "2026-11-08"
+    "empreinte": "b1d7d7f50c6a46c1",
+    "date": "2026-11-12"
   },
   "https://mapetanque.be/de/commune/viroinval.html": {
-    "empreinte": "86ad1235d018181c",
-    "date": "2026-11-08"
+    "empreinte": "d80886bbdbe27b8d",
+    "date": "2026-11-12"
   },
   "https://mapetanque.be/en/commune/viroinval.html": {
-    "empreinte": "0838ee93a40472ee",
-    "date": "2026-11-08"
+    "empreinte": "10fb09ecda976807",
+    "date": "2026-11-12"
   },
   "https://mapetanque.be/commune/vosselaar.html": {
     "empreinte": "3a7698a4bcebb4a9",
