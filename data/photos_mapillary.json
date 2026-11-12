@@ -6860,6 +6860,12 @@
       "miniature_locale": "/images/mapillary-360/625002995755937-20261101144252.webp"
     }
   ],
+  "way/1577467478": [
+    {
+      "mapillary_id": "515804256328168",
+      "credit_url": "https://www.mapillary.com/map/im/515804256328168"
+    }
+  ],
   "node/14273172910": [
     {
       "id_local": "visiteur-915",
