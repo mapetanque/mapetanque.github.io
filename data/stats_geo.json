@@ -1,9 +1,9 @@
 {
   "wallonie": {
-    "total": 538,
+    "total": 539,
     "provinces": {
       "liege": {
-        "total": 170,
+        "total": 171,
         "communes": {
           "Fléron": 3,
           "Ougrée": 1,
@@ -27,7 +27,7 @@
           "Hermée": 1,
           "Eupen": 8,
           "Warsage": 1,
-          "Waremme": 4,
+          "Waremme": 5,
           "Dison": 1,
           "Seraing": 4,
           "Saint-Nicolas": 1,
