@@ -1,6 +1,6 @@
 {
   "wallonie": {
-    "total": 539,
+    "total": 540,
     "provinces": {
       "liege": {
         "total": 171,
@@ -193,7 +193,7 @@
         }
       },
       "hainaut": {
-        "total": 108,
+        "total": 109,
         "communes": {
           "Mouscron": 3,
           "Loverval": 1,
@@ -235,7 +235,8 @@
           "Beaumont": 1,
           "Gerpinnes": 3,
           "Villers-Poterie": 1,
-          "Thoricourt": 9
+          "Thoricourt": 9,
+          "Soignies": 1
         }
       }
     },
