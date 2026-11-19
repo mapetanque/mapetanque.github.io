@@ -1,6 +1,6 @@
 {
   "wallonie": {
-    "total": 540,
+    "total": 542,
     "provinces": {
       "liege": {
         "total": 171,
@@ -133,13 +133,13 @@
         }
       },
       "luxembourg": {
-        "total": 62,
+        "total": 64,
         "communes": {
           "Haut-Fays": 1,
           "Saint-Hubert": 3,
           "Bastogne": 2,
           "Ronzon": 2,
-          "La Roche-en-Ardenne": 11,
+          "La Roche-en-Ardenne": 13,
           "Léglise": 2,
           "Marche-en-Famenne": 1,
           "Vielsalm": 6,
