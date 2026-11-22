@@ -243,7 +243,7 @@
     "communes": {}
   },
   "flandre": {
-    "total": 1233,
+    "total": 1234,
     "provinces": {
       "brabant_flamand": {
         "total": 221,
@@ -305,7 +305,7 @@
         }
       },
       "anvers": {
-        "total": 293,
+        "total": 294,
         "communes": {
           "Willebroek": 5,
           "Mechelen": 7,
@@ -313,7 +313,7 @@
           "Merksplas": 4,
           "Stabroek": 4,
           "Lint": 5,
-          "Antwerpen": 45,
+          "Antwerpen": 46,
           "Putte": 1,
           "Westerlo": 10,
           "Bonheiden": 6,
