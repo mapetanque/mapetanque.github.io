@@ -7068,7 +7068,16 @@
       "photo_site": "https://mapetanque.be/mapetanque-photos/visiteurs/937.webp",
       "grande": "https://mapetanque-admin.mapetanque.workers.dev/photo/937.webp",
       "credit_nom": "Somy",
-      "niveau_cartographe": 1
+      "niveau_cartographe": 2
+    }
+  ],
+  "way/1427701589": [
+    {
+      "id_local": "visiteur-938",
+      "photo_site": "https://mapetanque.be/mapetanque-photos/visiteurs/938.webp",
+      "grande": "https://mapetanque-admin.mapetanque.workers.dev/photo/938.webp",
+      "credit_nom": "Somy",
+      "niveau_cartographe": 2
     }
   ],
   "way/1426362955": [
