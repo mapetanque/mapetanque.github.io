@@ -7062,6 +7062,15 @@
       "credit_url": "https://www.mapillary.com/map/im/2676454069443125"
     }
   ],
+  "way/699103342": [
+    {
+      "id_local": "visiteur-937",
+      "photo_site": "https://mapetanque.be/mapetanque-photos/visiteurs/937.webp",
+      "grande": "https://mapetanque-admin.mapetanque.workers.dev/photo/937.webp",
+      "credit_nom": "Somy",
+      "niveau_cartographe": 1
+    }
+  ],
   "way/1426362955": [
     {
       "mapillary_id": "1432227621956358",
