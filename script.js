@@ -220,7 +220,8 @@ window.addEventListener('popstate', function () {
 // navigation est construite ici : les pages n'ont qu'un <div class="header-nav-group"> vide.
 // Un changement de menu se fait donc à un seul endroit, pour tout le site et les quatre langues.
 // Trois rubriques, les trois axes du site, chacune en menu déroulant (mêmes liens que dans le
-// menu mobile et le pied de page) : « Parcourir ▾ », « Chercher ▾ », « Jouer ▾ » ; puis le compte
+// menu mobile et le pied de page) : « Parcourir ▾ », « Chercher ▾ », « Jouer ▾ » ; puis « Mon club »
+// (lien simple vers l'espace des clubs, URL_ESPACE_CLUBS), le compte
 // et le sélecteur de langue. « La pétanque » et « À propos » sont dans le pied de page.
 
 // Liens « Parcourir » : régions, provinces, communes. Partagés par les trois menus.
@@ -250,6 +251,17 @@ function liensJouer(prefixe) {
         [prefixe + 'mes-parties.html', t('menu_mes_parties')],
         [prefixe + 'comment-jouer.html', t('menu_regles')]
     ];
+}
+
+// « Mon club » : l'espace des clubs, un site à part (outil de gestion pour les clubs). Entrée
+// séparée dans la barre de l'ordinateur, le menu mobile et le pied de page ; s'ouvre dans un nouvel
+// onglet, comme les autres liens vers un autre site.
+// TODO : passer à https://clubs.mapetanque.be/presentation.html quand ce domaine sera en place.
+const URL_ESPACE_CLUBS = 'https://mapetanque-clubs.pages.dev/presentation.html';
+
+function lienMonClubHtml(classe) {
+    const attributClasse = classe ? ` class="${classe}"` : '';
+    return `<a href="${URL_ESPACE_CLUBS}"${attributClasse} target="_blank" rel="noopener">${t('nav_mon_club')}</a>`;
 }
 
 // Les trois rubriques, dans l'ordre des menus
@@ -295,6 +307,7 @@ function construireNavBureau() {
 
     groupe.innerHTML = `
         <span id="game-nav-inline">${deroulants}
+            ${lienMonClubHtml('game-nav-link')}
         </span>
         <nav id="desktop-nav">
             <span class="nav-compte-zone">${lienCompteBureauHtml(prefixe)}</span>
@@ -3759,6 +3772,7 @@ function construirePied() {
                     <li><a href="${prefixe}la-petanque.html">${t('menu_la_petanque')}</a></li>
                     <li><a href="${prefixe}a-propos.html">${t('menu_about')}</a></li>
                     <li><a href="${prefixe}a-propos.html#contact">${t('pied_contact')}</a></li>
+                    <li>${lienMonClubHtml('')}</li>
                     <li><a href="${prefixe}confidentialite.html">${t('pied_confidentialite')}</a></li>
                     <li><a href="${prefixe}soutenir.html" class="pied-lien-accent">${ICONES_PIED.cafe}${t('pied_soutenir')}</a></li>
                 </ul>
@@ -6398,7 +6412,13 @@ function construireMenu() {
                 </ul>
             </div>
 
-            <div class="menu-langues menu-apparait" style="--delai: 0.42s">
+            <div class="menu-section menu-section-liens menu-apparait" style="--delai: 0.38s">
+                <ul class="menu-liens">
+                    <li><a href="${URL_ESPACE_CLUBS}" target="_blank" rel="noopener">${t('nav_mon_club')}${ICONES_MENU.fleche}</a></li>
+                </ul>
+            </div>
+
+            <div class="menu-langues menu-apparait" style="--delai: 0.46s">
                 <span class="menu-titre">${t('pied_langue')}</span>
                 <div class="menu-langues-liste">${langues}</div>
             </div>

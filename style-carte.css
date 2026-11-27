@@ -388,6 +388,19 @@ body.page-carte {
 }
 
 
+/* Ordinateur à écran étroit : la barre (recherche, « Me localiser », menu avec « Mon club »,
+   compte, langue) déborde vers 1025-1060 px. « Me localiser » n'y garde que son picto ; son nom
+   reste lu par les lecteurs d'écran (aria-label). */
+@media (min-width: 1025px) and (max-width: 1140px) {
+    .page-carte #locateBtn {
+        padding: 0 12px;
+    }
+
+    .page-carte #locateBtn span {
+        display: none;
+    }
+}
+
 /* --- Tablette et téléphone : en-tête calé sur celui des autres pages ----------------------------- */
 /* Mêmes marges que l'en-tête des autres pages (style.css) et une ligne de 40 px de haut (champ
    compris) : la boule du logo tombe pile sous celle du menu mobile quand il s'ouvre. */
