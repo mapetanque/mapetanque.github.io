@@ -2357,6 +2357,16 @@ html.menu-ouvert body {
     color: #3d7a2a;
 }
 
+/* « Mon club » (lien vers l'espace des clubs) : à part de « Jouer » dans le code, mais collé à
+   sa liste, avec le même trait de séparation, pour garder l'espacement régulier. */
+.menu-section.menu-section-suite {
+    margin-top: 0;
+}
+
+.menu-section-suite .menu-liens {
+    border-top: 1px solid #e6eae2;
+}
+
 .menu-liens svg {
     width: 20px;
     height: 20px;
