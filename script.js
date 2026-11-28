@@ -6412,7 +6412,7 @@ function construireMenu() {
                 </ul>
             </div>
 
-            <div class="menu-section menu-section-liens menu-apparait" style="--delai: 0.38s">
+            <div class="menu-section menu-section-liens menu-section-suite menu-apparait" style="--delai: 0.38s">
                 <ul class="menu-liens">
                     <li><a href="${URL_ESPACE_CLUBS}" target="_blank" rel="noopener">${t('nav_mon_club')}${ICONES_MENU.fleche}</a></li>
                 </ul>
